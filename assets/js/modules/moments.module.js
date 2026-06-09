@@ -7,12 +7,23 @@ const MomentsModule = {
     likes: {},
     reactions: {},
     comments: {},
+    polls: {},
+    pollVotes: {},
     bookmarks: [],
     pendingFile: null,
     searchTimeout: null,
     currentFeedMode: 'all', // 'all', 'following' or 'reels'
     currentHashtagFilter: null,
     REACTION_EMOJI: { heart: '❤️', fire: '🔥', idea: '💡', clap: '👏' },
+
+    // Pagination state
+    _feedCache: [],
+    _feedPage: 0,
+    _feedPageSize: 10,
+    _feedContainerId: null,
+    _feedCurrentUser: null,
+    _allFeedLoaded: false,
+    _feedObserver: null,
 
     isVideoPost: function(item) {
         if (!item?.imageUrl) return false;
@@ -267,6 +278,12 @@ const MomentsModule = {
         const container = document.getElementById(containerId);
         if (!container) return;
 
+        // Reset pagination state on fresh render
+        this._feedPage = 0;
+        this._allFeedLoaded = false;
+        this._feedContainerId = containerId;
+        if (this._feedObserver) { this._feedObserver.disconnect(); this._feedObserver = null; }
+
         // Render skeleton loader
         container.innerHTML = `
             <div style="padding: 20px; text-align: center; color: #64748b;">
@@ -279,12 +296,11 @@ const MomentsModule = {
             const db = this.getDb();
             const session = window.App?.state?.session;
             const currentUser = session?.user;
+            this._feedCurrentUser = currentUser;
 
             // 1. Fetch social status posts and stories
-            // Stories: only last 24h
             const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-            // If following-only mode, get list of followed users first
             let followedIds = [];
             if (this.currentFeedMode === 'following' && currentUser) {
                 const { data: subs } = await db.from('user_subscriptions').select('following_id').eq('follower_id', currentUser.id);
@@ -300,14 +316,13 @@ const MomentsModule = {
                 .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name)')
                 .in('category', ['status', 'story'])
                 .order('created_at', { ascending: false })
-                .limit(40);
+                .limit(120); // Fetch more, score & paginate client-side
 
             if (this.currentFeedMode === 'following' && followedIds.length > 0) {
                 showcaseQuery = showcaseQuery.in('user_id', followedIds);
             }
 
             const { data: rawShowcase, error: errShowcase } = await showcaseQuery;
-
             if (errShowcase) throw errShowcase;
 
             // 2. Fetch Projects
@@ -315,7 +330,7 @@ const MomentsModule = {
                 .from('projects')
                 .select('*, profiles:owner_id(full_name, avatar_url, role, territory, title, company_name)')
                 .order('created_at', { ascending: false })
-                .limit(20);
+                .limit(30);
 
             if (errProjects) {
                 console.warn("Could not fetch projects for feed:", errProjects);
@@ -325,7 +340,7 @@ const MomentsModule = {
             let feedItems = [];
             let stories = [];
 
-             if (rawShowcase) {
+            if (rawShowcase) {
                 rawShowcase.forEach(item => {
                     const profile = item.profiles || {};
                     const parsedItem = {
@@ -345,13 +360,10 @@ const MomentsModule = {
                         meta: item.meta_info || (item.category !== 'status' && item.category !== 'story' ? `${item.price_prefix || 'À partir de'} ${item.price} €` : null),
                         createdAt: new Date(item.created_at)
                     };
-                    
+
                     if (item.category === 'story' && parsedItem.imageUrl) {
-                        // Only show stories from last 24h
                         const storyAge = Date.now() - parsedItem.createdAt.getTime();
-                        if (storyAge < 24 * 60 * 60 * 1000) {
-                            stories.push(parsedItem);
-                        }
+                        if (storyAge < 24 * 60 * 60 * 1000) stories.push(parsedItem);
                     } else if (item.category === 'status') {
                         feedItems.push(parsedItem);
                     }
@@ -381,79 +393,60 @@ const MomentsModule = {
                 });
             }
 
-            // 4. Fetch engagement data
-            const postIds = feedItems.map(item => item.id);
-            await this.loadEngagementForPosts(postIds, currentUser);
-
-            // Fetch current user subscriptions
-            this.subscriptions = [];
-            if (currentUser) {
-                try {
-                    const { data: rawSubs } = await db.from('user_subscriptions').select('following_id').eq('follower_id', currentUser.id);
-                    if (rawSubs) {
-                        this.subscriptions = rawSubs.map(s => s.following_id);
-                    }
-                } catch (e) {
-                    console.warn("Subscriptions table not ready:", e.message);
-                }
-            }
-
-            // ALGORITHME DE VISIBILITÉ (Scoring system)
+            // 4. Score & sort all items
             const now = new Date();
             feedItems.forEach(item => {
                 const itemLikes = this.likes[item.id] ? this.likes[item.id].length : 0;
                 const itemComments = this.comments[item.id] ? this.comments[item.id].length : 0;
-                
-                // 1. Fraîcheur (Recency) : Score max 100, décroît avec le temps (environ -0.6 pt par heure)
                 const hoursOld = (now - item.createdAt) / (1000 * 60 * 60);
-                const recencyScore = Math.max(0, 100 - (hoursOld * 0.6)); 
-                
-                // 2. Engagement (Virality) : Likes valent 5 pts, Commentaires valent 10 pts
+                const recencyScore = Math.max(0, 100 - (hoursOld * 0.6));
                 const engagementScore = (itemLikes * 5) + (itemComments * 10);
-                
-                // 3. Autorité (Premium Boost) : Boost algorithmique pour VIPs et statuts Premium
                 let authorityScore = 0;
                 const role = (item.authorRole || '').toLowerCase();
                 if (['club', 'premium', 'authority'].includes(role)) authorityScore += 20;
                 else if (['expert', 'entreprise'].includes(role)) authorityScore += 10;
-                
-                // 4. Facteur de découverte (Randomizer) : Donne une chance au contenu de percer (0 à 15 pts)
                 const discoveryBoost = Math.random() * 15;
-                
-                // 5. INTENT BOOST (La Petite Plus-Value Business)
                 let intentBoost = 0;
-                if (item.title === 'opportunite' || item.title === 'partenaire' || item.title === 'expertise') {
-                    intentBoost = 20; // Gros boost algorithmique pour le business
-                }
-                
+                if (item.title === 'opportunite' || item.title === 'partenaire' || item.title === 'expertise') intentBoost = 20;
                 item.score = recencyScore + engagementScore + authorityScore + discoveryBoost + intentBoost;
             });
-
-            // Tri descendant par score de l'algorithme
             feedItems.sort((a, b) => b.score - a.score);
 
-            // FILTRE HASHTAG actif
             if (this.currentHashtagFilter) {
                 const tag = this.currentHashtagFilter.toLowerCase();
-                feedItems = feedItems.filter(item =>
-                    (item.content || '').toLowerCase().includes('#' + tag)
-                );
+                feedItems = feedItems.filter(item => (item.content || '').toLowerCase().includes('#' + tag));
             }
-            
-            // Save stories globally for viewer (groupés par utilisateur, style Instagram)
+
+            // 5. Load engagement for first page only
+            const firstPageIds = feedItems.slice(0, this._feedPageSize).map(i => i.id);
+            await this.loadEngagementForPosts(firstPageIds, currentUser);
+
+            // 6. Fetch subscriptions
+            this.subscriptions = [];
+            if (currentUser) {
+                try {
+                    const { data: rawSubs } = await db.from('user_subscriptions').select('following_id').eq('follower_id', currentUser.id);
+                    if (rawSubs) this.subscriptions = rawSubs.map(s => s.following_id);
+                } catch (e) { console.warn("Subscriptions table not ready:", e.message); }
+            }
+
+            // 7. Save stories & groups globally
             this.currentStories = stories;
             this.storyGroups = this.groupStoriesByUser(stories);
 
-            // Build Stories UI
+            // 8. Store sorted feed in cache for pagination
+            this._feedCache = feedItems;
+            this._feedPage = 0;
+            this._allFeedLoaded = false;
+
+            // 9. Build stories bar
             let storiesHtml = '';
-            
-            // Resolve actual avatar for "My Story"
             let myAvatar = '<i class="fas fa-user" style="color:#cbd5e1;"></i>';
-            if (window.App && window.App.state && window.App.state.profile) {
+            if (window.App?.state?.profile) {
                 const p = window.App.state.profile;
                 const url = p.channel_avatar_url || p.avatar_url;
                 if (url) myAvatar = `<img src="${url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">`;
-            } else if (currentUser && currentUser.user_metadata?.avatar_url) {
+            } else if (currentUser?.user_metadata?.avatar_url) {
                 myAvatar = `<img src="${currentUser.user_metadata.avatar_url}" style="width:100%; height:100%; border-radius: 50%; object-fit:cover; opacity: 0.7;">`;
             }
 
@@ -461,14 +454,12 @@ const MomentsModule = {
                 <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="document.getElementById('post-story-input').click()">
                     <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; position: relative;">
                         ${myAvatar}
-                        <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;">
-                            <i class="fas fa-plus"></i>
-                        </div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;"><i class="fas fa-plus"></i></div>
                     </div>
                     <span style="font-size: 0.7rem; font-weight: 600; color: #334155;">Ma Story</span>
                 </div>
             `;
-            
+
             if (this.storyGroups.length > 0) {
                 const storyBubbles = this.storyGroups.map((group, idx) => `
                     <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="MomentsModule.openStoryViewer(${idx}, 0)">
@@ -480,23 +471,35 @@ const MomentsModule = {
                         <span style="font-size: 0.7rem; font-weight: 600; color: #334155; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${group.authorName.split(' ')[0]}</span>
                     </div>
                 `).join('');
-
                 storiesHtml = `
                     <div style="display: flex; gap: 12px; overflow-x: auto; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05); scrollbar-width: none;">
-                        ${addStoryBtn}
-                        ${storyBubbles}
+                        ${addStoryBtn}${storyBubbles}
                     </div>
                     <style>.stories-container::-webkit-scrollbar { display: none; }</style>
                 `;
             } else {
-                storiesHtml = `
-                    <div style="display: flex; gap: 12px; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05);">
-                        ${addStoryBtn}
-                    </div>
-                `;
+                storiesHtml = `<div style="display: flex; gap: 12px; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05);">${addStoryBtn}</div>`;
             }
 
-            // 5. Render HTML
+            // 10. Render first page of feed items
+            const firstPageItems = feedItems.slice(0, this._feedPageSize);
+            const firstPageHtml = this.currentFeedMode === 'reels'
+                ? this.renderReelsFeed(feedItems.filter(item => this.isVideoPost(item)), currentUser, containerId)
+                : `<div id="dtc-feed-list" style="display: flex; flex-direction: column; gap: 20px;">
+                    ${firstPageItems.length === 0
+                        ? `<div style="padding:40px; text-align:center; color:#94a3b8; font-weight:600;">Aucune publication pour le moment.</div>`
+                        : firstPageItems.map((item, index) => {
+                            let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
+                            if (index === 1) htmlStr += this.renderMastermindCTA();
+                            return htmlStr;
+                        }).join('')
+                    }
+                    <div id="dtc-feed-sentinel" style="height: 1px; margin-top: 8px;"></div>
+                </div>`;
+
+            this._feedPage = 1;
+
+            // 11. Build complete UI
             let html = `
                 <style>
                     /* Premium Social Feed Custom Classes */
@@ -534,9 +537,7 @@ const MomentsModule = {
                         background: #f1f5f9;
                         color: #0f172a;
                     }
-                    .dtc-action-icon.liked {
-                        color: #ef4444 !important;
-                    }
+                    .dtc-action-icon.liked { color: #ef4444 !important; }
                     .dtc-action-icon.liked svg {
                         animation: dtcHeartBurst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
                         fill: #ef4444;
@@ -548,21 +549,24 @@ const MomentsModule = {
                         100% { transform: scale(1); opacity: 0; }
                     }
                     .dtc-heart-burst svg {
-                        animation: dtcHeartBurst 0.6s ease forwards;
+                        animation: dtcHeartPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+                    }
+                    @keyframes dtcHeartPop {
+                        0% { transform: scale(0); opacity: 1; }
+                        70% { transform: scale(1.6); opacity: 1; }
+                        100% { transform: scale(1.2); opacity: 0; }
                     }
                     .dtc-post-card {
-                        background: white; 
-                        border-radius: 24px; 
-                        padding: 24px; 
-                        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01); 
-                        display: flex; 
-                        flex-direction: column; 
+                        background: white;
+                        border-radius: 24px;
+                        padding: 24px;
+                        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.01);
+                        display: flex;
+                        flex-direction: column;
                         transition: transform 0.2s, box-shadow 0.2s;
                         overflow: hidden;
                     }
-                    .dtc-post-card:hover {
-                        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
-                    }
+                    .dtc-post-card:hover { box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); }
                     .dtc-create-icon {
                         color: #64748b;
                         padding: 10px;
@@ -575,10 +579,7 @@ const MomentsModule = {
                         border: none;
                         background: transparent;
                     }
-                    .dtc-create-icon:hover {
-                        background: #f1f5f9;
-                        color: #0f172a;
-                    }
+                    .dtc-create-icon:hover { background: #f1f5f9; color: #0f172a; }
                     .dtc-follow-btn {
                         background: transparent;
                         border: 1.5px solid #10b981;
@@ -593,50 +594,41 @@ const MomentsModule = {
                         align-items: center;
                         gap: 4px;
                     }
-                    .dtc-follow-btn:hover {
-                        background: #10b981;
-                        color: white;
-                    }
-                    .dtc-verified-badge {
-                        color: #3b82f6;
-                        display: inline-flex;
-                        align-items: center;
-                        margin-left: 4px;
-                    }
+                    .dtc-follow-btn:hover { background: #10b981; color: white; }
+                    .dtc-verified-badge { color: #3b82f6; display: inline-flex; align-items: center; margin-left: 4px; }
                     .dtc-comment-submit-btn {
                         background: #10b981;
                         color: white;
                         border: none;
-                        padding: 10px 20px;
+                        padding: 8px 20px;
                         border-radius: 12px;
                         font-weight: 800;
-                        font-size: 0.85rem;
+                        font-size: 0.88rem;
                         cursor: pointer;
-                        transition: all 0.2s;
-                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-                    }
-                    .dtc-comment-submit-btn:hover {
-                        background: #059669;
                     }
                     .dtc-delete-post-btn {
                         background: transparent;
                         border: none;
-                        color: #cbd5e1;
+                        color: #94a3b8;
                         cursor: pointer;
-                        padding: 6px;
+                        padding: 6px 8px;
                         border-radius: 8px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         transition: all 0.2s;
                     }
-                    .dtc-delete-post-btn:hover {
-                        background: #fef2f2;
-                        color: #ef4444;
+                    .dtc-delete-post-btn:hover { background: #fef2f2; color: #ef4444; }
+                    @keyframes dtcPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+                    .dtc-feed-loader {
+                        display: flex; justify-content: center; align-items: center;
+                        padding: 24px; gap: 8px; color: #94a3b8; font-weight: 700; font-size: 0.9rem;
                     }
+                    .dtc-feed-loader i { animation: dtcSpin 0.8s linear infinite; }
+                    @keyframes dtcSpin { to { transform: rotate(360deg); } }
                 </style>
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
-                    
+
                     <!-- USER SEARCH BAR -->
                     <div style="background: white; border-radius: 16px; padding: 12px 20px; border: 1px solid rgba(15, 23, 42, 0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 0px;">
                         <i class="fas fa-search" style="color: #94a3b8;"></i>
@@ -653,7 +645,6 @@ const MomentsModule = {
 
                     ${this.currentFeedMode !== 'reels' ? this.renderComposerBar(containerId) : ''}
 
-                    <!-- STORIES BAR -->
                     ${this.currentFeedMode !== 'reels' && this.currentHashtagFilter ? `
                     <div style="display:flex; align-items:center; gap:12px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius:14px; padding:12px 16px;">
                         <i class="fas fa-hashtag" style="color:#3b82f6; font-size:1rem;"></i>
@@ -662,27 +653,23 @@ const MomentsModule = {
                     </div>` : ''}
                     ${this.currentFeedMode !== 'reels' ? storiesHtml : ''}
 
-                    <!-- FEED ITEMS -->
-                    ${this.currentFeedMode === 'reels'
-                        ? this.renderReelsFeed(feedItems.filter(item => this.isVideoPost(item)), currentUser, containerId)
-                        : `<div style="display: flex; flex-direction: column; gap: 20px;">
-                            ${feedItems.length === 0 ? `<div style="padding:40px; text-align:center; color:#94a3b8; font-weight:600;">Aucune publication pour le moment.</div>` : feedItems.map((item, index) => {
-                                let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
-                                if (index === 1) htmlStr += this.renderMastermindCTA();
-                                return htmlStr;
-                            }).join('')}
-                        </div>`
-                    }
- 
+                    <!-- FEED ITEMS (Paginated) -->
+                    ${firstPageHtml}
+
                 </div>
             `;
- 
+
             container.innerHTML = html;
+
+            // Setup Intersection Observer for infinite scroll
+            if (this.currentFeedMode !== 'reels' && firstPageItems.length >= this._feedPageSize) {
+                this._setupFeedObserver(containerId);
+            }
 
             const hashQs = window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '';
             const postParam = new URLSearchParams(hashQs || window.location.search).get('post');
             if (postParam) setTimeout(() => this.openPostDetail(postParam, containerId), 150);
- 
+
         } catch (err) {
             console.error("[MomentsModule] Load Error:", err);
             container.innerHTML = `
@@ -692,7 +679,65 @@ const MomentsModule = {
             `;
         }
     },
- 
+
+    _setupFeedObserver: function(containerId) {
+        if (this._feedObserver) this._feedObserver.disconnect();
+        const sentinel = document.getElementById('dtc-feed-sentinel');
+        if (!sentinel) return;
+
+        this._feedObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !this._allFeedLoaded) {
+                this._appendNextFeedPage(containerId);
+            }
+        }, { rootMargin: '300px' }); // Trigger 300px before the sentinel is visible
+
+        this._feedObserver.observe(sentinel);
+    },
+
+    _appendNextFeedPage: async function(containerId) {
+        if (this._allFeedLoaded || !this._feedCache) return;
+
+        const start = this._feedPage * this._feedPageSize;
+        const end = start + this._feedPageSize;
+        const pageItems = this._feedCache.slice(start, end);
+
+        if (pageItems.length === 0) {
+            this._allFeedLoaded = true;
+            if (this._feedObserver) this._feedObserver.disconnect();
+            const sentinel = document.getElementById('dtc-feed-sentinel');
+            if (sentinel) sentinel.remove();
+            return;
+        }
+
+        // Load engagement for this page
+        const pageIds = pageItems.map(i => i.id);
+        try {
+            await this.loadEngagementForPosts(pageIds, this._feedCurrentUser);
+        } catch(e) { /* non-blocking */ }
+
+        const currentUser = this._feedCurrentUser;
+        const newHtml = pageItems.map((item, index) => {
+            let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
+            return htmlStr;
+        }).join('');
+
+        const list = document.getElementById('dtc-feed-list');
+        const sentinel = document.getElementById('dtc-feed-sentinel');
+        if (list && sentinel) {
+            // Insert cards before the sentinel
+            sentinel.insertAdjacentHTML('beforebegin', newHtml);
+        }
+
+        this._feedPage++;
+
+        if (pageItems.length < this._feedPageSize) {
+            this._allFeedLoaded = true;
+            if (this._feedObserver) this._feedObserver.disconnect();
+            if (sentinel) sentinel.remove();
+        }
+    },
+
+
     renderFeedItemHTML: function(item, currentUser, containerId, embedMode = false) {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
