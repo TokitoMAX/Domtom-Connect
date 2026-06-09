@@ -16,7 +16,7 @@ const ShowcaseModule = {
         container.innerHTML = `<div style="text-align:center;padding:100px;"><span class="loader"></span></div>`;
 
         try {
-            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
+            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).in('category', ['linktree', 'link', 'service']).order('created_at', { ascending: false });
             const publicUrl = window.location.origin + '/showcase.html?id=' + session.user.id;
 
             let itemsHtml = '';
@@ -119,7 +119,7 @@ const ShowcaseModule = {
             title: title,
             url: url,
             description: url, // Store URL in description for retro-compatibility
-            category: 'link'
+            category: 'linktree'
         };
 
         try {
@@ -149,7 +149,7 @@ const ShowcaseModule = {
             const { data: provider, error: providerError } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
             if (providerError) throw providerError;
 
-            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
+            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).in('category', ['linktree', 'link', 'service']).order('created_at', { ascending: false });
 
             // Minimalist styling logic
             const bgStr = '#f8fafc';
