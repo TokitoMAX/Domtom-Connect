@@ -14,50 +14,88 @@ const ShowcaseModule = {
             const { data: profile } = await window._supabase.from('profiles').select('*').eq('id', session.user.id).single();
             const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false });
             
+            const publicUrl = window.location.origin + '/showcase.html?id=' + session.user.id;
+
             container.innerHTML = `
-                <div style="font-family: 'Inter', sans-serif; max-width: 800px; margin: 0 auto; color: #000; padding: 40px;">
+                <style>
+                    .linktree-preview-col { display: none; }
+                    @media(min-width: 1024px) { .linktree-preview-col { display: block; } }
+                </style>
+                <div style="display: flex; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 20px; justify-content: center;">
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
-                        <div>
-                            <h2 style="font-size: 2.2rem; font-weight: 950; letter-spacing: -0.05em; margin: 0; color: #0f172a;">Mes Liens & Services</h2>
+                    <!-- LEFT COLUMN: Manager -->
+                    <div style="flex: 1; max-width: 700px; min-width: 300px;">
+                        <div style="margin-bottom: 24px;">
+                            <h2 style="font-size: 2.2rem; font-weight: 950; letter-spacing: -0.05em; margin: 0; color: #0f172a;">Liens & Services</h2>
                             <p style="color: #64748b; font-size: 1rem; margin-top:8px;">Gérez vos liens publics, réseaux sociaux et services externes.</p>
                         </div>
-                        <div style="display: flex; gap: 12px;">
-                            <a href="/showcase.html?id=${session.user.id}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 14px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                Aperçu de ma Page
-                            </a>
-                            <button onclick="ShowcaseModule.openItemModal()" style="background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16,185,129,0.2); transition: 0.2s;">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                Ajouter un Lien
-                            </button>
+                        
+                        <!-- Link Copy Box -->
+                        <div style="background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; flex-wrap: wrap; gap: 16px;">
+                            <div style="display: flex; align-items: center; gap: 12px; overflow: hidden; flex: 1; min-width: 200px;">
+                                <div style="background: rgba(16,185,129,0.1); color: #10b981; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink:0;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                                </div>
+                                <div style="overflow: hidden;">
+                                    <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Votre vitrine publique</div>
+                                    <a href="${publicUrl}" target="_blank" style="font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                                        ${publicUrl.replace('https://', '')}
+                                    </a>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="navigator.clipboard.writeText('${publicUrl}').then(() => alert('✅ Lien copié dans le presse-papier ! Vous pouvez le coller dans votre bio Instagram, TikTok, LinkedIn...'));" style="background: white; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 100px; font-weight: 800; font-size: 0.9rem; cursor: pointer; color: #0f172a; transition: 0.2s; display: flex; align-items: center; gap: 8px;" onmouseover="this.style.background='#f1f5f9'">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    Copier
+                                </button>
+                                <a href="${publicUrl}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 100px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;" onmouseover="this.style.background='#e2e8f0'">
+                                    Ouvrir
+                                </a>
+                            </div>
+                        </div>
+
+                        <button onclick="ShowcaseModule.openItemModal()" style="width: 100%; background: #10b981; color: white; border: none; padding: 18px; border-radius: 100px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(16,185,129,0.25); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Ajouter un Lien
+                        </button>
+
+                        <!-- SECTION CATALOGUE -->
+                        <div id="showcase-items-list" style="display: flex; flex-direction: column; gap: 16px;">
+                            ${(!items || items.length === 0) ? `<div style="text-align:center; padding:50px; color:#94a3b8; font-weight:700; background:#f8fafc; border-radius:20px; border: 1px dashed #cbd5e1;">Aucun lien actif pour le moment. Créez-en un pour commencer !</div>` : 
+                            items.map(item => `
+                                <div style="background: white; padding: 20px 24px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
+                                    <div style="display: flex; align-items: center; gap: 20px; overflow:hidden;">
+                                        <div style="width:50px; height:50px; border-radius:14px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; color: #3b82f6; flex-shrink:0;">
+                                            ${ShowcaseModule.getIconForTitle(item.title)}
+                                        </div>
+                                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:400px;">
+                                            <div style="font-weight: 800; font-size: 1.15rem; color:#0f172a;">${item.title}</div>
+                                            <div style="font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 4px;">${item.url || item.description || 'Pas de lien'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 8px;">
+                                        <button onclick="ShowcaseModule.editItem('${item.id}')" style="background:#f1f5f9; border:none; width:40px; height:40px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; color: #64748b; transition: 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                        </button>
+                                        <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background:#fff1f2; color:#ef4444; border:none; width:40px; height:40px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.2s;" onmouseover="this.style.background='#ffe4e6'" onmouseout="this.style.background='#fff1f2'">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
 
-                    <!-- SECTION CATALOGUE -->
-                    <div id="showcase-items-list" style="display: flex; flex-direction: column; gap: 16px;">
-                        ${(!items || items.length === 0) ? `<div style="text-align:center; padding:50px; color:#94a3b8; font-weight:700; background:#f8fafc; border-radius:20px; border: 1px dashed #cbd5e1;">Aucun lien actif pour le moment.</div>` : 
-                        items.map(item => `
-                            <div style="background: white; padding: 20px 24px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                                <div style="display: flex; align-items: center; gap: 20px; overflow:hidden;">
-                                    <div style="width:50px; height:50px; border-radius:14px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; color: #3b82f6; flex-shrink:0;">
-                                        ${ShowcaseModule.getIconForTitle(item.title)}
-                                    </div>
-                                    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:400px;">
-                                        <div style="font-weight: 800; font-size: 1.15rem; color:#0f172a;">${item.title}</div>
-                                        <div style="font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 4px;">${item.url || item.description || 'Pas de lien'}</div>
-                                    </div>
-                                </div>
-                                <div style="display: flex; gap: 8px;">
-                                    <button onclick="ShowcaseModule.editItem('${item.id}')" style="background:#f1f5f9; border:none; width:40px; height:40px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; color: #64748b; transition: 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                                    </button>
-                                    <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background:#fff1f2; color:#ef4444; border:none; width:40px; height:40px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.2s;" onmouseover="this.style.background='#ffe4e6'" onmouseout="this.style.background='#fff1f2'">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                    </button>
-                                </div>
+                    <!-- RIGHT COLUMN: Live Mobile Preview -->
+                    <div class="linktree-preview-col" style="width: 350px; flex-shrink: 0;">
+                        <div style="position: sticky; top: 100px; display: flex; justify-content: center;">
+                            <div style="width: 100%; height: 700px; border: 12px solid #0f172a; border-radius: 40px; overflow: hidden; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.15); background: #fff;">
+                                <!-- Phone Notch -->
+                                <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 28px; background: #0f172a; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; z-index: 10;"></div>
+                                <!-- Iframe Preview -->
+                                <iframe src="${publicUrl}" style="width: 100%; height: 100%; border: none; background: #fff;"></iframe>
                             </div>
-                        `).join('')}
+                        </div>
                     </div>
 
                 </div>
