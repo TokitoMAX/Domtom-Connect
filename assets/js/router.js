@@ -15,6 +15,7 @@ const Router = {
         'channel': 'channel',
         'webinars': 'webinars',
         'vitrine': 'vitrine',
+        'showcase': 'vitrine',
         'messages': 'messages',
         'moments': 'moments',
         'mastermind': 'mastermind',
