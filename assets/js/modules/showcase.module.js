@@ -54,23 +54,39 @@ const ShowcaseModule = {
                             </div>
                         </div>
 
-                        <button onclick="ShowcaseModule.openItemModal()" style="width: 100%; background: #10b981; color: white; border: none; padding: 18px; border-radius: 100px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(16,185,129,0.25); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                            Ajouter un Lien
-                        </button>
+                        <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+                            <button onclick="ShowcaseModule.openItemModal()" style="flex: 1; background: #10b981; color: white; border: none; padding: 18px; border-radius: 100px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 25px rgba(16,185,129,0.25); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                Ajouter un Élément
+                            </button>
+                            <button onclick="ShowcaseModule.openSettingsModal()" style="background: #0f172a; color: white; border: none; padding: 18px 24px; border-radius: 100px; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" title="Design & Mode Sombre">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            </button>
+                        </div>
 
                         <!-- SECTION CATALOGUE -->
                         <div id="showcase-items-list" style="display: flex; flex-direction: column; gap: 16px;">
                             ${(!items || items.length === 0) ? `<div style="text-align:center; padding:50px; color:#94a3b8; font-weight:700; background:#f8fafc; border-radius:20px; border: 1px dashed #cbd5e1;">Aucun lien actif pour le moment. Créez-en un pour commencer !</div>` : 
-                            items.map(item => `
+                            items.map(item => {
+                                let meta = {};
+                                let isService = item.category === 'service';
+                                if (isService && item.description && item.description.startsWith('{')) {
+                                    try { meta = JSON.parse(item.description); } catch(e){}
+                                }
+                                let displayUrl = isService ? (meta.url || '') : (item.url || item.description || '');
+                                
+                                return `
                                 <div style="background: white; padding: 20px 24px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s;" onmouseover="this.style.transform='translateX(4px)'" onmouseout="this.style.transform='translateX(0)'">
                                     <div style="display: flex; align-items: center; gap: 20px; overflow:hidden;">
                                         <div style="width:50px; height:50px; border-radius:14px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; color: #3b82f6; flex-shrink:0;">
-                                            ${ShowcaseModule.getIconForTitle(item.title)}
+                                            ${isService && meta.image ? `<img src="${meta.image}" style="width:100%; height:100%; object-fit:cover; border-radius:14px;">` : ShowcaseModule.getIconForTitle(item.title)}
                                         </div>
                                         <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width:400px;">
-                                            <div style="font-weight: 800; font-size: 1.15rem; color:#0f172a;">${item.title}</div>
-                                            <div style="font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 4px;">${item.url || item.description || 'Pas de lien'}</div>
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <div style="font-weight: 800; font-size: 1.15rem; color:#0f172a;">${item.title}</div>
+                                                ${isService ? `<span style="background: #fdf2f8; color: #db2777; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 10px;">Service</span>` : ''}
+                                            </div>
+                                            <div style="font-size: 0.9rem; color: #64748b; font-weight: 600; margin-top: 4px;">${displayUrl || 'Pas de lien'}</div>
                                         </div>
                                     </div>
                                     <div style="display: flex; gap: 8px;">
@@ -82,7 +98,7 @@ const ShowcaseModule = {
                                         </button>
                                     </div>
                                 </div>
-                            `).join('')}
+                            `}).join('')}
                         </div>
                     </div>
 
@@ -104,10 +120,17 @@ const ShowcaseModule = {
     },
 
     async openItemModal(itemId = null) {
-        let item = { title: '', description: '', url: '' };
+        let item = { title: '', description: '', url: '', category: 'link', price: 0 };
+        let meta = { url: '', image: '', description: '' };
+        
         if (itemId) {
             const { data } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
             item = data;
+            if (item.category === 'service' && item.description && item.description.startsWith('{')) {
+                try { meta = JSON.parse(item.description); } catch(e){}
+            } else {
+                meta.url = item.url || item.description || '';
+            }
         }
         
         let overlay = document.getElementById('details-modal-overlay');
@@ -116,8 +139,8 @@ const ShowcaseModule = {
             overlay.id = 'details-modal-overlay';
             Object.assign(overlay.style, {
                 position: 'fixed', top: '0', left: '0', width: '100vw', height: '100vh',
-                background: 'rgba(0,0,0,0.5)', zIndex: '999999', display: 'none',
-                alignItems: 'center', justifyContent: 'center', padding: '20px'
+                background: 'rgba(0,0,0,0.6)', zIndex: '999999', display: 'none',
+                alignItems: 'center', justifyContent: 'center', padding: '20px', backdropFilter: 'blur(5px)'
             });
             document.body.appendChild(overlay);
         }
@@ -125,24 +148,47 @@ const ShowcaseModule = {
         overlay.style.display = 'flex';
 
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.1); position:relative; overflow-y:auto; max-height:90vh;">
+            <div style="background: white; width: 100%; max-width: 550px; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position:relative; overflow-y:auto; max-height:90vh;">
                 <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#f1f5f9; border:none; width:36px; height:36px; border-radius:50%; font-weight:900; cursor:pointer; color: #64748b;">X</button>
-                <h3 style="margin:0 0 25px 0; font-weight:900; font-size:1.5rem; letter-spacing:-0.03em; color:#0f172a;">${itemId ? 'Éditer mon lien' : 'Nouveau lien'}</h3>
+                <h3 style="margin:0 0 25px 0; font-weight:900; font-size:1.5rem; letter-spacing:-0.03em; color:#0f172a;">${itemId ? 'Modifier l\'Élément' : 'Ajouter un Élément'}</h3>
                 
                 <div style="display:flex; flex-direction:column; gap:20px;">
-                    <div style="margin-bottom: 10px;">
-                        <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">Titre du Bouton (ex: Instagram, Mon Site)</label>
-                        <input id="modal-item-title" type="text" value="${item.title}" placeholder="Ex: Mon Site Web, Prendre RDV..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:600; font-size:1rem; font-family:'Inter'; outline:none;">
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">URL (Lien de redirection)</label>
-                        <input id="modal-item-url" type="url" value="${item.url || item.description || ''}" placeholder="https://..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:500; font-size:1rem; font-family:'Inter'; outline:none;">
+                    <div style="display: flex; background: #f1f5f9; padding: 6px; border-radius: 16px;">
+                        <button id="tab-link" onclick="ShowcaseModule.toggleModalTab('link')" style="flex:1; padding:12px; border-radius:12px; border:none; font-weight:800; font-size:0.95rem; cursor:pointer; transition:0.2s; ${item.category !== 'service' ? 'background:#fff; color:#0f172a; box-shadow:0 2px 8px rgba(0,0,0,0.05);' : 'background:transparent; color:#64748b;'}">🔗 Lien Simple</button>
+                        <button id="tab-service" onclick="ShowcaseModule.toggleModalTab('service')" style="flex:1; padding:12px; border-radius:12px; border:none; font-weight:800; font-size:0.95rem; cursor:pointer; transition:0.2s; ${item.category === 'service' ? 'background:#fff; color:#0f172a; box-shadow:0 2px 8px rgba(0,0,0,0.05);' : 'background:transparent; color:#64748b;'}">📦 Service / Article</button>
                     </div>
 
-                    <div style="display:flex; flex-direction:column; gap:10px;">
+                    <input type="hidden" id="modal-item-type" value="${item.category === 'service' ? 'service' : 'link'}">
+
+                    <div>
+                        <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">Titre principal</label>
+                        <input id="modal-item-title" type="text" value="${item.title}" placeholder="Ex: Mon Site Web, Consultation 1h..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:600; font-size:1rem; font-family:'Inter'; outline:none;">
+                    </div>
+                    
+                    <div>
+                        <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">URL de redirection</label>
+                        <input id="modal-item-url" type="url" value="${item.category === 'service' ? meta.url : (item.url || item.description || '')}" placeholder="https://..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:500; font-size:1rem; font-family:'Inter'; outline:none;">
+                    </div>
+
+                    <div id="service-fields" style="display: ${item.category === 'service' ? 'flex' : 'none'}; flex-direction:column; gap:20px; background: #f8fafc; padding: 20px; border-radius: 16px; border: 1px dashed #cbd5e1;">
+                        <div>
+                            <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">Description de l'article</label>
+                            <textarea id="modal-item-desc" rows="3" placeholder="Décrivez votre service..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:500; font-size:0.95rem; font-family:'Inter'; outline:none; resize:none;">${meta.description || ''}</textarea>
+                        </div>
+                        <div style="display: flex; gap: 16px;">
+                            <div style="flex:1;">
+                                <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">Prix (€) <span style="font-weight:400">(Optionnel)</span></label>
+                                <input id="modal-item-price" type="number" step="0.01" value="${item.price || 0}" style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:600; font-size:1rem; font-family:'Inter'; outline:none;">
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-weight: 800; font-size: 0.9rem; color:#64748b; display:block; margin-bottom:8px;">Visuel (URL de l'image)</label>
+                                <input id="modal-item-image" type="url" value="${meta.image || ''}" placeholder="https://..." style="width:100%; padding:15px; border-radius:12px; border:1px solid #cbd5e1; font-weight:500; font-size:1rem; font-family:'Inter'; outline:none;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-top: 10px;">
                         <button id="save-item-btn" onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background:#10b981; color:#fff; border:none; padding:16px; border-radius:14px; font-weight:800; cursor:pointer; font-size:1.1rem; transition: 0.2s;">Sauvegarder</button>
-                        <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="background:transparent; color:#64748b; border:none; font-weight:700; cursor:pointer; font-size:1rem; padding: 16px;">Annuler</button>
                     </div>
                 </div>
             </div>
@@ -150,23 +196,49 @@ const ShowcaseModule = {
         overlay.classList.add('open');
     },
 
+    toggleModalTab(type) {
+        document.getElementById('modal-item-type').value = type;
+        const linkTab = document.getElementById('tab-link');
+        const serviceTab = document.getElementById('tab-service');
+        const serviceFields = document.getElementById('service-fields');
+
+        if (type === 'service') {
+            serviceTab.style.background = '#fff'; serviceTab.style.color = '#0f172a'; serviceTab.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+            linkTab.style.background = 'transparent'; linkTab.style.color = '#64748b'; linkTab.style.boxShadow = 'none';
+            serviceFields.style.display = 'flex';
+        } else {
+            linkTab.style.background = '#fff'; linkTab.style.color = '#0f172a'; linkTab.style.boxShadow = '0 2px 8px rgba(0,0,0,0.05)';
+            serviceTab.style.background = 'transparent'; serviceTab.style.color = '#64748b'; serviceTab.style.boxShadow = 'none';
+            serviceFields.style.display = 'none';
+        }
+    },
+
     async saveItem(itemId) {
         const title = document.getElementById('modal-item-title').value;
         const url = document.getElementById('modal-item-url').value;
+        const type = document.getElementById('modal-item-type').value;
         
-        if (!title || !url) return alert("Veuillez remplir le titre et le lien.");
+        if (!title || !url) return alert("Veuillez remplir au minimum le titre et le lien de redirection.");
 
         const btn = document.getElementById('save-item-btn');
         btn.innerText = "Sauvegarde..."; btn.disabled = true;
 
         const { data: { session } } = await window._supabase.auth.getSession();
         
+        let price = 0;
+        let descriptionValue = url; // fallback to URL if simple link
+        let category = 'linktree';
+
+        if (type === 'service') {
+            category = 'service';
+            price = parseFloat(document.getElementById('modal-item-price').value) || 0;
+            const desc = document.getElementById('modal-item-desc').value;
+            const img = document.getElementById('modal-item-image').value;
+            descriptionValue = JSON.stringify({ url: url, description: desc, image: img });
+        }
+        
         try {
-            // We use 'description' column to store URL for backward compatibility if 'url' column is missing
-            const updateData = { title: title, description: url, price: 0, status: 'active', category: 'linktree' };
-            
-            // Try to set 'url' column as well, it might fail if column doesn't exist yet but Supabase handles it if we just use description
-            // Actually it's safer to just set description
+            const updateData = { title: title, description: descriptionValue, price: price, status: 'active', category: category };
             
             let response;
             if (itemId) {
@@ -178,10 +250,79 @@ const ShowcaseModule = {
             
             document.getElementById('details-modal-overlay').style.display = 'none';
             if (window.App && window.App.showView) {
-                window.App.showView('vitrine', true); // Force re-render with the correct container implicitly
+                window.App.showView('vitrine', true);
             } else {
                 this.renderManager(document.getElementById('ecosystem-grid-container'));
             }
+        } catch (err) { alert(err.message); }
+    },
+
+    async openSettingsModal() {
+        const { data: { session } } = await window._supabase.auth.getSession();
+        const { data: profile } = await window._supabase.from('profiles').select('meta_info').eq('id', session.user.id).single();
+        let meta = profile?.meta_info || {};
+        let isDark = meta.theme === 'dark';
+
+        let overlay = document.getElementById('details-modal-overlay');
+        if (!overlay) {
+            overlay = document.createElement('div');
+            overlay.id = 'details-modal-overlay';
+            Object.assign(overlay.style, { position: 'fixed', top: '0', left: '0', width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.6)', zIndex: '999999', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', backdropFilter: 'blur(5px)' });
+            document.body.appendChild(overlay);
+        } else { overlay.style.display = 'flex'; }
+
+        overlay.innerHTML = `
+            <div style="background: white; width: 100%; max-width: 450px; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0; box-shadow: 0 10px 40px rgba(0,0,0,0.2); position:relative;">
+                <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position:absolute; top:20px; right:20px; background:#f1f5f9; border:none; width:36px; height:36px; border-radius:50%; font-weight:900; cursor:pointer; color: #64748b;">X</button>
+                <h3 style="margin:0 0 10px 0; font-weight:900; font-size:1.5rem; letter-spacing:-0.03em; color:#0f172a;">Design & Mode Sombre</h3>
+                <p style="color:#64748b; font-size:0.95rem; margin-bottom: 30px;">Personnalisez l'apparence de votre page publique.</p>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: 800; color: #0f172a; font-size: 1.1rem;">Mode Sombre</div>
+                        <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Appliquer le thème sombre à votre vitrine.</div>
+                    </div>
+                    <label style="position: relative; display: inline-block; width: 50px; height: 28px;">
+                        <input type="checkbox" id="theme-toggle-switch" style="opacity: 0; width: 0; height: 0;" ${isDark ? 'checked' : ''}>
+                        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: ${isDark ? '#10b981' : '#cbd5e1'}; transition: .4s; border-radius: 34px;">
+                            <span style="position: absolute; content: ''; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; transform: ${isDark ? 'translateX(22px)' : 'translateX(0)'};" id="theme-toggle-slider"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <button id="save-settings-btn" onclick="ShowcaseModule.saveSettings()" style="width: 100%; background:#0f172a; color:#fff; border:none; padding:16px; border-radius:14px; font-weight:800; cursor:pointer; font-size:1.1rem; transition: 0.2s;">Appliquer le thème</button>
+                </div>
+            </div>
+        `;
+        
+        // Add toggle listener
+        document.getElementById('theme-toggle-switch').addEventListener('change', function(e) {
+            const slider = document.getElementById('theme-toggle-slider');
+            if (e.target.checked) {
+                this.nextElementSibling.style.backgroundColor = '#10b981';
+                slider.style.transform = 'translateX(22px)';
+            } else {
+                this.nextElementSibling.style.backgroundColor = '#cbd5e1';
+                slider.style.transform = 'translateX(0)';
+            }
+        });
+    },
+
+    async saveSettings() {
+        const isDark = document.getElementById('theme-toggle-switch').checked;
+        const btn = document.getElementById('save-settings-btn');
+        btn.innerText = "Sauvegarde..."; btn.disabled = true;
+
+        const { data: { session } } = await window._supabase.auth.getSession();
+        const { data: profile } = await window._supabase.from('profiles').select('meta_info').eq('id', session.user.id).single();
+        let meta = profile?.meta_info || {};
+        meta.theme = isDark ? 'dark' : 'light';
+
+        try {
+            await window._supabase.from('profiles').update({ meta_info: meta }).eq('id', session.user.id);
+            document.getElementById('details-modal-overlay').style.display = 'none';
+            if (window.App && window.App.showView) window.App.showView('vitrine', true);
         } catch (err) { alert(err.message); }
     },
 
@@ -212,20 +353,33 @@ const ShowcaseModule = {
             
             const { data: items, error: itemsError } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
             if (itemsError) throw itemsError;
+
+            // Theme setup
+            const meta = provider.meta_info || {};
+            const isDark = meta.theme === 'dark';
+            const bgStr = isDark ? '#0f172a' : '#fff';
+            const textStr = isDark ? '#f8fafc' : '#000';
+            const subTextStr = isDark ? '#94a3b8' : '#64748b';
+            const cardBg = isDark ? 'rgba(30, 41, 59, 0.7)' : '#fff';
+            const cardBorder = isDark ? 'rgba(255, 255, 255, 0.1)' : '#e2e8f0';
+            const itemBg = isDark ? 'rgba(255, 255, 255, 0.05)' : '#f8fafc';
+            const titleCol = isDark ? '#fff' : '#0f172a';
+
             container.innerHTML = `
-                <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
+                <div style="font-family: 'Inter', sans-serif; background: ${bgStr}; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center; transition: background 0.3s;">
                     <div style="text-align: center; margin-bottom: 30px; max-width: 450px;">
-                        <div style="width: 120px; height: 120px; background: #000; border-radius: 50%; margin: 0 auto 30px; border: 5px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.12); overflow:hidden; position:relative; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 120px; height: 120px; background: #000; border-radius: 50%; margin: 0 auto 30px; border: 5px solid ${isDark ? '#1e293b' : '#fff'}; box-shadow: 0 15px 35px rgba(0,0,0,0.2); overflow:hidden; position:relative; display: flex; align-items: center; justify-content: center;">
                             ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3.8rem; font-weight:950;">${provider.full_name?.charAt(0)}</div>`}
                         </div>
-                        <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.06em;">${provider.full_name}</h1>
-                        <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">${provider.role === 'entreprise' ? 'Nos Solutions & Services' : 'Mes Services & Réseaux'}</p>
+                        <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: ${textStr}; letter-spacing: -0.06em;">${provider.full_name}</h1>
+                        <p style="font-size: 1.15rem; color: ${subTextStr}; font-weight: 750; margin: 12px 0 0 0;">${provider.role === 'entreprise' ? 'Nos Solutions & Services' : 'Mes Services & Réseaux'}</p>
                     </div>
 
                     ${(function() {
                         const socialKeywords = ['instagram', 'linkedin', 'facebook', 'twitter', 'tiktok', 'youtube', 'x', 'whatsapp'];
-                        const socialItems = items.filter(i => socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
-                        const standardItems = items.filter(i => !socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
+                        const socialItems = items.filter(i => i.category !== 'service' && socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
+                        const standardItems = items.filter(i => i.category !== 'service' && !socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
+                        const serviceItems = items.filter(i => i.category === 'service');
 
                         let html = '';
 
@@ -235,8 +389,8 @@ const ShowcaseModule = {
                             html += socialItems.map(item => {
                                 let url = item.url || item.description || '#';
                                 if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
-                                return `<a href="${url}" target="_blank" title="${item.title}" style="color: #0f172a; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                                    <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                                return `<a href="${url}" target="_blank" title="${item.title}" style="color: ${titleCol}; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: ${cardBg}; border: 1px solid ${cardBorder}; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.05); backdrop-filter: blur(10px);">
                                         ${ShowcaseModule.getIconForTitle(item.title)}
                                     </div>
                                 </a>`;
@@ -244,23 +398,50 @@ const ShowcaseModule = {
                             html += `</div>`;
                         }
 
-                        // Render Standard Links
                         html += `<div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 16px;">`;
-                        if (standardItems.length === 0 && socialItems.length === 0) {
-                            html += `<div style="text-align:center; padding:30px; color:#94a3b8; font-weight:600; font-style:italic;">Aucun lien disponible.</div>`;
+                        
+                        // Render Service/Article Cards
+                        if (serviceItems.length > 0) {
+                            html += serviceItems.map(item => {
+                                let meta = {};
+                                try { meta = JSON.parse(item.description || '{}'); } catch(e){}
+                                let url = meta.url || '#';
+                                if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+                                
+                                return `
+                                    <div style="background: ${cardBg}; border: 1px solid ${cardBorder}; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); backdrop-filter: blur(10px);">
+                                        ${meta.image ? `<div style="width: 100%; height: 200px; border-radius: 16px; overflow: hidden; background: ${itemBg};"><img src="${meta.image}" style="width: 100%; height: 100%; object-fit: cover;"></div>` : ''}
+                                        <div>
+                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                                                <h3 style="font-weight: 900; font-size: 1.25rem; color: ${titleCol}; margin: 0;">${item.title}</h3>
+                                                ${item.price > 0 ? `<div style="font-weight: 900; font-size: 1.1rem; color: #10b981;">${item.price} €</div>` : ''}
+                                            </div>
+                                            ${meta.description ? `<p style="font-size: 0.95rem; color: ${subTextStr}; margin: 0 0 16px 0; line-height: 1.5;">${meta.description}</p>` : ''}
+                                            <a href="${url}" target="_blank" style="display: block; text-align: center; background: #10b981; color: #fff; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 800; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                                Découvrir le service
+                                            </a>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                        }
+
+                        // Render Standard Links
+                        if (standardItems.length === 0 && socialItems.length === 0 && serviceItems.length === 0) {
+                            html += `<div style="text-align:center; padding:30px; color:${subTextStr}; font-weight:600; font-style:italic;">Aucun contenu disponible.</div>`;
                         } else {
                             html += standardItems.map(item => {
                                 let url = item.url || item.description || '#';
                                 if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
                                 return `
-                                    <a href="${url}" target="_blank" style="text-decoration:none; background: #fff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 22px 30px; cursor: pointer; transition: 0.3s ease; position: relative; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.04)';">
+                                    <a href="${url}" target="_blank" style="text-decoration:none; background: ${cardBg}; border: 1px solid ${cardBorder}; border-radius: 24px; padding: 22px 30px; cursor: pointer; transition: 0.3s ease; position: relative; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04); backdrop-filter: blur(10px);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.04)';">
                                         <div style="display: flex; align-items: center; gap: 16px;">
-                                            <div style="width: 48px; height: 48px; border-radius: 14px; background: #f8fafc; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                                            <div style="width: 48px; height: 48px; border-radius: 14px; background: ${itemBg}; color: ${isDark ? '#fff' : '#3b82f6'}; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
                                                 ${ShowcaseModule.getIconForTitle(item.title)}
                                             </div>
-                                            <div style="font-weight: 800; font-size: 1.15rem; color: #0f172a; letter-spacing:-0.01em;">${item.title}</div>
+                                            <div style="font-weight: 800; font-size: 1.15rem; color: ${titleCol}; letter-spacing:-0.01em;">${item.title}</div>
                                         </div>
-                                        <div style="color: #94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+                                        <div style="color: ${subTextStr};"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
                                     </a>
                                 `;
                             }).join('');
@@ -268,7 +449,7 @@ const ShowcaseModule = {
                         html += `</div>`;
                         return html;
                     })()}
-                    <div style="margin-top:70px; font-size:0.8rem; font-weight:950; color:#cbd5e1; letter-spacing:0.1em; text-transform:uppercase;">Propulsé par Domtom Connect</div>
+                    <div style="margin-top:70px; font-size:0.8rem; font-weight:950; color:${isDark ? '#475569' : '#cbd5e1'}; letter-spacing:0.1em; text-transform:uppercase;">Propulsé par Domtom Connect</div>
                 </div>
             `;
         } catch (err) { alert(err.message); }
