@@ -173,29 +173,51 @@ const MomentsModule = {
         return `
             <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*,application/pdf" multiple onchange="MomentsModule.handlePostFileSelected(this)">
             <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
-            <div style="background: white; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08); margin-bottom: 8px; position: relative; overflow: hidden;">
-                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #10b981;"></div>
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 24px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-bottom: 16px; position: relative;">
                 <div style="display: flex; gap: 16px; align-items: flex-start;">
-                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; overflow: hidden; flex-shrink: 0;">
+                    <div style="width: 48px; height: 48px; border-radius: 16px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; overflow: hidden; flex-shrink: 0; border: 2px solid #f8fafc;">
                         ${avatar ? `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">` : name.charAt(0)}
                     </div>
-                    <div style="flex: 1;">
-                        <select id="post-intent-tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: none; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; outline: none; cursor: pointer;">
-                            <option value="standard">Post Standard</option>
-                            <option value="opportunite">Opportunité Business</option>
-                            <option value="partenaire">Recherche Partenaire</option>
-                            <option value="expertise">Partage d'Expertise</option>
-                        </select>
-                        <textarea id="feed-status-input" placeholder="Quoi de neuf dans l'écosystème ?" rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.05rem; color: #0f172a; padding-top: 6px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
-                        <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                            <button type="button" onclick="document.getElementById('post-file-input').click()" style="border:none; cursor:pointer; background: rgba(15,23,42,0.08); color: #0f172a; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📷 Média</button>
-                            <button type="button" onclick="window.MomentsModule.openIntegratedCamera('post')" style="border:none; cursor:pointer; background: rgba(59,130,246,0.08); color: #3b82f6; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📸 Caméra</button>
-                            <button type="button" onclick="document.getElementById('post-story-input').click()" style="border:none; cursor:pointer; background: rgba(16,185,129,0.08); color: #10b981; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">⭕ Story</button>
-                            <button type="button" onclick="window.MomentsModule.openPollModal()" style="border:none; cursor:pointer; background: rgba(139,92,246,0.08); color: #8b5cf6; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📊 Sondage</button>
+                    <div style="flex: 1; min-width: 0;">
+                        <!-- Custom Selector -->
+                        <div style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;">
+                            <label style="cursor: pointer; flex-shrink: 0;">
+                                <input type="radio" name="post_type" value="standard" checked style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(16,185,129,0.1)'; this.nextElementSibling.style.color='#059669'; this.nextElementSibling.style.border='2px solid #10b981';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: rgba(16,185,129,0.1); color: #059669; font-weight: 800; font-size: 0.82rem; border: 2px solid #10b981; transition: 0.2s; white-space: nowrap;">📝 Actualité</div>
+                            </label>
+                            <label style="cursor: pointer; flex-shrink: 0;">
+                                <input type="radio" name="post_type" value="opportunite" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(59,130,246,0.1)'; this.nextElementSibling.style.color='#2563eb'; this.nextElementSibling.style.border='2px solid #3b82f6';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;">🚀 Opportunité</div>
+                            </label>
+                            <label style="cursor: pointer; flex-shrink: 0;">
+                                <input type="radio" name="post_type" value="partenaire" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(139,92,246,0.1)'; this.nextElementSibling.style.color='#7c3aed'; this.nextElementSibling.style.border='2px solid #8b5cf6';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;">🤝 Partenariat</div>
+                            </label>
+                            <label style="cursor: pointer; flex-shrink: 0;">
+                                <input type="radio" name="post_type" value="expertise" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(245,158,11,0.1)'; this.nextElementSibling.style.color='#d97706'; this.nextElementSibling.style.border='2px solid #f59e0b';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;">💡 Expertise</div>
+                            </label>
                         </div>
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px;">
-                            <span id="post-file-name" style="font-size:0.8rem; color:#10b981; font-weight:700; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
-                            <button type="button" onclick="window.MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">Publier</button>
+                        
+                        <textarea id="feed-status-input" placeholder="Partagez une idée, une annonce ou une opportunité..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 6px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
+                        
+                        <div id="post-cta-container" style="display: none; margin-top: 12px; background: #f8fafc; border-radius: 12px; padding: 12px 16px; border: 1px dashed #cbd5e1; align-items: center; gap: 8px;">
+                            <span>🔗</span>
+                            <input type="url" id="post-cta-link" placeholder="Lien de redirection (ex: vers votre calendrier, site, article...)" style="width: 100%; border: none; outline: none; background: transparent; font-size: 0.9rem; font-weight: 600; font-family: inherit; color: #3b82f6;">
+                            <button onclick="document.getElementById('post-cta-container').style.display='none'; document.getElementById('post-cta-link').value='';" style="background:transparent; border:none; color:#94a3b8; font-weight:800; cursor:pointer;">✕</button>
+                        </div>
+
+                        <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center;">
+                            <button type="button" onclick="document.getElementById('post-file-input').click()" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'">📷 Média</button>
+                            <button type="button" onclick="window.MomentsModule.openPollModal()" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'">📊 Sondage</button>
+                            <button type="button" onclick="document.getElementById('post-cta-container').style.display='flex'" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'">🔗 Action CTA</button>
+                            
+                            <div style="flex: 1;"></div>
+                            
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span id="post-file-name" style="font-size:0.8rem; color:#10b981; font-weight:700; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                                <button type="button" onclick="window.MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 10px 24px; border-radius: 100px; font-weight: 800; font-size: 0.95rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16,185,129,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Publier</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -736,6 +758,24 @@ const MomentsModule = {
             ytId = match[1];
             // Remove URL from content
             formattedContent = formattedContent.replace(match[0], '');
+        }
+
+        // Render CTA Button if exists
+        let ctaHtml = '';
+        if (item.meta) {
+            try {
+                const metaObj = typeof item.meta === 'string' && item.meta.startsWith('{') ? JSON.parse(item.meta) : (typeof item.meta === 'object' ? item.meta : null);
+                if (metaObj && metaObj.cta) {
+                    let ctaLink = metaObj.cta;
+                    if (!ctaLink.startsWith('http')) ctaLink = 'https://' + ctaLink;
+                    ctaHtml = `
+                    <div style="margin-top: 12px; margin-bottom: 4px;">
+                        <a href="${ctaLink}" target="_blank" onclick="event.stopPropagation();" style="display: inline-flex; align-items: center; gap: 6px; background: #0f172a; color: white; padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 12px rgba(15,23,42,0.15); transition: 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                            🔗 Visiter le lien
+                        </a>
+                    </div>`;
+                }
+            } catch(e) { console.error("Could not parse CTA meta", e) }
         }
 
         // Render Media if present (Edge to Edge)
@@ -1350,8 +1390,18 @@ const MomentsModule = {
             }
 
             let categoryToUse = window._pendingPostCategory || 'status';
-            const intentSelect = document.getElementById('post-intent-tag');
-            const intentTag = intentSelect ? intentSelect.value : 'standard';
+            
+            let intentTag = 'standard';
+            const typeInput = document.querySelector('input[name="post_type"]:checked');
+            if (typeInput) {
+                intentTag = typeInput.value;
+            } else {
+                const intentSelect = document.getElementById('post-intent-tag');
+                if (intentSelect) intentTag = intentSelect.value;
+            }
+
+            const ctaInput = document.getElementById('post-cta-link');
+            const ctaLink = ctaInput && ctaInput.value.trim() ? ctaInput.value.trim() : null;
 
             const { error: postErr } = await db.from('showcase_items').insert([{
                 user_id: session.user.id,
@@ -1359,6 +1409,7 @@ const MomentsModule = {
                 description: text,
                 category: categoryToUse,
                 image_url: finalUrl,
+                meta_info: ctaLink ? JSON.stringify({ cta: ctaLink }) : null,
                 status: 'active',
                 price: 0
             }]);
@@ -1366,6 +1417,8 @@ const MomentsModule = {
             if (postErr) throw postErr;
 
             input.value = '';
+            if (ctaInput) ctaInput.value = '';
+            document.getElementById('post-cta-container').style.display = 'none';
             window._pendingPostFile = null;
             window._pendingPostFiles = null;
             window._pendingPostCategory = null;
