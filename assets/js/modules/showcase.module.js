@@ -23,7 +23,7 @@ const ShowcaseModule = {
                             <p style="color: #64748b; font-size: 1rem; margin-top:8px;">Gérez vos liens publics, réseaux sociaux et services externes.</p>
                         </div>
                         <div style="display: flex; gap: 12px;">
-                            <a href="/showcase?id=${session.user.id}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 14px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
+                            <a href="showcase.html?id=${session.user.id}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 14px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 Aperçu de ma Page
                             </a>
@@ -176,33 +176,60 @@ const ShowcaseModule = {
             if (itemsError) throw itemsError;
             container.innerHTML = `
                 <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
-                    <div style="text-align: center; margin-bottom: 60px; max-width: 450px;">
+                    <div style="text-align: center; margin-bottom: 30px; max-width: 450px;">
                         <div style="width: 120px; height: 120px; background: #000; border-radius: 50%; margin: 0 auto 30px; border: 5px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.12); overflow:hidden; position:relative; display: flex; align-items: center; justify-content: center;">
                             ${provider.avatar_url ? `<img src="${provider.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : `<div style="color:#fff; font-size:3.8rem; font-weight:950;">${provider.full_name?.charAt(0)}</div>`}
                         </div>
                         <h1 style="font-size: 2.2rem; font-weight: 950; margin: 0; color: #000; letter-spacing: -0.06em;">${provider.full_name}</h1>
                         <p style="font-size: 1.15rem; color: #64748b; font-weight: 750; margin: 12px 0 0 0;">${provider.role === 'entreprise' ? 'Nos Solutions & Services' : 'Mes Services & Réseaux'}</p>
                     </div>
-                    <div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 16px;">
-                        ${(!items || items.length === 0) ? `<div style="text-align:center; padding:30px; color:#94a3b8; font-weight:600; font-style:italic;">Aucun lien disponible.</div>` : 
-                        items.map(item => {
-                            let url = item.url || item.description || '#';
-                            if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) {
-                                url = 'https://' + url;
-                            }
-                            return `
-                                <a href="${url}" target="_blank" style="text-decoration:none; background: #fff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 22px 30px; cursor: pointer; transition: 0.3s ease; position: relative; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.04)';">
-                                    <div style="display: flex; align-items: center; gap: 16px;">
-                                        <div style="width: 48px; height: 48px; border-radius: 14px; background: #f8fafc; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
-                                            ${ShowcaseModule.getIconForTitle(item.title)}
-                                        </div>
-                                        <div style="font-weight: 800; font-size: 1.15rem; color: #0f172a; letter-spacing:-0.01em;">${item.title}</div>
+
+                    ${(function() {
+                        const socialKeywords = ['instagram', 'linkedin', 'facebook', 'twitter', 'tiktok', 'youtube', 'x', 'whatsapp'];
+                        const socialItems = items.filter(i => socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
+                        const standardItems = items.filter(i => !socialKeywords.some(k => (i.title || '').toLowerCase().includes(k)));
+
+                        let html = '';
+
+                        // Render Social Links Row
+                        if (socialItems.length > 0) {
+                            html += `<div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap;">`;
+                            html += socialItems.map(item => {
+                                let url = item.url || item.description || '#';
+                                if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+                                return `<a href="${url}" target="_blank" title="${item.title}" style="color: #0f172a; transition: transform 0.2s; display: block;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                                        ${ShowcaseModule.getIconForTitle(item.title)}
                                     </div>
-                                    <div style="color: #94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
-                                </a>
-                            `;
-                        }).join('')}
-                    </div>
+                                </a>`;
+                            }).join('');
+                            html += `</div>`;
+                        }
+
+                        // Render Standard Links
+                        html += `<div style="width: 100%; max-width: 550px; display: flex; flex-direction: column; gap: 16px;">`;
+                        if (standardItems.length === 0 && socialItems.length === 0) {
+                            html += `<div style="text-align:center; padding:30px; color:#94a3b8; font-weight:600; font-style:italic;">Aucun lien disponible.</div>`;
+                        } else {
+                            html += standardItems.map(item => {
+                                let url = item.url || item.description || '#';
+                                if (url !== '#' && !url.startsWith('http://') && !url.startsWith('https://')) url = 'https://' + url;
+                                return `
+                                    <a href="${url}" target="_blank" style="text-decoration:none; background: #fff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 22px 30px; cursor: pointer; transition: 0.3s ease; position: relative; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.04);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.04)';">
+                                        <div style="display: flex; align-items: center; gap: 16px;">
+                                            <div style="width: 48px; height: 48px; border-radius: 14px; background: #f8fafc; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                                                ${ShowcaseModule.getIconForTitle(item.title)}
+                                            </div>
+                                            <div style="font-weight: 800; font-size: 1.15rem; color: #0f172a; letter-spacing:-0.01em;">${item.title}</div>
+                                        </div>
+                                        <div style="color: #94a3b8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+                                    </a>
+                                `;
+                            }).join('');
+                        }
+                        html += `</div>`;
+                        return html;
+                    })()}
                     <div style="margin-top:70px; font-size:0.8rem; font-weight:950; color:#cbd5e1; letter-spacing:0.1em; text-transform:uppercase;">Propulsé par Domtom Connect</div>
                 </div>
             `;
