@@ -54,6 +54,7 @@ window.NotifSystem = {
         }
 
         const icons = {
+            'like':             { icon: 'fa-heart', color: '#ef4444' },
             'comment':          { icon: 'fa-comment', color: '#3b82f6' },
             'follower':         { icon: 'fa-user-plus', color: '#10b981' },
             'project_approved': { icon: 'fa-check-circle', color: '#10b981' },

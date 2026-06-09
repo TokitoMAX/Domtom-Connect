@@ -195,10 +195,10 @@ window.ChannelModule = {
                                         </div>
                                         <div style="flex: 1;">
                                             <select id="post-intent-tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: none; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; outline: none; cursor: pointer; display: inline-block;">
-                                                <option value="standard">📝 Post Standard</option>
-                                                <option value="opportunite">💼 Opportunité Business</option>
-                                                <option value="partenaire">🤝 Recherche Partenaire</option>
-                                                <option value="expertise">💡 Partage d'Expertise</option>
+                                                <option value="standard">Post Standard</option>
+                                                <option value="opportunite">Opportunité Business</option>
+                                                <option value="partenaire">Recherche Partenaire</option>
+                                                <option value="expertise">Partage d'Expertise</option>
                                             </select>
                                             <textarea id="feed-status-input" placeholder="Partager sur votre chaîne..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 10px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                                             
@@ -447,7 +447,7 @@ window.ChannelModule = {
             const db = this.getDb();
             const { data, error } = await db.from('showcase_items').insert([{
                 user_id: userId,
-                title: `🔴 Live de ${profile.full_name}`,
+                title: `Live de ${profile.full_name}`,
                 description: "Je suis en direct ! Rejoignez-moi.",
                 category: 'status',
                 item_type: 'live',

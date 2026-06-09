@@ -10,6 +10,7 @@ const MomentsModule = {
     pendingFile: null,
     searchTimeout: null,
     currentFeedMode: 'all', // 'all' or 'following'
+    currentHashtagFilter: null, // e.g. 'Martinique'
 
     searchUsers: async function(query) {
         if (this.searchTimeout) clearTimeout(this.searchTimeout);
@@ -276,6 +277,14 @@ const MomentsModule = {
 
             // Tri descendant par score de l'algorithme
             feedItems.sort((a, b) => b.score - a.score);
+
+            // FILTRE HASHTAG actif
+            if (this.currentHashtagFilter) {
+                const tag = this.currentHashtagFilter.toLowerCase();
+                feedItems = feedItems.filter(item =>
+                    (item.content || '').toLowerCase().includes('#' + tag)
+                );
+            }
             
             // Save stories globally for viewer
             this.currentStories = stories;
@@ -479,11 +488,17 @@ const MomentsModule = {
 
                     <!-- FEED MODE TABS -->
                     <div style="display: flex; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 14px;">
-                        <button id="feed-tab-all" onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">🌍 Pour vous</button>
-                        <button id="feed-tab-following" onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">👥 Abonnements</button>
+                        <button id="feed-tab-all" onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Pour vous</button>
+                        <button id="feed-tab-following" onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Abonnements</button>
                     </div>
 
                     <!-- STORIES BAR -->
+                    ${this.currentHashtagFilter ? `
+                    <div style="display:flex; align-items:center; gap:12px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius:14px; padding:12px 16px;">
+                        <i class="fas fa-hashtag" style="color:#3b82f6; font-size:1rem;"></i>
+                        <span style="font-weight:800; color:#1d4ed8; font-size:0.95rem; flex:1;">Filtré par <strong>#${this.currentHashtagFilter}</strong></span>
+                        <button onclick="MomentsModule.clearHashtagFilter('${containerId}')" style="background:#3b82f6; color:white; border:none; padding:6px 14px; border-radius:100px; font-weight:800; font-size:0.8rem; cursor:pointer;">✕ Effacer</button>
+                    </div>` : ''}
                     ${storiesHtml}
 
                     <!-- QUICK SHARE BAR MOVED TO CHANNEL -->
@@ -570,7 +585,7 @@ const MomentsModule = {
                 '"': '&quot;'
             }[tag]));
         let safeContent = item.content ? escapeHTML(item.content) : '';
-        let formattedContent = safeContent.replace(/#(\w+)/g, '<span style="color: #3b82f6; font-weight: 800; cursor: pointer;">#$1</span>');
+        let formattedContent = safeContent.replace(/#(\w+)/g, (match, tag) => `<span style="color: #3b82f6; font-weight: 800; cursor: pointer; text-decoration: underline dotted;" onclick="MomentsModule.filterByHashtag('${tag}', '${containerId}')">#${tag}</span>`);
 
         // Check for YouTube Link (Live or Video)
         const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -740,9 +755,15 @@ const MomentsModule = {
                         </button>
     
                         <!-- SHARE -->
-                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}').then(() => { const btn = this; btn.innerHTML = '✅ Copié !'; setTimeout(() => { btn.innerHTML = '<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.2\'><polyline points=\'17 1 21 5 17 9\'/><path d=\'M3 11V9a4 4 0 0 1 4-4h14\'/></svg> Partager'; }, 2000); })" class="dtc-action-icon">
+                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}').then(() => { const btn = this; btn.innerHTML = 'Copié !'; setTimeout(() => { btn.innerHTML = '<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.2\'><polyline points=\'17 1 21 5 17 9\'/><path d=\'M3 11V9a4 4 0 0 1 4-4h14\'/></svg> Partager'; }, 2000); })" class="dtc-action-icon">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
                             Partager
+                        </button>
+
+                        <!-- REPOST -->
+                        <button onclick="MomentsModule.repostItem('${item.id}', '${containerId}')" class="dtc-action-icon" title="Republier sur votre chaîne">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                            Repost
                         </button>
                     </div>
 
@@ -1048,7 +1069,7 @@ const MomentsModule = {
                         await db.from('notifications').insert([{
                             user_id: postData.user_id,
                             type: 'like',
-                            title: `❤️ ${senderName} a aimé votre publication`,
+                            title: `${senderName} a aimé votre publication`,
                             message: 'Votre post a reçu un nouveau j\'aime.',
                             link: '#moments',
                             is_read: false
@@ -1093,6 +1114,52 @@ const MomentsModule = {
 
     switchFeedMode: function(mode, containerId) {
         this.currentFeedMode = mode;
+        this.currentHashtagFilter = null; // reset hashtag when switching tabs
+        this.renderFeed(containerId);
+    },
+
+    repostItem: async function(postId, containerId) {
+        const session = window.App?.state?.session;
+        if (!session) { alert("Vous devez être connecté pour republier."); return; }
+        
+        if (!confirm("Voulez-vous republier ce post sur votre chaîne ?")) return;
+
+        try {
+            const db = this.getDb();
+            const { data: originalPost, error: fetchErr } = await db.from('showcase_items').select('*').eq('id', postId).single();
+            if (fetchErr) throw fetchErr;
+
+            const newContent = `[Reposté] \n\n${originalPost.description || originalPost.pitch || ''}`;
+
+            const { error: insertErr } = await db.from('showcase_items').insert([{
+                user_id: session.user.id,
+                title: originalPost.title || 'Repost',
+                description: newContent,
+                category: 'status',
+                item_type: 'repost',
+                image_url: originalPost.image_url,
+                video_url: originalPost.video_url,
+                status: 'active'
+            }]);
+
+            if (insertErr) throw insertErr;
+
+            alert("Publication republiée avec succès !");
+            this.renderFeed(containerId);
+        } catch(err) {
+            console.error("[MomentsModule] Repost Error:", err);
+            alert("Erreur lors de la republication.");
+        }
+    },
+
+    filterByHashtag: function(tag, containerId) {
+        this.currentHashtagFilter = tag;
+        this.currentFeedMode = 'all'; // reset to global when filtering by hashtag
+        this.renderFeed(containerId);
+    },
+
+    clearHashtagFilter: function(containerId) {
+        this.currentHashtagFilter = null;
         this.renderFeed(containerId);
     },
 
@@ -1179,7 +1246,7 @@ const MomentsModule = {
                     await db.from('notifications').insert([{
                         user_id: targetUserId,
                         type: 'follower',
-                        title: `👤 ${senderName} s'est abonné à votre chaîne`,
+                        title: `${senderName} s'est abonné à votre chaîne`,
                         message: 'Vous avez un nouvel abonné sur votre chaîne DTC.',
                         link: `#channel?id=${currentUserId}`,
                         is_read: false
@@ -1218,7 +1285,7 @@ const MomentsModule = {
                     await db.from('notifications').insert([{
                         user_id: postData.user_id,
                         type: 'comment',
-                        title: `💬 ${senderName} a commenté votre publication`,
+                        title: `${senderName} a commenté votre publication`,
                         message: text.length > 60 ? text.substring(0, 60) + '...' : text,
                         link: '#moments',
                         is_read: false
@@ -1235,7 +1302,7 @@ const MomentsModule = {
                             await db.from('notifications').insert([{
                                 user_id: mentionedUser.id,
                                 type: 'comment',
-                                title: `🔔 ${senderName} vous a mentionné`,
+                                title: `${senderName} vous a mentionné`,
                                 message: text.length > 60 ? text.substring(0, 60) + '...' : text,
                                 link: '#moments',
                                 is_read: false
