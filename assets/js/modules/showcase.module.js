@@ -57,7 +57,7 @@ const ShowcaseModule = {
                     </div>
 
                     <div style="margin-top:80px; text-align:center;">
-                         <button onclick="window.open('showcase.html?id=${session.user.id}', '_blank')" style="background:transparent; border:none; font-weight:900; font-size:0.95rem; text-decoration:underline; cursor:pointer; color:#64748b;">Aperçu de ma Vitrine Publique 🔗</button>
+                         <button onclick="window.open(window.UIComponents ? window.UIComponents.adjustPath('showcase.html?id=${session.user.id}') : '/showcase.html?id=${session.user.id}', '_blank')" style="background:transparent; border:none; font-weight:900; font-size:0.95rem; text-decoration:underline; cursor:pointer; color:#64748b;">Aperçu de ma Vitrine Publique 🔗</button>
                     </div>
 
                 </div>
@@ -130,8 +130,13 @@ const ShowcaseModule = {
             // Try to set 'url' column as well, it might fail if column doesn't exist yet but Supabase handles it if we just use description
             // Actually it's safer to just set description
             
-            if (itemId) await window._supabase.from('showcase_items').update(updateData).eq('id', itemId);
-            else await window._supabase.from('showcase_items').insert({ ...updateData, user_id: session.user.id });
+            let response;
+            if (itemId) {
+                response = await window._supabase.from('showcase_items').update(updateData).eq('id', itemId);
+            } else {
+                response = await window._supabase.from('showcase_items').insert({ ...updateData, user_id: session.user.id });
+            }
+            if (response.error) throw response.error;
             
             document.getElementById('details-modal-overlay').style.display = 'none';
             this.renderManager(document.getElementById('ecosystem-grid-container'));
@@ -155,8 +160,12 @@ const ShowcaseModule = {
         if (!container) return;
         container.innerHTML = `<div style="text-align:center;padding:100px;background:#fff;"><span class="loader"></span></div>`;
         try {
-            const { data: provider } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
-            const { data: items } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
+            const { data: provider, error: providerError } = await window._supabase.from('profiles').select('*').eq('id', providerId).single();
+            if (providerError) throw providerError;
+            if (!provider) throw new Error("Profil introuvable");
+            
+            const { data: items, error: itemsError } = await window._supabase.from('showcase_items').select('*').eq('user_id', providerId).order('created_at', { ascending: false });
+            if (itemsError) throw itemsError;
             container.innerHTML = `
                 <div style="font-family: 'Inter', sans-serif; background: #fff; min-height: 100vh; padding: 60px 20px; display: flex; flex-direction: column; align-items: center;">
                     <div style="text-align: center; margin-bottom: 60px; max-width: 450px;">
