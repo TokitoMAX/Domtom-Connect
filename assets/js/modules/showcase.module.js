@@ -23,7 +23,7 @@ const ShowcaseModule = {
                             <p style="color: #64748b; font-size: 1rem; margin-top:8px;">Gérez vos liens publics, réseaux sociaux et services externes.</p>
                         </div>
                         <div style="display: flex; gap: 12px;">
-                            <a href="showcase.html?id=${session.user.id}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 14px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
+                            <a href="/showcase.html?id=${session.user.id}" target="_blank" style="background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 14px; font-weight: 800; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.2s;">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                                 Aperçu de ma Page
                             </a>
