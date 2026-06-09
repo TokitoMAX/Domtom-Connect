@@ -4,6 +4,8 @@
  */
 
 window.ChannelModule = {
+    currentTab: 'posts',
+
     getDb: function() {
         return window.App?.supabase || window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
     },
@@ -77,6 +79,15 @@ window.ChannelModule = {
                 .in('category', ['status', 'story'])
                 .order('created_at', { ascending: false });
 
+            // Stories « À la une » (permanentes, style Instagram Highlights)
+            const { data: rawHighlights } = await db.from('showcase_items')
+                .select('id, image_url, title, created_at')
+                .eq('user_id', userId)
+                .eq('category', 'story')
+                .eq('is_highlight', true)
+                .order('created_at', { ascending: false })
+                .limit(12);
+
             // Ensure MomentsModule is ready for likes/comments context
             if (window.MomentsModule) {
                 window.MomentsModule.likes = window.MomentsModule.likes || {};
@@ -108,23 +119,64 @@ window.ChannelModule = {
             const cBanner = profile.channel_banner_url || profile.banner_url || '';
             const cAvatar = profile.channel_avatar_url || profile.avatar_url || '';
 
-            // Map posts for MomentsModule
-            const feedItems = (rawPosts || []).map(p => ({
-                id: p.id,
-                userId: p.user_id,
-                authorName: cName,
-                authorAvatar: cAvatar,
-                authorRole: authorRole,
-                authorTitle: authorTitle,
-                content: p.description,
-                imageUrl: p.image_url,
-                category: p.category,
-                type: p.item_type || 'status',
-                createdAt: p.created_at,
-                meta: p.meta_info
-            }));
+            // Map posts for MomentsModule (hors stories)
+            let feedItems = (rawPosts || [])
+                .filter(p => p.category !== 'story')
+                .map(p => ({
+                    id: p.id,
+                    userId: p.user_id,
+                    authorName: cName,
+                    authorAvatar: cAvatar,
+                    authorRole: authorRole,
+                    authorTitle: authorTitle,
+                    content: p.description,
+                    imageUrl: p.image_url,
+                    category: p.category,
+                    type: p.item_type || 'status',
+                    createdAt: p.created_at,
+                    meta: p.meta_info,
+                    isPinned: profile.pinned_post_id === p.id
+                }));
 
-            const postsHtml = window.MomentsModule ? feedItems.map(item => window.MomentsModule.renderFeedItemHTML(item, session ? session.user : null, containerId)).join('') : '';
+            // Post épinglé en premier (style Twitter/X)
+            if (profile.pinned_post_id) {
+                feedItems.sort((a, b) => {
+                    if (a.id === profile.pinned_post_id) return -1;
+                    if (b.id === profile.pinned_post_id) return 1;
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
+            }
+
+            // Charger likes, commentaires, sondages
+            if (window.MomentsModule && feedItems.length > 0) {
+                await window.MomentsModule.loadEngagementForPosts(
+                    feedItems.map(i => i.id),
+                    session ? session.user : null
+                );
+            }
+
+            const postsHtml = window.MomentsModule
+                ? feedItems.map(item => window.MomentsModule.renderFeedItemHTML(item, session ? session.user : null, 'channel-feed-container')).join('')
+                : '';
+
+            const highlightsHtml = (rawHighlights && rawHighlights.length > 0) ? `
+                <div style="margin-bottom: 24px;">
+                    <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">À la une</div>
+                    <div style="display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;">
+                        ${rawHighlights.map((h, i) => {
+                            const isVid = h.image_url && h.image_url.match(/\.(mp4|mov|webm)($|\?)/i);
+                            const thumb = isVid
+                                ? `<video src="${h.image_url}" style="width:100%; height:100%; object-fit:cover;"></video>`
+                                : `<img src="${h.image_url}" style="width:100%; height:100%; object-fit:cover;">`;
+                            return `
+                            <div style="flex-shrink:0; width:72px; display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer;" onclick="window.MomentsModule.openHighlightViewer('${h.id}', '${h.image_url}', ${isVid ? 'true' : 'false'})">
+                                <div style="width:64px; height:64px; border-radius:50%; border:2px solid #cbd5e1; overflow:hidden; background:#f1f5f9;">${thumb}</div>
+                                <span style="font-size:0.68rem; font-weight:700; color:#475569; max-width:72px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${(h.title || 'Story').replace('Story: ', '').substring(0, 10)}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>
+            ` : '';
 
             let html = `
                 <style>
@@ -182,10 +234,18 @@ window.ChannelModule = {
                             ` : `<div style="text-align: left; font-size: 0.95rem; color: #94a3b8; font-style: italic; margin-top: 16px;">Aucune biographie.</div>`}
                         </div>
 
+                        <!-- TABS -->
+                        <div style="display: flex; gap: 24px; border-bottom: 2px solid #f1f5f9; margin-bottom: 24px;">
+                            <button onclick="window.ChannelModule.switchTab('posts', '${userId}')" style="background: none; border: none; padding: 12px 0; font-size: 1.05rem; font-weight: 800; cursor: pointer; color: ${this.currentTab === 'posts' ? '#0f172a' : '#94a3b8'}; border-bottom: 3px solid ${this.currentTab === 'posts' ? '#0f172a' : 'transparent'}; transition: all 0.2s;">Publications</button>
+                            <button onclick="window.ChannelModule.switchTab('about', '${userId}')" style="background: none; border: none; padding: 12px 0; font-size: 1.05rem; font-weight: 800; cursor: pointer; color: ${this.currentTab === 'about' ? '#0f172a' : '#94a3b8'}; border-bottom: 3px solid ${this.currentTab === 'about' ? '#0f172a' : 'transparent'}; transition: all 0.2s;">À propos</button>
+                        </div>
+
                         <div class="channel-feed-col">
+                            ${this.currentTab === 'posts' ? `
+                            ${highlightsHtml}
                             <!-- QUICK SHARE BAR (Only for Channel Owner) -->
                             ${isSelf ? `
-                                <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handlePostFileSelected(this)">
+                                <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*,application/pdf" multiple onchange="MomentsModule.handlePostFileSelected(this)">
                                 <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
                                 <div style="background: white; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08); margin-bottom: 32px; position: relative; overflow: hidden;">
                                     <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #10b981;"></div>
@@ -215,6 +275,10 @@ window.ChannelModule = {
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                                                     Story
                                                 </button>
+                                                <button onclick="window.MomentsModule.openPollModal()" title="Créer un sondage" style="border:none; cursor:pointer; background: rgba(139, 92, 246, 0.08); color: #8b5cf6; border-radius: 12px; padding: 8px 16px; font-size: 0.9rem; font-weight: 800; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                                                    Sondage
+                                                </button>
                                             </div>
                                             
                                             <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px;">
@@ -230,6 +294,26 @@ window.ChannelModule = {
                             <div id="channel-feed-container" style="display: flex; flex-direction: column; gap: 20px;">
                                 ${postsHtml || '<div style="text-align:center; padding: 40px; color: #94a3b8; font-weight:600; background: white; border-radius: 24px; border: 1px solid rgba(0,0,0,0.02);">Aucune publication pour le moment.</div>'}
                             </div>
+                            ` : `
+                            <div style="background: white; border-radius: 24px; padding: 32px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.02);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                                    <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #0f172a;">À propos</h3>
+                                    ${isSelf ? `<button onclick="window.ChannelModule.editAbout()" style="background: none; border: none; color: #3b82f6; font-weight: 800; cursor: pointer; font-size: 0.95rem;">Modifier</button>` : ''}
+                                </div>
+                                <div id="channel-about-content" style="font-size: 1rem; color: #334155; line-height: 1.7; white-space: pre-line;">
+                                    ${profile.about_text || 'Aucune information supplémentaire pour le moment.'}
+                                </div>
+                                ${isSelf ? `
+                                <div id="channel-about-editor" style="display: none; margin-top: 16px;">
+                                    <textarea id="channel-about-input" rows="6" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; font-family: inherit; font-size: 1rem; resize: vertical; outline: none; margin-bottom: 12px;">${profile.about_text || ''}</textarea>
+                                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                                        <button onclick="window.ChannelModule.cancelEditAbout()" style="padding: 8px 16px; border-radius: 8px; border: none; background: #f1f5f9; color: #64748b; font-weight: 700; cursor: pointer;">Annuler</button>
+                                        <button onclick="window.ChannelModule.saveAbout('${userId}')" style="padding: 8px 16px; border-radius: 8px; border: none; background: #3b82f6; color: white; font-weight: 700; cursor: pointer;">Enregistrer</button>
+                                    </div>
+                                </div>
+                                ` : ''}
+                            </div>
+                            `}
                         </div>
                     </div>
                 </div>
@@ -242,6 +326,34 @@ window.ChannelModule = {
                     Erreur lors du chargement de la chaîne : ${err.message}
                 </div>
             `;
+        }
+    },
+
+    switchTab: function(tab, userId) {
+        this.currentTab = tab;
+        this.renderChannel(userId, 'view-channel');
+    },
+
+    editAbout: function() {
+        document.getElementById('channel-about-content').style.display = 'none';
+        document.getElementById('channel-about-editor').style.display = 'block';
+    },
+
+    cancelEditAbout: function() {
+        document.getElementById('channel-about-content').style.display = 'block';
+        document.getElementById('channel-about-editor').style.display = 'none';
+    },
+
+    saveAbout: async function(userId) {
+        const text = document.getElementById('channel-about-input').value;
+        try {
+            const db = this.getDb();
+            const { error } = await db.from('profiles').update({ about_text: text }).eq('id', userId);
+            if (error) throw error;
+            this.renderChannel(userId, 'view-channel');
+        } catch (err) {
+            console.error(err);
+            alert("Erreur lors de l'enregistrement.");
         }
     },
 

@@ -5,12 +5,25 @@
  */
 const MomentsModule = {
     likes: {},
+    reactions: {},
     comments: {},
     bookmarks: [],
     pendingFile: null,
     searchTimeout: null,
-    currentFeedMode: 'all', // 'all' or 'following'
-    currentHashtagFilter: null, // e.g. 'Martinique'
+    currentFeedMode: 'all', // 'all', 'following' or 'reels'
+    currentHashtagFilter: null,
+    REACTION_EMOJI: { heart: '❤️', fire: '🔥', idea: '💡', clap: '👏' },
+
+    isVideoPost: function(item) {
+        if (!item?.imageUrl) return false;
+        const url = item.imageUrl.split(',')[0].trim();
+        return /\.(mp4|mov|avi|webm|quicktime)($|\?)/i.test(url);
+    },
+
+    getVideoUrl: function(item) {
+        if (!item?.imageUrl) return null;
+        return item.imageUrl.split(',')[0].trim();
+    },
 
     searchUsers: async function(query) {
         if (this.searchTimeout) clearTimeout(this.searchTimeout);
@@ -73,6 +86,159 @@ const MomentsModule = {
 
     getDb: function() {
         return window._supabase;
+    },
+
+    /** Charge likes, commentaires, sondages et favoris pour une liste de posts */
+    loadEngagementForPosts: async function(postIds, currentUser) {
+        this.likes = {};
+        this.reactions = {};
+        this.comments = {};
+        this.polls = {};
+        this.pollVotes = {};
+        this.bookmarks = [];
+
+        if (!postIds || postIds.length === 0) return;
+
+        const db = this.getDb();
+        try {
+            const { data: rawLikes } = await db.from('feed_likes').select('*').in('post_id', postIds);
+            if (rawLikes) {
+                rawLikes.forEach(l => {
+                    if (!this.likes[l.post_id]) this.likes[l.post_id] = [];
+                    this.likes[l.post_id].push(l.user_id);
+                    if (!this.reactions[l.post_id]) this.reactions[l.post_id] = [];
+                    this.reactions[l.post_id].push({ user_id: l.user_id, type: l.reaction_type || 'heart' });
+                });
+            }
+
+            const { data: rawComments } = await db.from('feed_comments')
+                .select('*, profiles:user_id(full_name, avatar_url)')
+                .in('post_id', postIds)
+                .order('created_at', { ascending: true });
+            if (rawComments) {
+                rawComments.forEach(c => {
+                    if (!this.comments[c.post_id]) this.comments[c.post_id] = [];
+                    this.comments[c.post_id].push(c);
+                });
+            }
+
+            const { data: rawPolls } = await db.from('feed_polls').select('*').in('post_id', postIds);
+            if (rawPolls && rawPolls.length > 0) {
+                const pollIds = rawPolls.map(p => p.id);
+                rawPolls.forEach(p => {
+                    this.polls[p.post_id] = p;
+                    this.pollVotes[p.id] = [];
+                });
+                const { data: rawVotes } = await db.from('feed_poll_votes').select('*').in('poll_id', pollIds);
+                if (rawVotes) {
+                    rawVotes.forEach(v => this.pollVotes[v.poll_id].push(v));
+                }
+            }
+        } catch (errEngage) {
+            console.warn("Engagement tables not active yet:", errEngage.message);
+        }
+
+        if (currentUser) {
+            try {
+                const { data: rawBookmarks } = await db.from('feed_bookmarks').select('post_id').eq('user_id', currentUser.id);
+                if (rawBookmarks) this.bookmarks = rawBookmarks.map(b => b.post_id);
+            } catch (e) {
+                console.warn("Bookmarks table not ready:", e.message);
+            }
+        }
+    },
+
+    groupStoriesByUser: function(stories) {
+        const groups = [];
+        const seen = new Map();
+        stories.forEach(s => {
+            if (!seen.has(s.userId)) {
+                const group = { userId: s.userId, authorName: s.authorName, authorAvatar: s.authorAvatar, items: [] };
+                seen.set(s.userId, group);
+                groups.push(group);
+            }
+            seen.get(s.userId).items.push(s);
+        });
+        return groups;
+    },
+
+    renderComposerBar: function(containerId) {
+        const profile = window.App?.state?.profile;
+        const session = window.App?.state?.session;
+        if (!session || !profile) return '';
+
+        const avatar = profile.channel_avatar_url || profile.avatar_url;
+        const name = profile.channel_name || profile.full_name || 'U';
+
+        return `
+            <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*,application/pdf" multiple onchange="MomentsModule.handlePostFileSelected(this)">
+            <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
+            <div style="background: white; border: 1px solid rgba(16, 185, 129, 0.15); border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.08); margin-bottom: 8px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #10b981;"></div>
+                <div style="display: flex; gap: 16px; align-items: flex-start;">
+                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; overflow: hidden; flex-shrink: 0;">
+                        ${avatar ? `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">` : name.charAt(0)}
+                    </div>
+                    <div style="flex: 1;">
+                        <select id="post-intent-tag" style="background: rgba(16, 185, 129, 0.1); color: #059669; border: none; padding: 4px 12px; border-radius: 100px; font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; outline: none; cursor: pointer;">
+                            <option value="standard">Post Standard</option>
+                            <option value="opportunite">Opportunité Business</option>
+                            <option value="partenaire">Recherche Partenaire</option>
+                            <option value="expertise">Partage d'Expertise</option>
+                        </select>
+                        <textarea id="feed-status-input" placeholder="Quoi de neuf dans l'écosystème ?" rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.05rem; color: #0f172a; padding-top: 6px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
+                        <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                            <button type="button" onclick="document.getElementById('post-file-input').click()" style="border:none; cursor:pointer; background: rgba(15,23,42,0.08); color: #0f172a; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📷 Média</button>
+                            <button type="button" onclick="window.MomentsModule.openIntegratedCamera('post')" style="border:none; cursor:pointer; background: rgba(59,130,246,0.08); color: #3b82f6; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📸 Caméra</button>
+                            <button type="button" onclick="document.getElementById('post-story-input').click()" style="border:none; cursor:pointer; background: rgba(16,185,129,0.08); color: #10b981; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">⭕ Story</button>
+                            <button type="button" onclick="window.MomentsModule.openPollModal()" style="border:none; cursor:pointer; background: rgba(139,92,246,0.08); color: #8b5cf6; border-radius: 12px; padding: 8px 14px; font-size: 0.85rem; font-weight: 800;">📊 Sondage</button>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px;">
+                            <span id="post-file-name" style="font-size:0.8rem; color:#10b981; font-weight:700; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></span>
+                            <button type="button" onclick="window.MomentsModule.postStatus('${containerId}')" id="btn-publish-feed" class="dtc-publish-btn">Publier</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+
+    renderReelsFeed: function(videoItems, currentUser, containerId) {
+        if (!videoItems.length) {
+            return `<div style="padding:48px; text-align:center; color:#64748b; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-film" style="font-size:2.5rem; color:#cbd5e1; display:block; margin-bottom:12px;"></i>Aucune vidéo pour le moment.<br><span style="font-size:0.85rem; font-weight:500;">Publiez une vidéo pour alimenter le fil Reels.</span></div>`;
+        }
+
+        return `
+            <div id="dtc-reels-scroller" style="height: min(85vh, 720px); overflow-y: scroll; scroll-snap-type: y mandatory; border-radius: 24px; background: #0f172a; scrollbar-width: none;">
+                ${videoItems.map((item, idx) => {
+                    const videoUrl = this.getVideoUrl(item);
+                    const postReactions = this.reactions[item.id] || [];
+                    const likesCount = postReactions.length;
+                    const commentsCount = (this.comments[item.id] || []).length;
+                    const hasLiked = currentUser && postReactions.some(r => r.user_id === currentUser.id);
+                    return `
+                    <div class="dtc-reel-slide" style="height: min(85vh, 720px); scroll-snap-align: start; position: relative; display: flex; align-items: center; justify-content: center; background: #000;">
+                        <video src="${videoUrl}" autoplay muted loop playsinline style="max-width:100%; max-height:100%; object-fit: contain;" onclick="this.muted ? (this.muted=false) : (this.muted=true)"></video>
+                        <div style="position:absolute; bottom:0; left:0; right:0; padding: 24px 80px 24px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: white;">
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer;" onclick="window.Router.navigate('#channel?id=${item.userId}')">
+                                <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:2px solid white; background:#334155;">
+                                    ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%;height:100%;object-fit:cover;">` : ''}
+                                </div>
+                                <span style="font-weight:800; font-size:0.95rem;">${item.authorName}</span>
+                            </div>
+                            <p style="margin:0; font-size:0.9rem; line-height:1.4; opacity:0.95; max-height:60px; overflow:hidden;">${(item.content || '').substring(0, 120)}</p>
+                        </div>
+                        <div style="position:absolute; right: 12px; bottom: 100px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+                            <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" style="background:rgba(255,255,255,0.15); border:none; width:48px; height:48px; border-radius:50%; color:white; font-size:1.3rem; cursor:pointer; backdrop-filter:blur(4px);">${hasLiked ? '❤️' : '🤍'}<div style="font-size:0.65rem; font-weight:800; margin-top:2px;">${likesCount || ''}</div></button>
+                            <button onclick="MomentsModule.openPostDetail('${item.id}', '${containerId}')" style="background:rgba(255,255,255,0.15); border:none; width:48px; height:48px; border-radius:50%; color:white; font-size:1.2rem; cursor:pointer;">💬<div style="font-size:0.65rem; font-weight:800; margin-top:2px;">${commentsCount || ''}</div></button>
+                            <button onclick="MomentsModule.openReactionPicker('${item.id}', '${containerId}', event)" style="background:rgba(255,255,255,0.15); border:none; width:48px; height:48px; border-radius:50%; color:white; font-size:1.1rem; cursor:pointer;">😊</button>
+                            ${currentUser && currentUser.id !== item.userId ? `<button onclick="window.Router.navigate('#messages?to=${item.userId}&context=post&prefill=${encodeURIComponent('Bonjour, à propos de votre vidéo : ')})" style="background:rgba(255,255,255,0.15); border:none; width:48px; height:48px; border-radius:50%; color:white; font-size:1.1rem; cursor:pointer;">✉️</button>` : ''}
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>
+            <style>#dtc-reels-scroller::-webkit-scrollbar { display: none; }</style>
+        `;
     },
 
     renderFeed: async function(containerId) {
@@ -150,11 +316,11 @@ const MomentsModule = {
                         authorTitle: profile.title || '',
                         authorExpertise: profile.expertise || '',
                         authorCompanyName: profile.company_name || '',
-                        type: item.category === 'status' ? 'status' : 'service',
+                        type: item.item_type || (item.category === 'status' ? 'status' : item.category === 'story' ? 'story' : 'service'),
                         title: item.title,
                         content: item.description || '',
                         imageUrl: item.image_url || null,
-                        meta: item.category !== 'status' && item.category !== 'story' ? `${item.price_prefix || 'À partir de'} ${item.price} €` : null,
+                        meta: item.meta_info || (item.category !== 'status' && item.category !== 'story' ? `${item.price_prefix || 'À partir de'} ${item.price} €` : null),
                         createdAt: new Date(item.created_at)
                     };
                     
@@ -193,32 +359,9 @@ const MomentsModule = {
                 });
             }
 
-            // 4. Fetch Likes and Comments for these posts
+            // 4. Fetch engagement data
             const postIds = feedItems.map(item => item.id);
-            this.likes = {};
-            this.comments = {};
-
-            if (postIds.length > 0) {
-                try {
-                    const { data: rawLikes } = await db.from('feed_likes').select('*').in('post_id', postIds);
-                    if (rawLikes) {
-                        rawLikes.forEach(l => {
-                            if (!this.likes[l.post_id]) this.likes[l.post_id] = [];
-                            this.likes[l.post_id].push(l.user_id);
-                        });
-                    }
-
-                    const { data: rawComments } = await db.from('feed_comments').select('*, profiles:user_id(full_name, avatar_url)').in('post_id', postIds).order('created_at', { ascending: true });
-                    if (rawComments) {
-                        rawComments.forEach(c => {
-                            if (!this.comments[c.post_id]) this.comments[c.post_id] = [];
-                            this.comments[c.post_id].push(c);
-                        });
-                    }
-                } catch (errEngage) {
-                    console.warn("Likes or comments tables not active yet in Supabase:", errEngage.message);
-                }
-            }
+            await this.loadEngagementForPosts(postIds, currentUser);
 
             // Fetch current user subscriptions
             this.subscriptions = [];
@@ -230,17 +373,6 @@ const MomentsModule = {
                     }
                 } catch (e) {
                     console.warn("Subscriptions table not ready:", e.message);
-                }
-            }
-
-            // Fetch current user bookmarks
-            this.bookmarks = [];
-            if (currentUser) {
-                try {
-                    const { data: rawBookmarks } = await db.from('feed_bookmarks').select('post_id').eq('user_id', currentUser.id);
-                    if (rawBookmarks) this.bookmarks = rawBookmarks.map(b => b.post_id);
-                } catch (e) {
-                    console.warn("Bookmarks table not ready:", e.message);
                 }
             }
 
@@ -286,8 +418,9 @@ const MomentsModule = {
                 );
             }
             
-            // Save stories globally for viewer
+            // Save stories globally for viewer (groupés par utilisateur, style Instagram)
             this.currentStories = stories;
+            this.storyGroups = this.groupStoriesByUser(stories);
 
             // Build Stories UI
             let storiesHtml = '';
@@ -314,15 +447,15 @@ const MomentsModule = {
                 </div>
             `;
             
-            if (stories.length > 0) {
-                const storyBubbles = stories.map((s, idx) => `
-                    <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="MomentsModule.openStoryViewer(${idx})">
-                        <div style="width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center;">
+            if (this.storyGroups.length > 0) {
+                const storyBubbles = this.storyGroups.map((group, idx) => `
+                    <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="MomentsModule.openStoryViewer(${idx}, 0)">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6); display: flex; align-items: center; justify-content: center;">
                             <div style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; overflow: hidden; background: #0f172a;">
-                                ${s.authorAvatar ? `<img src="${s.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; margin-top: 18px;"></i>'}
+                                ${group.authorAvatar ? `<img src="${group.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; margin-top: 18px;"></i>'}
                             </div>
                         </div>
-                        <span style="font-size: 0.7rem; font-weight: 600; color: #334155; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.authorName.split(' ')[0]}</span>
+                        <span style="font-size: 0.7rem; font-weight: 600; color: #334155; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${group.authorName.split(' ')[0]}</span>
                     </div>
                 `).join('');
 
@@ -388,9 +521,12 @@ const MomentsModule = {
                         stroke: #ef4444;
                     }
                     @keyframes dtcHeartBurst {
-                        0% { transform: scale(1); }
-                        50% { transform: scale(1.35); }
-                        100% { transform: scale(1); }
+                        0% { transform: scale(0); opacity: 0; }
+                        50% { transform: scale(1.2); opacity: 1; }
+                        100% { transform: scale(1); opacity: 0; }
+                    }
+                    .dtc-heart-burst svg {
+                        animation: dtcHeartBurst 0.6s ease forwards;
                     }
                     .dtc-post-card {
                         background: white; 
@@ -487,39 +623,43 @@ const MomentsModule = {
                     <div id="dtc-search-results" style="display: none; background: white; border-radius: 16px; padding: 16px; border: 1px solid rgba(15, 23, 42, 0.05); margin-top: -12px; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);"></div>
 
                     <!-- FEED MODE TABS -->
-                    <div style="display: flex; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 14px;">
-                        <button id="feed-tab-all" onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Pour vous</button>
-                        <button id="feed-tab-following" onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Abonnements</button>
+                    <div style="display: flex; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 14px;">
+                        <button onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Pour vous</button>
+                        <button onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Abonnements</button>
+                        <button onclick="window.MomentsModule.switchFeedMode('reels', '${containerId}')" style="flex:1; padding: 8px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'reels' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'reels' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'reels' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">🎬 Reels</button>
                     </div>
 
+                    ${this.currentFeedMode !== 'reels' ? this.renderComposerBar(containerId) : ''}
+
                     <!-- STORIES BAR -->
-                    ${this.currentHashtagFilter ? `
+                    ${this.currentFeedMode !== 'reels' && this.currentHashtagFilter ? `
                     <div style="display:flex; align-items:center; gap:12px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius:14px; padding:12px 16px;">
                         <i class="fas fa-hashtag" style="color:#3b82f6; font-size:1rem;"></i>
                         <span style="font-weight:800; color:#1d4ed8; font-size:0.95rem; flex:1;">Filtré par <strong>#${this.currentHashtagFilter}</strong></span>
                         <button onclick="MomentsModule.clearHashtagFilter('${containerId}')" style="background:#3b82f6; color:white; border:none; padding:6px 14px; border-radius:100px; font-weight:800; font-size:0.8rem; cursor:pointer;">✕ Effacer</button>
                     </div>` : ''}
-                    ${storiesHtml}
+                    ${this.currentFeedMode !== 'reels' ? storiesHtml : ''}
 
-                    <!-- QUICK SHARE BAR MOVED TO CHANNEL -->
- 
                     <!-- FEED ITEMS -->
-                    <div style="display: flex; flex-direction: column; gap: 20px;">
-                        ${feedItems.length === 0 ? `
-                        ` : feedItems.map((item, index) => {
-                            let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
-                            // Inject CTA Mastermind naturally in the feed (e.g. after the 2nd item)
-                            if (index === 1) {
-                                htmlStr += this.renderMastermindCTA();
-                            }
-                            return htmlStr;
-                        }).join('')}
-                    </div>
+                    ${this.currentFeedMode === 'reels'
+                        ? this.renderReelsFeed(feedItems.filter(item => this.isVideoPost(item)), currentUser, containerId)
+                        : `<div style="display: flex; flex-direction: column; gap: 20px;">
+                            ${feedItems.length === 0 ? `<div style="padding:40px; text-align:center; color:#94a3b8; font-weight:600;">Aucune publication pour le moment.</div>` : feedItems.map((item, index) => {
+                                let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
+                                if (index === 1) htmlStr += this.renderMastermindCTA();
+                                return htmlStr;
+                            }).join('')}
+                        </div>`
+                    }
  
                 </div>
             `;
  
             container.innerHTML = html;
+
+            const hashQs = window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '';
+            const postParam = new URLSearchParams(hashQs || window.location.search).get('post');
+            if (postParam) setTimeout(() => this.openPostDetail(postParam, containerId), 150);
  
         } catch (err) {
             console.error("[MomentsModule] Load Error:", err);
@@ -531,7 +671,7 @@ const MomentsModule = {
         }
     },
  
-    renderFeedItemHTML: function(item, currentUser, containerId) {
+    renderFeedItemHTML: function(item, currentUser, containerId, embedMode = false) {
         const isSelf = currentUser && currentUser.id === item.userId;
         const relativeTime = this.getRelativeTime(item.createdAt);
         const isFollowing = this.subscriptions ? this.subscriptions.includes(item.userId) : false;
@@ -630,26 +770,84 @@ const MomentsModule = {
                 </div>
             `;
         } else if (item.imageUrl) {
-            const isVideo = item.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
-            if (isVideo) {
-                mediaHtml = `
-                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; max-height: 600px; display: flex; justify-content: center; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);">
-                        <video src="${item.imageUrl}" controls style="max-height: 600px; width: 100%; object-fit: cover;"></video>
-                    </div>
-                `;
+            const urls = item.imageUrl.split(',').map(u => u.trim());
+            
+            if (urls.length === 1) {
+                const url = urls[0];
+                const isVideo = url.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
+                const isPdf = url.match(/\.(pdf)($|\?)/i);
+                
+                if (isVideo) {
+                    mediaHtml = `
+                        <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #000; max-height: 600px; display: flex; justify-content: center; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);">
+                            <video src="${url}" controls style="max-height: 600px; width: 100%; object-fit: cover;"></video>
+                        </div>
+                    `;
+                } else if (isPdf) {
+                    mediaHtml = `
+                        <div style="margin: 16px -24px 0 -24px; overflow: hidden; background: #f8fafc; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05); padding: 24px; display: flex; justify-content: center;">
+                            <a href="${url}" target="_blank" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; background: white; padding: 24px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+                                <i class="fas fa-file-pdf fa-3x" style="color: #ef4444;"></i>
+                                <span style="font-weight: 800; color: #0f172a;">Ouvrir le document PDF</span>
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    mediaHtml = `
+                        <div style="margin: 16px -24px 0 -24px; overflow: hidden; max-height: 600px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);" onclick="window.open('${url}', '_blank')">
+                            <img src="${url}" style="max-height: 600px; width: 100%; object-fit: cover; display: block;">
+                        </div>
+                    `;
+                }
             } else {
+                // Carousel for multiple images
+                const carouselId = 'carousel-' + item.id;
+                const slidesHtml = urls.map((url, index) => {
+                    const isVideo = url.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
+                    const isPdf = url.match(/\.(pdf)($|\?)/i);
+                    let slideContent = '';
+                    if (isVideo) {
+                        slideContent = `<video src="${url}" controls style="max-height: 600px; width: 100%; object-fit: cover;"></video>`;
+                    } else if (isPdf) {
+                        slideContent = `
+                            <a href="${url}" target="_blank" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; width: 100%; padding: 48px 0;">
+                                <i class="fas fa-file-pdf fa-3x" style="color: #ef4444;"></i>
+                                <span style="font-weight: 800; color: #0f172a;">Document PDF</span>
+                            </a>
+                        `;
+                    } else {
+                        slideContent = `<img src="${url}" style="max-height: 600px; width: 100%; object-fit: cover; display: block; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">`;
+                    }
+                    return `<div class="carousel-slide" style="min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: ${isPdf ? '#f8fafc' : '#000'};">${slideContent}</div>`;
+                }).join('');
+
                 mediaHtml = `
-                    <div style="margin: 16px -24px 0 -24px; overflow: hidden; max-height: 600px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);" onclick="window.open('${item.imageUrl}', '_blank')">
-                        <img src="${item.imageUrl}" style="max-height: 600px; width: 100%; object-fit: cover; display: block;">
+                    <div style="margin: 16px -24px 0 -24px; position: relative; max-height: 600px; border-bottom: 1px solid rgba(0,0,0,0.05); border-top: 1px solid rgba(0,0,0,0.05);">
+                        <div id="${carouselId}" style="display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; height: 100%;">
+                            ${slidesHtml}
+                            <style>#${carouselId}::-webkit-scrollbar { display: none; }</style>
+                        </div>
+                        <button onclick="document.getElementById('${carouselId}').scrollBy({left: -300, behavior: 'smooth'})" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fas fa-chevron-left"></i></button>
+                        <button onclick="document.getElementById('${carouselId}').scrollBy({left: 300, behavior: 'smooth'})" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.8); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fas fa-chevron-right"></i></button>
+                        <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 800;">${urls.length} fichiers <i class="fas fa-clone" style="margin-left: 4px;"></i></div>
                     </div>
+                    <script>
+                        document.querySelectorAll('#${carouselId} .carousel-slide').forEach(slide => slide.style.scrollSnapAlign = 'start');
+                    </script>
                 `;
             }
         }
  
-        // Likes & Comments Count
+        // Réactions & Comments Count
+        const postReactions = this.reactions[item.id] || [];
         const postLikes = this.likes[item.id] || [];
-        const likesCount = postLikes.length;
-        const hasLiked = currentUser && postLikes.includes(currentUser.id);
+        const likesCount = postReactions.length || postLikes.length;
+        const userReaction = currentUser ? postReactions.find(r => r.user_id === currentUser.id) : null;
+        const hasLiked = !!userReaction;
+        const userReactionEmoji = userReaction ? (this.REACTION_EMOJI[userReaction.type] || '❤️') : null;
+        const reactionSummary = Object.entries(
+            postReactions.reduce((acc, r) => { acc[r.type] = (acc[r.type] || 0) + 1; return acc; }, {})
+        ).map(([type, count]) => `${this.REACTION_EMOJI[type] || '❤️'} ${count}`).join(' ');
  
         const postComments = this.comments[item.id] || [];
         const commentsCount = postComments.length;
@@ -657,27 +855,47 @@ const MomentsModule = {
         // Render Comments List
         const commentsListHtml = postComments.length === 0
             ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Soyez le premier à réagir !</p>`
-            : postComments.map(c => {
-                const cProfile = c.profiles || {};
-                const initials = (cProfile.full_name || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                return `
-                    <div style="display: flex; gap: 12px; align-items: flex-start; background: transparent; padding: 8px 0; margin-bottom: 8px;">
+            : (() => {
+                const rootComments = postComments.filter(c => !c.parent_id);
+                const replies = postComments.filter(c => c.parent_id);
+                
+                const renderComment = (c, isReply = false) => {
+                    const cProfile = c.profiles || {};
+                    const initials = (cProfile.full_name || 'U').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const childReplies = replies.filter(r => r.parent_id === c.id);
+                    
+                    return `
+                    <div style="display: flex; gap: 12px; align-items: flex-start; background: transparent; padding: 8px 0; margin-bottom: 8px; ${isReply ? 'margin-left: 36px; padding-left: 12px; border-left: 2px solid #e2e8f0;' : ''}">
                         <div style="width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #0f172a; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
                             ${cProfile.avatar_url ? `<img src="${cProfile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : initials}
                         </div>
-                        <div style="flex: 1; background: #f8fafc; padding: 12px 16px; border-radius: 4px 16px 16px 16px; border: 1px solid rgba(0,0,0,0.02);">
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                                <span style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
-                                <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
+                        <div style="flex: 1;">
+                            <div style="background: #f8fafc; padding: 12px 16px; border-radius: 4px 16px 16px 16px; border: 1px solid rgba(0,0,0,0.02);">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                                    <span style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
+                                    <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
+                                </div>
+                                <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${escapeHTML(c.content)}</p>
                             </div>
-                            <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${escapeHTML(c.content)}</p>
+                            ${!isReply ? `
+                            <div style="display: flex; gap: 12px; padding: 4px 12px;">
+                                <span onclick="MomentsModule.replyToComment('${item.id}', '${c.id}', '${(cProfile.full_name || 'Utilisateur').replace(/'/g, "\\'")}')" style="font-size: 0.75rem; color: #64748b; font-weight: 700; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#64748b'">Répondre</span>
+                            </div>
+                            ` : ''}
+                            ${childReplies.map(r => renderComment(r, true)).join('')}
                         </div>
                     </div>
-                `;
-            }).join('');
+                    `;
+                };
+                return rootComments.map(c => renderComment(c, false)).join('');
+            })();
  
+        const isPinned = item.isPinned === true;
+
         return `
-            <div class="dtc-post-card" style="${cardBorder}">
+            <div class="dtc-post-card" data-post-id="${item.id}" ${embedMode ? '' : `ondblclick="MomentsModule.doubleTapLike('${item.id}', '${containerId}', this)" onclick="if(!event.target.closest('button,a,input,textarea,select,video,.dtc-reaction-picker')) MomentsModule.openPostDetail('${item.id}', '${containerId}')"`} style="${cardBorder} position: relative;${embedMode ? '' : ' cursor: pointer;'}">
+                ${isPinned ? `<div style="position: absolute; top: 12px; right: 12px; background: rgba(59,130,246,0.1); color: #3b82f6; padding: 4px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 4px; z-index: 2;"><i class="fas fa-thumbtack" style="font-size: 0.6rem;"></i> Épinglé</div>` : ''}
+                <div class="dtc-heart-burst" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; pointer-events:none; z-index:5;"><svg width="80" height="80" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
                 
                 <!-- HEADER -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
@@ -712,11 +930,18 @@ const MomentsModule = {
                             </div>
                         ` : ''}
                         
-                        <!-- DELETE BUTTON FOR OWNER -->
+                        <!-- OWNER ACTIONS -->
                         ${isSelf ? `
-                            <button onclick="MomentsModule.deletePost('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Supprimer la publication">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                            </button>
+                            <div style="display: flex; gap: 4px;">
+                                ${containerId === 'channel-feed-container' ? `
+                                <button onclick="MomentsModule.pinPost('${item.id}', '${item.userId}', '${containerId}')" class="dtc-delete-post-btn" title="${isPinned ? 'Désépingler' : 'Épingler en haut de la chaîne'}" style="${isPinned ? 'color:#3b82f6;' : ''}">
+                                    <i class="fas fa-thumbtack"></i>
+                                </button>
+                                ` : ''}
+                                <button onclick="MomentsModule.deletePost('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Supprimer la publication">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                </button>
+                            </div>
                         ` : ''}
                     </div>
                 </div>
@@ -733,42 +958,112 @@ const MomentsModule = {
                         </div>
                     ` : ''}
                     ${formattedContent}
+                    ${(() => {
+                        if (item.type === 'repost' && item.meta) {
+                            try {
+                                const quoteData = JSON.parse(item.meta);
+                                return `
+                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f8fafc; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9';" onmouseout="this.style.background='#f8fafc';" onclick="window.location.href='#moments?post=${quoteData.id}'">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                        <div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; background: #cbd5e1;">
+                                            ${quoteData.authorAvatar ? `<img src="${quoteData.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="font-size:12px; margin:6px;"></i>'}
+                                        </div>
+                                        <div style="font-size: 0.85rem; font-weight: 800; color: #475569;">${quoteData.authorName || 'Inconnu'}</div>
+                                    </div>
+                                    <div style="font-size: 0.95rem; color: #0f172a; font-weight: 500;">
+                                        ${(quoteData.content || '').substring(0, 200)}...
+                                    </div>
+                                    ${quoteData.imageUrl ? `<img src="${quoteData.imageUrl}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-top: 12px;">` : ''}
+                                </div>
+                                `;
+                            } catch(e) { return ''; }
+                        }
+                        
+                        if (item.type === 'poll') {
+                            const poll = this.polls[item.id];
+                            if (poll) {
+                                let options = [];
+                                try { options = typeof poll.options === 'string' ? JSON.parse(poll.options) : poll.options; } catch(e) {}
+                                const votes = this.pollVotes[poll.id] || [];
+                                const totalVotes = votes.length;
+                                const userVote = votes.find(v => currentUser && v.user_id === currentUser.id);
+                                
+                                const optionsHtml = options.map((opt, i) => {
+                                    const count = votes.filter(v => v.option_id === i).length;
+                                    const percent = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+                                    const isSelected = userVote && userVote.option_id === i;
+                                    return `
+                                    <div style="margin-bottom: 8px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid ${isSelected ? '#3b82f6' : '#e2e8f0'}; cursor: ${userVote ? 'default' : 'pointer'}; background: white; transition: transform 0.2s;" ${!userVote ? `onclick="MomentsModule.votePoll('${poll.id}', ${i}, '${containerId}')" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';" ` : ''}>
+                                        <div style="position: absolute; top: 0; left: 0; height: 100%; background: ${isSelected ? 'rgba(59, 130, 246, 0.15)' : '#f1f5f9'}; width: ${userVote ? percent : 0}%; transition: width 0.5s ease;"></div>
+                                        <div style="position: relative; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-weight: 700; color: #0f172a;">${escapeHTML(opt.text)}</span>
+                                            ${userVote ? `<span style="font-weight: 800; color: #64748b; font-size: 0.85rem;">${percent}%</span>` : ''}
+                                        </div>
+                                    </div>
+                                    `;
+                                }).join('');
+
+                                return `
+                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f8fafc;">
+                                    <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 16px;">${escapeHTML(poll.question || item.content || '')}</div>
+                                    ${optionsHtml}
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 12px; font-weight: 600;">${totalVotes} vote${totalVotes !== 1 ? 's' : ''}</div>
+                                </div>
+                                `;
+                            }
+                        }
+                        
+                        return '';
+                    })()}
                 </div>
  
                 <!-- MEDIA -->
                 ${mediaHtml}
 
+                ${reactionSummary ? `<div style="font-size:0.82rem; color:#64748b; font-weight:700; margin-top:8px;">${reactionSummary}</div>` : ''}
+
                 <!-- ACTIONS & ENGAGEMENT -->
-                <div style="display: flex; gap: 4px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 12px; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 4px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 12px; align-items: center; justify-content: space-between;" onclick="event.stopPropagation()">
                     
-                    <div style="display: flex; gap: 4px;">
-                        <!-- LIKE -->
-                        <button onclick="MomentsModule.toggleLike('${item.id}', '${containerId}')" class="dtc-action-icon ${hasLiked ? 'liked' : ''}">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="${hasLiked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                            ${likesCount > 0 ? likesCount : 'J\'aime'}
-                        </button>
+                    <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                        <!-- RÉACTIONS -->
+                        <div style="display:flex; align-items:center; gap:2px;">
+                            <button onclick="event.stopPropagation(); MomentsModule.setReaction('${item.id}', 'heart', '${containerId}')" class="dtc-action-icon ${hasLiked ? 'liked' : ''}" title="J'aime">
+                                ${userReactionEmoji || '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'}
+                                ${likesCount > 0 ? likesCount : ''}
+                            </button>
+                            <button onclick="event.stopPropagation(); MomentsModule.openReactionPicker('${item.id}', '${containerId}', event)" class="dtc-action-icon" title="Plus de réactions" style="padding:8px 6px; font-size:0.75rem;">+</button>
+                        </div>
     
                         <!-- COMMENTS TOGGLE -->
-                        <button onclick="MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-action-icon">
+                        <button onclick="event.stopPropagation(); MomentsModule.toggleCommentsSection('${item.id}')" class="dtc-action-icon">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                             ${commentsCount > 0 ? commentsCount : 'Commenter'}
                         </button>
     
+                        <!-- MESSAGE -->
+                        ${!isSelf ? `
+                        <button onclick="event.stopPropagation(); window.Router.navigate('#messages?to=${item.userId}&context=post&prefill=${encodeURIComponent('Bonjour, à propos de votre publication : ')}')" class="dtc-action-icon" title="Envoyer un message">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            Message
+                        </button>
+                        ` : ''}
+
                         <!-- SHARE -->
-                        <button onclick="navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#moments?post=${item.id}').then(() => { const btn = this; btn.innerHTML = 'Copié !'; setTimeout(() => { btn.innerHTML = '<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.2\'><polyline points=\'17 1 21 5 17 9\'/><path d=\'M3 11V9a4 4 0 0 1 4-4h14\'/></svg> Partager'; }, 2000); })" class="dtc-action-icon">
+                        <button onclick="event.stopPropagation(); navigator.clipboard.writeText(window.location.origin + '/mon-espace/moments?post=${item.id}').then(() => { this.textContent='Copié !'; setTimeout(() => this.textContent='Partager', 2000); })" class="dtc-action-icon">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
                             Partager
                         </button>
 
                         <!-- REPOST -->
-                        <button onclick="MomentsModule.repostItem('${item.id}', '${containerId}')" class="dtc-action-icon" title="Republier sur votre chaîne">
+                        <button onclick="event.stopPropagation(); MomentsModule.repostItem('${item.id}', '${containerId}')" class="dtc-action-icon" title="Republier sur votre chaîne">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
                             Repost
                         </button>
                     </div>
 
                     <!-- SAVE (Real Bookmark) -->
-                    <button class="dtc-action-icon ${this.bookmarks.includes(item.id) ? 'liked' : ''}" title="${this.bookmarks.includes(item.id) ? 'Retirer des favoris' : 'Sauvegarder'}" onclick="MomentsModule.toggleBookmark('${item.id}', '${containerId}', this)" style="${this.bookmarks.includes(item.id) ? 'color:#f59e0b;' : ''}">
+                    <button class="dtc-action-icon ${this.bookmarks.includes(item.id) ? 'liked' : ''}" title="${this.bookmarks.includes(item.id) ? 'Retirer des favoris' : 'Sauvegarder'}" onclick="event.stopPropagation(); MomentsModule.toggleBookmark('${item.id}', '${containerId}', this)" style="${this.bookmarks.includes(item.id) ? 'color:#f59e0b;' : ''}">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="${this.bookmarks.includes(item.id) ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2.2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
                     </button>
                 </div>
@@ -817,43 +1112,95 @@ const MomentsModule = {
         `;
     },
 
-    openStoryViewer: function(idx) {
-        if (!this.currentStories || !this.currentStories[idx]) return;
-        const s = this.currentStories[idx];
-        
+    _storyViewerTimer: null,
+
+    openStoryViewer: function(groupIdx, storyIdx = 0) {
+        if (!this.storyGroups || !this.storyGroups[groupIdx]) return;
+
+        const group = this.storyGroups[groupIdx];
+        const s = group.items[storyIdx];
+        if (!s) return;
+
+        if (this._storyViewerTimer) clearTimeout(this._storyViewerTimer);
+
         let viewer = document.getElementById('dtc-story-viewer');
         if (!viewer) {
             viewer = document.createElement('div');
             viewer.id = 'dtc-story-viewer';
-            viewer.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column;';
+            viewer.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:99999; display:flex; align-items:center; justify-content:center;';
             document.body.appendChild(viewer);
         }
 
         const isVideo = s.imageUrl && s.imageUrl.match(/\.(mp4|mov|avi|webm|quicktime)($|\?)/i);
-        const mediaTag = isVideo ? `<video src="${s.imageUrl}" autoplay controls style="max-width: 100%; max-height: 80vh; border-radius: 12px;"></video>` : `<img src="${s.imageUrl}" style="max-width: 100%; max-height: 80vh; border-radius: 12px; object-fit: contain;">`;
+        const progressBars = group.items.map((_, i) => `
+            <div style="flex:1; height:3px; background:rgba(255,255,255,0.3); border-radius:2px; overflow:hidden;">
+                <div id="story-progress-${i}" style="height:100%; width:${i < storyIdx ? '100%' : i === storyIdx ? '0%' : '0%'}; background:white; transition: width 5s linear;"></div>
+            </div>
+        `).join('');
+
+        const mediaTag = isVideo
+            ? `<video id="story-media-el" src="${s.imageUrl}" autoplay playsinline style="max-width:100%; max-height:85vh; border-radius:12px;"></video>`
+            : `<img id="story-media-el" src="${s.imageUrl}" style="max-width:100%; max-height:85vh; border-radius:12px; object-fit:contain;">`;
 
         viewer.innerHTML = `
-            <div style="position: absolute; top: 20px; left: 20px; display: flex; align-items: center; gap: 12px; z-index: 10;">
-                <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid white;">
-                    ${s.authorAvatar ? `<img src="${s.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : ''}
+            <div style="position:absolute; top:0; left:0; right:0; padding:16px 12px 0; z-index:20; display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:4px;">${progressBars}</div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:2px solid white;">
+                            ${group.authorAvatar ? `<img src="${group.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : ''}
+                        </div>
+                        <div style="color:white; font-weight:800; font-size:0.95rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);">${group.authorName}</div>
+                        <span style="color:rgba(255,255,255,0.7); font-size:0.8rem; font-weight:600;">${this.getRelativeTime(s.createdAt)}</span>
+                    </div>
+                    <button onclick="MomentsModule.closeStoryViewer()" style="background:rgba(255,255,255,0.2); color:white; border:none; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer;">&times;</button>
                 </div>
-                <div style="color: white; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${s.authorName}</div>
             </div>
-            <button onclick="document.getElementById('dtc-story-viewer').style.display='none'" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 10;">&times;</button>
+            ${(() => {
+                const session = window.App?.state?.session;
+                const isSelf = session && session.user.id === group.userId;
+                return isSelf ? `<button onclick="MomentsModule.addToHighlights('${s.id}')" style="position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:20; background:rgba(255,255,255,0.2); color:white; border:1px solid rgba(255,255,255,0.4); padding:10px 20px; border-radius:100px; font-weight:800; font-size:0.85rem; cursor:pointer; backdrop-filter:blur(8px);">⭐ Ajouter aux À la une</button>` : '';
+            })()}
+            <div style="position:absolute; left:0; top:0; width:35%; height:100%; z-index:15; cursor:pointer;" onclick="MomentsModule._storyNav(${groupIdx}, ${storyIdx}, -1)"></div>
+            <div style="position:absolute; right:0; top:0; width:35%; height:100%; z-index:15; cursor:pointer;" onclick="MomentsModule._storyNav(${groupIdx}, ${storyIdx}, 1)"></div>
             ${mediaTag}
         `;
         viewer.style.display = 'flex';
+
+        requestAnimationFrame(() => {
+            const bar = document.getElementById(`story-progress-${storyIdx}`);
+            if (bar) bar.style.width = '100%';
+        });
+
+        const duration = isVideo ? 15000 : 5000;
+        this._storyViewerTimer = setTimeout(() => this._storyNav(groupIdx, storyIdx, 1), duration);
     },
 
-    handleStoryFileSelected: async function(input) {
-        const file = input.files[0];
-        if (!file) return;
-        
-        if (!confirm("Voulez-vous publier ce média dans votre Story ?")) {
-            input.value = '';
-            return;
-        }
+    closeStoryViewer: function() {
+        if (this._storyViewerTimer) clearTimeout(this._storyViewerTimer);
+        const viewer = document.getElementById('dtc-story-viewer');
+        if (viewer) viewer.style.display = 'none';
+    },
 
+    _storyNav: function(groupIdx, storyIdx, direction) {
+        if (this._storyViewerTimer) clearTimeout(this._storyViewerTimer);
+        const group = this.storyGroups[groupIdx];
+        if (!group) return this.closeStoryViewer();
+
+        const nextIdx = storyIdx + direction;
+        if (nextIdx >= 0 && nextIdx < group.items.length) {
+            this.openStoryViewer(groupIdx, nextIdx);
+        } else if (direction > 0 && groupIdx + 1 < this.storyGroups.length) {
+            this.openStoryViewer(groupIdx + 1, 0);
+        } else if (direction < 0 && groupIdx > 0) {
+            const prevGroup = this.storyGroups[groupIdx - 1];
+            this.openStoryViewer(groupIdx - 1, prevGroup.items.length - 1);
+        } else {
+            this.closeStoryViewer();
+        }
+    },
+
+    publishStory: async function(file) {
         const db = this.getDb();
         const session = window.App?.state?.session;
         const profile = window.App?.state?.profile;
@@ -862,63 +1209,75 @@ const MomentsModule = {
             return;
         }
 
-        try {
-            // Upload file
-            const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
-            const filePath = `stories/${fileName}`;
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+        const filePath = `stories/${fileName}`;
 
-            const { error: uploadError } = await db.storage
-                .from('chat-media')
-                .upload(filePath, file);
+        const { error: uploadError } = await db.storage.from('chat-media').upload(filePath, file);
+        if (uploadError) throw uploadError;
 
-            if (uploadError) throw uploadError;
+        const { data: { publicUrl } } = db.storage.from('chat-media').getPublicUrl(filePath);
 
-            const { data: { publicUrl } } = db.storage
-                .from('chat-media')
-                .getPublicUrl(filePath);
+        const { error } = await db.from('showcase_items').insert([{
+            user_id: session.user.id,
+            title: `Story: ${profile.full_name}`,
+            description: '',
+            image_url: publicUrl,
+            price: 0,
+            category: 'story',
+            item_type: 'story',
+            status: 'active'
+        }]);
+        if (error) throw error;
+    },
 
-            const { error } = await db.from('showcase_items').insert([{
-                user_id: session.user.id,
-                title: `Story: ${profile.full_name}`,
-                description: '',
-                image_url: publicUrl,
-                price: 0,
-                category: 'story',
-                status: 'active'
-            }]);
+    handleStoryFileSelected: async function(input, skipEditor = false) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
 
-            if (error) throw error;
-            alert("Story publiée !");
-            
-            // Re-render feed to show new story
-            const feedContainer = document.querySelector('.dtc-feed-container');
-            if (feedContainer) this.renderFeed(feedContainer.parentElement.id);
+        const doPublish = async (fileToUse) => {
+            if (!skipEditor && !confirm("Voulez-vous publier ce média dans votre Story ?")) return;
+            try {
+                await this.publishStory(fileToUse);
+                alert("Story publiée !");
+                const feedEl = document.getElementById('moments-feed-container');
+                if (feedEl) this.renderFeed('moments-feed-container');
+                else if (window.ChannelModule) {
+                    const uid = new URLSearchParams(window.location.hash.split('?')[1] || '').get('id') || window.App?.state?.session?.user?.id;
+                    window.ChannelModule.renderChannel(uid, 'view-channel');
+                }
+            } catch (err) {
+                console.error("Story Post Error:", err);
+                alert("Erreur lors de la publication de la story.");
+            }
+        };
 
-        } catch (err) {
-            console.error("Story Post Error:", err);
-            alert("Erreur lors de la publication de la story.");
-        } finally {
-            input.value = '';
+        if (!skipEditor && window.CameraModule?.editFile) {
+            window.CameraModule.editFile(file, (editedFile) => { if (editedFile) doPublish(editedFile); });
+        } else {
+            await doPublish(file);
         }
+        input.value = '';
     },
 
     handlePostFileSelected: function(input, skipEditor = false) {
-        if (!input.files || !input.files[0]) return;
-        const file = input.files[0];
-        
-        if (!skipEditor && window.CameraModule && window.CameraModule.editFile) {
-            window.CameraModule.editFile(file, (editedFile) => {
-                if (editedFile) {
-                    this.pendingFile = editedFile;
-                    this.pendingFileType = 'post';
-                    document.getElementById('post-file-name').textContent = editedFile.name;
-                }
-            });
+        if (!input.files || input.files.length === 0) return;
+        const files = Array.from(input.files);
+
+        const setPending = (fileList) => {
+            window._pendingPostFiles = fileList;
+            window._pendingPostFile = null;
+            window._pendingPostCategory = null;
+            const nameEl = document.getElementById('post-file-name');
+            if (nameEl) {
+                nameEl.innerText = fileList.length === 1 ? fileList[0].name : `${fileList.length} fichiers sélectionnés`;
+            }
+        };
+
+        if (!skipEditor && files.length === 1 && window.CameraModule?.editFile) {
+            window.CameraModule.editFile(files[0], (editedFile) => { if (editedFile) setPending([editedFile]); });
         } else {
-            this.pendingFile = file;
-            this.pendingFileType = 'post';
-            document.getElementById('post-file-name').textContent = file.name;
+            setPending(files);
         }
     },
 
@@ -940,30 +1299,10 @@ const MomentsModule = {
         });
     },
 
-    handleStoryFileSelected: function(input, skipEditor = false) {
-        if (!input.files || !input.files[0]) return;
-        const file = input.files[0];
-        
-        if (!skipEditor && window.CameraModule && window.CameraModule.editFile) {
-            window.CameraModule.editFile(file, (editedFile) => {
-                if (editedFile) {
-                    window._pendingPostFile = editedFile;
-                    window._pendingPostCategory = 'story';
-                    const nameEl = document.getElementById('post-file-name');
-                    if (nameEl) nameEl.innerText = "Story: " + editedFile.name;
-                }
-            });
-        } else {
-            window._pendingPostFile = file;
-            window._pendingPostCategory = 'story';
-            const nameEl = document.getElementById('post-file-name');
-            if (nameEl) nameEl.innerText = "Story: " + file.name;
-        }
-    },
-
     postStatus: async function(containerId) {
         const input = document.getElementById('feed-status-input');
-        if (!input || (!input.value.trim() && !window._pendingPostFile && !this.pendingFile)) return;
+        const hasFiles = window._pendingPostFiles && window._pendingPostFiles.length > 0;
+        if (!input || (!input.value.trim() && !hasFiles && !window._pendingPostFile && !this.pendingFile)) return;
 
         const text = input.value.trim();
         const db = this.getDb();
@@ -982,24 +1321,32 @@ const MomentsModule = {
             }
 
             let finalUrl = null;
-            const fileToUpload = window._pendingPostFile || this.pendingFile;
 
-            if (fileToUpload) {
-                const fileExt = fileToUpload.name.split('.').pop();
-                const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
-                const filePath = `feed/${fileName}`;
-
-                const { error: uploadError } = await db.storage
-                    .from('chat-media')
-                    .upload(filePath, fileToUpload);
-
-                if (uploadError) throw uploadError;
-
-                const { data: { publicUrl } } = db.storage
-                    .from('chat-media')
-                    .getPublicUrl(filePath);
-                
-                finalUrl = publicUrl;
+            // Handle multiple files (new system)
+            if (window._pendingPostFiles && window._pendingPostFiles.length > 0) {
+                const uploadedUrls = [];
+                for (const file of window._pendingPostFiles) {
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+                    const filePath = `feed/${fileName}`;
+                    const { error: uploadError } = await db.storage.from('chat-media').upload(filePath, file);
+                    if (uploadError) throw uploadError;
+                    const { data: { publicUrl } } = db.storage.from('chat-media').getPublicUrl(filePath);
+                    uploadedUrls.push(publicUrl);
+                }
+                finalUrl = uploadedUrls.join(',');
+            } else {
+                // Fallback single file
+                const fileToUpload = window._pendingPostFile || this.pendingFile;
+                if (fileToUpload) {
+                    const fileExt = fileToUpload.name.split('.').pop();
+                    const fileName = `${Math.random()}-${Date.now()}.${fileExt}`;
+                    const filePath = `feed/${fileName}`;
+                    const { error: uploadError } = await db.storage.from('chat-media').upload(filePath, fileToUpload);
+                    if (uploadError) throw uploadError;
+                    const { data: { publicUrl } } = db.storage.from('chat-media').getPublicUrl(filePath);
+                    finalUrl = publicUrl;
+                }
             }
 
             let categoryToUse = window._pendingPostCategory || 'status';
@@ -1020,6 +1367,7 @@ const MomentsModule = {
 
             input.value = '';
             window._pendingPostFile = null;
+            window._pendingPostFiles = null;
             window._pendingPostCategory = null;
             this.pendingFile = null;
             const fileLabel = document.getElementById('post-file-name');
@@ -1043,45 +1391,187 @@ const MomentsModule = {
         }
     },
 
-    toggleLike: async function(postId, containerId) {
-        const db = this.getDb();
-        const session = window.App?.state?.session;
-        if (!session) {
-            alert("Vous devez être connecté pour aimer un post.");
+    openPollModal: function() {
+        const modalId = 'dtc-poll-modal';
+        let existing = document.getElementById(modalId);
+        if (existing) existing.remove();
+
+        const html = `
+            <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
+                <div style="background: white; width: 90%; max-width: 500px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Créer un sondage</h3>
+                        <button onclick="document.getElementById('${modalId}').remove()" style="background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">&times;</button>
+                    </div>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; font-size: 0.9rem; font-weight: 800; color: #475569; margin-bottom: 8px;">Votre question</label>
+                        <textarea id="poll-question" rows="2" placeholder="Que voulez-vous demander ?" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1rem; outline: none; resize: none;"></textarea>
+                    </div>
+
+                    <div id="poll-options-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
+                        <div><input type="text" class="poll-option-input" placeholder="Option 1" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
+                        <div><input type="text" class="poll-option-input" placeholder="Option 2" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
+                    </div>
+                    
+                    <button id="add-poll-option-btn" onclick="MomentsModule.addPollOption()" style="background: transparent; color: #3b82f6; border: none; font-weight: 800; cursor: pointer; padding: 8px 0; margin-bottom: 24px; display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-plus"></i> Ajouter une option
+                    </button>
+
+                    <button onclick="MomentsModule.submitPoll()" style="width: 100%; padding: 14px; border-radius: 16px; border: none; background: #8b5cf6; color: white; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">
+                        Publier le sondage
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', html);
+    },
+
+    addPollOption: function() {
+        const container = document.getElementById('poll-options-container');
+        const inputs = container.querySelectorAll('.poll-option-input');
+        if (inputs.length >= 4) {
+            alert("Vous pouvez ajouter jusqu'à 4 options maximum.");
             return;
         }
+        const div = document.createElement('div');
+        div.innerHTML = `<input type="text" class="poll-option-input" placeholder="Option ${inputs.length + 1}" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;">`;
+        container.appendChild(div);
+        
+        if (inputs.length + 1 >= 4) {
+            document.getElementById('add-poll-option-btn').style.display = 'none';
+        }
+    },
 
-        const currentUserId = session.user.id;
-        const postLikes = this.likes[postId] || [];
-        const hasLiked = postLikes.includes(currentUserId);
+    submitPoll: async function() {
+        const question = document.getElementById('poll-question').value.trim();
+        const inputs = document.querySelectorAll('.poll-option-input');
+        const options = Array.from(inputs).map(inp => inp.value.trim()).filter(val => val !== '');
 
+        if (!question) return alert("Veuillez entrer une question.");
+        if (options.length < 2) return alert("Veuillez entrer au moins 2 options.");
+
+        const session = window.App?.state?.session;
+        if (!session) return alert("Vous devez être connecté.");
+
+        const db = this.getDb();
         try {
-            if (hasLiked) {
-                await db.from('feed_likes').delete().eq('post_id', postId).eq('user_id', currentUserId);
+            // 1. Insert Post
+            const { data: postData, error: postErr } = await db.from('showcase_items').insert([{
+                user_id: session.user.id,
+                title: 'Sondage',
+                description: question,
+                category: 'status',
+                item_type: 'poll',
+                status: 'active'
+            }]).select('id').single();
+
+            if (postErr) throw postErr;
+
+            // 2. Insert Poll options
+            const pollOptions = options.map((opt, i) => ({ id: i, text: opt }));
+            const { error: pollErr } = await db.from('feed_polls').insert([{
+                post_id: postData.id,
+                question: question,
+                options: JSON.stringify(pollOptions)
+            }]);
+
+            if (pollErr) throw pollErr;
+
+            document.getElementById('dtc-poll-modal').remove();
+            
+            const containerId = document.querySelector('.dtc-post-card') ? 'moments-feed-container' : 'channel-feed-container';
+            if (document.getElementById(containerId)) {
+                this.renderFeed(containerId);
+            } else if (window.location.hash.includes('channel')) {
+                const currentChannelId = new URLSearchParams(window.location.hash.split('?')[1]).get('id');
+                if (window.ChannelModule) window.ChannelModule.renderChannel(currentChannelId, 'view-channel');
             } else {
-                await db.from('feed_likes').insert([{ post_id: postId, user_id: currentUserId }]);
-                // Envoyer une notification réelle au propriétaire du post
-                try {
-                    // Trouver l'auteur du post
-                    const { data: postData } = await db.from('showcase_items').select('user_id').eq('id', postId).single();
-                    if (postData && postData.user_id !== currentUserId) {
-                        const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
-                        await db.from('notifications').insert([{
-                            user_id: postData.user_id,
-                            type: 'like',
-                            title: `${senderName} a aimé votre publication`,
-                            message: 'Votre post a reçu un nouveau j\'aime.',
-                            link: '#moments',
-                            is_read: false
-                        }]);
-                    }
-                } catch (notifErr) { console.warn('Notif like error:', notifErr.message); }
+                this.renderFeed('moments-feed-container');
             }
 
-            // Refresh feed locally
-            this.renderFeed(containerId);
+        } catch(err) {
+            console.error("Erreur sondage:", err);
+            alert("Erreur lors de la création du sondage.");
+        }
+    },
+
+    votePoll: async function(pollId, optionIndex, containerId) {
+        const session = window.App?.state?.session;
+        if (!session) return alert("Vous devez être connecté pour voter.");
+
+        const db = this.getDb();
+        try {
+            const { error } = await db.from('feed_poll_votes').insert([{
+                poll_id: pollId,
+                user_id: session.user.id,
+                option_id: optionIndex
+            }]);
+
+            if (error) {
+                if (error.code === '23505') alert("Vous avez déjà voté pour ce sondage.");
+                else throw error;
+            } else {
+                this.renderFeed(containerId);
+            }
+        } catch(err) {
+            console.error("Erreur vote:", err);
+            alert("Erreur lors de l'enregistrement de votre vote.");
+        }
+    },
+
+    doubleTapLike: async function(postId, containerId, cardEl) {
+        const burst = cardEl?.querySelector('.dtc-heart-burst');
+        if (burst) {
+            burst.style.display = 'flex';
+            burst.style.animation = 'dtcHeartBurst 0.6s ease forwards';
+            setTimeout(() => { burst.style.display = 'none'; burst.style.animation = ''; }, 600);
+        }
+        const session = window.App?.state?.session;
+        if (!session) return;
+        const alreadyLiked = (this.reactions[postId] || []).some(r => r.user_id === session.user.id);
+        if (!alreadyLiked) await this.setReaction(postId, 'heart', containerId);
+    },
+
+    pinPost: async function(postId, userId, containerId) {
+        const db = this.getDb();
+        const profile = window.App?.state?.profile;
+        const currentPinned = profile?.pinned_post_id;
+        const newPinned = currentPinned === postId ? null : postId;
+
+        try {
+            const { error } = await db.from('profiles').update({ pinned_post_id: newPinned }).eq('id', userId);
+            if (error) throw error;
+            if (window.App?.state?.profile) window.App.state.profile.pinned_post_id = newPinned;
+            if (window.ChannelModule) window.ChannelModule.renderChannel(userId, 'view-channel');
+            else this.renderFeed(containerId);
         } catch (err) {
-            console.error("[MomentsModule] Like Error:", err);
+            console.error('[MomentsModule] Pin Error:', err);
+            alert("Erreur lors de l'épinglage.");
+        }
+    },
+
+    toggleLike: async function(postId, containerId) {
+        const session = window.App?.state?.session;
+        const hadReaction = session && (this.reactions[postId] || []).some(r => r.user_id === session.user.id);
+        await this.setReaction(postId, 'heart', containerId);
+
+        if (!hadReaction && session) {
+            try {
+                const db = this.getDb();
+                const { data: postData } = await db.from('showcase_items').select('user_id').eq('id', postId).single();
+                if (postData && postData.user_id !== session.user.id) {
+                    const senderName = window.App?.state?.profile?.full_name || 'Quelqu\'un';
+                    await db.from('notifications').insert([{
+                        user_id: postData.user_id,
+                        type: 'like',
+                        title: `${senderName} a réagi à votre publication`,
+                        message: 'Votre post a reçu une nouvelle réaction.',
+                        link: '#moments?post=' + postId,
+                        is_read: false
+                    }]);
+                }
+            } catch (e) { /* notification optionnelle */ }
         }
     },
 
@@ -1114,41 +1604,250 @@ const MomentsModule = {
 
     switchFeedMode: function(mode, containerId) {
         this.currentFeedMode = mode;
-        this.currentHashtagFilter = null; // reset hashtag when switching tabs
+        this.currentHashtagFilter = null;
         this.renderFeed(containerId);
+    },
+
+    addToHighlights: async function(storyId) {
+        try {
+            const db = this.getDb();
+            const { error } = await db.from('showcase_items').update({ is_highlight: true }).eq('id', storyId);
+            if (error) throw error;
+            alert('Story ajoutée à vos « À la une » !');
+            const uid = window.App?.state?.session?.user?.id;
+            if (uid && window.ChannelModule) window.ChannelModule.renderChannel(uid, 'view-channel');
+        } catch (err) {
+            console.error('[MomentsModule] Highlight Error:', err);
+            alert('Erreur lors de l\'ajout aux À la une.');
+        }
+    },
+
+    openHighlightViewer: function(storyId, mediaUrl, isVideo) {
+        let viewer = document.getElementById('dtc-story-viewer');
+        if (!viewer) {
+            viewer = document.createElement('div');
+            viewer.id = 'dtc-story-viewer';
+            viewer.style.cssText = 'position:fixed; inset:0; background:#000; z-index:99999; display:flex; align-items:center; justify-content:center;';
+            document.body.appendChild(viewer);
+        }
+        const mediaTag = isVideo
+            ? `<video src="${mediaUrl}" autoplay controls style="max-width:100%; max-height:90vh; border-radius:12px;"></video>`
+            : `<img src="${mediaUrl}" style="max-width:100%; max-height:90vh; border-radius:12px; object-fit:contain;">`;
+        viewer.innerHTML = `
+            <button onclick="MomentsModule.closeStoryViewer()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.2); color:white; border:none; width:40px; height:40px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:10;">&times;</button>
+            <div style="position:absolute; top:20px; left:20px; color:white; font-weight:800; font-size:0.9rem; opacity:0.8;">⭐ À la une</div>
+            ${mediaTag}
+        `;
+        viewer.style.display = 'flex';
+    },
+
+    openReactionPicker: function(postId, containerId, evt) {
+        if (evt) evt.stopPropagation();
+        document.getElementById('dtc-reaction-picker')?.remove();
+
+        const picker = document.createElement('div');
+        picker.id = 'dtc-reaction-picker';
+        picker.className = 'dtc-reaction-picker';
+        picker.style.cssText = 'position:fixed; z-index:100001; background:white; border-radius:100px; padding:8px 14px; box-shadow:0 8px 30px rgba(0,0,0,0.18); display:flex; gap:6px; border:1px solid #e2e8f0;';
+        if (evt) {
+            picker.style.left = Math.max(8, evt.clientX - 90) + 'px';
+            picker.style.top = Math.max(8, evt.clientY - 55) + 'px';
+        } else {
+            picker.style.left = '50%';
+            picker.style.top = '50%';
+            picker.style.transform = 'translate(-50%, -50%)';
+        }
+
+        Object.entries(this.REACTION_EMOJI).forEach(([type, emoji]) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = emoji;
+            btn.style.cssText = 'border:none; background:transparent; font-size:1.5rem; cursor:pointer; padding:4px; border-radius:50%; transition:transform 0.15s;';
+            btn.onmouseover = () => btn.style.transform = 'scale(1.3)';
+            btn.onmouseout = () => btn.style.transform = 'scale(1)';
+            btn.onclick = (e) => { e.stopPropagation(); this.setReaction(postId, type, containerId); picker.remove(); };
+            picker.appendChild(btn);
+        });
+
+        document.body.appendChild(picker);
+        setTimeout(() => {
+            document.addEventListener('click', function closePicker() { picker.remove(); }, { once: true });
+        }, 50);
+    },
+
+    setReaction: async function(postId, type, containerId) {
+        const db = this.getDb();
+        const session = window.App?.state?.session;
+        if (!session) { alert('Connectez-vous pour réagir.'); return; }
+
+        const userId = session.user.id;
+        const existing = (this.reactions[postId] || []).find(r => r.user_id === userId);
+
+        try {
+            if (existing?.type === type) {
+                await db.from('feed_likes').delete().eq('post_id', postId).eq('user_id', userId);
+            } else if (existing) {
+                await db.from('feed_likes').update({ reaction_type: type }).eq('post_id', postId).eq('user_id', userId);
+            } else {
+                await db.from('feed_likes').insert([{ post_id: postId, user_id: userId, reaction_type: type }]);
+            }
+            this._refreshAfterEngagement(containerId);
+        } catch (err) {
+            console.error('[MomentsModule] Reaction Error:', err);
+            if (type !== 'heart') {
+                await db.from('feed_likes').insert([{ post_id: postId, user_id: userId, reaction_type: type }]).catch(() => {});
+                this._refreshAfterEngagement(containerId);
+            }
+        }
+    },
+
+    _refreshAfterEngagement: function(containerId) {
+        if (containerId === 'channel-feed-container' && window.ChannelModule) {
+            const uid = new URLSearchParams(window.location.hash.split('?')[1] || '').get('id') || window.App?.state?.session?.user?.id;
+            window.ChannelModule.renderChannel(uid, 'view-channel');
+        } else {
+            this.renderFeed(containerId);
+        }
+        const detailModal = document.getElementById('dtc-post-detail-modal');
+        if (detailModal?.dataset.postId) {
+            this.openPostDetail(detailModal.dataset.postId, containerId);
+        }
+    },
+
+    openPostDetail: async function(postId, containerId) {
+        const db = this.getDb();
+        try {
+            const { data: row, error } = await db.from('showcase_items')
+                .select('*, profiles:user_id(full_name, avatar_url, role, territory, title, company_name, channel_avatar_url)')
+                .eq('id', postId).single();
+            if (error || !row) throw new Error('Publication introuvable');
+
+            const profile = row.profiles || {};
+            await this.loadEngagementForPosts([postId], window.App?.state?.session?.user);
+
+            const item = {
+                id: row.id,
+                userId: row.user_id,
+                authorName: profile.full_name || 'Utilisateur',
+                authorAvatar: profile.channel_avatar_url || profile.avatar_url,
+                authorRole: profile.role || 'prestataire',
+                authorTerritory: profile.territory || '',
+                authorTitle: profile.title || '',
+                authorCompanyName: profile.company_name || '',
+                type: row.item_type || 'status',
+                title: row.title,
+                content: row.description || '',
+                imageUrl: row.image_url,
+                meta: row.meta_info,
+                createdAt: new Date(row.created_at)
+            };
+
+            let modal = document.getElementById('dtc-post-detail-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'dtc-post-detail-modal';
+                modal.style.cssText = 'position:fixed; inset:0; background:rgba(15,23,42,0.7); backdrop-filter:blur(6px); z-index:100000; display:flex; align-items:center; justify-content:center; padding:20px; overflow-y:auto;';
+                document.body.appendChild(modal);
+            }
+            modal.dataset.postId = postId;
+            modal.onclick = (e) => { if (e.target === modal) this.closePostDetail(); };
+
+            const currentUser = window.App?.state?.session?.user || null;
+            modal.innerHTML = `
+                <div style="background:white; border-radius:24px; max-width:640px; width:100%; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 25px 50px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
+                    <button onclick="MomentsModule.closePostDetail()" style="position:sticky; top:12px; float:right; margin:12px 12px 0 0; background:#f1f5f9; border:none; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:5;">&times;</button>
+                    <div style="padding: 8px 20px 20px; clear:both;">
+                        ${this.renderFeedItemHTML(item, currentUser, containerId, true)}
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+            setTimeout(() => this.toggleCommentsSection(postId), 200);
+        } catch (err) {
+            console.error('[MomentsModule] Post Detail Error:', err);
+            alert('Impossible de charger cette publication.');
+        }
+    },
+
+    closePostDetail: function() {
+        const modal = document.getElementById('dtc-post-detail-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            delete modal.dataset.postId;
+        }
     },
 
     repostItem: async function(postId, containerId) {
         const session = window.App?.state?.session;
         if (!session) { alert("Vous devez être connecté pour republier."); return; }
         
-        if (!confirm("Voulez-vous republier ce post sur votre chaîne ?")) return;
-
         try {
             const db = this.getDb();
-            const { data: originalPost, error: fetchErr } = await db.from('showcase_items').select('*').eq('id', postId).single();
+            const { data: originalPost, error: fetchErr } = await db.from('showcase_items').select('*, profiles:user_id(full_name, avatar_url, role, title)').eq('id', postId).single();
             if (fetchErr) throw fetchErr;
 
-            const newContent = `[Reposté] \n\n${originalPost.description || originalPost.pitch || ''}`;
+            // Create Modal for Quote Repost
+            const modalId = 'repost-modal-' + Date.now();
+            const modalHtml = `
+                <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: white; width: 90%; max-width: 500px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                        <h3 style="margin: 0 0 16px 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Republier avec une citation</h3>
+                        <textarea id="${modalId}-text" rows="3" placeholder="Ajoutez vos propres pensées..." style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1.05rem; outline: none; resize: none; margin-bottom: 16px;"></textarea>
+                        
+                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #f8fafc; margin-bottom: 24px; pointer-events: none;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; margin-bottom: 4px;">Post original de ${originalPost.profiles?.full_name || 'Inconnu'}</div>
+                            <div style="font-size: 0.9rem; color: #334155;">${(originalPost.description || originalPost.title || '').substring(0, 100)}...</div>
+                        </div>
 
-            const { error: insertErr } = await db.from('showcase_items').insert([{
-                user_id: session.user.id,
-                title: originalPost.title || 'Repost',
-                description: newContent,
-                category: 'status',
-                item_type: 'repost',
-                image_url: originalPost.image_url,
-                video_url: originalPost.video_url,
-                status: 'active'
-            }]);
+                        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                            <button onclick="document.getElementById('${modalId}').remove()" style="padding: 10px 20px; border-radius: 12px; border: none; background: #f1f5f9; color: #64748b; font-weight: 800; cursor: pointer;">Annuler</button>
+                            <button id="${modalId}-btn" style="padding: 10px 24px; border-radius: 12px; border: none; background: #3b82f6; color: white; font-weight: 800; cursor: pointer;">Republier</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-            if (insertErr) throw insertErr;
+            document.getElementById(`${modalId}-btn`).onclick = async () => {
+                const quoteText = document.getElementById(`${modalId}-text`).value;
+                const btn = document.getElementById(`${modalId}-btn`);
+                btn.disabled = true;
+                btn.innerHTML = 'En cours...';
 
-            alert("Publication republiée avec succès !");
-            this.renderFeed(containerId);
+                try {
+                    const originalData = {
+                        id: originalPost.id,
+                        authorName: originalPost.profiles?.full_name,
+                        authorAvatar: originalPost.profiles?.avatar_url,
+                        content: originalPost.description || originalPost.title,
+                        imageUrl: originalPost.image_url
+                    };
+
+                    const { error: insertErr } = await db.from('showcase_items').insert([{
+                        user_id: session.user.id,
+                        title: 'Repost',
+                        description: quoteText,
+                        category: 'status',
+                        item_type: 'repost',
+                        meta_info: JSON.stringify(originalData),
+                        status: 'active'
+                    }]);
+
+                    if (insertErr) throw insertErr;
+
+                    document.getElementById(modalId).remove();
+                    alert("Publication republiée avec succès !");
+                    this.renderFeed(containerId);
+                } catch(err) {
+                    console.error("[MomentsModule] Repost Error:", err);
+                    alert("Erreur lors de la republication.");
+                    btn.disabled = false;
+                    btn.innerHTML = 'Republier';
+                }
+            };
         } catch(err) {
-            console.error("[MomentsModule] Repost Error:", err);
-            alert("Erreur lors de la republication.");
+            console.error("[MomentsModule] Fetch Post Error:", err);
+            alert("Erreur de chargement du post d'origine.");
         }
     },
 
@@ -1259,11 +1958,27 @@ const MomentsModule = {
         }
     },
 
+    replyToComment: function(postId, commentId, authorName) {
+        const input = document.getElementById(`comment-input-${postId}`);
+        if (input) {
+            input.value = `@${authorName} `;
+            input.dataset.parentId = commentId;
+            input.focus();
+            
+            const el = document.getElementById(`comments-section-${postId}`);
+            if (el && el.style.display === 'none') {
+                el.style.display = 'block';
+            }
+        }
+    },
+
     submitComment: async function(postId, containerId) {
         const input = document.getElementById(`comment-input-${postId}`);
         if (!input || !input.value.trim()) return;
 
         const text = input.value.trim();
+        const parentId = input.dataset.parentId || null;
+        
         const db = this.getDb();
         const session = window.App?.state?.session;
         if (!session) return;
@@ -1272,7 +1987,8 @@ const MomentsModule = {
             const { error } = await db.from('feed_comments').insert([{
                 post_id: postId,
                 user_id: session.user.id,
-                content: text
+                content: text,
+                parent_id: parentId
             }]);
 
             if (error) throw error;
@@ -1313,6 +2029,7 @@ const MomentsModule = {
             } catch (notifErr) { console.warn('Notif comment error:', notifErr.message); }
 
             input.value = '';
+            delete input.dataset.parentId;
             const mentionRes = document.getElementById(`mention-results-${postId}`);
             if (mentionRes) mentionRes.style.display = 'none';
 
