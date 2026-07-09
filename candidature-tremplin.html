@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domtom Connect | Candidature Programme Tremplin</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        :root {
+            --premium-bg: #020617;
+            --premium-surface: #0f172a;
+            --accent: #f59e0b;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: var(--premium-surface);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 600px;
+            width: 90%;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .form-container h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+
+        .form-container p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .form-group select option {
+            background: var(--premium-surface);
+            color: white;
+        }
+
+        .cta-premium {
+            background: var(--accent);
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .cta-premium:hover {
+            transform: translateY(-2px);
+            background: #d97706;
+        }
+        
+        .disclaimer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .back-link:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <a href="tremplin.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au programme</a>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="assets/images/logo-domtomconnect.png" alt="Logo" style="height: 40px; margin-bottom: 20px; filter: brightness(0) invert(1);">
+        </div>
+
+        <h2>Dossier de Candidature</h2>
+        <p>Le Programme Tremplin est très sélectif (4 à 5 porteurs maximum). Vendez-nous votre ambition et votre vision. Aucun diplome requis.</p>
+
+        <form id="applicationForm">
+            <div class="form-group">
+                <label>Votre Nom Complet</label>
+                <input type="text" id="candidateName" required placeholder="Ex: Jean Dupont">
+            </div>
+
+            <div class="form-group">
+                <label>Votre Adresse E-mail</label>
+                <input type="email" id="candidateEmail" required placeholder="Ex: jean.dupont@email.com">
+            </div>
+
+            <div class="form-group">
+                <label>Nom du projet (ou nom de code)</label>
+                <input type="text" id="projectName" required placeholder="Ex: DomtomConnect">
+            </div>
+
+            <div class="form-group">
+                <label>Quel est l'etat d'avancement de votre projet ?</label>
+                <select id="projectStage" required>
+                    <option value="" disabled selected>Selectionnez une option</option>
+                    <option value="Idee">J'ai juste une idee forte</option>
+                    <option value="Prototype">J'ai un prototype ou une maquette</option>
+                    <option value="Clients">J'ai deja mes premiers clients</option>
+                    <option value="Croissance">Mon entreprise genere du chiffre d'affaires</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Pitchez votre vision en 2 phrases</label>
+                <textarea id="projectPitch" rows="3" required placeholder="Quel probleme resolvez-vous et pour qui ?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>De quoi avez-vous le plus besoin pour reussir ?</label>
+                <textarea id="projectNeeds" rows="3" required placeholder="Un developpeur ? Un financement ? Du reseau B2B ? Soyez specifique."></textarea>
+            </div>
+
+            <button type="submit" class="cta-premium" id="submitBtn">Envoyer ma candidature</button>
+            <p id="errorMsg" style="color: #ef4444; font-size: 0.85rem; text-align: center; display: none; margin-top: 10px;"></p>
+            <p class="disclaimer">En soumettant ce dossier, vous acceptez que notre equipe l'etudie pour la prochaine cohorte.</p>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=2.0"></script>
+    <script>
+        // Restauration des donnees sauvegardees si existantes
+        window.addEventListener('load', () => {
+            const savedData = localStorage.getItem('pendingApplication');
+            if (savedData) {
+                try {
+                    const data = JSON.parse(savedData);
+                    document.getElementById('projectName').value = data.projectName || '';
+                    document.getElementById('projectStage').value = data.projectStage || '';
+                    document.getElementById('projectPitch').value = data.projectPitch || '';
+                    document.getElementById('projectNeeds').value = data.projectNeeds || '';
+                } catch(e) {}
+            }
+        });
+
+        document.getElementById('applicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const errorEl = document.getElementById('errorMsg');
+            
+            btn.disabled = true;
+            btn.textContent = 'Envoi en cours...';
+            errorEl.style.display = 'none';
+
+            try {
+                const session = await getSession();
+                const userId = session ? session.user.id : null;
+                const cName = document.getElementById('candidateName').value;
+                const cEmail = document.getElementById('candidateEmail').value;
+                const pName = document.getElementById('projectName').value;
+                const pStage = document.getElementById('projectStage').value;
+                const pPitch = document.getElementById('projectPitch').value;
+                const pNeeds = document.getElementById('projectNeeds').value;
+
+                const db = window._supabase;
+                const { error } = await db.from('program_applications').insert({
+                    user_id: userId,
+                    candidate_name: cName,
+                    candidate_email: cEmail,
+                    project_name: pName,
+                    project_stage: pStage,
+                    pitch: pPitch,
+                    needs: pNeeds
+                });
+
+                if (error) throw error;
+
+                // Appel explicite et securise de la Edge Function depuis le navigateur
+                const { data: fnData, error: fnError } = await db.functions.invoke('notify-admin', {
+                    body: { 
+                        record: { 
+                            user_id: userId,
+                            candidate_name: cName,
+                            candidate_email: cEmail,
+                            project_name: pName,
+                            project_stage: pStage,
+                            pitch: pPitch,
+                            needs: pNeeds
+                        }
+                    }
+                });
+
+                if (fnError) {
+                    console.warn("L'email n'a pas pu etre envoye:", fnError);
+                }
+
+                // Nettoyage et Redirection
+                localStorage.removeItem('pendingApplication');
+                if (!session) {
+                    alert("Votre candidature a bien ete enregistree ! Vous allez recevoir un e-mail de confirmation.");
+                    window.location.href = 'tremplin.html';
+                } else {
+                    alert("Votre candidature a bien ete enregistree ! Bienvenue dans l'espace membre.");
+                    window.location.href = 'mon-espace.html';
+                }
+
+            } catch (err) {
+                btn.disabled = false;
+                btn.textContent = 'Envoyer ma candidature';
+                errorEl.textContent = 'Erreur : ' + err.message;
+                errorEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
