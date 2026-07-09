@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Leads Tracking - Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=1.0">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div style="display:flex; justify-content:center; gap:20px; margin-bottom:10px;">
+                <a href="leads.html" style="text-decoration:none; color:#10b981; font-weight:800; border-bottom:2px solid #10b981;">Leads Tracker</a>
+                <a href="audit-onboarding.html" style="text-decoration:none; color:#64748b; font-weight:700;">Audit Onboarding</a>
+            </div>
+            <h1>📊 mon-projet Leads</h1>
+            <p>Visualisation des leads trackés sur le site</p>
+        </div>
+
+        <!-- Protection par mot de passe simple -->
+        <div id="login-section" class="login-section">
+            <div class="login-box">
+                <h2>Accès Admin</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Entrez le mot de passe pour accéder aux données</p>
+                <input type="password" id="admin-password" placeholder="Mot de passe" class="admin-input">
+                <button onclick="checkPassword()" class="cta-button primary">Accéder</button>
+                <p id="login-error" style="color: #ef4444; margin-top: 1rem; display: none;">Mot de passe incorrect</p>
+            </div>
+        </div>
+
+        <!-- mon-projet principal -->
+        <div id="mon-projet-section" style="display: none;">
+            <!-- Statistiques -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-content">
+                        <h3 id="total-leads">0</h3>
+                        <p>Total Leads</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📧</div>
+                    <div class="stat-content">
+                        <h3 id="quiz-leads">0</h3>
+                        <p>Via Quiz</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <h3 id="popup-leads">0</h3>
+                        <p>Via Popup</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-content">
+                        <h3 id="landing-leads">0</h3>
+                        <p>Via Landing</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filters-section">
+                <h2>Filtres</h2>
+                <div class="filters-grid">
+                    <select id="filter-source" class="admin-select">
+                        <option value="">Toutes les sources</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="exit-intent-popup">Popup Exit-Intent</option>
+                        <option value="landing-prestataires">Landing Prestataires</option>
+                        <option value="landing-porteurs-projets">Landing Porteurs</option>
+                        <option value="landing-entreprises">Landing Entreprises</option>
+                        <option value="page-view">Vues de page</option>
+                    </select>
+                    <select id="filter-type" class="admin-select">
+                        <option value="">Tous les types</option>
+                        <option value="prestataire">Prestataire</option>
+                        <option value="porteur-projet">Porteur de projet</option>
+                        <option value="entrepreneur">Entrepreneur</option>
+                        <option value="entreprise">Entreprise</option>
+                    </select>
+                    <input type="date" id="filter-date" class="admin-input">
+                    <button onclick="applyFilters()" class="cta-button primary">Filtrer</button>
+                    <button onclick="clearFilters()" class="cta-button secondary">Réinitialiser</button>
+                </div>
+            </div>
+
+            <!-- Tableau des leads -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Leads Trackés</h2>
+                    <div>
+                        <button onclick="exportJSON()" class="cta-button secondary">Exporter JSON</button>
+                        <button onclick="exportCSV()" class="cta-button secondary">Exporter CSV</button>
+                        <button onclick="clearData()" class="cta-button danger">Effacer données</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="leads-table" class="leads-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Source</th>
+                                <th>Type</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                                <th>Page</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leads-tbody">
+                            <!-- Les leads seront insérés ici -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="no-leads" style="text-align: center; padding: 2rem; color: var(--text-secondary); display: none;">
+                    Aucun lead trouvé avec ces filtres.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js?v=1.0"></script>
+</body>
+</html>
+

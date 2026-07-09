@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue dans la communauté Domtom Connect !</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=10.1">
+    <style>
+        .thank-you-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #00BFA6 0%, #00A896 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .thank-you-content {
+            background: white;
+            border-radius: 20px;
+            padding: clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 191, 166, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .success-icon {
+            font-size: clamp(3rem, 8vw, 5rem);
+            margin-bottom: 2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .thank-you-title {
+            color: #2c3e50;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .thank-you-subtitle {
+            color: #00BFA6;
+            font-size: clamp(1.125rem, 3vw, 1.3rem);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .thank-you-text {
+            color: #7f8c8d;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+        
+        .whatsapp-button {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+            color: white;
+        }
+        
+        .next-steps {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .next-steps h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .next-steps li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #7f8c8d;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .next-steps li:last-child {
+            border-bottom: none;
+        }
+        
+        .next-steps li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #00BFA6;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .back-to-site {
+            margin-top: 2rem;
+        }
+        
+        .back-to-site a {
+            color: #00BFA6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-to-site a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .thank-you-content {
+                padding: 1.5rem;
+            }
+            
+            .next-steps {
+                padding: 1.5rem;
+            }
+            
+            .whatsapp-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <div class="thank-you-page">
+        <div class="thank-you-content">
+            <div class="success-icon">🎉</div>
+            <h1 class="thank-you-title">Inscription reçue !</h1>
+            <p class="thank-you-subtitle">Merci pour votre intérêt pour Domtom Connect</p>
+            <p class="thank-you-text">
+                Votre inscription a été enregistrée avec succès. Notre équipe va examiner votre candidature et vous contacter prochainement pour un échange personnalisé.
+            </p>
+            
+            <div class="next-steps">
+                <h3>Prochaines étapes :</h3>
+                <ul>
+                    <li><strong>Sous 2h :</strong> Email de confirmation avec les détails de ton inscription</li>
+                    <li><strong>Sous 24-48h :</strong> Appel personnalisé de 15-30 min pour échanger sur ton projet</li>
+                    <li><strong>Lors de l'appel :</strong> On discute de tes besoins, motivations et objectifs</li>
+                    <li><strong>Après l'appel :</strong> Validation de ton profil (réponse sous 48h)</li>
+                    <li><strong>Si accepté :</strong> Invitation pour le groupe WhatsApp privé et début de la recherche de prestataires selon tes besoins</li>
+                </ul>
+            </div>
+            
+            <div style="background: #f0f9ff; border-left: 4px solid #00BFA6; padding: 1.5rem; margin-top: 2rem; border-radius: 12px; text-align: left;">
+                <p style="margin: 0 0 0.5rem 0; color: #333333; font-size: 1rem; font-weight: 600;">
+                    💡 Questions ou besoin d'aide ?
+                </p>
+                <p style="margin: 0; color: #666666; font-size: 0.9rem; line-height: 1.6;">
+                    On répond sous 24h • <a href="mailto:domtomconnect@gmail.com" style="color: #00BFA6; text-decoration: underline;">domtomconnect@gmail.com</a>
+                </p>
+            </div>
+            
+            <p class="thank-you-text" style="margin-top: 2rem; font-size: 0.95rem; color: #95a5a6;">
+                <strong>À bientôt !</strong><br>
+                L'équipe Domtom Connect
+            </p>
+            
+            <div class="back-to-site">
+                <a href="">← Retour à la page d'accueil</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Nettoyer les données stockées après affichage
+        setTimeout(() => {
+            localStorage.removeItem('domtomConnectData');
+            localStorage.removeItem('preEmail');
+        }, 5000);
+    </script>
+</body>
+</html>

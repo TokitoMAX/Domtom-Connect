@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger DTC Pulse - L'Application Sociale Ultramarine</title>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Téléchargez DTC Pulse, le réseau social officiel pour la diaspora et les territoires ultramarins. Connectez-vous, partagez et découvrez.">
+    <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=12.00">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .app-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+        
+        .glow-circle-1 { position: absolute; top: 10%; right: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .glow-circle-2 { position: absolute; bottom: 10%; left: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        
+        .app-hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .app-title { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 950; letter-spacing: -0.04em; margin-bottom: 24px; line-height: 1.1; font-family: 'Plus Jakarta Sans', sans-serif; color: white !important; }
+        .app-subtitle { font-size: 1.25rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 48px; }
+        
+        .download-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        
+        .btn-download {
+            display: inline-flex; align-items: center; gap: 16px;
+            padding: 16px 32px; border-radius: 20px; text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: white; font-weight: 700; text-align: left;
+        }
+        .btn-download:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
+        .btn-download.android:hover { border-color: #10b981; box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
+        .btn-download.ios.disabled { opacity: 0.5; pointer-events: none; }
+        
+        .btn-icon { font-size: 2rem; }
+        .btn-text-small { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; }
+        .btn-text-large { display: block; font-size: 1.2rem; letter-spacing: -0.02em; }
+        
+        .comparison-section { padding: 100px 0; background: white; }
+        .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
+        @media (max-width: 768px) { .vs-grid { grid-template-columns: 1fr; } }
+        
+        .vs-card { padding: 40px; border-radius: 32px; border: 1px solid #e2e8f0; }
+        .vs-card.app { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
+        .vs-card.saas { background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+    <!-- Navbar injected by JS -->
+    <nav class="navbar"></nav>
+
+    <!-- Hero Section -->
+    <header class="app-hero">
+        <div class="glow-circle-1"></div>
+        <div class="glow-circle-2"></div>
+        <div class="container app-hero-content">
+            <span class="badge emerald" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 16px; border-radius: 100px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px;">L'Application Mobile</span>
+            <h1 class="app-title">DTC Pulse</h1>
+            <p class="app-subtitle">Le réseau social mobile de la diaspora ultramarine. Créez des posts, regardez des stories, réseautez et ne manquez rien de votre communauté, directement dans votre poche.</p>
+            
+            <div class="download-buttons">
+                <a href="https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DomtomConnect-v2.apk" target="_blank" rel="noopener noreferrer" onclick="trackAndDownloadAPK()" class="btn-download android">
+                    <i class="fab fa-android btn-icon" style="color: #10b981;"></i>
+                    <div>
+                        <span class="btn-text-small">Télécharger pour</span>
+                        <span class="btn-text-large">Android (APK)</span>
+                    </div>
+                </a>
+                
+                <div class="btn-download ios disabled">
+                    <i class="fab fa-apple btn-icon"></i>
+                    <div>
+                        <span class="btn-text-small">Bientôt sur</span>
+                        <span class="btn-text-large">App Store</span>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 24px; font-size: 0.85rem; color: rgba(255,255,255,0.4);">*L'installation sur Android nécessite d'autoriser les sources inconnues.</p>
+        </div>
+    </header>
+
+    <!-- Explication : App vs SaaS -->
+    <section class="comparison-section">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.03em;">Ne confondez pas.</h2>
+                <p style="font-size: 1.1rem; color: #64748b;">Nous avons séparé notre écosystème en deux outils distincts pour plus d'efficacité.</p>
+            </div>
+            
+            <div class="vs-grid">
+                <!-- Mobile App -->
+                <div class="vs-card app">
+                    <div style="width: 64px; height: 64px; background: #0f172a; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; margin-bottom: 24px;">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px;">DTC Pulse (L'Application)</h3>
+                    <p style="color: #64748b; line-height: 1.6; margin-bottom: 24px;">Votre réseau social quotidien. C'est l'endroit pour sociabiliser, partager des moments de vie, regarder les stories de la communauté et envoyer des messages rapides.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: #334155;">
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Fil d'actualité (Feed)</li>
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Stories & Photos</li>
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Discussions de groupe</li>
+                    </ul>
+                </div>
+                
+                <!-- Web SaaS -->
+                <div class="vs-card saas">
+                    <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.8rem; margin-bottom: 24px;">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px;">Domtom Connect (Le SaaS Web)</h3>
+                    <p style="color: #64748b; line-height: 1.6; margin-bottom: 24px;">Votre bureau professionnel. Conçu pour le pilotage de votre entreprise, la création de devis, la gestion de billetterie et la recherche de clients B2B.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: #334155;">
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Vitrines & E-commerce</li>
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Billetterie d'événements</li>
+                        <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Paiements & Facturation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer injected by JS -->
+    <div id="footer-container"></div>
+
+    <script src="assets/js/ui-components.js?v=12.00"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.loadGlobalNavbar) await window.loadGlobalNavbar();
+            
+            // Minimal Footer Injection
+            const footerContainer = document.getElementById('footer-container');
+            if (footerContainer) {
+                footerContainer.innerHTML = `
+                <footer style="background: #0f172a; color: white; padding: 40px 0; text-align: center;">
+                    <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">&copy; ${new Date().getFullYear()} Domtom Connect. Tous droits réservés.</p>
+                </footer>`;
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase Initialization
+        const supabaseUrl = window.SUPABASE_URL || 'YOUR_SUPABASE_URL'; // Will be injected by config if exists
+        const supabaseAnonKey = window.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
+        
+        let supabaseClient;
+        if (window.SUPABASE_URL) {
+            supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+        }
+
+        function trackAndDownloadAPK() {
+            // 1. Enregistrer le clic dans Supabase (fire-and-forget)
+            if (supabaseClient) {
+                supabaseClient.from('apk_downloads').insert([
+                    { user_agent: navigator.userAgent, platform: 'Android' }
+                ]).then(() => {
+                    console.log('Téléchargement traqué avec succès');
+                }).catch(e => {
+                    console.error('Erreur de tracking', e);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

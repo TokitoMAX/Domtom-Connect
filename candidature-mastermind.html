@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domtom Connect | Formulaire de Qualification</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        :root {
+            --premium-bg: #020617;
+            --premium-surface: #0f172a;
+            --emerald: #10b981;
+            --emerald-hover: #059669;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: var(--premium-surface);
+            padding: 50px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 600px;
+            width: 90%;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .form-container h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .form-container p {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--emerald);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .form-group select option {
+            background: var(--premium-surface);
+            color: white;
+        }
+
+        .cta-premium {
+            background: var(--emerald);
+            color: #fff !important;
+            font-size: 1.1rem;
+            font-weight: 800;
+            padding: 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-premium:hover {
+            transform: translateY(-2px);
+            background: var(--emerald-hover);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        }
+        
+        .disclaimer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="assets/images/logo-domtomconnect.png" alt="Logo" style="height: 40px; margin-bottom: 20px;">
+        </div>
+
+        <h2>Formulaire de Qualification</h2>
+        <p>Afin de garantir la qualité du Mastermind, nous n'acceptons qu'un nombre limité de profils. Veuillez remplir ce formulaire avec précision.</p>
+
+        <form id="mastermind-form" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label>Nom complet</label>
+                <input type="text" id="form-name" required placeholder="Ex: Jean Dupont">
+            </div>
+
+            <div class="form-group">
+                <label>Email professionnel</label>
+                <input type="email" id="form-email" required placeholder="jean@entreprise.com">
+            </div>
+
+            <div class="form-group">
+                <label>Quel est votre chiffre d'affaires actuel (mensuel) ?</label>
+                <select id="form-ca" required>
+                    <option value="" disabled selected>Sélectionnez une option</option>
+                    <option value="0">Je me lance (0€)</option>
+                    <option value="1k-3k">1 000€ - 3 000€ / mois</option>
+                    <option value="3k-10k">3 000€ - 10 000€ / mois</option>
+                    <option value="10k+">+ de 10 000€ / mois</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Quel est votre plus grand défi actuellement ?</label>
+                <textarea id="form-defi" rows="4" required placeholder="Expliquez-nous pourquoi vous avez besoin de nous..."></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="cta-premium">Soumettre ma candidature</button>
+            <p class="disclaimer">Si votre profil est retenu, vous serez redirigé vers notre agenda pour réserver un appel stratégique gratuit.</p>
+        </form>
+    </div>
+
+    <!-- Scripts Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=2.0"></script>
+    <script>
+        async function submitForm(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = 'Envoi en cours...';
+            btn.disabled = true;
+
+            const name = document.getElementById('form-name').value;
+            const email = document.getElementById('form-email').value;
+            const ca = document.getElementById('form-ca').value;
+            const defi = document.getElementById('form-defi').value;
+
+            try {
+                // Initialize Supabase if available
+                const db = typeof initSupabase === 'function' ? initSupabase() : null;
+                if (db) {
+                    const recordPayload = {
+                        candidate_name: name,
+                        candidate_email: email,
+                        project_name: 'Candidature 1-to-1 Mastermind',
+                        project_stage: ca,
+                        pitch: defi,
+                        needs: 'Profil: 1-to-1 / Mastermind'
+                    };
+
+                    // On sauvegarde dans la table existante (program_applications)
+                    const { error } = await db.from('program_applications').insert([recordPayload]);
+                    
+                    if (error) {
+                        console.warn("Erreur d'insertion DB (RLS ou Table):", error);
+                    }
+
+                    // On invoque la Edge Function dans TOUS les cas pour envoyer l'e-mail
+                    const { data: fnData, error: fnError } = await db.functions.invoke('notify-admin', {
+                        body: { record: recordPayload }
+                    });
+
+                    if (fnError) {
+                        console.error("Erreur Edge Function:", fnError);
+                    }
+                }
+                
+                if (ca === "0") {
+                    // Pas de budget : Redirection vers l'audit de 30 min
+                    alert("Votre candidature a bien été envoyée ! Bien que ce format ne soit pas idéal, nous vous offrons un Audit Stratégique gratuit. Vous allez être redirigé vers l'agenda.");
+                    window.location.href = "https://calendly.com/domtomconnect/30min";
+                } else {
+                    // Profil avec budget : Redirection vers Calendly pour l'appel stratégique
+                    alert("Excellente nouvelle ! Votre profil correspond à nos critères. Vous allez être redirigé vers l'agenda pour planifier notre échange.");
+                    window.location.href = "https://calendly.com/domtomconnect/30min";
+                }
+            } catch (err) {
+                console.error("Erreur:", err);
+                alert("Une erreur est survenue lors de l'envoi.");
+                btn.innerHTML = 'Soumettre ma candidature';
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

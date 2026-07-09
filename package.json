@@ -1,0 +1,11 @@
+{
+  "name": "domtomconnect-website",
+  "version": "1.0.0",
+  "description": "Website Domtom Connect avec webhook Formspree → Brevo",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.107.0"
+  }
+}

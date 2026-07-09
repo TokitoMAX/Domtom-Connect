@@ -1,0 +1,7 @@
+
+assets/apk/*.apk
+
+.vercel
+.env*
+
+node_modules

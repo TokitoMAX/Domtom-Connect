@@ -1,0 +1,1 @@
+{"code":"PGRST200","details":"Searched for a foreign key relationship between 'job_applications' and 'jobs' in the schema 'public', but no matches were found.","hint":"Perhaps you meant 'job_offers' instead of 'jobs'.","message":"Could not find a relationship between 'job_applications' and 'jobs' in the schema cache"}

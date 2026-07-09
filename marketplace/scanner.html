@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner de Billets – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        :root {
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .scanner-header {
+            padding: 24px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .scanner-header h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        #reader {
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+
+        #result-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-card {
+            background: white;
+            color: #0f172a;
+            width: 85%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s;
+        }
+
+        #result-overlay.active {
+            display: flex;
+            background: rgba(0,0,0,0.85);
+        }
+
+        #result-overlay.active .result-card {
+            transform: scale(1);
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 24px;
+        }
+
+        .result-status {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .result-details {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .btn-next {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .scanner-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+
+    <div class="scanner-header">
+        <h1 id="event-title">Scanner les entrées</h1>
+        <div id="event-stats" style="font-size: 0.85rem; color: #94a3b8; font-weight: 600; margin-top: 4px;">Référence: --</div>
+        <div id="scanner-debug" style="display:none; font-family:monospace; font-size:10px; color:#10b981; margin-top:8px; background:rgba(0,0,0,0.3); padding:4px; border-radius:4px;">Ready...</div>
+        <button id="manual-start" style="display:none; margin-top:15px; background:#10b981; color:white; border:none; padding:10px 20px; border-radius:100px; font-weight:800; cursor:pointer;" onclick="startScanning()">Démarrer la Caméra</button>
+    </div>
+
+    <div id="reader"></div>
+
+    <div id="result-overlay">
+        <div class="result-card">
+            <div id="res-icon" class="result-icon">🎟️</div>
+            <div id="res-status" class="result-status">Chargement...</div>
+            <div id="res-details" class="result-details">--</div>
+            
+            <!-- Organizer Action -->
+            <button id="btn-validate" class="btn-next" style="display:none; background: #10b981; margin-bottom: 15px;" onclick="doValidate()">Valider l'entrée</button>
+            
+            <button class="btn-next" onclick="resetScanner()">Continuer le scan</button>
+        </div>
+    </div>
+
+
+    <div class="scanner-controls">
+        <button class="control-btn" onclick="toggleDebug()">Debug</button>
+        <button class="control-btn" onclick="switchCamera()">Caméra</button>
+        <button class="control-btn" onclick="window.history.back()">Quitter</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        let html5QrCode;
+        let isProcessing = false;
+        let currentCamera = "environment";
+        let targetEventId = null;
+
+        async function initScanner() {
+            const urlParams = new URLSearchParams(window.location.search);
+            targetEventId = urlParams.get('event_id');
+            const urlToken = urlParams.get('token');
+            
+            // 1. Initialize engine IMMEDIATELY
+            html5QrCode = new Html5Qrcode("reader");
+            debugLog("Moteur QR initialisé.");
+
+            // 2. Start Scanning ASAP
+            if (!urlToken) {
+                setTimeout(() => {
+                    startScanning();
+                }, 100);
+            }
+
+            // 3. Perform background checks
+            try {
+                if (!targetEventId && urlToken) {
+                    debugLog("Détection automatique de l'événement via le token...");
+                    const { data: ticket } = await _supabase.from('tickets').select('event_id').eq('qr_token', urlToken).single();
+                    if (ticket) {
+                        targetEventId = ticket.event_id;
+                        debugLog(`Événement trouvé: ${targetEventId}`);
+                    } else {
+                        debugLog("Ticket non trouvé ou lien invalide pour détection d'événement.");
+                    }
+                }
+
+                if (targetEventId) {
+                    const { data: ev } = await _supabase.from('events').select('title, user_id').eq('id', targetEventId).single();
+                    if (ev) {
+                        document.getElementById('event-title').innerText = ev.title;
+                        document.getElementById('event-stats').innerText = "Mode Validation Client Connecté";
+                        
+                        // Security: Check if current user owns this event
+                        const session = await getSession();
+                        if (session && session.user.id !== ev.user_id) {
+                            debugLog("Attention: Vous n'êtes pas l'organisateur officiel.");
+                        }
+                    } else {
+                        debugLog(`Événement ID ${targetEventId} non trouvé.`);
+                    }
+                } else {
+                    debugLog("ID de l'événement manquant. Le scanner fonctionnera en mode générique.");
+                }
+            } catch (e) {
+                debugLog(`Init Error: ${e.message}`);
+                console.error("Scanner init exception:", e);
+            }
+
+            // 4. Handle direct token validation
+            if (urlToken) {
+                document.getElementById('scanner-debug').style.display = 'block';
+                debugLog("Validation automatique du lien en cours...");
+                // Small delay to ensure DB is ready
+                setTimeout(() => {
+                    onScanSuccess(urlToken);
+                }, 800);
+            }
+        }
+
+        async function startScanning() {
+            const config = { 
+                fps: 10, 
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0
+            };
+            const manualBtn = document.getElementById('manual-start');
+            manualBtn.style.display = 'none';
+            
+            try {
+                debugLog("Accès caméra...");
+                
+                // Try to start immediately with environment camera
+                await html5QrCode.start(
+                    { facingMode: currentCamera }, 
+                    config, 
+                    onScanSuccess
+                );
+                debugLog("Caméra active.");
+            } catch (err) {
+                console.error("Camera start error", err);
+                debugLog(`Erreur: ${err}`);
+                
+                // Fallback: try to list cameras and pick the last one (usually back)
+                try {
+                    const devices = await Html5Qrcode.getCameras();
+                    if (devices && devices.length > 0) {
+                        const cameraId = devices[devices.length - 1].id;
+                        await html5QrCode.start(cameraId, config, onScanSuccess);
+                        debugLog("Caméra active (fallback).");
+                    } else {
+                        throw new Error("Aucune caméra.");
+                    }
+                } catch (fallbackErr) {
+                    manualBtn.style.display = 'inline-block';
+                    debugLog("Échec caméra. Cliquez sur 'Démarrer'.");
+                    document.getElementById('scanner-debug').style.display = 'block';
+                }
+            }
+        }
+
+        let currentScannedTicket = null;
+
+        async function onScanSuccess(decodedText) {
+            if (isProcessing) return;
+            isProcessing = true;
+            
+            debugLog(`Analyse du code: ${decodedText.substring(0,15)}...`);
+
+            // Audio feedback
+            const beep = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
+            beep.play().catch(() => {});
+
+            try {
+                // Pre-process decoded text
+                let token = decodedText.trim();
+                
+                // If it's a URL (e.g. from a direct scan), try to extract the token
+                if (token.includes('?token=')) {
+                    token = token.split('?token=')[1];
+                } else if (token.includes('/')) {
+                    const parts = token.split('/');
+                    token = parts[parts.length - 1];
+                }
+
+                debugLog(`Interrogation DB pour: ${token.substring(0,8)}...`);
+
+                const { data: ticket, error } = await _supabase
+                    .from('tickets')
+                    .select('*, events(title, user_id)') // JOIN to get event owner
+                    .eq('qr_token', token)
+                    .single();
+
+                if (error || !ticket) {
+                    showResult('error', 'Billet Invalide', `Code non reconnu.`);
+                    return;
+                }
+
+                currentScannedTicket = ticket;
+                const session = await getSession();
+                const isOrganizer = session && session.user.id === ticket.events.user_id;
+
+                // DISPLAY INFO
+                const details = `${ticket.attendee_name || "Client"} - ${ticket.tier_name}`;
+                
+                if (ticket.status === 'utilisé') {
+                    showResult('warning', 'Déjà Utilisé', `Billet ${details} déjà validé auparavant.`);
+                } else {
+                    // Valid ticket, not yet used
+                    showResult('success', 'Billet Valide', `${details} - Prêt pour validation.`);
+                    
+                    // Only show "Valider" button if scanned by organizer and not yet used
+                    if (isOrganizer) {
+                        document.getElementById('btn-validate').style.display = 'block';
+                    }
+                }
+
+            } catch (err) {
+                console.error("Scanner exception:", err);
+                showResult('error', 'Erreur Système', `Erreur: ${err.message || 'votre connexion'}`);
+            }
+            isProcessing = false;
+        }
+
+        async function doValidate() {
+            if (!currentScannedTicket) return;
+            const validateBtn = document.getElementById('btn-validate');
+            validateBtn.innerText = "Validation...";
+            validateBtn.disabled = true;
+
+            try {
+                const now = new Date().toISOString();
+                const updateData = { status: 'utilisé' };
+                
+                // We'll try to include validated_at, but we handle failure if SQL wasn't run
+                updateData.validated_at = now;
+
+                const { error } = await _supabase
+                    .from('tickets')
+                    .update(updateData)
+                    .eq('id', currentScannedTicket.id);
+
+                if (error) {
+                    // Fallback to only status if validated_at doesn't exist yet
+                    if (error.message.includes('validated_at')) {
+                        console.warn("Retrying without validated_at column...");
+                        const { error: error2 } = await _supabase
+                            .from('tickets')
+                            .update({ status: 'utilisé' })
+                            .eq('id', currentScannedTicket.id);
+                        if (error2) throw error2;
+                    } else {
+                        throw error;
+                    }
+                }
+
+                if (error) throw error;
+
+                // Success!
+                validateBtn.style.display = 'none';
+                showResult('success', 'Entrée Confirmée', `Bienvenue ${currentScannedTicket.attendee_name || 'Client'} !`);
+
+            } catch (err) {
+                alert("Erreur de validation : " + err.message);
+                validateBtn.innerText = "Réessayer";
+                validateBtn.disabled = false;
+            }
+        }
+
+        function showResult(type, status, details) {
+            const overlay = document.getElementById('result-overlay');
+            const icon = document.getElementById('res-icon');
+            const statusEl = document.getElementById('res-status');
+            const detailsEl = document.getElementById('res-details');
+            const validateBtn = document.getElementById('btn-validate');
+
+            validateBtn.style.display = 'none'; // Reset button visibility
+            validateBtn.innerText = "Valider l'entrée";
+            validateBtn.disabled = false;
+
+            overlay.className = 'active';
+            statusEl.innerText = status;
+            detailsEl.innerText = details;
+
+            if (type === 'success') {
+                icon.innerText = '✅';
+                statusEl.style.color = 'var(--success)';
+            } else if (type === 'warning') {
+                icon.innerText = '⚠️';
+                statusEl.style.color = 'var(--warning)';
+            } else {
+                icon.innerText = '❌';
+                statusEl.style.color = 'var(--error)';
+            }
+        }
+
+        function resetScanner() {
+            document.getElementById('result-overlay').className = '';
+            isProcessing = false;
+        }
+
+        function switchCamera() {
+            currentCamera = currentCamera === "user" ? "environment" : "user";
+            html5QrCode.stop().then(() => startScanning());
+        }
+
+        function toggleDebug() {
+            const deb = document.getElementById('scanner-debug');
+            deb.style.display = deb.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function debugLog(msg) {
+            const deb = document.getElementById('scanner-debug');
+            deb.innerText = `[DEBUG] ${msg}`;
+            console.log(`[SCANNER DEBUG] ${msg}`);
+        }
+
+        window.onload = initScanner;
+    </script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'Événement | Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;950&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-light: #ecfdf5;
+            --accent: #059669;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- TOP NAVIGATION --- */
+        .top-bar {
+            background: var(--text-main);
+            padding: 14px 0;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        /* --- HERO SECTION --- */
+        .event-hero {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 80px 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+        }
+
+        .flyer-frame {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
+            aspect-ratio: 4/5;
+            background: #000;
+        }
+
+        .flyer-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-confirmed {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .event-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 950;
+            line-height: 1.05;
+            margin: 0 0 32px 0;
+            letter-spacing: -0.05em;
+            color: var(--text-main);
+        }
+
+        .meta-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .meta-pill {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .meta-pill svg {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        /* Countdown */
+        .countdown-wrap {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .timer-box {
+            background: var(--bg-body);
+            padding: 16px;
+            border-radius: 18px;
+            text-align: center;
+            min-width: 80px;
+            border: 1px solid var(--border);
+        }
+
+        .timer-val {
+            font-size: 1.8rem;
+            font-weight: 950;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .timer-lbl {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 48px;
+            margin-top: 48px;
+            padding-bottom: 100px;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 28px;
+            padding: clamp(24px, 5vw, 48px);
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-header {
+            font-size: 1.6rem;
+            font-weight: 950;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header svg {
+            color: var(--primary);
+        }
+
+        /* Agenda Timeline */
+        .agenda-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            padding-left: 20px;
+            border-left: 3px solid var(--primary-light);
+            margin-left: 10px;
+        }
+
+        .agenda-row {
+            position: relative;
+            padding: 24px 0 24px 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .agenda-row:last-child {
+            border-bottom: none;
+        }
+
+        .agenda-row::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 30px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .time-tag {
+            font-weight: 950;
+            color: var(--primary);
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .event-info h5 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 850;
+            color: var(--text-main);
+            letter-spacing: -0.03em;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar-sticky {
+            position: sticky;
+            top: 100px;
+        }
+
+        .checkout-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+            margin-bottom: 24px;
+        }
+
+        .ticket-box {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ticket-box:last-child {
+            border-bottom: none;
+        }
+
+        .btn-reserve {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 1.15rem;
+            font-weight: 950;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 16px;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            letter-spacing: -0.01em;
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
+            background: #4f46e5;
+        }
+
+        .trust-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .host-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .host-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 950;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+
+<body>
+
+    <nav class="top-bar">
+        <div class="container">
+            <a href="evenements.html" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                RETOUR AU MARCHÉ
+            </a>
+        </div>
+    </nav>
+
+    <header class="event-hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="flyer-frame">
+                    <img id="event-flyer" src="" alt="Flyer">
+                </div>
+                <div class="event-core">
+                    <span class="badge-confirmed">✓ Événement Confirmé</span>
+                    <h1 id="event-title" class="event-title">Chargement...</h1>
+
+                    <div class="meta-stack">
+                        <div class="meta-pill">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            <span id="event-date">...</span>
+                        </div>
+                        <div class="meta-pill">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span id="event-location">...</span>
+                        </div>
+                    </div>
+
+                    <div class="countdown-wrap" id="timer-ui">
+                        <div class="timer-box"><span class="timer-val" id="d-val">00</span><span
+                                class="timer-lbl">Jours</span></div>
+                        <div class="timer-box"><span class="timer-val" id="h-val">00</span><span
+                                class="timer-lbl">Heures</span></div>
+                        <div class="timer-box"><span class="timer-val" id="m-val">00</span><span
+                                class="timer-lbl">Mins</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="main-layout">
+            <div class="content-col">
+                <section class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                        </svg>
+                        À propos
+                    </h3>
+                    <p id="event-desc"
+                        style="font-size: 1.2rem; color: #475569; white-space: pre-wrap; font-weight: 500;">...</p>
+                </section>
+
+                <section class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        Programme
+                    </h3>
+                    <div id="agenda-ui">
+                        <!-- Agenda dynamically injected -->
+                    </div>
+                </section>
+
+                <section id="location-section" class="content-section">
+                    <h3 class="section-header">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="3">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        Localisation
+                    </h3>
+                    <div id="map-ui" style="height: 350px; border-radius: 20px; background: #f1f5f9; overflow: hidden;">
+                        <!-- Map iframe injected by JS -->
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sidebar-col">
+                <div class="sidebar-sticky">
+                    <div class="checkout-card">
+                        <h3 style="margin:0 0 24px 0; font-weight:950; font-size:1.6rem; letter-spacing:-0.03em;">
+                            Billetterie</h3>
+                        <div id="tiers-ui">
+                            <!-- Dynamic Tiers -->
+                        </div>
+                        <div class="trust-line">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="3">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            PAIEMENT 100% SÉCURISÉ
+                        </div>
+                    </div>
+
+                    <div class="host-card">
+                        <div id="host-av" class="host-avatar">..</div>
+                        <div>
+                            <div id="host-name" style="font-weight:900; font-size:1.1rem;">Organisateur</div>
+                            <div
+                                style="font-size:0.75rem; color:var(--accent); font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">
+                                Vérifié par DTC ✓</div>
+                        </div>
+                    </div>
+
+                    <button onclick="share()"
+                        style="width:100%; background:white; border:1px solid var(--border); padding:14px; border-radius:16px; margin-top:16px; font-weight:800; cursor:pointer; color:var(--text-muted); transition:0.2s;"
+                        onmouseover="this.style.color='var(--text-main)';this.style.borderColor='var(--text-main)'"
+                        onmouseout="this.style.color='var(--text-muted)';this.style.borderColor='var(--border)'">Partager
+                        l'événement</button>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://vlpzmxddgdjjtrpbtksd.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF';
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function init() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            if (!id) { window.location.href = 'evenements.html'; return; }
+
+            try {
+                const { data: ev, error } = await _supabase.from('events').select('*').eq('id', id).single();
+                if (error || !ev) throw error || new Error("Event not found");
+
+                document.getElementById('event-title').innerText = ev.title;
+                document.getElementById('event-flyer').src = ev.image_url;
+                document.getElementById('event-desc').innerText = ev.description || 'Bienvenue à cet événement exceptionnel !';
+                // Format location links
+                const urlRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/ig;
+                let locationHtml = ev.location;
+                let isLink = false;
+                
+                // Fallback for old events that saved the Meet link in ticket_url
+                // Check if it's a virtual event
+                let isVirtual = false;
+                let rawLocation = ev.location || '';
+                if (rawLocation.toLowerCase().includes('en ligne') || urlRegex.test(rawLocation) || (ev.ticket_url && urlRegex.test(ev.ticket_url))) {
+                    isVirtual = true;
+                }
+
+                // Never display the raw link publicly in locationHtml
+                locationHtml = rawLocation.replace(urlRegex, '').replace(/[\/\- ]+$/, '').trim();
+                if (!locationHtml) locationHtml = 'En ligne';
+
+                document.getElementById('event-location').innerText = locationHtml;
+
+                const d = new Date(ev.event_date);
+                document.getElementById('event-date').innerText = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+                // Check if viewer is the organizer
+                const { data: { session } } = await _supabase.auth.getSession();
+                const isOrganizer = session && session.user.id === ev.user_id;
+
+                // Host
+                const { data: host } = await _supabase.from('profiles').select('full_name, avatar_url').eq('id', ev.user_id).single();
+                if (host) {
+                    document.getElementById('host-name').innerText = host.full_name;
+                    const av = document.getElementById('host-av');
+                    if (host.avatar_url) av.innerHTML = `<img src="${host.avatar_url}" style="width:100%; height:100%; object-fit:cover;">`;
+                    else av.innerText = host.full_name.slice(0, 2).toUpperCase();
+                }
+
+                renderTiers(ev, isOrganizer);
+                renderAgenda(ev);
+                startTimer(ev.event_date);
+                
+                if (isVirtual) {
+                    document.getElementById('location-section').style.display = 'block';
+                    document.getElementById('map-ui').innerHTML = `
+                        <div style="background:#0f172a; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; border-radius:20px; padding:20px;">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                            <p style="margin-top:16px; font-weight:800; font-size:1.1rem; margin-bottom:8px;">Événement en Ligne / Visio</p>
+                            <p style="color:#94a3b8; font-size:0.85rem; max-width:280px; text-align:center; margin:0;">Le lien d'accès vous sera envoyé par e-mail après votre inscription.</p>
+                        </div>
+                    `;
+                    const sectionHeader = document.getElementById('map-ui').parentElement.querySelector('.section-header');
+                    if (sectionHeader) sectionHeader.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Accès Visio`;
+                } else {
+                    document.getElementById('location-section').style.display = 'block';
+                    document.getElementById('map-ui').innerHTML = `<iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps?q=${encodeURIComponent(ev.location)}&output=embed" allowfullscreen></iframe>`;
+                }
+
+            } catch (e) { console.error(e); }
+        }
+
+        function renderAgenda(ev) {
+            const ui = document.getElementById('agenda-ui');
+            const agenda = ev.agenda || [];
+            if (agenda.length === 0) {
+                ui.innerHTML = '<p style="color:var(--text-muted); font-weight:600;">Aucun programme détaillé pour le moment.</p>';
+                return;
+            }
+
+            // Simple formatting for legacy data (e.g. "20" -> "20:00")
+            const formatTime = (t) => {
+                if (!t) return '--:--';
+                if (!t.includes(':') && !isNaN(t)) return t.padStart(2, '0') + ':00';
+                return t;
+            };
+
+            ui.innerHTML = `
+                <div class="agenda-container">
+                    ${agenda.map(a => `
+                        <div class="agenda-row">
+                            <span class="time-tag">${formatTime(a.time)}</span>
+                            <div class="event-info">
+                                <h5>${a.label}</h5>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderTiers(ev, isOrganizer) {
+            const ui = document.getElementById('tiers-ui');
+            let t = ev.ticket_tiers || [];
+            if (t.length === 0 && ev.price !== null) t = [{ name: 'Billet Standard', price: ev.price }];
+
+            if (t.length === 0) { ui.innerHTML = '<p style="text-align:center;font-weight:700;color:var(--text-muted);">Complet</p>'; return; }
+
+            let html = '';
+            if (isOrganizer) {
+                html = `
+                    <div style="background:var(--primary-light); padding:20px; border-radius:20px; border:1px solid var(--primary); text-align:center; margin-bottom:20px;">
+                        <p style="font-weight:900; color:var(--accent); margin-bottom:12px;">C'est VOTRE événement !</p>
+                        <a href="../mon-espace.html#billetterie?action=manage&id=${ev.id}" class="btn-reserve" style="text-decoration:none; display:inline-block; background:var(--text-main);">PILOTER L'ÉVÉNEMENT</a>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div style="margin-bottom:20px; padding:15px; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0;">
+                        <label style="display:block; font-size:0.7rem; font-weight:950; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
+                        <div style="display:flex; gap:8px;">
+                            <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0; font-family:inherit; font-weight:700;">
+                            <button onclick="applyPromo('${ev.id}')" style="background:#0f172a; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
+                        </div>
+                        <div id="promo-msg" style="margin-top:8px; font-size:0.75rem; font-weight:800; display:none;"></div>
+                    </div>
+                `;
+            }
+
+            ui.innerHTML = html + t.map(tk => `
+                <div class="ticket-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <span style="font-weight:850; font-size:1.05rem;">${tk.name}</span>
+                        <div>
+                            <span id="price-old-${tk.name.replace(/\s+/g, '')}" style="font-weight:700; color:#94a3b8; text-decoration:line-through; font-size:0.9rem; display:none; margin-right:8px;"></span>
+                            <span id="price-${tk.name.replace(/\s+/g, '')}" class="ticket-price" data-original="${tk.price}" style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
+                        </div>
+                    </div>
+                    ${!isOrganizer ? `<button class="btn-reserve" onclick="buyTicket(event, '${ev.id}', '${tk.name}', '${ev.user_id}')">RÉSERVER MA PLACE</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        let activePromo = null;
+
+        async function applyPromo(eventId) {
+            const code = document.getElementById('promo-input').value.trim().toUpperCase();
+            const msg = document.getElementById('promo-msg');
+            if (!code) return;
+
+            try {
+                const { data, error } = await _supabase.from('event_promo_codes').select('*').eq('event_id', eventId).eq('code', code).single();
+                if (error || !data) throw new Error("Code invalide");
+
+                if (data.max_uses > 0 && data.used_count >= data.max_uses) throw new Error("Code expiré");
+
+                activePromo = data;
+                msg.style.display = 'block';
+                msg.style.color = '#10b981';
+                msg.innerText = `Code ${code} appliqué !`;
+
+                document.querySelectorAll('.ticket-price').forEach(el => {
+                    const original = parseFloat(el.dataset.original);
+                    let final = original;
+                    if (data.discount_type === 'percent') final = original * (1 - data.discount_value / 100);
+                    else final = Math.max(0, original - data.discount_value);
+
+                    el.innerText = `${final.toFixed(2)}€`;
+                    const old = document.getElementById('price-old-' + el.id.replace('price-', ''));
+                    if (old) {
+                        old.style.display = 'inline';
+                        old.innerText = `${original.toFixed(2)}€`;
+                    }
+                });
+            } catch (err) {
+                msg.style.display = 'block';
+                msg.style.color = '#ef4444';
+                msg.innerText = err.message;
+                activePromo = null;
+            }
+        }
+
+        async function buyTicket(e, id, name, hostId) {
+            const btn = e.target;
+            // Get current displayed price for this tier
+            const priceEl = document.getElementById('price-' + name.replace(/\s+/g, ''));
+            const finalPrice = parseFloat(priceEl.innerText);
+
+            try {
+                const { data: { session } } = await _supabase.auth.getSession();
+                if (!session) { alert("Connectez-vous pour réserver."); window.location.href = '../login.html?redirect=' + encodeURIComponent(window.location.href); return; }
+
+                btn.disabled = true; btn.innerText = "PRÉPARATION...";
+                const res = await fetch('https://vlpzmxddgdjjtrpbtksd.supabase.co/functions/v1/create-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                    body: JSON.stringify({
+                        type: 'event',
+                        item_id: id,
+                        item_title: `Billet : ${document.getElementById('event-title').innerText}`,
+                        item_description: `${name} - ${document.getElementById('event-date').innerText}`,
+                        item_price: finalPrice,
+                        provider_id: hostId,
+                        promo_id: activePromo ? activePromo.id : null,
+                        tier_name: name
+                    })
+                });
+                const data = await res.json();
+                if (data.url) window.location.href = data.url;
+                else throw new Error(data.error);
+            } catch (err) { alert(err.message); btn.disabled = false; btn.innerText = "RÉSERVER MA PLACE"; }
+        }
+
+        function startTimer(date) {
+            const target = new Date(date).getTime();
+            setInterval(() => {
+                const diff = target - new Date().getTime();
+                if (diff < 0) { document.getElementById('timer-ui').style.display = 'none'; return; }
+                document.getElementById('d-val').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
+                document.getElementById('h-val').innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
+                document.getElementById('m-val').innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        function share() {
+            if (navigator.share) navigator.share({ title: document.getElementById('event-title').innerText, url: window.location.href });
+            else { navigator.clipboard.writeText(window.location.href); alert("Lien copié !"); }
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

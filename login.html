@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://t.contentsquare.net/uxa/86bd8964d6ff4.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Connexion – Domtom Connect</title>
+    <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
+    <meta name="description"
+        content="Connectez-vous à votre espace Domtom Connect pour gérer vos projets ou proposer votre expertise.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=10.1">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 48px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            background: var(--white);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            transition: all 0.2s ease;
+            background: var(--bg-light);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 191, 166, 0.1);
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-auth {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-social {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-social:hover {
+            background: var(--bg-light);
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+
+<body class="auth-page">
+    <nav class="navbar">
+        <div class="container">
+            <a href="" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
+                <div class="nav-brand-text">
+                    <span class="nav-brand-name">Domtom Connect</span>
+                </div>
+            </a>
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
+                aria-controls="primary-navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-content" id="primary-navigation">
+                <div class="nav-links" id="nav-links-container">
+                    <a href="marketplace/directory">Talents</a>
+                    <a href="marketplace/jobs">Missions</a>
+                    <a href="marketplace/projects">Projets</a>
+                    <a href="marketplace/evenements">Événements</a>
+                    <a href="marketplace/companies">Entreprises</a>
+                </div>
+                <div class="nav-actions" id="nav-actions-container">
+                    <a href="login.html" class="cta-button secondary" id="login-link">Connexion</a>
+                    <a href="register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-card" style="margin-top: 100px;">
+        <header class="auth-header">
+            <p class="auth-subtitle">Connectez-vous à votre espace personnel.</p>
+        </header>
+
+        <form class="auth-form" id="loginForm">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" class="form-input" placeholder="nom@exemple.com" required>
+            </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <label for="password">Mot de passe</label>
+                    <a href="javascript:void(0)" onclick="handleResetPassword()"
+                        style="font-size: 0.75rem; color: var(--primary-color); text-decoration: none; font-weight: 500;">Oublié
+                        ?</a>
+                </div>
+                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="cta-button primary" style="width: 100%; margin-top: 8px;">Se connecter</button>
+            <p id="authError" style="color: #ff4d4d; font-size: 0.85rem; text-align: center; display: none;"></p>
+        </form>
+
+        <div class="social-auth">
+            <button class="btn-social" onclick="handleGoogleLogin()">
+                <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="">
+                Continuer avec Google
+            </button>
+        </div>
+
+        <footer class="auth-footer">
+            <p>Pas encore inscrit ? <a href="register-choice.html">Créer un compte</a></p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=2.0"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('authError');
+            const submitBtn = e.target.querySelector('button');
+
+            try {
+                errorEl.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Connexion...';
+
+                const data = await signInWithEmail(email, password);
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirectParam = urlParams.get('redirect') || sessionStorage.getItem('postLoginRedirect');
+
+                if (redirectParam) {
+                    sessionStorage.removeItem('postLoginRedirect');
+                    window.location.href = redirectParam;
+                } else {
+                    const role = data?.user?.user_metadata?.role || null;
+                    if (!role) {
+                        window.location.href = 'registration/onboarding.html';
+                    } else {
+                        window.location.href = 'mon-espace.html';
+                    }
+                }
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Se connecter';
+                errorEl.textContent = "Erreur : " + err.message;
+                errorEl.style.display = 'block';
+            }
+        });
+
+        async function handleGoogleLogin() {
+            try {
+                await signInWithGoogle();
+            } catch (err) {
+                const errorEl = document.getElementById('authError');
+                errorEl.textContent = "Erreur Google : " + err.message;
+                errorEl.style.display = 'block';
+            }
+        }
+
+        async function handleResetPassword() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert("Veuillez saisir votre adresse email dans le champ ci-dessus avant de cliquer sur 'Oublié ?'.");
+                return;
+            }
+            try {
+                const db = window._supabase;
+                const { error } = await db.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/login.html',
+                });
+                if (error) throw error;
+                alert("Un email contenant le lien de réinitialisation de mot de passe a été envoyé à : " + email);
+            } catch (err) {
+                alert("Erreur : " + err.message);
+            }
+        }
+
+        window.addEventListener('load', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectParam = urlParams.get('redirect');
+            if (redirectParam) {
+                sessionStorage.setItem('postLoginRedirect', redirectParam);
+                
+                // Update register link to keep the redirect chain
+                const registerLinks = document.querySelectorAll('a[href^="register-choice.html"]');
+                registerLinks.forEach(link => {
+                    link.href = `register-choice.html?redirect=${encodeURIComponent(redirectParam)}`;
+                });
+            }
+
+            const session = await getSession();
+            if (session) {
+                const storedRedirect = sessionStorage.getItem('postLoginRedirect');
+                if (storedRedirect) {
+                    sessionStorage.removeItem('postLoginRedirect');
+                    window.location.href = storedRedirect;
+                    return;
+                }
+
+                const role = session.user?.user_metadata?.role || null;
+                if (!role) {
+                    window.location.href = 'registration/onboarding.html';
+                } else {
+                    window.location.href = 'mon-espace.html';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

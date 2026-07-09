@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Hub Stratégique Outre-mer | Domtom Connect</title>
+    <meta name="description" content="Explorez l'écosystème Domtom Connect : Talents, Missions, Solutions et Projets pour les territoires ultramarins.">
+    <link rel="stylesheet" href="../assets/css/style.css?v=11.1">
+    <style>
+        .hub-container { padding: 80px 0; }
+        .hub-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            margin-top: 50px;
+        }
+        .hub-card {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 24px;
+            padding: 40px;
+            text-decoration: none;
+            color: #000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 10px 10px 0px #000;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .hub-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 15px 15px 0px #10b981;
+            border-color: #10b981;
+        }
+        .hub-card i { font-size: 2.5rem; color: #10b981; }
+        .hub-card h3 { font-size: 1.8rem; font-weight: 950; margin: 0; letter-spacing: -0.04em; }
+        .hub-card p { font-size: 1rem; color: #475569; line-height: 1.5; margin: 0; font-weight: 600; }
+        .badge {
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body style="background: #f8fafc;">
+    <nav class="navbar"></nav>
+
+    <main class="container hub-container">
+        <header style="text-align: center; margin-bottom: 60px;">
+            <h1 style="font-size: 3.5rem; font-weight: 950; letter-spacing: -0.05em; margin-bottom: 20px;">L'Écosystème <span style="color: #10b981;">Connect</span></h1>
+            <p style="font-size: 1.2rem; color: #64748b; max-width: 700px; margin: 0 auto; font-weight: 600;">Centralisez vos opportunités territoriales. Choisissez votre porte d'entrée dans le réseau stratégique des Outre-mer.</p>
+        </header>
+
+        <div class="hub-grid">
+            <a href="directory.html" class="hub-card">
+                <span class="badge">Networking</span>
+                <i class="fas fa-users"></i>
+                <h3>Les Talents</h3>
+                <p>Identifiez les experts et prestataires les plus qualifiés de la diaspora.</p>
+            </a>
+            <a href="jobs.html" class="hub-card">
+                <span class="badge">Business</span>
+                <i class="fas fa-briefcase"></i>
+                <h3>Les Missions</h3>
+                <p>Trouvez votre prochain défi stratégique ou recrutez votre futur collaborateur.</p>
+            </a>
+            <a href="solutions.html" class="hub-card">
+                <span class="badge">Expertise</span>
+                <i class="fas fa-rocket"></i>
+                <h3>Les Solutions</h3>
+                <p>Catalogue de services et offres packagées prêtes à l'emploi.</p>
+            </a>
+            <a href="projects.html" class="hub-card">
+                <span class="badge">Innovation</span>
+                <i class="fas fa-lightbulb"></i>
+                <h3>Les Projets</h3>
+                <p>Participez à l'émergence des initiatives qui transforment les territoires.</p>
+            </a>
+            <a href="evenements.html" class="hub-card">
+                <span class="badge">Communauté</span>
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Événements</h3>
+                <p>Networking, webinaires et ateliers en présentiel ou digital.</p>
+            </a>
+            <a href="companies.html" class="hub-card">
+                <span class="badge">Corporate</span>
+                <i class="fas fa-building"></i>
+                <h3>Entreprises</h3>
+                <p>Connectez-vous aux acteurs économiques majeurs des DOM-TOM.</p>
+            </a>
+        </div>
+    </main>
+
+    <script src="../assets/js/ui-components.js?v=11.3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadGlobalNavbar) window.loadGlobalNavbar();
+        });
+    </script>
+</body>
+</html>

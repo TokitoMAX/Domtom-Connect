@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choisissez votre profil – Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+    <style>
+        .onboarding-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            padding: 24px;
+        }
+
+        .onboarding-card {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .onboarding-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .onboarding-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+
+        .role-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .role-card {
+            background: white;
+            padding: 40px 24px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .role-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .role-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .role-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .role-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .role-card.active {
+            border-color: var(--primary-color);
+            background: #f0fdf4;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+
+<body class="onboarding-page">
+
+    <main class="onboarding-card" id="step-1">
+        <h1 class="onboarding-title">Bienvenue sur Domtom Connect</h1>
+        <p class="onboarding-subtitle">Pour personnaliser votre expérience, dites-nous qui vous êtes :</p>
+
+        <div class="role-grid">
+            <div class="role-card" onclick="goToStep2('expert')">
+                <span class="role-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <h3 class="role-name">Expert & Allié</h3>
+                <p class="role-desc">Je souhaite proposer mon savoir-faire (Local ou Mondial) et collaborer sur des missions à fort impact aux Antilles & Guyane.</p>
+            </div>
+
+            <div class="role-card" onclick="goToStep2('entreprise')">
+                <span class="role-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </span>
+                <h3 class="role-name">Investisseur / Groupe</h3>
+                <p class="role-desc">Je souhaite sécuriser mes investissements, trouver des relais locaux certifiés et piloter mes déploiements territoriaux.</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 48px; padding-top: 32px; border-top: 1px solid #e2e8f0;">
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 16px;">Vous souhaitez lancer une initiative ?</p>
+            <button onclick="goToStep2('porteur')" class="cta-button secondary" style="background: transparent; color: #10b981; border: 1px solid #10b981;">Je suis Porteur de Projet</button>
+        </div>
+    </main>
+
+    <main class="onboarding-card" id="step-2" style="display: none; max-width: 600px;">
+        <button onclick="backToStep1()" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-weight:700; margin-bottom:24px; display:flex; align-items:center; gap:8px;">
+            ← Retour aux profils
+        </button>
+        <h1 class="onboarding-title" id="step-2-title">Dernière étape</h1>
+        
+        <!-- Formulaire Expert -->
+        <div id="expert-form" style="display: none; text-align: left;">
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Titre Professionnel / Expertise *</label>
+                <input type="text" id="expert-title" placeholder="Ex: Développeur Senior, Expert Marketing, Designer..." style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Vos compétences clés *</label>
+                <input type="text" id="expert-skills" placeholder="Ex: Marketing Digital, React, Logistique..." style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">TJM souhaité (€) *</label>
+                    <input type="number" id="expert-tjm" placeholder="Ex: 400" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                </div>
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Lieu de résidence actuel *</label>
+                    <input type="text" id="expert-current-location" placeholder="Ex: Paris, Lyon, Montréal..." style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Zone d'Origine / Ecosystem *</label>
+                    <select id="expert-zone" onchange="updateTerritoryList('expert')" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                        <option value="">Sélectionnez une zone...</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Territoire spécifique / Island *</label>
+                    <select id="expert-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;" disabled>
+                        <option value="">Choisissez d'abord une zone</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom:32px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Bio rapide (Pitch) *</label>
+                <textarea id="expert-bio" placeholder="Parlez-nous de vous en 2-3 lignes..." style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;"></textarea>
+            </div>
+            <button onclick="finishOnboarding('expert')" class="cta-button primary" style="width:100%; padding:16px; font-weight:800;">Valider mon profil Expert →</button>
+        </div>
+
+        <!-- Formulaire Entreprise -->
+        <div id="entreprise-form" style="display: none; text-align: left;">
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Nom de l'entreprise *</label>
+                <input type="text" id="entreprise-name" placeholder="Ex: Agrotech Martinique" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Zone du Siège / Headquarters Zone *</label>
+                    <select id="entreprise-zone" onchange="updateTerritoryList('entreprise')" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+                        <option value="">Sélectionnez une zone...</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display:block; font-weight:700; margin-bottom:8px;">Territoire / Location *</label>
+                    <select id="entreprise-territory" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;" disabled>
+                        <option value="">Choisissez d'abord une zone</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-bottom:32px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Vos besoins actuels *</label>
+                <textarea id="entreprise-needs" placeholder="Recrutement, conseil stratégique, mise en relation..." style="width:100%; height:100px; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;"></textarea>
+            </div>
+            <button onclick="finishOnboarding('entreprise')" class="cta-button primary" style="width:100%; padding:16px; font-weight:800;">Valider mon profil Entreprise →</button>
+        </div>
+
+        <!-- Formulaire Porteur de Projet (Simplifié) -->
+        <div id="porteur-form" style="display: none; text-align: left;">
+            <div style="margin-bottom:20px; background: rgba(16, 185, 129, 0.05); padding: 24px; border-radius: 16px; border: 1px solid rgba(16, 185, 129, 0.1);">
+                <span style="display: block; margin-bottom: 12px; color: #10b981;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </span>
+                <h3 style="margin: 0 0 8px 0; color: #047857;">Prêt pour votre Épopée ?</h3>
+                <p style="margin: 0; font-size: 0.95rem; color: #065f46; line-height: 1.5;">
+                    En confirmant, vous accédez à votre cockpit stratégique pour structurer votre projet, trouver des financements et recruter vos experts.
+                </p>
+            </div>
+            <div style="margin-bottom:24px;">
+                <label style="display:block; font-weight:700; margin-bottom:8px;">Nom de votre projet (Optionnel)</label>
+                <input type="text" id="porteur-project-name" placeholder="Ex: Mon Application Mobile" style="width:100%; padding:12px; border:1.5px solid #e2e8f0; border-radius:12px;">
+            </div>
+            <button onclick="finishOnboarding('porteur')" class="cta-button primary" style="width:100%; padding:16px; font-weight:800; background: #10b981;">Confirmer mon Épopée →</button>
+        </div>
+    </main>
+
+    <script src="../assets/js/territory_config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/form-security.js"></script>
+    <script>
+        let selectedRole = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialiser les listes de zones
+            if (window.TerritoryConfig) {
+                const zones = window.TerritoryConfig.getZones();
+                ['expert-zone', 'entreprise-zone'].forEach(id => {
+                    const select = document.getElementById(id);
+                    if (select) {
+                        zones.forEach(zone => {
+                            const opt = document.createElement('option');
+                            opt.value = zone.id;
+                            opt.textContent = zone.label;
+                            select.appendChild(opt);
+                        });
+                    }
+                });
+            }
+
+            try {
+                const session = await getSession();
+                if (!session) {
+                    window.location.href = '../login.html';
+                    return;
+                }
+
+                // Check intent in URL or localStorage
+                const storedRole = localStorage.getItem('onboarding_role');
+                if (storedRole) {
+                    goToStep2(storedRole);
+                }
+
+                const role = session.user?.user_metadata?.role || null;
+                const subTier = session.user?.user_metadata?.subscription_tier || 'free';
+
+                // Vérifier si le profil existe réellement en base
+                const { data: profile } = await _supabase
+                    .from('profiles')
+                    .select('id, role, subscription_tier')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if ((role || profile?.role) && (subTier !== 'free' || (profile?.role && profile.role !== 'porteur'))) {
+                    // Rôle déjà défini ET validé
+                    window.location.href = '../mon-espace.html';
+                }
+            } catch (err) {
+                console.error('Erreur session onboarding:', err);
+            }
+        });
+
+        function updateTerritoryList(type) {
+            const zoneId = document.getElementById(`${type}-zone`).value;
+            const territorySelect = document.getElementById(`${type}-territory`);
+            
+            if (!territorySelect) return;
+            
+            territorySelect.innerHTML = '<option value="">Sélectionnez...</option>';
+            
+            if (!zoneId) {
+                territorySelect.disabled = true;
+                return;
+            }
+
+            const islands = window.TerritoryConfig.getIslands(zoneId);
+            islands.forEach(island => {
+                const opt = document.createElement('option');
+                opt.value = island;
+                opt.textContent = island;
+                territorySelect.appendChild(opt);
+            });
+            
+            territorySelect.disabled = false;
+        }
+
+        function goToStep2(role) {
+            selectedRole = role;
+            document.getElementById('step-1').style.display = 'none';
+            document.getElementById('step-2').style.display = 'block';
+
+            if (role === 'expert') {
+                document.getElementById('step-2-title').innerHTML = "Profil Expert / Talents <br><span style='font-size:0.9rem; font-weight:400; color:#64748b;'>(Talents & Freelancers)</span>";
+                document.getElementById('expert-form').style.display = 'block';
+                document.getElementById('entreprise-form').style.display = 'none';
+                document.getElementById('porteur-form').style.display = 'none';
+            } else if (role === 'entreprise') {
+                document.getElementById('step-2-title').innerHTML = "Profil Entreprise / Partenaire <br><span style='font-size:0.9rem; font-weight:400; color:#64748b;'>(Businesses & Partners)</span>";
+                document.getElementById('entreprise-form').style.display = 'block';
+                document.getElementById('expert-form').style.display = 'none';
+                document.getElementById('porteur-form').style.display = 'none';
+            } else if (role === 'porteur') {
+                document.getElementById('step-2-title').textContent = "C'est parti !";
+                document.getElementById('porteur-form').style.display = 'block';
+                document.getElementById('expert-form').style.display = 'none';
+                document.getElementById('entreprise-form').style.display = 'none';
+            }
+        }
+
+        function backToStep1() {
+            document.getElementById('step-1').style.display = 'block';
+            document.getElementById('step-2').style.display = 'none';
+            localStorage.removeItem('onboarding_role');
+        }
+
+        async function finishOnboarding(role) {
+            const finalRole = role || selectedRole;
+            let metadata = { 
+                role: finalRole === 'basique' ? 'porteur' : finalRole, 
+                onboarding_done: true 
+            };
+
+            if (finalRole === 'expert') {
+                metadata.title = document.getElementById('expert-title').value.trim();
+                metadata.expertise = metadata.title; // Double sync for directory compatibility
+                metadata.skills = document.getElementById('expert-skills').value.trim();
+                metadata.tjm = document.getElementById('expert-tjm').value.trim();
+                metadata.current_location = document.getElementById('expert-current-location').value.trim();
+                metadata.major_zone = document.getElementById('expert-zone').value;
+                metadata.territory = document.getElementById('expert-territory').value;
+                metadata.bio = document.getElementById('expert-bio').value.trim();
+
+                if (!metadata.title || !metadata.skills || !metadata.tjm || !metadata.bio || !metadata.major_zone || !metadata.territory || !metadata.current_location) {
+                    alert("Veuillez remplir tous les champs obligatoires (All fields are required)."); 
+                    return;
+                }
+
+                if (window.formSecurity) {
+                    if (metadata.title && !window.formSecurity.isValidText(metadata.title, 3)) {
+                        alert("Votre titre professionnel semble invalide."); return;
+                    }
+                    if (metadata.skills && !window.formSecurity.isValidText(metadata.skills, 3)) {
+                        alert("Vos compétences semblent invalides."); return;
+                    }
+                    // if (metadata.bio && !window.formSecurity.isValidText(metadata.bio, 20)) {
+                    //     alert("Votre biographie est trop courte (min. 20 caractères)."); return;
+                    // }
+                }
+            } else if (finalRole === 'entreprise') {
+                metadata.company_name = document.getElementById('entreprise-name').value.trim();
+                metadata.needs = document.getElementById('entreprise-needs').value.trim();
+                metadata.major_zone = document.getElementById('entreprise-zone').value;
+                metadata.territory = document.getElementById('entreprise-territory').value;
+
+                if (!metadata.company_name || !metadata.needs || !metadata.major_zone || !metadata.territory) {
+                    alert("Veuillez remplir tous les champs obligatoires (All fields are required)."); 
+                    return;
+                }
+
+                if (window.formSecurity) {
+                    if (!window.formSecurity.isValidName(metadata.company_name)) {
+                        alert("Le nom de votre entreprise semble invalide."); return;
+                    }
+                    if (metadata.needs && !window.formSecurity.isValidText(metadata.needs, 20)) {
+                        alert("La description de vos besoins est trop courte."); return;
+                    }
+                }
+            } else if (finalRole === 'porteur') {
+                const projName = document.getElementById('porteur-project-name').value.trim();
+                if (projName) {
+                    metadata.pending_project_name = projName;
+                }
+            }
+
+            try {
+                const session = await getSession();
+                if (!session) {
+                    window.location.href = '../login.html';
+                    return;
+                }
+
+                await updateUserProfile(metadata);
+                window.location.href = '../mon-espace.html';
+            } catch (err) {
+                alert("Erreur lors de la sélection : " + err.message);
+            }
+        }
+    </script>
+</body>
+
+</html>

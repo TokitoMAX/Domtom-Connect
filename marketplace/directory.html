@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annuaire des Talents & Experts - Domtom Connect</title>
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+    <link rel="stylesheet" href="../assets/css/directory.css?v=1.1">
+    <link rel="icon" type="image/png" href="../assets/images/logo-domtomconnect.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* MOBILE LIST OPTIMIZATION */
+        @media (max-width: 768px) {
+            .directory-hero { padding: 60px 0 40px; text-align: left; background: #f8fafc; }
+            .hero-title { font-size: 2.2rem !important; line-height: 1.1; font-weight: 900; letter-spacing: -0.05em; }
+            .hero-subtitle { font-size: 1.1rem !important; margin-bottom: 32px; opacity: 0.8; }
+            
+            .search-filter-bar { 
+                flex-direction: column; 
+                gap: 16px; 
+                background: rgba(255, 255, 255, 0.8); 
+                backdrop-filter: blur(20px);
+                padding: 24px; 
+                border-radius: 24px; 
+                border: 1px solid rgba(0,0,0,0.05);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            }
+            .search-group input, .filter-group select { 
+                width: 100%; 
+                font-size: 1rem; 
+                padding: 16px; 
+                border-radius: 14px;
+                border: 1px solid #e2e8f0;
+                background: white;
+            }
+            
+            .directory-grid {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                padding: 20px 0 !important;
+            }
+            
+            .profile-card {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                text-align: center !important;
+                padding: 32px !important;
+                border-radius: 28px !important;
+                background: white !important;
+                border: 1px solid #f1f5f9 !important;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.03) !important;
+                transition: all 0.3s ease !important;
+            }
+            .profile-card:hover {
+                transform: translateY(-8px) !important;
+                box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1) !important;
+                border-color: #10b981 !important;
+            }
+            .profile-avatar {
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 2rem !important;
+                margin: 0 0 20px 0 !important;
+            }
+            .profile-name { font-size: 1.3rem !important; font-weight: 900 !important; }
+            .profile-role { font-size: 1rem !important; margin-bottom: 12px !important; }
+            .profile-territory { font-size: 0.85rem !important; padding: 4px 12px !important; }
+            .profile-stats { margin-top: 16px !important; width: 100% !important; justify-content: center !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .directory-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 24px !important;
+            }
+        }
+    </style>
+
+    <!-- CORE PLATFORM SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/ui-components.js?v=11.3"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container"></div>
+    </nav>
+
+    <script src="../assets/js/ui-components.js?v=11.3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.loadGlobalNavbar) window.loadGlobalNavbar();
+        });
+    </script>
+
+    <header class="directory-hero">
+        <div class="container">
+            <h1 class="hero-title">Trouvez l'expertise pour vos projets territoriaux</h1>
+            <p class="hero-subtitle">Le réseau d'élite des talents d'Outre-mer et de l'international.</p>
+            
+            <div class="search-filter-bar">
+                <div class="search-group">
+                    <input type="text" id="search-name" placeholder="Rechercher par nom ou expertise (ex: Marketing, Tech...)">
+                </div>
+                <div class="filter-group">
+                    <select id="filter-territory">
+                        <option value="">Tous les Territoires</option>
+                        <optgroup label="Antilles-Guyane">
+                            <option value="Guadeloupe">Guadeloupe</option>
+                            <option value="Martinique">Martinique</option>
+                            <option value="Guyane">Guyane</option>
+                            <option value="Saint-Martin">Saint-Martin</option>
+                        </optgroup>
+                        <optgroup label="Océan Indien">
+                            <option value="Réunion">La Réunion</option>
+                            <option value="Mayotte">Mayotte</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filter-location">
+                        <option value="">Lieu de résidence actuel</option>
+                        <option value="Paris / Île-de-France">Paris / Île-de-France</option>
+                        <option value="Hexagone (Autre)">Hexagone (Autre)</option>
+                        <option value="Sur le Territoire (DOM)">Sur le Territoire (DOM)</option>
+                        <option value="Canada / Amérique du Nord">Canada / Amérique du Nord</option>
+                        <option value="Afrique francophone">Afrique francophone</option>
+                        <option value="International">International</option>
+                    </select>
+                </div>
+                <button class="cta-button primary" onclick="loadProfiles()">Filtrer</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 32px;">
+        <div class="directory-grid" id="profiles-container">
+             <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
+                <p style="margin-top:20px; color:#64748b;">Initialisation du réseau...</p>
+             </div>
+        </div>
+
+        <!-- Conversion Banner for Spectators -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 60px; border-radius: 32px; text-align: center; color: white; margin-top: 40px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #10b981; margin: 0 auto 24px;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/></svg>
+            </div>
+            <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 16px; color: white !important; letter-spacing: -0.04em;">Vous êtes un Expert ?</h2>
+            <p style="color: rgba(255,255,255,0.7); margin-bottom: 32px; font-size: 1.15rem; max-width: 600px; margin-left: auto; margin-right: auto; font-weight: 500;">Rejoignez l'élite des talents ultramarins et accédez aux meilleures missions stratégiques.</p>
+            <a href="../register-choice.html?role=expert" class="cta-button primary" style="background: #10b981; color: white; padding: 20px 48px; font-size: 1.2rem; border-radius: 16px; font-weight: 800; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">Créer ma Vitrine (Gratuit)</a>
+        </div>
+    </main>
+
+    <footer style="background: #fff; border-top: 1px solid #e2e8f0; padding: 60px 0; margin-top: 80px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <img src="../assets/images/logo-domtomconnect.png" style="height: 30px; filter: grayscale(1); opacity: 0.6;">
+                    <p style="font-size: 0.85rem; color: #94a3b8;">&copy; 2026 Domtom Connect. Tous droits réservés.</p>
+                </div>
+                <a href="../support" style="color:#64748b; font-weight:700; text-decoration:none;">Support & Aide</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CORE PLATFORM SCRIPTS (Standardized Order) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/territory_config.js?v=11.1"></script>
+    <script src="../assets/js/auth.js?v=11.1"></script>
+    <script src="../assets/js/ui-components.js?v=11.3"></script>
+    <script src="../assets/js/script.js?v=11.1"></script>
+    
+    <!-- Local Logic -->
+    <script>
+        async function init() {
+            console.log("[Directory] Initializing...");
+            
+            // 1. Robust Supabase Check
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (!db) {
+                console.warn("[Directory] Supabase not ready, retrying...");
+                return setTimeout(init, 100);
+            }
+
+            // 2. Load Navbar
+            if (typeof loadGlobalNavbar === 'function') await loadGlobalNavbar();
+            
+            // 3. Load Data
+            await loadProfiles();
+        }
+
+        async function loadProfiles() {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            const container = document.getElementById('profiles-container');
+            if (!container) return;
+
+            // Loading state
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                    <div class="splash-loader" style="margin: 0 auto; border-top-color: #10b981;"></div>
+                    <p style="margin-top:20px; color:#64748b; font-weight:800; text-transform:uppercase; font-size:0.75rem;">Chargement des talents...</p>
+                </div>
+            `;
+
+            const search = document.getElementById('search-name').value.toLowerCase();
+            const territory = document.getElementById('filter-territory').value;
+            const location = document.getElementById('filter-location').value;
+
+            try {
+                let query = db.from('profiles').select('*').eq('role', 'expert').eq('listed', true);
+                if (territory) query = query.eq('territory', territory);
+                if (location) query = query.eq('current_location', location);
+                
+                const { data, error } = await query;
+                if (error) throw error;
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 80px;"><h3>Aucun expert trouvé.</h3></div>';
+                    return;
+                }
+
+                let filtered = data;
+                if (search) {
+                    filtered = data.filter(p => 
+                        (p.full_name || "").toLowerCase().includes(search) || 
+                        (p.expertise || "").toLowerCase().includes(search)
+                    );
+                }
+
+                container.innerHTML = filtered.map(p => `
+                    <div class="profile-card" onclick="window.location.href='profile-detail-expert.html?id=${p.id}'" style="cursor:pointer;">
+                        <div class="profile-avatar">${p.full_name ? p.full_name.charAt(0) : 'E'}</div>
+                        <h3 class="profile-name">${p.full_name}</h3>
+                        <p class="profile-role">${p.expertise || 'Expert Territorial'}</p>
+                        <div class="profile-territory" style="margin-bottom: 8px;">${p.territory || 'Territoire NC'}</div>
+                        ${p.current_location ? `<div style="font-size: 0.8rem; color: #64748b; font-weight: 600; margin-bottom: 12px;"><i class="fas fa-map-marker-alt" style="color: #ef4444;"></i> Réside à : ${p.current_location}</div>` : ''}
+                        <div class="profile-stats">
+                            <span>${p.tjm || '---'} €/j</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                if (window.UIComponents && window.UIComponents.applyAuthWall) {
+                    window.UIComponents.applyAuthWall(container, 'talents');
+                }
+
+            } catch (err) {
+                console.error("[Directory] Load Profiles Error:", err);
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color:#ef4444; font-weight:700;">Erreur lors du chargement des talents.</div>';
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
