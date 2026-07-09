@@ -14,6 +14,7 @@ DECLARE
     candidate_name  TEXT;
     first_name      TEXT;
     program_type    TEXT;
+    resend_api_key TEXT := 're_452nrNAV_MDD6utRFPXVHtKRtYgPMt1y7';
 BEGIN
     candidate_email := NEW.candidate_email;
     candidate_name  := COALESCE(NEW.candidate_name, 'Candidat');
@@ -22,11 +23,13 @@ BEGIN
     -- Optionnel : identifier le programme depuis le form
     program_type    := COALESCE(NEW.project_name, 'votre projet');
 
-    PERFORM public.send_brevo_email(
-        candidate_email,
-        candidate_name,
-        'Candidature bien reçue – Domtom Connect',
-        '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+    PERFORM extensions.http_post(
+        'https://api.resend.com/emails',
+        json_build_object(
+            'from', 'Domtom Connect <onboarding@resend.dev>',
+            'to', ARRAY[candidate_email],
+            'subject', 'Candidature bien reçue – Domtom Connect',
+            'html', '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,''Segoe UI'',Roboto,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 20px;">
 <tr><td align="center">
@@ -52,6 +55,9 @@ BEGIN
 </table>
 </td></tr></table>
 </body></html>'
+        )::text,
+        'application/json',
+        ARRAY[extensions.http_header('Authorization', 'Bearer ' || resend_api_key)]
     );
     RETURN NEW;
 END;
