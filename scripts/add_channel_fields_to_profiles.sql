@@ -1,0 +1,4 @@
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS channel_name TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS channel_bio TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS channel_banner_url TEXT;
+ALTER TABLE profiles ADD COLUMN IF NOT EXISTS channel_avatar_url TEXT;

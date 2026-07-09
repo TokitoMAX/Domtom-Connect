@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domtom Connect | Accompagnement 1-to-1 & Incubateur</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* Surcharge pour le thème Dark / Emerald du funnel */
+        :root {
+            --funnel-bg: var(--gray-900); /* #111827 Obsidian Dark */
+            --funnel-surface: #1f2937;
+            --funnel-accent: var(--emerald-color); /* #10b981 */
+            --funnel-text: #ffffff;
+            --funnel-muted: #9ca3af;
+        }
+
+        body {
+            background-color: var(--funnel-bg);
+            color: var(--funnel-text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* En-tête minimaliste */
+        .funnel-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(17, 24, 39, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .funnel-header img {
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .hero-funnel {
+            padding: 80px 20px 60px;
+            text-align: center;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .badge-emerald {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--funnel-accent);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .hero-funnel h1 {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+        }
+
+        .hero-funnel h1 span {
+            background: linear-gradient(120deg, #34d399 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-funnel p {
+            font-size: 1.25rem;
+            color: var(--funnel-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        /* Vidéo de Vente (VSL) */
+        .vsl-wrapper {
+            max-width: 850px;
+            margin: 0 auto 50px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+            position: relative;
+            background: #000;
+        }
+
+        .vsl-wrapper::before {
+            content: "";
+            display: block;
+            padding-top: 56.25%; /* Ratio 16:9 */
+        }
+
+        .vsl-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .vsl-placeholder svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            color: var(--funnel-accent);
+            opacity: 0.8;
+        }
+
+        .cta-funnel {
+            background: var(--funnel-accent);
+            color: #ffffff !important;
+            font-size: 1.25rem;
+            font-weight: 800;
+            padding: 20px 50px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .cta-funnel:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            background: #059669;
+        }
+
+        .urgency-text {
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: var(--funnel-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Section Problèmes (La Réalité) */
+        .pain-points-section {
+            padding: 80px 20px;
+            background: var(--funnel-surface);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .pain-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pain-card {
+            background: rgba(17, 24, 39, 0.5);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .pain-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .pain-card h3 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .pain-card p {
+            color: var(--funnel-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Section Solution (Le Rêve & L'Offre) */
+        .solution-section {
+            padding: 100px 20px;
+            background: var(--funnel-bg);
+            position: relative;
+        }
+
+        .solution-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100%;
+            background: radial-gradient(circle at top, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .solution-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .solution-card {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .solution-icon {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .solution-content h3 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .solution-content p {
+            color: var(--funnel-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Incubator highlight */
+        .incubator-highlight {
+            max-width: 800px;
+            margin: 80px auto 0;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(17, 24, 39, 0.8) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .incubator-highlight h3 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .incubator-highlight p {
+            font-size: 1.15rem;
+            color: var(--funnel-muted);
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .final-cta-section {
+            text-align: center;
+            padding: 80px 20px 100px;
+        }
+
+        .footer-funnel {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.3);
+            font-size: 0.9rem;
+            background: var(--funnel-surface);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête minimaliste -->
+    <header class="funnel-header">
+        <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
+    </header>
+
+    <!-- Héro & VSL -->
+    <main class="hero-funnel">
+        <span class="badge-emerald">Accompagnement Stratégique 1-to-1</span>
+        <h1>Ne naviguez plus à vue. <span>Structurez votre croissance</span> avec un expert à vos côtés.</h1>
+        <p>Pour les entrepreneurs ambitieux de la diaspora (Antilles-Guyane, US, Canada). Vous avez la vision, j'apporte la méthode. Bénéficiez d'un accompagnement sur-mesure pour avancer pas à pas, structurer vos processus et briser votre plafond de verre.</p>
+        
+        <!-- Explication de l'accompagnement (Remplacement de la vidéo) -->
+        <div class="methodology-wrapper" style="max-width: 850px; margin: 0 auto 50px; text-align: left; background: rgba(31, 41, 55, 0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px;">
+            <h2 style="font-size: 1.8rem; color: #ffffff; margin-bottom: 24px; text-align: center;">En quoi consiste cet accompagnement 1-to-1 ?</h2>
+            <p style="color: var(--funnel-muted); font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Je m'implique personnellement dans votre entreprise comme un véritable partenaire de croissance. Voici notre plan d'action pour briser votre plafond de verre :
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">1</div>
+                    <div>
+                        <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Audit & Roadmap Digitale</h4>
+                        <p style="color: var(--funnel-muted); font-size: 1rem; margin: 0; line-height: 1.6;">Nous analysons votre existant pour définir une feuille de route structurée autour de vos objectifs à court, moyen et long terme. Chaque action digitale est millimétrée pour servir votre croissance.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">2</div>
+                    <div>
+                        <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Conseil & Écosystème Technique</h4>
+                        <p style="color: var(--funnel-muted); font-size: 1rem; margin: 0; line-height: 1.6;">Nous concevons ensemble l'architecture de vos outils (plateformes, automatisations, vitrine). Vous gagnez du temps et consolidez votre infrastructure technique.</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">3</div>
+                    <div>
+                        <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Pilotage & Accompagnement jusqu'au Résultat</h4>
+                        <p style="color: var(--funnel-muted); font-size: 1rem; margin: 0; line-height: 1.6;">Nous avançons de manière itérative avec un suivi 1-to-1 régulier. Et surtout : mon accompagnement continue jusqu'à ce que nous ayons atteint les objectifs fixés ensemble.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="candidature-mastermind.html" class="cta-funnel">
+            Réserver mon audit stratégique offert
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+        </a>
+        <div class="urgency-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Places limitées. Accompagnement exclusif en 1-to-1.
+        </div>
+    </main>
+
+    <!-- Section des Problèmes -->
+    <section class="pain-points-section">
+        <div class="section-header">
+            <h2>Vous avez du potentiel, mais vous bloquez sur ces obstacles</h2>
+            <p style="color: var(--funnel-muted); font-size: 1.1rem;">La réalité des entrepreneurs qui réussissent, c'est qu'ils finissent par devenir le goulot d'étranglement de leur propre business.</p>
+        </div>
+        
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3>Surcharge et manque de temps</h3>
+                <p>Vous travaillez énormément mais vous passez votre temps dans l'opérationnel. Vous n'avez plus l'énergie pour la stratégie et la véritable croissance.</p>
+            </div>
+            
+            <div class="pain-card">
+                <div class="pain-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                    </svg>
+                </div>
+                <h3>L'exécution chaotique</h3>
+                <p>Vous avez d'excellentes idées, mais leur mise en place digitale est désorganisée. Le manque de processus clairs freine considérablement votre évolution.</p>
+            </div>
+            
+            <div class="pain-card">
+                <div class="pain-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                </div>
+                <h3>Le poids de la solitude</h3>
+                <p>Prendre toutes les décisions stratégiques seul est épuisant. Vous n'avez personne pour "challenger" vos idées et vous accompagner vers la réussite.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- La Solution -->
+    <section class="solution-section">
+        <div class="section-header">
+            <h2>L'Écosystème Ultime de Croissance</h2>
+            <p style="color: var(--funnel-muted); font-size: 1.1rem;">Une méthode de structuration digitale de haut niveau, conçue spécifiquement pour propulser les entreprises de notre diaspora.</p>
+        </div>
+
+        <div class="solution-grid">
+            <div class="solution-card">
+                <div class="solution-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                </div>
+                <div class="solution-content">
+                    <h3>Votre Associé Digital & Co-leader</h3>
+                    <p>C'est comme avoir un véritable associé dédié à votre stratégie, sans céder de parts d'entreprise. Je divise votre charge mentale par deux en orchestrant l'intégralité de vos processus et lancements.</p>
+                </div>
+            </div>
+
+            <div class="solution-card">
+                <div class="solution-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                    </svg>
+                </div>
+                <div class="solution-content">
+                    <h3>Structuration & Processus</h3>
+                    <p>Fini de tout gérer dans l'urgence. Nous mettons en place des méthodes éprouvées (Roadmap, suivi Agile, optimisation de l'écosystème) pour que votre entreprise tourne de manière fluide.</p>
+                </div>
+            </div>
+
+            <div class="solution-card">
+                <div class="solution-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="solution-content">
+                    <h3>Engagement Total : Jusqu'au résultat</h3>
+                    <p>C'est ce qui me différencie radicalement. L'accompagnement 1-to-1 ne s'arrête pas au bout d'un temps arbitraire. Je reste à vos côtés jusqu'à ce que les objectifs fixés au départ soient atteints.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="final-cta-section">
+            <a href="candidature-mastermind.html" class="cta-funnel">
+                Je veux structurer ma croissance
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+            </a>
+            <p style="margin-top: 16px; font-size: 0.95rem; color: var(--funnel-muted);">
+                Audit de 30 min. Nous ne prenons qu'un nombre très limité de partenaires.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pied de page minimal -->
+    <footer class="footer-funnel">
+        &copy; 2026 Domtom Connect. Tous droits réservés.
+    </footer>
+
+</body>
+</html>

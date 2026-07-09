@@ -1,0 +1,79 @@
+{
+    "cleanUrls": true,
+    "rewrites": [
+        {
+            "source": "/marketplace/expert/directory",
+            "destination": "/marketplace/directory"
+        },
+        {
+            "source": "/marketplace/company/directory",
+            "destination": "/marketplace/companies"
+        },
+        {
+            "source": "/marketplace/company/:id",
+            "destination": "/marketplace/profile-detail-company?id=:id"
+        },
+        {
+            "source": "/marketplace/expert/:id",
+            "destination": "/marketplace/profile-detail-expert?id=:id"
+        },
+        {
+            "source": "/(.*)/assets/:match*",
+            "destination": "/assets/:match*"
+        },
+        {
+            "source": "/dashboard/:path*",
+            "destination": "/mon-espace"
+        },
+        {
+            "source": "/mon-espace/:path*",
+            "destination": "/mon-espace"
+        },
+        {
+            "source": "/:slug",
+            "destination": "/api/resolve-slug?slug=:slug"
+        }
+    ],
+    "redirects": [
+        {
+            "source": "/connexion",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/connexion.html",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/login.html",
+            "destination": "/login",
+            "permanent": true
+        },
+        {
+            "source": "/register-choice.html",
+            "destination": "/register-choice",
+            "permanent": true
+        },
+        {
+            "source": "/dashboard",
+            "destination": "/mon-espace",
+            "permanent": true
+        },
+        {
+            "source": "/dashboard.html",
+            "destination": "/mon-espace",
+            "permanent": true
+        },
+        {
+            "source": "/mon-projet",
+            "destination": "/epopee",
+            "permanent": true
+        },
+        {
+            "source": "/mon-projet.html",
+            "destination": "/epopee",
+            "permanent": true
+        }
+    ]
+}

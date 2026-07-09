@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Créer un compte – Domtom Connect</title>
+    <meta name="description" content="Rejoignez l'écosystème Domtom Connect.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 24px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 48px;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            background: var(--white);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .auth-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .social-auth {
+            margin-bottom: 24px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .divider span {
+            padding: 0 12px;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .auth-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-card">
+        <header class="auth-header">
+            <a href="../">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="auth-logo">
+            </a>
+            <h1 class="auth-title">Créer votre compte</h1>
+            <p class="auth-subtitle">Rejoignez l'infrastructure de développement des territoires et connectez-vous aux meilleurs projets.</p>
+        </header>
+
+        <div class="social-auth">
+            <button class="cta-button secondary" onclick="handleGoogleSignUp()"
+                style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+                Continuer avec Google
+            </button>
+        </div>
+
+        <div class="divider">
+            <span>OU</span>
+        </div>
+
+        <form class="auth-form" id="signupForm">
+            <div class="input-group">
+                <label>Nom complet</label>
+                <input type="text" id="fullName" placeholder="Prénom Nom" required>
+            </div>
+            <div class="input-group">
+                <label>Email professionnel</label>
+                <input type="email" id="email" placeholder="nom@entreprise.com" required>
+            </div>
+            <div class="input-group">
+                <label>Mot de passe</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="cta-button primary" style="padding: 14px;">Créer mon compte</button>
+            <p id="authError" style="color: #ff4d4d; font-size: 0.85rem; text-align: center; display: none;"></p>
+        </form>
+
+        <footer class="auth-footer">
+            <p>Déjà inscrit ? <a href="../login.html">Se connecter</a></p>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/form-security.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+        // Redirection immédiate si déjà connecté
+        window.addEventListener('load', async () => {
+            try {
+                const session = await getSession();
+                if (session) {
+                    window.location.href = '../mon-espace.html';
+                }
+            } catch (err) {
+                console.error("Erreur de session:", err);
+            }
+        });
+
+        async function handleGoogleSignUp() {
+            console.log("Tentative de connexion Google...");
+            try {
+                await signInWithGoogle();
+            } catch (err) {
+                console.error("Détails erreur Google:", err);
+                const errorEl = document.getElementById('authError');
+                errorEl.textContent = "Erreur Google : " + (err.error_description || err.message || "Problème de configuration");
+                errorEl.style.display = 'block';
+            }
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const fullName = document.getElementById('fullName').value.trim();
+            const errorEl = document.getElementById('authError');
+            const submitBtn = e.target.querySelector('button');
+
+            try {
+                errorEl.style.display = 'none';
+
+                // VALIDATIONS DE SÉCURITÉ ANTI-FAKE
+                if (!window.formSecurity.isValidName(fullName)) {
+                    throw new Error("Veuillez saisir un prénom et nom valides pour rejoindre le réseau.");
+                }
+                if (!window.formSecurity.isValidEmail(email)) {
+                    throw new Error("L'adresse email fournie semble invalide ou suspecte.");
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Création...';
+
+                await signUpWithEmail(email, password, fullName);
+
+                // Redirection vers page d'attente
+                window.location.href = 'verify-email.html';
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Créer mon compte';
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>

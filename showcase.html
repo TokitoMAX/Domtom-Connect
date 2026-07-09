@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Connect | Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/brutalist-showcase.css">
+    <style>
+        body { background: #fff; margin: 0; padding: 0; }
+        .loader { width: 48px; height: 48px; border: 5px solid #020617; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
+        /* Removed legacy modal styles - now in brutalist-showcase.css */
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <div id="public-showcase-container"></div>
+    <div id="details-modal-overlay" class="modal-overlay"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Global Supabase Init
+        window._supabase = supabase.createClient('https://vlpzmxddgdjjtrpbtksd.supabase.co', 'sb_publishable_C87PskG61FXoIIZMZcu8LQ_kH1iFkCF');
+    </script>
+    
+    <script src="assets/js/modules/showcase.module.js?v=11.21"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const providerId = urlParams.get('id') || window.INJECTED_PROFILE_ID;
+            const container = document.getElementById('public-showcase-container');
+            
+            if (providerId && window.ShowcaseModule) {
+                await window.ShowcaseModule.renderPublicShowcase(container, providerId);
+            } else {
+                container.innerHTML = '<div style="text-align:center;padding:100px;font-family:sans-serif;"><h1>Oops!</h1><p>Boutique non trouvée.</p></div>';
+            }
+        });
+    </script>
+</body>
+</html>

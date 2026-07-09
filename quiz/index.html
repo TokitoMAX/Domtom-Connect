@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>Quiz : Votre projet est-il prêt ? - Domtom Connect</title>
+    <meta name="description" content="Testez en 2-3 minutes si votre projet est prêt à être lancé et recevez un score de préparation avec des recommandations personnalisées adaptées à votre profil entrepreneur.">
+    <meta name="keywords" content="quiz projet entrepreneurial, test préparation projet, évaluation projet DOM-TOM, quiz entrepreneur antilles, évaluation viabilité projet">
+    <meta name="author" content="Domtom Connect">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://domtomconnect.com/quiz">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://domtomconnect.com/quiz">
+    <meta property="og:title" content="Quiz : Votre projet est-il prêt ? - Domtom Connect">
+    <meta property="og:description" content="Testez en 2-3 minutes si votre projet est prêt à être lancé et recevez un score de préparation avec des recommandations personnalisées.">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Domtom Connect">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://domtomconnect.com/quiz">
+    <meta property="twitter:title" content="Quiz : Votre projet est-il prêt ? - Domtom Connect">
+    <meta property="twitter:description" content="Testez en 2-3 minutes si votre projet est prêt à être lancé et recevez un score de préparation avec des recommandations personnalisées.">
+    <meta property="twitter:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Quiz : Votre projet est-il prêt ?",
+      "description": "Testez en 2-3 minutes si votre projet est prêt à être lancé et recevez un score de préparation avec des recommandations personnalisées adaptées à votre profil entrepreneur.",
+      "url": "https://domtomconnect.com/quiz",
+      "inLanguage": "fr-FR",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Domtom Connect",
+        "url": "https://domtomconnect.com"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Évaluation de projet entrepreneurial",
+        "description": "Test d'évaluation pour déterminer si un projet entrepreneurial est prêt à être lancé"
+      }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="../assets/css/style.css?v=10.1">
+    <link rel="stylesheet" href="../assets/css/quiz.css?v=1.1">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand" id="logo-home" title="Retour à l'accueil" onclick="window.location.href='/'; return false;" style="cursor: pointer; position: relative; z-index: 9999;">
+                <img src="../assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo" onclick="window.location.href='/'; return false;" style="cursor: pointer;">
+                <span class="nav-brand-name" onclick="window.location.href='/'; return false;" style="cursor: pointer;">Domtom Connect</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="quiz-page">
+        <div class="container">
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h1>Votre profil est-il prêt ?</h1>
+                    <p>Répondez à quelques questions rapides et recevez une évaluation personnalisée adaptée à votre profil</p>
+                </div>
+
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+                    <span class="quiz-progress-text" id="quiz-progress-text">Question 1</span>
+                </div>
+
+                <div class="quiz-content" id="quiz-content">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <div class="quiz-results" id="quiz-results" style="display: none;">
+                    <!-- Results will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/quiz.js?v=2.0"></script>
+    <script src="../assets/js/lead-tracking.js?v=1.0"></script>
+</body>
+</html>

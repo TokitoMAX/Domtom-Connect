@@ -1,0 +1,39 @@
+name: Rappels Email Inactivité – Domtom Connect
+
+# Exécution automatique chaque lundi à 9h00 (heure Paris)
+on:
+  schedule:
+    - cron: '0 7 * * 1'  # 7h UTC = 9h Paris (heure d'été)
+  
+  # Permet aussi de déclencher manuellement depuis GitHub
+  workflow_dispatch:
+
+jobs:
+  send-inactivity-reminders:
+    name: Envoyer les rappels aux utilisateurs inactifs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Appeler la fonction Supabase send_inactivity_reminders
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          curl -s -o response.json -w "%{http_code}" \
+            -X POST \
+            "${SUPABASE_URL}/rest/v1/rpc/send_inactivity_reminders" \
+            -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{}' > http_status.txt
+          
+          HTTP_STATUS=$(cat http_status.txt)
+          echo "Statut HTTP : $HTTP_STATUS"
+          cat response.json
+
+          if [ "$HTTP_STATUS" -ne 200 ] && [ "$HTTP_STATUS" -ne 204 ]; then
+            echo "ERREUR : La fonction a échoué avec le statut $HTTP_STATUS"
+            exit 1
+          fi
+
+          echo "Rappels envoyés avec succès."

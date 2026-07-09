@@ -1,0 +1,3 @@
+-- MIGRATION : SMART INVITATIONS
+ALTER TABLE collaborators ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'pending';
+ALTER TABLE collaborators ADD COLUMN IF NOT EXISTS invited_by UUID REFERENCES auth.users(id);

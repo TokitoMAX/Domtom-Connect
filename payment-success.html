@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Confirmé | Domtom Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900;950&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Abstract Background Elements */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+            padding: 50px 40px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 24px;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+            position: relative;
+        }
+
+        .icon::after {
+            content: '';
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .amount-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 32px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .amount-box .label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #34d399;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .amount-box .value {
+            font-size: 2.5rem;
+            font-weight: 950;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(255, 255, 255, 0.3);
+            background: #f8fafc;
+        }
+
+        .btn.btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+        }
+
+        .btn.btn-primary:hover {
+            box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 24px;
+            transition: color 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            color: #ffffff;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        #email-notif {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+    </style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1C5QTWZFER');
+</script>
+</head>
+<body>
+    <div class="card">
+        <div class="icon" id="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h1 id="success-title">PAIEMENT CONFIRMÉ !</h1>
+        <p id="success-msg">Votre achat a été validé avec succès.</p>
+        <p id="sub-msg">L'expert a été notifié et vous contactera très prochainement.</p>
+
+        <div class="amount-box">
+            <div class="label" id="amount-label">Montant payé</div>
+            <div class="value" id="amount-display">Chargement...</div>
+        </div>
+
+        <p style="font-size:0.8rem; margin-top:5px;" id="email-notif">
+            Un e-mail de confirmation vous a été envoyé.
+        </p>
+
+        <a href="mon-espace.html" class="btn btn-primary"><i class="fas fa-home"></i> Accéder à mon espace</a>
+        
+        <div id="event-actions" style="display:none; margin-top:16px; flex-direction:column; gap:12px; align-items:center;">
+            <button onclick="downloadPDF()" class="btn"><i class="fas fa-download"></i> Télécharger mon Billet (PDF)</button>
+            <a id="calendar-link" href="#" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                <i class="fas fa-calendar-alt"></i> Ajouter à Google Calendar
+            </a>
+        </div>
+
+        <a href="/" class="btn-secondary">Retour à l'accueil</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="/assets/js/auth.js?v=2.0"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        const type = params.get('type') || 'showcase';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const title = document.getElementById('success-title');
+            const msg = document.getElementById('success-msg');
+            const subMsg = document.getElementById('sub-msg');
+            const icon = document.getElementById('success-icon');
+            const amountDisplay = document.getElementById('amount-display');
+
+            // 1. UI Adjustments based on type
+            if (type === 'subscription') {
+                title.textContent = 'PACK ACTIVÉ !';
+                msg.textContent = 'Votre abonnement est désormais actif.';
+                subMsg.textContent = 'Vous avez maintenant accès à tous vos privilèges territoriaux.';
+                icon.innerHTML = '<i class="fas fa-rocket"></i>';
+                document.getElementById('amount-label').textContent = 'Statut';
+                amountDisplay.textContent = 'ACTIF';
+            } else if (type === 'quote') {
+                title.textContent = 'DEVIS RÉGLÉ !';
+                msg.textContent = 'Le paiement de votre devis a été reçu.';
+                subMsg.textContent = 'La mission peut désormais débuter officiellement.';
+                icon.innerHTML = '<i class="fas fa-file-alt"></i>';
+            } else if (type === 'event') {
+                title.textContent = 'BILLET RÉSERVÉ !';
+                msg.textContent = 'Votre place est officiellement confirmée.';
+                subMsg.textContent = 'Préparez-vous à vivre un super événement.';
+                icon.innerHTML = '<i class="fas fa-ticket-alt"></i>';
+            }
+
+            // 2. Data Fetching
+            if (sessionId) {
+                try {
+                    const table = type === 'showcase' ? 'showcase_orders' : (type === 'event' ? 'tickets' : 'business_docs');
+                    const { data: order } = await window._supabase
+                        .from(table)
+                        .select('*')
+                        .eq('stripe_session_id', sessionId)
+                        .single();
+
+                    if (order) {
+                        const amount = order.total_price || order.total_amount || order.amount_paid;
+                        amountDisplay.textContent = `${amount.toFixed(2)} €`;
+
+                        if (type === 'event') {
+                            document.getElementById('event-actions').style.display = 'flex';
+                            prepareEventActions(order);
+                        }
+                    } else {
+                        amountDisplay.textContent = 'Validé ✓';
+                    }
+                } catch (e) {
+                    console.warn("Retry fetching order...");
+                    setTimeout(() => window.location.reload(), 2000);
+                }
+            }
+        });
+
+        let eventData = null;
+        let ticketData = null;
+
+        async function prepareEventActions(ticket) {
+            ticketData = ticket;
+            const { data: ev } = await window._supabase.from('events').select('*').eq('id', ticket.event_id).single();
+            if (ev) {
+                eventData = ev;
+                // Google Calendar Link
+                const start = ev.event_date.replace(/-/g, '') + 'T180000Z'; // Dummy time if missing
+                const end = ev.event_date.replace(/-/g, '') + 'T220000Z';
+                const calUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(ev.title)}&details=${encodeURIComponent(ev.description || '')}&location=${encodeURIComponent(ev.location)}&dates=${start}/${end}`;
+                document.getElementById('calendar-link').href = calUrl;
+            }
+        }
+
+        async function downloadPDF() {
+            if (!eventData || !ticketData) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Style
+            doc.setFillColor(15, 23, 42); // Navy
+            doc.rect(0, 0, 210, 40, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.text('DOMTOM CONNECT', 20, 25);
+            doc.setFontSize(10);
+            doc.text('VOTRE BILLET OFFICIEL', 150, 25);
+
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(28);
+            doc.text(eventData.title.toUpperCase(), 20, 70);
+
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`DATE : ${eventData.event_date}`, 20, 85);
+            doc.text(`LIEU : ${eventData.location}`, 20, 95);
+            
+            doc.setDrawColor(226, 232, 240);
+            doc.line(20, 110, 190, 110);
+
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text('INFOS ACHETEUR', 20, 130);
+            doc.setFontSize(11);
+            doc.text(`Email : ${ticketData.buyer_email}`, 20, 140);
+            doc.text(`Montant : ${ticketData.amount_paid.toFixed(2)} €`, 20, 150);
+
+            // QR Code (Placeholder image or API)
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticketData.qr_token}`;
+            doc.addImage(qrUrl, 'PNG', 140, 120, 50, 50);
+
+            doc.setFontSize(9);
+            doc.setTextColor(150, 150, 150);
+            doc.text(`ID Billet : ${ticketData.id}`, 20, 280);
+            doc.text('Présentez ce QR Code à l\'entrée de l\'événement.', 20, 285);
+
+            doc.save(`Billet_${eventData.title.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        // Auto-redirect
+        setTimeout(() => {
+            window.location.href = 'mon-espace.html';
+        }, 15000);
+    </script>
+</body>
+</html>
