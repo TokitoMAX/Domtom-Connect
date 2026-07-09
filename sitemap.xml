@@ -576,4 +576,35 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
+    <url>
+        <loc>https://domtomconnect.com/blog/offre-copilotage-startup-outremer</loc>
+        <lastmod>2026-07-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domtomconnect.com/blog/optimiser-logistique-export-guyane</loc>
+        <lastmod>2026-07-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domtomconnect.com/blog/digitalisation-commerce-reunion-budget</loc>
+        <lastmod>2026-07-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domtomconnect.com/blog/financement-startup-tech-martinique</loc>
+        <lastmod>2026-07-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domtomconnect.com/blog/expansion-internationale-guadeloupe-afrique-canada</loc>
+        <lastmod>2026-07-09</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
 </urlset>
