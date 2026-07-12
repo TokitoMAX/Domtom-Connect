@@ -38,6 +38,7 @@
 <!-- Styles -->
 <link href="../assets/css/style.css?v=10.1" rel="stylesheet"/>
 <link href="../assets/css/blog.css?v=1.0" rel="stylesheet"/>
+<link href="../assets/css/popup.css?v=2.0" rel="stylesheet"/>
 <!-- Structured Data -->
 <script type="application/ld+json">
     {
@@ -69,14 +70,32 @@
 <body>
 <!-- Navigation Isolée (v4.3) -->
 <nav class="navbar">
-<div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-    <a class="nav-brand" href="../" id="logo-home" title="Accueil Domtom Connect">
-        <img alt="Domtom Connect" class="nav-logo" src="../assets/images/logo-domtomconnect.png" style="height:40px;"/>
-        <span class="nav-brand-name" style="margin-left:10px; font-weight:800; color:#0f172a;">Domtom Connect</span>
-    </a>
-    <div class="nav-actions" id="nav-actions-container">
-        <a class="cta-button secondary" href="../" style="text-decoration:none; color:#64748b; font-weight:600;">← Retour au site</a>
-    </div>
+<div class="container">
+<a class="nav-brand" href="../" id="logo-home" title="Accueil Domtom Connect">
+<img alt="Domtom Connect" class="nav-logo" src="../assets/images/logo-domtomconnect.png"/>
+<div class="nav-brand-text">
+<span class="nav-brand-name">Domtom Connect</span>
+</div>
+</a>
+<button aria-controls="primary-navigation" aria-expanded="false" aria-label="Menu" class="nav-toggle" type="button">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<div class="nav-content" id="primary-navigation">
+<div class="nav-links" id="nav-links-container">
+<a href="../marketplace/directory.html">Annuaire des Experts</a>
+<a href="../marketplace/jobs.html">Missions &amp; Opportunités</a>
+<a href="../marketplace/projects.html">Projets &amp; Épopées</a>
+<a href="../marketplace/evenements">Événements Pro</a>
+<a href="../marketplace/companies">Annuaire Entreprises</a>
+</div>
+<div class="nav-actions" id="nav-actions-container">
+<a class="cta-button secondary" href="javascript:history.back()">← Retour</a>
+<a class="cta-button secondary" href="../login.html" id="login-link">Connexion</a>
+<a class="cta-button primary" href="../register-choice.html" id="start-button">Démarrer</a>
+</div>
+</div>
 </div>
 </nav>
 <!-- Blog Section -->
@@ -2439,6 +2458,7 @@
 <script src="../assets/js/script.js?v=2"></script>
 <script src="../assets/js/blog.js?v=1.0"></script>
 <script src="../assets/js/form-security.js?v=1.0"></script>
+<script src="../assets/js/exit-intent.js?v=2.0"></script>
 <script src="../assets/js/lead-tracking.js?v=1.0"></script>
 </body>
 </html>
