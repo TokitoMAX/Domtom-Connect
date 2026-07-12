@@ -83,10 +83,10 @@
             <p class="app-subtitle">Le réseau social mobile de la diaspora ultramarine. Créez des posts, regardez des stories, réseautez et ne manquez rien de votre communauté, directement dans votre poche.</p>
             
             <div class="download-buttons">
-                <a href="https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DomtomConnect-v2.apk" target="_blank" rel="noopener noreferrer" onclick="trackAndDownloadAPK()" class="btn-download android">
+                <a id="android-download-link" href="https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DomtomConnectv3.apk" target="_blank" rel="noopener noreferrer" onclick="trackAndDownloadAPK()" class="btn-download android">
                     <i class="fab fa-android btn-icon" style="color: #10b981;"></i>
                     <div>
-                        <span class="btn-text-small">Télécharger pour</span>
+                        <span class="btn-text-small" id="android-version-text">Télécharger pour</span>
                         <span class="btn-text-large">Android (APK)</span>
                     </div>
                 </a>
@@ -184,6 +184,20 @@
                 });
             }
         }
+
+        // Récupérer la dernière version dynamiquement depuis le SaaS
+        fetch('/app-version.json?t=' + new Date().getTime())
+            .then(response => response.json())
+            .then(data => {
+                const androidData = data.android;
+                if (androidData && androidData.apkUrl) {
+                    // Mettre à jour le lien
+                    document.getElementById('android-download-link').href = androidData.apkUrl;
+                    // Mettre à jour le texte
+                    document.getElementById('android-version-text').textContent = 'Version ' + androidData.versionName + ' disponible';
+                }
+            })
+            .catch(err => console.error("Erreur de récupération de la version :", err));
     </script>
 </body>
 </html>
