@@ -18,108 +18,341 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        .app-hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
+        body { background: #f8fafc; }
+        
+        .store-hero {
+            background: white;
+            padding: 120px 0 60px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .store-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .store-header { flex-direction: column; align-items: center; text-align: center; }
+        }
+        
+        .app-icon-container {
+            width: 160px;
+            height: 160px;
+            border-radius: 36px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             display: flex;
             align-items: center;
-            position: relative;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.2);
+            flex-shrink: 0;
             overflow: hidden;
-            padding: 120px 0 80px;
         }
         
-        .glow-circle-1 { position: absolute; top: 10%; right: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%); border-radius: 50%; }
-        .glow-circle-2 { position: absolute; bottom: 10%; left: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%); border-radius: 50%; }
+        .app-icon-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         
-        .app-hero-content {
-            position: relative;
-            z-index: 2;
+        .app-icon-container i { font-size: 5rem; color: white; }
+        
+        .app-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .app-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0f172a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+        
+        .app-developer {
+            font-size: 1.2rem;
+            color: #10b981;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .store-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .store-actions { justify-content: center; }
+        }
+        
+        .btn-download-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #10b981;
             color: white;
-            text-align: center;
-            max-width: 800px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 16px 40px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-download-primary:hover {
+            transform: translateY(-2px);
+            background: #059669;
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+        
+        .app-meta {
+            display: flex;
+            gap: 24px;
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .app-meta { justify-content: center; flex-wrap: wrap; }
+        }
+        
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+        
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 60px 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 24px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+        
+        .screenshots-container {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            padding: 10px 20px 40px;
+            max-width: 940px;
             margin: 0 auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
         
-        .app-title { font-size: clamp(3rem, 8vw, 4.5rem); font-weight: 950; letter-spacing: -0.04em; margin-bottom: 24px; line-height: 1.1; font-family: 'Plus Jakarta Sans', sans-serif; color: white !important; }
-        .app-subtitle { font-size: 1.25rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 48px; }
+        /* Hide scrollbar */
+        .screenshots-container::-webkit-scrollbar { display: none; }
+        .screenshots-container { -ms-overflow-style: none; scrollbar-width: none; }
         
-        .download-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        
-        .btn-download {
-            display: inline-flex; align-items: center; gap: 16px;
-            padding: 16px 32px; border-radius: 20px; text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            color: white; font-weight: 700; text-align: left;
+        .screenshot-card {
+            flex: 0 0 auto;
+            width: 250px;
+            height: 541px;
+            background: #f1f5f9;
+            border-radius: 24px;
+            border: 8px solid #0f172a;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            scroll-snap-align: center;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
-        .btn-download:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); }
-        .btn-download.android:hover { border-color: #10b981; box-shadow: 0 10px 30px rgba(16,185,129,0.2); }
-        .btn-download.ios.disabled { opacity: 0.5; pointer-events: none; }
         
-        .btn-icon { font-size: 2rem; }
-        .btn-text-small { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 800; }
-        .btn-text-large { display: block; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .screenshot-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         
-        .comparison-section { padding: 100px 0; background: white; }
-        .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
+        .screenshot-placeholder-text {
+            position: absolute;
+            text-align: center;
+            color: #94a3b8;
+            font-weight: 600;
+            padding: 20px;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            padding: 60px 0 20px;
+            max-width: 940px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        
+        .changelog-box {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            margin-bottom: 40px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .changelog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 16px;
+        }
+        
+        .version-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        
+        .description-text {
+            color: #334155;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        
+        /* Comparison Section */
+        .comparison-section { padding: 80px 0; background: #0f172a; color: white; margin-top: 40px; }
+        .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; max-width: 1000px; margin: 60px auto 0; padding: 0 20px; }
         @media (max-width: 768px) { .vs-grid { grid-template-columns: 1fr; } }
         
-        .vs-card { padding: 40px; border-radius: 32px; border: 1px solid #e2e8f0; }
-        .vs-card.app { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); }
-        .vs-card.saas { background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .vs-card { padding: 40px; border-radius: 32px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); }
+        .vs-card.app { border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05); }
     </style>
 </head>
 <body>
     <!-- Navbar injected by JS -->
     <nav class="navbar"></nav>
 
-    <!-- Hero Section -->
-    <header class="app-hero">
-        <div class="glow-circle-1"></div>
-        <div class="glow-circle-2"></div>
-        <div class="container app-hero-content">
-            <span class="badge emerald" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 16px; border-radius: 100px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 24px;">L'Application Mobile</span>
-            <h1 class="app-title">DTC Pulse</h1>
-            <p class="app-subtitle">Le réseau social mobile de la diaspora ultramarine. Créez des posts, regardez des stories, réseautez et ne manquez rien de votre communauté, directement dans votre poche.</p>
+    <!-- Store Header Section -->
+    <header class="store-hero">
+        <div class="store-header">
+            <div class="app-icon-container">
+                <!-- Replace with actual app icon if available, else show default -->
+                <img src="assets/images/logo-domtomconnect.png" alt="DTC Pulse Icon" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <i class="fas fa-users" style="display:none;"></i>
+            </div>
             
-            <div class="download-buttons">
-                <a id="android-download-link" href="https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DomtomConnectv3.apk" target="_blank" rel="noopener noreferrer" onclick="trackAndDownloadAPK()" class="btn-download android">
-                    <i class="fab fa-android btn-icon" style="color: #10b981;"></i>
-                    <div>
-                        <span class="btn-text-small" id="android-version-text">Télécharger pour</span>
-                        <span class="btn-text-large">Android (APK)</span>
-                    </div>
-                </a>
+            <div class="app-details">
+                <span class="badge emerald" style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 6px 12px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px; width: fit-content;">Application Mobile</span>
+                <h1 class="app-title">DTC Pulse</h1>
+                <div class="app-developer">Domtom Connect</div>
                 
-                <div class="btn-download ios disabled">
-                    <i class="fab fa-apple btn-icon"></i>
-                    <div>
-                        <span class="btn-text-small">Bientôt sur</span>
-                        <span class="btn-text-large">App Store</span>
-                    </div>
+                <div class="store-actions">
+                    <a id="android-download-link" href="#" target="_blank" rel="noopener noreferrer" onclick="trackAndDownloadAPK()" class="btn-download-primary">
+                        <i class="fab fa-android"></i> Télécharger l'APK
+                    </a>
+                </div>
+                
+                <div class="app-meta">
+                    <div class="meta-item"><i class="fas fa-mobile-alt"></i> Android 8.0+</div>
+                    <div class="meta-item"><i class="fas fa-globe"></i> Français</div>
+                    <div class="meta-item"><i class="fas fa-tag"></i> Social</div>
+                    <div class="meta-item"><i class="fas fa-info-circle"></i> Installation manuelle</div>
                 </div>
             </div>
-            <p style="margin-top: 24px; font-size: 0.85rem; color: rgba(255,255,255,0.4);">*L'installation sur Android nécessite d'autoriser les sources inconnues.</p>
         </div>
     </header>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots-section">
+        <h2 class="section-title">Aperçu</h2>
+        <div class="screenshots-container">
+            <!-- Emplacements pour les futures captures d'écran -->
+            <div class="screenshot-card">
+                <img src="assets/images/screenshots/screen1.png" alt="Accueil DTC Pulse - L'ambition n'a plus de frontières" onerror="this.style.display='none'; this.previousElementSibling.style.display='block';">
+                <div class="screenshot-placeholder-text" style="display:none;"><i class="fas fa-image fa-2x" style="margin-bottom:8px;"></i><br>Capture 1<br><small style="font-size:0.75rem;">(Image manquante)</small></div>
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-placeholder-text"><i class="fas fa-image fa-2x" style="margin-bottom:8px;"></i><br>Capture 2</div>
+                <!-- <img src="assets/images/screenshots/screen2.png" alt="Capture 2"> -->
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-placeholder-text"><i class="fas fa-image fa-2x" style="margin-bottom:8px;"></i><br>Capture 3</div>
+                <!-- <img src="assets/images/screenshots/screen3.png" alt="Capture 3"> -->
+            </div>
+            <div class="screenshot-card">
+                <div class="screenshot-placeholder-text"><i class="fas fa-image fa-2x" style="margin-bottom:8px;"></i><br>Capture 4</div>
+                <!-- <img src="assets/images/screenshots/screen4.png" alt="Capture 4"> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- App Info & Changelog -->
+    <section class="content-section">
+        <div class="changelog-box">
+            <div class="changelog-header">
+                <h3 style="font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0; font-family: 'Plus Jakarta Sans', sans-serif;">Nouveautés</h3>
+                <span id="version-badge" class="version-badge">Version ...</span>
+            </div>
+            <p id="release-notes-text" style="color: #64748b; margin-top: 10px; line-height: 1.6;">Chargement des informations de mise à jour...</p>
+        </div>
+        
+        <h3 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 24px; font-family: 'Plus Jakarta Sans', sans-serif;">À propos de cette application</h3>
+        <div class="description-text">
+            <p><strong>Le réseau social mobile de la diaspora ultramarine.</strong></p>
+            <p>Créez des posts, regardez des stories, réseautez et ne manquez rien de votre communauté, directement dans votre poche. DTC Pulse a été pensé pour vous rapprocher de vos racines et des autres membres de la communauté, où que vous soyez dans le monde.</p>
+            <br>
+            <p><strong>Fonctionnalités principales :</strong></p>
+            <ul style="padding-left: 20px; margin-top: 10px;">
+                <li style="margin-bottom: 8px;">Un fil d'actualité dynamique dédié à la diaspora.</li>
+                <li style="margin-bottom: 8px;">Partage de stories éphémères et de photos.</li>
+                <li style="margin-bottom: 8px;">Messagerie intégrée pour discuter facilement.</li>
+                <li style="margin-bottom: 8px;">Groupes et événements pour se retrouver.</li>
+            </ul>
+            <br>
+            <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin-top: 20px;">
+                <p style="margin: 0; color: #b45309; font-size: 0.95rem;">
+                    <strong>Note d'installation :</strong> Étant donné que vous téléchargez l'APK en direct, votre téléphone Android vous demandera d'autoriser l'installation d'applications issues de sources inconnues. C'est une procédure normale pour les applications téléchargées hors du Play Store.
+                </p>
+            </div>
+        </div>
+    </section>
 
     <!-- Explication : App vs SaaS -->
     <section class="comparison-section">
         <div class="container">
-            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
-                <h2 style="font-size: 2.5rem; font-weight: 900; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.03em;">Ne confondez pas.</h2>
-                <p style="font-size: 1.1rem; color: #64748b;">Nous avons séparé notre écosystème en deux outils distincts pour plus d'efficacité.</p>
+            <div style="text-align: center; max-width: 700px; margin: 0 auto; padding: 0 20px;">
+                <h2 style="font-size: 2.5rem; font-weight: 900; color: white; margin-bottom: 16px; letter-spacing: -0.03em;">Ne confondez pas.</h2>
+                <p style="font-size: 1.1rem; color: #94a3b8;">Nous avons séparé notre écosystème en deux outils distincts pour plus d'efficacité.</p>
             </div>
             
             <div class="vs-grid">
                 <!-- Mobile App -->
                 <div class="vs-card app">
-                    <div style="width: 64px; height: 64px; background: #0f172a; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; margin-bottom: 24px;">
+                    <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.2); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.8rem; margin-bottom: 24px;">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px;">DTC Pulse (L'Application)</h3>
-                    <p style="color: #64748b; line-height: 1.6; margin-bottom: 24px;">Votre réseau social quotidien. C'est l'endroit pour sociabiliser, partager des moments de vie, regarder les stories de la communauté et envoyer des messages rapides.</p>
-                    <ul style="list-style: none; padding: 0; margin: 0; color: #334155;">
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 16px;">DTC Pulse (L'App)</h3>
+                    <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 24px;">Votre réseau social quotidien. C'est l'endroit pour sociabiliser, partager des moments de vie, regarder les stories de la communauté et envoyer des messages rapides.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: #e2e8f0;">
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Fil d'actualité (Feed)</li>
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Stories & Photos</li>
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Discussions de groupe</li>
@@ -128,12 +361,12 @@
                 
                 <!-- Web SaaS -->
                 <div class="vs-card saas">
-                    <div style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.8rem; margin-bottom: 24px;">
+                    <div style="width: 64px; height: 64px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; margin-bottom: 24px;">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 16px;">Domtom Connect (Le SaaS Web)</h3>
-                    <p style="color: #64748b; line-height: 1.6; margin-bottom: 24px;">Votre bureau professionnel. Conçu pour le pilotage de votre entreprise, la création de devis, la gestion de billetterie et la recherche de clients B2B.</p>
-                    <ul style="list-style: none; padding: 0; margin: 0; color: #334155;">
+                    <h3 style="font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 16px;">Domtom Connect (Web)</h3>
+                    <p style="color: #cbd5e1; line-height: 1.6; margin-bottom: 24px;">Votre bureau professionnel. Conçu pour le pilotage de votre entreprise, la création de devis, la gestion de billetterie et la recherche de clients B2B.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0; color: #e2e8f0;">
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Vitrines & E-commerce</li>
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Billetterie d'événements</li>
                         <li style="margin-bottom: 12px;"><i class="fas fa-check" style="color: #10b981; margin-right: 12px;"></i> Paiements & Facturation</li>
@@ -155,7 +388,7 @@
             const footerContainer = document.getElementById('footer-container');
             if (footerContainer) {
                 footerContainer.innerHTML = `
-                <footer style="background: #0f172a; color: white; padding: 40px 0; text-align: center;">
+                <footer style="background: #0f172a; color: white; padding: 40px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1);">
                     <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">&copy; ${new Date().getFullYear()} Domtom Connect. Tous droits réservés.</p>
                 </footer>`;
             }
@@ -190,11 +423,19 @@
             .then(response => response.json())
             .then(data => {
                 const androidData = data.android;
-                if (androidData && androidData.apkUrl) {
-                    // Mettre à jour le lien
-                    document.getElementById('android-download-link').href = androidData.apkUrl;
-                    // Mettre à jour le texte
-                    document.getElementById('android-version-text').textContent = 'Version ' + androidData.versionName + ' disponible';
+                if (androidData) {
+                    // Mettre à jour le lien si présent
+                    if (androidData.apkUrl) {
+                        document.getElementById('android-download-link').href = androidData.apkUrl;
+                    }
+                    // Mettre à jour la version
+                    if (androidData.versionName) {
+                        document.getElementById('version-badge').textContent = 'Version ' + androidData.versionName;
+                    }
+                    // Mettre à jour les nouveautés
+                    if (androidData.releaseNotes) {
+                        document.getElementById('release-notes-text').textContent = androidData.releaseNotes;
+                    }
                 }
             })
             .catch(err => console.error("Erreur de récupération de la version :", err));
