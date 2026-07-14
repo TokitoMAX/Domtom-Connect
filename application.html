@@ -325,62 +325,6 @@
         </div>
     </section>
 
-    <!-- App Reviews & SEO -->
-    <section class="reviews-section" style="padding: 60px 0; background: #fff; border-top: 1px solid #e2e8f0;">
-        <div class="container" style="max-width: 940px; margin: 0 auto; padding: 0 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
-                <div>
-                    <h2 style="font-size: 2.2rem; font-weight: 900; color: #0f172a; margin-bottom: 12px; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em;">Avis &amp; Notes</h2>
-                    <div style="display: flex; align-items: center; gap: 16px;">
-                        <span style="font-size: 3rem; font-weight: 900; color: #10b981; line-height: 1;">4.8</span>
-                        <div>
-                            <div style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 4px;">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span style="color: #64748b; font-size: 0.95rem; font-weight: 500;">Basé sur 128 avis utilisateurs</span>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="document.getElementById('review-modal').style.display='flex'" class="cta-button primary" style="background: #0f172a; color: white !important; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px rgba(15,23,42,0.15);">
-                    <i class="fas fa-pen" style="margin-right: 8px;"></i> Laisser un avis
-                </button>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;" id="reviews-list">
-                <!-- Hardcoded review 1 for SEO -->
-                <div style="background: #f8fafc; padding: 28px; border-radius: 20px; border: 1px solid #e2e8f0; transition: transform 0.3s; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                        <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem; line-height: 1.3;">Indispensable pour le réseau ultramarin</span>
-                        <span style="color: #94a3b8; font-size: 0.85rem; font-weight: 500; white-space: nowrap; margin-left: 12px;">il y a 2 j</span>
-                    </div>
-                    <div style="color: #fbbf24; font-size: 0.85rem; margin-bottom: 16px;">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.7; margin: 0;">L'application DTC Pulse est incroyable pour garder le contact avec la diaspora et trouver des opportunités d'affaires. L'interface est fluide et le fil d'actualité très pertinent.</p>
-                    <div style="margin-top: 20px; font-size: 0.9rem; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 24px; height: 24px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #475569;"><i class="fas fa-user"></i></div>
-                        Marie L.
-                    </div>
-                </div>
-                <!-- Hardcoded review 2 for SEO -->
-                <div style="background: #f8fafc; padding: 28px; border-radius: 20px; border: 1px solid #e2e8f0; transition: transform 0.3s; cursor: default;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                        <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem; line-height: 1.3;">Super concept et très utile</span>
-                        <span style="color: #94a3b8; font-size: 0.85rem; font-weight: 500; white-space: nowrap; margin-left: 12px;">il y a 1 sem</span>
-                    </div>
-                    <div style="color: #fbbf24; font-size: 0.85rem; margin-bottom: 16px;">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.7; margin: 0;">Enfin un réseau social qui comprend nos besoins ! Très pratique pour promouvoir ses services et partager ses projets avec d'autres entrepreneurs de l'outre-mer.</p>
-                    <div style="margin-top: 20px; font-size: 0.9rem; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 24px; height: 24px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #475569;"><i class="fas fa-user"></i></div>
-                        Thomas D.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Explication : App vs SaaS -->
     <section class="comparison-section">
         <div class="container">
@@ -485,75 +429,6 @@
             })
             .catch(err => console.error("Erreur de récupération de la version :", err));
             
-        function submitReview(e) {
-            e.preventDefault();
-            const name = document.getElementById('review-name').value;
-            const title = document.getElementById('review-title').value;
-            const text = document.getElementById('review-text').value;
-            
-            // Add optimistic UI update
-            const list = document.getElementById('reviews-list');
-            const newReview = document.createElement('div');
-            newReview.style.cssText = "background: #f8fafc; padding: 28px; border-radius: 20px; border: 1px solid #e2e8f0; animation: fadeIn 0.5s;";
-            newReview.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                    <span style="font-weight: 800; color: #0f172a; font-size: 1.1rem; line-height: 1.3;">${title}</span>
-                    <span style="color: #94a3b8; font-size: 0.85rem; font-weight: 500; white-space: nowrap; margin-left: 12px;">À l'instant</span>
-                </div>
-                <div style="color: #fbbf24; font-size: 0.85rem; margin-bottom: 16px;">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                </div>
-                <p style="color: #475569; font-size: 0.95rem; line-height: 1.7; margin: 0;">${text}</p>
-                <div style="margin-top: 20px; font-size: 0.9rem; color: #64748b; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-                    <div style="width: 24px; height: 24px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #475569;"><i class="fas fa-user"></i></div>
-                    ${name}
-                </div>
-            `;
-            list.insertBefore(newReview, list.firstChild);
-            
-            // Show success and close modal
-            document.getElementById('review-modal').style.display = 'none';
-            if (window.showFlashMessage) {
-                window.showFlashMessage('Merci pour votre avis !', 'success');
-            } else {
-                alert("Merci pour votre avis !");
-            }
-            document.getElementById('review-form').reset();
-            
-            // Save to Supabase (fire-and-forget)
-            if (supabaseClient) {
-                supabaseClient.from('app_reviews').insert([
-                    { user_name: name, title: title, content: text, rating: 5, platform: 'Web' }
-                ]).catch(e => console.error('Erreur sauvegarde avis', e));
-            }
-        }
-    </script>
-    
-    <!-- Review Modal -->
-    <div id="review-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(8px);">
-        <div style="background: white; padding: 40px; border-radius: 28px; width: 90%; max-width: 500px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
-            <button onclick="document.getElementById('review-modal').style.display='none'" style="position: absolute; top: 24px; right: 24px; background: #f1f5f9; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='#e2e8f0'; this.style.color='#0f172a'" onmouseout="this.style.background='#f1f5f9'; this.style.color='#64748b'"><i class="fas fa-times"></i></button>
-            <h3 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 8px; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em;">Donnez votre avis</h3>
-            <p style="color: #64748b; margin-bottom: 32px; font-size: 1rem;">Votre retour est précieux pour améliorer DTC Pulse.</p>
-            
-            <form id="review-form" onsubmit="submitReview(event)">
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 700; color: #334155; margin-bottom: 10px; font-size: 0.95rem;">Votre prénom</label>
-                    <input type="text" id="review-name" required placeholder="Ex: Jean D." style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'">
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 700; color: #334155; margin-bottom: 10px; font-size: 0.95rem;">Titre de l'avis</label>
-                    <input type="text" id="review-title" required placeholder="Ex: Super application !" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'">
-                </div>
-                <div style="margin-bottom: 32px;">
-                    <label style="display: block; font-weight: 700; color: #334155; margin-bottom: 10px; font-size: 0.95rem;">Votre message</label>
-                    <textarea id="review-text" required rows="4" placeholder="Qu'avez-vous pensé de l'application ?" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #cbd5e1; font-family: 'Inter', sans-serif; resize: vertical; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#cbd5e1'"></textarea>
-                </div>
-                <button type="submit" class="cta-button primary" style="background: #10b981; color: white !important; border: none; padding: 16px; border-radius: 12px; font-weight: 800; width: 100%; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(16,185,129,0.1), 0 2px 4px -1px rgba(16,185,129,0.06);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 15px -3px rgba(16,185,129,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px -1px rgba(16,185,129,0.1)'">
-                    Publier l'avis
-                </button>
-            </form>
-        </div>
-    </div>
+        </script>
 </body>
 </html>
