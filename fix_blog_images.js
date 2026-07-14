@@ -4,7 +4,7 @@ const path = require('path');
 const categories = {
     podcast: [
         '1590602847861-f357a9332bbc',
-        '1516280440502-3c220f188365',
+        '1590602847861-f357a9332bbc',
         '1478737270239-2f02b77fc618'
     ],
     tech: [
@@ -17,7 +17,7 @@ const categories = {
         '1499793983690-e29da59ef1c2',
         '1507525428034-b723cf961d3e',
         '1544376798-89aa6b82c6cd',
-        '1589197331516-4b8fa8795c47'
+        '1528605248644-14dd04022da1'
     ],
     community: [
         '1522071820081-009f0129c71c',
@@ -25,17 +25,17 @@ const categories = {
         '1528605248644-14dd04022da1'
     ],
     business: [
-        '1556761175-5973dc0f32b7',
+        '1451187580459-43490279c0fa',
         '1454165804606-c3d57bc86b40',
         '1444653614773-995cb1ef9efa'
     ]
 };
 
 const keywords = {
-    podcast: ['podcast', 'épisode', 'episode', 'insulink', 'interview', 'audio'],
-    tech: ['tech', 'saas', 'startup', 'digital', 'numérique', 'plateforme', 'app', 'logiciel', 'cloud', 'innovation'],
-    island: ['caraïbes', 'caribbean', 'outre-mer', 'outremer', 'martinique', 'guadeloupe', 'réunion', 'guyane', 'polynésie', 'antilles', 'tourisme', 'îles', 'island'],
-    community: ['diaspora', 'réseau', 'network', 'communauté', 'community', 'social', 'pulse', 'étudiant', 'étudiants', 'rencontre'],
+    podcast: ['podcast', 'ï¿½pisode', 'episode', 'insulink', 'interview', 'audio'],
+    tech: ['tech', 'saas', 'startup', 'digital', 'numï¿½rique', 'plateforme', 'app', 'logiciel', 'cloud', 'innovation'],
+    island: ['caraï¿½bes', 'caribbean', 'outre-mer', 'outremer', 'martinique', 'guadeloupe', 'rï¿½union', 'guyane', 'polynï¿½sie', 'antilles', 'tourisme', 'ï¿½les', 'island'],
+    community: ['diaspora', 'rï¿½seau', 'network', 'communautï¿½', 'community', 'social', 'pulse', 'ï¿½tudiant', 'ï¿½tudiants', 'rencontre'],
     business: ['business', 'b2b', 'vente', 'client', 'crm', 'facturation', 'marketplace', 'export', 'financement', 'investir', 'investissement', 'entreprise']
 };
 
