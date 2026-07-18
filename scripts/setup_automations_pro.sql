@@ -139,7 +139,7 @@ BEGIN
           <td style="padding: 40px;">
             <p style="margin:0 0 20px 0; font-size:1rem; color:#334155;">Bonjour ' || split_part(rec.full_name, ' ', 1) || ',</p>
             <p style="margin:0 0 20px 0; font-size:1rem; color:#334155; line-height:1.6;">Cela fait plusieurs semaines que vous ne vous êtes pas connecté à la plateforme Domtom Connect.</p>
-            <p style="margin:0 0 20px 0; font-size:1rem; color:#334155; line-height:1.6;">De nouvelles offres professionnelles, événements et discussions ont été publiés récemment. Connectez-vous dès à présent pour ne pas manquer les dernières opportunités de votre réseau.</p>
+            <p style="margin:0 0 20px 0; font-size:1rem; color:#334155; line-height:1.6;">Nous vous invitons à vous reconnecter pour consulter l''activité récente de votre réseau et maintenir votre profil à jour.</p>
             <table cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
               <tr><td align="center">
                 <a href="https://domtomconnect.com/" target="_blank"
