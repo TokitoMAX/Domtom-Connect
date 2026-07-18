@@ -171,12 +171,19 @@ BEGIN
 </body>
 </html>';
 
-        -- Envoi de l'email à cet utilisateur
-        PERFORM public.send_brevo_email(
-            rec.email,
-            rec.full_name,
-            email_subject,
-            email_body
+        -- Envoi de l'email via Resend
+        PERFORM net.http_post(
+            url := 'https://api.resend.com/emails',
+            body := jsonb_build_object(
+                'from', 'Domtom Connect <onboarding@resend.dev>',
+                'to', jsonb_build_array(rec.email),
+                'subject', email_subject,
+                'html', email_body
+            ),
+            headers := jsonb_build_object(
+                'Authorization', 'Bearer re_452nrNAV_MDD6utRFPXVHtKRtYgPMt1y7',
+                'Content-Type', 'application/json'
+            )
         );
 
         user_count := user_count + 1;
