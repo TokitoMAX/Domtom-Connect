@@ -78,9 +78,7 @@ const UIComponents = {
 
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#overview'), 'Accueil', 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6');
         
-        if (!isExplorateur) {
-            sidebarHtml += this.renderSidebarLink(adjust('dtc.html'), 'DTC', 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15');
-        }
+
         
         sidebarHtml += this.renderSidebarLink(adjust('marketplace/directory.html'), 'Explorer', 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
@@ -295,11 +293,7 @@ const UIComponents = {
                         <p>Communiquez en direct avec votre réseau.</p>
                     </a>
                     
-                    <a href="dtc.html" class="dash-card">
-                        <div class="dash-card-icon"><i class="fas fa-play"></i></div>
-                        <h3>DTC (Réseau Social)</h3>
-                        <p>Découvrez les dernières publications et actualités.</p>
-                    </a>
+
                 </div>
             </div>
         `;
@@ -347,7 +341,7 @@ const UIComponents = {
         }
 
         // --- NEW: Global Android App Banner ---
-        if (!document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
+        if (!window.location.pathname.includes('application.html') && !document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
             const banner = document.createElement('div');
             banner.id = 'android-promo-banner';
             banner.style.cssText = 'background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-align: center; padding: 12px 20px; font-family: "Plus Jakarta Sans", sans-serif; font-size: 0.95rem; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 16px; position: relative; z-index: 1000; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);';

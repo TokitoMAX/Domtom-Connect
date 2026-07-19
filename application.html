@@ -384,6 +384,9 @@
     <!-- Footer injected by JS -->
     <div id="footer-container"></div>
 
+    <!-- Global Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=2.0"></script>
     <script src="assets/js/ui-components.js?v=12.00"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
@@ -399,21 +402,12 @@
             }
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Supabase Initialization
-        const supabaseUrl = window.SUPABASE_URL || 'YOUR_SUPABASE_URL'; // Will be injected by config if exists
-        const supabaseAnonKey = window.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY';
-        
-        let supabaseClient;
-        if (window.SUPABASE_URL) {
-            supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
-        }
-
         function trackAndDownloadAPK() {
             // 1. Enregistrer le clic dans Supabase (fire-and-forget)
-            if (supabaseClient) {
-                supabaseClient.from('apk_downloads').insert([
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (db) {
+                db.from('apk_downloads').insert([
                     { user_agent: navigator.userAgent, platform: 'Android' }
                 ]).then(() => {
                     console.log('Téléchargement traqué avec succès');
