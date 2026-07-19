@@ -342,8 +342,9 @@ const UIComponents = {
         } else {
             config = {
                 app: { label: 'App Mobile', path: 'application.html' },
-                copilotage: { label: 'Copilotage 1-to-1', path: 'premium.html' },
-                incubateur: { label: 'Incubateur', path: 'premium.html#incubateur' }
+                accompagnement: { label: 'Accompagnement 1-to-1', path: 'premium.html' },
+                copilotage: { label: 'Copilotage', path: 'pilotage.html' },
+                incubateur: { label: 'Incubateur', path: 'incubateur.html' }
             };
         }
 
