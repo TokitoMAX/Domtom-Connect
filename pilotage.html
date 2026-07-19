@@ -57,15 +57,15 @@
         }
 
         .badge-emerald {
-            background: rgba(59, 130, 246, 0.15); /* Blue tint for Copilotage */
-            color: #60a5fa;
+            background: rgba(16, 185, 129, 0.15); /* Emerald tint for Copilotage */
+            color: var(--funnel-accent);
             padding: 8px 20px;
             border-radius: 100px;
             font-size: 0.85rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.15em;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             display: inline-block;
             margin-bottom: 30px;
         }
@@ -91,7 +91,7 @@
         }
 
         .cta-funnel {
-            background: #3b82f6;
+            background: var(--funnel-accent);
             color: #ffffff !important;
             font-size: 1.25rem;
             font-weight: 800;
@@ -103,15 +103,15 @@
             justify-content: center;
             gap: 12px;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
             border: none;
             cursor: pointer;
         }
 
         .cta-funnel:hover {
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
-            background: #2563eb;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+            background: #059669;
         }
 
         /* Features Grid */
@@ -120,7 +120,7 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             max-width: 1000px;
-            margin: 60px auto 100px;
+            margin: 60px auto 40px;
             padding: 0 20px;
             text-align: left;
         }
@@ -135,12 +135,12 @@
 
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(59, 130, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
         }
 
         .feature-card i {
             font-size: 2rem;
-            color: #60a5fa;
+            color: var(--funnel-accent);
             margin-bottom: 20px;
             display: block;
         }
@@ -158,6 +158,16 @@
             font-size: 1.05rem;
             margin: 0;
         }
+
+        .pricing-section {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto 80px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -171,14 +181,8 @@
     <main>
         <section class="hero-funnel">
             <div class="badge-emerald">Notre Offre Premium</div>
-            <h1>Vous avez la vision. <br><span style="color: #60a5fa;">Nous gérons l'exécution.</span></h1>
+            <h1>Vous avez la vision. <br><span style="color: #10b981;">Nous gérons l'exécution.</span></h1>
             <p>Le Copilotage n'est pas un simple accompagnement 1-to-1. Nous devenons votre <strong>associé opérationnel externalisé</strong>. Nous mettons les mains dans le cambouis pour structurer votre tech, vos process et vos tunnels de vente, pendant que vous vous concentrez sur votre cœur de métier.</p>
-            
-            <a href="register-choice.html" class="cta-funnel">
-                Postuler au Copilotage
-                <i class="fas fa-arrow-right"></i>
-            </a>
-            <p style="margin-top: 15px; font-size: 0.9rem; color: #6b7280;">L'accès se fait sur candidature après création de compte.</p>
         </section>
 
         <section class="features-grid">
@@ -197,6 +201,22 @@
                 <h3>Gain de Temps Massif</h3>
                 <p>Ne passez plus vos nuits sur des tâches chronophages. Déléguez l'exécution à des experts qui connaissent les réalités de votre marché.</p>
             </div>
+        </section>
+
+        <section class="pricing-section">
+            <h2 style="font-size: 2rem; margin-bottom: 10px;">Tarification Transparente</h2>
+            <p style="color: var(--funnel-muted); margin-bottom: 30px;">Parce que nous sommes votre associé, nous investissons notre temps dans votre réussite.</p>
+            
+            <div style="font-size: 3rem; font-weight: 900; color: #ffffff; margin-bottom: 10px;">
+                Sur devis <span style="font-size: 1.2rem; color: var(--funnel-muted); font-weight: 400;">/ selon les besoins</span>
+            </div>
+            <p style="color: var(--funnel-accent); font-weight: 600; margin-bottom: 30px;">Idéal pour les entreprises générant déjà du CA ou ayant un budget d'investissement technique.</p>
+            
+            <a href="register-choice.html" class="cta-funnel">
+                Postuler pour un Audit Gratuit
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: #6b7280;">L'inscription gratuite est requise pour soumettre votre dossier.</p>
         </section>
     </main>
 
