@@ -86,9 +86,9 @@ const UIComponents = {
         
         sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Les Espaces</div>`;
         sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Espace Business', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
-        sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#incubator'), 'Espace Incubateur', 'M13 10V3L4 14h7v7l9-11h-7z');
+        sidebarHtml += this.renderSidebarLink(adjust('tremplin.html'), 'Espace Incubateur', 'M13 10V3L4 14h7v7l9-11h-7z');
         sidebarHtml += this.renderSidebarLink(adjust('premium.html'), 'Espace Mentors', 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253');
-        sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#services'), 'Services & Copilotage', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+        sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Services & Copilotage', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
 
 
         
