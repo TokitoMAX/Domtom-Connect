@@ -595,3 +595,17 @@ window.showFlashMessage = function(message, type = 'success', redirectPath = nul
     el.addEventListener('click', dismiss);
     setTimeout(dismiss, 3500);
 };
+
+// ==========================================
+// AUTO-LOAD SMART APP BANNER (Android only)
+// ==========================================
+(function() {
+    // Only load if on Android to save bandwidth for iOS/Desktop
+    if (/android/i.test(navigator.userAgent)) {
+        const prefix = UIComponents.getPathPrefix ? UIComponents.getPathPrefix() : '';
+        const script = document.createElement('script');
+        script.src = prefix + 'assets/js/smart-app-banner.js';
+        script.defer = true;
+        document.head.appendChild(script);
+    }
+})();
