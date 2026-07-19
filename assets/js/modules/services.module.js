@@ -70,24 +70,19 @@ window.ServicesModule = {
         const isAnnual = this.state.billingCycle === 'annual';
         
         let cardsHtml = this.state.plans.map(plan => {
-            const currentPrice = isAnnual ? plan.priceAnnual : plan.priceMonthly;
-            const currentStripeId = isAnnual ? plan.stripe_annual : plan.stripe_monthly;
-            const period = isAnnual ? '/an' : '/mois';
-            
             return `
             <div class="incubator-card ${plan.recommended ? 'recommended' : ''}">
                 ${plan.recommended ? '<div class="incubator-badge">Le plus populaire</div>' : ''}
                 <h3 class="incubator-card-title">${plan.name}</h3>
-                <div class="incubator-price">
-                    <span class="currency">€</span><span class="amount">${currentPrice}</span><span class="period">${period}</span>
+                <div class="incubator-price" style="margin-bottom: 20px;">
+                    <span class="amount" style="font-size: 2.2rem;">Sur devis</span>
                 </div>
-                ${isAnnual ? '<p style="color:#10b981; font-weight:700; font-size:0.9rem; margin-top:-20px; margin-bottom:25px;">(2 mois offerts)</p>' : ''}
                 <ul class="incubator-features">
                     ${plan.features.map(f => `<li><i class="fas fa-check"></i> ${f}</li>`).join('')}
                 </ul>
-                <button class="incubator-btn" onclick="window.ServicesModule.checkout('${currentStripeId}', '${plan.id}', ${isAnnual})">
-                    S'abonner
-                </button>
+                <a href="mailto:contact@domtomconnect.com?subject=Demande de Copilotage : ${encodeURIComponent(plan.name)}" class="incubator-btn" style="text-decoration: none; text-align: center; display: block;">
+                    Demander un devis
+                </a>
             </div>
             `;
         }).join('');
@@ -351,13 +346,7 @@ window.ServicesModule = {
                     </div>
                 </div>
                 
-                <div class="billing-toggle">
-                    <div class="billing-option ${!isAnnual ? 'active' : ''}" onclick="window.ServicesModule.toggleBillingCycle('monthly')">Mensuel</div>
-                    <div class="billing-switch" onclick="window.ServicesModule.toggleBillingCycle('${isAnnual ? 'monthly' : 'annual'}')">
-                        <div class="billing-knob"></div>
-                    </div>
-                    <div class="billing-option ${isAnnual ? 'active' : ''}" onclick="window.ServicesModule.toggleBillingCycle('annual')">Annuel <span style="color:#10b981; font-size:0.8rem; vertical-align:top;">(-2 mois)</span></div>
-                </div>
+                <!-- Switch de facturation supprimé car passage sur devis uniquement -->
 
                 <div class="incubator-pricing-grid">
                     ${cardsHtml}
