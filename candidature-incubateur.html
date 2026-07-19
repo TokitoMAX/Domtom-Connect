@@ -138,14 +138,14 @@
 <body>
 
     <div class="form-container">
-        <a href="incubateur.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au programme</a>
+        <a href="pilotage.html" class="back-link"><i class="fas fa-arrow-left"></i> Retour au programme</a>
 
         <div style="text-align: center; margin-bottom: 30px;">
             <img src="assets/images/logo-domtomconnect.png" alt="Logo" style="height: 40px; margin-bottom: 20px; filter: brightness(0) invert(1);">
         </div>
 
         <h2>Dossier de Candidature</h2>
-        <p>Le Programme Tremplin est tres selectif. Vendez-nous votre ambition et votre vision. Aucun diplome requis.</p>
+        <p>L'offre de Copilotage est très sélective. Vendez-nous votre ambition et votre vision. Aucun diplôme requis.</p>
 
         <form id="applicationForm">
             <div class="form-group">
@@ -159,29 +159,29 @@
             </div>
 
             <div class="form-group">
-                <label>Nom du projet (ou nom de code)</label>
+                <label>Nom de votre Entreprise (ou Projet)</label>
                 <input type="text" id="projectName" required placeholder="Ex: DomtomConnect">
             </div>
 
             <div class="form-group">
-                <label>Quel est l'etat d'avancement de votre projet ?</label>
+                <label>Où en êtes-vous financièrement ?</label>
                 <select id="projectStage" required>
-                    <option value="" disabled selected>Selectionnez une option</option>
-                    <option value="Idee">J'ai juste une idee forte</option>
-                    <option value="Prototype">J'ai un prototype ou une maquette</option>
-                    <option value="Clients">J'ai deja mes premiers clients</option>
-                    <option value="Croissance">Mon entreprise genere du chiffre d'affaires</option>
+                    <option value="" disabled selected>Sélectionnez une option</option>
+                    <option value="Demarrage">Moins de 10 000 € / Je démarre</option>
+                    <option value="Traction">Entre 10 000 € et 50 000 € (Traction validée)</option>
+                    <option value="Croissance">Plus de 50 000 € (En pleine croissance)</option>
+                    <option value="Investissement">Pas de CA mais un budget d'investissement sécurisé</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label>Pitchez votre vision en 2 phrases</label>
-                <textarea id="projectPitch" rows="3" required placeholder="Quel probleme resolvez-vous et pour qui ?"></textarea>
+                <label>Décrivez votre activité et votre modèle économique</label>
+                <textarea id="projectPitch" rows="3" required placeholder="Que vendez-vous, à qui, et comment générez-vous des revenus ?"></textarea>
             </div>
 
             <div class="form-group">
-                <label>De quoi avez-vous le plus besoin pour reussir ?</label>
-                <textarea id="projectNeeds" rows="3" required placeholder="Un developpeur ? Un financement ? Du reseau B2B ? Soyez specifique."></textarea>
+                <label>Quel est votre plus gros frein actuel à la croissance ?</label>
+                <textarea id="projectNeeds" rows="3" required placeholder="Un problème d'acquisition ? De conversion ? Manque de temps pour gérer la technique ? Soyez spécifique."></textarea>
             </div>
 
             <button type="submit" class="cta-premium" id="submitBtn">Envoyer ma candidature</button>
