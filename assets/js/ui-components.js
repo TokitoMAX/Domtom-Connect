@@ -92,14 +92,12 @@ const UIComponents = {
         sidebarHtml += this.renderSidebarLink(adjust('premium.html'), 'Espace Mentors', 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#services'), 'Services & Copilotage', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
 
-        if (allowedRoles.includes(roleLower) || isClubMember) {
-            sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#mastermind-salon'), 'Espace Mastermind', 'M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z');
-        }
+
         
         if (proRoles.includes(roleTrimmed)) {
             sidebarHtml += this.renderSidebarLink(adjust('vitrine.html'), 'Ma Vitrine', 'M3 3h18v2H3V3zm2 4h14v10H5V7zm3 2v6h8V9H8z');
         }
-        sidebarHtml += this.renderSidebarLink(adjust(`channel.html?id=${profile ? profile.id : ''}`), 'Ma Chaîne', 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z');
+
         sidebarHtml += this.renderSidebarLink(adjust('profile.html'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         
         sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Mobile</div>`;
