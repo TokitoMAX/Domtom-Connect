@@ -277,6 +277,7 @@ const UIComponents = {
                 
                 <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">1. Vos Outils & Réseau</h2>
                 <div class="dash-grid" style="margin-bottom: 40px;">
+                    ${calendlyCard}
                     ${roleActions}
                     <a href="${adjust('marketplace/directory.html')}" class="dash-card">
                         <div class="dash-card-icon"><i class="fas fa-compass"></i></div>
@@ -302,29 +303,6 @@ const UIComponents = {
                         <p>Découvrez les dernières publications et actualités.</p>
                     </a>
                 </div>
-
-                <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">2. Accélérez votre croissance (Premium)</h2>
-                <div class="dash-grid">
-                    ${calendlyCard}
-                    
-                    <a href="premium.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-decoration: none;">
-                        <div class="dash-card-icon" style="color: #0f172a; background: white;"><i class="fas fa-gem"></i></div>
-                        <h3>Consulting & Copilotage</h3>
-                        <p>Prestation d'accompagnement 1-to-1 pour débloquer votre projet.</p>
-                    </a>
-
-                    <a href="solutions/success-engine.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-decoration: none;">
-                        <div class="dash-card-icon" style="color: #0f172a; background: white;"><i class="fas fa-rocket"></i></div>
-                        <h3>Success Engine</h3>
-                        <p>Le cercle de réflexion et d'entraide dédié aux porteurs de projet.</p>
-                    </a>
-
-                    <a href="solutions/mastermind.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none; border: 2px solid rgba(255,255,255,0.2);">
-                        <div class="dash-card-icon" style="color: #10b981; background: white;"><i class="fas fa-building"></i></div>
-                        <h3>Incubateur Tremplin</h3>
-                        <p>Programme intensif d'1 an sur sélection pour exploser vos objectifs.</p>
-                    </a>
-                </div>
             </div>
         `;
     },
@@ -343,6 +321,7 @@ const UIComponents = {
         const prefix = this.getPathPrefix();
         const adjust = (p) => this.adjustPath(p, prefix);
 
+
         let session = null;
         try {
             const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
@@ -354,22 +333,17 @@ const UIComponents = {
 
         let config = {};
         if (session) {
-            // Walled Garden Unlocked
             config = {
                 network: { label: 'Le Réseau', path: 'marketplace/directory.html' },
                 companies: { label: 'Entreprises', path: 'marketplace/companies.html' },
                 jobs: { label: 'Missions', path: 'marketplace/jobs.html' },
-                events: { label: 'Événements', path: 'marketplace/evenements.html' },
-                consulting: { label: 'Consulting', path: 'premium.html' },
-                success_engine: { label: 'Success Engine', path: 'solutions/success-engine.html' },
-                tremplin: { label: 'Incubateur', path: 'solutions/mastermind.html' }
+                events: { label: 'Événements', path: 'marketplace/evenements.html' }
             };
         } else {
-            // Public: Business Only
             config = {
-                consulting: { label: 'Consulting 1-to-1', path: 'premium.html' },
-                success_engine: { label: 'Success Engine', path: 'solutions/success-engine.html' },
-                tremplin: { label: 'L\'Incubateur', path: 'solutions/mastermind.html' }
+                app: { label: 'App Mobile', path: 'application.html' },
+                copilotage: { label: 'Copilotage 1-to-1', path: 'premium.html' },
+                incubateur: { label: 'Incubateur', path: 'premium.html#incubateur' }
             };
         }
 
