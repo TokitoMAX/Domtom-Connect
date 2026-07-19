@@ -275,45 +275,54 @@ const UIComponents = {
                     <p>Que souhaitez-vous faire aujourd'hui ?</p>
                 </div>
                 
-                <div class="dash-grid">
-                    ${calendlyCard}
-                    
-                    <a href="premium.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-decoration: none;">
-                        <div class="dash-card-icon" style="color: #0f172a; background: white;"><i class="fas fa-gem"></i></div>
-                        <h3>Accompagnement 1-to-1</h3>
-                        <p>Postulez pour un accompagnement stratégique sur-mesure (Places limitées).</p>
-                    </a>
-
-                    <a href="application.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none; border: 2px solid rgba(255,255,255,0.2);">
-                        <div class="dash-card-icon" style="color: #10b981; background: white;"><i class="fas fa-mobile-alt"></i></div>
-                        <h3>Télécharger l'App Mobile</h3>
-                        <p>Installez DTC Pulse sur votre téléphone pour ne rien manquer de la communauté.</p>
-                    </a>
-
+                <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">1. Vos Outils & Réseau</h2>
+                <div class="dash-grid" style="margin-bottom: 40px;">
                     ${roleActions}
-                    
-                    <a href="dtc.html" class="dash-card">
-                        <div class="dash-card-icon"><i class="fas fa-play"></i></div>
-                        <h3>DTC (Réseau Social)</h3>
-                        <p>Découvrez les dernières publications, stories et actualités de la communauté.</p>
-                    </a>
-                    
                     <a href="${adjust('marketplace/directory.html')}" class="dash-card">
                         <div class="dash-card-icon"><i class="fas fa-compass"></i></div>
-                        <h3>Explorer</h3>
-                        <p>Trouvez des talents, des projets et des opportunités d'affaires locales.</p>
+                        <h3>Explorer l'Annuaire</h3>
+                        <p>Trouvez des talents, des projets et des partenaires B2B.</p>
+                    </a>
+                    
+                    <a href="${adjust('marketplace/jobs.html')}" class="dash-card">
+                        <div class="dash-card-icon"><i class="fas fa-briefcase"></i></div>
+                        <h3>Job Board & Missions</h3>
+                        <p>Décrochez votre prochaine mission ou recrutez vos talents.</p>
                     </a>
                     
                     <a href="#messages" class="dash-card">
                         <div class="dash-card-icon"><i class="fas fa-comment-dots"></i></div>
                         <h3>Messagerie</h3>
-                        <p>Communiquez en direct avec votre réseau et vos collaborateurs.</p>
+                        <p>Communiquez en direct avec votre réseau.</p>
                     </a>
                     
-                    <a href="#channel?id=${profile?.id || ''}" class="dash-card">
-                        <div class="dash-card-icon"><i class="fas fa-tv"></i></div>
-                        <h3>Ma Chaîne</h3>
-                        <p>Gérez votre contenu, vos posts, et augmentez votre visibilité.</p>
+                    <a href="dtc.html" class="dash-card">
+                        <div class="dash-card-icon"><i class="fas fa-play"></i></div>
+                        <h3>DTC (Réseau Social)</h3>
+                        <p>Découvrez les dernières publications et actualités.</p>
+                    </a>
+                </div>
+
+                <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">2. Accélérez votre croissance (Premium)</h2>
+                <div class="dash-grid">
+                    ${calendlyCard}
+                    
+                    <a href="premium.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-decoration: none;">
+                        <div class="dash-card-icon" style="color: #0f172a; background: white;"><i class="fas fa-gem"></i></div>
+                        <h3>Consulting & Copilotage</h3>
+                        <p>Prestation d'accompagnement 1-to-1 pour débloquer votre projet.</p>
+                    </a>
+
+                    <a href="solutions/success-engine.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); text-decoration: none;">
+                        <div class="dash-card-icon" style="color: #0f172a; background: white;"><i class="fas fa-rocket"></i></div>
+                        <h3>Success Engine</h3>
+                        <p>Le cercle de réflexion et d'entraide dédié aux porteurs de projet.</p>
+                    </a>
+
+                    <a href="solutions/mastermind.html" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none; border: 2px solid rgba(255,255,255,0.2);">
+                        <div class="dash-card-icon" style="color: #10b981; background: white;"><i class="fas fa-building"></i></div>
+                        <h3>Incubateur Tremplin</h3>
+                        <p>Programme intensif d'1 an sur sélection pour exploser vos objectifs.</p>
                     </a>
                 </div>
             </div>
@@ -334,14 +343,35 @@ const UIComponents = {
         const prefix = this.getPathPrefix();
         const adjust = (p) => this.adjustPath(p, prefix);
 
-        const config = {
-            app: { label: 'Application', path: 'application.html' },
-            talents: { label: 'Talents', path: 'marketplace/directory.html' },
-            missions: { label: 'Missions', path: 'marketplace/jobs.html' },
-            projects: { label: 'Projets', path: 'marketplace/projects.html' },
-            events: { label: 'Événements', path: 'marketplace/evenements.html' },
-            companies: { label: 'Entreprises', path: 'marketplace/companies.html' }
-        };
+        let session = null;
+        try {
+            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
+            if (db) {
+                const { data } = await db.auth.getSession();
+                session = data?.session;
+            }
+        } catch (err) {}
+
+        let config = {};
+        if (session) {
+            // Walled Garden Unlocked
+            config = {
+                network: { label: 'Le Réseau', path: 'marketplace/directory.html' },
+                companies: { label: 'Entreprises', path: 'marketplace/companies.html' },
+                jobs: { label: 'Missions', path: 'marketplace/jobs.html' },
+                events: { label: 'Événements', path: 'marketplace/evenements.html' },
+                consulting: { label: 'Consulting', path: 'premium.html' },
+                success_engine: { label: 'Success Engine', path: 'solutions/success-engine.html' },
+                tremplin: { label: 'Incubateur', path: 'solutions/mastermind.html' }
+            };
+        } else {
+            // Public: Business Only
+            config = {
+                consulting: { label: 'Consulting 1-to-1', path: 'premium.html' },
+                success_engine: { label: 'Success Engine', path: 'solutions/success-engine.html' },
+                tremplin: { label: 'L\'Incubateur', path: 'solutions/mastermind.html' }
+            };
+        }
 
         // --- NEW: Global Android App Banner ---
         if (!document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
@@ -387,15 +417,6 @@ const UIComponents = {
         nav.style.backgroundColor = 'white';
         nav.style.borderBottom = '1px solid #e2e8f0';
         nav.style.display = 'flex';
-
-        let session = null;
-        try {
-            const db = window._supabase || (typeof initSupabase === 'function' ? initSupabase() : null);
-            if (db) {
-                const { data } = await db.auth.getSession();
-                session = data?.session;
-            }
-        } catch (err) {}
 
         if (session) {
             const authActions = document.getElementById('nav-auth-actions');
