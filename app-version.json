@@ -1,9 +1,9 @@
 {
   "android": {
-    "versionCode": 7,
-    "versionName": "1.1",
-    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DTCPulse_v7.apk",
-    "releaseNotes": "Mise à jour v7 : Correction de la stabilité et amélioration des performances.",
+    "versionCode": 8,
+    "versionName": "1.2",
+    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DTCPulse_v8.apk",
+    "releaseNotes": "Mise à jour v8 : Ajout du mode Pitch Business, options de livraison DTC Express, options pour prestations de service et corrections de mise en page.",
     "forceUpdate": false
   }
 }
