@@ -1,9 +1,10 @@
 {
   "android": {
-    "versionCode": 6,
-    "versionName": "1.0",
-    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DTCPulse_v6.apk",
-    "releaseNotes": "Nouvelle mise à jour majeure de DTC Pulse (v6).",
+    "versionCode": 7,
+    "versionName": "1.1",
+    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/v1.0/DTCPulse_v7.apk",
+    "releaseNotes": "Mise à jour v7 : Correction de la stabilité et amélioration des performances.",
     "forceUpdate": false
   }
 }
+
