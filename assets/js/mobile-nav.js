@@ -1,37 +1,203 @@
 /**
- * Injecteur de Navigation Mobile Premium (Domtom Connect)
- * Crée et insère dynamiquement la barre de navigation basse sur les téléphones.
+ * Injecteur de Navigation Mobile Premium 2-en-1 (Domtom Connect)
+ * 1. Barre de navigation basse (Bottom Nav) avec 5 raccourcis.
+ * 2. Menu tiroir ultra-complet (Bottom Sheet Drawer) offrant 100% de parité avec la Sidebar PC.
  */
-document.addEventListener('DOMContentLoaded', () => {
-    // Ne pas injecter si l'écran est desktop ou s'il y en a déjà une
-    if (document.querySelector('.mobile-nav-injected')) return;
 
-    // Récupère l'URL courante pour déterminer l'onglet actif
-    const currentPath = window.location.pathname;
-    
-    // Déterminer s'il faut remonter d'un dossier (ex: depuis /marketplace/jobs.html)
-    const isSubdir = currentPath.includes('/marketplace/') || currentPath.includes('/admin/');
-    const basePath = isSubdir ? '../' : '';
+// 1. Définition immédiate de la fonction globale de bascule pour éviter tout ReferenceError
+window.toggleMobileMenu = function(forceState) {
+    const sheet = document.querySelector('.mobile-menu-sheet');
+    const backdrop = document.getElementById('mobile-menu-backdrop');
+    const toggles = document.querySelectorAll('.nav-toggle, #mobile-menu-toggle');
 
-    const navHTML = `
-        <nav class="mobile-nav mobile-nav-injected">
-            <a href="${basePath}mon-espace.html" class="mobile-nav-link ${currentPath.includes('mon-espace.html') || currentPath.includes('dashboard.html') ? 'active' : ''}">
+    if (!sheet || !backdrop) return;
+
+    const isOpen = typeof forceState === 'boolean' ? forceState : !sheet.classList.contains('active');
+
+    if (isOpen) {
+        sheet.classList.add('active');
+        backdrop.classList.add('active');
+        toggles.forEach(t => t.classList.add('active'));
+        document.body.style.overflow = 'hidden';
+    } else {
+        sheet.classList.remove('active');
+        backdrop.classList.remove('active');
+        toggles.forEach(t => t.classList.remove('active'));
+        document.body.style.overflow = '';
+    }
+};
+
+(function initMobileNav() {
+    function injectNavigation() {
+        if (document.querySelector('.mobile-nav-injected')) return;
+
+        const currentPath = window.location.pathname;
+        const isSubdir = /\/(marketplace|admin|solutions|registration|blog|territoires|services|a-propos|diaspora)\//.test(currentPath);
+        const basePath = isSubdir ? '../' : '';
+
+        // Détection fine du rôle pour personnalisation écosystème
+        const profile = window.App && window.App.state && window.App.state.profile;
+        const roleLower = (profile && profile.role || '').toLowerCase().trim();
+        
+        const isOwner = ['porteur', 'owner', 'porteur de projet', 'admin'].includes(roleLower);
+        const isExpert = roleLower === 'expert';
+        const isCompany = ['entreprise', 'company'].includes(roleLower);
+        const proRoles = ['expert', 'entreprise', 'porteur', 'owner', 'porteur de projet', 'admin', 'premium', 'authority', 'club'];
+        const isPro = proRoles.includes(roleLower);
+
+        // Helper pour marquer l'élément actif
+        const isActive = (hrefPattern) => currentPath.includes(hrefPattern) ? 'active' : '';
+
+        // --- HTML DU BACKDROP & DU TIROIR MENU (Bottom Sheet Drawer) ---
+        const drawerHTML = `
+            <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)"></div>
+
+            <div class="mobile-menu-sheet">
+                <div class="sheet-handle" onclick="window.toggleMobileMenu(false)"></div>
+                
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-title-wrap">
+                        <img src="${basePath}assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="mobile-menu-brand-img">
+                        <span class="mobile-menu-brand-name">Domtom Connect</span>
+                    </div>
+                    <button type="button" class="close-menu-btn" onclick="window.toggleMobileMenu(false)" aria-label="Fermer">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="mobile-menu-body">
+                    <!-- SECTION 1: NAVIGATION PRINCIPALE -->
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-label">Navigation</div>
+                        <div class="mobile-menu-grid">
+                            <a href="${basePath}mon-espace.html#overview" class="mobile-menu-item ${isActive('mon-espace.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-home"></i> <span>Accueil</span>
+                            </a>
+                            <a href="${basePath}marketplace/directory.html" class="mobile-menu-item ${isActive('directory.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-search"></i> <span>Explorer</span>
+                            </a>
+                            <a href="${basePath}messages.html" class="mobile-menu-item ${isActive('messages.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-comments"></i> <span>Messagerie</span>
+                            </a>
+                            <a href="${basePath}billetterie.html" class="mobile-menu-item ${isActive('billetterie.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-ticket-alt"></i> <span>Événements</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: VOS ESPACES CIBLÉS -->
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-label">Espaces & Outils</div>
+                        <div class="mobile-menu-grid">
+                            ${isOwner ? `
+                            <a href="${basePath}pilotage.html" class="mobile-menu-item ${isActive('pilotage.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-rocket"></i> <span>Mon Épopée</span>
+                            </a>
+                            <a href="${basePath}tremplin.html" class="mobile-menu-item ${isActive('tremplin.html') || isActive('incubateur')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-layer-group"></i> <span>Incubateur</span>
+                            </a>
+                            <a href="${basePath}premium.html" class="mobile-menu-item ${isActive('premium.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-gem"></i> <span>Mentors</span>
+                            </a>
+                            <a href="${basePath}business.html" class="mobile-menu-item ${isActive('business.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-briefcase"></i> <span>Business</span>
+                            </a>
+                            ` : isExpert ? `
+                            <a href="${basePath}business.html" class="mobile-menu-item ${isActive('business.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-briefcase"></i> <span>Missions & Projets</span>
+                            </a>
+                            <a href="${basePath}premium.html" class="mobile-menu-item ${isActive('premium.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-gem"></i> <span>Sessions Mentors</span>
+                            </a>
+                            <a href="${basePath}pilotage.html" class="mobile-menu-item ${isActive('pilotage.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-handshake"></i> <span>Services</span>
+                            </a>
+                            ` : isCompany ? `
+                            <a href="${basePath}business.html" class="mobile-menu-item ${isActive('business.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-briefcase"></i> <span>Opportunités B2B</span>
+                            </a>
+                            <a href="${basePath}pilotage.html" class="mobile-menu-item ${isActive('pilotage.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-handshake"></i> <span>Copilotage</span>
+                            </a>
+                            ` : `
+                            <a href="${basePath}tremplin.html" class="mobile-menu-item ${isActive('tremplin.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-rocket"></i> <span>Rejoindre l'Incubateur</span>
+                            </a>
+                            <a href="${basePath}business.html" class="mobile-menu-item ${isActive('business.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-briefcase"></i> <span>Espace Business</span>
+                            </a>
+                            `}
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: MON ACTIVITÉ & PROFIL -->
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-label">Mon Compte</div>
+                        <div class="mobile-menu-grid">
+                            ${isPro ? `
+                            <a href="${basePath}vitrine.html" class="mobile-menu-item ${isActive('vitrine.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-store"></i> <span>Ma Vitrine</span>
+                            </a>
+                            ` : ''}
+                            <a href="${basePath}profile.html" class="mobile-menu-item ${isActive('profile.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-user-circle"></i> <span>Mon Profil</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4: SYSTÈME & DÉCONNEXION -->
+                    <div class="mobile-menu-section">
+                        <div class="mobile-menu-section-label">Système</div>
+                        <div class="mobile-menu-grid">
+                            <a href="${basePath}application.html" class="mobile-menu-item ${isActive('application.html')}" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-mobile-alt"></i> <span>App Mobile</span>
+                            </a>
+                            <a href="${basePath}index.html" class="mobile-menu-item" onclick="window.toggleMobileMenu(false)">
+                                <i class="fas fa-globe"></i> <span>Site Public</span>
+                            </a>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <a href="javascript:void(0)" onclick="window.toggleMobileMenu(false); if(typeof signOut === 'function') signOut(); else window.location.href='index.html';" class="mobile-menu-item logout-item" style="width: 100%; box-sizing: border-box; justify-content: center;">
+                                <i class="fas fa-sign-out-alt"></i> <span>Déconnexion</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // --- HTML DE LA BARRE DE NAVIGATION BASSE (Bottom Nav - 5 Onglets ciblés écosystème) ---
+        let secondTabHTML = `
+            <a href="${basePath}marketplace/directory.html" class="mobile-nav-link ${isActive('directory.html')}">
                 <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <span class="mobile-nav-label">Dashboard</span>
+                <span class="mobile-nav-label">Explorer</span>
             </a>
-            
-            <a href="${basePath}epopee.html" class="mobile-nav-link ${currentPath.includes('epopee.html') ? 'active' : ''}">
-                <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-                </svg>
-                <span class="mobile-nav-label">Épopée</span>
-            </a>
+        `;
+        if (isOwner) {
+            secondTabHTML = `
+                <a href="${basePath}pilotage.html" class="mobile-nav-link ${isActive('pilotage.html') || isActive('epopee.html')}">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                    </svg>
+                    <span class="mobile-nav-label">Épopée</span>
+                </a>
+            `;
+        } else if (isExpert || isCompany) {
+            secondTabHTML = `
+                <a href="${basePath}business.html" class="mobile-nav-link ${isActive('business.html')}">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <span class="mobile-nav-label">Business</span>
+                </a>
+            `;
+        }
 
-            <a href="${basePath}messages.html" class="mobile-nav-link ${currentPath.includes('messages.html') ? 'active' : ''}">
+        let thirdTabHTML = `
+            <a href="${basePath}messages.html" class="mobile-nav-link ${isActive('messages.html')}">
                 <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     <circle cx="9" cy="10" r="1" fill="currentColor"></circle>
@@ -39,16 +205,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 </svg>
                 <span class="mobile-nav-label">Messages</span>
             </a>
+        `;
 
-            <a href="${basePath}profile.html" class="mobile-nav-link ${currentPath.includes('profile.html') ? 'active' : ''}">
-                <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                <span class="mobile-nav-label">Profil</span>
-            </a>
-        </nav>
-    `;
+        const bottomNavHTML = `
+            <nav class="mobile-nav mobile-nav-injected">
+                <a href="${basePath}mon-espace.html" class="mobile-nav-link ${isActive('mon-espace.html') || isActive('dashboard.html')}">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="mobile-nav-label">Dashboard</span>
+                </a>
+                
+                ${secondTabHTML}
 
-    document.body.insertAdjacentHTML('beforeend', navHTML);
-});
+                ${thirdTabHTML}
+
+                <a href="${basePath}profile.html" class="mobile-nav-link ${isActive('profile.html')}">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="mobile-nav-label">Profil</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="window.toggleMobileMenu()" class="mobile-nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                    <span class="mobile-nav-label">Menu</span>
+                </a>
+            </nav>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', drawerHTML + bottomNavHTML);
+
+        // Attachement automatique aux boutons d'ouverture existants
+        document.querySelectorAll('.nav-toggle, #mobile-menu-toggle').forEach(btn => {
+            btn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.toggleMobileMenu();
+            };
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectNavigation);
+    } else {
+        injectNavigation();
+    }
+})();

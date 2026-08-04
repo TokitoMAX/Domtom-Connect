@@ -70,32 +70,43 @@ const UIComponents = {
             </a>
         `;
 
-        const roleLower = (role || '').toLowerCase();
-        const allowedRoles = ['expert', 'entreprise', 'porteur', 'owner', 'porteur de projet', 'premium', 'authority', 'club', 'admin'];
-        const roleTrimmed = roleLower.trim();
+        const roleLower = (role || '').toLowerCase().trim();
+        const isOwner = ['porteur', 'owner', 'porteur de projet', 'admin'].includes(roleLower);
+        const isExpert = roleLower === 'expert';
+        const isCompany = ['entreprise', 'company'].includes(roleLower);
         const proRoles = ['expert', 'entreprise', 'porteur', 'owner', 'porteur de projet', 'admin', 'premium', 'authority', 'club'];
-        const isExplorateur = !proRoles.includes(roleTrimmed);
+        const isPro = proRoles.includes(roleLower);
 
+        // 1. Navigation Principale
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#overview'), 'Accueil', 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6');
-        
-
-        
         sidebarHtml += this.renderSidebarLink(adjust('marketplace/directory.html'), 'Explorer', 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z');
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#messages'), 'Messagerie', 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z');
-        sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#billetterie'), 'Evenements', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z');
+        sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#billetterie'), 'Événements', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z');
         
-        sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Les Espaces</div>`;
-        sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Espace Business', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
-        sidebarHtml += this.renderSidebarLink(adjust('tremplin.html'), 'Espace Incubateur', 'M13 10V3L4 14h7v7l9-11h-7z');
-        sidebarHtml += this.renderSidebarLink(adjust('premium.html'), 'Espace Mentors', 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253');
-        sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Services & Copilotage', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
-
-
+        // 2. Section Espaces Ciblés par Écosystème
+        sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Vos Espaces</div>`;
         
-        if (proRoles.includes(roleTrimmed)) {
-            sidebarHtml += this.renderSidebarLink(adjust('vitrine.html'), 'Ma Vitrine', 'M3 3h18v2H3V3zm2 4h14v10H5V7zm3 2v6h8V9H8z');
+        if (isOwner) {
+            sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Mon Épopée', 'M13 10V3L4 14h7v7l9-11h-7z');
+            sidebarHtml += this.renderSidebarLink(adjust('tremplin.html'), 'Incubateur', 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10');
+            sidebarHtml += this.renderSidebarLink(adjust('premium.html'), 'Mentors', 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253');
+            sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Espace Business', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+        } else if (isExpert) {
+            sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Missions & Projets', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+            sidebarHtml += this.renderSidebarLink(adjust('premium.html'), 'Sessions Mentors', 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253');
+            sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Services & Prestations', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+        } else if (isCompany) {
+            sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Opportunités B2B', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+            sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Copilotage', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
+        } else {
+            sidebarHtml += this.renderSidebarLink(adjust('tremplin.html'), 'Rejoindre l\'Incubateur', 'M13 10V3L4 14h7v7l9-11h-7z');
+            sidebarHtml += this.renderSidebarLink(adjust('business.html'), 'Espace Business', 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z');
         }
 
+        // 3. Mon Profil / Ma Vitrine
+        if (isPro) {
+            sidebarHtml += this.renderSidebarLink(adjust('vitrine.html'), 'Ma Vitrine', 'M3 3h18v2H3V3zm2 4h14v10H5V7zm3 2v6h8V9H8z');
+        }
         sidebarHtml += this.renderSidebarLink(adjust('profile.html'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         
         sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Mobile</div>`;
