@@ -1,6 +1,6 @@
 
 assets/apk/*.apk
-
+*.apk
 .vercel
 .env*
 

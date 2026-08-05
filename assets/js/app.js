@@ -97,6 +97,130 @@ const App = {
     },
 
     /**
+     * Render premium lock screen with call-to-action
+     */
+    showLockScreen(container, type = 'premium') {
+        const title = type === 'expired' 
+            ? "⌛ Période d'Essai Expirée" 
+            : "🔒 Espace Réservé aux Membres";
+        const desc = type === 'expired'
+            ? "Votre accès gratuit temporaire de 14 jours a expiré. Choisissez un abonnement pour réactiver votre espace."
+            : "Cet espace est réservé aux abonnés payants (Porteur, Expert, Entreprise). Déverrouillez vos outils business dès maintenant.";
+            
+        container.innerHTML = `
+            <style>
+                .lock-screen-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    padding: clamp(20px, 8vw, 80px) clamp(16px, 4vw, 40px);
+                    max-width: 600px;
+                    margin: 40px auto;
+                    background: rgba(15, 23, 42, 0.7);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(16, 185, 129, 0.3);
+                    border-radius: 28px;
+                    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    box-sizing: border-box;
+                }
+                .lock-screen-icon {
+                    width: 72px;
+                    height: 72px;
+                    background: rgba(16, 185, 129, 0.1);
+                    border: 1px solid rgba(16, 185, 129, 0.4);
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2.2rem;
+                    color: #10b981;
+                    margin-bottom: 28px;
+                    animation: pulseLock 2s infinite;
+                }
+                .lock-screen-title {
+                    font-size: clamp(1.6rem, 3vw, 2.2rem);
+                    font-weight: 850;
+                    color: #fff;
+                    margin: 0 0 16px 0;
+                    letter-spacing: -0.02em;
+                }
+                .lock-screen-desc {
+                    font-size: 1.05rem;
+                    color: #94a3b8;
+                    line-height: 1.6;
+                    margin-bottom: 32px;
+                }
+                .lock-screen-benefits {
+                    text-align: left;
+                    width: 100%;
+                    max-width: 420px;
+                    margin: 0 auto 36px;
+                    padding: 0;
+                    list-style: none;
+                }
+                .lock-screen-benefits li {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    color: #cbd5e1;
+                    font-size: 0.95rem;
+                    margin-bottom: 14px;
+                }
+                .lock-screen-benefits li i {
+                    color: #10b981;
+                }
+                .lock-screen-btn {
+                    width: 100%;
+                    max-width: 320px;
+                    padding: 16px 32px;
+                    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                    color: white;
+                    border: none;
+                    border-radius: 14px;
+                    font-size: 1.05rem;
+                    font-weight: 800;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+                    text-decoration: none;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .lock-screen-btn:hover {
+                    opacity: 0.95;
+                    transform: translateY(-2px);
+                    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+                }
+                @keyframes pulseLock {
+                    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.2); }
+                    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+                    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+                }
+            </style>
+            <div class="lock-screen-container">
+                <div class="lock-screen-icon">
+                    <i class="${type === 'expired' ? 'fas fa-hourglass-half' : 'fas fa-lock'}"></i>
+                </div>
+                <h2 class="lock-screen-title">${title}</h2>
+                <p class="lock-screen-desc">${desc}</p>
+                <ul class="lock-screen-benefits">
+                    <li><i class="fas fa-check-circle"></i> Messagerie directe & facturation active</li>
+                    <li><i class="fas fa-check-circle"></i> Outils de Pilotage d'Épopée avancés</li>
+                    <li><i class="fas fa-check-circle"></i> Accès direct aux coachings et ressources</li>
+                </ul>
+                <button onclick="window.Router.navigate('#services')" class="lock-screen-btn">
+                    Activer mon Écosystème
+                </button>
+            </div>
+        `;
+    },
+
+    /**
      * View Switcher - Main entry point for Router
      */
     async showView(viewId, forceRender = false, params = null) {
@@ -132,11 +256,25 @@ const App = {
         const targetViewId = (viewId === 'success-engine' ? 'success-engine-view-fixed' : `${viewId}-view`);
         let targetView = document.getElementById(targetViewId);
         
-        // Role Isolation: Strictly enforce view permissions
+        // Role Isolation and Premium Gating Logic
         const safeRole = (this.state.role || '').toLowerCase().trim();
         const isOwner = safeRole.includes('porteur') || safeRole === 'owner' || safeRole === 'admin';
         const isAdmin = safeRole === 'admin' || (this.state.session?.user?.email === 'domtomconnect@gmail.com');
-        
+        const isPaid = safeRole !== 'spectateur';
+
+        // 1. Gating for Spectateurs accessing premium areas (Mentors and Copilotage Dashboard)
+        const premiumViews = ['premium', 'success-engine'];
+        if (premiumViews.includes(viewId) && !isPaid && !isAdmin) {
+            console.warn(`[App] Gating view: ${viewId} for Spectateur user.`);
+            const displayView = targetView || overview;
+            if (displayView) {
+                displayView.style.display = 'block';
+                this.showLockScreen(displayView, 'premium');
+            }
+            return; // Exit early to prevent module routing / rendering
+        }
+
+        // Standard Success Engine check
         if (viewId === 'success-engine' && !(isOwner || isAdmin)) {
             console.warn(`[App] Unauthorized access attempt to success-engine by role: ${this.state.role}. Redirecting...`);
             this.showView('overview', true);
