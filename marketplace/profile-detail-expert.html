@@ -636,10 +636,16 @@
                 const avail = p.availability || 'disponible';
                 const availColor = avail === 'disponible' ? '#10b981' : '#f59e0b';
 
+                let tjmDisplay = 'Sur devis';
+                if (p.tjm) {
+                    const tStr = String(p.tjm).trim();
+                    tjmDisplay = (tStr.includes('€') || tStr.toLowerCase().includes('jour')) ? tStr : `${tStr} €/jour`;
+                }
+
                 const metricsEl = document.getElementById('metrics-content');
                 if (metricsEl) {
                     metricsEl.innerHTML = `
-                        <div class="metric-item"><i class="fas fa-tag"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">TARIF JUMELÉ</span><br><b>${p.tjm ? `${p.tjm}€/jour` : 'Sur devis'}</b></div></div>
+                        <div class="metric-item"><i class="fas fa-tag"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">TARIF JOURNALIER (TJM)</span><br><b>${tjmDisplay}</b></div></div>
                         <div class="metric-item"><i class="fas fa-clock" style="color:${availColor}"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">STATUT</span><br><b style="color:${availColor}">${avail.toUpperCase()}</b></div></div>
                         <div class="metric-item"><i class="fas fa-map-marker-alt"></i><div><span style="font-size:0.7rem; color:#64748b; font-weight:700;">ZONE</span><br><b>${p.zone || p.territory || 'OM'}</b></div></div>
                     `;
@@ -747,9 +753,9 @@
                                 <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between;">
                                     <div>
                                         <span style="font-size: 0.7rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: block;">Tarif</span>
-                                        <div style="font-size: 1.35rem; font-weight: 950; color: #10b981;">${item.price_prefix ? `${item.price_prefix} ` : ''}${item.price}€</div>
+                                        <div style="font-size: 1.35rem; font-weight: 950; color: #10b981;">${(item.price !== null && item.price !== undefined && item.price !== '') ? `${item.price_prefix ? `${item.price_prefix} ` : ''}${item.price}€` : 'Sur devis'}</div>
                                     </div>
-                                    <button onclick="orderSolution('${item.title.replace(/'/g, "\\'")}', '${item.price}', '${item.user_id}')" style="background: #10b981; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
+                                    <button onclick="orderSolution('${item.title.replace(/'/g, "\\'")}', '${item.price || 0}', '${item.user_id}')" style="background: #10b981; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16,185,129,0.15);">
                                         <span>💼 Commander</span>
                                     </button>
                                 </div>
