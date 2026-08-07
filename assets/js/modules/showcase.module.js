@@ -51,44 +51,61 @@ const ShowcaseModule = {
                 itemsHtml = items.map(item => {
                     let meta = {};
                     try { if (item.meta_info) meta = JSON.parse(item.meta_info); } catch(e){}
-                    const iconClass = meta.icon || 'fas fa-link';
-                    const highlightBadge = meta.highlight ? `<span style="background: #fbbf24; color: #000; font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-left: 8px;"><i class="fas fa-star"></i> À la une</span>` : '';
+                    const iconClass = meta.icon || (item.category === 'service' ? 'fas fa-briefcase' : 'fas fa-link');
+                    const isService = item.category === 'service' || item.price != null;
+                    const catBadge = isService ? `<span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: 800;"><i class="fas fa-briefcase"></i> Offre / Service</span>` : `<span style="background: #f1f5f9; color: #475569; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: 700;"><i class="fas fa-link"></i> Lien Bio</span>`;
+                    const highlightBadge = meta.highlight ? `<span style="background: #fbbf24; color: #000; font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; font-weight: bold;"><i class="fas fa-star"></i> À la une</span>` : '';
+                    
+                    let priceTag = '';
+                    if (isService && item.price != null && item.price !== '') {
+                        const prefix = item.price_prefix ? `${item.price_prefix} ` : '';
+                        priceTag = `<span style="background: #10b981; color: white; font-size: 0.8rem; padding: 4px 10px; border-radius: 8px; font-weight: 900;">${prefix}${item.price}€</span>`;
+                    }
 
                     return `
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;">
-                        <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1; min-width: 0;">
-                            <div style="font-size: 1.5rem; color: #475569; width: 30px; text-align: center; flex-shrink: 0;"><i class="${iconClass}"></i></div>
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 14px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.03); width: 100%; box-sizing: border-box;">
+                        <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1; min-width: 250px;">
+                            <div style="font-size: 1.5rem; color: #10b981; width: 44px; height: 44px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="${iconClass}"></i></div>
                             <div style="flex: 1; min-width: 0; overflow: hidden;">
-                                <h4 style="margin: 0; font-size: 1rem; color: #0f172a; display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">${item.title || 'Sans titre'} ${highlightBadge}</h4>
-                                <a href="${item.url || item.description || '#'}" target="_blank" style="font-size: 0.85rem; color: #3b82f6; text-decoration: none; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;">${item.url || item.description || 'Pas de lien'}</a>
+                                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
+                                    <h4 style="margin: 0; font-size: 1.05rem; color: #0f172a; font-weight: 800;">${item.title || 'Sans titre'}</h4>
+                                    ${catBadge}
+                                    ${highlightBadge}
+                                    ${priceTag}
+                                </div>
+                                ${item.description ? `<p style="margin: 4px 0; font-size: 0.85rem; color: #64748b; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description}</p>` : ''}
+                                ${item.url ? `<a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #3b82f6; text-decoration: none; font-weight: 600;">${item.url} <i class="fas fa-external-link-alt" style="font-size:0.7rem;"></i></a>` : ''}
                             </div>
                         </div>
                         <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                            <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #475569; font-weight: 600;">Modifier</button>
-                            <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fee2e2; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; color: #ef4444; font-weight: 600;">Supprimer</button>
+                            <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 10px; cursor: pointer; color: #334155; font-weight: 700; font-size: 0.85rem;">Modifier</button>
+                            <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fef2f2; border: 1px solid #fee2e2; padding: 10px 16px; border-radius: 10px; cursor: pointer; color: #ef4444; font-weight: 700; font-size: 0.85rem;">Supprimer</button>
                         </div>
                     </div>
                 `}).join('');
             }
 
             container.innerHTML = `
-                <div style="max-width: 800px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 16px; font-family: 'Plus Jakarta Sans', sans-serif;">
+                <div style="max-width: 840px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 16px; font-family: 'Plus Jakarta Sans', sans-serif;">
                     
-                    <div style="background: white; padding: 30px 20px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 24px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;">
-                        <h1 style="margin: 0 0 10px 0; color: #0f172a; font-size: 1.8rem; font-weight: 800;">Mes Liens</h1>
-                        <p style="margin: 0 0 20px 0; color: #64748b;">Gérez les liens qui apparaîtront sur votre page publique.</p>
+                    <div style="background: white; padding: 32px 24px; border-radius: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px; text-align: center; box-shadow: 0 4px 20px -2px rgba(0,0,0,0.05); width: 100%; box-sizing: border-box;">
+                        <span style="background: rgba(16,185,129,0.1); color: #10b981; padding: 6px 14px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 12px;">Espace Vitrine &amp; Offres</span>
+                        <h1 style="margin: 0 0 10px 0; color: #0f172a; font-size: 2rem; font-weight: 900;">Ma Vitrine &amp; Solutions B2B</h1>
+                        <p style="margin: 0 0 24px 0; color: #64748b; font-size: 1.05rem;">Ajoutez vos liens bio (Linktree) et créez vos <strong>Offres &amp; Services</strong> affichés sur votre profil public.</p>
                         
                         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                            <button onclick="ShowcaseModule.openItemModal()" style="background: #0f172a; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                                <span>+ Ajouter un Lien</span>
+                            <button onclick="ShowcaseModule.openItemModal(null, 'service')" style="background: #10b981; color: white; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; box-shadow: 0 10px 20px rgba(16,185,129,0.2);">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>+ Ajouter une Offre / Service</span>
                             </button>
-                            <a href="${publicUrl}" target="_blank" style="background: white; color: #0f172a; border: 1px solid #e2e8f0; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px;">
+                            <button onclick="ShowcaseModule.openItemModal(null, 'linktree')" style="background: #0f172a; color: white; border: none; padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem;">
+                                <i class="fas fa-link"></i>
+                                <span>+ Ajouter un Lien Bio</span>
+                            </button>
+                            <a href="${publicUrl}" target="_blank" style="background: white; color: #0f172a; border: 1px solid #e2e8f0; padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.95rem;">
+                                <i class="fas fa-external-link-alt"></i>
                                 <span>Voir ma page publique</span>
                             </a>
-                            <button onclick="navigator.clipboard.writeText('${publicUrl}').then(() => { const s = this.querySelector('span'); const old = s.textContent; s.textContent='Copié !'; setTimeout(() => s.textContent=old, 2000); })" style="background: #f8fafc; color: #0f172a; border: 1px dashed #cbd5e1; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                                <i class="fas fa-share-nodes"></i>
-                                <span>Copier le lien pour WhatsApp/LinkedIn</span>
-                            </button>
                         </div>
                     </div>
 
@@ -105,7 +122,7 @@ const ShowcaseModule = {
         }
     },
 
-    openItemModal: async (itemId = null) => {
+    openItemModal: async (itemId = null, defaultCategory = 'service') => {
         let existingItem = null;
         if (itemId) {
             const { data } = await window._supabase.from('showcase_items').select('*').eq('id', itemId).single();
@@ -114,6 +131,8 @@ const ShowcaseModule = {
         
         let meta = {};
         try { if (existingItem?.meta_info) meta = JSON.parse(existingItem.meta_info); } catch(e){}
+
+        const currentCat = existingItem ? (existingItem.category || 'service') : defaultCategory;
 
         let overlay = document.getElementById('details-modal-overlay');
         if (!overlay) {
@@ -125,60 +144,80 @@ const ShowcaseModule = {
 
         overlay.style.display = 'flex';
         overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 500px; border-radius: 16px; padding: 32px; position: relative; font-family: 'Inter', sans-serif;">
-                <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">×</button>
-                <h2 style="margin: 0 0 24px 0; color: #0f172a; font-weight: 800;">${itemId ? 'Modifier le Lien' : 'Nouveau Lien'}</h2>
+            <div style="background: white; width: 100%; max-width: 560px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
+                <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
+                <h2 style="margin: 0 0 24px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">${itemId ? 'Modifier l\'élément' : (currentCat === 'service' ? 'Nouvelle Offre / Service' : 'Nouveau Lien Bio')}</h2>
                 
-                <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="display: flex; flex-direction: column; gap: 18px;">
                     <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem;">Titre du lien</label>
-                        <input type="text" id="item-title" placeholder="Ex: Mon Site Web, Prendre Rendez-vous..." value="${existingItem?.title || ''}" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem;">URL (Lien de destination)</label>
-                        <input type="url" id="item-url" placeholder="https://..." value="${existingItem?.url || existingItem?.description || ''}" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Type d'élément</label>
+                        <select id="item-category" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; font-weight: 700; box-sizing: border-box;">
+                            <option value="service" ${currentCat === 'service' ? 'selected' : ''}>💼 Offre / Service / Prestation (avec Tarif)</option>
+                            <option value="linktree" ${currentCat === 'linktree' || currentCat === 'link' ? 'selected' : ''}>🔗 Lien Bio / Réseau Social</option>
+                        </select>
                     </div>
 
-                    <div style="display: flex; gap: 16px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Titre *</label>
+                        <input type="text" id="item-title" placeholder="Ex: Audit Business, Création de Site Web, Consulting..." value="${existingItem?.title || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Description / Détails de la prestation</label>
+                        <textarea id="item-description" rows="3" placeholder="Expliquez brièvement ce que comprend cette offre ou ce lien..." style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; font-family: inherit;">${existingItem?.description || ''}</textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 14px;">
                         <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem;">Icône</label>
-                            <select id="item-icon" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box; font-family: 'Font Awesome 5 Free', 'Inter', sans-serif; font-weight: 900;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Préfixe de Tarif</label>
+                            <select id="item-price-prefix" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                                <option value="À partir de" ${existingItem?.price_prefix === 'À partir de' || !existingItem?.price_prefix ? 'selected' : ''}>À partir de</option>
+                                <option value="Prix fixe" ${existingItem?.price_prefix === 'Prix fixe' ? 'selected' : ''}>Prix fixe</option>
+                                <option value="Forfait" ${existingItem?.price_prefix === 'Forfait' ? 'selected' : ''}>Forfait</option>
+                                <option value="Sur devis" ${existingItem?.price_prefix === 'Sur devis' ? 'selected' : ''}>Sur devis</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Prix (€)</label>
+                            <input type="number" id="item-price" placeholder="Ex: 250" value="${existingItem?.price !== null && existingItem?.price !== undefined ? existingItem.price : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">URL / Lien externe (Optionnel)</label>
+                        <input type="url" id="item-url" placeholder="https://..." value="${existingItem?.url || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                    </div>
+
+                    <div style="display: flex; gap: 14px;">
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
+                            <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; font-family: 'Font Awesome 5 Free', 'Inter', sans-serif; font-weight: 900;">
+                                <option value="fas fa-briefcase" ${meta.icon === 'fas fa-briefcase' ? 'selected' : ''}>💼 Offre / Service</option>
                                 <option value="fas fa-link" ${meta.icon === 'fas fa-link' || !meta.icon ? 'selected' : ''}>🔗 Lien (Défaut)</option>
                                 <option value="fas fa-globe" ${meta.icon === 'fas fa-globe' ? 'selected' : ''}>🌐 Site Web</option>
                                 <option value="fab fa-instagram" ${meta.icon === 'fab fa-instagram' ? 'selected' : ''}>📸 Instagram</option>
                                 <option value="fab fa-tiktok" ${meta.icon === 'fab fa-tiktok' ? 'selected' : ''}>🎵 TikTok</option>
                                 <option value="fab fa-youtube" ${meta.icon === 'fab fa-youtube' ? 'selected' : ''}>▶️ YouTube</option>
-                                <option value="fab fa-spotify" ${meta.icon === 'fab fa-spotify' ? 'selected' : ''}>🎧 Spotify</option>
-                                <option value="fas fa-podcast" ${meta.icon === 'fas fa-podcast' ? 'selected' : ''}>🎙️ Podcast (Apple...)</option>
                                 <option value="fab fa-linkedin" ${meta.icon === 'fab fa-linkedin' ? 'selected' : ''}>💼 LinkedIn</option>
-                                <option value="fab fa-facebook" ${meta.icon === 'fab fa-facebook' ? 'selected' : ''}>📘 Facebook</option>
-                                <option value="fab fa-twitter" ${meta.icon === 'fab fa-twitter' ? 'selected' : ''}>🐦 X (Twitter)</option>
-                                <option value="fab fa-snapchat-ghost" ${meta.icon === 'fab fa-snapchat-ghost' ? 'selected' : ''}>👻 Snapchat</option>
-                                <option value="fab fa-twitch" ${meta.icon === 'fab fa-twitch' ? 'selected' : ''}>👾 Twitch</option>
-                                <option value="fab fa-discord" ${meta.icon === 'fab fa-discord' ? 'selected' : ''}>🎮 Discord</option>
                                 <option value="fab fa-whatsapp" ${meta.icon === 'fab fa-whatsapp' ? 'selected' : ''}>💬 WhatsApp</option>
-                                <option value="fas fa-envelope" ${meta.icon === 'fas fa-envelope' ? 'selected' : ''}>✉️ Email</option>
                                 <option value="fas fa-shopping-cart" ${meta.icon === 'fas fa-shopping-cart' ? 'selected' : ''}>🛒 Boutique</option>
-                                <option value="fas fa-calendar-alt" ${meta.icon === 'fas fa-calendar-alt' ? 'selected' : ''}>📅 Calendrier</option>
-                                <option value="fas fa-map-marker-alt" ${meta.icon === 'fas fa-map-marker-alt' ? 'selected' : ''}>📍 Adresse / Plan</option>
                             </select>
                         </div>
                         <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 0.9rem;">Ordre (1=Premier)</label>
-                            <input type="number" id="item-position" placeholder="Ex: 1" value="${meta.position !== undefined ? meta.position : ''}" style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1rem; box-sizing: border-box;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Ordre (1=Premier)</label>
+                            <input type="number" id="item-position" placeholder="Ex: 1" value="${meta.position !== undefined ? meta.position : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
                         </div>
                     </div>
 
-                    <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px; background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                        <input type="checkbox" id="item-highlight" ${meta.highlight ? 'checked' : ''} style="width: 20px; height: 20px; accent-color: #0f172a; cursor: pointer;">
-                        <label for="item-highlight" style="font-weight: 700; color: #0f172a; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-star" style="color: #fbbf24;"></i> Mettre ce lien en avant
+                    <div style="display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                        <input type="checkbox" id="item-highlight" ${meta.highlight ? 'checked' : ''} style="width: 20px; height: 20px; accent-color: #10b981; cursor: pointer;">
+                        <label for="item-highlight" style="font-weight: 800; color: #0f172a; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-star" style="color: #fbbf24;"></i> Mettre cette offre / lien en avant sur mon profil
                         </label>
                     </div>
 
-                    <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background: #0f172a; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 8px; font-size: 1rem;">
-                        Enregistrer
+                    <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background: #10b981; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 8px; font-size: 1.05rem; box-shadow: 0 10px 20px rgba(16,185,129,0.25);">
+                        Enregistrer l'offre
                     </button>
                 </div>
             </div>
@@ -186,22 +225,31 @@ const ShowcaseModule = {
     },
 
     saveItem: async (itemId) => {
+        const category = document.getElementById('item-category')?.value || 'service';
         const title = document.getElementById('item-title').value.trim();
-        const url = document.getElementById('item-url').value.trim();
-        const icon = document.getElementById('item-icon')?.value || 'fas fa-link';
+        const description = document.getElementById('item-description')?.value.trim() || '';
+        const priceVal = document.getElementById('item-price')?.value.trim();
+        const price_prefix = document.getElementById('item-price-prefix')?.value || 'À partir de';
+        const url = document.getElementById('item-url')?.value.trim() || '';
+        const icon = document.getElementById('item-icon')?.value || 'fas fa-briefcase';
         const position = document.getElementById('item-position')?.value || '';
         const highlight = document.getElementById('item-highlight')?.checked || false;
 
-        if (!title || !url) return alert("Veuillez remplir le titre et l'URL.");
+        if (!title) return alert("Veuillez saisir un titre.");
 
         const { data: { session } } = await window._supabase.auth.getSession();
         if (!session) return;
 
+        const price = (priceVal !== '' && !isNaN(priceVal)) ? parseFloat(priceVal) : null;
+
         const payload = {
             title: title,
+            description: description || url,
             url: url,
-            description: url, // Store URL in description for retro-compatibility
-            category: 'linktree',
+            category: category,
+            price: price,
+            price_prefix: price_prefix,
+            status: 'active',
             meta_info: JSON.stringify({ icon, highlight, position })
         };
 
