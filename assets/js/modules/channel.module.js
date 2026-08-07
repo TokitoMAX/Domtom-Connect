@@ -328,7 +328,7 @@ window.ChannelModule = {
                     <h2 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-top: 0; margin-bottom: 24px;">Paramètres de la Chaîne</h2>
                     
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Nom de la chaîne</label>
-                    <input type="text" id="channel-name-input" value="${p.channel_name || p.full_name || ''}" placeholder="Ex: Soloprice Pro" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit;">
+                    <input type="text" id="channel-name-input" value="${p.channel_name || p.full_name || ''}" placeholder="Ex: Cabinet Stratégique" style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit;">
                     
                     <label style="display:block; font-weight:700; color:#334155; margin-bottom:8px;">Biographie de la chaîne</label>
                     <textarea id="channel-bio-input" rows="3" placeholder="Décrivez votre chaîne ou votre activité..." style="width:100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; font-size:1rem; font-family:inherit; resize:vertical;">${p.channel_bio || ''}</textarea>

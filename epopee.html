@@ -3134,36 +3134,28 @@
                 cardsContainer.innerHTML = `
                     <div class="dash-card highlight" style="border-color: #10b981;">
                         <div class="card-title">Cadrage Financier <span style="font-size:0.7rem;background:rgba(16,185,129,0.1);color:#10b981;padding:2px 8px;border-radius:20px;">Indispensable</span></div>
-                        <p class="card-desc">Calculez votre TJM stratégique et gérez votre trésorerie avec SoloPrice Pro.</p>
+                        <p class="card-desc">Simulez votre TJM idéal pour vos futures missions stratégiques.</p>
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <a href="https://solopricepro.vercel.app/tjm-calculator" target="_blank" class="cta-button primary" style="justify-content:center; background:#10b981;">Calculer mon TJM exact →</a>
-                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981;">Gérer ma facturation</a>
+                            <button onclick="alert('Le simulateur de TJM sera disponible directement sur votre application mobile DTC Pulse très prochainement.')" class="cta-button primary" style="justify-content:center; background:#10b981;">Simuler mon TJM →</button>
                         </div>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Aide au Closing AI</div>
-                        <p class="card-desc">Générez vos scripts de vente et préparez vos entretiens stratégiques via SoloPrice.</p>
-                        <a href="https://solopricepro.vercel.app/closing-assistant" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;">Lancer l'assistant →</a>
+                        <p class="card-desc">Accédez à des guides de vente et préparez vos entretiens stratégiques.</p>
+                        <button onclick="alert('L\'assistant de closing IA sera disponible directement sur votre application mobile DTC Pulse très prochainement.')" class="cta-button primary" style="margin-top:auto;justify-content:center;">Lancer l'assistant →</button>
                     </div>
                     
                     <div class="dash-card" style="border-color: #10b981; background: rgba(16, 185, 129, 0.02);">
                         <div class="card-title" style="color: #10b981; display: flex; justify-content: space-between; align-items: center;">
                             Signatures & Commissions
-                            <span style="font-size: 0.6rem; font-weight: 600; color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 1px 6px; border-radius: 4px;">SoloPrice Pro</span>
                         </div>
-                        <p class="card-desc">Déclarez vos contrats signés et gérez votre facturation via notre outil partenaire SoloPrice Pro.</p>
+                        <p class="card-desc">Déclarez vos contrats signés directement dans votre espace pour le suivi de vos commissions.</p>
                         <div style="margin: 12px 0; font-size: 0.85rem; color: var(--text-secondary);">
                             <div style="display:flex; justify-content:space-between;"><span>Cumul signé (HT) :</span> <strong id="total-signed">0.00 €</strong></div>
                             <div style="display:flex; justify-content:space-between;"><span>Commissions dues :</span> <strong id="total-commission">0.00 €</strong></div>
                         </div>
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:auto;">
-                            <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; font-size:0.75rem; padding:8px;">Déclarer Signature</button>
-                            <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button secondary" style="border-color:#10b981; color:#10b981; justify-content:center; font-size:0.7rem; padding:8px; gap: 4px;">
-                                Facturation ext. 
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
-                                </svg>
-                            </a>
+                        <div style="display:flex; margin-top:auto;">
+                            <button onclick="openSignatureModal()" class="cta-button primary" style="background:#10b981; justify-content:center; font-size:0.75rem; padding:8px; width:100%;">Déclarer Signature</button>
                         </div>
                     </div>
 
@@ -3300,8 +3292,8 @@
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Cadrage & Facturation</div>
-                        <p class="card-desc">Gérez vos devis, factures et budgets prestataires via SoloPrice Pro.</p>
-                        <a href="https://solopricepro.vercel.app/" target="_blank" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#0284c7;">Accéder à SoloPrice →</a>
+                        <p class="card-desc">Gérez vos budgets prestataires et gérez vos processus de facturation.</p>
+                        <button onclick="alert('Les outils de gestion de facturation et de budgets prestataires seront disponibles prochainement.')" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#0284c7;">Accéder aux outils →</button>
                     </div>
                 `;
 
@@ -3738,10 +3730,7 @@
                                         <option value="growth">Croissance (10k - 50k€)</option>
                                         <option value="scale">Accélération (50k€+)</option>
                                     </select>
-                                    <div style="margin-top:12px; padding:12px; background:rgba(2,132,199,0.05); border:1px solid rgba(2,132,199,0.2); border-radius:10px; display:flex; align-items:center; justify-content:space-between; gap:12px;">
-                                        <p style="font-size:0.75rem; color:#0369a1; margin:0; font-weight:600;">Besoin d'aide pour chiffrer ?</p>
-                                        <a href="https://solopricepro.vercel.app/" target="_blank" style="font-size:0.75rem; color:#0284c7; font-weight:800; text-decoration:underline;">Utiliser SoloPrice →</a>
-                                    </div>
+
                                 </div>
                                 
                                 <div style="margin-bottom:24px;">
@@ -3910,10 +3899,10 @@
                                 <div style="margin-top:12px; padding:16px; background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); border-radius:10px; margin-bottom:24px;">
                                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
                                         <p style="font-size:0.85rem; color:#065f46; margin:0; font-weight:700;">🤝 Aide au Closing Stratégique</p>
-                                        <span style="font-size:0.6rem; background:#10b981; color:white; padding:2px 6px; border-radius:4px; font-weight:800;">SOLOPRICE AI</span>
+                                        <span style="font-size:0.6rem; background:#10b981; color:white; padding:2px 6px; border-radius:4px; font-weight:800;">DTC AI</span>
                                     </div>
-                                    <p style="font-size:0.75rem; color:#065f46; margin:0 0 12px 0;">Utilisez l'Assistant Closing pour générer vos scripts de vente et finaliser vos partenariats.</p>
-                                    <a href="https://solopricepro.vercel.app/closing-assistant" target="_blank" class="cta-button secondary" style="width:100%; justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981; padding:10px;">Lancer l'Assistant Closing →</a>
+                                    <p style="font-size:0.75rem; color:#065f46; margin:0 0 12px 0;">Accédez à notre assistant IA pour générer vos scripts de vente et finaliser vos partenariats.</p>
+                                    <button type="button" onclick="alert('L\'assistant de closing IA sera disponible directement sur votre application mobile DTC Pulse très prochainement.')" class="cta-button secondary" style="width:100%; justify-content:center; font-size:0.8rem; border-color:#10b981; color:#10b981; padding:10px; background: transparent;">Lancer l'Assistant Closing →</button>
                                 </div>
                                 <button type="submit" class="cta-button primary" style="width:100%; background:#10b981; padding:16px; font-weight:800; font-size:1rem; border:none; margin-top:32px;">
                                     Certifier mon Épopée & Publier

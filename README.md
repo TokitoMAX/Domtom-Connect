@@ -8,7 +8,6 @@ Domtom Connect est une plateforme SaaS dédiée à la sécurisation des investis
 - **Job Board (Missions)** : Publication et gestion d'annonces de missions stratégiques.
 - **Dashboard Utilisateur** : Espaces personnalisés selon le rôle (Expert, Entreprise, Porteur de projet).
 - **Messagerie Interne** : Système de mise en relation directe sécurisée.
-- **SoloPrice Pro** : Intégration d'outils de cadrage financier et d'aide au closing.
 - **Gestion Premium** : Système d'abonnement (Pack Authority, Business) via PayPal.
 
 ## 🛠️ Stack Technique
