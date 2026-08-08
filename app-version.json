@@ -1,9 +1,9 @@
 {
   "android": {
-    "versionCode": 21,
-    "versionName": "2.1",
-    "apkUrl": "https://expo.dev/accounts/domtomconnect/projects/dtc/builds/bdc3e11e",
-    "releaseNotes": "Mise à jour v2.1 de test : nouvelle version disponible pour l'application DTC Pulse.",
+    "versionCode": 20,
+    "versionName": "2.0",
+    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/V2/DTCPulseV9.apk",
+    "releaseNotes": "Application officielle DTC Pulse v2.0.",
     "forceUpdate": false
   }
 }
