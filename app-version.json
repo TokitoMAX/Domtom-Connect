@@ -1,9 +1,9 @@
 {
   "android": {
-    "versionCode": 20,
-    "versionName": "2.0",
-    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/V2/DTCPulseV9.apk",
-    "releaseNotes": "Application officielle DTC Pulse v2.0.",
+    "versionCode": 21,
+    "versionName": "2.1",
+    "apkUrl": "https://expo.dev/artifacts/eas/FjbNWruRYb-TdlFnHxIcx7t0jFD0y_LFpapYvdlfhFQ.apk",
+    "releaseNotes": "Mise à jour v2.1 officielle : activation permanente de la vérification des mises à jour rapides (EAS Update).",
     "forceUpdate": false
   }
 }
