@@ -206,27 +206,37 @@ const StandardModule = {
                     
                     <div id="profile-editor-form" style="display: flex; flex-direction: column; gap: 32px;">
                         
-                        <!-- SECTION 1: IDENTITY -->
-                        <div style="background:#f8fafc; padding:24px; border-radius:20px; border:1px solid #f1f5f9;">
-                            <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; margin-bottom:24px; letter-spacing:0.05em;">Identit&eacute; Visuelle</h3>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+                        <!-- SECTION 1: IDENTITY & MEDIA -->
+                        <div style="background:#f8fafc; padding:28px; border-radius:24px; border:1px solid #e2e8f0;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; margin-bottom:24px; letter-spacing:0.05em;"><i class="fas fa-user-circle"></i> Identit&eacute; Visuelle &amp; Photos</h3>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom: 20px;">
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Nom Complet / Marque</label>
-                                    <input type="text" id="profile-full-name" value="${profile.full_name || ''}" style="width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Nom Complet / Marque *</label>
+                                    <input type="text" id="profile-full-name" value="${profile.full_name || ''}" placeholder="Ex: Loïc Villeronce" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; box-sizing: border-box;">
                                 </div>
                                 <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Titre / Fonction</label>
-                                    <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Fondateur, Expert Territorial..." style="width: 100%; padding: 16px; border-radius: 14px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Titre / Fonction / Accroche *</label>
+                                    <input type="text" id="profile-title" value="${profile.title || ''}" placeholder="Ex: Chef de projet & Développement Business..." style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; box-sizing: border-box;">
+                                </div>
+                            </div>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Photo de Profil (URL)</label>
+                                    <input type="url" id="profile-avatar_url" value="${profile.avatar_url || ''}" placeholder="https://domaine.com/photo.jpg" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Banni&egrave;re de Couverture (URL)</label>
+                                    <input type="url" id="profile-banner_url" value="${profile.banner_url || ''}" placeholder="https://domaine.com/banniere.jpg" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 600; box-sizing: border-box;">
                                 </div>
                             </div>
                         </div>
 
-                         <!-- SECTION 1.2: VISIBILITY & PUBLICATION (The 'Listed' System) -->
-                        <div style="background: #fdfdfd; padding: 24px; border-radius: 20px; border: 2.5px dashed #10b981;">
+                         <!-- SECTION 2: VISIBILITY & LOCATION -->
+                        <div style="background: #fdfdfd; padding: 28px; border-radius: 24px; border: 2.5px dashed #10b981;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                                 <div>
-                                    <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin: 0; letter-spacing:0.05em;">Visibilit&eacute; dans l'Annuaire</h3>
-                                    <p style="font-size: 0.75rem; color: #64748b; margin: 4px 0 0 0;">Activez ce bouton pour apparaître publiquement et recevoir des propositions.</p>
+                                    <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin: 0; letter-spacing:0.05em;"><i class="fas fa-globe"></i> Visibilit&eacute; dans l'Annuaire</h3>
+                                    <p style="font-size: 0.75rem; color: #64748b; margin: 4px 0 0 0;">Activez ce bouton pour apparaître publiquement dans l'annuaire et recevoir des propositions.</p>
                                 </div>
                                 <label class="switch" style="position: relative; display: inline-block; width: 60px; height: 34px;">
                                     <input type="checkbox" id="profile-listed" ${profile.listed ? 'checked' : ''} style="opacity: 0; width: 0; height: 0;">
@@ -234,38 +244,51 @@ const StandardModule = {
                                 </label>
                             </div>
 
-                            <div class="info-field">
-                                <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Territoire de R&eacute;f&eacute;rence</label>
-                                <select id="profile-territory" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white;">
-                                    <option value="">Sélectionnez votre territoire...</option>
-                                    <optgroup label="Antilles-Guyane">
-                                        <option value="Martinique" ${profile.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
-                                        <option value="Guadeloupe" ${profile.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
-                                        <option value="Guyane" ${profile.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
-                                        <option value="Saint-Martin" ${profile.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
-                                    </optgroup>
-                                    <optgroup label="Océan Indien">
-                                        <option value="Réunion" ${profile.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
-                                        <option value="Mayotte" ${profile.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
-                                    </optgroup>
-                                    <option value="France Hexagone" ${profile.territory === 'France Hexagone' ? 'selected' : ''}>France Hexagone</option>
-                                    <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>International / Diaspora</option>
-                                </select>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom: 20px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Territoire d'intervention</label>
+                                    <select id="profile-territory" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; box-sizing: border-box;">
+                                        <option value="">Sélectionnez votre territoire...</option>
+                                        <optgroup label="Antilles-Guyane">
+                                            <option value="Martinique" ${profile.territory === 'Martinique' ? 'selected' : ''}>Martinique</option>
+                                            <option value="Guadeloupe" ${profile.territory === 'Guadeloupe' ? 'selected' : ''}>Guadeloupe</option>
+                                            <option value="Guyane" ${profile.territory === 'Guyane' ? 'selected' : ''}>Guyane</option>
+                                            <option value="Saint-Martin" ${profile.territory === 'Saint-Martin' ? 'selected' : ''}>Saint-Martin</option>
+                                        </optgroup>
+                                        <optgroup label="Océan Indien">
+                                            <option value="Réunion" ${profile.territory === 'Réunion' ? 'selected' : ''}>La Réunion</option>
+                                            <option value="Mayotte" ${profile.territory === 'Mayotte' ? 'selected' : ''}>Mayotte</option>
+                                        </optgroup>
+                                        <option value="France Hexagone" ${profile.territory === 'France Hexagone' ? 'selected' : ''}>France Hexagone</option>
+                                        <option value="International" ${profile.territory === 'International' ? 'selected' : ''}>International / Diaspora</option>
+                                    </select>
+                                </div>
+
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Ville / Lancement (Résidence Actuelle)</label>
+                                    <input type="text" id="profile-current_location" value="${profile.current_location || ''}" placeholder="Ex: Fort-de-France, Paris, Cayenne..." style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; box-sizing: border-box;">
+                                </div>
                             </div>
 
-                            <div class="info-field" style="margin-top: 20px;">
-                                <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Lien Calendly (Réservation RDV)</label>
-                                <input type="url" id="profile-calendly_url" value="${profile.calendly_url || ''}" placeholder="https://calendly.com/votre-nom/30min" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white;">
-                                <p style="font-size: 0.72rem; color: #94a3b8; margin: 6px 0 0 4px;">Laissez vide pour utiliser le lien de contact DTC par défaut.</p>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;"><i class="fab fa-whatsapp" style="color: #25D366;"></i> N° WhatsApp Direct (avec indicatif)</label>
+                                    <input type="tel" id="profile-phone" value="${profile.phone || ''}" placeholder="Ex: +596696123456" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; box-sizing: border-box;">
+                                    <p style="font-size: 0.72rem; color: #94a3b8; margin: 4px 0 0 4px;">Affiche le bouton WhatsApp direct sur votre profil public.</p>
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Lien Calendly (Réservation RDV)</label>
+                                    <input type="url" id="profile-calendly_url" value="${profile.calendly_url || ''}" placeholder="https://calendly.com/votre-nom/30min" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; box-sizing: border-box;">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- SECTION 1.5: ROLE ACTIVATION (Reliable Switch System) -->
-                        <div style="background: white; padding: 24px; border-radius: 20px; border: 2.5px solid #0f172a;">
-                            <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Activation du R&ocirc;le Professionnel</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px;">Choisissez votre &eacute;cosyst&egrave;me pour d&eacute;bloquer vos outils de croissance.</p>
+                        <!-- SECTION 3: ROLE ACTIVATION -->
+                        <div style="background: white; padding: 28px; border-radius: 24px; border: 2.5px solid #0f172a;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;"><i class="fas fa-briefcase"></i> Activation du R&ocirc;le Professionnel</h3>
+                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px;">Choisissez votre écosystème pour débloquer vos outils de croissance.</p>
                             
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
                                 <label style="cursor: pointer; position: relative;">
                                     <input type="radio" name="profile-role" value="spectateur" ${profile.role === 'spectateur' ? 'checked' : ''} style="display:none;" onchange="StandardModule.handleRoleSwitch('spectateur')">
                                     <div class="role-card" style="padding: 16px; border: 2px solid ${profile.role === 'spectateur' ? '#10b981' : '#e2e8f0'}; border-radius: 14px; text-align: center; transition: 0.2s;">
@@ -297,47 +320,56 @@ const StandardModule = {
                             </div>
                         </div>
 
-                        <!-- SECTION 1.6: MARKETING & TRACKING (VITRINE) -->
-                        <div style="background: #fdfdfd; padding: 24px; border-radius: 20px; border: 1.5px solid #e2e8f0;">
-                            <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.05em;">Outils Marketing & Tracking</h3>
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 24px;">Intégrez vos pixels pour suivre les performances de votre vitrine publique Domtom Connect.</p>
-                            
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">ID Google Analytics (GA4)</label>
-                                    <input type="text" id="profile-ga_id" value="${profile.ga_id || ''}" placeholder="Ex: G-XXXXXXXXXX" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; margin-bottom: 8px;">
-                                    <div style="font-size: 0.75rem; color: #64748b; line-height: 1.4; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px dashed #cbd5e1;">
-                                        <strong>Où le trouver ?</strong><br>
-                                        1. <a href="https://analytics.google.com" target="_blank" style="color:#3b82f6; text-decoration:none;">Google Analytics</a> > ⚙️ Administration<br>
-                                        2. <strong>Flux de données</strong> > Cliquez sur votre site<br>
-                                        3. Copiez l'<strong>ID de mesure</strong> (commence par <em>G-</em>)
-                                    </div>
-                                </div>
-                                <div class="info-field">
-                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Pixel Facebook (ID)</label>
-                                    <input type="text" id="profile-fb_pixel_id" value="${profile.fb_pixel_id || ''}" placeholder="Ex: 123456789012345" style="width: 100%; padding: 14px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700; background: white; margin-bottom: 8px;">
-                                    <div style="font-size: 0.75rem; color: #64748b; line-height: 1.4; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px dashed #cbd5e1;">
-                                        <strong>Où le trouver ?</strong><br>
-                                        1. <a href="https://business.facebook.com/events_manager2" target="_blank" style="color:#3b82f6; text-decoration:none;">Events Manager</a> > Sources de données<br>
-                                        2. Sélectionnez votre Pixel > <strong>Paramètres</strong><br>
-                                        3. Copiez l'<strong>ID de l'ensemble de données</strong> (suite de chiffres)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 2: SPECIALIZED FIELDS -->
+                        <!-- SECTION 4: SPECIALIZED FIELDS -->
                         <div id="specialized-fields-container" style="background:#fff; padding:0; border-radius:20px;">
                              ${specializedFields}
                         </div>
 
-                        <!-- SECTION 3: PRESENTATION -->
-                        <div class="info-field">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:12px;">Bio Institutionnelle / Pr&eacute;sentation</label>
-                            <textarea id="profile-bio" style="width: 100%; min-height: 150px; padding: 20px; border-radius: 16px; border: 1.5px solid #e2e8f0; font-weight: 600; line-height:1.6;">${profile.bio || ''}</textarea>
+                        <!-- SECTION 5: SOCIAL LINKS -->
+                        <div style="background: #f8fafc; padding: 28px; border-radius: 24px; border: 1px solid #e2e8f0;">
+                            <h3 style="font-size:0.85rem; font-weight:900; color:#0f172a; text-transform:uppercase; margin-bottom:16px; letter-spacing:0.05em;"><i class="fas fa-share-alt"></i> R&eacute;seaux Sociaux &amp; Liens Publics</h3>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:6px;"><i class="fab fa-linkedin" style="color:#0077b5;"></i> LinkedIn (URL)</label>
+                                    <input type="url" id="profile-linkedin_url" value="${profile.linkedin_url || ''}" placeholder="https://linkedin.com/in/..." style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:6px;"><i class="fas fa-globe" style="color:#3b82f6;"></i> Site Web / Portfolio (URL)</label>
+                                    <input type="url" id="profile-website_url" value="${profile.website_url || profile.website || ''}" placeholder="https://..." style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:6px;"><i class="fab fa-instagram" style="color:#e4405f;"></i> Instagram (URL)</label>
+                                    <input type="url" id="profile-instagram_url" value="${profile.instagram_url || ''}" placeholder="https://instagram.com/..." style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:6px;"><i class="fab fa-facebook" style="color:#1877f2;"></i> Facebook (URL)</label>
+                                    <input type="url" id="profile-facebook_url" value="${profile.facebook_url || ''}" placeholder="https://facebook.com/..." style="width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- SECTION 4: PAIEMENTS & REVENUS -->
+                        <!-- SECTION 6: PRESENTATION & BIO -->
+                        <div class="info-field">
+                            <label style="display: block; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:12px;">Bio Institutionnelle / Pr&eacute;sentation *</label>
+                            <textarea id="profile-bio" style="width: 100%; min-height: 150px; padding: 20px; border-radius: 16px; border: 1.5px solid #e2e8f0; font-weight: 600; line-height:1.6; box-sizing: border-box;">${profile.bio || ''}</textarea>
+                        </div>
+
+                        <!-- SECTION 7: MARKETING & TRACKING (OPTIONAL) -->
+                        <details style="background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; padding: 16px 20px;">
+                            <summary style="font-size:0.85rem; font-weight:900; color:#475569; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em;">⚙️ Outils Marketing &amp; Pixels (Google Analytics, Facebook Pixel)</summary>
+                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top: 16px;">
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">ID Google Analytics (GA4)</label>
+                                    <input type="text" id="profile-ga_id" value="${profile.ga_id || ''}" placeholder="Ex: G-XXXXXXXXXX" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                                <div class="info-field">
+                                    <label style="display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom:8px;">Pixel Facebook (ID)</label>
+                                    <input type="text" id="profile-fb_pixel_id" value="${profile.fb_pixel_id || ''}" placeholder="Ex: 123456789012345" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 600; box-sizing: border-box;">
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- SECTION 8: PAIEMENTS & REVENUS STRIPE -->
                         <div style="background: ${profile.stripe_payouts_enabled ? 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)' : profile.stripe_connect_id ? 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)' : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'}; padding: 28px; border-radius: 20px; border: 2px solid ${profile.stripe_payouts_enabled ? '#10b981' : profile.stripe_connect_id ? '#f59e0b' : '#334155'};">
                             <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
                                 <div>
@@ -379,7 +411,6 @@ const StandardModule = {
                                         <div style="font-size: 0.65rem; color: ${profile.stripe_payouts_enabled ? '#9ca3af' : 'rgba(255,255,255,0.3)'}; margin-top: 2px;">(sans surprise)</div>
                                     </div>
                                 </div>
-                                <p style="font-size: 0.72rem; color: ${profile.stripe_payouts_enabled ? '#6ee7b7' : 'rgba(255,255,255,0.35)'}; margin: 12px 0 0 0; font-style: italic;">Exemple : Pour un devis de 500€ → vous recevez <strong>450€ nets garantis</strong>. Les frais bancaires Stripe (~1,5%) sont pris en charge par DTC sur sa commission.</p>
                             </div>
                         </div>
                         
@@ -464,11 +495,11 @@ const StandardModule = {
     saveProfile: async () => {
         try {
             const updates = {
-                full_name: document.getElementById('profile-full-name').value,
-                title: document.getElementById('profile-title').value,
-                bio: document.getElementById('profile-bio').value,
-                listed: document.getElementById('profile-listed').checked,
-                territory: document.getElementById('profile-territory').value,
+                full_name: document.getElementById('profile-full-name')?.value || '',
+                title: document.getElementById('profile-title')?.value || '',
+                bio: document.getElementById('profile-bio')?.value || '',
+                listed: document.getElementById('profile-listed')?.checked || false,
+                territory: document.getElementById('profile-territory')?.value || '',
                 updated_at: new Date().toISOString()
             };
 
@@ -480,17 +511,25 @@ const StandardModule = {
             if (updates.role === 'expert') updates.expertise = updates.title;
             if (updates.role === 'entreprise') updates.company_name = updates.full_name;
 
-            // Exhaustive field collection - PRUNED for DB Compatibility
+            // Exhaustive field collection
             const allPossibleFields = [
-                'tjm', 'availability', 'skills', 'siret', 'website', 
+                'avatar_url', 'banner_url', 'current_location', 'phone',
+                'tjm', 'availability', 'skills', 'siret', 'website', 'website_url',
+                'linkedin_url', 'instagram_url', 'facebook_url', 'youtube_url', 'tiktok_url',
                 'sector', 'company_name', 'creation_year', 'team_size', 'zone',
                 'calendly_url', 'ga_id', 'fb_pixel_id'
             ];
             
             allPossibleFields.forEach(f => {
                 const el = document.getElementById('profile-' + f);
-                if (el) updates[f] = el.value;
+                if (el && el.value !== undefined) {
+                    updates[f] = el.value.trim();
+                }
             });
+
+            // Sync website_url if website is filled
+            if (updates.website && !updates.website_url) updates.website_url = updates.website;
+            if (updates.website_url && !updates.website) updates.website = updates.website_url;
 
             // Special mapping for Experts
             if (updates.role === 'expert') {
@@ -499,12 +538,12 @@ const StandardModule = {
             }
 
             const { data: { session } } = await window._supabase.auth.getSession();
-            if (!session) throw new Error("Session expir\u00e9e");
+            if (!session) throw new Error("Session expirée");
 
             const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             if (error) throw error;
 
-            alert("Profil publi\u00e9 et mis \u00e0 jour avec succ\u00e8s !");
+            alert("Profil publié et mis à jour avec succès !");
             window.location.reload();
         } catch (err) {
             alert("Erreur : " + err.message);
