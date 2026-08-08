@@ -2,8 +2,8 @@
   "android": {
     "versionCode": 21,
     "versionName": "2.1",
-    "apkUrl": "https://domtomconnect.com/application",
-    "releaseNotes": "Mise à jour v2.1 : Nouvelle version officielle avec améliorations de performances et corrections de bugs.",
+    "apkUrl": "https://expo.dev/accounts/domtomconnect/projects/dtc/builds/bdc3e11e",
+    "releaseNotes": "Mise à jour v2.1 de test : nouvelle version disponible pour l'application DTC Pulse.",
     "forceUpdate": false
   }
 }
