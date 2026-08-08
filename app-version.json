@@ -1,10 +1,9 @@
 {
   "android": {
-    "versionCode": 20,
-    "versionName": "2.0",
-    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/V2/DTCPulseV9.apk",
-    "releaseNotes": "Mise à jour V2 (DTC Pulse) : application officielle avec correction du nom et améliorations de stabilité.",
+    "versionCode": 21,
+    "versionName": "2.1",
+    "apkUrl": "https://domtomconnect.com/application",
+    "releaseNotes": "Mise à jour v2.1 : Nouvelle version officielle avec améliorations de performances et corrections de bugs.",
     "forceUpdate": false
   }
 }
-
