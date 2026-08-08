@@ -3,9 +3,14 @@
  */
 
 const ShowcaseModule = {
+    closeModal: () => {
+        const overlay = document.getElementById('details-modal-overlay');
+        if (overlay) overlay.style.display = 'none';
+    },
+
     getIconForCategory: (cat) => {
-        if (cat === 'service') return '📦';
-        return '🔗';
+        if (cat === 'service') return 'fas fa-box';
+        return 'fas fa-link';
     },
 
     renderManager: async (container) => {
@@ -28,8 +33,8 @@ const ShowcaseModule = {
             if (!items || items.length === 0) {
                 itemsHtml = `
                     <div style="text-align:center; padding: 40px; border: 2px dashed #cbd5e1; border-radius: 12px; color: #64748b; margin-top: 20px;">
-                        <div style="font-size: 2rem; margin-bottom: 10px;">🔗</div>
-                        <p style="font-weight: 600;">Vous n'avez pas encore ajouté de liens.</p>
+                        <div style="font-size: 2rem; margin-bottom: 10px;"><i class="fas fa-link" style="color: #94a3b8;"></i></div>
+                        <p style="font-weight: 600;">Vous n'avez pas encore ajouté d'éléments.</p>
                     </div>
                 `;
             } else {
@@ -114,7 +119,7 @@ const ShowcaseModule = {
                     </div>
                 </div>
                 <!-- Modal overlay (hidden by default) -->
-                <div id="details-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;"></div>
+                <div id="details-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.6); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;"></div>
             `;
         } catch (err) {
             console.error(err);
@@ -139,9 +144,14 @@ const ShowcaseModule = {
         if (!overlay) {
             overlay = document.createElement('div');
             overlay.id = 'details-modal-overlay';
-            overlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;';
+            overlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 10000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;';
             document.body.appendChild(overlay);
         }
+
+        // Close on clicking outside the modal box
+        overlay.onclick = (e) => {
+            if (e.target === overlay) ShowcaseModule.closeModal();
+        };
 
         overlay.style.display = 'flex';
 
@@ -149,8 +159,8 @@ const ShowcaseModule = {
             // --- FORMULAIRE DÉDIÉ : OFFRE & PRESTATION B2B ---
             overlay.innerHTML = `
                 <div style="background: white; width: 100%; max-width: 560px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
-                    <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
-                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">💼 ${itemId ? 'Modifier l\'Offre' : 'Nouvelle Offre / Prestation'}</h2>
+                    <button onclick="ShowcaseModule.closeModal()" style="position: absolute; right: 20px; top: 20px; background: #f1f5f9; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10;">&times;</button>
+                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;"><i class="fas fa-briefcase" style="color: #10b981;"></i> ${itemId ? 'Modifier l\'Offre' : 'Nouvelle Offre / Prestation'}</h2>
                     <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.9rem;">Créez une offre claire avec tarif qui sera mise en valeur sur votre profil public.</p>
                     
                     <input type="hidden" id="item-category" value="service">
@@ -191,10 +201,10 @@ const ShowcaseModule = {
                             <div style="flex: 1;">
                                 <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
                                 <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; background: white;">
-                                    <option value="fas fa-briefcase" ${meta.icon === 'fas fa-briefcase' || !meta.icon ? 'selected' : ''}>💼 Offre / Service</option>
-                                    <option value="fas fa-rocket" ${meta.icon === 'fas fa-rocket' ? 'selected' : ''}>🚀 Solution Digitale</option>
-                                    <option value="fas fa-chart-line" ${meta.icon === 'fas fa-chart-line' ? 'selected' : ''}>📈 Business / Conseil</option>
-                                    <option value="fas fa-shopping-cart" ${meta.icon === 'fas fa-shopping-cart' ? 'selected' : ''}>🛒 Produit / Boutique</option>
+                                    <option value="fas fa-briefcase" ${meta.icon === 'fas fa-briefcase' || !meta.icon ? 'selected' : ''}>Offre / Service</option>
+                                    <option value="fas fa-rocket" ${meta.icon === 'fas fa-rocket' ? 'selected' : ''}>Solution Digitale</option>
+                                    <option value="fas fa-chart-line" ${meta.icon === 'fas fa-chart-line' ? 'selected' : ''}>Business / Conseil</option>
+                                    <option value="fas fa-shopping-cart" ${meta.icon === 'fas fa-shopping-cart' ? 'selected' : ''}>Produit / Boutique</option>
                                 </select>
                             </div>
                             <div style="flex: 1;">
@@ -220,8 +230,8 @@ const ShowcaseModule = {
             // --- FORMULAIRE DÉDIÉ : LIEN BIO / RÉSEAU SOCIAL ---
             overlay.innerHTML = `
                 <div style="background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-                    <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
-                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">🔗 ${itemId ? 'Modifier le Lien' : 'Nouveau Lien Bio'}</h2>
+                    <button onclick="ShowcaseModule.closeModal()" style="position: absolute; right: 20px; top: 20px; background: #f1f5f9; border: none; font-size: 1.4rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10;">&times;</button>
+                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;"><i class="fas fa-link" style="color: #3b82f6;"></i> ${itemId ? 'Modifier le Lien' : 'Nouveau Lien Bio'}</h2>
                     <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.9rem;">Ajoutez un lien de redirection vers vos réseaux sociaux, site ou calendrier.</p>
                     
                     <input type="hidden" id="item-category" value="linktree">
@@ -241,14 +251,14 @@ const ShowcaseModule = {
                             <div style="flex: 1;">
                                 <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
                                 <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; background: white;">
-                                    <option value="fas fa-link" ${meta.icon === 'fas fa-link' || !meta.icon ? 'selected' : ''}>🔗 Lien (Défaut)</option>
-                                    <option value="fas fa-globe" ${meta.icon === 'fas fa-globe' ? 'selected' : ''}>🌐 Site Web</option>
-                                    <option value="fab fa-instagram" ${meta.icon === 'fab fa-instagram' ? 'selected' : ''}>📸 Instagram</option>
-                                    <option value="fab fa-tiktok" ${meta.icon === 'fab fa-tiktok' ? 'selected' : ''}>🎵 TikTok</option>
-                                    <option value="fab fa-youtube" ${meta.icon === 'fab fa-youtube' ? 'selected' : ''}>▶️ YouTube</option>
-                                    <option value="fab fa-linkedin" ${meta.icon === 'fab fa-linkedin' ? 'selected' : ''}>💼 LinkedIn</option>
-                                    <option value="fab fa-whatsapp" ${meta.icon === 'fab fa-whatsapp' ? 'selected' : ''}>💬 WhatsApp</option>
-                                    <option value="fas fa-calendar-alt" ${meta.icon === 'fas fa-calendar-alt' ? 'selected' : ''}>📅 Calendrier</option>
+                                    <option value="fas fa-link" ${meta.icon === 'fas fa-link' || !meta.icon ? 'selected' : ''}>Lien (Défaut)</option>
+                                    <option value="fas fa-globe" ${meta.icon === 'fas fa-globe' ? 'selected' : ''}>Site Web</option>
+                                    <option value="fab fa-instagram" ${meta.icon === 'fab fa-instagram' ? 'selected' : ''}>Instagram</option>
+                                    <option value="fab fa-tiktok" ${meta.icon === 'fab fa-tiktok' ? 'selected' : ''}>TikTok</option>
+                                    <option value="fab fa-youtube" ${meta.icon === 'fab fa-youtube' ? 'selected' : ''}>YouTube</option>
+                                    <option value="fab fa-linkedin" ${meta.icon === 'fab fa-linkedin' ? 'selected' : ''}>LinkedIn</option>
+                                    <option value="fab fa-whatsapp" ${meta.icon === 'fab fa-whatsapp' ? 'selected' : ''}>WhatsApp</option>
+                                    <option value="fas fa-calendar-alt" ${meta.icon === 'fas fa-calendar-alt' ? 'selected' : ''}>Calendrier</option>
                                 </select>
                             </div>
                             <div style="flex: 1;">
