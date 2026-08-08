@@ -133,6 +133,7 @@ const ShowcaseModule = {
         try { if (existingItem?.meta_info) meta = JSON.parse(existingItem.meta_info); } catch(e){}
 
         const currentCat = existingItem ? (existingItem.category || 'service') : defaultCategory;
+        const isService = currentCat === 'service';
 
         let overlay = document.getElementById('details-modal-overlay');
         if (!overlay) {
@@ -143,85 +144,133 @@ const ShowcaseModule = {
         }
 
         overlay.style.display = 'flex';
-        overlay.innerHTML = `
-            <div style="background: white; width: 100%; max-width: 560px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
-                <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
-                <h2 style="margin: 0 0 24px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">${itemId ? 'Modifier l\'élément' : (currentCat === 'service' ? 'Nouvelle Offre / Service' : 'Nouveau Lien Bio')}</h2>
-                
-                <div style="display: flex; flex-direction: column; gap: 18px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Type d'élément</label>
-                        <select id="item-category" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; font-weight: 700; box-sizing: border-box;">
-                            <option value="service" ${currentCat === 'service' ? 'selected' : ''}>💼 Offre / Service / Prestation (avec Tarif)</option>
-                            <option value="linktree" ${currentCat === 'linktree' || currentCat === 'link' ? 'selected' : ''}>🔗 Lien Bio / Réseau Social</option>
-                        </select>
-                    </div>
 
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Titre *</label>
-                        <input type="text" id="item-title" placeholder="Ex: Audit Business, Création de Site Web, Consulting..." value="${existingItem?.title || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
-                    </div>
-
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Description / Détails de la prestation</label>
-                        <textarea id="item-description" rows="3" placeholder="Expliquez brièvement ce que comprend cette offre ou ce lien..." style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; font-family: inherit;">${existingItem?.description || ''}</textarea>
-                    </div>
+        if (isService) {
+            // --- FORMULAIRE DÉDIÉ : OFFRE & PRESTATION B2B ---
+            overlay.innerHTML = `
+                <div style="background: white; width: 100%; max-width: 560px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
+                    <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
+                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">💼 ${itemId ? 'Modifier l\'Offre' : 'Nouvelle Offre / Prestation'}</h2>
+                    <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.9rem;">Créez une offre claire avec tarif qui sera mise en valeur sur votre profil public.</p>
                     
-                    <div style="display: flex; gap: 14px;">
-                        <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Préfixe de Tarif</label>
-                            <select id="item-price-prefix" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
-                                <option value="À partir de" ${existingItem?.price_prefix === 'À partir de' || !existingItem?.price_prefix ? 'selected' : ''}>À partir de</option>
-                                <option value="Prix fixe" ${existingItem?.price_prefix === 'Prix fixe' ? 'selected' : ''}>Prix fixe</option>
-                                <option value="Forfait" ${existingItem?.price_prefix === 'Forfait' ? 'selected' : ''}>Forfait</option>
-                                <option value="Sur devis" ${existingItem?.price_prefix === 'Sur devis' ? 'selected' : ''}>Sur devis</option>
-                            </select>
-                        </div>
-                        <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Prix (€)</label>
-                            <input type="number" id="item-price" placeholder="Ex: 250" value="${existingItem?.price !== null && existingItem?.price !== undefined ? existingItem.price : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
-                        </div>
-                    </div>
+                    <input type="hidden" id="item-category" value="service">
 
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">URL / Lien externe (Optionnel)</label>
-                        <input type="url" id="item-url" placeholder="https://..." value="${existingItem?.url || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
-                    </div>
-
-                    <div style="display: flex; gap: 14px;">
-                        <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
-                            <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; font-family: 'Font Awesome 5 Free', 'Inter', sans-serif; font-weight: 900;">
-                                <option value="fas fa-briefcase" ${meta.icon === 'fas fa-briefcase' ? 'selected' : ''}>💼 Offre / Service</option>
-                                <option value="fas fa-link" ${meta.icon === 'fas fa-link' || !meta.icon ? 'selected' : ''}>🔗 Lien (Défaut)</option>
-                                <option value="fas fa-globe" ${meta.icon === 'fas fa-globe' ? 'selected' : ''}>🌐 Site Web</option>
-                                <option value="fab fa-instagram" ${meta.icon === 'fab fa-instagram' ? 'selected' : ''}>📸 Instagram</option>
-                                <option value="fab fa-tiktok" ${meta.icon === 'fab fa-tiktok' ? 'selected' : ''}>🎵 TikTok</option>
-                                <option value="fab fa-youtube" ${meta.icon === 'fab fa-youtube' ? 'selected' : ''}>▶️ YouTube</option>
-                                <option value="fab fa-linkedin" ${meta.icon === 'fab fa-linkedin' ? 'selected' : ''}>💼 LinkedIn</option>
-                                <option value="fab fa-whatsapp" ${meta.icon === 'fab fa-whatsapp' ? 'selected' : ''}>💬 WhatsApp</option>
-                                <option value="fas fa-shopping-cart" ${meta.icon === 'fas fa-shopping-cart' ? 'selected' : ''}>🛒 Boutique</option>
-                            </select>
+                    <div style="display: flex; flex-direction: column; gap: 18px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Titre de l'Offre / Prestation *</label>
+                            <input type="text" id="item-title" placeholder="Ex: Audit Business, Création de Site Web, Consulting..." value="${existingItem?.title || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
                         </div>
-                        <div style="flex: 1;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Ordre (1=Premier)</label>
-                            <input type="number" id="item-position" placeholder="Ex: 1" value="${meta.position !== undefined ? meta.position : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Description &amp; Détails de la prestation</label>
+                            <textarea id="item-description" rows="3" placeholder="Expliquez brièvement ce que comprend votre accompagnement ou service..." style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; font-family: inherit;">${existingItem?.description || ''}</textarea>
                         </div>
-                    </div>
+                        
+                        <div style="display: flex; gap: 14px;">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Préfixe de Tarif</label>
+                                <select id="item-price-prefix" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; background: white;">
+                                    <option value="À partir de" ${existingItem?.price_prefix === 'À partir de' || !existingItem?.price_prefix ? 'selected' : ''}>À partir de</option>
+                                    <option value="Prix fixe" ${existingItem?.price_prefix === 'Prix fixe' ? 'selected' : ''}>Prix fixe</option>
+                                    <option value="Forfait" ${existingItem?.price_prefix === 'Forfait' ? 'selected' : ''}>Forfait</option>
+                                    <option value="Sur devis" ${existingItem?.price_prefix === 'Sur devis' ? 'selected' : ''}>Sur devis</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Prix (€ EUR)</label>
+                                <input type="number" id="item-price" placeholder="Ex: 250 (laisser vide si sur devis)" value="${existingItem?.price !== null && existingItem?.price !== undefined ? existingItem.price : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                            </div>
+                        </div>
 
-                    <div style="display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                        <input type="checkbox" id="item-highlight" ${meta.highlight ? 'checked' : ''} style="width: 20px; height: 20px; accent-color: #10b981; cursor: pointer;">
-                        <label for="item-highlight" style="font-weight: 800; color: #0f172a; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-star" style="color: #fbbf24;"></i> Mettre cette offre / lien en avant sur mon profil
-                        </label>
-                    </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Lien externe / Page de vente (Optionnel)</label>
+                            <input type="url" id="item-url" placeholder="https://..." value="${existingItem?.url || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                        </div>
 
-                    <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background: #10b981; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 8px; font-size: 1.05rem; box-shadow: 0 10px 20px rgba(16,185,129,0.25);">
-                        Enregistrer l'offre
-                    </button>
+                        <div style="display: flex; gap: 14px;">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
+                                <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; background: white;">
+                                    <option value="fas fa-briefcase" ${meta.icon === 'fas fa-briefcase' || !meta.icon ? 'selected' : ''}>💼 Offre / Service</option>
+                                    <option value="fas fa-rocket" ${meta.icon === 'fas fa-rocket' ? 'selected' : ''}>🚀 Solution Digitale</option>
+                                    <option value="fas fa-chart-line" ${meta.icon === 'fas fa-chart-line' ? 'selected' : ''}>📈 Business / Conseil</option>
+                                    <option value="fas fa-shopping-cart" ${meta.icon === 'fas fa-shopping-cart' ? 'selected' : ''}>🛒 Produit / Boutique</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Ordre d'affichage</label>
+                                <input type="number" id="item-position" placeholder="Ex: 1" value="${meta.position !== undefined ? meta.position : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            <input type="checkbox" id="item-highlight" ${meta.highlight ? 'checked' : ''} style="width: 20px; height: 20px; accent-color: #10b981; cursor: pointer;">
+                            <label for="item-highlight" style="font-weight: 800; color: #0f172a; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-star" style="color: #fbbf24;"></i> Mettre cette offre en avant sur mon profil public
+                            </label>
+                        </div>
+
+                        <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background: #10b981; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 8px; font-size: 1.05rem; box-shadow: 0 10px 20px rgba(16,185,129,0.25);">
+                            Enregistrer l'Offre
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            // --- FORMULAIRE DÉDIÉ : LIEN BIO / RÉSEAU SOCIAL ---
+            overlay.innerHTML = `
+                <div style="background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 36px; position: relative; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                    <button onclick="document.getElementById('details-modal-overlay').style.display='none'" style="position: absolute; right: 24px; top: 24px; background: #f1f5f9; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
+                    <h2 style="margin: 0 0 8px 0; color: #0f172a; font-weight: 900; font-size: 1.4rem;">🔗 ${itemId ? 'Modifier le Lien' : 'Nouveau Lien Bio'}</h2>
+                    <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.9rem;">Ajoutez un lien de redirection vers vos réseaux sociaux, site ou calendrier.</p>
+                    
+                    <input type="hidden" id="item-category" value="linktree">
+
+                    <div style="display: flex; flex-direction: column; gap: 18px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Titre du Lien *</label>
+                            <input type="text" id="item-title" placeholder="Ex: Mon Instagram, Prendre Rendez-vous, Mon Site Web..." value="${existingItem?.title || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">URL (Lien de destination) *</label>
+                            <input type="url" id="item-url" placeholder="https://..." value="${existingItem?.url || existingItem?.description || ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                        </div>
+
+                        <div style="display: flex; gap: 14px;">
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Icône</label>
+                                <select id="item-icon" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; background: white;">
+                                    <option value="fas fa-link" ${meta.icon === 'fas fa-link' || !meta.icon ? 'selected' : ''}>🔗 Lien (Défaut)</option>
+                                    <option value="fas fa-globe" ${meta.icon === 'fas fa-globe' ? 'selected' : ''}>🌐 Site Web</option>
+                                    <option value="fab fa-instagram" ${meta.icon === 'fab fa-instagram' ? 'selected' : ''}>📸 Instagram</option>
+                                    <option value="fab fa-tiktok" ${meta.icon === 'fab fa-tiktok' ? 'selected' : ''}>🎵 TikTok</option>
+                                    <option value="fab fa-youtube" ${meta.icon === 'fab fa-youtube' ? 'selected' : ''}>▶️ YouTube</option>
+                                    <option value="fab fa-linkedin" ${meta.icon === 'fab fa-linkedin' ? 'selected' : ''}>💼 LinkedIn</option>
+                                    <option value="fab fa-whatsapp" ${meta.icon === 'fab fa-whatsapp' ? 'selected' : ''}>💬 WhatsApp</option>
+                                    <option value="fas fa-calendar-alt" ${meta.icon === 'fas fa-calendar-alt' ? 'selected' : ''}>📅 Calendrier</option>
+                                </select>
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="display: block; margin-bottom: 8px; font-weight: 700; color: #334155; font-size: 0.9rem;">Ordre d'affichage</label>
+                                <input type="number" id="item-position" placeholder="Ex: 1" value="${meta.position !== undefined ? meta.position : ''}" style="width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box;">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            <input type="checkbox" id="item-highlight" ${meta.highlight ? 'checked' : ''} style="width: 20px; height: 20px; accent-color: #0f172a; cursor: pointer;">
+                            <label for="item-highlight" style="font-weight: 800; color: #0f172a; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-star" style="color: #fbbf24;"></i> Mettre ce lien en avant sur ma vitrine
+                            </label>
+                        </div>
+
+                        <button onclick="ShowcaseModule.saveItem('${itemId || ''}')" style="background: #0f172a; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 8px; font-size: 1.05rem; box-shadow: 0 10px 20px rgba(15,23,42,0.2);">
+                            Enregistrer le Lien
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
     },
 
     saveItem: async (itemId) => {
@@ -231,16 +280,17 @@ const ShowcaseModule = {
         const priceVal = document.getElementById('item-price')?.value.trim();
         const price_prefix = document.getElementById('item-price-prefix')?.value || 'À partir de';
         const url = document.getElementById('item-url')?.value.trim() || '';
-        const icon = document.getElementById('item-icon')?.value || 'fas fa-briefcase';
+        const icon = document.getElementById('item-icon')?.value || (category === 'service' ? 'fas fa-briefcase' : 'fas fa-link');
         const position = document.getElementById('item-position')?.value || '';
         const highlight = document.getElementById('item-highlight')?.checked || false;
 
-        if (!title) return alert("Veuillez saisir un titre.");
+        if (!title) return alert("Veuillez saisir au moins un titre.");
+        if (category === 'linktree' && !url) return alert("Veuillez saisir une URL pour le lien.");
 
         const { data: { session } } = await window._supabase.auth.getSession();
         if (!session) return;
 
-        const price = (priceVal !== '' && !isNaN(priceVal)) ? parseFloat(priceVal) : null;
+        const price = (priceVal !== undefined && priceVal !== '' && !isNaN(priceVal)) ? parseFloat(priceVal) : null;
 
         const payload = {
             title: title,
