@@ -1,9 +1,9 @@
 {
   "android": {
-    "versionCode": 21,
-    "versionName": "8.2",
+    "versionCode": 20,
+    "versionName": "2.0",
     "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/V2/DTCPulseV9.apk",
-    "releaseNotes": "Mise à jour v8.2 (DTC Pulse) : correction des messages vocaux, conformité sécurité et améliorations de stabilité.",
+    "releaseNotes": "Mise à jour V2 (DTC Pulse) : application officielle avec correction du nom et améliorations de stabilité.",
     "forceUpdate": false
   }
 }
