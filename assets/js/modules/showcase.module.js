@@ -57,37 +57,63 @@ const ShowcaseModule = {
                     let meta = {};
                     try { if (item.meta_info) meta = JSON.parse(item.meta_info); } catch(e){}
                     const iconClass = meta.icon || (item.category === 'service' ? 'fas fa-briefcase' : 'fas fa-link');
-                    const isService = item.category === 'service' || item.price != null;
-                    const catBadge = isService ? `<span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: 800;"><i class="fas fa-briefcase"></i> Offre / Service</span>` : `<span style="background: #f1f5f9; color: #475569; font-size: 0.75rem; padding: 3px 8px; border-radius: 6px; font-weight: 700;"><i class="fas fa-link"></i> Lien Bio</span>`;
-                    const highlightBadge = meta.highlight ? `<span style="background: #fbbf24; color: #000; font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; font-weight: bold;"><i class="fas fa-star"></i> À la une</span>` : '';
-                    
-                    let priceTag = '';
-                    if (isService && item.price != null && item.price !== '') {
-                        const prefix = item.price_prefix ? `${item.price_prefix} ` : '';
-                        priceTag = `<span style="background: #10b981; color: white; font-size: 0.8rem; padding: 4px 10px; border-radius: 8px; font-weight: 900;">${prefix}${item.price}€</span>`;
-                    }
+                    const isService = item.category === 'service';
+                    const highlightBadge = meta.highlight ? `<span style="background: #fbbf24; color: #78350f; font-size: 0.7rem; padding: 3px 10px; border-radius: 100px; font-weight: 800;"><i class="fas fa-star"></i> À la une</span>` : '';
 
-                    return `
-                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 14px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.03); width: 100%; box-sizing: border-box;">
-                        <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1; min-width: 250px;">
-                            <div style="font-size: 1.5rem; color: #10b981; width: 44px; height: 44px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="${iconClass}"></i></div>
-                            <div style="flex: 1; min-width: 0; overflow: hidden;">
-                                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
-                                    <h4 style="margin: 0; font-size: 1.05rem; color: #0f172a; font-weight: 800;">${item.title || 'Sans titre'}</h4>
-                                    ${catBadge}
-                                    ${highlightBadge}
+                    if (isService) {
+                        // === CARTE OFFRE / SERVICE ===
+                        let priceTag = '';
+                        if (item.price != null && item.price !== '') {
+                            const prefix = item.price_prefix ? `${item.price_prefix} ` : '';
+                            priceTag = `<div style="font-size: 1.3rem; font-weight: 900; color: #059669; margin-top: 6px;">${prefix}<span style="font-size: 1.6rem;">${item.price}</span> €</div>`;
+                        } else if (item.price_prefix === 'Sur devis') {
+                            priceTag = `<div style="font-size: 1rem; font-weight: 700; color: #64748b; margin-top: 6px; font-style: italic;">Sur devis</div>`;
+                        }
+
+                        return `
+                        <div style="background: white; border: 2px solid #d1fae5; border-left: 5px solid #10b981; border-radius: 16px; padding: 20px 24px; margin-bottom: 14px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(16,185,129,0.08); width: 100%; box-sizing: border-box;">
+                            <div style="display: flex; align-items: flex-start; gap: 16px; flex: 1; min-width: 220px;">
+                                <div style="font-size: 1.4rem; color: white; width: 48px; height: 48px; background: #10b981; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(16,185,129,0.3);"><i class="${iconClass}"></i></div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px;">
+                                        <span style="background: rgba(16,185,129,0.12); color: #059669; font-size: 0.72rem; padding: 3px 10px; border-radius: 100px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;"><i class="fas fa-briefcase"></i> Offre</span>
+                                        ${highlightBadge}
+                                    </div>
+                                    <h4 style="margin: 4px 0 4px; font-size: 1.05rem; color: #0f172a; font-weight: 900; line-height: 1.3;">${item.title || 'Sans titre'}</h4>
+                                    ${item.description ? `<p style="margin: 4px 0 0; font-size: 0.85rem; color: #64748b; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description}</p>` : ''}
                                     ${priceTag}
+                                    ${item.url ? `<a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #10b981; text-decoration: none; font-weight: 700; margin-top: 6px; display: inline-block;">${item.url} <i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i></a>` : ''}
                                 </div>
-                                ${item.description ? `<p style="margin: 4px 0; font-size: 0.85rem; color: #64748b; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.description}</p>` : ''}
-                                ${item.url ? `<a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #3b82f6; text-decoration: none; font-weight: 600;">${item.url} <i class="fas fa-external-link-alt" style="font-size:0.7rem;"></i></a>` : ''}
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-shrink: 0;">
+                                <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: #f0fdf4; border: 1px solid #d1fae5; padding: 10px 16px; border-radius: 10px; cursor: pointer; color: #059669; font-weight: 700; font-size: 0.85rem;"><i class="fas fa-edit"></i> Modifier</button>
+                                <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fef2f2; border: 1px solid #fee2e2; padding: 10px 14px; border-radius: 10px; cursor: pointer; color: #ef4444; font-weight: 700; font-size: 0.85rem;"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
-                        <div style="display: flex; gap: 8px; flex-shrink: 0;">
-                            <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 10px 16px; border-radius: 10px; cursor: pointer; color: #334155; font-weight: 700; font-size: 0.85rem;">Modifier</button>
-                            <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fef2f2; border: 1px solid #fee2e2; padding: 10px 16px; border-radius: 10px; cursor: pointer; color: #ef4444; font-weight: 700; font-size: 0.85rem;">Supprimer</button>
+                        `;
+                    } else {
+                        // === CARTE LIEN BIO ===
+                        return `
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #94a3b8; border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; width: 100%; box-sizing: border-box;">
+                            <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 220px;">
+                                <div style="font-size: 1.1rem; color: #475569; width: 40px; height: 40px; background: #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="${iconClass}"></i></div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+                                        <span style="background: #e2e8f0; color: #475569; font-size: 0.72rem; padding: 2px 8px; border-radius: 100px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;"><i class="fas fa-link"></i> Lien Bio</span>
+                                        ${highlightBadge}
+                                    </div>
+                                    <div style="font-size: 0.95rem; color: #1e293b; font-weight: 700;">${item.title || 'Sans titre'}</div>
+                                    ${item.url ? `<a href="${item.url}" target="_blank" style="font-size: 0.8rem; color: #3b82f6; text-decoration: none; font-weight: 600;">${item.url} <i class="fas fa-external-link-alt" style="font-size:0.65rem;"></i></a>` : ''}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-shrink: 0;">
+                                <button onclick="ShowcaseModule.openItemModal('${item.id}')" style="background: white; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 10px; cursor: pointer; color: #334155; font-weight: 700; font-size: 0.8rem;"><i class="fas fa-edit"></i> Modifier</button>
+                                <button onclick="ShowcaseModule.deleteItem('${item.id}')" style="background: #fef2f2; border: 1px solid #fee2e2; padding: 8px 12px; border-radius: 10px; cursor: pointer; color: #ef4444; font-weight: 700; font-size: 0.8rem;"><i class="fas fa-trash"></i></button>
+                            </div>
                         </div>
-                    </div>
-                `}).join('');
+                        `;
+                    }
+                }).join('');
             }
 
             container.innerHTML = `
