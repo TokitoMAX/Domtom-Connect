@@ -1,10 +1,10 @@
 /**
- * Injecteur de Navigation Mobile Premium 2-en-1 (Domtom Connect)
+ * Injecteur de Navigation Mobile Premium (Domtom Connect)
  * 1. Barre de navigation basse (Bottom Nav) avec 5 raccourcis.
  * 2. Menu tiroir ultra-complet (Bottom Sheet Drawer) offrant 100% de parité avec la Sidebar PC.
  */
 
-// 1. Définition immédiate de la fonction globale de bascule pour éviter tout ReferenceError
+// 1. Définition globale de la fonction de bascule
 window.toggleMobileMenu = function(forceState) {
     const sheet = document.querySelector('.mobile-menu-sheet');
     const backdrop = document.getElementById('mobile-menu-backdrop');
@@ -17,11 +17,21 @@ window.toggleMobileMenu = function(forceState) {
     if (isOpen) {
         sheet.classList.add('active');
         backdrop.classList.add('active');
+        backdrop.style.display = 'block';
+        requestAnimationFrame(() => {
+            backdrop.style.opacity = '1';
+        });
         toggles.forEach(t => t.classList.add('active'));
         document.body.style.overflow = 'hidden';
     } else {
         sheet.classList.remove('active');
-        backdrop.classList.remove('active');
+        backdrop.style.opacity = '0';
+        setTimeout(() => {
+            if (!sheet.classList.contains('active')) {
+                backdrop.style.display = 'none';
+                backdrop.classList.remove('active');
+            }
+        }, 300);
         toggles.forEach(t => t.classList.remove('active'));
         document.body.style.overflow = '';
     }
@@ -29,13 +39,14 @@ window.toggleMobileMenu = function(forceState) {
 
 (function initMobileNav() {
     function injectNavigation() {
-        if (document.querySelector('.mobile-nav-injected')) return;
+        // Supprimer tous les résidus de menus statiques HTML ou anciennes injections
+        document.querySelectorAll('#mobile-menu-sheet, #mobile-menu-backdrop, .mobile-nav-injected').forEach(el => el.remove());
 
         const currentPath = window.location.pathname;
         const isSubdir = /\/(marketplace|admin|solutions|registration|blog|territoires|services|a-propos|diaspora)\//.test(currentPath);
         const basePath = isSubdir ? '../' : '';
 
-        // Détection fine du rôle pour personnalisation écosystème
+        // Détection du rôle et profil utilisateur
         const profile = window.App && window.App.state && window.App.state.profile;
         const roleLower = (profile && profile.role || '').toLowerCase().trim();
         
@@ -45,20 +56,26 @@ window.toggleMobileMenu = function(forceState) {
         const proRoles = ['expert', 'entreprise', 'porteur', 'owner', 'porteur de projet', 'admin', 'premium', 'authority', 'club'];
         const isPro = proRoles.includes(roleLower);
 
+        const fullName = profile ? ([profile.first_name, profile.last_name].filter(Boolean).join(' ') || profile.email || 'Mon Compte') : 'Domtom Connect';
+        const roleBadge = isOwner ? 'Porteur de Projet' : isExpert ? 'Expert / Talent' : isCompany ? 'Entreprise' : 'Membre';
+
         // Helper pour marquer l'élément actif
         const isActive = (hrefPattern) => currentPath.includes(hrefPattern) ? 'active' : '';
 
-        // --- HTML DU BACKDROP & DU TIROIR MENU (Bottom Sheet Drawer) ---
+        // --- HTML DU TIROIR MENU (Bottom Sheet Drawer) ---
         const drawerHTML = `
-            <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)"></div>
+            <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.6); z-index:10004; backdrop-filter:blur(8px); transition:opacity 0.3s; opacity:0;"></div>
 
-            <div class="mobile-menu-sheet">
+            <div id="mobile-menu-sheet" class="mobile-menu-sheet">
                 <div class="sheet-handle" onclick="window.toggleMobileMenu(false)"></div>
                 
                 <div class="mobile-menu-header">
-                    <div class="mobile-menu-title-wrap">
-                        <img src="${basePath}assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="mobile-menu-brand-img">
-                        <span class="mobile-menu-brand-name">Domtom Connect</span>
+                    <div class="mobile-menu-title-wrap" style="display:flex; align-items:center; gap:12px;">
+                        <img src="${basePath}assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="mobile-menu-brand-img" style="height:34px; width:auto;">
+                        <div>
+                            <div class="mobile-menu-brand-name" style="font-size:1.1rem; font-weight:900; color:#0f172a; line-height:1.2;">${fullName}</div>
+                            <div style="font-size:0.75rem; font-weight:700; color:#10b981; text-transform:uppercase; letter-spacing:0.04em;">${roleBadge}</div>
+                        </div>
                     </div>
                     <button type="button" class="close-menu-btn" onclick="window.toggleMobileMenu(false)" aria-label="Fermer">
                         <i class="fas fa-times"></i>
@@ -74,7 +91,7 @@ window.toggleMobileMenu = function(forceState) {
                                 <i class="fas fa-home"></i> <span>Accueil</span>
                             </a>
                             <a href="${basePath}marketplace/directory.html" class="mobile-menu-item ${isActive('directory.html')}" onclick="window.toggleMobileMenu(false)">
-                                <i class="fas fa-search"></i> <span>Explorer</span>
+                                <i class="fas fa-compass"></i> <span>Explorer</span>
                             </a>
                             <a href="${basePath}messages.html" class="mobile-menu-item ${isActive('messages.html')}" onclick="window.toggleMobileMenu(false)">
                                 <i class="fas fa-comments"></i> <span>Messagerie</span>
@@ -85,9 +102,9 @@ window.toggleMobileMenu = function(forceState) {
                         </div>
                     </div>
 
-                    <!-- SECTION 2: VOS ESPACES CIBLÉS -->
+                    <!-- SECTION 2: ESPACES CIBLÉS -->
                     <div class="mobile-menu-section">
-                        <div class="mobile-menu-section-label">Espaces & Outils</div>
+                        <div class="mobile-menu-section-label">Vos Espaces</div>
                         <div class="mobile-menu-grid">
                             ${isOwner ? `
                             <a href="${basePath}pilotage.html" class="mobile-menu-item ${isActive('pilotage.html')}" onclick="window.toggleMobileMenu(false)">
@@ -121,7 +138,7 @@ window.toggleMobileMenu = function(forceState) {
                             </a>
                             ` : `
                             <a href="${basePath}tremplin.html" class="mobile-menu-item ${isActive('tremplin.html')}" onclick="window.toggleMobileMenu(false)">
-                                <i class="fas fa-rocket"></i> <span>Rejoindre l'Incubateur</span>
+                                <i class="fas fa-rocket"></i> <span>Incubateur</span>
                             </a>
                             <a href="${basePath}business.html" class="mobile-menu-item ${isActive('business.html')}" onclick="window.toggleMobileMenu(false)">
                                 <i class="fas fa-briefcase"></i> <span>Espace Business</span>
@@ -130,7 +147,7 @@ window.toggleMobileMenu = function(forceState) {
                         </div>
                     </div>
 
-                    <!-- SECTION 3: MON ACTIVITÉ & PROFIL -->
+                    <!-- SECTION 3: MON COMPTE -->
                     <div class="mobile-menu-section">
                         <div class="mobile-menu-section-label">Mon Compte</div>
                         <div class="mobile-menu-grid">
@@ -156,9 +173,9 @@ window.toggleMobileMenu = function(forceState) {
                                 <i class="fas fa-globe"></i> <span>Site Public</span>
                             </a>
                         </div>
-                        <div style="margin-top: 10px;">
-                            <a href="javascript:void(0)" onclick="window.toggleMobileMenu(false); if(typeof signOut === 'function') signOut(); else window.location.href='index.html';" class="mobile-menu-item logout-item" style="width: 100%; box-sizing: border-box; justify-content: center;">
-                                <i class="fas fa-sign-out-alt"></i> <span>Déconnexion</span>
+                        <div style="margin-top: 14px;">
+                            <a href="javascript:void(0)" onclick="window.toggleMobileMenu(false); if(typeof signOut === 'function') signOut(); else window.location.href='index.html';" class="mobile-menu-item logout-item" style="width: 100%; box-sizing: border-box; justify-content: center; background: #fef2f2; border-color: #fee2e2;">
+                                <i class="fas fa-sign-out-alt" style="color: #ef4444;"></i> <span style="color: #ef4444; font-weight: 800;">Déconnexion</span>
                             </a>
                         </div>
                     </div>
@@ -166,7 +183,7 @@ window.toggleMobileMenu = function(forceState) {
             </div>
         `;
 
-        // --- HTML DE LA BARRE DE NAVIGATION BASSE (Bottom Nav - 5 Onglets ciblés écosystème) ---
+        // --- BARRE DE NAVIGATION BASSE (Bottom Nav) ---
         let secondTabHTML = `
             <a href="${basePath}marketplace/directory.html" class="mobile-nav-link ${isActive('directory.html')}">
                 <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -196,17 +213,6 @@ window.toggleMobileMenu = function(forceState) {
             `;
         }
 
-        let thirdTabHTML = `
-            <a href="${basePath}messages.html" class="mobile-nav-link ${isActive('messages.html')}">
-                <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    <circle cx="9" cy="10" r="1" fill="currentColor"></circle>
-                    <circle cx="15" cy="10" r="1" fill="currentColor"></circle>
-                </svg>
-                <span class="mobile-nav-label">Messages</span>
-            </a>
-        `;
-
         const bottomNavHTML = `
             <nav class="mobile-nav mobile-nav-injected">
                 <a href="${basePath}mon-espace.html" class="mobile-nav-link ${isActive('mon-espace.html') || isActive('dashboard.html')}">
@@ -214,12 +220,17 @@ window.toggleMobileMenu = function(forceState) {
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
-                    <span class="mobile-nav-label">Dashboard</span>
+                    <span class="mobile-nav-label">Accueil</span>
                 </a>
                 
                 ${secondTabHTML}
 
-                ${thirdTabHTML}
+                <a href="${basePath}messages.html" class="mobile-nav-link ${isActive('messages.html')}">
+                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="mobile-nav-label">Messages</span>
+                </a>
 
                 <a href="${basePath}profile.html" class="mobile-nav-link ${isActive('profile.html')}">
                     <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -242,7 +253,7 @@ window.toggleMobileMenu = function(forceState) {
 
         document.body.insertAdjacentHTML('beforeend', drawerHTML + bottomNavHTML);
 
-        // Attachement automatique aux boutons d'ouverture existants
+        // Attachement automatique aux boutons d'ouverture
         document.querySelectorAll('.nav-toggle, #mobile-menu-toggle').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
@@ -251,6 +262,8 @@ window.toggleMobileMenu = function(forceState) {
             };
         });
     }
+
+    window.rebuildMobileNav = injectNavigation;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', injectNavigation);

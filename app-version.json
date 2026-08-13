@@ -1,9 +1,9 @@
 {
   "android": {
-    "versionCode": 22,
-    "versionName": "2.2",
-    "apkUrl": "https://expo.dev/artifacts/eas/TPsySVGWoqXniCUrd55YoN8t627wn7MNMVTIzOwEiQ0.apk",
-    "releaseNotes": "DTC Pulse V2.2 (Build 22) — Live Shopping Pro : Assistant de configuration avant direct, caméra vidéo réelle et comptage Supabase Realtime Presence 100% exact des spectateurs.",
+    "versionCode": 11,
+    "versionName": "V11 (V2.0)",
+    "apkUrl": "https://github.com/TokitoMAX/dtc-app-releases/releases/download/V2/DTCPulseV11.apk",
+    "releaseNotes": "DTC Pulse Android V11 (V2) — Version officielle mise à jour sur GitHub Releases (Build 119 MB) avec toutes les fonctionnalités et corrections écosystème.",
     "forceUpdate": true
   }
 }

@@ -250,34 +250,7 @@
         </main>
     </div>
 
-    <!-- Mobile Bottom Sheet Menu -->
-    <div id="mobile-menu-backdrop" onclick="toggleMobileMenu()" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.4); z-index:10000; backdrop-filter:blur(4px); transition:opacity 0.3s; opacity:0;"></div>
-    <div id="mobile-menu-sheet" class="mobile-menu-sheet">
-        <div class="sheet-handle"></div>
-        <div class="mobile-menu-header">
-            <div class="mobile-logo">Domtom Connect</div>
-            <button class="close-menu" onclick="toggleMobileMenu()">&times;</button>
-        </div>
-        <div class="mobile-menu-links">
-            <a href="mon-espace.html#overview" onclick="toggleMobileMenu()"><i class="fas fa-home"></i> Accueil</a>
-            <a href="pilotage.html" onclick="toggleMobileMenu()"><i class="fas fa-rocket"></i> Mon Epopée</a>
-            <a href="vitrine.html" onclick="toggleMobileMenu()"><i class="fas fa-store"></i> Ma Vitrine</a>
-            <a href="business.html" onclick="toggleMobileMenu()"><i class="fas fa-handshake"></i> Mon Activité</a>
-            <a href="billetterie.html" onclick="toggleMobileMenu()"><i class="fas fa-ticket-alt"></i> Événements</a>
-            <a href="premium.html" onclick="toggleMobileMenu()"><i class="fas fa-gem"></i> 1-to-1</a>
-            <a href="mon-espace.html#services" onclick="toggleMobileMenu()"><i class="fas fa-handshake"></i> Copilotage</a>
-            <a href="marketplace/directory.html" onclick="toggleMobileMenu()"><i class="fas fa-compass"></i> Explorer</a>
-            <a href="messages.html" onclick="toggleMobileMenu()"><i class="fas fa-comment-dots"></i> Messagerie</a>
-            <a href="channel.html" onclick="toggleMobileMenu()"><i class="fas fa-tv"></i> Ma Chaîne</a>
-            <a href="profile.html" onclick="toggleMobileMenu()"><i class="fas fa-user-circle"></i> Mon Profil</a>
-            <a href="index.html" onclick="toggleMobileMenu()"><i class="fas fa-globe"></i> Plateforme</a>
-        </div>
-        <div style="margin-top: 16px; width: 100%;">
-            <a href="javascript:void(0)" onclick="signOut()" style="display: flex; justify-content: center; align-items: center; gap: 10px; padding: 16px; background: #fef2f2; color: #ef4444; border-radius: 16px; font-weight: 800; text-decoration: none; width: 100%; box-sizing: border-box;">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
-            </a>
-        </div>
-    </div>
+    
 
 
 
@@ -314,130 +287,7 @@
     <script src="./assets/js/modules/services.module.js?v=1.2"></script>
     <script src="./assets/js/app.js?v=12.02"></script>
 
-    <script>
-        // Inline UI Helpers (Restored for Dashboard context)
-        function toggleMobileMenu() {
-            const sheet = document.getElementById('mobile-menu-sheet');
-            const backdrop = document.getElementById('mobile-menu-backdrop');
-            const btn = document.getElementById('mobile-menu-toggle');
-            
-            if (sheet && backdrop) {
-                const isActive = sheet.classList.contains('active');
-                if (isActive) {
-                    sheet.classList.remove('active');
-                    backdrop.style.opacity = '0';
-                    setTimeout(() => backdrop.style.display = 'none', 300);
-                } else {
-                    backdrop.style.display = 'block';
-                    // Force reflow
-                    void backdrop.offsetWidth;
-                    backdrop.style.opacity = '1';
-                    sheet.classList.add('active');
-                }
-                if (btn) btn.classList.toggle('active');
-            }
-        }
-
-        function syncNavActiveState() {
-            let fullHash = window.location.hash;
-            if (!fullHash) {
-                const pathParts = window.location.pathname.split('/').filter(p => p);
-                const lastPart = pathParts[pathParts.length - 1];
-                if (lastPart && lastPart !== 'mon-espace' && lastPart !== 'mon-espace.html' && lastPart !== 'dashboard') {
-                    fullHash = '#' + lastPart;
-                } else {
-                    fullHash = '#overview';
-                }
-            }
-            const baseHash = fullHash.split('?')[0];
-            
-            // 1. Mobile Bottom Bar Links
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
-                    const linkBaseHash = href.split('?')[0];
-                    link.classList.toggle('active', linkBaseHash === baseHash);
-                }
-            });
-
-            // 2. Desktop Sidebar Links
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                const href = link.getAttribute('href');
-                if (href) {
-                    const isHashMatch = href.includes(baseHash);
-                    const isOverviewMatch = baseHash === '#overview' && (href.endsWith('mon-espace.html') || href.includes('#overview'));
-                    link.classList.toggle('active', isHashMatch || isOverviewMatch);
-                }
-            });
-        }
-
-        /**
-         * Robust Link Adjustment
-         * Ensures hardcoded relative links work even after router changes the path
-         */
-        function fixNavigationLinks() {
-            if (!window.UIComponents) return;
-            
-            // Detect Project Root from script tag to avoid being fooled by SPA virtual paths
-            const appScript = document.querySelector('script[src*="app.js"]');
-            let siteRoot = appScript ? appScript.src.split('assets/js/app.js')[0] : (window.location.origin + '/');
-            
-            // Critical Fix: Strip SPA rewrite paths from siteRoot to prevent infinite appending loop
-            siteRoot = siteRoot.replace(/\/(mon-espace|marketplace|dashboard|territoires|blog|services)\/.*$/, '/');
-            
-            document.querySelectorAll('.nav-market-link, .mobile-nav-link, .mobile-menu-links a, .top-nav-logo, .sidebar-brand, .nav-brand').forEach(link => {
-                if (!link.dataset.originalHref) {
-                    link.dataset.originalHref = link.getAttribute('href');
-                }
-                
-                const href = link.dataset.originalHref;
-                if (href && !href.startsWith('#') && !href.startsWith('javascript:') && !href.startsWith('http')) {
-                    // Always resolve relative to the fixed Site Root
-                    const absoluteUrl = new URL(href, siteRoot).href;
-                    link.href = absoluteUrl;
-                    console.log(`[NavFix] Project Root: ${siteRoot} | Resolved ${href} -> ${absoluteUrl}`);
-                }
-            });
-        }
-        window.syncNavActiveState = syncNavActiveState;
-
-        window.addEventListener('hashchange', () => {
-            syncNavActiveState();
-            fixNavigationLinks();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        document.addEventListener('DOMContentLoaded', () => {
-            syncNavActiveState();
-            fixNavigationLinks();
-            
-            // Global Interceptor to force clean SPA navigation or external redirects
-            document.addEventListener('click', (e) => {
-                const link = e.target.closest('.nav-market-link, .top-nav-logo, .sidebar-link, .mobile-nav-link, .mobile-menu-links a, .sidebar-brand, .nav-brand');
-                if (link) {
-                    const href = link.getAttribute('href');
-                    if (!href || href.startsWith('javascript:') || href.includes('mailto:')) return;
-
-                    // If it's an internal dashboard link, use the Router
-                    if (href.includes('mon-espace') || href.startsWith('#') || !href.includes('.html')) {
-                        console.log("[NavFix] SPA Navigation for:", href);
-                        if (window.Router) {
-                            e.preventDefault();
-                            
-                            // Instant UI Update
-                            document.querySelectorAll('.nav-market-link, .top-nav-logo, .sidebar-link, .mobile-nav-link, .mobile-menu-links a, .sidebar-brand, .nav-brand').forEach(l => l.classList.remove('active'));
-                            link.classList.add('active');
-                            
-                            window.Router.navigate(href);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                    } else {
-                        // External or other module navigation - Let browser handle it naturally
-                        console.log("[NavFix] Allowing external navigation to:", link.href);
-                    }
-                }
-            });
-        });
-    </script>
+    
 
     <!-- Modal Demande de Paiement (Tencent WeChat-style) -->
     <div id="payment-request-modal" class="saas-modal-overlay" style="display: none; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 10000;">
@@ -493,5 +343,6 @@
         <button class="lightbox-close" onclick="window.MessagesModule.closeLightbox()" style="position: absolute; top: 24px; right: 24px; background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer;">&times;</button>
         <img id="lightbox-img" src="" alt="Aperçu" style="max-width: 90%; max-height: 90%; object-fit: contain;">
     </div>
+    <script src="./assets/js/mobile-nav.js?v=12.00"></script>
 </body>
 </html>
