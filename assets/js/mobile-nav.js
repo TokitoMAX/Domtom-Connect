@@ -66,7 +66,7 @@ window.toggleMobileMenu = function(forceState) {
         const drawerHTML = `
             <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.6); z-index:10004; backdrop-filter:blur(8px); transition:opacity 0.3s; opacity:0;"></div>
 
-            <div id="mobile-menu-sheet" class="mobile-menu-sheet">
+            <div id="mobile-menu-sheet" class="mobile-menu-sheet" style="z-index: 30000 !important;">
                 <div class="sheet-handle" onclick="window.toggleMobileMenu(false)"></div>
                 
                 <div class="mobile-menu-header">
