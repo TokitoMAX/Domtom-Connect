@@ -530,6 +530,12 @@ const StandardModule = {
             // Sync website_url if website is filled
             if (updates.website && !updates.website_url) updates.website_url = updates.website;
             if (updates.website_url && !updates.website) updates.website = updates.website_url;
+            delete updates.website;
+
+            // Sync boolean 'available' column with availability selection
+            if (updates.availability) {
+                updates.available = (updates.availability === 'available');
+            }
 
             // Special mapping for Experts
             if (updates.role === 'expert') {
@@ -540,7 +546,16 @@ const StandardModule = {
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) throw new Error("Session expirée");
 
-            const { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
+            let { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
+            
+            // Fallback: If availability column doesn't exist in Supabase schema yet
+            if (error && error.message && error.message.includes('availability')) {
+                console.warn("Retrying profile save without availability column:", error.message);
+                delete updates.availability;
+                const retryRes = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
+                error = retryRes.error;
+            }
+
             if (error) throw error;
 
             alert("Profil publié et mis à jour avec succès !");
