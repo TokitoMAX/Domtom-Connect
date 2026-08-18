@@ -531,6 +531,7 @@ const StandardModule = {
             if (updates.website && !updates.website_url) updates.website_url = updates.website;
             if (updates.website_url && !updates.website) updates.website = updates.website_url;
             delete updates.website;
+            delete updates.phone;
 
             // Sync boolean 'available' column with availability selection
             if (updates.availability) {
@@ -540,20 +541,31 @@ const StandardModule = {
             // Special mapping for Experts
             if (updates.role === 'expert') {
                 const skillsEl = document.getElementById('profile-skills');
-                if (skillsEl) updates.expertise = skillsEl.value; // Expertise mapping
+                if (skillsEl) {
+                    updates.skills = skillsEl.value;
+                }
             }
+            delete updates.expertise; // Non-schema column cleanup
 
             const { data: { session } } = await window._supabase.auth.getSession();
             if (!session) throw new Error("Session expirée");
 
             let { error } = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
             
-            // Fallback: If availability column doesn't exist in Supabase schema yet
-            if (error && error.message && error.message.includes('availability')) {
-                console.warn("Retrying profile save without availability column:", error.message);
-                delete updates.availability;
-                const retryRes = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
-                error = retryRes.error;
+            // Dynamic Auto-Recovery: If any column is missing in Supabase schema cache
+            let attempts = 0;
+            while (error && error.message && error.message.includes('schema cache') && attempts < 5) {
+                attempts++;
+                const match = error.message.match(/Could not find the '([^']+)' column/);
+                if (match && match[1]) {
+                    const missingCol = match[1];
+                    console.warn(`[saveProfile] Retrying profile save without missing column '${missingCol}':`, error.message);
+                    delete updates[missingCol];
+                    const retryRes = await window._supabase.from('profiles').update(updates).eq('id', session.user.id);
+                    error = retryRes.error;
+                } else {
+                    break;
+                }
             }
 
             if (error) throw error;
