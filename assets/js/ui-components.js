@@ -344,10 +344,11 @@ const UIComponents = {
             };
         } else {
             config = {
-                app: { label: 'App Mobile', path: 'application.html' },
-                accompagnement: { label: 'Accompagnement 1-to-1', path: 'premium.html' },
-                copilotage: { label: 'Copilotage', path: 'pilotage.html' },
-                incubateur: { label: 'Incubateur', path: 'incubateur.html' }
+                app: { label: 'App DTC Pulse', path: 'application.html' },
+                nosAccompagnements: { label: 'Nos Programmes', path: 'index.html#nos-accompagnements' },
+                tremplin: { label: 'Tremplin', path: 'tremplin.html' },
+                premium: { label: 'Premium 1-to-1', path: 'premium.html' },
+                copilotage: { label: 'Copilotage', path: 'pilotage.html' }
             };
         }
 
