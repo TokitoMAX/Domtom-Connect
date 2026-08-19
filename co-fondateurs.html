@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Business à Deux | Domtom Connect</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        :root {
+            --premium-bg: #020617;
+            --premium-surface: #0f172a;
+            --premium-card: #1e293b;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-container {
+            margin-bottom: 32px;
+        }
+
+        .logo-container img {
+            height: 44px;
+            filter: brightness(0) invert(1);
+        }
+
+        .badge-cofounder {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+            font-weight: 950;
+            line-height: 1.12;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+            max-width: 950px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: var(--text-muted);
+            max-width: 780px;
+            line-height: 1.65;
+            margin: 0 auto 40px auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background: var(--accent-hover);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Section Container */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Pillars Grid */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .pillar-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 36px;
+            border-radius: 28px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.12);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .pillar-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        /* Steps Section */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 50px;
+        }
+
+        .step-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .step-num {
+            font-size: 2.2rem;
+            font-weight: 950;
+            color: var(--accent);
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Header -->
+    <section class="hero">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
+            </a>
+        </div>
+
+        <div class="badge-cofounder">🤝 100% GRATUIT • Association &amp; Co-Fondateurs</div>
+        
+        <h1>Création de Business à Deux</h1>
+        
+        <p class="subtitle">
+            Vous avez un projet prometteur ou des compétences clés, mais vous ne voulez plus avancer seul ? Trouvez votre associé idéal pour co-construire votre entreprise de 0 à 100.
+        </p>
+
+        <div class="cta-group">
+            <a href="registration/cofounder.html" class="cta-button">
+                <i class="fas fa-handshake"></i> Postuler pour trouver son Associé (Gratuit)
+            </a>
+            <a href="index.html#nos-accompagnements" class="cta-secondary">
+                <i class="fas fa-arrow-left"></i> Voir tous nos programmes
+            </a>
+        </div>
+    </section>
+
+    <!-- 4 Piliers de la Création à Deux -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="section-container">
+            <div class="section-header">
+                <span style="color: var(--accent); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px;">Ne vous lancez plus jamais seul</span>
+                <h2 class="section-title">Pourquoi s'associer avec Domtom Connect ?</h2>
+                <p class="section-desc">
+                    La réussite d'une entreprise repose avant tout sur la complémentarité de ses fondateurs. Nous connectons les esprits créatifs, techniques et commerciaux des territoires insulaires et de la diaspora.
+                </p>
+            </div>
+
+            <div class="grid-2x2">
+                <!-- Pilier 1 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-user-friends"></i></div>
+                    <div class="pillar-tag">Matching Complémentaire</div>
+                    <h3 class="card-title">Associez vos Compétences</h3>
+                    <p class="card-text">
+                        Vous avez la vision commerciale mais pas la technique ? Ou le produit mais pas la stratégie marketing ? Trouvez la personne exacte dont le profil complète le vôtre.
+                    </p>
+                </div>
+
+                <!-- Pilier 2 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-gift"></i></div>
+                    <div class="pillar-tag">Accès 100% Gratuit</div>
+                    <h3 class="card-title">Co-construction d'Equity</h3>
+                    <p class="card-text">
+                        Parce que vous construisez l'entreprise ensemble dès le départ et partagez le capital (Equity), le programme de mise en relation d'associés est 100% gratuit.
+                    </p>
+                </div>
+
+                <!-- Pilier 3 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-fire"></i></div>
+                    <div class="pillar-tag">Engagement &amp; Motivation</div>
+                    <h3 class="card-title">Sélection sur Motivation</h3>
+                    <p class="card-text">
+                        Inscrivez-vous, présentez votre vision ou votre savoir-faire et prouvez votre motivation. Nous ne retenons que les candidats prêts à passer à l'action massive.
+                    </p>
+                </div>
+
+                <!-- Pilier 4 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="pillar-tag">Réseau Insulaire &amp; Diaspora</div>
+                    <h3 class="card-title">Ancrage Territorial Fort</h3>
+                    <p class="card-text">
+                        Développez votre business aux Antilles, en Guyane, à La Réunion, Mayotte ou entre l'Hexagone et nos territoires grâce à des associés qui connaissent le terrain.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Le Parcours en 4 Étapes -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="section-container">
+            <div class="section-header">
+                <span style="color: var(--accent); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px;">Comment ça marche ?</span>
+                <h2 class="section-title">Le Parcours "Création à Deux" en 4 Étapes</h2>
+                <p class="section-desc">
+                    De votre inscription à la signature de votre pacte d'associés.
+                </p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Inscription &amp; Pitch</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Remplissez votre dossier en détaillant votre projet ou votre profil technique/business et votre motivation.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Matching &amp; Rencontre</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Mise en relation ciblée avec des profils complémentaires pour tester l'entente et les compétences.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Période de Test &amp; Proof of Concept</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Travailler ensemble pendant 30 jours sur les premiers livrables pour valider la synergie de travail.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">04</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Association &amp; Lancement de 0</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Création de la structure, partage des parts et démarrage officiel de votre aventure entrepreneuriale.
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="registration/cofounder.html" class="cta-button" style="padding: 20px 44px; font-size: 1.15rem;">
+                    <i class="fas fa-handshake"></i> Déposer mon dossier d'association (Gratuit)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cross-Program Navigation -->
+    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h4 style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer nos autres accompagnements Domtom Connect</h4>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <a href="tremplin.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">🎯 Programme Tremplin</a>
+                <a href="premium.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">💎 Accompagnement Premium 1-1</a>
+                <a href="pilotage.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">⚡ Offre de Copilotage</a>
+                <a href="incubateur.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">🚀 L'Incubateur</a>
+                <a href="co-fondateurs.html" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">🤝 Business à 2 (Gratuit)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="background: #020617; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.88rem;">
+        <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; align-items: center;">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <a href="index.html" style="color: #94a3b8; text-decoration: none;">Accueil</a>
+                <a href="marketplace/directory.html" style="color: #94a3b8; text-decoration: none;">Annuaire Talents</a>
+                <a href="marketplace/jobs.html" style="color: #94a3b8; text-decoration: none;">Missions B2B</a>
+                <a href="legal/terms.html" style="color: #94a3b8; text-decoration: none;">Conditions Générales</a>
+                <a href="legal/privacy.html" style="color: #94a3b8; text-decoration: none;">Confidentialité</a>
+            </div>
+            <p style="margin: 0;">© 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires insulaires.</p>
+        </div>
+    </footer>
+
+    <script src="./assets/js/mobile-nav.js?v=12.00"></script>
+</body>
+</html>
