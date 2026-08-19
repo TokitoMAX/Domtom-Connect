@@ -186,7 +186,7 @@ window.toggleMobileMenu = function(forceState) {
         // --- BARRE DE NAVIGATION BASSE (Bottom Nav) ---
         let secondTabHTML = `
             <a href="${basePath}marketplace/directory.html" class="mobile-nav-link ${isActive('directory.html')}">
-                <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                     <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
                 <span class="mobile-nav-label">Explorer</span>
@@ -195,7 +195,7 @@ window.toggleMobileMenu = function(forceState) {
         if (isOwner) {
             secondTabHTML = `
                 <a href="${basePath}pilotage.html" class="mobile-nav-link ${isActive('pilotage.html') || isActive('epopee.html')}">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <circle cx="12" cy="12" r="10"></circle>
                         <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
                     </svg>
@@ -205,7 +205,7 @@ window.toggleMobileMenu = function(forceState) {
         } else if (isExpert || isCompany) {
             secondTabHTML = `
                 <a href="${basePath}business.html" class="mobile-nav-link ${isActive('business.html')}">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                     </svg>
                     <span class="mobile-nav-label">Business</span>
@@ -214,9 +214,9 @@ window.toggleMobileMenu = function(forceState) {
         }
 
         const bottomNavHTML = `
-            <nav class="mobile-nav mobile-nav-injected">
+            <nav class="mobile-nav mobile-nav-injected" style="display: none;">
                 <a href="${basePath}mon-espace.html" class="mobile-nav-link ${isActive('mon-espace.html') || isActive('dashboard.html')}">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
                     </svg>
@@ -226,14 +226,14 @@ window.toggleMobileMenu = function(forceState) {
                 ${secondTabHTML}
 
                 <a href="${basePath}messages.html" class="mobile-nav-link ${isActive('messages.html')}">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
                     <span class="mobile-nav-label">Messages</span>
                 </a>
 
                 <a href="${basePath}profile.html" class="mobile-nav-link ${isActive('profile.html')}">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
@@ -241,7 +241,7 @@ window.toggleMobileMenu = function(forceState) {
                 </a>
 
                 <a href="javascript:void(0)" onclick="window.toggleMobileMenu()" class="mobile-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" class="nav-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px; max-width:22px; max-height:22px;">
                         <line x1="3" y1="12" x2="21" y2="12"></line>
                         <line x1="3" y1="6" x2="21" y2="6"></line>
                         <line x1="3" y1="18" x2="21" y2="18"></line>
