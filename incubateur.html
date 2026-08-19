@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'Incubateur | Domtom Connect</title>
+    <title>L'Incubateur Domtom Connect | Communauté, Masterminds &amp; Visibilité</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <link rel="stylesheet" href="assets/css/style.css">
@@ -16,8 +16,10 @@
         :root {
             --premium-bg: #020617;
             --premium-surface: #0f172a;
+            --premium-card: #1e293b;
             --accent: #10b981;
             --accent-hover: #059669;
+            --text-muted: #94a3b8;
         }
 
         body {
@@ -31,67 +33,77 @@
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
+            padding: 60px 20px;
             position: relative;
-            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.16) 0%, transparent 70%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .logo-container {
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .logo-container img {
-            height: 40px;
+            height: 44px;
             filter: brightness(0) invert(1);
         }
 
-        .badge {
-            background: rgba(16, 185, 129, 0.1);
+        .badge-incubateur {
+            background: rgba(16, 185, 129, 0.12);
             color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 8px 16px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 20px;
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 800;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 24px;
+            display: inline-block;
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            line-height: 1.1;
+            font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+            font-weight: 950;
+            line-height: 1.12;
             letter-spacing: -0.04em;
             margin-bottom: 24px;
-            max-width: 900px;
+            max-width: 950px;
             color: #ffffff;
         }
 
         .subtitle {
             font-size: clamp(1.1rem, 2vw, 1.3rem);
-            color: #94a3b8;
-            max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 40px;
+            color: var(--text-muted);
+            max-width: 780px;
+            line-height: 1.65;
+            margin: 0 auto 40px auto;
         }
 
-        /* CTA Button */
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .cta-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
             background: var(--accent);
             color: #ffffff;
             padding: 18px 36px;
             border-radius: 16px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -106,58 +118,174 @@
             box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
         }
 
-        /* Features Grid */
-        .features {
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Section Container */
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 90px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Pillars Grid */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .pillar-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 36px;
+            border-radius: 28px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.12);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        .pillar-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        /* Comparison Section */
+        .comparison-box {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            padding: 48px 36px;
+            margin-top: 40px;
+        }
+
+        .comparison-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 20px;
+            gap: 32px;
+            margin-top: 32px;
         }
 
-        .feature-card {
-            background: var(--premium-surface);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 32px;
+        .comp-card {
+            background: rgba(2, 6, 23, 0.6);
             border-radius: 24px;
-            text-align: left;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+        .comp-card.active {
+            border: 2px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
+        }
+
+        /* Steps Section */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 50px;
+        }
+
+        .step-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 28px;
+            position: relative;
+        }
+
+        .step-num {
+            font-size: 2.2rem;
+            font-weight: 950;
             color: var(--accent);
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
+            opacity: 0.8;
             margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .feature-card p {
-            color: #94a3b8;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .login-link {
-            margin-top: 24px;
-            color: #64748b;
-            font-size: 0.95rem;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-link:hover {
-            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
+    <!-- Hero Header -->
     <section class="hero">
         <div class="logo-container">
             <a href="index.html">
@@ -165,39 +293,183 @@
             </a>
         </div>
 
-        <div class="badge">Candidatures Ouvertes</div>
+        <div class="badge-incubateur">🤝 Écosystème &amp; Communauté Business</div>
         
-        <h1>L'Incubateur des Talents d'Outre-Mer</h1>
+        <h1>L'Incubateur Domtom Connect</h1>
         
         <p class="subtitle">
-            Rejoignez un écosystème d'entrepreneurs pour collaborer, passer à l'action massivement et structurer votre projet ensemble. Pas besoin de diplome, juste de l'ambition.
+            Rejoignez un collectif d'entrepreneurs d'Outre-Mer et de la Diaspora. Un cadre humain et collaboratif pour échanger sur vos projets, bénéficier de masterminds et développer votre visibilité.
         </p>
 
-        <a href="candidature-incubateur.html" class="cta-button">Postuler au programme</a>
-        
-        <a href="login.html" class="login-link">Deja membre ? Se connecter au Hub</a>
+        <div class="cta-group">
+            <a href="candidature-incubateur.html" class="cta-button">
+                <i class="fas fa-users"></i> Rejoindre l'Incubateur
+            </a>
+            <a href="login.html" class="cta-secondary">
+                <i class="fas fa-lock"></i> Se connecter au Hub
+            </a>
+        </div>
     </section>
 
-    <section class="features">
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-rocket"></i></div>
-            <h3>Accompagnement 1-on-1</h3>
-            <p>Beneficiez de sessions de mentorat individuelles avec des entrepreneurs ultramarins qui ont deja reussi.</p>
+    <!-- 4 Piliers de l'Incubateur -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="section-container">
+            <div class="section-header">
+                <span style="color: var(--accent); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px;">Une approche humaine &amp; collaborative</span>
+                <h2 class="section-title">Ce que vous apporte l'Incubateur</h2>
+                <p class="section-desc">
+                    Pas de bureaucratie ni de théorie inutile. Nous avons pensé l'Incubateur comme un accélérateur d'entraide, de visibilité et d'opportunités partagées entre créateurs insulaires.
+                </p>
+            </div>
+
+            <div class="grid-2x2">
+                <!-- Pilier 1 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-bullhorn"></i></div>
+                    <div class="pillar-tag">Visibilité &amp; Médias</div>
+                    <h3 class="card-title">Mise en Lumière &amp; Co-création de Contenu</h3>
+                    <p class="card-text">
+                        Nous créons du contenu ensemble (interviews, portraits, spotlights de projets) pour vous mettre en avant et valoriser vos activités auprès de toute la communauté Domtom Connect et de la diaspora.
+                    </p>
+                </div>
+
+                <!-- Pilier 2 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-comments"></i></div>
+                    <div class="pillar-tag">Échanges Business</div>
+                    <h3 class="card-title">Masterminds Privés &amp; Brainstorming</h3>
+                    <p class="card-text">
+                        Participez à des sessions de Mastermind en petit groupe pour présenter votre business, poser vos questions concrètes et bénéficier des retours d'expérience bienveillants des autres membres.
+                    </p>
+                </div>
+
+                <!-- Pilier 3 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-hands-helping"></i></div>
+                    <div class="pillar-tag">Réseau Solidaire</div>
+                    <h3 class="card-title">Communauté d'Entraide Insulaire</h3>
+                    <p class="card-text">
+                        Connectez-vous avec des porteurs de projets aux Antilles, en Guyane, à La Réunion, Mayotte et dans l'Hexagone. Un cercle de confiance qui partage vos réalités territoriales et vos défis.
+                    </p>
+                </div>
+
+                <!-- Pilier 4 -->
+                <div class="pillar-card">
+                    <div class="card-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="pillar-tag">Opportunités &amp; Synergies</div>
+                    <h3 class="card-title">Synergies &amp; Espace Business Privé</h3>
+                    <p class="card-text">
+                        Trouvez vos futurs associés, premiers testeurs, partenaires commerciaux ou prestataires certifiés directement dans l'annuaire et le hub privé de la plateforme.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-handshake"></i></div>
-            <h3>Reseau Business</h3>
-            <p>Accelez a notre Espace Business prive pour trouver vos premiers clients, associes ou prestataires de confiance.</p>
+    </section>
+
+    <!-- Comparatif Incubateur vs Tremplin -->
+    <section>
+        <div class="section-container">
+            <div class="section-header">
+                <span style="color: var(--accent); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px;">Comprendre les offres</span>
+                <h2 class="section-title">Incubateur vs Tremplin : Quelle différence ?</h2>
+                <p class="section-desc">
+                    Deux formats complémentaires conçus pour s'adapter à votre besoin et à votre rythme.
+                </p>
+            </div>
+
+            <div class="comparison-box">
+                <div class="comparison-grid">
+                    <!-- Carte Incubateur -->
+                    <div class="comp-card active">
+                        <div style="background: rgba(16, 185, 129, 0.15); color: var(--accent); font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 8px; display: inline-block; margin-bottom: 16px;">Communauté &amp; Entraide</div>
+                        <h3 style="font-size: 1.6rem; font-weight: 900; color: white; margin-bottom: 12px;">L'Incubateur Domtom Connect</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px;">
+                            Un cadre souple et collaboratif pour échanger sur vos business, gagner en visibilité et rompre l'isolement du créateur.
+                        </p>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 28px 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: #cbd5e1;">
+                            <li><strong style="color: var(--accent);">✓ Contenu &amp; Médias :</strong> Mise en avant de votre projet</li>
+                            <li><strong style="color: var(--accent);">✓ Échanges :</strong> Masterminds collectifs &amp; retours d'expérience</li>
+                            <li><strong style="color: var(--accent);">✓ Réseau :</strong> Accès direct au Hub Membres &amp; Espace Business</li>
+                            <li><strong style="color: var(--accent);">✓ Format :</strong> Accompagnement humain, souple et collaboratif</li>
+                        </ul>
+                        <a href="candidature-incubateur.html" style="display: block; text-align: center; width: 100%; padding: 14px; background: var(--accent); color: white; border-radius: 12px; font-weight: 800; text-decoration: none; box-sizing: border-box;">Rejoindre l'Incubateur</a>
+                    </div>
+
+                    <!-- Carte Tremplin -->
+                    <div class="comp-card">
+                        <div style="background: rgba(255, 255, 255, 0.1); color: #cbd5e1; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 14px; border-radius: 8px; display: inline-block; margin-bottom: 16px;">Accélération d'Exécution (1 An)</div>
+                        <h3 style="font-size: 1.6rem; font-weight: 900; color: white; margin-bottom: 12px;">Le Programme Tremplin</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px;">
+                            Pour les entrepreneurs actifs qui réalisent du CA et cherchent une exécution intensive guidée sur 12 mois.
+                        </p>
+                        <ul style="list-style: none; padding: 0; margin: 0 0 28px 0; display: flex; flex-direction: column; gap: 12px; font-size: 0.9rem; color: #cbd5e1;">
+                            <li><strong style="color: #ffffff;">✓ Sélection :</strong> Strictement 10 projets par session</li>
+                            <li><strong style="color: #ffffff;">✓ Rythme :</strong> 1 Masterclass/semaine + 1 Coaching 1-to-1/mois</li>
+                            <li><strong style="color: #ffffff;">✓ Objectif :</strong> Démultiplication stratégique du chiffre d'affaires</li>
+                            <li><strong style="color: #ffffff;">✓ Durée :</strong> Marathon intensif d'action sur 1 an</li>
+                        </ul>
+                        <a href="tremplin.html" style="display: block; text-align: center; width: 100%; padding: 14px; background: rgba(255, 255, 255, 0.1); color: white; border-radius: 12px; font-weight: 800; text-decoration: none; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.15);">Découvrir Tremplin</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon"><i class="fas fa-lightbulb"></i></div>
-            <h3>Masterminds Prives</h3>
-            <p>Collaborez avec d'autres fondateurs ambitieux pour résoudre vos problèmes en communauté.</p>
+    </section>
+
+    <!-- Le Parcours Simple en 4 Étapes -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="section-container">
+            <div class="section-header">
+                <span style="color: var(--accent); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 12px;">Comment ça se passe ?</span>
+                <h2 class="section-title">Votre parcours au sein de l'Incubateur</h2>
+                <p class="section-desc">
+                    Une intégration fluide et bienveillante pour intégrer immédiatement le collectif.
+                </p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">01</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Rejoindre la Communauté</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Soumettez votre projet et accédez immédiatement au Hub privé et aux canaux d'échanges membres.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">02</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Participer aux Masterminds</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Échangez chaque mois avec d'autres fondateurs sur vos enjeux actuels, vos offres et vos stratégies.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">03</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Co-création &amp; Visibilité</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Réalisation de contenus dédiés pour mettre en valeur votre histoire et vos produits auprès de l'écosystème.
+                    </p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">04</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 10px;">Synergies &amp; Croissance</h3>
+                    <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
+                        Tissez des partenariats solides, trouvez des clients et faites progresser votre entreprise sereinement.
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="candidature-incubateur.html" class="cta-button" style="padding: 20px 44px; font-size: 1.15rem;">
+                    <i class="fas fa-handshake"></i> Postuler à l'Incubateur Domtom Connect
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Cross-Program Navigation -->
-    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center; margin-top: 60px;">
+    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center;">
         <div style="max-width: 1000px; margin: 0 auto;">
             <h4 style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer nos autres accompagnements Domtom Connect</h4>
             <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
@@ -210,7 +482,7 @@
         </div>
     </div>
 
-    <!-- Pied de page -->
+    <!-- Footer -->
     <footer style="background: #020617; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.88rem;">
         <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; align-items: center;">
             <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
