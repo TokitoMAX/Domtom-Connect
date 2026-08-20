@@ -47,8 +47,21 @@
 <link as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="preload"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link as="style" href="assets/css/style.css?v=12.00" rel="preload"/>
-<!-- Styles -->
+<!-- Styles & Calendly Integration -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+<script>
+function openCalendlyDiagnostic(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
+        window.Calendly.initPopupWidget({ url: 'https://calendly.com/domtomconnect/diagnostic-30min' });
+    } else {
+        window.open('https://calendly.com/domtomconnect/diagnostic-30min', '_blank');
+    }
+    return false;
+}
+</script>
 <link href="assets/css/style.css?v=12.00" rel="stylesheet"/>
 <link href="assets/css/blog.css?v=1.2" rel="stylesheet"/>
 <link href="assets/css/popup.css?v=2.0" rel="stylesheet"/>
@@ -202,7 +215,7 @@
                     Accompagnement stratégique sur-mesure, accélération d'exécution, copilotage opérationnel et réseau d'experts certifiés pour valider votre Business Plan, débloquer vos financements et développer votre chiffre d'affaires.
                 </p>
 <div class="hero-actions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-<a class="cta-button primary" href="premium.html" style="padding: 20px 44px; font-size: 1.15rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; background: #10b981; color: white; border: none; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)';">
+<a class="cta-button primary" href="https://calendly.com/domtomconnect/diagnostic-30min" onclick="return openCalendlyDiagnostic(event);" style="padding: 20px 44px; font-size: 1.15rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; background: #10b981; color: white; border: none; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)';">
     Réserver un Diagnostic Offert (30 min) <i class="fas fa-arrow-right"></i>
 </a>
 <a class="cta-button secondary" href="#nos-accompagnements" style="padding: 20px 36px; font-size: 1.1rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2); color: white; background: rgba(255, 255, 255, 0.05); font-weight: 700; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.1)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)';">
@@ -514,7 +527,7 @@
         <h3 style="color: white; font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 900; margin: 0 0 12px 0; text-align: center; letter-spacing: -0.02em;">Prêt à faire décoller votre entreprise en Outre-Mer ?</h3>
         <p style="color: #94a3b8; font-size: 1.1rem; margin: 0 0 28px 0; text-align: center; max-width: 650px; line-height: 1.6;">Prenez rendez-vous dès aujourd'hui pour votre diagnostic stratégique offert de 30 minutes avec nos experts.</p>
         <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; align-items: center;">
-            <a href="premium.html" style="background: #10b981; color: white; padding: 18px 36px; border-radius: 14px; font-weight: 800; font-size: 1.05rem; text-decoration: none; transition: 0.3s; box-shadow: 0 12px 25px rgba(16, 185, 129, 0.25);" onmouseover="this.style.background='#059669';" onmouseout="this.style.background='#10b981';">
+            <a href="https://calendly.com/domtomconnect/diagnostic-30min" onclick="return openCalendlyDiagnostic(event);" style="background: #10b981; color: white; padding: 18px 36px; border-radius: 14px; font-weight: 800; font-size: 1.05rem; text-decoration: none; transition: 0.3s; box-shadow: 0 12px 25px rgba(16, 185, 129, 0.25);" onmouseover="this.style.background='#059669';" onmouseout="this.style.background='#10b981';">
                 Réserver mon Diagnostic Offert <i class="fas fa-calendar-alt" style="margin-left: 8px;"></i>
             </a>
             <a href="#nos-accompagnements" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 18px 32px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="this.style.background='rgba(255,255,255,0.05)';">
