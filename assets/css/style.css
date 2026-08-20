@@ -3467,9 +3467,9 @@ p {
    HOME SCOPE BAR (Simplified)
    ========================================= */
 .home-scope-bar {
-    padding: 15px 0;
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-100);
+    padding: 18px 0;
+    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .scope-container {
@@ -3478,13 +3478,13 @@ p {
     align-items: center;
     gap: 15px 25px;
     flex-wrap: wrap;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .scope-item {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--text-secondary);
+    color: #cbd5e1;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     display: flex;
@@ -3493,14 +3493,15 @@ p {
 }
 
 .scope-item b {
-    color: var(--emerald-color);
+    color: #10b981;
 }
 
 .scope-dot {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: var(--gray-300);
+    background: #10b981;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
 @media (max-width: 768px) {
