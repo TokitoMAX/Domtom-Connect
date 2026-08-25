@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UIComponents.js - Domtom Connect
  * Dynamic rendering of shared UI elements
  */
@@ -111,7 +111,7 @@ const UIComponents = {
         sidebarHtml += this.renderSidebarLink(adjust('profile.html'), 'Mon Profil', 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z');
         
         sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em;">Mobile</div>`;
-        sidebarHtml += this.renderSidebarLink(adjust('application.html'), 'Télécharger l\'App', 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z');
+        sidebarHtml += this.renderSidebarLink(adjust('beta-test.html'), 'Télécharger l\'App', 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z');
         
         sidebarHtml += `<div style="margin: 24px 20px; border-top: 1px solid rgba(226, 232, 240, 0.1);"></div>`;
         
@@ -345,7 +345,7 @@ const UIComponents = {
             };
         } else {
             config = {
-                app: { label: 'App DTC Pulse', path: 'application.html' },
+                app: { label: 'App DTC Pulse', path: 'beta-test.html' },
                 nosAccompagnements: { label: 'Nos Programmes', path: 'index.html#nos-accompagnements' },
                 tremplin: { label: 'Tremplin', path: 'tremplin.html' },
                 premium: { label: 'Premium 1-to-1', path: 'premium.html' },
@@ -354,7 +354,7 @@ const UIComponents = {
         }
 
         // --- NEW: Global Android App Banner ---
-        if (!window.location.pathname.includes('application.html') && !document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
+        if (!window.location.pathname.includes('beta-test.html') && !document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
             const banner = document.createElement('div');
             banner.id = 'android-promo-banner';
             banner.style.cssText = 'background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-align: center; padding: 12px 20px; font-family: "Plus Jakarta Sans", sans-serif; font-size: 0.95rem; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 16px; position: relative; z-index: 1000; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);';
@@ -363,7 +363,7 @@ const UIComponents = {
                     <i class="fab fa-android" style="font-size: 1.2rem;"></i>
                     <span><strong>Nouveau :</strong> L'application mobile DTC Pulse est disponible pour Android (installation directe).</span>
                 </div>
-                <a href="${adjust('application.html')}" style="background: white; color: #059669; padding: 6px 16px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Voir l'application</a>
+                <a href="${adjust('beta-test.html')}" style="background: white; color: #059669; padding: 6px 16px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Voir l'application</a>
                 <button onclick="localStorage.setItem('hideAndroidBanner', 'true'); this.parentElement.style.display='none'" style="background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; padding: 8px; margin-left: auto; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'"><i class="fas fa-times"></i></button>
             `;
             nav.parentNode.insertBefore(banner, nav);

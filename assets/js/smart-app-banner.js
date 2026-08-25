@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
     // 1. Vérifier si l'utilisateur est sur Android
     const isAndroid = /android/i.test(navigator.userAgent);
     
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <span style="font-size:0.75rem; color:#cbd5e1;">L'app officielle Domtom Connect</span>
         </div>
         
-        <a href="/application.html" style="background-color:#10b981; color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:4px; font-size:0.8rem; font-weight:bold; white-space:nowrap; margin-left:10px;">
+        <a href="/beta-test.html" style="background-color:#10b981; color:#ffffff; text-decoration:none; padding:6px 14px; border-radius:4px; font-size:0.8rem; font-weight:bold; white-space:nowrap; margin-left:10px;">
             Télécharger
         </a>
     `;

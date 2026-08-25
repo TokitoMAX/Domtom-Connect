@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Injecteur de Navigation Mobile Premium (Domtom Connect)
  * 1. Barre de navigation basse (Bottom Nav) avec 5 raccourcis.
  * 2. Menu tiroir ultra-complet (Bottom Sheet Drawer) offrant 100% de parité avec la Sidebar PC.
@@ -166,7 +166,7 @@ window.toggleMobileMenu = function(forceState) {
                     <div class="mobile-menu-section">
                         <div class="mobile-menu-section-label">Système</div>
                         <div class="mobile-menu-grid">
-                            <a href="${basePath}application.html" class="mobile-menu-item ${isActive('application.html')}" onclick="window.toggleMobileMenu(false)">
+                            <a href="${basePath}beta-test.html" class="mobile-menu-item ${isActive('beta-test.html')}" onclick="window.toggleMobileMenu(false)">
                                 <i class="fas fa-mobile-alt"></i> <span>App Mobile</span>
                             </a>
                             <a href="${basePath}index.html" class="mobile-menu-item" onclick="window.toggleMobileMenu(false)">
