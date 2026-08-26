@@ -4,682 +4,748 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>Testeur Beta DTC Pulse | Rejoins l'équipe en avant-première</title>
-    <meta name="description" content="Rejoins la beta fermée de DTC Pulse, l'app mobile Domtom Connect. Sois parmi les premiers à découvrir le réseau social des ultramarins. Places limitées.">
+    
+    <title>Bêta Testeur DTC Pulse | Domtom Connect sur Google Play</title>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Rejoignez la bêta fermée officielle de DTC Pulse sur le Google Play Store. Aidez-nous à atteindre le quota de testeurs pour lancer l'app mobile officielle de la diaspora.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/beta-test">
     <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
-
+    
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/beta-test">
-    <meta property="og:title" content="Rejoins la Beta Fermée DTC Pulse 🚀">
-    <meta property="og:description" content="Sois parmi les premiers testeurs de l'app mobile des ultramarins. Places limitées, accès exclusif.">
+    <meta property="og:title" content="Rejoins la Bêta Officielle DTC Pulse sur Google Play 🚀">
+    <meta property="og:description" content="Découvre DTC Pulse en avant-première. Rejoins le programme de test officiel sur le Play Store.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/screenshots/screen1.png">
     <meta property="og:locale" content="fr_FR">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=12.00">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #0A84FF;
-            --primary-glow: rgba(10, 132, 255, 0.3);
-            --primary-dark: #006FD6;
-            --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.3);
-            --warning: #f59e0b;
-            --background: #080C14;
-            --bg-2: #0D1220;
-            --card-bg: #111827;
-            --card-border: rgba(255,255,255,0.07);
-            --text: #F0F4F8;
-            --text-muted: #8B9EB0;
-            --text-faint: #4A5568;
-            --border: #1E2D42;
+            --brand-green: #10b981;
+            --brand-green-hover: #059669;
+            --brand-green-subtle: rgba(16, 185, 129, 0.12);
+            --brand-green-border: rgba(16, 185, 129, 0.3);
+            --dark-bg: #0f172a;
+            --dark-card: #1e293b;
+            --white: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--background);
-            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-dark);
             line-height: 1.6;
-            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
         }
 
-        .bg-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: hidden;
-        }
-        .bg-orb {
-            position: absolute; border-radius: 50%;
-            filter: blur(120px); opacity: 0.12;
-            animation: drift 18s ease-in-out infinite alternate;
-        }
-        .bg-orb-1 { width: 700px; height: 700px; background: var(--primary); top: -200px; left: -200px; animation-delay: 0s; }
-        .bg-orb-2 { width: 500px; height: 500px; background: var(--accent); bottom: -100px; right: -100px; animation-delay: -8s; }
-        .bg-orb-3 { width: 400px; height: 400px; background: #7C3AED; top: 50%; left: 40%; animation-delay: -4s; }
-        @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.05); } }
-
-        .page-wrap { position: relative; z-index: 1; }
-
-        .nav {
-            padding: 16px 24px;
-            display: flex; align-items: center; justify-content: space-between;
-            max-width: 1200px; margin: 0 auto;
-        }
-        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-logo img { width: 36px; height: 36px; border-radius: 8px; }
-        .nav-logo-text { font-size: 1.1rem; font-weight: 700; color: var(--text); }
-        .nav-logo-text span { color: var(--primary); }
-
-        .urgency-banner {
-            background: linear-gradient(90deg, rgba(245,158,11,0.12) 0%, rgba(245,158,11,0.06) 100%);
-            border-top: 1px solid rgba(245,158,11,0.3);
-            border-bottom: 1px solid rgba(245,158,11,0.3);
-            padding: 10px 24px; text-align: center;
-            font-size: 0.9rem; color: #FCD34D;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .urgency-banner .pulse-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: #F59E0B; flex-shrink: 0;
-            animation: pulse-warn 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse-warn {
-            0%, 100% { opacity:1; transform:scale(1); box-shadow:0 0 0 0 rgba(245,158,11,0.4); }
-            50% { opacity:0.8; transform:scale(1.1); box-shadow:0 0 0 8px rgba(245,158,11,0); }
-        }
-
-        .hero {
-            padding: 70px 24px 60px;
-            max-width: 1200px; margin: 0 auto;
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 60px; align-items: center;
-        }
-
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(10,132,255,0.1); border: 1px solid rgba(10,132,255,0.3);
-            border-radius: 100px; padding: 6px 16px;
-            font-size: 0.82rem; font-weight: 600; color: var(--primary);
-            letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 24px;
-        }
-        .hero-badge::before { content: '●'; font-size: 0.55rem; animation: blink 1s ease-in-out infinite; }
-        @keyframes blink { 0%, 100% { opacity:1; } 50% { opacity:0; } }
-
-        .hero-title {
-            font-size: clamp(2.4rem, 5vw, 3.8rem);
-            font-weight: 900; line-height: 1.1;
-            letter-spacing: -0.03em; margin-bottom: 20px; color: #fff;
-        }
-        .hero-title .highlight {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.15rem; color: var(--text-muted);
-            margin-bottom: 36px; max-width: 500px; line-height: 1.7;
-        }
-
-        .tester-counter {
-            background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.25);
-            border-radius: 14px; padding: 16px 20px; margin-bottom: 32px;
-            display: flex; align-items: center; gap: 16px;
-        }
-        .counter-icon {
-            width: 42px; height: 42px; border-radius: 10px;
-            background: rgba(16,185,129,0.15);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; flex-shrink: 0;
-        }
-        .counter-label { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
-        .counter-value { font-size: 1.6rem; font-weight: 800; color: var(--accent); line-height: 1.1; }
-        .counter-max { font-size: 0.85rem; color: var(--text-muted); }
-        .progress-bar-wrap {
-            height: 6px; background: rgba(255,255,255,0.08);
-            border-radius: 3px; margin-top: 8px; overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%; border-radius: 3px;
-            background: linear-gradient(90deg, var(--accent), #34D399);
-            width: 0%; animation: fill-bar 1.5s ease-out 0.5s forwards;
-        }
-        @keyframes fill-bar { to { width: var(--bar-width, 17%); } }
-
-        .cta-group { display: flex; flex-direction: column; gap: 12px; }
-
-        .btn-primary {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: var(--primary); color: white; text-decoration: none;
-            font-weight: 700; font-size: 1.05rem; padding: 16px 28px;
-            border-radius: 14px; border: none; cursor: pointer;
-            transition: all 0.2s ease; position: relative; overflow: hidden;
-            animation: glow-pulse 2.5s ease-in-out infinite;
-        }
-        @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 4px 20px rgba(10,132,255,0.3); }
-            50% { box-shadow: 0 4px 40px rgba(10,132,255,0.6); }
-        }
-        .btn-primary::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: translateX(-100%); transition: transform 0.5s ease;
-        }
-        .btn-primary:hover::before { transform: translateX(100%); }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-
-        .btn-secondary {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            background: rgba(255,255,255,0.05); color: var(--text-muted);
-            text-decoration: none; font-weight: 500; font-size: 0.95rem;
-            padding: 13px 24px; border-radius: 12px;
-            border: 1px solid var(--card-border); cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.08); color: var(--text);
-            border-color: rgba(255,255,255,0.15);
-        }
-
-        .cta-note { font-size: 0.82rem; color: var(--text-faint); text-align: center; margin-top: 8px; }
-        .cta-note svg { display: inline-block; vertical-align: middle; margin-right: 4px; }
-
-        .hero-visual { display: flex; align-items: center; justify-content: center; position: relative; }
-        .phone-frame {
-            width: 100%; max-width: 260px; border-radius: 36px; overflow: hidden;
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(10,132,255,0.2);
-            animation: float 4s ease-in-out infinite; position: relative; z-index: 2;
-        }
-        .phone-frame img { width: 100%; display: block; border-radius: 36px; }
-        .phone-glow {
-            position: absolute; width: 300px; height: 300px; border-radius: 50%;
-            background: var(--primary); filter: blur(80px); opacity: 0.15;
-            top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 1;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(-1deg); }
-            50% { transform: translateY(-14px) rotate(1deg); }
-        }
-
-        /* Carousel */
-        .phone-carousel {
-            position: relative;
-            width: 100%; max-width: 260px;
-        }
-        .carousel-slides {
-            position: relative;
-            border-radius: 36px;
-            overflow: hidden;
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(10,132,255,0.2);
-            animation: float 4s ease-in-out infinite;
-        }
-        .carousel-slide {
-            display: none;
-            width: 100%;
-        }
-        .carousel-slide.active {
-            display: block;
-        }
-        .carousel-slide img {
-            width: 100%;
-            display: block;
-        }
-        .carousel-dots {
+        /* Top Urgency Banner */
+        .beta-top-banner {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 0.92rem;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin-top: 16px;
+            gap: 12px;
+            text-align: center;
+            border-bottom: 2px solid var(--brand-green);
         }
-        .carousel-dot {
-            width: 6px; height: 6px;
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--brand-green);
             border-radius: 50%;
-            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulseGreen 1.8s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulseGreen {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Hero Store Section */
+        .store-hero {
+            background: #ffffff;
+            padding: 40px 20px 60px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .store-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 36px;
+            max-width: 1060px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 860px) {
+            .store-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        .app-icon-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 32px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-light);
+            flex-shrink: 0;
+            overflow: hidden;
+            padding: 12px;
+        }
+
+        .app-icon-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .app-details {
+            flex-grow: 1;
+        }
+
+        .badge-beta {
+            background: var(--brand-green-subtle);
+            color: var(--brand-green);
+            border: 1px solid var(--brand-green-border);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .app-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: #0f172a;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0 0 6px 0;
+            line-height: 1.1;
+        }
+
+        .app-developer {
+            font-size: 1.15rem;
+            color: var(--brand-green);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 860px) {
+            .app-developer { justify-content: center; }
+        }
+
+        /* Quota Tracker */
+        .quota-box {
+            background: #f1f5f9;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            max-width: 580px;
+        }
+
+        @media (max-width: 860px) {
+            .quota-box { margin-left: auto; margin-right: auto; text-align: left; }
+        }
+
+        .quota-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .quota-val {
+            color: var(--brand-green);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        .quota-bar-bg {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .quota-bar-fill {
+            width: 35%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--brand-green), #059669);
+            border-radius: 100px;
+            transition: width 1s ease-in-out;
+        }
+
+        .quota-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Action Buttons */
+        .store-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 860px) {
+            .store-actions { justify-content: center; }
+        }
+
+        .btn-play-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--brand-green);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            padding: 16px 36px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+            border: none;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .carousel-dot.active {
-            width: 20px;
-            border-radius: 3px;
-            background: var(--primary);
         }
 
-        .section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
-        .section-label {
-            display: inline-block; font-size: 0.8rem; font-weight: 700;
-            letter-spacing: 0.1em; text-transform: uppercase;
-            color: var(--primary); margin-bottom: 12px;
+        .btn-play-primary:hover {
+            background: var(--brand-green-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
+            color: #ffffff;
         }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #25D366;
+            border: 2px solid #25D366;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px 24px;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-whatsapp:hover {
+            background: #25D366;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .app-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            font-weight: 600;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 860px) {
+            .app-meta { justify-content: center; }
+        }
+
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 60px 20px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .section-container {
+            max-width: 1060px;
+            margin: 0 auto;
+        }
+
         .section-title {
-            font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
-            color: #fff; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 16px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .section-sub { font-size: 1.05rem; color: var(--text-muted); max-width: 580px; line-height: 1.7; }
-        .section-header { margin-bottom: 48px; }
 
-        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .feature-card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 28px;
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 32px;
         }
-        .feature-card::before {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            transition: opacity 0.3s ease;
-            background: radial-gradient(circle at 50% 0%, rgba(10,132,255,0.08), transparent 70%);
-        }
-        .feature-card:hover { transform: translateY(-4px); border-color: rgba(10,132,255,0.3); }
-        .feature-card:hover::before { opacity: 1; }
-        .feature-icon {
-            width: 48px; height: 48px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin-bottom: 16px;
-        }
-        .fi-blue { background: rgba(10,132,255,0.12); }
-        .fi-green { background: rgba(16,185,129,0.12); }
-        .fi-purple { background: rgba(124,58,237,0.12); }
-        .fi-orange { background: rgba(249,115,22,0.12); }
-        .fi-pink { background: rgba(236,72,153,0.12); }
-        .fi-yellow { background: rgba(245,158,11,0.12); }
-        .feature-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        .feature-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
 
-        .perks-section {
-            padding: 80px 24px;
-            background: linear-gradient(180deg, transparent 0%, rgba(10,132,255,0.04) 50%, transparent 100%);
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            justify-items: center;
         }
-        .perks-inner { max-width: 1200px; margin: 0 auto; }
-        .perks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 48px; }
-        .perk-card {
-            background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 24px 28px;
-            display: flex; align-items: flex-start; gap: 18px;
-            transition: all 0.3s ease;
+
+        @media (max-width: 860px) {
+            .screenshots-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                padding-bottom: 20px;
+                gap: 20px;
+                justify-items: unset;
+                -webkit-overflow-scrolling: touch;
+            }
         }
-        .perk-card:hover { border-color: rgba(16,185,129,0.3); transform: translateX(4px); }
-        .perk-number {
-            width: 40px; height: 40px; border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; font-weight: 800; color: white; flex-shrink: 0;
+
+        .phone-mockup-wrapper {
+            width: 100%;
+            max-width: 310px;
+            background: #000000;
+            border: 10px solid #0f172a;
+            border-radius: 36px;
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            transition: transform 0.3s ease;
         }
-        .perk-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-        .perk-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+        .phone-mockup-wrapper:hover {
+            transform: translateY(-6px);
+        }
+
+        .phone-mockup-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .screenshot-caption {
+            padding: 14px 16px;
+            background: #0f172a;
+            color: #ffffff;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* How it works */
+        .steps-section {
+            padding: 70px 20px;
+            background: #f8fafc;
+        }
 
         .steps-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 32px; margin-top: 48px; position: relative;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 36px;
         }
-        .steps-grid::before {
-            content: ''; position: absolute; top: 28px;
-            left: calc(16.66% + 20px); right: calc(16.66% + 20px);
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            opacity: 0.3;
-        }
-        .step { text-align: center; }
-        .step-num {
-            width: 56px; height: 56px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; font-weight: 800; color: white; margin: 0 auto 20px;
-            box-shadow: 0 0 30px rgba(10,132,255,0.3);
-        }
-        .step-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        .step-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
 
-        .final-cta { padding: 100px 24px; text-align: center; }
-        .final-cta-inner {
-            max-width: 700px; margin: 0 auto;
-            background: var(--card-bg); border: 1px solid rgba(10,132,255,0.2);
-            border-radius: 24px; padding: 60px 48px; position: relative; overflow: hidden;
-        }
-        .final-cta-inner::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-        .final-cta-emoji { font-size: 3rem; margin-bottom: 20px; display: block; }
-        .final-cta-title {
-            font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800;
-            color: #fff; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.2;
-        }
-        .final-cta-sub { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 36px; line-height: 1.7; }
-        .final-cta-btn {
-            display: inline-flex; align-items: center; gap: 12px;
-            background: linear-gradient(135deg, var(--primary), #0060CF);
-            color: white; text-decoration: none; font-weight: 700; font-size: 1.1rem;
-            padding: 18px 36px; border-radius: 14px; transition: all 0.25s ease;
-            box-shadow: 0 8px 30px rgba(10,132,255,0.35);
-        }
-        .final-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(10,132,255,0.5); }
-        .final-cta-btn svg { width: 22px; height: 22px; }
-        .final-cta-disclaimer { margin-top: 20px; font-size: 0.85rem; color: var(--text-faint); }
-
-        .footer { padding: 32px 24px; border-top: 1px solid var(--border); }
-        .footer-inner {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; align-items: center; justify-content: space-between;
-            flex-wrap: wrap; gap: 16px;
-        }
-        .footer-logo {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.95rem; font-weight: 600;
-            color: var(--text-muted); text-decoration: none;
-        }
-        .footer-logo img { width: 24px; border-radius: 6px; }
-        .footer-links { display: flex; gap: 24px; list-style: none; }
-        .footer-links a { font-size: 0.88rem; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
-        .footer-links a:hover { color: var(--text-muted); }
-
-        @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; padding: 50px 24px 40px; text-align: center; }
-            .hero-subtitle { margin: 0 auto 36px; }
-            .hero-visual { order: -1; }
-            .phone-carousel { max-width: 220px; margin: 0 auto; }
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps-grid::before { display: none; }
-            .perks-grid { grid-template-columns: 1fr; }
-            .footer-inner { flex-direction: column; text-align: center; }
-        }
-        @media (max-width: 600px) {
-            .features-grid { grid-template-columns: 1fr; }
+        @media (max-width: 860px) {
             .steps-grid { grid-template-columns: 1fr; }
-            .final-cta-inner { padding: 40px 24px; }
-            .tester-counter { flex-direction: column; text-align: center; }
+        }
+
+        .step-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 32px 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: var(--brand-green);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.08);
+            transform: translateY(-3px);
+        }
+
+        .step-num-badge {
+            width: 44px;
+            height: 44px;
+            background: #0f172a;
+            color: #ffffff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .step-card:nth-child(1) .step-num-badge { background: var(--brand-green); }
+
+        .step-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Features List */
+        .features-section {
+            padding: 70px 20px;
+            background: #ffffff;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 860px) {
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        .feature-box {
+            padding: 24px;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--brand-green-subtle);
+            color: var(--brand-green);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .feature-text {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Box */
+        .final-cta-section {
+            padding: 80px 20px;
+            background: #0f172a;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .final-cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            padding: 50px 30px;
+        }
+
+        .final-cta-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .final-cta-sub {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
         }
     </style>
 </head>
 <body>
 
-<div class="bg-canvas" aria-hidden="true">
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
-</div>
-
-<div class="page-wrap">
-
-    <nav class="nav">
-        <a href="/" class="nav-logo">
-            <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
-            <span class="nav-logo-text">Domtom <span>Connect</span></span>
-        </a>
-        <a href="https://play.google.com/apps/testing/com.domtomconnect.app"
-           target="_blank" rel="noopener noreferrer"
-           class="btn-primary" id="nav-cta-btn"
-           style="padding:10px 20px;font-size:0.9rem;border-radius:10px;animation:none;box-shadow:0 4px 16px rgba(10,132,255,0.3);">
-            Rejoindre la Beta
-        </a>
-    </nav>
-
-    <div class="urgency-banner">
-        <div class="pulse-dot"></div>
-        <strong>🔥 Beta fermée en cours</strong>&nbsp;— Il nous manque encore quelques testeurs pour valider la publication sur le Play Store. Rejoins-nous maintenant !
+    <!-- Urgent Top Notification -->
+    <div class="beta-top-banner">
+        <span class="pulse-dot"></span>
+        <span><strong>Programme Bêta Google Play</strong> : Nous recrutons les 12 testeurs indispensables pour la validation et publication officielle de DTC Pulse.</span>
     </div>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">Beta fermée · Android</div>
-            <h1 class="hero-title">
-                Sois l'un des premiers à tester
-                <span class="highlight">DTC Pulse</span>
-            </h1>
-            <p class="hero-subtitle">
-                L'application mobile qui connecte la diaspora ultramarine et les territoires d'outre-mer.
-                Rejoins la beta fermée sur Google Play et aide-nous à lancer officiellement l'app.
-            </p>
+    <!-- Navigation Header -->
+    <nav class="navbar"></nav>
 
-            <div class="tester-counter">
-                <div class="counter-icon">👥</div>
-                <div style="flex:1;">
-                    <div class="counter-label">Testeurs inscrits</div>
-                    <div style="display:flex;align-items:baseline;gap:8px;">
-                        <span class="counter-value" id="counter-num">0</span>
-                        <span class="counter-max">/ 12 requis par Google Play</span>
+    <!-- Main Store Header -->
+    <header class="store-hero">
+        <div class="store-header">
+            <div class="app-icon-container">
+                <img src="assets/images/logo-domtomconnect.png" alt="Logo Domtom Connect DTC Pulse">
+            </div>
+            
+            <div class="app-details">
+                <div class="badge-beta">
+                    <i class="fab fa-google-play"></i> Bêta Fermée Officielle · Android
+                </div>
+                
+                <h1 class="app-title">DTC Pulse</h1>
+                <div class="app-developer">
+                    <i class="fas fa-check-circle"></i> Domtom Connect Officiel
+                </div>
+
+                <!-- Quota Tracker -->
+                <div class="quota-box">
+                    <div class="quota-header">
+                        <span>Objectif Testeurs Requis</span>
+                        <span class="quota-val"><span id="tester-count">4</span> / 12 testeurs</span>
                     </div>
-                    <div class="progress-bar-wrap">
-                        <div class="progress-bar" style="--bar-width:17%;"></div>
+                    <div class="quota-bar-bg">
+                        <div class="quota-bar-fill" id="quota-fill" style="width: 33%;"></div>
+                    </div>
+                    <div class="quota-hint">
+                        <i class="fas fa-info-circle"></i> Google exige 12 testeurs actifs pendant 14 jours pour ouvrir l'application au grand public.
                     </div>
                 </div>
-            </div>
 
-            <div class="cta-group">
-                <a href="https://play.google.com/apps/testing/com.domtomconnect.app"
-                   target="_blank" rel="noopener noreferrer"
-                   class="btn-primary" id="hero-cta-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3.18 23.76a2 2 0 0 0 2.06-.06l12.54-7.21-3.54-3.54-11.06 10.81zm-1.18-21v18.48l10.12-9.24L2 2.76zm18.2 7.28-3.12-1.8-3.8 3.8 3.78 3.78 3.14-1.82a2 2 0 0 0 0-3.96zM5.24.3 16.3 6.78l-3.54 3.54L5.24.3z"/>
-                    </svg>
-                    Rejoindre le programme de test
-                </a>
-                <a href="https://wa.me/?text=Rejoins%20la%20beta%20de%20DTC%20Pulse%2C%20l%27app%20mobile%20des%20ultramarins%20%F0%9F%8C%B4%20%E2%86%92%20https%3A%2F%2Fdomtomconnect.com%2Fbeta-test"
-                   target="_blank" rel="noopener noreferrer"
-                   class="btn-secondary" id="share-whatsapp-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.49"/>
-                    </svg>
-                    Partager avec mes proches
-                </a>
+                <!-- CTAs -->
+                <div class="store-actions">
+                    <a href="https://play.google.com/apps/testing/com.domtomconnect.app" 
+                       target="_blank" rel="noopener noreferrer" 
+                       class="btn-play-primary" id="main-beta-btn">
+                        <i class="fab fa-google-play"></i> Rejoindre la Bêta sur Google Play
+                    </a>
+                    
+                    <a href="https://wa.me/?text=Rejoins%20la%20b%C3%AAta%20ferm%C3%A9e%20de%20DTC%20Pulse%20sur%20Google%20Play%20%F0%9F%8C%B4%20%E2%86%92%20https%3A%2F%2Fdomtomconnect.com%2Fbeta-test" 
+                       target="_blank" rel="noopener noreferrer" 
+                       class="btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Partager aux contacts
+                    </a>
+                </div>
+
+                <div class="app-meta">
+                    <div class="meta-item"><i class="fas fa-shield-alt" style="color: var(--brand-green);"></i> Validé par Google Play</div>
+                    <div class="meta-item"><i class="fas fa-mobile-alt"></i> Android 8.0+</div>
+                    <div class="meta-item"><i class="fas fa-tag"></i> 100% Gratuit</div>
+                    <div class="meta-item"><i class="fas fa-users"></i> Communauté Ultramarine</div>
+                </div>
             </div>
-            <p class="cta-note">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Gratuit · Aucune carte requise · Android uniquement (pour l'instant)
-            </p>
         </div>
+    </header>
 
-        <div class="hero-visual">
-            <div class="phone-glow"></div>
-            <div class="phone-carousel">
-                <div class="carousel-slides">
-                    <div class="carousel-slide active">
-                        <img src="assets/images/screenshots/screen1.png" alt="DTC Pulse - Écran d'accueil">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="assets/images/screenshots/screen2.png" alt="DTC Pulse - Créer une publication">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="assets/images/screenshots/screen3.png" alt="DTC Pulse - DTC Map">
-                    </div>
+    <!-- App Screenshots Preview (Real Screenshots) -->
+    <section class="screenshots-section">
+        <div class="section-container">
+            <h2 class="section-title">Aperçu Réel de l'Application</h2>
+            <p class="section-subtitle">Découvrez l'interface de DTC Pulse telle qu'elle apparaîtra sur votre smartphone.</p>
+            
+            <div class="screenshots-grid">
+                <!-- Screen 1 : Accueil -->
+                <div class="phone-mockup-wrapper">
+                    <img src="assets/images/screenshots/screen1.png" alt="Écran d'accueil DTC Pulse - L'ambition n'a plus de frontières">
+                    <div class="screenshot-caption">1. Accueil & Connexion Réseau</div>
                 </div>
-                <div class="carousel-dots">
-                    <div class="carousel-dot active" onclick="goToSlide(0)"></div>
-                    <div class="carousel-dot" onclick="goToSlide(1)"></div>
-                    <div class="carousel-dot" onclick="goToSlide(2)"></div>
+
+                <!-- Screen 2 : Publication -->
+                <div class="phone-mockup-wrapper">
+                    <img src="assets/images/screenshots/screen2.png" alt="Créer une publication, stories et pitch avec IA">
+                    <div class="screenshot-caption">2. Création, Stories & IA</div>
+                </div>
+
+                <!-- Screen 3 : DTC Map -->
+                <div class="phone-mockup-wrapper">
+                    <img src="assets/images/screenshots/screen3.png" alt="DTC Map LIVE - Réseau des commerçants DOM-TOM & Diaspora">
+                    <div class="screenshot-caption">3. DTC Map Live & Commerces</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <div class="section-header">
-            <span class="section-label">Fonctionnalités</span>
-            <h2 class="section-title">Ce que tu découvriras dans DTC Pulse</h2>
-            <p class="section-sub">Une plateforme complète pensée pour les ultramarins, disponible dans ta poche pour la première fois.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon fi-blue">📱</div>
-                <div class="feature-title">Fil d'actualités communautaire</div>
-                <p class="feature-desc">Publications, stories et contenus des membres de la communauté ultramarine, partout dans le monde.</p>
+    <!-- 3 Steps to Join -->
+    <section class="steps-section">
+        <div class="section-container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h2 class="section-title">Comment Participer au Test Bêta ?</h2>
+                <p class="section-subtitle">L'inscription prend moins de 2 minutes sur votre smartphone Android.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon fi-green">💬</div>
-                <div class="feature-title">Messagerie avec messages vocaux</div>
-                <p class="feature-desc">Chat privé avec envoi de messages texte et audio — connexion authentique entre membres.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon fi-purple">🛍️</div>
-                <div class="feature-title">Marketplace intégrée</div>
-                <p class="feature-desc">Achetez et vendez entre membres. Suivi de livraison GPS en temps réel pour les vendeurs.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon fi-orange">🔔</div>
-                <div class="feature-title">Notifications push</div>
-                <p class="feature-desc">Recevez instantanément les alertes de messages, commandes et activités sur votre profil.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon fi-pink">👤</div>
-                <div class="feature-title">Profil entrepreneur</div>
-                <p class="feature-desc">Showcasez votre activité, votre vitrine et vos services directement depuis l'app.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon fi-yellow">🌍</div>
-                <div class="feature-title">Réseau diaspora global</div>
-                <p class="feature-desc">Martinique, Guadeloupe, Réunion, Guyane, Polynésie… et la diaspora en métropole et à l'étranger.</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num-badge">1</div>
+                    <h3 class="step-title">Cliquez sur le lien Google Play</h3>
+                    <p class="step-desc">Accédez à la page d'invitation officielle du programme de test de l'application DTC Pulse.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num-badge">2</div>
+                    <h3 class="step-title">Acceptez l'invitation</h3>
+                    <p class="step-desc">Connectez-vous avec votre compte Google et cliquez sur <strong>"Devenir testeur"</strong>. C'est instantané.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num-badge">3</div>
+                    <h3 class="step-title">Téléchargez l'application</h3>
+                    <p class="step-desc">Installez DTC Pulse directement depuis le Play Store et explorez le réseau pendant 14 jours.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="perks-section">
-        <div class="perks-inner">
-            <div class="section-header">
-                <span class="section-label">Avantages testeurs</span>
-                <h2 class="section-title">Pourquoi rejoindre la beta maintenant ?</h2>
-                <p class="section-sub">Les testeurs beta ne sont pas juste des utilisateurs — ils font partie de l'histoire de DTC Pulse.</p>
-            </div>
-            <div class="perks-grid">
-                <div class="perk-card">
-                    <div class="perk-number">1</div>
-                    <div>
-                        <div class="perk-title">🥇 Accès avant tout le monde</div>
-                        <p class="perk-desc">Découvre les nouvelles fonctionnalités en avant-première, avant la sortie publique sur le Play Store.</p>
-                    </div>
-                </div>
-                <div class="perk-card">
-                    <div class="perk-number">2</div>
-                    <div>
-                        <div class="perk-title">🎙️ Tu influences le produit</div>
-                        <p class="perk-desc">Tes retours comptent directement. Ton avis façonne les fonctionnalités qui seront développées.</p>
-                    </div>
-                </div>
-                <div class="perk-card">
-                    <div class="perk-number">3</div>
-                    <div>
-                        <div class="perk-title">🏅 Statut de co-fondateur communautaire</div>
-                        <p class="perk-desc">Les premiers testeurs reçoivent un badge exclusif "Beta Testeur" visible sur leur profil.</p>
-                    </div>
-                </div>
-                <div class="perk-card">
-                    <div class="perk-number">4</div>
-                    <div>
-                        <div class="perk-title">🚀 Tu permets le lancement officiel</div>
-                        <p class="perk-desc">Google exige 12 testeurs pendant 14 jours pour valider la publication. Tu es indispensable !</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Key Features -->
+    <section class="features-section">
+        <div class="section-container">
+            <h2 class="section-title">Fonctionnalités Clés de DTC Pulse</h2>
+            <p class="section-subtitle">Tout l'écosystème Domtom Connect pensé pour votre mobile.</p>
 
-    <section class="section">
-        <div class="section-header">
-            <span class="section-label">Comment ça marche</span>
-            <h2 class="section-title">Rejoindre la beta en 3 étapes simples</h2>
-            <p class="section-sub">Prend 2 minutes. Pas besoin d'être développeur. Juste un Android et de la bonne volonté. 😊</p>
-        </div>
-        <div class="steps-grid">
-            <div class="step">
-                <div class="step-num">1</div>
-                <div class="step-title">Clique sur le bouton ci-dessous</div>
-                <p class="step-desc">Le lien t'amène directement sur la page Google Play du programme de test officiel de DTC Pulse.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div>
-                <div class="step-title">Accepte l'invitation Google Play</div>
-                <p class="step-desc">Connecte-toi avec ton compte Google et clique sur "Devenir testeur". C'est gratuit et instantané.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div>
-                <div class="step-title">Installe DTC Pulse et explore !</div>
-                <p class="step-desc">Télécharge l'app, crée ton profil et utilise-la naturellement. Aucun rapport technique requis.</p>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-newspaper"></i></div>
+                    <h3 class="feature-name">Fil d'Actualités & Stories</h3>
+                    <p class="feature-text">Partagez vos réussites, publiez des stories éphémères et découvrez l'actualité des porteurs de projets d'Outre-Mer.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3 class="feature-name">DTC Map Live</h3>
+                    <p class="feature-text">Localisez les commerçants, artisans, prestataires et opportunités de co-valisage en métropole et dans les îles.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                    <h3 class="feature-name">Assistant IA Intégré</h3>
+                    <p class="feature-text">Optimisez vos publications et pitchs d'entreprise grâce à notre module d'intelligence artificielle.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-microphone-alt"></i></div>
+                    <h3 class="feature-name">Messages Vocaux & Chat</h3>
+                    <p class="feature-text">Communiquez en direct avec les autres membres par messagerie instantanée texte et audio.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-store"></i></div>
+                    <h3 class="feature-name">Vitrines & Produits</h3>
+                    <p class="feature-text">Consultez les produits phares et réservez des services directement auprès des fondateurs.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon"><i class="fas fa-globe-americas"></i></div>
+                    <h3 class="feature-name">Réseau 100% Diaspora</h3>
+                    <p class="feature-text">Antilles, Guyane, Réunion, Mayotte, Pacifique et diaspora internationale réunis sur un espace dédié.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="final-cta">
-        <div class="final-cta-inner">
-            <span class="final-cta-emoji">🌴</span>
-            <h2 class="final-cta-title">On a besoin de toi pour ouvrir les portes</h2>
+    <!-- Final Call to Action -->
+    <section class="final-cta-section">
+        <div class="final-cta-card">
+            <h2 class="final-cta-title">Aidez-nous à Ouvrir les Portes du Play Store</h2>
             <p class="final-cta-sub">
-                DTC Pulse sera bientôt disponible pour toute la communauté ultramarine.
-                Mais pour ça, Google exige <strong style="color:#fff;">12 testeurs actifs pendant 14 jours</strong>.
-                Chaque inscription compte. La tienne fait la différence.
+                Votre participation en tant que testeur permet à toute la communauté d'accéder officiellement à l'application. Rejoignez l'équipe des pionniers dès maintenant.
             </p>
-            <a href="https://play.google.com/apps/testing/com.domtomconnect.app"
-               target="_blank" rel="noopener noreferrer"
-               class="final-cta-btn" id="final-cta-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.18 23.76a2 2 0 0 0 2.06-.06l12.54-7.21-3.54-3.54-11.06 10.81zm-1.18-21v18.48l10.12-9.24L2 2.76zm18.2 7.28-3.12-1.8-3.8 3.8 3.78 3.78 3.14-1.82a2 2 0 0 0 0-3.96zM5.24.3 16.3 6.78l-3.54 3.54L5.24.3z"/>
-                </svg>
-                Devenir testeur gratuitement
+            <a href="https://play.google.com/apps/testing/com.domtomconnect.app" 
+               target="_blank" rel="noopener noreferrer" 
+               class="btn-play-primary" style="font-size: 1.15rem; padding: 18px 44px;">
+                <i class="fab fa-google-play"></i> Devenir Testeur Bêta Gratuitement
             </a>
-            <p class="final-cta-disclaimer">
-                🔒 Programme officiel Google Play · Données sécurisées par Google · Désinstallation libre à tout moment
-            </p>
+            <div style="margin-top: 24px; color: #64748b; font-size: 0.88rem;">
+                <i class="fas fa-lock"></i> Aucune carte bancaire requise · Désinstallation libre à tout moment
+            </div>
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="footer-inner">
-            <a href="/" class="footer-logo">
-                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
-                &copy; 2026 Domtom Connect
-            </a>
-            <ul class="footer-links">
-                <li><a href="/legal/privacy-pulse">Confidentialité App</a></li>
-                <li><a href="/legal/privacy">Politique de confidentialité</a></li>
-                <li><a href="mailto:domtomconnect@gmail.com">Contact</a></li>
-            </ul>
-        </div>
-    </footer>
+    <!-- Global Footer -->
+    <div id="footer-container"></div>
 
-</div>
-
-<script>
-    // Animated counter
-    const counterEl = document.getElementById('counter-num');
-    const targetNum = 2; // Update this as testers join
-    let current = 0;
-    const duration = 1500;
-    const step = targetNum / (duration / 16);
-    const timer = setInterval(() => {
-        current += step;
-        if (current >= targetNum) { current = targetNum; clearInterval(timer); }
-        counterEl.textContent = Math.floor(current);
-    }, 16);
-
-    // Screenshot carousel
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.carousel-dot');
-
-    function goToSlide(index) {
-        slides[currentSlide].classList.remove('active');
-        dots[currentSlide].classList.remove('active');
-        currentSlide = index;
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
-    }
-
-    setInterval(() => {
-        goToSlide((currentSlide + 1) % slides.length);
-    }, 2800);
-
-    // Analytics tracking
-    document.querySelectorAll('[id$="-btn"]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'beta_signup_click', { event_category: 'engagement', event_label: btn.id });
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/auth.js?v=2.0"></script>
+    <script src="assets/js/ui-components.js?v=12.00"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (window.loadGlobalNavbar) {
+                await window.loadGlobalNavbar();
+            }
+            
+            const footerContainer = document.getElementById('footer-container');
+            if (footerContainer) {
+                footerContainer.innerHTML = `
+                <footer style="background: #0f172a; color: white; padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
+                    <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                        <div style="font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 8px;">
+                            <img src="assets/images/logo-domtomconnect.png" style="width: 24px; height: 24px; border-radius: 6px;">
+                            Domtom Connect
+                        </div>
+                        <div style="display: flex; gap: 20px; font-size: 0.9rem;">
+                            <a href="/legal/privacy-pulse.html" style="color: #94a3b8; text-decoration: none;">Confidentialité DTC Pulse</a>
+                            <a href="/legal/privacy.html" style="color: #94a3b8; text-decoration: none;">Mentions Légales</a>
+                        </div>
+                        <p style="color: #64748b; font-size: 0.88rem; margin: 0;">&copy; ${new Date().getFullYear()} Domtom Connect. Tous droits réservés.</p>
+                    </div>
+                </footer>`;
             }
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
