@@ -108,24 +108,25 @@
         }
 
         .app-icon-container {
-            width: 150px;
-            height: 150px;
+            width: 140px;
+            height: 140px;
             border-radius: 32px;
-            background: #ffffff;
+            background: #000000;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             border: 1px solid var(--border-light);
             flex-shrink: 0;
             overflow: hidden;
-            padding: 12px;
+            padding: 0;
         }
 
         .app-icon-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
+            border-radius: 32px;
         }
 
         .app-details {
@@ -541,7 +542,7 @@
     <header class="store-hero">
         <div class="store-header">
             <div class="app-icon-container">
-                <img src="assets/images/logo-domtomconnect.png" alt="Logo Domtom Connect DTC Pulse">
+                <img src="assets/images/logo-pulse.png" alt="Logo Officiel DTC Pulse - Domtom Connect">
             </div>
             
             <div class="app-details">
@@ -554,17 +555,14 @@
                     <i class="fas fa-check-circle"></i> Domtom Connect Officiel
                 </div>
 
-                <!-- Quota Tracker -->
+                <!-- Info Objectif Google Play -->
                 <div class="quota-box">
                     <div class="quota-header">
-                        <span>Objectif Testeurs Requis</span>
-                        <span class="quota-val"><span id="tester-count">4</span> / 12 testeurs</span>
+                        <span><i class="fas fa-bullseye" style="color: var(--brand-green); margin-right: 6px;"></i> Objectif Google Play</span>
+                        <span class="quota-val">12 testeurs requis</span>
                     </div>
-                    <div class="quota-bar-bg">
-                        <div class="quota-bar-fill" id="quota-fill" style="width: 33%;"></div>
-                    </div>
-                    <div class="quota-hint">
-                        <i class="fas fa-info-circle"></i> Google exige 12 testeurs actifs pendant 14 jours pour ouvrir l'application au grand public.
+                    <div class="quota-hint" style="margin-top: 4px;">
+                        Google exige un minimum de 12 testeurs ayant installé l'application pendant 14 jours consécutifs pour autoriser sa sortie publique sur le Play Store.
                     </div>
                 </div>
 
