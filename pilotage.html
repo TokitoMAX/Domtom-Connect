@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domtom Connect | L'Offre de Copilotage</title>
+    <title>Offre de Copilotage Opérationnel | Domtom Connect</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Base Styles -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --funnel-bg: var(--gray-900); 
-            --funnel-surface: #1f2937;
-            --funnel-accent: var(--emerald-color);
-            --funnel-text: #ffffff;
-            --funnel-muted: #9ca3af;
+            --premium-bg: #020617;
+            --premium-surface: #0f172a;
+            --premium-card: #1e293b;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --text-muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            background-color: var(--funnel-bg);
-            color: var(--funnel-text);
-            font-family: 'Inter', sans-serif;
+            background-color: var(--premium-bg);
+            color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
+        /* Header / Nav */
         .funnel-header {
-            padding: 30px 20px;
+            padding: 24px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: rgba(17, 24, 39, 0.95);
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(15, 23, 42, 0.95);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -47,125 +48,231 @@
         .funnel-header img {
             height: 40px;
             object-fit: contain;
+            filter: brightness(0) invert(1);
         }
 
-        .hero-funnel {
-            padding: 80px 20px 60px;
+        /* Hero */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            max-width: 950px;
-            margin: 0 auto;
+            padding: 70px 20px 50px;
+            position: relative;
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
-        .badge-emerald {
-            background: rgba(16, 185, 129, 0.15); /* Emerald tint for Copilotage */
-            color: var(--funnel-accent);
+        .badge-pilotage {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
             padding: 8px 20px;
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 800;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            margin-bottom: 24px;
             display: inline-block;
-            margin-bottom: 30px;
         }
 
-        .hero-funnel h1 {
-            font-size: clamp(2.2rem, 5vw, 4rem);
-            font-weight: 900;
+        h1 {
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            font-weight: 950;
             line-height: 1.15;
+            letter-spacing: -0.04em;
             margin-bottom: 24px;
-            letter-spacing: -0.03em;
+            max-width: 920px;
             color: #ffffff;
         }
 
-        .hero-funnel p {
-            font-size: 1.25rem;
-            color: var(--funnel-muted);
-            line-height: 1.6;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
+        .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            max-width: 760px;
+            line-height: 1.65;
+            margin: 0 auto 36px auto;
         }
 
-        .cta-funnel {
-            background: var(--funnel-accent);
-            color: #ffffff !important;
-            font-size: 1.25rem;
-            font-weight: 800;
-            padding: 20px 50px;
-            border-radius: 12px;
-            text-decoration: none;
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 18px 36px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
             border: none;
             cursor: pointer;
         }
 
-        .cta-funnel:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
-            background: #059669;
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background: var(--accent-hover);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
         }
 
-        /* Features Grid */
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 32px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Container */
+        .section-container {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 3 Columns Grid */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 60px auto 40px;
-            padding: 0 20px;
-            text-align: left;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
         .feature-card {
-            background: var(--funnel-surface);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 40px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-subtle);
             border-radius: 24px;
-            transition: transform 0.3s;
+            padding: 32px;
+            transition: all 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: var(--accent);
+            transform: translateY(-4px);
         }
 
-        .feature-card i {
-            font-size: 2rem;
-            color: var(--funnel-accent);
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .feature-card h3 {
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
             font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
             font-weight: 800;
-            margin-bottom: 12px;
             color: #ffffff;
+            margin-bottom: 12px;
         }
 
-        .feature-card p {
-            color: var(--funnel-muted);
+        .feature-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
             line-height: 1.6;
-            font-size: 1.05rem;
-            margin: 0;
         }
 
-        .pricing-section {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 24px;
+        /* Two columns target */
+        .target-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
             padding: 40px;
+            margin-top: 40px;
+        }
+
+        .target-col h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .target-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .target-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .target-item strong {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Pricing Box */
+        .pricing-card {
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 32px;
+            padding: 50px 30px;
             max-width: 800px;
-            margin: 0 auto 80px;
+            margin: 0 auto;
             text-align: center;
         }
     </style>
@@ -174,140 +281,156 @@
 
     <header class="funnel-header">
         <a href="index.html">
-            <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect Logo">
+            <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
         </a>
     </header>
 
-    <main>
-        <section class="hero-funnel">
-            <div class="badge-emerald">Notre Offre Premium</div>
-            <h1>Vous avez la vision. <br><span style="color: #10b981;">Nous gérons l'exécution.</span></h1>
-            <p>Le Copilotage n'est pas un simple accompagnement 1-to-1. Nous devenons votre <strong>associé opérationnel externalisé</strong>. Nous mettons les mains dans le cambouis pour structurer votre tech, vos process et vos tunnels de vente, pendant que vous vous concentrez sur votre cœur de métier.</p>
-        </section>
+    <!-- Hero -->
+    <header class="hero">
+        <div class="badge-pilotage">Bras Droit Opérationnel à la Demande</div>
+        
+        <h1>Concentrez-vous sur vos ventes. <br><span style="color: var(--accent);">Nous gérons les blocages opérationnels.</span></h1>
+        
+        <p class="subtitle">
+            Gérer un site web, produire du contenu, configurer des outils ou relancer des prestataires consomme votre temps et votre énergie. Nous intervenons comme votre bras droit opérationnel pour régler ces frictions et vous permettre de développer votre chiffre d'affaires.
+        </p>
 
-        <section class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-tools"></i>
-                <h3>Exécution Technique</h3>
-                <p>Vous détestez la technique ? Nous mettons en place vos outils, vos automatisations, et vos tunnels de conversion de A à Z.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-chess-knight"></i>
-                <h3>Stratégie & Implémentation</h3>
-                <p>On ne se contente pas de vous donner des conseils. On s'intègre à votre projet pour résoudre les problèmes profonds qui freinent votre croissance.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-hourglass-half"></i>
-                <h3>Gain de Temps Massif</h3>
-                <p>Ne passez plus vos nuits sur des tâches chronophages. Déléguez l'exécution à des experts qui connaissent les réalités de votre marché.</p>
-            </div>
-        </section>
-
-        <!-- NOUVELLE SECTION : CIBLAGE -->
-        <section style="max-width: 1000px; margin: 0 auto 80px; padding: 0 20px;">
-            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(30, 41, 59, 0.5) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
-                
-                <div>
-                    <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; color: #ffffff;">À qui s'adresse ce <span style="color: var(--funnel-accent);">Copilotage</span> ?</h2>
-                    <p style="color: var(--funnel-muted); line-height: 1.6; margin-bottom: 30px; font-size: 1.1rem;">
-                        Nous n'accompagnons pas tout le monde. Pour garantir des résultats massifs, nous sélectionnons nos partenaires opérationnels sur des critères stricts.
-                    </p>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px;">
-                            <i class="fas fa-check-circle" style="color: var(--funnel-accent); margin-top: 4px;"></i>
-                            <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 4px;">Entreprises en Croissance</strong>
-                                <span style="color: #94a3b8; font-size: 0.95rem;">Vous générez déjà des revenus réguliers ou disposez d'un budget d'investissement. Vous avez un produit qui fonctionne, mais vous bloquez sur le passage à l'échelle (Scaling).</span>
-                            </div>
-                        </li>
-                        <li style="margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px;">
-                            <i class="fas fa-check-circle" style="color: var(--funnel-accent); margin-top: 4px;"></i>
-                            <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 4px;">Startups & PME Ambitieuses</strong>
-                                <span style="color: #94a3b8; font-size: 0.95rem;">Vous visez un marché national ou international depuis la Diaspora, les Antilles ou la Guyane, et vous avez besoin d'une infrastructure tech solide.</span>
-                            </div>
-                        </li>
-                        <li style="display: flex; align-items: flex-start; gap: 12px;">
-                            <i class="fas fa-check-circle" style="color: var(--funnel-accent); margin-top: 4px;"></i>
-                            <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 4px;">Besoin d'un Partenaire Stratégique & Technique</strong>
-                                <span style="color: #94a3b8; font-size: 0.95rem;">L'objectif n'est pas de vous vendre des concepts abstraits, mais de comprendre précisément vos besoins et de construire avec vous l'infrastructure qui soutiendra votre vision.</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 20px; padding: 30px;">
-                    <h3 style="color: #ef4444; font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-times-circle"></i> Ce n'est PAS pour vous si :
-                    </h3>
-                    <ul style="list-style: none; padding: 0; margin: 0; color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">
-                        <li style="margin-bottom: 12px;">❌ Vous en êtes au simple stade de "l'idée" sans avoir validé votre marché. (Rejoignez plutôt gratuitement notre réseau communautaire).</li>
-                        <li style="margin-bottom: 12px;">❌ Vous avez un projet naissant mais n'avez pas le budget pour du sur-mesure. (Découvrez plutôt notre programme <a href="tremplin.html" style="color: #10b981; font-weight: 600;">Tremplin</a> conçu pour accélérer vos premières ventes).</li>
-                        <li>❌ Vous cherchez juste un exécutant aveugle pour appliquer des ordres sans aucune réflexion stratégique.</li>
-                    </ul>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- NOUVELLE SECTION : ROI / BÉNÉFICES -->
-        <section style="text-align: center; max-width: 800px; margin: 0 auto 100px; padding: 0 20px;">
-            <h2 style="font-size: 2.2rem; font-weight: 900; margin-bottom: 20px; color: #ffffff;">Le Bénéfice pour votre Entreprise</h2>
-            <p style="color: var(--funnel-muted); font-size: 1.15rem; line-height: 1.6; margin-bottom: 40px;">En nous intégrant comme vos associés opérationnels, nous mettons notre détermination et notre expertise technique au service de votre croissance.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                <div style="background: var(--funnel-surface); padding: 30px 20px; border-radius: 16px; border-top: 4px solid #3b82f6;">
-                    <div style="font-size: 2.5rem; margin-bottom: 15px;"><i class="fas fa-rocket" style="color: #3b82f6;"></i></div>
-                    <div style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin-bottom: 10px;">Exécution Rapide</div>
-                    <div style="color: #94a3b8; font-size: 0.95rem; font-weight: 500;">Ce qui vous prenait des semaines à mettre en place est structuré et exécuté sans délai.</div>
-                </div>
-                <div style="background: var(--funnel-surface); padding: 30px 20px; border-radius: 16px; border-top: 4px solid var(--funnel-accent);">
-                    <div style="font-size: 2.5rem; margin-bottom: 15px;"><i class="fas fa-brain" style="color: var(--funnel-accent);"></i></div>
-                    <div style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin-bottom: 10px;">Focus Retrouvé</div>
-                    <div style="color: #94a3b8; font-size: 0.95rem; font-weight: 500;">Ne perdez plus votre énergie sur la technique. Concentrez-vous à 100% sur vos ventes et votre produit.</div>
-                </div>
-                <div style="background: var(--funnel-surface); padding: 30px 20px; border-radius: 16px; border-top: 4px solid #8b5cf6;">
-                    <div style="font-size: 2.5rem; margin-bottom: 15px;"><i class="fas fa-handshake" style="color: #8b5cf6;"></i></div>
-                    <div style="color: #ffffff; font-size: 1.1rem; font-weight: 800; margin-bottom: 10px;">Implication Totale</div>
-                    <div style="color: #94a3b8; font-size: 0.95rem; font-weight: 500;">Nous agissons comme un véritable associé. Votre réussite devient notre priorité absolue.</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="pricing-section">
-            <h2 style="font-size: 2rem; margin-bottom: 10px; color: #ffffff;">Tarification Transparente</h2>
-            <p style="color: var(--funnel-muted); margin-bottom: 30px;">Parce que nous sommes votre associé, nous investissons notre temps dans votre réussite.</p>
-            
-            <div style="font-size: 3rem; font-weight: 900; color: #ffffff; margin-bottom: 10px;">
-                Sur devis <span style="font-size: 1.2rem; color: var(--funnel-muted); font-weight: 400;">/ selon les besoins</span>
-            </div>
-            <p style="color: var(--funnel-accent); font-weight: 600; margin-bottom: 30px;">Idéal pour les entreprises générant déjà du CA ou ayant un budget d'investissement technique.</p>
-            
-            <a href="candidature-incubateur.html" class="cta-funnel">
-                Postuler pour un Audit Gratuit
-                <i class="fas fa-arrow-right"></i>
+        <div class="cta-group">
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button">
+                Réserver un échange de cadrage (30 min) <i class="fas fa-arrow-right"></i>
             </a>
-            <p style="margin-top: 15px; font-size: 0.9rem; color: #6b7280;">L'inscription gratuite est requise pour soumettre votre dossier.</p>
-        </section>
-    </main>
+            <a href="index.html#nos-accompagnements" class="cta-secondary">
+                Voir tous nos programmes
+            </a>
+        </div>
+    </header>
+
+    <!-- 3 Domaines d'intervention -->
+    <section class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Ce que nous prenons en charge</h2>
+            <p class="section-desc">
+                Une intervention sur-mesure pour vous décharger immédiatement des tâches techniques et chronophages.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3 class="feature-title">Site Web &amp; Outils Digitaux</h3>
+                <p class="feature-text">
+                    Création, mise à jour, intégration de formulaires de contact et maintenance technique de vos plateformes sans perte de temps.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bullhorn"></i></div>
+                <h3 class="feature-title">Création de Contenu &amp; Visibilité</h3>
+                <p class="feature-text">
+                    Mise en forme de vos publications, montage de vidéos courtes et optimisation de vos visuels pour alimenter votre communication.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tasks"></i></div>
+                <h3 class="feature-title">Coordination Opérationnelle</h3>
+                <p class="feature-text">
+                    Suivi de vos prestataires, paramétrage de vos tunnels de qualification et résolution des blocages du quotidien.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- À qui s'adresse le Copilotage ? -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Pour qui est faite cette offre ?</h2>
+                <p class="section-desc">
+                    Une collaboration agile conçue pour les dirigeants qui ont besoin d'exécution rapide.
+                </p>
+            </div>
+
+            <div class="target-box">
+                <div class="target-col">
+                    <h3 style="color: var(--accent);">Idéal pour votre entreprise si</h3>
+                    <div class="target-list">
+                        <div class="target-item">
+                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+                            <div>
+                                <strong>Vous manquez de temps</strong>
+                                Vous passez trop d'heures sur des détails techniques au lieu de prospecter et de servir vos clients.
+                            </div>
+                        </div>
+                        <div class="target-item">
+                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+                            <div>
+                                <strong>Vous voulez de l'agilité</strong>
+                                Pas besoin de recruter à temps plein : vous bénéficiez d'une assistance opérationnelle à la demande.
+                            </div>
+                        </div>
+                        <div class="target-item">
+                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+                            <div>
+                                <strong>Vous avez une activité en cours</strong>
+                                Vous générez déjà des revenus ou vous lancez une offre validée nécessitant un déploiement propre.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="target-col" style="border-left: 1px solid var(--border-subtle); padding-left: 20px;">
+                    <h3 style="color: #cbd5e1;">Les bénéfices immédiats</h3>
+                    <div class="target-list">
+                        <div class="target-item">
+                            <i class="fas fa-arrow-right" style="color: var(--accent); margin-top: 4px;"></i>
+                            <div>
+                                <strong>Charge mentale réduite</strong>
+                                Vous savez que l'exécution technique et le suivi sont traités par une équipe réactive.
+                            </div>
+                        </div>
+                        <div class="target-item">
+                            <i class="fas fa-arrow-right" style="color: var(--accent); margin-top: 4px;"></i>
+                            <div>
+                                <strong>Accélération commerciale</strong>
+                                Vous consacrez 100% de votre énergie aux rendez-vous clients et à la facturation.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Next Steps -->
+    <section class="section-container">
+        <div class="pricing-card">
+            <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; margin-bottom: 14px;">Un accompagnement sur-mesure</h2>
+            <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 28px;">
+                Chaque entreprise a des besoins spécifiques. Nous dimensionnons notre intervention après un diagnostic direct de votre situation.
+            </p>
+            
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button">
+                Planifier un diagnostic stratégique offert (30 min) <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
 
     <!-- Cross-Program Navigation -->
-    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center; margin-top: 60px;">
+    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center;">
         <div style="max-width: 1000px; margin: 0 auto;">
-            <h4 style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer nos autres accompagnements Domtom Connect</h4>
+            <h4 style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer les autres accompagnements Domtom Connect</h4>
             <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
                 <a href="tremplin.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Programme Tremplin</a>
-                <a href="premium.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Accompagnement Premium 1-1</a>
                 <a href="pilotage.html" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">Offre de Copilotage</a>
+                <a href="co-fondateurs.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Création de Business à Deux</a>
                 <a href="incubateur.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">L'Incubateur</a>
-                <a href="co-fondateurs.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Business à 2 (Gratuit)</a>
                 <a href="index.html#nos-accompagnements" style="padding: 10px 20px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Voir toutes les offres</a>
             </div>
         </div>
     </div>
 
-    <!-- Pied de page -->
+    <!-- Footer -->
     <footer style="background: #020617; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.88rem;">
         <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; align-items: center;">
             <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
