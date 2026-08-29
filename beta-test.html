@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>Bêta Testeur DTC Pulse | Domtom Connect sur Google Play</title>
+    <title>Bêta Fermée DTC Pulse | Domtom Connect sur Google Play</title>
     
     <!-- SEO & Social -->
-    <meta name="description" content="Rejoignez la bêta fermée officielle de DTC Pulse sur le Google Play Store. Aidez-nous à atteindre le quota de testeurs pour lancer l'app mobile officielle de la diaspora.">
+    <meta name="description" content="Participez à la phase de bêta fermée de DTC Pulse sur le Google Play Store. Testez l'application en avant-première et rejoignez la communauté des testeurs.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://domtomconnect.com/beta-test">
     <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
@@ -16,8 +16,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://domtomconnect.com/beta-test">
-    <meta property="og:title" content="Rejoins la Bêta Officielle DTC Pulse sur Google Play 🚀">
-    <meta property="og:description" content="Découvrez DTC Pulse en avant-première sur Android. Rejoignez la communauté des bêta-testeurs officiels sur le Google Play Store.">
+    <meta property="og:title" content="Bêta Fermée DTC Pulse sur Google Play 🚀">
+    <meta property="og:description" content="Découvrez l'application mobile Domtom Connect en avant-première sur Android et participez aux tests avant la sortie publique.">
     <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-pulse.png">
     <meta property="og:locale" content="fr_FR">
 
@@ -34,28 +34,33 @@
         :root {
             --brand-green: #10b981;
             --brand-green-hover: #059669;
+            --brand-green-light: #34d399;
             --brand-green-subtle: rgba(16, 185, 129, 0.12);
             --brand-green-border: rgba(16, 185, 129, 0.3);
-            --dark-bg: #0f172a;
-            --dark-card: #1e293b;
+            --dark-bg: #0b1120;
+            --dark-card: #131d31;
+            --dark-surface: #1e293b;
+            --dark-border: rgba(255, 255, 255, 0.08);
             --white: #ffffff;
             --text-dark: #0f172a;
-            --text-muted: #64748b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
             --border-light: #e2e8f0;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f8fafc;
-            color: var(--text-dark);
+            background-color: var(--dark-bg);
+            color: var(--text-light);
             line-height: 1.6;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Top Urgency Banner */
+        /* Top Banner */
         .beta-top-banner {
-            background: #0f172a;
+            background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
             color: #ffffff;
             padding: 12px 20px;
             font-size: 0.92rem;
@@ -65,6 +70,9 @@
             gap: 12px;
             text-align: center;
             border-bottom: 2px solid var(--brand-green);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .pulse-dot {
@@ -84,634 +92,1036 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* Hero Store Section */
-        .store-hero {
-            background: #ffffff;
-            padding: 40px 20px 60px;
-            border-bottom: 1px solid var(--border-light);
+        /* Hero Section */
+        .hero-funnel-section {
+            padding: 50px 20px 80px;
+            background: radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.12) 0%, rgba(11, 17, 32, 0) 70%), #0b1120;
+            position: relative;
+            border-bottom: 1px solid var(--dark-border);
         }
 
-        .store-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 36px;
-            max-width: 1060px;
+        .hero-container {
+            max-width: 1180px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 48px;
+            align-items: center;
         }
 
-        @media (max-width: 860px) {
-            .store-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
+        @media (max-width: 960px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
         }
 
-        .app-icon-container {
-            width: 140px;
-            height: 140px;
-            border-radius: 32px;
-            background: #000000;
+        /* Left Side: Pitch */
+        .hero-pitch {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border: 1px solid var(--border-light);
-            flex-shrink: 0;
-            overflow: hidden;
-            padding: 0;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .app-icon-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 32px;
-        }
-
-        .app-details {
-            flex-grow: 1;
-        }
-
-        .badge-beta {
+        .badge-beta-exclusive {
             background: var(--brand-green-subtle);
-            color: var(--brand-green);
+            color: var(--brand-green-light);
             border: 1px solid var(--brand-green-border);
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 100px;
             font-weight: 800;
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 14px;
+            gap: 8px;
+            width: fit-content;
         }
 
-        .app-title {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 900;
-            color: #0f172a;
+        .hero-app-identity {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 6px;
+        }
+
+        .app-icon-box {
+            width: 84px;
+            height: 84px;
+            border-radius: 22px;
+            background: #000000;
+            border: 2px solid var(--brand-green-border);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .app-icon-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0 0 6px 0;
-            line-height: 1.1;
+            font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+            margin: 0;
         }
 
-        .app-developer {
-            font-size: 1.15rem;
-            color: var(--brand-green);
-            font-weight: 700;
-            margin-bottom: 20px;
+        .hero-title .highlight {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.08rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Context Box */
+        .info-box-context {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--dark-border);
+            border-left: 4px solid var(--brand-green);
+            border-radius: 16px;
+            padding: 18px 22px;
+        }
+
+        .info-box-title {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        @media (max-width: 860px) {
-            .app-developer { justify-content: center; }
-        }
-
-        /* Quota Tracker */
-        .quota-box {
-            background: #f1f5f9;
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            max-width: 580px;
-        }
-
-        @media (max-width: 860px) {
-            .quota-box { margin-left: auto; margin-right: auto; text-align: left; }
-        }
-
-        .quota-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #ffffff;
             margin-bottom: 8px;
         }
 
-        .quota-val {
-            color: var(--brand-green);
-            font-weight: 900;
-            font-size: 1.1rem;
+        .info-box-desc {
+            font-size: 0.88rem;
+            color: #94a3b8;
+            line-height: 1.55;
         }
 
-        .quota-bar-bg {
-            width: 100%;
-            height: 10px;
-            background: #e2e8f0;
-            border-radius: 100px;
-            overflow: hidden;
+        /* Privileges List */
+        .privileges-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .quota-bar-fill {
-            width: 35%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--brand-green), #059669);
-            border-radius: 100px;
-            transition: width 1s ease-in-out;
-        }
-
-        .quota-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-        }
-
-        /* Action Buttons */
-        .store-actions {
+        .privilege-item {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        @media (max-width: 860px) {
-            .store-actions { justify-content: center; }
-        }
-
-        .btn-play-primary {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             gap: 12px;
-            background: var(--brand-green);
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 1.05rem;
-            padding: 16px 36px;
-            border-radius: 100px;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
-            border: none;
-            cursor: pointer;
+            font-size: 0.95rem;
+            color: #e2e8f0;
         }
 
-        .btn-play-primary:hover {
-            background: var(--brand-green-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
-            color: #ffffff;
-        }
-
-        .btn-whatsapp {
-            display: inline-flex;
+        .privilege-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--brand-green-subtle);
+            color: var(--brand-green);
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background: #ffffff;
-            color: #25D366;
-            border: 2px solid #25D366;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* Right Side: Form Card */
+        .funnel-card-wrapper {
+            position: relative;
+        }
+
+        .funnel-card-glow {
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--brand-green), rgba(59, 130, 246, 0.4), var(--brand-green));
+            border-radius: 26px;
+            filter: blur(14px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .funnel-card {
+            position: relative;
+            z-index: 1;
+            background: #131d31;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 36px 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        @media (max-width: 540px) {
+            .funnel-card {
+                padding: 26px 20px;
+            }
+        }
+
+        .funnel-card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 6px 0;
+        }
+
+        .funnel-card-subtitle {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            margin: 0 0 24px 0;
+            line-height: 1.5;
+        }
+
+        .form-group-vip {
+            margin-bottom: 18px;
+        }
+
+        .form-label-vip {
+            display: block;
             font-weight: 700;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+        }
+
+        .form-input-vip, .form-select-vip {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
-            padding: 14px 24px;
-            border-radius: 100px;
-            text-decoration: none;
+            box-sizing: border-box;
             transition: all 0.25s ease;
         }
 
-        .btn-whatsapp:hover {
-            background: #25D366;
-            color: #ffffff;
-            transform: translateY(-2px);
+        .form-input-vip:focus, .form-select-vip:focus {
+            outline: none;
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            background: rgba(15, 23, 42, 0.95);
         }
 
-        .app-meta {
+        .form-select-vip option {
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .play-email-hint {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px dashed var(--brand-green-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            color: #6ee7b7;
+            margin-top: 6px;
             display: flex;
-            gap: 20px;
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            font-weight: 600;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.4;
+        }
+
+        .form-checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0 24px;
+            font-size: 0.84rem;
+            color: #94a3b8;
+            line-height: 1.45;
+        }
+
+        .form-checkbox-group input {
+            margin-top: 3px;
+            accent-color: var(--brand-green);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .btn-submit-funnel {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 100px;
+            padding: 16px 24px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-submit-funnel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(16, 185, 129, 0.55);
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+        }
+
+        .btn-submit-funnel:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .funnel-guarantees {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-top: 18px;
+            font-size: 0.78rem;
+            color: #64748b;
             flex-wrap: wrap;
         }
 
-        @media (max-width: 860px) {
-            .app-meta { justify-content: center; }
+        .funnel-guarantees span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .meta-item { display: flex; align-items: center; gap: 6px; }
-
-        /* Screenshots Section */
-        .screenshots-section {
-            padding: 60px 20px;
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-light);
+        /* Success & Onboarding State */
+        .vip-success-container {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.4s ease forwards;
         }
 
-        .section-container {
-            max-width: 1060px;
-            margin: 0 auto;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .section-title {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #0f172a;
-            margin-bottom: 10px;
+        .success-badge-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid var(--brand-green);
+            color: var(--brand-green);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 16px;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .vip-success-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 10px 0;
         }
 
-        .section-subtitle {
-            color: var(--text-muted);
+        .vip-success-desc {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .vip-steps-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .vip-step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .vip-step-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--brand-green);
+            color: #0f172a;
+            font-weight: 900;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .vip-step-text {
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            line-height: 1.45;
+        }
+
+        .vip-step-text strong {
+            color: #ffffff;
+        }
+
+        .success-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-whatsapp-vip {
+            background: #25D366;
+            color: #ffffff;
+            font-weight: 800;
             font-size: 1rem;
-            margin-bottom: 32px;
+            padding: 14px 20px;
+            border-radius: 100px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+            transition: all 0.25s ease;
         }
 
-        .screenshots-grid {
+        .btn-whatsapp-vip:hover {
+            background: #20bd5a;
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        .btn-play-vip {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 13px 20px;
+            border-radius: 100px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-play-vip:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        /* Screenshots Showcase Section */
+        .showcase-section {
+            padding: 80px 20px;
+            background: #0f172a;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            color: var(--brand-green-light);
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .section-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 14px 0;
+            line-height: 1.2;
+        }
+
+        .section-lead {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .mockups-grid {
+            max-width: 1100px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 28px;
+            gap: 32px;
             justify-items: center;
         }
 
-        @media (max-width: 860px) {
-            .screenshots-grid {
+        @media (max-width: 900px) {
+            .mockups-grid {
                 display: flex;
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
-                padding-bottom: 20px;
+                padding-bottom: 24px;
                 gap: 20px;
                 justify-items: unset;
                 -webkit-overflow-scrolling: touch;
             }
         }
 
-        .phone-mockup-wrapper {
+        .phone-frame {
             width: 100%;
-            max-width: 310px;
+            max-width: 320px;
             background: #000000;
-            border: 10px solid #0f172a;
-            border-radius: 36px;
-            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+            border: 10px solid #1e293b;
+            border-radius: 40px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
             overflow: hidden;
             position: relative;
             flex-shrink: 0;
             scroll-snap-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .phone-mockup-wrapper:hover {
-            transform: translateY(-6px);
+        .phone-frame:hover {
+            transform: translateY(-8px);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 30px 70px rgba(16, 185, 129, 0.2);
         }
 
-        .phone-mockup-wrapper img {
+        .phone-frame img {
             width: 100%;
             height: auto;
             display: block;
             object-fit: cover;
         }
 
-        .screenshot-caption {
-            padding: 14px 16px;
-            background: #0f172a;
+        .frame-caption {
+            padding: 16px 18px;
+            background: #1e293b;
             color: #ffffff;
-            font-size: 0.88rem;
+            font-size: 0.92rem;
             font-weight: 700;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* How it works */
-        .steps-section {
-            padding: 70px 20px;
-            background: #f8fafc;
+        /* Features Grid */
+        .features-grid-section {
+            padding: 80px 20px;
+            background: #0b1120;
+            border-bottom: 1px solid var(--dark-border);
         }
 
-        .steps-grid {
+        .features-cards-grid {
+            max-width: 1100px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            margin-top: 36px;
         }
 
         @media (max-width: 860px) {
-            .steps-grid { grid-template-columns: 1fr; }
+            .features-cards-grid { grid-template-columns: 1fr; }
         }
 
-        .step-card {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
+        .feature-card-vip {
+            background: #131d31;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 32px 24px;
-            position: relative;
+            padding: 30px 24px;
             transition: all 0.3s ease;
         }
 
-        .step-card:hover {
-            border-color: var(--brand-green);
-            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.08);
-            transform: translateY(-3px);
+        .feature-card-vip:hover {
+            border-color: var(--brand-green-border);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
-        .step-num-badge {
-            width: 44px;
-            height: 44px;
-            background: #0f172a;
-            color: #ffffff;
-            border-radius: 12px;
+        .feature-vip-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--brand-green-subtle);
+            color: var(--brand-green);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 900;
+            font-size: 1.4rem;
             margin-bottom: 20px;
         }
 
-        .step-card:nth-child(1) .step-num-badge { background: var(--brand-green); }
-
-        .step-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 10px;
+        .feature-vip-title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .step-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Features List */
-        .features-section {
-            padding: 70px 20px;
-            background: #ffffff;
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 32px;
-        }
-
-        @media (max-width: 860px) {
-            .features-grid { grid-template-columns: 1fr; }
-        }
-
-        .feature-box {
-            padding: 24px;
-            border-radius: 16px;
-            background: #f8fafc;
-            border: 1px solid var(--border-light);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--brand-green-subtle);
-            color: var(--brand-green);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            margin-bottom: 16px;
-        }
-
-        .feature-name {
-            font-size: 1.1rem;
+            font-size: 1.18rem;
             font-weight: 800;
-            color: #0f172a;
-            margin-bottom: 8px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .feature-text {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        /* CTA Box */
-        .final-cta-section {
-            padding: 80px 20px;
-            background: #0f172a;
             color: #ffffff;
-            text-align: center;
+            margin: 0 0 10px 0;
         }
 
-        .final-cta-card {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 32px;
-            padding: 50px 30px;
-        }
-
-        .final-cta-title {
-            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-            font-weight: 900;
-            margin-bottom: 16px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .final-cta-sub {
+        .feature-vip-text {
             color: #94a3b8;
-            font-size: 1.05rem;
-            max-width: 600px;
-            margin: 0 auto 32px;
-            line-height: 1.7;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 20px;
+            background: #0b1120;
+        }
+
+        .faq-container {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .faq-item {
+            background: #131d31;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .faq-item.active {
+            border-color: var(--brand-green-border);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .faq-icon {
+            color: var(--brand-green);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px 22px;
+            color: #94a3b8;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Admin Helper */
+        .admin-helper-bar {
+            background: #050b14;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 20px;
+            font-size: 0.82rem;
+            color: #64748b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-admin-copy {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-admin-copy:hover {
+            background: var(--brand-green);
+            color: #0f172a;
+            border-color: var(--brand-green);
         }
     </style>
 </head>
 <body>
 
-    <!-- Urgent Top Notification -->
+    <!-- Top Banner -->
     <div class="beta-top-banner">
         <span class="pulse-dot"></span>
-        <span><strong>Programme Bêta Google Play</strong> : Nous recrutons les 12 testeurs indispensables pour la validation et publication officielle de DTC Pulse.</span>
+        <span><strong>Bêta Fermée Google Play</strong> : Inscription officielle des testeurs pour valider la période de test de l'application DTC Pulse.</span>
     </div>
 
     <!-- Navigation Header -->
     <nav class="navbar"></nav>
 
-    <!-- Main Store Header -->
-    <header class="store-hero">
-        <div class="store-header">
-            <div class="app-icon-container">
-                <img src="assets/images/logo-pulse.png" alt="Logo Officiel DTC Pulse - Domtom Connect">
-            </div>
+    <!-- Main Hero & Acquisition Section -->
+    <header class="hero-funnel-section">
+        <div class="hero-container">
             
-            <div class="app-details">
-                <div class="badge-beta">
-                    <i class="fab fa-google-play"></i> Bêta Fermée Officielle · Android
+            <!-- Left Column: App Identity & Context -->
+            <div class="hero-pitch">
+                <div class="badge-beta-exclusive">
+                    <i class="fab fa-google-play"></i> Programme Officiel · Bêta Fermée Android
                 </div>
                 
-                <h1 class="app-title">DTC Pulse</h1>
-                <div class="app-developer">
-                    <i class="fas fa-check-circle"></i> Domtom Connect Officiel
-                </div>
-
-                <!-- Info Objectif Google Play -->
-                <div class="quota-box">
-                    <div class="quota-header">
-                        <span><i class="fas fa-bullseye" style="color: var(--brand-green); margin-right: 6px;"></i> Objectif Google Play</span>
-                        <span class="quota-val">12 testeurs requis</span>
+                <div class="hero-app-identity">
+                    <div class="app-icon-box">
+                        <img src="assets/images/logo-pulse.png" alt="Logo Officiel DTC Pulse">
                     </div>
-                    <div class="quota-hint" style="margin-top: 4px;">
-                        Google exige un minimum de 12 testeurs ayant installé l'application pendant 14 jours consécutifs pour autoriser sa sortie publique sur le Play Store.
+                    <div>
+                        <h1 class="hero-title">DTC <span class="highlight">Pulse</span></h1>
+                        <div style="color: var(--brand-green-light); font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-check-circle"></i> Par Domtom Connect
+                        </div>
                     </div>
                 </div>
 
-                <!-- CTAs -->
-                <div class="store-actions">
-                    <a href="https://play.google.com/apps/testing/com.domtomconnect.app" 
-                       target="_blank" rel="noopener noreferrer" 
-                       class="btn-play-primary" id="main-beta-btn">
-                        <i class="fab fa-google-play"></i> Rejoindre la Bêta sur Google Play
-                    </a>
-                    
-                    <a href="https://wa.me/?text=Rejoins%20la%20b%C3%AAta%20ferm%C3%A9e%20de%20DTC%20Pulse%20sur%20Google%20Play%20%F0%9F%8C%B4%20%E2%86%92%20https%3A%2F%2Fdomtomconnect.com%2Fbeta-test" 
-                       target="_blank" rel="noopener noreferrer" 
-                       class="btn-whatsapp">
-                        <i class="fab fa-whatsapp"></i> Partager aux contacts
-                    </a>
+                <p class="hero-sub">
+                    L'application mobile tout-en-un conçue pour <strong>connecter et valoriser les entrepreneurs, commerces et talents</strong> d'Outre-Mer et de la Diaspora (Guadeloupe, Martinique, Guyane, Réunion, Mayotte, Pacifique & Métropole).
+                </p>
+
+                <!-- Context Box -->
+                <div class="info-box-context">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle" style="color: var(--brand-green);"></i>
+                        <span>Fonctionnement de la Bêta Fermée Google Play</span>
+                    </div>
+                    <div class="info-box-desc">
+                        Google Play exige que les testeurs soient enregistrés avec leur adresse e-mail pour pouvoir installer l'application et participer aux tests pendant la période de validation requise.
+                    </div>
                 </div>
 
-                <div class="app-meta">
-                    <div class="meta-item"><i class="fas fa-shield-alt" style="color: var(--brand-green);"></i> Validé par Google Play</div>
-                    <div class="meta-item"><i class="fas fa-mobile-alt"></i> Android 8.0+</div>
-                    <div class="meta-item"><i class="fas fa-tag"></i> 100% Gratuit</div>
-                    <div class="meta-item"><i class="fas fa-users"></i> Communauté Ultramarine</div>
+                <!-- Features List -->
+                <div class="privileges-list">
+                    <div class="privilege-item">
+                        <div class="privilege-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <span><strong>Découverte en avant-première</strong> de l'application mobile et de ses fonctionnalités.</span>
+                    </div>
+                    <div class="privilege-item">
+                        <div class="privilege-icon"><i class="fab fa-whatsapp"></i></div>
+                        <span><strong>Accès direct au Groupe WhatsApp</strong> des testeurs pour échanger et faire vos retours.</span>
+                    </div>
+                    <div class="privilege-item">
+                        <div class="privilege-icon"><i class="fas fa-users"></i></div>
+                        <span><strong>Participez activement</strong> au lancement officiel de la plateforme pour la communauté.</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Right Column: Registration Card -->
+            <div class="funnel-card-wrapper">
+                <div class="funnel-card-glow"></div>
+                <div class="funnel-card" id="funnelCard">
+                    
+                    <!-- Form State -->
+                    <div id="betaFormContainer">
+                        <h2 class="funnel-card-title">🚀 Rejoindre la Bêta</h2>
+                        <p class="funnel-card-subtitle">Renseignez votre e-mail Google Play pour autoriser votre compte à installer l'application.</p>
+
+                        <form id="betaSignupForm" novalidate>
+                            <div class="form-group-vip">
+                                <label class="form-label-vip" for="betaName">Votre Prénom & Nom *</label>
+                                <input type="text" id="betaName" class="form-input-vip" placeholder="Ex: Alex Daniel" required>
+                            </div>
+
+                            <div class="form-group-vip">
+                                <label class="form-label-vip" for="betaEmail">Adresse e-mail de votre Google Play Store *</label>
+                                <input type="email" id="betaEmail" class="form-input-vip" placeholder="votrecompte@gmail.com" required>
+                                <div class="play-email-hint">
+                                    <i class="fas fa-info-circle" style="margin-top: 2px;"></i>
+                                    <span><strong>Important :</strong> Indiquez l'e-mail lié à votre compte Google Play sur votre smartphone Android afin que Google autorise votre accès.</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group-vip">
+                                <label class="form-label-vip" for="betaTerritory">Votre Territoire / Région *</label>
+                                <select id="betaTerritory" class="form-select-vip" required>
+                                    <option value="" disabled selected>Sélectionnez votre territoire...</option>
+                                    <option value="Guadeloupe">Guadeloupe (971)</option>
+                                    <option value="Martinique">Martinique (972)</option>
+                                    <option value="Guyane">Guyane (973)</option>
+                                    <option value="La Réunion">La Réunion (974)</option>
+                                    <option value="Mayotte">Mayotte (976)</option>
+                                    <option value="Polynésie française">Polynésie française (987)</option>
+                                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie (988)</option>
+                                    <option value="Saint-Martin / Saint-Barthélemy">Saint-Martin / Saint-Barthélemy</option>
+                                    <option value="France Métropolitaine">France Métropolitaine</option>
+                                    <option value="Diaspora Internationale">Diaspora Internationale</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group-vip">
+                                <label class="form-label-vip" for="betaPhone">Numéro WhatsApp (Optionnel)</label>
+                                <input type="tel" id="betaPhone" class="form-input-vip" placeholder="+33 6 ... ou +590 690 ...">
+                            </div>
+
+                            <div class="form-checkbox-group">
+                                <input type="checkbox" id="betaCommitment" checked required>
+                                <label for="betaCommitment">
+                                    Je souhaite participer au test de l'application sur mon smartphone Android pendant la période de bêta.
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit-funnel" id="btnSubmit">
+                                <span>🚀 Valider mon Inscription</span>
+                            </button>
+
+                            <div id="formError" style="display: none; color: #f87171; font-size: 0.85rem; margin-top: 12px; text-align: center;"></div>
+
+                            <div class="funnel-guarantees">
+                                <span><i class="fas fa-shield-alt" style="color: var(--brand-green);"></i> 100% Gratuit</span>
+                                <span><i class="fas fa-lock" style="color: var(--brand-green);"></i> Données protégées</span>
+                                <span><i class="fas fa-times-circle" style="color: var(--brand-green);"></i> Sans engagement</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Success State / Onboarding -->
+                    <div id="betaSuccessContainer" class="vip-success-container">
+                        <div class="success-badge-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2 class="vip-success-title">Inscription Confirmée ! 🎉</h2>
+                        <p class="vip-success-desc">
+                            Votre demande a été enregistrée pour l'adresse <strong id="confirmedEmail" style="color: var(--brand-green-light);">votre e-mail</strong>.
+                        </p>
+
+                        <div class="vip-steps-card">
+                            <div class="vip-step-row">
+                                <div class="vip-step-badge">1</div>
+                                <div class="vip-step-text">
+                                    <strong>Ajout sur Google Play Console</strong><br>
+                                    Votre e-mail est ajouté à la liste des testeurs autorisés sur le Play Store.
+                                </div>
+                            </div>
+
+                            <div class="vip-step-row">
+                                <div class="vip-step-badge">2</div>
+                                <div class="vip-step-text">
+                                    <strong>Rejoignez le Groupe WhatsApp Officiel</strong><br>
+                                    Échangez avec l'équipe, posez vos questions et soyez prévenu dès l'ouverture des mises à jour.
+                                </div>
+                            </div>
+
+                            <div class="vip-step-row">
+                                <div class="vip-step-badge">3</div>
+                                <div class="vip-step-text">
+                                    <strong>Téléchargez l'application</strong><br>
+                                    Accédez au lien Google Play Store pour installer l'application sur votre smartphone.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="success-actions">
+                            <a href="https://chat.whatsapp.com/LrswfwAf9xWK7PtlXsOHJE" id="whatsappGroupBtn" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-vip">
+                                <i class="fab fa-whatsapp"></i> Rejoindre le Groupe WhatsApp des Testeurs
+                            </a>
+
+                            <a href="https://play.google.com/apps/testing/com.domtomconnect.app" target="_blank" rel="noopener noreferrer" class="btn-play-vip" id="playStoreLinkBtn">
+                                <i class="fab fa-google-play"></i> Ouvrir la page Google Play Store
+                            </a>
+                        </div>
+
+                        <div style="margin-top: 18px; font-size: 0.82rem; color: #94a3b8;">
+                            <i class="fas fa-info-circle"></i> <em>Remarque : Si Google Play affiche temporairement "Application non disponible", attendez que votre e-mail soit synchronisé sur la console.</em>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <!-- App Screenshots Preview (Real Screenshots) -->
-    <section class="screenshots-section">
-        <div class="section-container">
-            <h2 class="section-title">Aperçu Réel de l'Application</h2>
-            <p class="section-subtitle">Découvrez l'interface de DTC Pulse telle qu'elle apparaîtra sur votre smartphone.</p>
-            
-            <div class="screenshots-grid">
-                <!-- Screen 1 : Accueil -->
-                <div class="phone-mockup-wrapper">
-                    <img src="assets/images/screenshots/screen1.png" alt="Écran d'accueil DTC Pulse - L'ambition n'a plus de frontières">
-                    <div class="screenshot-caption">1. Accueil & Connexion Réseau</div>
-                </div>
+    <!-- App Screenshots Preview -->
+    <section class="showcase-section">
+        <div class="section-header">
+            <span class="section-tag">Aperçu Mobile</span>
+            <h2 class="section-heading">Découvrez l'Application</h2>
+            <p class="section-lead">Interface réelle de DTC Pulse sur smartphone Android.</p>
+        </div>
 
-                <!-- Screen 2 : Publication -->
-                <div class="phone-mockup-wrapper">
-                    <img src="assets/images/screenshots/screen2.png" alt="Créer une publication, stories et pitch avec IA">
-                    <div class="screenshot-caption">2. Création, Stories & IA</div>
-                </div>
+        <div class="mockups-grid">
+            <!-- Screen 1 -->
+            <div class="phone-frame">
+                <img src="assets/images/screenshots/screen1.png" alt="Écran d'accueil DTC Pulse - Connexion Réseau">
+                <div class="frame-caption"><i class="fas fa-home" style="color: var(--brand-green);"></i> 1. Accueil & Connexion Réseau</div>
+            </div>
 
-                <!-- Screen 3 : DTC Map -->
-                <div class="phone-mockup-wrapper">
-                    <img src="assets/images/screenshots/screen3.png" alt="DTC Map LIVE - Réseau des commerçants DOM-TOM & Diaspora">
-                    <div class="screenshot-caption">3. DTC Map Live & Commerces</div>
+            <!-- Screen 2 -->
+            <div class="phone-frame">
+                <img src="assets/images/screenshots/screen2.png" alt="Créer une publication, stories et pitch IA">
+                <div class="frame-caption"><i class="fas fa-wand-magic-sparkles" style="color: var(--brand-green);"></i> 2. Stories, Pitch & Assistant IA</div>
+            </div>
+
+            <!-- Screen 3 -->
+            <div class="phone-frame">
+                <img src="assets/images/screenshots/screen3.png" alt="DTC Map LIVE - Réseau des commerçants Outre-Mer">
+                <div class="frame-caption"><i class="fas fa-map-marked-alt" style="color: var(--brand-green);"></i> 3. DTC Map Live & Commerces</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features-grid-section">
+        <div class="section-header">
+            <span class="section-tag">Fonctionnalités</span>
+            <h2 class="section-heading">Les Outils Disponibles sur DTC Pulse</h2>
+            <p class="section-lead">Tout l'écosystème Domtom Connect accessible depuis votre mobile.</p>
+        </div>
+
+        <div class="features-cards-grid">
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-newspaper"></i></div>
+                <h3 class="feature-vip-title">Fil d'Actualités & Stories</h3>
+                <p class="feature-vip-text">Partagez vos actualités, publiez des stories et suivez les projets des membres de la communauté.</p>
+            </div>
+
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-map-location-dot"></i></div>
+                <h3 class="feature-vip-title">DTC Map Live</h3>
+                <p class="feature-vip-text">Localisez les commerces, prestataires et contacts d'Outre-Mer et de la Diaspora.</p>
+            </div>
+
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="feature-vip-title">Assistant IA Intégré</h3>
+                <p class="feature-vip-text">Bénéficiez d'une assistance pour rédiger vos publications et structurer vos présentations de projets.</p>
+            </div>
+
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-microphone-lines"></i></div>
+                <h3 class="feature-vip-title">Messagerie Directe & Vocaux</h3>
+                <p class="feature-vip-text">Échangez facilement avec les membres et partenaires par message texte ou vocal.</p>
+            </div>
+
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-store"></i></div>
+                <h3 class="feature-vip-title">Vitrines & Produits</h3>
+                <p class="feature-vip-text">Découvrez les offres, services et produits des entrepreneurs de la communauté.</p>
+            </div>
+
+            <div class="feature-card-vip">
+                <div class="feature-vip-icon"><i class="fas fa-globe-americas"></i></div>
+                <h3 class="feature-vip-title">Réseau Diaspora</h3>
+                <p class="feature-vip-text">Un espace d'échange rassemblant la métropole, les Antilles, la Guyane, la Réunion, Mayotte et le Pacifique.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="section-header">
+            <span class="section-tag">Questions Fréquentes</span>
+            <h2 class="section-heading">Informations sur la Bêta</h2>
+            <p class="section-lead">Réponses aux questions courantes sur le déroulement du test fermé.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <span>Pourquoi dois-je renseigner mon e-mail Google Play Store ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Dans une phase de test fermé sur Google Play, seuls les comptes Google préalablement ajoutés à la liste de testeurs ont l'autorisation de télécharger l'application. Votre e-mail permet de vous autoriser sur la Google Play Console.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>L'application est-elle gratuite ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Oui, l'accès et le téléchargement de la version bêta sont entièrement gratuits.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Comment rejoindre le groupe WhatsApp des testeurs ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Après avoir rempli le formulaire, vous accédez directement au lien d'invitation pour rejoindre le groupe WhatsApp officiel des testeurs.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Puis-je désinstaller l'application quand je le souhaite ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    Oui, vous êtes totalement libre de désinstaller l'application à tout moment depuis votre smartphone Android.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quels sont les smartphones compatibles ?</span>
+                    <i class="fas fa-chevron-down faq-icon"></i>
+                </div>
+                <div class="faq-answer">
+                    L'application est compatible avec les appareils Android récents (Android 8.0 ou version ultérieure).
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3 Steps to Join -->
-    <section class="steps-section">
-        <div class="section-container">
-            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
-                <h2 class="section-title">Comment Participer au Test Bêta ?</h2>
-                <p class="section-subtitle">L'inscription prend moins de 2 minutes sur votre smartphone Android.</p>
-            </div>
-
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-num-badge">1</div>
-                    <h3 class="step-title">Cliquez sur le lien Google Play</h3>
-                    <p class="step-desc">Accédez à la page d'invitation officielle du programme de test de l'application DTC Pulse.</p>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-num-badge">2</div>
-                    <h3 class="step-title">Acceptez l'invitation</h3>
-                    <p class="step-desc">Connectez-vous avec votre compte Google et cliquez sur <strong>"Devenir testeur"</strong>. C'est instantané.</p>
-                </div>
-
-                <div class="step-card">
-                    <div class="step-num-badge">3</div>
-                    <h3 class="step-title">Téléchargez l'application</h3>
-                    <p class="step-desc">Installez DTC Pulse directement depuis le Play Store et explorez le réseau pendant 14 jours.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Features -->
-    <section class="features-section">
-        <div class="section-container">
-            <h2 class="section-title">Fonctionnalités Clés de DTC Pulse</h2>
-            <p class="section-subtitle">Tout l'écosystème Domtom Connect pensé pour votre mobile.</p>
-
-            <div class="features-grid">
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-newspaper"></i></div>
-                    <h3 class="feature-name">Fil d'Actualités & Stories</h3>
-                    <p class="feature-text">Partagez vos réussites, publiez des stories éphémères et découvrez l'actualité des porteurs de projets d'Outre-Mer.</p>
-                </div>
-
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <h3 class="feature-name">DTC Map Live</h3>
-                    <p class="feature-text">Localisez les commerçants, artisans, prestataires et opportunités de co-valisage en métropole et dans les îles.</p>
-                </div>
-
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
-                    <h3 class="feature-name">Assistant IA Intégré</h3>
-                    <p class="feature-text">Optimisez vos publications et pitchs d'entreprise grâce à notre module d'intelligence artificielle.</p>
-                </div>
-
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-microphone-alt"></i></div>
-                    <h3 class="feature-name">Messages Vocaux & Chat</h3>
-                    <p class="feature-text">Communiquez en direct avec les autres membres par messagerie instantanée texte et audio.</p>
-                </div>
-
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-store"></i></div>
-                    <h3 class="feature-name">Vitrines & Produits</h3>
-                    <p class="feature-text">Consultez les produits phares et réservez des services directement auprès des fondateurs.</p>
-                </div>
-
-                <div class="feature-box">
-                    <div class="feature-icon"><i class="fas fa-globe-americas"></i></div>
-                    <h3 class="feature-name">Réseau 100% Diaspora</h3>
-                    <p class="feature-text">Antilles, Guyane, Réunion, Mayotte, Pacifique et diaspora internationale réunis sur un espace dédié.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final Call to Action -->
-    <section class="final-cta-section">
-        <div class="final-cta-card">
-            <h2 class="final-cta-title">Aidez-nous à Ouvrir les Portes du Play Store</h2>
-            <p class="final-cta-sub">
-                Votre participation en tant que testeur permet à toute la communauté d'accéder officiellement à l'application. Rejoignez l'équipe des pionniers dès maintenant.
-            </p>
-            <a href="https://play.google.com/apps/testing/com.domtomconnect.app" 
-               target="_blank" rel="noopener noreferrer" 
-               class="btn-play-primary" style="font-size: 1.15rem; padding: 18px 44px;">
-                <i class="fab fa-google-play"></i> Devenir Testeur Bêta Gratuitement
-            </a>
-            <div style="margin-top: 24px; color: #64748b; font-size: 0.88rem;">
-                <i class="fas fa-lock"></i> Aucune carte bancaire requise · Désinstallation libre à tout moment
-            </div>
-        </div>
-    </section>
+    <!-- Discreet Admin Helper -->
+    <div class="admin-helper-bar" id="adminBar">
+        <span><i class="fas fa-user-shield"></i> Espace Admin :</span>
+        <button class="btn-admin-copy" onclick="copyTesterEmails()" id="btnCopyEmails">📋 Copier les e-mails pour Google Play</button>
+        <span id="copyFeedback" style="color: var(--brand-green); display: none;">✓ Copié !</span>
+    </div>
 
     <!-- Global Footer -->
     <div id="footer-container"></div>
@@ -719,8 +1129,154 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/auth.js?v=2.0"></script>
+    <script src="assets/js/lead-tracking.js?v=2.0"></script>
     <script src="assets/js/ui-components.js?v=12.00"></script>
+    
     <script>
+        // FAQ Accordion Interaction
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Form Submission
+        const form = document.getElementById('betaSignupForm');
+        const submitBtn = document.getElementById('btnSubmit');
+        const formError = document.getElementById('formError');
+        const formContainer = document.getElementById('betaFormContainer');
+        const successContainer = document.getElementById('betaSuccessContainer');
+
+        // Check if user already registered previously
+        const storedTester = localStorage.getItem('dtc_beta_tester');
+        if (storedTester) {
+            try {
+                const tData = JSON.parse(storedTester);
+                showSuccessState(tData.name, tData.email);
+            } catch(e) {}
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formError.style.display = 'none';
+
+            const name = document.getElementById('betaName').value.trim();
+            const email = document.getElementById('betaEmail').value.trim().toLowerCase();
+            const territory = document.getElementById('betaTerritory').value;
+            const phone = document.getElementById('betaPhone').value.trim();
+            const commitment = document.getElementById('betaCommitment').checked;
+
+            if (!name || !email || !territory) {
+                formError.textContent = "Veuillez remplir tous les champs obligatoires (*).";
+                formError.style.display = 'block';
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                formError.textContent = "Veuillez renseigner une adresse e-mail valide.";
+                formError.style.display = 'block';
+                return;
+            }
+
+            if (!commitment) {
+                formError.textContent = "Veuillez cocher la case d'engagement pour continuer.";
+                formError.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement en cours...';
+
+            const payload = {
+                source: 'beta_closed_google_play',
+                name: name,
+                email: email,
+                territory: territory,
+                phone: phone || 'Non renseigné',
+                timestamp: new Date().toISOString()
+            };
+
+            // 1. Save in localStorage for the tester list & state
+            try {
+                let allTesters = JSON.parse(localStorage.getItem('dtc_beta_all_testers') || '[]');
+                allTesters.push(payload);
+                localStorage.setItem('dtc_beta_all_testers', JSON.stringify(allTesters));
+                localStorage.setItem('dtc_beta_tester', JSON.stringify(payload));
+            } catch(e) {}
+
+            // 2. Track lead with tracking engine
+            if (window.trackLead) {
+                window.trackLead({
+                    source: 'beta-test-page',
+                    type: 'beta_tester_signup',
+                    name: name,
+                    email: email,
+                    territory: territory
+                });
+            }
+
+            // 3. Send to Formspree for immediate notification & central storage
+            try {
+                await fetch('https://formspree.io/f/myzbqepy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        Formulaire: 'Bêta Fermée DTC Pulse Google Play',
+                        Nom: name,
+                        Email_Google_Play: email,
+                        Territoire: territory,
+                        WhatsApp: phone || 'N/A',
+                        Date_Inscription: new Date().toLocaleString('fr-FR')
+                    })
+                });
+            } catch (err) {
+                console.warn('Formspree sync:', err);
+            }
+
+            // Show Success State smoothly
+            showSuccessState(name, email);
+        });
+
+        function showSuccessState(name, email) {
+            document.getElementById('confirmedEmail').textContent = email;
+            formContainer.style.display = 'none';
+            successContainer.style.display = 'block';
+            window.scrollTo({ top: formContainer.offsetTop - 80, behavior: 'smooth' });
+        }
+
+        // Admin Function to Copy all beta testers emails formatted for Google Play Console
+        window.copyTesterEmails = function() {
+            try {
+                const allTesters = JSON.parse(localStorage.getItem('dtc_beta_all_testers') || '[]');
+                if (allTesters.length === 0) {
+                    const single = localStorage.getItem('dtc_beta_tester');
+                    if (single) {
+                        const parsed = JSON.parse(single);
+                        navigator.clipboard.writeText(parsed.email);
+                        showCopyFeedback();
+                        return;
+                    }
+                    alert("Aucun e-mail inscrit dans la session pour l'instant.");
+                    return;
+                }
+                const emailsList = allTesters.map(t => t.email).filter(Boolean).join(', ');
+                navigator.clipboard.writeText(emailsList);
+                showCopyFeedback();
+            } catch(e) {
+                alert("Erreur lors de la copie");
+            }
+        };
+
+        function showCopyFeedback() {
+            const fb = document.getElementById('copyFeedback');
+            if (fb) {
+                fb.style.display = 'inline';
+                setTimeout(() => fb.style.display = 'none', 3000);
+            }
+        }
+
+        // Navbar & Footer loader
         document.addEventListener('DOMContentLoaded', async () => {
             if (window.loadGlobalNavbar) {
                 await window.loadGlobalNavbar();
@@ -729,11 +1285,11 @@
             const footerContainer = document.getElementById('footer-container');
             if (footerContainer) {
                 footerContainer.innerHTML = `
-                <footer style="background: #0f172a; color: white; padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
-                    <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <footer style="background: #070d18; color: white; padding: 40px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
+                    <div style="max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
                         <div style="font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 8px;">
                             <img src="assets/images/logo-domtomconnect.png" style="width: 24px; height: 24px; border-radius: 6px;">
-                            Domtom Connect
+                            Domtom Connect · DTC Pulse
                         </div>
                         <div style="display: flex; gap: 20px; font-size: 0.9rem;">
                             <a href="/legal/privacy-pulse.html" style="color: #94a3b8; text-decoration: none;">Confidentialité DTC Pulse</a>
