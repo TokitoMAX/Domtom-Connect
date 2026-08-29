@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Rejoindre la Communauté Domtom Connect | Réseau Professionnel & WhatsApp</title>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Rejoignez les groupes officiels de la communauté Domtom Connect : Prestataires et Porteurs de Projets d'Outre-Mer et de la Diaspora.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://domtomconnect.com/rejoindre">
+    <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://domtomconnect.com/rejoindre">
+    <meta property="og:title" content="Rejoindre la Communauté Domtom Connect sur WhatsApp">
+    <meta property="og:description" content="Connectez-vous aux prestataires et porteurs de projets d'Outre-Mer et de la Diaspora.">
+    <meta property="og:image" content="https://domtomconnect.com/assets/images/logo-domtomconnect.png">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/style.css?v=12.00">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --brand-green: #10b981;
+            --brand-green-hover: #059669;
+            --brand-green-light: #34d399;
+            --brand-green-subtle: rgba(16, 185, 129, 0.12);
+            --brand-green-border: rgba(16, 185, 129, 0.3);
+            --dark-bg: #070d18;
+            --dark-card: #0f172a;
+            --dark-card-hover: #162238;
+            --dark-border: rgba(255, 255, 255, 0.08);
+            --white: #ffffff;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --whatsapp-color: #25D366;
+            --whatsapp-hover: #20bd5a;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Hub Header */
+        .hub-header {
+            padding: 44px 20px 32px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15) 0%, rgba(7, 13, 24, 0) 70%);
+        }
+
+        .hub-logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .hub-logo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+        }
+
+        .hub-logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-logo-text span {
+            color: var(--brand-green);
+        }
+
+        .hub-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 auto 12px;
+            max-width: 720px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .hub-subtitle {
+            color: #cbd5e1;
+            font-size: 1.02rem;
+            max-width: 600px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        /* Main Container */
+        .hub-main {
+            flex: 1;
+            max-width: 780px;
+            width: 92%;
+            margin: 0 auto 60px;
+        }
+
+        /* Profile Category Selector */
+        .category-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 560px) {
+            .category-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .category-tab {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px 18px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .category-tab:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: var(--dark-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            border-color: var(--brand-green);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+        }
+
+        .category-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            color: var(--brand-green-light);
+            transition: all 0.25s;
+        }
+
+        .category-tab.active .category-icon {
+            background: var(--brand-green);
+            color: #0f172a;
+        }
+
+        .category-info h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+
+        .category-info p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Form Card */
+        .hub-form-card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            border-radius: 24px;
+            padding: 36px 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        @media (max-width: 540px) {
+            .hub-form-card {
+                padding: 24px 18px;
+            }
+        }
+
+        .form-section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0 0 24px 0;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        .form-group-hub {
+            margin-bottom: 18px;
+        }
+
+        .form-label-hub {
+            display: block;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+        }
+
+        .form-input-hub, .form-select-hub, .form-textarea-hub {
+            width: 100%;
+            background: rgba(7, 13, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 13px 16px;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+        }
+
+        .form-input-hub:focus, .form-select-hub:focus, .form-textarea-hub:focus {
+            outline: none;
+            border-color: var(--brand-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            background: rgba(7, 13, 24, 0.95);
+        }
+
+        .form-textarea-hub {
+            resize: vertical;
+            min-height: 85px;
+            line-height: 1.5;
+        }
+
+        .form-select-hub option {
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .btn-hub-submit {
+            width: 100%;
+            background: var(--whatsapp-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 100px;
+            padding: 16px 24px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.35);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 10px;
+        }
+
+        .btn-hub-submit:hover {
+            background: var(--whatsapp-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(37, 211, 102, 0.45);
+        }
+
+        .btn-hub-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success & Redirect Screen */
+        .hub-success-view {
+            display: none;
+            text-align: center;
+            animation: fadeInHub 0.35s ease forwards;
+        }
+
+        @keyframes fadeInHub {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-icon-hub {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.15);
+            border: 2px solid var(--whatsapp-color);
+            color: var(--whatsapp-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+        }
+
+        .success-title-hub {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+        }
+
+        .success-desc-hub {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .redirect-box {
+            background: rgba(7, 13, 24, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .btn-direct-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--whatsapp-color);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            padding: 15px 30px;
+            border-radius: 100px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.25s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-direct-whatsapp:hover {
+            background: var(--whatsapp-hover);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        /* Secondary Links */
+        .hub-secondary-links {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .secondary-link-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 20px;
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+        }
+
+        .secondary-link-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .secondary-link-btn span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Brand -->
+    <header class="hub-header">
+        <a href="index.html" class="hub-logo-container">
+            <img src="assets/images/logo-domtomconnect.png" alt="Logo Domtom Connect" class="hub-logo-img">
+            <span class="hub-logo-text">Domtom <span>Connect</span></span>
+        </a>
+        <h1 class="hub-title">Rejoignez la Communauté WhatsApp</h1>
+        <p class="hub-subtitle">
+            Échangez, partagez des opportunités et développez votre réseau avec les acteurs de la diaspora et des Outre-Mer.
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="hub-main">
+        
+        <!-- Category Selector Tabs -->
+        <div class="category-selector" id="categorySelector">
+            <!-- Option 1 : Prestataires -->
+            <div class="category-tab active" onclick="selectCategory('prestataire')" id="tabPrestataire">
+                <div class="category-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Prestataire / Expert</h3>
+                    <p>Freelances, artisans, agences et prestataires de services.</p>
+                </div>
+            </div>
+
+            <!-- Option 2 : Porteurs de projet -->
+            <div class="category-tab" onclick="selectCategory('porteur')" id="tabPorteur">
+                <div class="category-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Porteur de Projet</h3>
+                    <p>Entrepreneurs, créateurs et porteurs d'initiatives.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="hub-form-card">
+            
+            <div id="hubFormContainer">
+                <div class="form-section-title" id="formHeaderTitle">
+                    <i class="fas fa-briefcase" style="color: var(--brand-green);"></i>
+                    <span>Accès Groupe WhatsApp · Prestataires</span>
+                </div>
+                <p class="form-section-subtitle" id="formHeaderSubtitle">
+                    Renseignez vos coordonnées pour rejoindre le groupe dédié aux prestataires et opportunités de missions.
+                </p>
+
+                <form id="communitySignupForm" novalidate>
+                    <input type="hidden" id="selectedProfileType" value="prestataire">
+
+                    <div class="form-grid-2">
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubName">Nom & Prénom *</label>
+                            <input type="text" id="hubName" class="form-input-hub" placeholder="Ex: Jean-Marc Daniel" required>
+                        </div>
+
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubEmail">Adresse e-mail *</label>
+                            <input type="email" id="hubEmail" class="form-input-hub" placeholder="votremail@exemple.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubPhone">Numéro WhatsApp (avec indicatif) *</label>
+                            <input type="tel" id="hubPhone" class="form-input-hub" placeholder="+33 6 ... ou +590 690 ..." required>
+                        </div>
+
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubTerritory">Votre Territoire / Région *</label>
+                            <select id="hubTerritory" class="form-select-hub" required>
+                                <option value="" disabled selected>Sélectionnez...</option>
+                                <option value="Guadeloupe">Guadeloupe (971)</option>
+                                <option value="Martinique">Martinique (972)</option>
+                                <option value="Guyane">Guyane (973)</option>
+                                <option value="La Réunion">La Réunion (974)</option>
+                                <option value="Mayotte">Mayotte (976)</option>
+                                <option value="Polynésie française">Polynésie française (987)</option>
+                                <option value="Nouvelle-Calédonie">Nouvelle-Calédonie (988)</option>
+                                <option value="Saint-Martin / Saint-Barthélemy">Saint-Martin / Saint-Barthélemy</option>
+                                <option value="France Métropolitaine">France Métropolitaine</option>
+                                <option value="Diaspora Internationale">Diaspora Internationale</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic field for Prestataires -->
+                    <div id="prestataireFields">
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubSpecialty">Votre Activité / Métier *</label>
+                            <input type="text" id="hubSpecialty" class="form-input-hub" placeholder="Ex: Développeur web, Graphiste, Avocat, Artisan BTP, Vidéaste...">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic field for Porteurs de Projet -->
+                    <div id="porteurFields" style="display: none;">
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubProjectName">Nom du Projet / Entreprise</label>
+                            <input type="text" id="hubProjectName" class="form-input-hub" placeholder="Ex: Mon Projet">
+                        </div>
+
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubPitch">Pitch de votre projet (2 à 3 phrases) *</label>
+                            <textarea id="hubPitch" class="form-textarea-hub" placeholder="Présentez brièvement votre projet et vos besoins actuels..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-hub-submit" id="btnHubSubmit">
+                        <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
+                        <span id="btnSubmitText">Rejoindre le Groupe Prestataires</span>
+                    </button>
+
+                    <div id="hubFormError" style="display: none; color: #f87171; font-size: 0.88rem; margin-top: 12px; text-align: center;"></div>
+                </form>
+            </div>
+
+            <!-- Success State -->
+            <div id="hubSuccessView" class="hub-success-view">
+                <div class="success-icon-hub">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h2 class="success-title-hub">Profil Enregistré</h2>
+                <p class="success-desc-hub">
+                    Merci <strong id="successName">cher membre</strong>. Vous pouvez maintenant rejoindre votre groupe WhatsApp officiel :
+                </p>
+
+                <div class="redirect-box">
+                    <p style="margin: 0 0 16px 0; font-weight: 700; color: #ffffff;" id="targetGroupName">
+                        Groupe WhatsApp Domtom Connect
+                    </p>
+                    <a href="#" id="finalWhatsappBtn" target="_blank" rel="noopener noreferrer" class="btn-direct-whatsapp">
+                        <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Ouvrir et Rejoindre le Groupe
+                    </a>
+                </div>
+
+                <div style="font-size: 0.85rem; color: #94a3b8;">
+                    <i class="fas fa-info-circle"></i> <em>Cliquez sur le bouton ci-dessus pour ouvrir l'application WhatsApp.</em>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Additional Links -->
+        <div class="hub-secondary-links">
+            <a href="beta-test.html" class="secondary-link-btn">
+                <span><i class="fab fa-google-play" style="color: var(--brand-green);"></i> Bêta Fermée de l'Application DTC Pulse (Android)</span>
+                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+            </a>
+
+            <a href="index.html" class="secondary-link-btn">
+                <span><i class="fas fa-globe" style="color: var(--brand-green);"></i> Découvrir la plateforme web Domtom Connect</span>
+                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+            </a>
+
+            <a href="incubateur.html" class="secondary-link-btn">
+                <span><i class="fas fa-rocket" style="color: var(--brand-green);"></i> Programme Tremplin & Incubateur</span>
+                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+            </a>
+        </div>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer style="background: #040810; color: #64748b; padding: 24px 20px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05);">
+        &copy; 2026 Domtom Connect. Tous droits réservés.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/lead-tracking.js?v=2.0"></script>
+    <script>
+        // WhatsApp Links
+        const WHATSAPP_LINKS = {
+            prestataire: 'https://chat.whatsapp.com/Fe8LuB5IUa1K8JbP00qOdt',
+            porteur: 'https://chat.whatsapp.com/J5osa3TzaF14M755oUTOkX'
+        };
+
+        // Category Switcher
+        function selectCategory(type) {
+            const tabP = document.getElementById('tabPrestataire');
+            const tabPorteur = document.getElementById('tabPorteur');
+            const pFields = document.getElementById('prestataireFields');
+            const porteurFields = document.getElementById('porteurFields');
+            const headerTitle = document.getElementById('formHeaderTitle');
+            const headerSub = document.getElementById('formHeaderSubtitle');
+            const btnText = document.getElementById('btnSubmitText');
+            const profileTypeInput = document.getElementById('selectedProfileType');
+
+            profileTypeInput.value = type;
+
+            if (type === 'prestataire') {
+                tabP.classList.add('active');
+                tabPorteur.classList.remove('active');
+                pFields.style.display = 'block';
+                porteurFields.style.display = 'none';
+                headerTitle.innerHTML = '<i class="fas fa-briefcase" style="color: var(--brand-green);"></i> <span>Accès Groupe WhatsApp · Prestataires</span>';
+                headerSub.textContent = "Renseignez vos coordonnées pour rejoindre le groupe dédié aux prestataires et opportunités de missions.";
+                btnText.textContent = "Rejoindre le Groupe Prestataires";
+            } else {
+                tabPorteur.classList.add('active');
+                tabP.classList.remove('active');
+                pFields.style.display = 'none';
+                porteurFields.style.display = 'block';
+                headerTitle.innerHTML = '<i class="fas fa-lightbulb" style="color: var(--brand-green);"></i> <span>Accès Groupe WhatsApp · Porteurs de Projet</span>';
+                headerSub.textContent = "Présentez brièvement votre projet pour intégrer le groupe d'entraide et de synergies entre entrepreneurs.";
+                btnText.textContent = "Rejoindre le Groupe Porteurs de Projet";
+            }
+        }
+
+        // Form Submission Handler
+        const form = document.getElementById('communitySignupForm');
+        const submitBtn = document.getElementById('btnHubSubmit');
+        const errorEl = document.getElementById('hubFormError');
+        const formContainer = document.getElementById('hubFormContainer');
+        const successView = document.getElementById('hubSuccessView');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorEl.style.display = 'none';
+
+            const profileType = document.getElementById('selectedProfileType').value;
+            const name = document.getElementById('hubName').value.trim();
+            const email = document.getElementById('hubEmail').value.trim().toLowerCase();
+            const phone = document.getElementById('hubPhone').value.trim();
+            const territory = document.getElementById('hubTerritory').value;
+            const specialty = document.getElementById('hubSpecialty') ? document.getElementById('hubSpecialty').value.trim() : '';
+            const projectName = document.getElementById('hubProjectName') ? document.getElementById('hubProjectName').value.trim() : '';
+            const pitch = document.getElementById('hubPitch') ? document.getElementById('hubPitch').value.trim() : '';
+
+            // Validation
+            if (!name || !email || !phone || !territory) {
+                errorEl.textContent = "Veuillez remplir tous les champs obligatoires (*).";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                errorEl.textContent = "Veuillez renseigner une adresse e-mail valide.";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (profileType === 'prestataire' && !specialty) {
+                errorEl.textContent = "Veuillez préciser votre activité ou métier.";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (profileType === 'porteur' && !pitch) {
+                errorEl.textContent = "Veuillez rédiger un court pitch de votre projet.";
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Inscription en cours...';
+
+            const targetUrl = WHATSAPP_LINKS[profileType] || WHATSAPP_LINKS.prestataire;
+
+            // 1. Lead tracking
+            if (window.trackLead) {
+                window.trackLead({
+                    source: 'rejoindre-hub',
+                    type: profileType,
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    territory: territory,
+                    activity: specialty || projectName
+                });
+            }
+
+            // 2. Synchronize to Formspree
+            try {
+                await fetch('https://formspree.io/f/myzbqepy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        Formulaire: 'Communauté WhatsApp Domtom Connect',
+                        Profil: profileType === 'prestataire' ? 'Prestataire / Expert' : 'Porteur de Projet',
+                        Nom: name,
+                        Email: email,
+                        WhatsApp: phone,
+                        Territoire: territory,
+                        Metier_Specialite: specialty || 'N/A',
+                        Nom_Projet: projectName || 'N/A',
+                        Pitch_Projet: pitch || 'N/A',
+                        Date: new Date().toLocaleString('fr-FR')
+                    })
+                });
+            } catch (err) {
+                console.warn('Formspree sync:', err);
+            }
+
+            // 3. Show Success View & Set target WhatsApp link
+            document.getElementById('successName').textContent = name;
+            document.getElementById('targetGroupName').textContent = profileType === 'prestataire' 
+                ? 'Groupe WhatsApp Officiel · Prestataires & Experts'
+                : 'Groupe WhatsApp Officiel · Porteurs de Projet & Créateurs';
+            
+            const finalBtn = document.getElementById('finalWhatsappBtn');
+            finalBtn.href = targetUrl;
+
+            formContainer.style.display = 'none';
+            successView.style.display = 'block';
+
+            // Auto-redirect to WhatsApp in a new tab after 1.2 seconds
+            setTimeout(() => {
+                window.open(targetUrl, '_blank');
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
