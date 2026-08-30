@@ -503,15 +503,53 @@
                         </div>
 
                         <div class="form-group-hub">
-                            <label class="form-label-hub" for="hubTerritory">Votre Zone Géographique *</label>
+                            <label class="form-label-hub" for="hubTerritory">Votre Territoire / Région *</label>
                             <select id="hubTerritory" class="form-select-hub" required>
-                                <option value="" disabled selected>Sélectionnez votre zone...</option>
-                                <option value="Caraïbes - Antilles & Guyane">Caraïbes (Guadeloupe, Martinique, Guyane, Haïti, etc.)</option>
-                                <option value="Afrique de l'Ouest & Centrale">Afrique (Sénégal, Côte d'Ivoire, Cameroun, Bénin, etc.)</option>
-                                <option value="Océan Indien">Océan Indien (La Réunion, Mayotte, Madagascar, etc.)</option>
-                                <option value="Pacifique">Pacifique (Polynésie, Nouvelle-Calédonie, etc.)</option>
-                                <option value="France Métropolitaine & Europe">France Métropolitaine & Europe</option>
-                                <option value="Amérique du Nord & Diaspora">Amérique du Nord & Diaspora Internationale (Canada, USA, etc.)</option>
+                                <option value="" disabled selected>Sélectionnez votre localisation...</option>
+                                <optgroup label="Caraïbes">
+                                    <option value="Guadeloupe">Guadeloupe (971)</option>
+                                    <option value="Martinique">Martinique (972)</option>
+                                    <option value="Guyane">Guyane (973)</option>
+                                    <option value="Saint-Martin / Saint-Barthélemy">Saint-Martin / Saint-Barthélemy</option>
+                                    <option value="Haïti">Haïti</option>
+                                    <option value="Sainte-Lucie & Caraïbe anglophone">Sainte-Lucie & Caraïbe anglophone</option>
+                                    <option value="Autre Caraïbe">Autre île / pays des Caraïbes</option>
+                                </optgroup>
+                                <optgroup label="Continent Africain">
+                                    <option value="Sénégal">Sénégal</option>
+                                    <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                                    <option value="Cameroun">Cameroun</option>
+                                    <option value="Bénin">Bénin</option>
+                                    <option value="RDC">République Démocratique du Congo (RDC)</option>
+                                    <option value="Togo / Mali / Guinée">Togo / Mali / Guinée</option>
+                                    <option value="Gabon / Congo">Gabon / Congo</option>
+                                    <option value="Autre pays d'Afrique">Autre pays d'Afrique</option>
+                                </optgroup>
+                                <optgroup label="Océan Indien">
+                                    <option value="La Réunion">La Réunion (974)</option>
+                                    <option value="Mayotte">Mayotte (976)</option>
+                                    <option value="Madagascar">Madagascar</option>
+                                    <option value="Île Maurice">Île Maurice</option>
+                                    <option value="Comores / Seychelles">Comores / Seychelles</option>
+                                </optgroup>
+                                <optgroup label="Pacifique">
+                                    <option value="Polynésie française">Polynésie française (987)</option>
+                                    <option value="Nouvelle-Calédonie">Nouvelle-Calédonie (988)</option>
+                                    <option value="Wallis-et-Futuna">Wallis-et-Futuna (986)</option>
+                                </optgroup>
+                                <optgroup label="France Métropolitaine & Europe">
+                                    <option value="Paris & Île-de-France">Paris & Île-de-France</option>
+                                    <option value="Lyon & Auvergne-Rhône-Alpes">Lyon & Auvergne-Rhône-Alpes</option>
+                                    <option value="Marseille & Région Sud (PACA)">Marseille & Région Sud (PACA)</option>
+                                    <option value="Bordeaux & Nouvelle-Aquitaine">Bordeaux & Nouvelle-Aquitaine</option>
+                                    <option value="Autre région (France métropolitaine)">Autre région (France métropolitaine)</option>
+                                    <option value="Belgique, Suisse & Europe">Belgique, Suisse & Europe</option>
+                                </optgroup>
+                                <optgroup label="Amérique du Nord & Reste du Monde">
+                                    <option value="Canada (Montréal, Québec, etc.)">Canada (Montréal, Québec, etc.)</option>
+                                    <option value="États-Unis (Miami, New York, etc.)">États-Unis (Miami, New York, etc.)</option>
+                                    <option value="Royaume-Uni & International">Royaume-Uni & International</option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>

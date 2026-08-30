@@ -18,25 +18,35 @@ const adaptiveQuestions = {
     "porteur-projet": [
     {
         id: 2,
-        question: "D'où venez-vous ? (Votre origine ou territoire d'origine)",
+        question: "D'où venez-vous ? (Votre origine ou territoire d'attache)",
         type: "select",
         options: [
-            { value: "martinique", label: "Martinique", score: 2 },
-            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-            { value: "guyane", label: "Guyane", score: 2 },
-            { value: "diaspora", label: "Diaspora", score: 2 },
-            { value: "reunion", label: "La Réunion", score: 2 },
-            { value: "mayotte", label: "Mayotte", score: 2 },
-            { value: "saint-martin", label: "Saint-Martin", score: 2 },
-            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
-            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
-            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
-            { value: "polynesie", label: "Polynésie française", score: 2 },
-            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "haiti", label: "Haïti", score: 2 },
-            { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
-            { value: "dominique", label: "Dominique", score: 2 },
-            { value: "international", label: "International", score: 1 }
+            // Caraïbes
+            { value: "martinique", label: "Caraïbes · Martinique (972)", score: 2 },
+            { value: "guadeloupe", label: "Caraïbes · Guadeloupe (971)", score: 2 },
+            { value: "guyane", label: "Caraïbes · Guyane (973)", score: 2 },
+            { value: "saint-martin", label: "Caraïbes · Saint-Martin / Saint-Barthélemy", score: 2 },
+            { value: "haiti", label: "Caraïbes · Haïti", score: 2 },
+            { value: "sainte-lucie", label: "Caraïbes · Sainte-Lucie & Caraïbe anglophone", score: 2 },
+            { value: "autre-caraibes", label: "Caraïbes · Autre île ou pays des Caraïbes", score: 2 },
+            // Continent Africain
+            { value: "senegal", label: "Afrique · Sénégal", score: 2 },
+            { value: "cote-ivoire", label: "Afrique · Côte d'Ivoire", score: 2 },
+            { value: "cameroun", label: "Afrique · Cameroun", score: 2 },
+            { value: "benin", label: "Afrique · Bénin / Togo", score: 2 },
+            { value: "rdc-congo", label: "Afrique · RDC & Congo", score: 2 },
+            { value: "autre-afrique", label: "Afrique · Autre pays du Continent Africain", score: 2 },
+            // Océan Indien & Pacifique
+            { value: "reunion", label: "Océan Indien · La Réunion (974)", score: 2 },
+            { value: "mayotte", label: "Océan Indien · Mayotte (976)", score: 2 },
+            { value: "madagascar-maurice", label: "Océan Indien · Madagascar / Maurice / Comores", score: 2 },
+            { value: "pacifique", label: "Pacifique · Polynésie / Nouvelle-Calédonie / Wallis", score: 2 },
+            // Diaspora
+            { value: "diaspora-paris", label: "Diaspora · Paris & Île-de-France", score: 2 },
+            { value: "diaspora-province", label: "Diaspora · Autres régions de France Hexagonale", score: 2 },
+            { value: "diaspora-canada", label: "Diaspora · Canada (Montréal, Québec)", score: 2 },
+            { value: "diaspora-usa", label: "Diaspora · États-Unis (Miami, New York)", score: 2 },
+            { value: "diaspora-europe-monde", label: "Diaspora · Europe & International", score: 2 }
         ]
     },
     {
@@ -110,22 +120,32 @@ const adaptiveQuestions = {
         question: "Où sera localisé votre projet ?",
         type: "select",
         options: [
-            { value: "martinique", label: "Martinique", score: 2 },
-            { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-            { value: "guyane", label: "Guyane", score: 2 },
-            { value: "diaspora", label: "Diaspora", score: 2 },
-            { value: "reunion", label: "La Réunion", score: 2 },
-            { value: "mayotte", label: "Mayotte", score: 2 },
-            { value: "saint-martin", label: "Saint-Martin", score: 2 },
-            { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
-            { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
-            { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
-            { value: "polynesie", label: "Polynésie française", score: 2 },
-            { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-            { value: "haiti", label: "Haïti", score: 2 },
-            { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
-            { value: "dominique", label: "Dominique", score: 2 },
-            { value: "international", label: "International", score: 1 }
+            // Caraïbes
+            { value: "martinique", label: "Caraïbes · Martinique (972)", score: 2 },
+            { value: "guadeloupe", label: "Caraïbes · Guadeloupe (971)", score: 2 },
+            { value: "guyane", label: "Caraïbes · Guyane (973)", score: 2 },
+            { value: "saint-martin", label: "Caraïbes · Saint-Martin / Saint-Barthélemy", score: 2 },
+            { value: "haiti", label: "Caraïbes · Haïti", score: 2 },
+            { value: "sainte-lucie", label: "Caraïbes · Sainte-Lucie & Caraïbe anglophone", score: 2 },
+            { value: "autre-caraibes", label: "Caraïbes · Autre île ou pays des Caraïbes", score: 2 },
+            // Continent Africain
+            { value: "senegal", label: "Afrique · Sénégal", score: 2 },
+            { value: "cote-ivoire", label: "Afrique · Côte d'Ivoire", score: 2 },
+            { value: "cameroun", label: "Afrique · Cameroun", score: 2 },
+            { value: "benin", label: "Afrique · Bénin / Togo", score: 2 },
+            { value: "rdc-congo", label: "Afrique · RDC & Congo", score: 2 },
+            { value: "autre-afrique", label: "Afrique · Autre pays du Continent Africain", score: 2 },
+            // Océan Indien & Pacifique
+            { value: "reunion", label: "Océan Indien · La Réunion (974)", score: 2 },
+            { value: "mayotte", label: "Océan Indien · Mayotte (976)", score: 2 },
+            { value: "madagascar-maurice", label: "Océan Indien · Madagascar / Maurice / Comores", score: 2 },
+            { value: "pacifique", label: "Pacifique · Polynésie / Nouvelle-Calédonie / Wallis", score: 2 },
+            // Diaspora & International
+            { value: "diaspora-paris", label: "Diaspora · Paris & Île-de-France", score: 2 },
+            { value: "diaspora-province", label: "Diaspora · Autres régions de France Hexagonale", score: 2 },
+            { value: "diaspora-canada", label: "Diaspora · Canada (Montréal, Québec)", score: 2 },
+            { value: "diaspora-usa", label: "Diaspora · États-Unis (Miami, New York)", score: 2 },
+            { value: "diaspora-europe-monde", label: "Diaspora · Europe & International", score: 2 }
         ]
     },
     {
@@ -194,22 +214,28 @@ const adaptiveQuestions = {
             question: "Dans quel territoire êtes-vous basé ?",
             type: "select",
             options: [
-                { value: "martinique", label: "Martinique", score: 2 },
-                { value: "guadeloupe", label: "Guadeloupe", score: 2 },
-                { value: "guyane", label: "Guyane", score: 2 },
-                { value: "diaspora", label: "Diaspora", score: 2 },
-                { value: "reunion", label: "La Réunion", score: 2 },
-                { value: "mayotte", label: "Mayotte", score: 2 },
-                { value: "saint-martin", label: "Saint-Martin", score: 2 },
-                { value: "saint-barthelemy", label: "Saint-Barthélemy", score: 2 },
-                { value: "saint-pierre-et-miquelon", label: "Saint-Pierre-et-Miquelon", score: 2 },
-                { value: "wallis-et-futuna", label: "Wallis-et-Futuna", score: 2 },
-                { value: "polynesie", label: "Polynésie française", score: 2 },
-                { value: "nouvelle-caledonie", label: "Nouvelle-Calédonie", score: 2 },
-                { value: "haiti", label: "Haïti", score: 2 },
-                { value: "sainte-lucie", label: "Sainte-Lucie", score: 2 },
-                { value: "dominique", label: "Dominique", score: 2 },
-                { value: "international", label: "International", score: 1 }
+                // Caraïbes
+                { value: "martinique", label: "Caraïbes · Martinique (972)", score: 2 },
+                { value: "guadeloupe", label: "Caraïbes · Guadeloupe (971)", score: 2 },
+                { value: "guyane", label: "Caraïbes · Guyane (973)", score: 2 },
+                { value: "saint-martin", label: "Caraïbes · Saint-Martin / Saint-Barthélemy", score: 2 },
+                { value: "autre-caraibes", label: "Caraïbes · Autre territoire caribéen", score: 2 },
+                // Continent Africain
+                { value: "senegal", label: "Afrique · Sénégal", score: 2 },
+                { value: "cote-ivoire", label: "Afrique · Côte d'Ivoire", score: 2 },
+                { value: "cameroun", label: "Afrique · Cameroun", score: 2 },
+                { value: "autre-afrique", label: "Afrique · Autre pays d'Afrique", score: 2 },
+                // Océan Indien & Pacifique
+                { value: "reunion", label: "Océan Indien · La Réunion (974)", score: 2 },
+                { value: "mayotte", label: "Océan Indien · Mayotte (976)", score: 2 },
+                { value: "madagascar-maurice", label: "Océan Indien · Madagascar / Maurice", score: 2 },
+                { value: "pacifique", label: "Pacifique · Polynésie / Nouvelle-Calédonie", score: 2 },
+                // Diaspora & Monde
+                { value: "diaspora-paris", label: "Diaspora · Paris & Île-de-France", score: 2 },
+                { value: "diaspora-province", label: "Diaspora · Autres régions de France Hexagonale", score: 2 },
+                { value: "diaspora-canada", label: "Diaspora · Canada (Montréal, Québec)", score: 2 },
+                { value: "diaspora-usa", label: "Diaspora · États-Unis (Miami, NYC)", score: 2 },
+                { value: "international", label: "International & Reste du Monde", score: 1 }
             ]
         },
         {

@@ -5,80 +5,96 @@
 
 const TerritoryConfig = {
     ecosystems: {
-        'OM_FR': {
-            label: 'Outre-Mer Français (Antilles, Guyane, Océan Indien)',
-            taxIdLabel: 'SIRET / SIREN',
+        'CARAIBES': {
+            label: 'Caraïbes (Antilles & Guyane, Îles Caraïbes)',
+            taxIdLabel: 'SIRET / SIREN / Tax ID',
             currency: 'EUR',
             locale: 'fr_FR',
             islands: [
-                'Martinique',
-                'Guadeloupe',
-                'Guyane',
-                'Réunion',
-                'Mayotte',
-                'Saint-Martin',
-                'Saint-Barthélemy'
+                'Guadeloupe (971)',
+                'Martinique (972)',
+                'Guyane (973)',
+                'Saint-Martin (97150)',
+                'Saint-Barthélemy (97133)',
+                'Haïti',
+                'Sainte-Lucie & Caraïbe anglophone',
+                'Dominique',
+                'Barbade & Trinité-et-Tobago',
+                'République Dominicaine & Cuba',
+                'Autre île / pays des Caraïbes'
             ]
         },
-        'CAR_FR': {
-            label: 'Outre-Mer Français (Antilles, Guyane)',
-            taxIdLabel: 'SIRET / SIREN',
+        'AFRIQUE': {
+            label: 'Continent Africain (Afrique de l\'Ouest & Centrale)',
+            taxIdLabel: 'Numéro RCCM / NIF / Tax ID',
             currency: 'EUR',
             locale: 'fr_FR',
-            islands: ['Martinique', 'Guadeloupe', 'Guyane']
+            islands: [
+                'Sénégal (Dakar, etc.)',
+                'Côte d\'Ivoire (Abidjan, etc.)',
+                'Cameroun (Douala, Yaoundé)',
+                'Bénin (Cotonou, etc.)',
+                'RDC - République Démocratique du Congo (Kinshasa)',
+                'Togo (Lomé)',
+                'Mali & Guinée',
+                'Gabon & Congo-Brazzaville',
+                'Ghana & Nigéria',
+                'Autre pays d\'Afrique'
+            ]
         },
-        'PACIFIC_FR': {
-            label: 'Espace Pacifique Français',
-            taxIdLabel: 'RIDET / SIRET',
+        'OCEAN_INDIEN': {
+            label: 'Océan Indien',
+            taxIdLabel: 'SIRET / NIF / Tax ID',
+            currency: 'EUR',
+            locale: 'fr_FR',
+            islands: [
+                'La Réunion (974)',
+                'Mayotte (976)',
+                'Madagascar',
+                'Île Maurice',
+                'Comores & Seychelles'
+            ]
+        },
+        'PACIFIQUE': {
+            label: 'Espace Pacifique',
+            taxIdLabel: 'RIDET / SIRET / Tax ID',
             currency: 'XPF',
             locale: 'fr_FR',
             islands: [
-                'Nouvelle-Calédonie',
-                'Polynésie Française',
-                'Wallis-et-Futuna'
+                'Nouvelle-Calédonie (988)',
+                'Polynésie française (987)',
+                'Wallis-et-Futuna (986)'
             ]
         },
-        'CAR_EN': {
-            label: 'Anglophone Caribbean',
-            taxIdLabel: 'Company Tax ID / Registration #',
+        'DIASPORA_HEXAGONE': {
+            label: 'Diaspora · France Métropolitaine & Europe',
+            taxIdLabel: 'SIRET / SIREN / TVA Intracommunautaire',
+            currency: 'EUR',
+            locale: 'fr_FR',
+            islands: [
+                'Paris & Île-de-France',
+                'Lyon & Auvergne-Rhône-Alpes',
+                'Marseille & Région Sud (PACA)',
+                'Bordeaux & Nouvelle-Aquitaine',
+                'Toulouse & Occitanie',
+                'Nantes & Pays de la Loire',
+                'Lille & Hauts-de-France',
+                'Autre région (France métropolitaine)',
+                'Belgique & Suisse',
+                'Royaume-Uni & Reste de l\'Europe'
+            ]
+        },
+        'DIASPORA_MONDE': {
+            label: 'Diaspora · Amérique du Nord & International',
+            taxIdLabel: 'Business ID / EIN / Tax ID',
             currency: 'USD',
             locale: 'en_US',
             islands: [
-                'Barbados',
-                'Jamaica',
-                'Antigua & Barbuda',
-                'Bahamas',
-                'Trinidad & Tobago',
-                'St. Lucia',
-                'Grenada',
-                'Dominica'
-            ]
-        },
-        'CAR_ES': {
-            label: 'Ecosistema Hispánico (Caribbean)',
-            taxIdLabel: 'RNC / ID Fiscal / Registro',
-            currency: 'USD',
-            locale: 'es-ES',
-            islands: [
-                'República Dominicana',
-                'Cuba',
-                'Puerto Rico',
-                'Panamá',
-                'Costa Rica'
-            ]
-        },
-        'INT_DIASPORA': {
-            label: 'International & Diaspora',
-            taxIdLabel: 'Tax ID / Business ID',
-            currency: 'USD',
-            locale: 'en_US',
-            islands: [
-                'United States',
-                'Canada',
-                'European Union',
-                'United Kingdom',
-                'Africa (Central/Western)',
-                'Other International'
+                'Canada (Montréal, Québec, etc.)',
+                'Canada (Toronto & Rest of Canada)',
+                'États-Unis (Miami, Floride)',
+                'États-Unis (New York, Atlanta, etc.)',
+                'International / Reste du Monde'
             ]
         }
     },
@@ -99,12 +115,12 @@ const TerritoryConfig = {
     },
 
     getLocale(zoneId) {
-        const zone = this.ecosystems[zoneId] || this.ecosystems['OM_FR'];
+        const zone = this.ecosystems[zoneId] || this.ecosystems['CARAIBES'];
         return zone.locale.replace('_', '-');
     },
 
     getEcosystem(zoneId) {
-        return this.ecosystems[zoneId] || this.ecosystems['OM_FR'];
+        return this.ecosystems[zoneId] || this.ecosystems['CARAIBES'];
     },
 
     getCurrency(zoneId) {
