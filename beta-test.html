@@ -1158,11 +1158,11 @@
         </div>
     </section>
 
-    <!-- Discreet Admin Helper -->
-    <div class="admin-helper-bar" id="adminBar">
-        <span><i class="fas fa-user-shield"></i> Espace Admin :</span>
-        <button class="btn-admin-copy" onclick="copyTesterEmails()" id="btnCopyEmails"> Copier les e-mails pour Google Play</button>
-        <span id="copyFeedback" style="color: var(--brand-green); display: none;"> Copié !</span>
+    <!-- Admin Helper (Hidden by default, accessible only via ?admin=1) -->
+    <div class="admin-helper-bar" id="adminBar" style="display: none; background: rgba(15, 23, 42, 0.95); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; text-align: center; font-size: 0.85rem; color: #94a3b8;">
+        <span><i class="fas fa-user-shield"></i> Administration interne :</span>
+        <button class="btn-admin-copy" onclick="copyTesterEmails()" id="btnCopyEmails" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; border-radius: 8px; padding: 6px 14px; margin-left: 10px; cursor: pointer; font-weight: 700;">Copier les e-mails pour Google Play</button>
+        <span id="copyFeedback" style="color: var(--brand-green); display: none; margin-left: 10px;">✓ Copié !</span>
     </div>
 
     <!-- Global Footer -->
@@ -1318,8 +1318,14 @@
             }
         }
 
-        // Navbar & Footer loader
+        // Navbar & Footer loader & Admin check
         document.addEventListener('DOMContentLoaded', async () => {
+            // Only show admin bar if requested via ?admin=1 URL parameter
+            if (new URLSearchParams(window.location.search).get('admin') === '1') {
+                const adminBar = document.getElementById('adminBar');
+                if (adminBar) adminBar.style.display = 'block';
+            }
+
             if (window.loadGlobalNavbar) {
                 await window.loadGlobalNavbar();
             }
