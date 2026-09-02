@@ -124,12 +124,12 @@
         /* Profile Category Selector */
         .category-selector {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             margin-bottom: 24px;
         }
 
-        @media (max-width: 560px) {
+        @media (max-width: 768px) {
             .category-selector {
                 grid-template-columns: 1fr;
             }
@@ -467,6 +467,17 @@
                     <p>Entrepreneurs, créateurs et porteurs d'initiatives.</p>
                 </div>
             </div>
+
+            <!-- Option 3 : Bêta-Testeurs -->
+            <div class="category-tab" onclick="selectCategory('beta')" id="tabBeta">
+                <div class="category-icon">
+                    <i class="fab fa-google-play"></i>
+                </div>
+                <div class="category-info">
+                    <h3>Bêta-Testeur DTC Pulse</h3>
+                    <p>Testez l'application sur Android & rejoignez le groupe Bêta.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Form Card -->
@@ -480,6 +491,20 @@
                 <p class="form-section-subtitle" id="formHeaderSubtitle">
                     Renseignez vos coordonnées pour rejoindre le groupe dédié aux prestataires et opportunités de missions.
                 </p>
+
+                <!-- Fast-track TestMonApp for Beta Testers -->
+                <div id="betaTestMonAppNotice" style="display: none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid var(--brand-green); border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="background: var(--brand-green); color: #0b1120; font-size: 0.75rem; font-weight: 900; padding: 4px 10px; border-radius: 100px; text-transform: uppercase;">100% Automatisé</span>
+                        <strong style="color: #ffffff; font-size: 1.05rem;">Inscription Bêta en 1 Clic (TestMonApp)</strong>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.5;">
+                        Pour être automatiquement inscrit sur Google Play et recevoir l'accès immédiat à l'application sans attendre :
+                    </p>
+                    <a href="https://www.testmonapp.com/fr/rejoindre/dtc-pulse" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-green); color: #0b1120; font-weight: 800; font-size: 0.95rem; padding: 12px 20px; border-radius: 100px; text-decoration: none; width: 100%; box-sizing: border-box; transition: transform 0.2s;">
+                        <i class="fas fa-bolt"></i> S'inscrire automatiquement via TestMonApp
+                    </a>
+                </div>
 
                 <form id="communitySignupForm" novalidate>
                     <input type="hidden" id="selectedProfileType" value="prestataire">
@@ -575,6 +600,14 @@
                         </div>
                     </div>
 
+                    <!-- Dynamic field for Beta Testers -->
+                    <div id="betaFields" style="display: none;">
+                        <div class="form-group-hub">
+                            <label class="form-label-hub" for="hubDeviceModel">Modèle de Smartphone Android</label>
+                            <input type="text" id="hubDeviceModel" class="form-input-hub" placeholder="Ex: Samsung S22, Xiaomi Redmi, Pixel 7...">
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn-hub-submit" id="btnHubSubmit">
                         <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
                         <span id="btnSubmitText">Rejoindre le Groupe Prestataires</span>
@@ -641,15 +674,19 @@
         // WhatsApp Links
         const WHATSAPP_LINKS = {
             prestataire: 'https://chat.whatsapp.com/Fe8LuB5IUa1K8JbP00qOdt',
-            porteur: 'https://chat.whatsapp.com/J5osa3TzaF14M755oUTOkX'
+            porteur: 'https://chat.whatsapp.com/J5osa3TzaF14M755oUTOkX',
+            beta: 'https://chat.whatsapp.com/LrswfwAf9xWK7PtlXsOHJE'
         };
 
         // Category Switcher
         function selectCategory(type) {
             const tabP = document.getElementById('tabPrestataire');
             const tabPorteur = document.getElementById('tabPorteur');
+            const tabBeta = document.getElementById('tabBeta');
             const pFields = document.getElementById('prestataireFields');
             const porteurFields = document.getElementById('porteurFields');
+            const betaFields = document.getElementById('betaFields');
+            const testmonappNotice = document.getElementById('betaTestMonAppNotice');
             const headerTitle = document.getElementById('formHeaderTitle');
             const headerSub = document.getElementById('formHeaderSubtitle');
             const btnText = document.getElementById('btnSubmitText');
@@ -657,22 +694,34 @@
 
             profileTypeInput.value = type;
 
+            // Reset tabs
+            tabP.classList.remove('active');
+            tabPorteur.classList.remove('active');
+            tabBeta.classList.remove('active');
+            pFields.style.display = 'none';
+            porteurFields.style.display = 'none';
+            betaFields.style.display = 'none';
+            testmonappNotice.style.display = 'none';
+
             if (type === 'prestataire') {
                 tabP.classList.add('active');
-                tabPorteur.classList.remove('active');
                 pFields.style.display = 'block';
-                porteurFields.style.display = 'none';
                 headerTitle.innerHTML = '<i class="fas fa-briefcase" style="color: var(--brand-green);"></i> <span>Accès Groupe WhatsApp · Prestataires</span>';
                 headerSub.textContent = "Renseignez vos coordonnées pour rejoindre le groupe dédié aux prestataires et opportunités de missions.";
                 btnText.textContent = "Rejoindre le Groupe Prestataires";
-            } else {
+            } else if (type === 'porteur') {
                 tabPorteur.classList.add('active');
-                tabP.classList.remove('active');
-                pFields.style.display = 'none';
                 porteurFields.style.display = 'block';
                 headerTitle.innerHTML = '<i class="fas fa-lightbulb" style="color: var(--brand-green);"></i> <span>Accès Groupe WhatsApp · Porteurs de Projet</span>';
                 headerSub.textContent = "Présentez brièvement votre projet pour intégrer le groupe d'entraide et de synergies entre entrepreneurs.";
                 btnText.textContent = "Rejoindre le Groupe Porteurs de Projet";
+            } else if (type === 'beta') {
+                tabBeta.classList.add('active');
+                betaFields.style.display = 'block';
+                testmonappNotice.style.display = 'block';
+                headerTitle.innerHTML = '<i class="fab fa-whatsapp" style="color: var(--brand-green);"></i> <span>Accès Groupe WhatsApp · Bêta-Testeurs DTC Pulse</span>';
+                headerSub.textContent = "Rejoignez la communauté WhatsApp des testeurs pour échanger sur les nouveautés et les retours.";
+                btnText.textContent = "Rejoindre le Groupe WhatsApp Bêta-Testeurs";
             }
         }
 
@@ -695,6 +744,7 @@
             const specialty = document.getElementById('hubSpecialty') ? document.getElementById('hubSpecialty').value.trim() : '';
             const projectName = document.getElementById('hubProjectName') ? document.getElementById('hubProjectName').value.trim() : '';
             const pitch = document.getElementById('hubPitch') ? document.getElementById('hubPitch').value.trim() : '';
+            const deviceModel = document.getElementById('hubDeviceModel') ? document.getElementById('hubDeviceModel').value.trim() : '';
 
             // Validation
             if (!name || !email || !phone || !territory) {
@@ -735,18 +785,22 @@
                     email: email,
                     phone: phone,
                     territory: territory,
-                    activity: specialty || projectName
+                    activity: specialty || projectName || deviceModel
                 });
             }
 
             // 2. Synchronize to Formspree
             try {
+                let profileLabel = 'Prestataire / Expert';
+                if (profileType === 'porteur') profileLabel = 'Porteur de Projet';
+                if (profileType === 'beta') profileLabel = 'Bêta-Testeur DTC Pulse';
+
                 await fetch('https://formspree.io/f/myzbqepy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
                         Formulaire: 'Communauté WhatsApp Domtom Connect',
-                        Profil: profileType === 'prestataire' ? 'Prestataire / Expert' : 'Porteur de Projet',
+                        Profil: profileLabel,
                         Nom: name,
                         Email: email,
                         WhatsApp: phone,
@@ -754,6 +808,7 @@
                         Metier_Specialite: specialty || 'N/A',
                         Nom_Projet: projectName || 'N/A',
                         Pitch_Projet: pitch || 'N/A',
+                        Modele_Smartphone: deviceModel || 'N/A',
                         Date: new Date().toLocaleString('fr-FR')
                     })
                 });
@@ -763,9 +818,11 @@
 
             // 3. Show Success View & Set target WhatsApp link
             document.getElementById('successName').textContent = name;
-            document.getElementById('targetGroupName').textContent = profileType === 'prestataire' 
-                ? 'Groupe WhatsApp Officiel · Prestataires & Experts'
-                : 'Groupe WhatsApp Officiel · Porteurs de Projet & Créateurs';
+            let groupTitle = 'Groupe WhatsApp Officiel · Prestataires & Experts';
+            if (profileType === 'porteur') groupTitle = 'Groupe WhatsApp Officiel · Porteurs de Projet & Créateurs';
+            if (profileType === 'beta') groupTitle = 'Groupe WhatsApp Officiel · Bêta-Testeurs DTC Pulse';
+            
+            document.getElementById('targetGroupName').textContent = groupTitle;
             
             const finalBtn = document.getElementById('finalWhatsappBtn');
             finalBtn.href = targetUrl;
