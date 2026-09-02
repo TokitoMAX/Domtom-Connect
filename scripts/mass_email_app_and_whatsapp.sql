@@ -29,17 +29,18 @@ BEGIN
         ORDER BY au.created_at ASC
     LOOP
         first_name := split_part(rec.full_name, ' ', 1);
-        IF first_name = '' THEN first_name := 'Membre du réseau'; END IF;
+        IF first_name IS NULL OR first_name = '' THEN 
+            first_name := 'Membre du réseau'; 
+        END IF;
 
-        email_body := '
-<!DOCTYPE html>
+        email_body := REPLACE($html$<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Domtom Connect</title>
 </head>
-<body style="margin:0; padding:0; background-color:#f8fafc; font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, Helvetica, Arial, sans-serif; color:#334155;">
+<body style="margin:0; padding:0; background-color:#f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#334155;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; padding: 40px 20px;">
     <tr>
       <td align="center">
@@ -50,7 +51,7 @@ BEGIN
             <td style="background-color:#0f172a; padding: 36px 40px; text-align:left;">
               <p style="margin:0; color:#10b981; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em;">Domtom Connect</p>
               <h1 style="margin: 10px 0 0 0; color:#ffffff; font-size:1.45rem; font-weight:700; line-height:1.35;">
-                Déploiement de l''écosystème et intégration du réseau WhatsApp
+                Déploiement de l'écosystème et intégration du réseau WhatsApp
               </h1>
             </td>
           </tr>
@@ -58,21 +59,21 @@ BEGIN
           <!-- Corps du message -->
           <tr>
             <td style="padding: 40px; font-size:0.95rem; line-height:1.65; color:#334155;">
-              <p style="margin:0 0 20px 0;">Bonjour ' || first_name || ',</p>
+              <p style="margin:0 0 20px 0;">Bonjour {{FIRST_NAME}},</p>
 
               <p style="margin:0 0 20px 0;">
-                Nous nous adressons à vous aujourd''hui pour vous présenter les récentes évolutions de l''écosystème <strong>Domtom Connect</strong> et vous donner accès aux canaux opérationnels de notre communauté d''affaires.
+                Nous nous adressons à vous aujourd'hui pour vous présenter les récentes évolutions de l'écosystème <strong>Domtom Connect</strong> et vous donner accès aux canaux opérationnels de notre communauté d'affaires.
               </p>
 
               <!-- Section 1: L'Application -->
               <div style="background-color:#f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #10b981; padding: 22px; border-radius: 6px; margin: 24px 0;">
-                <h2 style="margin:0 0 10px 0; font-size:1.05rem; color:#0f172a; font-weight:700;">1. L''Application et Plateforme Domtom Connect</h2>
+                <h2 style="margin:0 0 10px 0; font-size:1.05rem; color:#0f172a; font-weight:700;">1. L'Application et Plateforme Domtom Connect</h2>
                 <p style="margin:0 0 12px 0; font-size:0.9rem; color:#475569; line-height:1.6;">
-                  L''infrastructure Domtom Connect centralise l''ensemble des outils nécessaires au développement de vos projets dans les territoires ultramarins et au sein de la diaspora :
+                  L'infrastructure Domtom Connect centralise l'ensemble des outils nécessaires au développement de vos projets dans les territoires ultramarins et au sein de la diaspora :
                 </p>
                 <ul style="margin:0; padding-left:20px; font-size:0.9rem; color:#334155; line-height:1.6;">
-                  <li style="margin-bottom:6px;"><strong>Espace Réseau & Moments :</strong> Publication d''actualités, d''opportunités professionnelles et d''appels à projets.</li>
-                  <li style="margin-bottom:6px;"><strong>Vitrines & Chaînes Dédiées :</strong> Valorisation de vos expertises, services et réalisations auprès d''une audience qualifiée.</li>
+                  <li style="margin-bottom:6px;"><strong>Espace Réseau & Moments :</strong> Publication d'actualités, d'opportunités professionnelles et d'appels à projets.</li>
+                  <li style="margin-bottom:6px;"><strong>Vitrines & Chaînes Dédiées :</strong> Valorisation de vos expertises, services et réalisations auprès d'une audience qualifiée.</li>
                   <li style="margin-bottom:6px;"><strong>Application Mobile Android (DTC Pulse) :</strong> Accès direct et notifications en temps réel depuis votre smartphone.</li>
                 </ul>
               </div>
@@ -82,7 +83,7 @@ BEGIN
                   <td align="center">
                     <a href="https://domtomconnect.com/mon-espace.html" target="_blank"
                        style="display:inline-block; background-color:#0f172a; color:#ffffff; text-decoration:none; font-size:0.95rem; font-weight:600; padding:14px 32px; border-radius:8px;">
-                      Accéder à la Plateforme et à l''Application
+                      Accéder à la Plateforme et à l'Application
                     </a>
                   </td>
                 </tr>
@@ -95,7 +96,7 @@ BEGIN
                   Afin de faciliter les interactions quotidiennes et accélérer la mise en relation entre porteurs de projets, prestataires et entrepreneurs, un groupe WhatsApp officiel est à votre disposition.
                 </p>
                 <p style="margin:0; font-size:0.9rem; color:#475569; line-height:1.6;">
-                  Ce canal privé vous permet d''échanger directement avec les autres membres, de partager des besoins urgents et de suivre les annonces clés du réseau.
+                  Ce canal privé vous permet d'échanger directement avec les autres membres, de partager des besoins urgents et de suivre les annonces clés du réseau.
                 </p>
               </div>
 
@@ -111,7 +112,7 @@ BEGIN
               </table>
 
               <p style="margin:0 0 20px 0; font-size:0.9rem; color:#64748b; line-height:1.6;">
-                Notre équipe demeure à votre disposition pour toute question ou accompagnement technique à l''adresse <a href="mailto:contact@domtomconnect.com" style="color:#0f172a; text-decoration:underline;">contact@domtomconnect.com</a>.
+                Notre équipe demeure à votre disposition pour toute question ou accompagnement technique à l'adresse <a href="mailto:contact@domtomconnect.com" style="color:#0f172a; text-decoration:underline;">contact@domtomconnect.com</a>.
               </p>
 
               <p style="margin:24px 0 0 0; font-size:0.95rem; color:#334155; font-weight:600;">
@@ -125,7 +126,7 @@ BEGIN
           <tr>
             <td style="background-color:#f1f5f9; padding: 24px 40px; text-align:center; color:#64748b; font-size:0.8rem; border-top:1px solid #e2e8f0; line-height:1.5;">
               <p style="margin:0 0 6px 0;">
-                Vous recevez cette notification en tant qu''utilisateur inscrit sur Domtom Connect.
+                Vous recevez cette notification en tant qu'utilisateur inscrit sur Domtom Connect.
               </p>
               <p style="margin:0;">
                 Pour modifier vos préférences de communication, écrivez à <a href="mailto:contact@domtomconnect.com?subject=Desabonnement" style="color:#64748b; text-decoration:underline;">contact@domtomconnect.com</a>.<br>
@@ -139,7 +140,7 @@ BEGIN
     </tr>
   </table>
 </body>
-</html>';
+</html>$html$, '{{FIRST_NAME}}', first_name);
 
         -- Ajout au batch Resend
         batch_array := batch_array || jsonb_build_object(
