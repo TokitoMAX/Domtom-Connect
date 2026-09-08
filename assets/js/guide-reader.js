@@ -264,6 +264,12 @@
             a.addEventListener('click', (e) => {
                 e.preventDefault();
                 loadChapter(idx);
+            // Auto-close sidebar on mobile
+            if (window.innerWidth <= 850 && elements.sidebar) {
+                elements.sidebar.classList.remove('open');
+                const bd = document.getElementById('sidebar-backdrop');
+                if (bd) bd.classList.remove('open');
+            }
                 if (window.innerWidth <= 850 && elements.sidebar) {
                     elements.sidebar.classList.remove('open');
                 }
@@ -1187,11 +1193,30 @@
 
     // Global Events
     function bindEvents() {
-        // Toggle Sidebar on Mobile
-        if (elements.btnToggleSidebar && elements.sidebar) {
-            elements.btnToggleSidebar.addEventListener('click', () => {
-                elements.sidebar.classList.toggle('open');
-            });
+        // Toggle Sidebar on Mobile with Backdrop & Close Button
+        const backdrop = document.getElementById('sidebar-backdrop');
+        const btnSidebarClose = document.getElementById('btn-sidebar-close');
+
+        const toggleSidebar = (forceState) => {
+            if (!elements.sidebar) return;
+            const willOpen = typeof forceState === 'boolean' ? forceState : !elements.sidebar.classList.contains('open');
+            if (willOpen) {
+                elements.sidebar.classList.add('open');
+                if (backdrop) backdrop.classList.add('open');
+            } else {
+                elements.sidebar.classList.remove('open');
+                if (backdrop) backdrop.classList.remove('open');
+            }
+        };
+
+        if (elements.btnToggleSidebar) {
+            elements.btnToggleSidebar.addEventListener('click', () => toggleSidebar());
+        }
+        if (btnSidebarClose) {
+            btnSidebarClose.addEventListener('click', () => toggleSidebar(false));
+        }
+        if (backdrop) {
+            backdrop.addEventListener('click', () => toggleSidebar(false));
         }
 
         // Keyboard navigation (Arrow keys)
@@ -1388,15 +1413,12 @@
         });
     }
 
-    // Theme Switcher (Dark / Light)
+    // Dark Mode Enforced (Zero broken contrast)
     function initTheme() {
-        if (elements.btnThemeToggle) {
-            elements.btnThemeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light-theme');
-                const isLight = document.body.classList.contains('light-theme');
-                elements.btnThemeToggle.innerHTML = isLight ? '<i class="fa-regular fa-sun"></i>' : '<i class="fa-regular fa-moon"></i>';
-            });
-        }
+        document.body.classList.remove('light-theme');
+        try {
+            localStorage.removeItem('dtc_guide_theme');
+        } catch (e) {}
     }
 
     // Helpers

@@ -49,6 +49,9 @@
                         <span class="brand-badge">Édition Tome 1</span>
                     </div>
                 </a>
+                <button id="btn-sidebar-close" class="btn-sidebar-close" aria-label="Fermer le sommaire">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
             <div class="sidebar-stats">
@@ -79,6 +82,9 @@
             </div>
         </aside>
 
+        <!-- Mobile Sidebar Backdrop -->
+        <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
         <!-- Main Content Area -->
         <main class="guide-main">
             <!-- Reader Top Bar -->
@@ -96,14 +102,11 @@
                 </div>
 
                 <div class="topbar-right">
-                    <a href="guide-entrepreneur.html" class="btn-topbar-tool" title="Découvrir la Boîte à Outils" style="color: #10b981; font-weight: 700; border-color: rgba(16,185,129,0.3);">
-                        <i class="fa-solid fa-book"></i> <span style="display:inline-block; margin-left:4px;">L'E-book & Outils</span>
+                    <a href="guide-entrepreneur.html" class="btn-topbar-tool" title="Découvrir l'E-book & Outils" style="color: #10b981; font-weight: 700; border-color: rgba(16,185,129,0.3);">
+                        <i class="fa-solid fa-book-open"></i> <span class="tool-label">E-book & Outils</span>
                     </a>
-                    <button id="btn-theme-toggle" class="btn-topbar-tool" title="Mode Sombre / Clair">
-                        <i class="fa-regular fa-moon"></i>
-                    </button>
                     <a href="index.html" class="btn-topbar-tool" title="Retour au site principal">
-                        <i class="fa-solid fa-house"></i> Accueil
+                        <i class="fa-solid fa-house"></i> <span class="tool-label">Accueil</span>
                     </a>
                 </div>
             </header>

@@ -318,10 +318,14 @@ body {
 /* Main Reader Area */
 .guide-main {
     flex: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
     margin-left: var(--sidebar-width);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* Top Navbar */
@@ -336,7 +340,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 32px;
+    padding: 0 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .topbar-left {
@@ -3562,4 +3569,353 @@ body {
 .clean-cover-hint {
     font-size: 0.85rem;
     color: var(--text-muted);
+}
+
+
+/* ==========================================================================
+   ENHANCED MOBILE PHONE EXPERIENCE (DOMTOM CONNECT 2026)
+   ========================================================================== */
+
+/* Mobile Sidebar Close Button */
+.btn-sidebar-close {
+    display: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-sidebar-close:hover {
+    color: #ffffff;
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Mobile Sidebar Backdrop */
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 890;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.sidebar-backdrop.open {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 850px) {
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+    }
+    .app-container {
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+    .guide-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        min-width: 0 !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+    .btn-sidebar-close {
+        display: flex;
+    }
+    .guide-sidebar {
+        width: min(320px, 86vw) !important;
+        z-index: 1000 !important;
+    }
+    .sidebar-toc .toc-title {
+        white-space: normal !important;
+        line-height: 1.35 !important;
+        font-size: 0.88rem !important;
+    }
+    .sidebar-footer .btn-sidebar-action {
+        font-size: 0.82rem !important;
+        padding: 10px 12px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    
+    /* Topbar Mobile Cleanup: no text overlap */
+    .reader-topbar {
+        height: 54px !important;
+        padding: 0 12px !important;
+        gap: 8px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+    }
+    .topbar-left {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        gap: 8px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .btn-toggle-sidebar {
+        width: 36px !important;
+        height: 36px !important;
+        flex-shrink: 0 !important;
+    }
+    .breadcrumb-chapter {
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        font-size: 0.82rem !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+    .topbar-right {
+        flex-shrink: 0 !important;
+        gap: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .btn-topbar-tool {
+        padding: 8px !important;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 0.88rem !important;
+        border-radius: 8px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+    .btn-topbar-tool .tool-label {
+        display: none !important;
+    }
+    .topbar-sector-pill {
+        display: none !important;
+    }
+
+    /* Container & Reader Body */
+    .reader-container {
+        padding: 16px 14px 90px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    .chapter-article {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+    .chapter-hero {
+        margin-bottom: 20px !important;
+        padding-bottom: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .chapter-badge-top {
+        font-size: 0.72rem !important;
+        padding: 4px 10px !important;
+        margin-bottom: 10px !important;
+    }
+    .chapter-title {
+        font-size: 1.4rem !important;
+        line-height: 1.25 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        margin-bottom: 10px !important;
+    }
+    .chapter-subtitle {
+        font-size: 0.92rem !important;
+        line-height: 1.5 !important;
+        margin-bottom: 12px !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    .chapter-meta-bar {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        font-size: 0.76rem !important;
+        width: 100% !important;
+    }
+    .chapter-meta-item {
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+    .article-body {
+        font-size: 0.96rem !important;
+        line-height: 1.65 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    .article-body p {
+        margin-bottom: 14px !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    .article-body h3 {
+        font-size: 1.18rem !important;
+        margin: 22px 0 10px !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    .quote-card {
+        padding: 16px 14px !important;
+        margin: 18px 0 !important;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .quote-card p {
+        font-size: 0.95rem !important;
+        line-height: 1.55 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    .tip-card, .highlight-box {
+        padding: 16px 14px !important;
+        margin: 18px 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .table-responsive {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        margin: 16px 0 !important;
+        display: block !important;
+        box-sizing: border-box !important;
+    }
+    .table-compare {
+        min-width: 500px !important;
+    }
+
+    /* Chapter Footer: Fixed Stack on Phone */
+    .chapter-nav-footer {
+        flex-direction: column !important;
+        gap: 14px !important;
+        align-items: stretch !important;
+        margin-top: 36px !important;
+        padding-top: 20px !important;
+    }
+    .chapter-nav-actions-row {
+        width: 100% !important;
+    }
+    .btn-chapter-completed-toggle {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 12px 16px !important;
+        font-size: 0.85rem !important;
+        text-align: center !important;
+    }
+    .chapter-nav-buttons-row {
+        flex-direction: column-reverse !important;
+        width: 100% !important;
+        gap: 10px !important;
+    }
+    .chapter-nav-buttons-row .btn-nav-chapter {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 14px 20px !important;
+        font-size: 0.95rem !important;
+        border-radius: 10px !important;
+    }
+
+    /* Workbook on Phone */
+    .workbook-section {
+        padding: 20px 14px !important;
+        margin-top: 36px !important;
+        border-radius: 16px !important;
+    }
+    .workbook-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+    .workbook-title-group h3 {
+        font-size: 1.15rem !important;
+    }
+    .workbook-input, .workbook-textarea, .workbook-select {
+        font-size: 16px !important; /* Prevents auto zoom in iOS Safari */
+        padding: 12px 14px !important;
+    }
+
+    /* Clean Cover Chapitre 0 on Mobile */
+    .clean-cover-page {
+        padding: 1.5rem 0.5rem 2rem !important;
+        min-height: auto !important;
+    }
+    .clean-cover-wrapper {
+        max-width: 300px !important;
+    }
+    .btn-clean-open-cover {
+        width: 100% !important;
+        max-width: 320px !important;
+        padding: 14px 20px !important;
+        font-size: 0.98rem !important;
+    }
+
+    /* Grids & Cards fallback to 1 column */
+    .funnel-phases-grid,
+    .accounts-flow-grid,
+    .pros-cons-split,
+    .vs-container,
+    .grid-2,
+    .logo-dropzone-wrapper,
+    .logo-mockups-grid,
+    .pathway-decision-grid,
+    .color-psychology-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    /* Modal Responsive */
+    .modal-card {
+        width: 95vw !important;
+        max-height: 90vh !important;
+        border-radius: 16px !important;
+    }
+    .modal-header {
+        padding: 16px 18px !important;
+    }
+    .modal-header h3 {
+        font-size: 1.1rem !important;
+    }
+    .modal-body {
+        padding: 16px 18px !important;
+    }
+    .modal-footer {
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 14px 18px !important;
+    }
+    .modal-footer button {
+        width: 100% !important;
+        justify-content: center !important;
+    }
 }

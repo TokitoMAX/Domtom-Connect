@@ -1707,6 +1707,47 @@
         }
 
         @media (max-width: 768px) {
+        @media (max-width: 768px) {
+            /* Mobile Optimization for Guide Preview */
+            .guide-preview-sidebar {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 12px;
+                margin-bottom: 14px;
+            }
+            .guide-preview-sidebar .sidebar-header {
+                font-size: 0.82rem;
+                margin-bottom: 8px;
+            }
+            .preview-chapter-list {
+                display: flex !important;
+                flex-direction: row !important;
+                overflow-x: auto !important;
+                gap: 8px !important;
+                padding-bottom: 6px !important;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            .preview-chapter-list li {
+                flex: 0 0 auto !important;
+                white-space: nowrap !important;
+                scroll-snap-align: start;
+                padding: 8px 12px !important;
+                border-radius: 999px !important;
+                font-size: 0.82rem !important;
+            }
+            .preview-chapter-list li .chap-badge {
+                font-size: 0.7rem !important;
+                padding: 2px 6px !important;
+            }
+            .preview-checklist-card {
+                padding: 14px !important;
+            }
+            .preview-check-item {
+                font-size: 0.86rem !important;
+                padding: 8px !important;
+            }
+        }
+
             body {
                 padding-bottom: 85px;
             }
