@@ -10,11 +10,12 @@ Un script SQL automatisé a été préparé pour envoyer un email de lancement p
 
 * **Fichier :** [`scripts/mass_email_lancement_guide.sql`](file:///c:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scripts/mass_email_lancement_guide.sql)
 * **Objet (sans émoji) :** `Nouveau sur Domtom Connect : Guide de l'Entrepreneur (Tome 1)`
+* **Prestataire :** **Resend Batch API** (clé `re_452nrNAV_...` intégrée, expéditeur `contact@domtomconnect.com`). Brevo avait été désactivé par le passé suite à des erreurs 403, c'est bien Resend qui gère tous les envois réels.
 * **Format technique :** Gabarit HTML classique 600px en tables imbriquées, styles 100% inline, fond clair universel (`#f8fafc` / `#ffffff`), zéro émoji. Conçu pour un affichage parfait et identique sur Gmail (web & mobile), Outlook (toutes versions), Apple Mail et webmails.
 * **Fonctionnement :** 
   1. Ouvre ton [Dashboard Supabase](https://supabase.com/dashboard) > **SQL Editor**.
   2. Ouvre ou colle le contenu de `scripts/mass_email_lancement_guide.sql`.
-  3. Clique sur **Run**. Les emails sont envoyés via l'API Brevo (`public.send_brevo_email`) avec personnalisation du prénom.
+  3. Clique sur **Run**. Les emails sont expédiés directement par paquets de 90 via l'API Resend (`net.http_post`).
 
 ---
 
