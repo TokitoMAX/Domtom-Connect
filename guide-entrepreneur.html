@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title>Les Fondamentaux de l'Entrepreneur — Tome 1 | L'E-book Interactif Domtom Connect</title>
+    <meta name="description" content="Découvrez le premier e-book interactif et carnet de bord 80% Action pour entreprendre sans excuse aux Antilles, en Guyane, à La Réunion, en Afrique et dans la diaspora.">
+    <meta name="keywords" content="ebook entrepreneur, domtom connect, guide interactif, caraibes, afrique, diaspora, carnet de bord, simulateur rentabilité, dtc pulse">
+    <meta name="author" content="Domtom Connect">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Les Fondamentaux de l'Entrepreneur — Tome 1 | L'E-book Interactif">
+    <meta property="og:description" content="Le premier e-book interactif 80% Action, 20% Réflexion pour passer de l'idée au terrain.">
+    <meta property="og:image" content="assets/images/bundle-mockup-tome1.jpg">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://domtomconnect.com/guide-entrepreneur.html">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #020617;
+            --bg-surface: #0b1329;
+            --bg-card: #111e38;
+            --bg-card-hover: #162646;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.3);
+            --accent-hover: #059669;
+            --accent-gold: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(16, 185, 129, 0.35);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Top Bar */
+        .ecom-topbar {
+            background: linear-gradient(90deg, #047857 0%, #10b981 50%, #059669 100%);
+            color: #020617;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .ecom-topbar span.pill {
+            background: #020617;
+            color: #ffffff;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Navbar */
+        .ecom-nav {
+            background: rgba(2, 6, 23, 0.88);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            padding: 16px 24px;
+        }
+
+        .nav-inner {
+            max-width: 1220px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .nav-brand-logo img {
+            height: 38px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-brand-logo .brand-text {
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand-logo .brand-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+        }
+
+        .nav-links-desktop a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links-desktop a:hover {
+            color: var(--accent);
+        }
+
+        .btn-nav-cta {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #020617;
+            font-weight: 800;
+            font-size: 0.92rem;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Hero Section with 3D Depth */
+        .product-hero {
+            padding: 70px 20px 90px;
+            position: relative;
+            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.25) 0%, transparent 65%);
+            border-bottom: 1px solid var(--border-subtle);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1220px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+        }
+
+        .hero-headline {
+            font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: #ffffff;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .hero-headline span.green-accent {
+            color: #10b981;
+        }
+
+        .hero-subheadline {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-hero-buy {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #020617;
+            font-weight: 900;
+            font-size: 1.12rem;
+            padding: 18px 36px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-hero-buy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(16, 185, 129, 0.6);
+            color: #020617;
+        }
+
+        .btn-hero-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 17px 26px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-hero-demo:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .hero-specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .spec-item-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .spec-item-box i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        /* 3D Showcase Card */
+        .showcase-3d-wrapper {
+            perspective: 1200px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .showcase-3d-card {
+            position: relative;
+            max-width: 440px;
+            width: 100%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(-8deg) rotateX(4deg);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            box-shadow: -15px 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            cursor: pointer;
+        }
+
+        .showcase-3d-card:hover {
+            transform: rotateY(0deg) rotateX(0deg) translateY(-8px) scale(1.02);
+            box-shadow: 0 30px 75px rgba(0, 0, 0, 0.95), 0 0 55px rgba(16, 185, 129, 0.45);
+        }
+
+        .showcase-3d-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .showcase-floating-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(2, 6, 23, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .showcase-floating-badge h4 {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin: 0 0 2px 0;
+            font-weight: 800;
+        }
+
+        .showcase-floating-badge p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .pulse-live-tag {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: pulseAnim 1.6s infinite;
+        }
+
+        @keyframes pulseAnim {
+            0% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.9); opacity: 0.7; }
+        }
+
+        /* Section Layouts */
+        .section-wrap {
+            padding: 90px 20px;
+            max-width: 1220px;
+            margin: 0 auto;
+        }
+
+        .section-header-center {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 5px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+        }
+
+        .section-header-center h2 {
+            font-size: clamp(2rem, 3.4vw, 2.7rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 14px;
+            line-height: 1.25;
+        }
+
+        .section-header-center p {
+            font-size: 1.08rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Contrast Cards: Théorie vs Consultation DTC */
+        .contrast-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .contrast-box {
+            border-radius: var(--radius-lg);
+            padding: 40px 35px;
+            position: relative;
+        }
+
+        .contrast-box.bad {
+            background: rgba(239, 68, 68, 0.04);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .contrast-box.good {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, rgba(11, 19, 41, 0.95) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(16, 185, 129, 0.15);
+        }
+
+        .contrast-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .contrast-header h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .contrast-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contrast-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.55;
+        }
+
+        .contrast-box.bad .contrast-list i {
+            color: #ef4444;
+            margin-top: 4px;
+            font-size: 1.05rem;
+        }
+
+        .contrast-box.good .contrast-list i {
+            color: #10b981;
+            margin-top: 4px;
+            font-size: 1.05rem;
+        }
+
+        /* 4 Phases Consultation Grid */
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .phase-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 28px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .phase-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .phase-card h4 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+
+        .phase-card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Transformation Section (Avant / Après) */
+        .transformation-section {
+            padding: 85px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .transformation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+
+        .transfo-card {
+            border-radius: var(--radius-lg);
+            padding: 36px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        .transfo-card.before {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .transfo-card.after {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.08);
+        }
+
+        .transfo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 6px 14px;
+            border-radius: 999px;
+            width: fit-content;
+        }
+
+        .transfo-card.before .transfo-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .transfo-card.after .transfo-badge {
+            background: rgba(16, 185, 129, 0.18);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .transfo-card h3 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .transfo-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .transfo-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            color: #cbd5e1;
+        }
+
+        .transfo-card.before .transfo-list i {
+            color: #ef4444;
+            margin-top: 4px;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .transfo-card.after .transfo-list i {
+            color: #10b981;
+            margin-top: 4px;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+
+        .transfo-card.after .transfo-list strong {
+            color: #ffffff;
+        }
+
+        .transfo-banner {
+            max-width: 1040px;
+            margin: 32px auto 0;
+            background: rgba(11, 19, 41, 0.85);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-md);
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .transfo-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.98rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .transfo-banner-text i {
+            color: #10b981;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .transfo-banner-btn {
+            background: #10b981;
+            color: #020617;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .transfo-banner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Pricing Section (The Heart of E-commerce) */
+        .pricing-section {
+            background: radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            padding: 90px 20px 100px;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 30px;
+            max-width: 1040px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 40px 34px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(145deg, #0b1530 0%, #04091a 100%);
+            border: 2px solid #10b981;
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.8), 0 0 35px rgba(16, 185, 129, 0.25);
+            transform: scale(1.02);
+        }
+
+        .popular-pill {
+            position: absolute;
+            top: -14px;
+            right: 28px;
+            background: #10b981;
+            color: #020617;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 4px 14px;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .pricing-plan-title {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pricing-plan-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            min-height: 48px;
+        }
+
+        .pricing-price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .price-amount {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .price-original {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .price-billing-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .pricing-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 35px;
+            flex: 1;
+        }
+
+        .pricing-features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .pricing-features-list li i {
+            color: var(--accent);
+            margin-top: 3px;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .pricing-features-list li.bonus-item {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+        }
+
+        .btn-pricing-cta {
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-pricing-cta.primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #020617;
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-pricing-cta.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.55);
+            color: #020617;
+        }
+
+        .btn-pricing-cta.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+        }
+
+        .btn-pricing-cta.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .security-guarantee-box {
+            max-width: 800px;
+            margin: 40px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+
+        .sec-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sec-item i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Section */
+        .faq-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 22px 26px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .faq-question {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 14px;
+            line-height: 1.65;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        .ecom-footer {
+            background: #01040f;
+            border-top: 1px solid var(--border-subtle);
+            padding: 60px 20px 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .ecom-footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 12px;
+            transition: color 0.2s;
+        }
+
+        .ecom-footer a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .hero-buttons-row {
+                justify-content: center;
+            }
+            .hero-specs-grid {
+                grid-template-columns: 1fr;
+                max-width: 360px;
+                margin: 0 auto;
+            }
+            .contrast-grid {
+                grid-template-columns: 1fr;
+            }
+            .phases-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .transformation-grid {
+                grid-template-columns: 1fr;
+            }
+            .transfo-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-card.featured {
+                transform: none;
+            }
+            .nav-links-desktop {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .phases-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-card {
+                padding: 30px 20px;
+            }
+            .price-amount {
+                font-size: 2.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Notification Bar -->
+    <div class="ecom-topbar">
+        <span class="pill">Offre de Lancement 2026</span>
+        <span>Accès Immédiat à Vie &amp; Mises à Jour Incluses pour les Membres Fondateurs</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="ecom-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand-logo">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
+                <span class="brand-text">Domtom Connect</span>
+                <span class="brand-badge">Guide Interactif</span>
+            </a>
+
+            <div class="nav-links-desktop">
+                <a href="#transformation">Transformation</a>
+                <a href="#programme">Le Programme (27 Ch.)</a>
+                <a href="#methode">La Méthode</a>
+                <a href="#tarifs">Tarifs</a>
+                <a href="#faq">FAQ</a>
+            </div>
+
+            <div class="nav-right-actions">
+                <a href="#tarifs" class="btn-nav-cta">
+                    <i class="fa-solid fa-bolt"></i> Commencer Dès 27 €
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Product Showcase -->
+    <header class="product-hero">
+        <div class="hero-container">
+            <div class="hero-text-col">
+                <span class="hero-badge-pill">
+                    <i class="fa-solid fa-gem"></i> Consultation 1-on-1 &amp; Guide Interactif
+                </span>
+                <h1 class="hero-headline">
+                    Transforme ton idée en business rentable, <br>
+                    <span class="green-accent">sans excuse et sans gros budget</span>
+                </h1>
+                <p class="hero-subheadline">
+                    Le premier système numérique <strong>80% action et 20% réflexion</strong> taillé pour les Antilles, la Guyane, La Réunion, l'Afrique et les diasporas : 27 chapitres de consultation pas-à-pas, ton carnet de bord sauvegardé automatiquement et ton simulateur financier en direct.
+                </p>
+
+                <div class="hero-buttons-row">
+                    <a href="#tarifs" class="btn-hero-buy">
+                        <span>Rejoindre la Consultation (Dès 27 €)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="guide.html#couverture" class="btn-hero-demo">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Explorer la Démo en Direct</span>
+                    </a>
+                </div>
+
+                <div class="hero-specs-grid">
+                    <div class="spec-item-box">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>27 Chapitres de consultation terrain</span>
+                    </div>
+                    <div class="spec-item-box">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Carnet de bord à sauvegarde automatique</span>
+                    </div>
+                    <div class="spec-item-box">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Simulateur financier de rentabilité en direct</span>
+                    </div>
+                    <div class="spec-item-box">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Export PDF de ton plan d'action personnalisé</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-mockup-col">
+                <div class="showcase-3d-wrapper">
+                    <div class="showcase-3d-card" id="interactive-book-card" title="Guide Digital & Carnet de Bord Interactif">
+                        <img src="assets/images/bundle-mockup-tome1.jpg" alt="Présentation 3D du Livre et Cahier d'exercices Tome 1 Domtom Connect">
+                        <div class="showcase-floating-badge">
+                            <div>
+                                <h4>Tome 1, fondamentaux</h4>
+                                <p>Format Web Responsive + Application</p>
+                            </div>
+                            <span class="pulse-live-tag">
+                                <span class="pulse-dot"></span>
+                                Édition 2026
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contrast Section: Pourquoi ce guide est unique -->
+    <section class="section-wrap" id="methode">
+        <div class="section-header-center">
+            <span class="section-tag">La Fin des Théories Inutiles</span>
+            <h2>Pourquoi 90% des formations échouent là où cette consultation réussit</h2>
+            <p>
+                On a tous vu passer des cours en ligne de 40 heures remplis de jargon de salon, conçus pour des marchés saturés où l'on te conseille de lever des millions. Sur nos territoires, la réalité est différente.
+            </p>
+        </div>
+
+        <div class="contrast-grid">
+            <div class="contrast-box bad">
+                <div class="contrast-header">
+                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.6rem;"></i>
+                    <h3>Les formations classiques à 997 €</h3>
+                </div>
+                <ul class="contrast-list">
+                    <li><i class="fa-solid fa-xmark"></i> Des dizaines de vidéos passives sans passage à l'action.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Des conseils hors-sol inadaptés aux réalités insulaires et africaines (octroi de mer, fret, logistique locale).</li>
+                    <li><i class="fa-solid fa-xmark"></i> T'oblige à payer des abonnements mensuels de logiciels coûteux avant d'avoir encaissé ton premier euro.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Aucun livrable concret à la fin : tu te retrouves seul avec des doutes.</li>
+                </ul>
+            </div>
+
+            <div class="contrast-box good">
+                <div class="contrast-header">
+                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.6rem;"></i>
+                    <h3>La Consultation Domtom Connect</h3>
+                </div>
+                <ul class="contrast-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>80% action et 20% réflexion :</strong> chaque chapitre débouche sur un exercice appliqué dans ton carnet de bord.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Analyse des failles locales :</strong> comment battre les acteurs en place sur le SAV, les délais et le relationnel client.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Stack minimale à 0 € :</strong> encaisse sans friction avec Stripe, SumUp, Wave et WhatsApp Business.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Un plan exportable :</strong> tu repars avec ton plan d'action validé sur 30 jours, prêt à signer tes premiers clients.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- The 4 Consultation Phases -->
+    <section class="section-wrap" id="programme" style="background: rgba(11, 19, 41, 0.4); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+        <div class="section-header-center">
+            <span class="section-tag">Parcours Étape par Étape</span>
+            <h2>Une consultation complète structurée en 4 phases d'action</h2>
+            <p>
+                Tu n'es pas laissé à l'abandon. Ce guide te prend par la main du déblocage psychologique jusqu'à la fidélisation de tes premiers clients payants.
+            </p>
+        </div>
+
+        <div class="phases-grid">
+            <div class="phase-card">
+                <span class="phase-badge">Phase 1 (Ch. 1 à 4)</span>
+                <h4>Cadrage &amp; Mindset</h4>
+                <p>Briser le syndrome de l'imposteur, formuler son Why profond et appliquer la loi de Pareto pour faire un maximum avec ses moyens actuels.</p>
+            </div>
+
+            <div class="phase-card">
+                <span class="phase-badge">Phase 2 (Ch. 5 à 10)</span>
+                <h4>L'Aiguillage &amp; la Niche</h4>
+                <p>Découvrir les 5 véhicules réels, choisir sa voie, faire son bilan de compétences et repérer le trou dans la raquette sur son marché local.</p>
+            </div>
+
+            <div class="phase-card">
+                <span class="phase-badge">Phase 3 (Ch. 11 à 18)</span>
+                <h4>Offre, marque et finance</h4>
+                <p>Fiche Avatar client, échelle d'offre en 3 paliers, lancement bêta test, page de vente One-Page et simulateur de rentabilité financière.</p>
+            </div>
+
+            <div class="phase-card">
+                <span class="phase-badge">Phase 4 (Ch. 19 à 27)</span>
+                <h4>Conversion &amp; Fidélisation</h4>
+                <p>Batching de contenu 1 mois en 3h, closing en message privé (DM), pitch en une phrase, boucle de parrainage et feuille de route 30 jours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Section (Avant / Après) -->
+    <section class="transformation-section" id="transformation">
+        <div class="section-header-center">
+            <span class="section-tag">La Valeur Concrète</span>
+            <h2>Ta transformation après les 27 chapitres</h2>
+            <p>
+                Ce n'est pas de la théorie à mémoriser. C'est une métamorphose opérationnelle de ton projet entre le jour où tu commences et le jour où tu encaisses tes premiers clients.
+            </p>
+        </div>
+
+        <div class="transformation-grid">
+            <!-- Avant -->
+            <div class="transfo-card before">
+                <span class="transfo-badge">
+                    <i class="fa-solid fa-hourglass-half"></i> Avant la consultation
+                </span>
+                <h3>Le flou, les doutes et la procrastination</h3>
+                <ul class="transfo-list">
+                    <li>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span><strong>Idée confuse :</strong> Tu as envie d'entreprendre mais tu ne sais pas par quel bout commencer ni quoi vendre exactement.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span><strong>Peur des pièges locaux :</strong> Les contraintes de fret, d'octroi de mer, de TVA et de trésorerie te paraissent insurmontables.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span><strong>Dispersion stérile :</strong> Tu passes des heures à peaufiner des logos ou à poster sur les réseaux sans offre structurée ni stratégie d'encaissement.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span><strong>Calculs à l'aveugle :</strong> Aucune idée de ton seuil de rentabilité, de ton pricing ou du montant exact qu'il te faut pour te verser un revenu.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-xmark"></i>
+                        <span><strong>Sentiment d'isolement :</strong> Tu te retrouves seul face à tes blocages, sans méthode éprouvée pour franchir le pas.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Après -->
+            <div class="transfo-card after">
+                <span class="transfo-badge">
+                    <i class="fa-solid fa-circle-check"></i> Après la consultation
+                </span>
+                <h3>La clarté absolue et une machine prête à encaisser</h3>
+                <ul class="transfo-list">
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Une offre irrésistible en main :</strong> Ton positionnement est tranché, testé auprès de ton avatar client idéal avec une proposition de valeur unique.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Le bon véhicule économique validé :</strong> Tu as choisi parmi les 5 voies celui qui correspond précisément à tes compétences et à ton budget initial (même à 0 €).</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Système d'encaissement actif :</strong> Ta stack minimale (WhatsApp Business, Stripe / Wave / SumUp) est en place pour transformer les contacts en clients payants.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Rentabilité maîtrisée au centime près :</strong> Grâce au simulateur financier, tu connais ton point mort, tes marges et le nombre exact de ventes mensuelles nécessaires.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-check"></i>
+                        <span><strong>Feuille de route de 30 jours exportée :</strong> Tu repars avec ton plan d'action personnalisé en PDF pour lancer ton premier mois avec discipline et sérénité.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="transfo-banner">
+            <div class="transfo-banner-text">
+                <i class="fa-solid fa-rocket"></i>
+                <span>En 30 jours, tu passes du rôle d'observateur indécis à celui d'entrepreneur qui exécute et génère ses premières ventes.</span>
+            </div>
+            <a href="#tarifs" class="transfo-banner-btn">
+                <span>Passer à l'action dès 27 €</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Pricing Section (2 Paliers Clairs) -->
+    <section class="pricing-section" id="tarifs">
+        <div class="section-header-center">
+            <span class="section-tag">Investissement Rentable</span>
+            <h2>Choisis la formule adaptée à ton ambition</h2>
+            <p>
+                Moins cher qu'un seul repas au restaurant, pour acquérir les compétences et la feuille de route qui vont générer tes premiers milliers d'euros de chiffre d'affaires.
+            </p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Formule 1 : Guide interactif solo -->
+            <div class="pricing-card">
+                <h3 class="pricing-plan-title">Guide interactif solo</h3>
+                <p class="pricing-plan-desc">L'essentiel pour structurer ton projet et démarrer immédiatement sur le terrain.</p>
+                
+                <div class="pricing-price-wrap">
+                    <span class="price-amount">27 €</span>
+                    <span class="price-original">47 €</span>
+                    <span class="price-billing-label">Paiement unique, accès à vie</span>
+                </div>
+
+                <ul class="pricing-features-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>Les 27 chapitres complets</strong> de consultation pas-à-pas</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Carnet de bord interactif</strong> avec sauvegarde automatique</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Simulateur financier dynamique</strong> de point mort et cadence</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Export PDF personnalisé</strong> de ton plan d'action</li>
+                    <li><i class="fa-solid fa-check"></i> Mises à jour gratuites de la version web</li>
+                </ul>
+
+                <a href="https://buy.stripe.com/5kQ28qdpP6QI2205E97Re03" class="btn-pricing-cta secondary" target="_blank" rel="noopener">
+                    <span>Choisir le guide solo (27 €)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Formule 2 : Pack fondateur et accélérateur -->
+            <div class="pricing-card featured">
+                <span class="popular-pill">⭐ Le choix recommandé</span>
+                <h3 class="pricing-plan-title">Pack fondateur et accélérateur</h3>
+                <p class="pricing-plan-desc">Le système complet avec intégration dans notre incubateur et accès à l'application.</p>
+                
+                <div class="pricing-price-wrap">
+                    <span class="price-amount">47 €</span>
+                    <span class="price-original">97 €</span>
+                    <span class="price-billing-label">Paiement unique, accès fondateur</span>
+                </div>
+
+                <ul class="pricing-features-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>Tout ce qui est inclus dans le guide solo</strong></li>
+                    <li class="bonus-item"><i class="fa-solid fa-mobile-screen" style="color:#10b981;"></i> <strong>Accès à la bêta fermée de l'application mobile DTC Pulse</strong></li>
+                    <li class="bonus-item"><i class="fa-solid fa-rocket" style="color:#10b981;"></i> <strong>Intégration dans l'incubateur Domtom Connect</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Badge exclusif membre fondateur</strong> Domtom Connect</li>
+                </ul>
+
+                <a href="https://buy.stripe.com/9B6aEWetTcb25ec3w17Re04" class="btn-pricing-cta primary" target="_blank" rel="noopener">
+                    <span>Rejoindre le pack fondateur (47 €)</span>
+                    <i class="fa-solid fa-bolt"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="security-guarantee-box">
+            <div class="sec-item">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Paiement 100% sécurisé (Stripe / Carte / PayPal)</span>
+            </div>
+            <div class="sec-item">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span>Compatible Mobile, Tablette et Ordinateur</span>
+            </div>
+            <div class="sec-item">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span>Tarif de lancement (prix sujet à augmentation)</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section-wrap" id="faq">
+        <div class="section-header-center">
+            <span class="section-tag">Questions Fréquentes</span>
+            <h2>Tout ce que tu dois savoir avant de commencer</h2>
+            <p>Des réponses claires et sans détour pour faire ton choix en toute sérénité.</p>
+        </div>
+
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Est-ce un simple fichier PDF à télécharger ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Non, absolument pas ! C'est une <strong>Web Application interactive vivante</strong>. Tu peux y accéder depuis ton smartphone, ta tablette ou ton PC. Tes réponses aux exercices se sauvegardent automatiquement dans ton navigateur, et tu disposes d'un simulateur financier interactif pour calculer ta rentabilité en direct. Tu peux également exporter tout ton travail en PDF à n'importe quel moment.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Est-ce adapté si je n'ai encore aucune idée ou aucun capital de départ ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Oui, c'est précisément l'objectif ! Les chapitres 4 et 7 ont été conçus pour partir de 0 € en t'appuyant uniquement sur tes compétences actuelles et ton réseau proche, sans emprunt bancaire. Les 5 voies proposées te permettent de choisir un modèle économique adapté à tes moyens actuels.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Comment se passent les futures mises à jour du guide ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Comme le guide est entièrement digitalisé sous forme d'application web, toute amélioration, ajout de ressource ou mise à jour légale est <strong>instantanément disponible pour tous les membres</strong>, sans frais supplémentaires.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Qu'est-ce que l'application mobile DTC Pulse incluse dans le Pack Fondateur ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <strong>DTC Pulse</strong> est l'application mobile développée par Domtom Connect pour connecter les entrepreneurs des Caraïbes, d'Afrique et de la diaspora. Elle est actuellement en phase de bêta fermée avant son ouverture générale sur Android et iOS.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Le guide est-il remboursable ?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Non. Comme pour toute consultation ou produit numérique à accès immédiat, aucun remboursement n'est accordé après achat. Tu bénéficies en revanche d'un accès illimité et de toutes les futures mises à jour et enrichissements de la plateforme sans aucun surcoût, alors que le tarif de lancement augmentera progressivement.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ecom-footer">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" style="height: 32px; filter: brightness(0) invert(1);">
+                <strong style="color: #ffffff; font-size: 1.05rem;">Domtom Connect</strong>
+            </div>
+            <p>L'écosystème entrepreneurial dédié aux talents des Caraïbes, de l'Afrique et de la diaspora.</p>
+            <div>
+                <a href="guide.html">Accéder à l'E-book</a>
+                <a href="index.html">Accueil Domtom Connect</a>
+                <a href="ressources/index.html">Ressources &amp; Outils</a>
+                <a href="mailto:contact@domtomconnect.com">Support &amp; Contact</a>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #475569;">
+                &copy; 2026 Domtom Connect. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Interactive Card 3D Tilt Script & Accordion -->
+    <script>
+        // 3D Card Interactive Tilt on Mouse Move
+        const card = document.getElementById('interactive-book-card');
+        if (card && window.innerWidth > 900) {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const rotateX = -(y / (rect.height / 2)) * 10;
+                const rotateY = (x / (rect.width / 2)) * 12;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateY(-8deg) rotateX(4deg)';
+            });
+        }
+
+        // FAQ Accordion Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(other => other.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

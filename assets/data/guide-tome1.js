@@ -1,0 +1,1482 @@
+/**
+ * Guide Digital : Les Fondamentaux de l'Entrepreneur — Tome 1
+ * Écosystème Domtom Connect
+ * Version Interactive & Enrichie 2026
+ * Parcours Consultation Pas-à-Pas (27 Chapitres Fondamentaux)
+ */
+
+window.GUIDE_DATA = {
+    "meta": {
+        "title": "Les fondamentaux de l'entrepreneur — Tome 1",
+        "subtitle": "Le guide qui te montre que peu importe ton idée, peu importe tes moyens, tu peux entreprendre",
+        "author": "Domtom Connect",
+        "edition": "2026 — Édition Interactive Enrichie",
+        "totalChapters": 27
+    },
+    "chapters": [
+        {
+            "id": "couverture",
+            "number": 0,
+            "isCover": true,
+            "badge": "Édition Officielle",
+            "title": "Couverture du tome 1",
+            "subtitle": "Les fondamentaux de l'entrepreneur",
+            "readTime": "1 min",
+            "content": "\n    <div class=\"clean-cover-page\">\n        <div class=\"clean-cover-wrapper\" id=\"cover-3d-book\" role=\"button\" tabindex=\"0\" title=\"Cliquer pour commencer la consultation\">\n            <img src=\"assets/images/couverture-guide-tome1.jpg\" alt=\"Couverture officielle — Les Fondamentaux de l'Entrepreneur Tome 1\" class=\"clean-cover-image\">\n        </div>\n        <div class=\"clean-cover-actions\">\n            <button id=\"btn-open-guide-now\" class=\"btn-clean-open-cover\">\n                <span>Ouvrir le guide et commencer</span>\n                <i class=\"fa-solid fa-arrow-right\"></i>\n            </button>\n            <span class=\"clean-cover-hint\">Cliquer sur la couverture ou le bouton pour démarrer</span>\n        </div>\n    </div>\n    "
+        },
+        {
+            "id": "avant-propos",
+            "number": 1,
+            "badge": "Consultation Initiale",
+            "title": "Avant de commencer, la consultation",
+            "subtitle": "Pose ce que tu fais, prends un carnet, on parle franchement.",
+            "readTime": "4 min",
+            "content": "\n      <p class=\"lead-text\">\n          Réponds-moi honnêtement, avant même de tourner cette page. Combien de fois cette année as-tu remis ton projet à plus tard ? Combien de fois as-tu pensé <em>\"je le ferai quand j'aurai plus d'argent, plus de temps, plus de contacts\"</em> ?\n      </p>\n      <p>\n          Si tu te reconnais là-dedans, ce livre s'adresse à toi. Et je vais être direct avec toi tout du long, parce que c'est ce dont tu as besoin, pas d'un discours de plus qui te caresse dans le sens du poil pour te laisser au même endroit dans six mois.\n      </p>\n      <p>\n          Ce livre n'est pas un cours théorique sur l'entrepreneuriat rédigé par des gens qui n'ont jamais vendu un centime de leur vie. <strong>C'est une consultation</strong>, exactement comme la première séance de cadrage que tu aurais avec un mentor ou un accompagnateur qui connaît ton terrain, tes doutes, et les vraies raisons pour lesquelles tu n'as pas encore avancé.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-bolt\"></i></div>\n          <p>\n              « La plupart des gens qui ne réussissent jamais à lancer leur projet ne manquent pas d'idées : ils manquent de l'habitude d'investir du temps, de l'énergie et de l'argent sur eux-mêmes avant d'avoir une garantie de résultat. »\n          </p>\n      </div>\n      <p>\n          On va nommer les blocages, les casser un par un, et à chaque étape, tu vas repartir avec quelque chose de précis à faire, pas une vague idée de plus qui traîne dans un coin de ta tête. Tu as sous les yeux un outil interactif : chaque encadré à la fin des chapitres est ton carnet de bord. Tes réponses y sont sauvegardées automatiquement.\n      </p>\n      <p>\n          Le simple fait que tu sois en train de lire ces lignes est déjà un acte que 90% des gens ne font jamais : celui de poser son attention pour construire son propre avenir économique. Retiens bien ce sentiment, on va en reparler à la fin de cette consultation.\n      </p>\n  ",
+            "exercise": {
+                "id": "ex_avant_propos",
+                "title": "Ton Engagement de Consultation",
+                "description": "Pour tirer profit de ce guide, formule dès maintenant la promesse que tu te fais à toi-même :",
+                "fields": [
+                    {
+                        "id": "engagement_nom",
+                        "type": "text",
+                        "label": "Ton prénom & nom ou nom de projet :",
+                        "placeholder": "Ex: Johan — Projet KréyolTech"
+                    },
+                    {
+                        "id": "engagement_date_blocage",
+                        "type": "textarea",
+                        "label": "Quelle est l'excuse principale qui t'a empêché de démarrer jusqu'ici ?",
+                        "placeholder": "Sois 100% honnête : manque d'argent, peur du regard des autres, pas le bon statut, peur de l'échec..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-1",
+            "number": 1,
+            "badge": "Chapitre 1",
+            "title": "Ce que tu crois savoir sur l'entrepreneuriat est faux",
+            "subtitle": "Démystifier les levées de fonds et repartir du seul juge de paix sur le terrain.",
+            "readTime": "6 min",
+            "content": "\n      <p class=\"lead-text\">\n          On t'a menti sur ce qu'est un entrepreneur. Les médias et les réseaux sociaux ont créé une fiction toxique : celle du jeune de 24 ans en costume qui lève 2 millions d'euros auprès de fonds d'investissement à Paris ou San Francisco avant même d'avoir vendu son premier produit.\n      </p>\n      <p>\n          Dans la vraie vie, sur nos territoires aux Antilles, en Guyane, à La Réunion, en Afrique ou au cœur des diasporas, <strong>l'entrepreneuriat n'a rien à voir avec des levées de fonds</strong>. L'entrepreneuriat réel, celui qui nourrit des familles et crée du patrimoine, repose sur une seule équation :\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-handshake\"></i></div>\n          <p>\n              « Trouver une personne qui a un problème urgent ou un désir profond, lui apporter une solution concrète, et se faire payer immédiatement avec le sourire. Tout le reste est de la littérature. »\n          </p>\n      </div>\n      <h3>La tragédie de la recherche de perfection</h3>\n      <p>\n          Combien de porteurs de projet passent six mois à peaufiner un logo sur Canva, rédiger un business plan de 40 pages que personne ne lira jamais, ou débattre du choix entre une SASU et une SARL avant même d'avoir encaissé 1 euro ?\n      </p>\n      <p>\n          C'est de la lâcheté intellectuelle déguisée en rigueur. Tant que tu rédiges des statuts ou que tu choisis des polices d'écriture, tu es à l'abri du rejet. Tu n'es pas confronté au marché. Mais le jour où tu dois regarder un prospect dans les yeux et lui dire : <em>\"Mon service coûte 500€, comment souhaitez-vous régler ?\"</em>, c'est là que commence la vraie vie d'entrepreneur.\n      </p>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_1",
+                "title": "Le test des cinq personnes sur le terrain",
+                "description": "Pour sortir de la théorie dès maintenant, confronte ton intuition à la réalité :",
+                "fields": [
+                    {
+                        "id": "ch1_probleme_identifie",
+                        "type": "textarea",
+                        "label": "Quel est le problème douloureux et précis que tu veux résoudre ?",
+                        "placeholder": "Ex: Les commerçants locaux perdent 2h par jour à répondre aux mêmes questions sur WhatsApp."
+                    },
+                    {
+                        "id": "ch1_cible_5_personnes",
+                        "type": "textarea",
+                        "label": "Liste 5 personnes de ton réseau (amis, commerçants, collègues) à qui tu vas poser une question sous 24h :",
+                        "placeholder": "1. Marc (restaurant)\n2. Sarah (esthéticienne)\n3. Thomas (artisan)..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-2",
+            "number": 2,
+            "badge": "Chapitre 2",
+            "title": "Le mur que tu t'es construit toi-même",
+            "subtitle": "Déconstruire le syndrome de l'imposteur, la peur du regard des autres et le manque de légitimité.",
+            "readTime": "7 min",
+            "content": "\n      <p class=\"lead-text\">\n          Parlons de ce que personne n'ose écrire dans les manuels de management : le poids du regard des tiens, le syndrome de l'imposteur enraciné dans l'histoire coloniale ou sociale, et cette phrase assassine que tu as entendue mille fois : <em>\"Ici, c'est pas possible, il n'y a pas d'argent.\"</em>\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-shield-halved\"></i></div>\n          <p>\n              « Nos territoires ne manquent pas d'argent : ils manquent de circuits locaux de confiance où l'argent circule entre nos mains au lieu de repartir immédiatement vers l'extérieur. »\n          </p>\n      </div>\n      <h3>La peur de réussir et la pression de l'entourage</h3>\n      <p>\n          Souvent, tes plus grands détracteurs ne sont pas tes ennemis : ce sont tes parents, tes frères et sœurs, ou ton groupe d'amis d'enfance. Ils ne te veulent pas de mal, mais ils projettent sur toi leurs propres peurs non résolues. Pour eux, le Graal reste le CDI dans la fonction publique ou dans une grande enseigne importatrice.\n      </p>\n      <p>\n          Quand tu leur dis que tu te lances, tu bouscules leur vision du monde. Ne perds pas ton énergie à essayer de les convaincre avec des paroles. <strong>La seule réponse qui fait taire le doute familial, ce sont les résultats concrets et la ponctualité de tes encaissements</strong>.\n      </p>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_2",
+                "title": "Identifier et briser tes blocages",
+                "description": "Identifie les chaînes invisibles qui te retiennent pour t'en libérer définitivement :",
+                "fields": [
+                    {
+                        "id": "ch2_peur_principale",
+                        "type": "textarea",
+                        "label": "Quelle est la phrase toxique sur l'argent ou le travail que tu as le plus entendue dans ton enfance ?",
+                        "placeholder": "Ex: 'Les affaires c'est pour les voleurs', 'Ici rien ne marche', 'Reste discret'..."
+                    },
+                    {
+                        "id": "ch2_contre_croyance",
+                        "type": "textarea",
+                        "label": "Quelle nouvelle règle de vie choisis-tu d'adopter dès aujourd'hui pour la remplacer ?",
+                        "placeholder": "Ex: 'Créer de la valeur enrichit ma communauté et me donne ma dignité financière.'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-3",
+            "number": 3,
+            "badge": "Chapitre 3",
+            "title": "Ton why et ta légitimité profonde",
+            "subtitle": "Trouver ton moteur profond pour ne jamais abandonner au premier obstacle.",
+            "readTime": "6 min",
+            "content": "\n      <p class=\"lead-text\">\n          Simon Sinek l'a magistralement théorisé, mais sur le terrain, c'est une question de survie pure : si ton seul moteur est <em>\"je veux gagner de l'argent pour m'acheter une voiture\"</em>, tu abandonneras à la première facture impayée ou au premier client difficile.\n      </p>\n      <p>\n          Entreprendre est un marathon semé d'embûches. Ce qui te fera te lever à 5 heures du matin un jour de pluie battante, ce n'est pas un tableur Excel, c'est ton **Why profond** : la raison viscérale pour laquelle cette mission te tient à cœur.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-heart-pulse\"></i></div>\n          <p>\n              « La légitimité ne se demande pas, elle ne se décrète pas par un diplôme : elle se prend en apportant une solution avec une sincérité désarmante. »\n          </p>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_3",
+                "title": "Définir ton why profond",
+                "description": "Clarifie ton moteur inépuisable pour traverser les tempêtes sans flancher :",
+                "fields": [
+                    {
+                        "id": "ch3_why_profond",
+                        "type": "textarea",
+                        "label": "Pour quelle cause ou pour qui te bats-tu en construisant cette entreprise ?",
+                        "placeholder": "Ex: Pour offrir un avenir libre à mes enfants, pour valoriser notre savoir-faire local, pour ne plus jamais subir l'humiliation d'un patron..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-4",
+            "number": 4,
+            "badge": "Chapitre 4",
+            "title": "La loi de Pareto pour faire un maximum avec tes moyens actuels",
+            "subtitle": "Comprendre comment vingt pour cent de tes actions créent l'essentiel de tes résultats sans budget de départ.",
+            "readTime": "7 min",
+            "content": "\n      <p class=\"lead-text\">\n          Voici la règle du jeu suprême de toute cette consultation, inscrite en grand sur la couverture de ce guide : <strong>80% d'action et 20% de réflexion</strong>. Si tu ne retiens qu'un seul principe de tout ce livre, que ce soit celui-ci.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-scale-balanced\"></i></div>\n          <p>\n              « 80% de tes résultats économiques découleront de seulement 20% de tes efforts. Le drame de beaucoup de créateurs est de passer 80% de leur temps sur des détails secondaires qui rapportent zéro euro. »\n          </p>\n      </div>\n      <h3>La créativité naît de la contrainte et des moyens actuels</h3>\n      <p>\n          Beaucoup pensent qu'il faut un emprunt bancaire, un local et un budget colossal pour commencer. C'est un piège fréquent. Avoir peu de moyens financiers au départ oblige à être dix fois plus affûté, plus agile et plus proche de ses premiers interlocuteurs.\n      </p>\n      <p>\n          Quand on démarre avec ses propres moyens, on se concentre sur l'essentiel : <strong>aller échanger avec des personnes réelles et comprendre leurs besoins avant d'engager la moindre dépense</strong>.\n      </p>\n\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">La règle d'action</span>\n              <h4>Les 20% d'efforts vitaux face aux 80% de dispersion</h4>\n          </div>\n          <div class=\"method-body\">\n              <div class=\"method-steps\">\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\" style=\"background:#ef4444; color:#fff;\">❌</div>\n                      <div class=\"method-step-content\">\n                          <strong>Les 80% de dispersion qui font perdre du temps</strong>\n                          <p>Passer des semaines à hésiter sur un nom, peaufiner un logo avant d'avoir une offre, attendre un financement incertain ou créer des comptes sur tous les réseaux sociaux sans savoir quoi vendre.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\" style=\"background:#10b981; color:#fff;\">✅</div>\n                      <div class=\"method-step-content\">\n                          <strong>Les 20% vitaux qui font avancer concrètement</strong>\n                          <p>Contacter directement des personnes concernées par le problème, écouter leurs besoins sans chercher à survendre, formuler une solution claire et obtenir un premier engagement réel.</p>\n                      </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n\n      <h3>Démarrer avec ce qu'on a déjà sous la main</h3>\n      <p>\n          Le principe fondamental de Pareto appliqué à l'entrepreneuriat consiste à faire l'inventaire honnête de ce qui est immédiatement disponible : tes compétences pratiques, ton temps disponible en dehors des heures de travail, ton smartphone et ton cercle de relations proches.\n      </p>\n      <p>\n          Toute la suite de cette consultation est construite sur cette logique : avancer pas à pas, valider chaque étape sur le terrain et ne dépenser d'argent que lorsque les premiers revenus commencent à rentrer.\n      </p>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_4",
+                "title": "Ton engagement d'action et tes ressources immédiates",
+                "description": "La loi de Pareto impose de consacrer 80% de ton énergie à l'action concrète et 20% à la réflexion. Définis dès maintenant tes conditions d'exécution :",
+                "fields": [
+                    {
+                        "id": "pareto_distractions_eliminees",
+                        "type": "textarea",
+                        "label": "Quelles sont les distractions ou habitudes de sur-réflexion que tu t'engages à éliminer dès cette semaine ?",
+                        "placeholder": "Ex: Passer des heures à scroller sans but, chercher la perfection avant de commencer, attendre un financement miracle..."
+                    },
+                    {
+                        "id": "pareto_ressources_disponibles",
+                        "type": "textarea",
+                        "label": "Quelles sont les ressources concrètes que tu as déjà à ta disposition sans dépenser un euro ?",
+                        "placeholder": "Ex: 2 heures de temps libre chaque soir, un smartphone avec connexion internet, un entourage proche à sonder..."
+                    },
+                    {
+                        "id": "pareto_heures_action_hebdo",
+                        "type": "text",
+                        "label": "Combien d'heures précises par semaine tu bloqueras pour avancer dans cette consultation ?",
+                        "placeholder": "Ex: 6 heures par semaine (2h le mardi, 2h le jeudi, 2h le samedi)"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-5",
+            "number": 5,
+            "badge": "Chapitre 5",
+            "title": "Comprendre les cinq chemins à travers cinq histoires réelles",
+            "subtitle": "Découvre les cinq véhicules possibles pour bâtir ton entreprise sans te précipiter.",
+            "readTime": "8 min",
+            "content": "\n        <p class=\"lead-text\">\n            Avant de choisir où tu vas poser tes valises, il faut connaître la carte du territoire. Il n'existe pas une seule façon d'entreprendre : il en existe au moins cinq majeures. Chacune possède son rythme, ses contraintes de trésorerie et ses règles du jeu.\n        </p>\n        <p>\n            Dans ce chapitre, <strong>aucune pression de choix</strong>. Prends le temps de lire, d'assimiler et de t'imprégner de ces cinq trajectoires réelles et documentées d'entrepreneurs partis de zéro, sans millions ni carnet d'adresses ministériel.\n        </p>\n\n        <div class=\"story-box\">\n            <div class=\"story-badge\"><i class=\"fa-solid fa-bottle-droplet\"></i> Histoire 1 : La Marque de Produit Physique & Terroir</div>\n            <h4>Kelly Massol (Les Secrets de Loly) — De 1 500 € dans sa cuisine à plus de 10 millions d'euros</h4>\n            <p>\n                En 2009, Kelly Massol ne trouve aucun produit adapté à ses cheveux texturés dans la grande distribution sans ingrédient chimique agressif. Avec seulement <strong>1 500 € d'économies personnelles</strong>, elle commence à formuler artisanalement ses premiers soins dans sa propre cuisine. Pas d'investisseurs de la Silicon Valley, pas de gros laboratoire : elle partage ses recettes et ses conseils avec authenticité sur les forums et les réseaux sociaux. Elle réinvestit chaque euro gagné dans sa production. Quinze ans plus tard, Les Secrets de Loly est un géant pesant plus de 10 millions d'euros de chiffre d'affaires, distribué chez Sephora, Marionnaud et Monoprix, et exporté dans le monde entier.\n            </p>\n            <span class=\"story-moral\"><strong>Ce qu'il faut retenir :</strong> Tu n'as pas besoin de millions pour créer une marque culte. Une formulation sincère, une vraie réponse à un manque criant et une constance sans faille surpassent n'importe quel budget marketing.</span>\n        </div>\n\n        <div class=\"story-box\">\n            <div class=\"story-badge\"><i class=\"fa-solid fa-handshake-angle\"></i> Histoire 2 : Les Prestations de Services B2B & Agence Locale</div>\n            <h4>Le Consultant / Agence Locale (DOM, Afrique & Diaspora) — 0€ de stock et 85% de marge</h4>\n            <p>\n                Aux Antilles, en Guyane, à La Réunion ou à Abidjan, de nombreux indépendants démarrent sans un centime de stock : ils transforment une compétence pratique (gestion de campagnes publicitaires, montage de vidéos courtes TikTok/Reels, automatisation WhatsApp des commandes pour restaurants, formalités administratives et douanières) en forfaits mensuels de 800€ à 2 500€ par client. Ils encaissent 30% à 50% d'acompte avant même d'ouvrir leur ordinateur.\n            </p>\n            <span class=\"story-moral\"><strong>Ce qu'il faut retenir :</strong> Le service transforme ta compétence immédiate en cashflow direct dès les premiers jours, avec un risque financier quasi nul.</span>\n        </div>\n\n        <div class=\"story-box\">\n            <div class=\"story-badge\"><i class=\"fa-solid fa-laptop-code\"></i> Histoire 3 : Les Produits Digitaux & Infoproduits</div>\n            <h4>Le Créateur de Guides & Outils — Coût marginal zéro et vente automatique 24h/24</h4>\n            <p>\n                Qu'il s'agisse d'un guide pratique sur les aides régionales DOM, d'un recueil de recettes nutritionnelles créoles, de modèles de contrats juridiques ou de templates Notion pour artisans, le produit digital a une caractéristique magique : il coûte du temps à concevoir, mais <strong>0€ à reproduire</strong>. Que tu le vendes à 1 personne ou à 5 000 personnes dans le monde entier, ta marge brute dépasse 95%.\n            </p>\n            <span class=\"story-moral\"><strong>Ce qu'il faut retenir :</strong> Le digital permet de tester une idée à l'échelle planétaire sans aucun risque d'invendus ni de frais de port.</span>\n        </div>\n\n        <div class=\"story-box\">\n            <div class=\"story-badge\"><i class=\"fa-solid fa-utensils\"></i> Histoire 4 : Restauration, food et street-food</div>\n            <h4>Le Traiteur & Street-Food Terroir — L'attachement viscéral aux saveurs</h4>\n            <p>\n                Du food-truck de bokits gourmets au stand événementiel de grillades marinées et jus locaux pressés minute, la street-food bénéficie d'une demande immédiate et quotidienne. Les clients paient comptant, le retour est instantané. Cependant, la réussite ne repose pas seulement sur la gourmandise : elle exige une maîtrise stricte du coût matière (ne jamais dépasser 28% du prix de vente) et une hygiène HACCP irréprochable sous climat tropical.\n            </p>\n            <span class=\"story-moral\"><strong>Ce qu'il faut retenir :</strong> La restauration génère du cashflow quotidien en direct, mais demande une rigueur d'exécution opérationnelle sans faille.</span>\n        </div>\n\n        <div class=\"story-box\">\n            <div class=\"story-badge\"><i class=\"fa-solid fa-shop\"></i> Histoire 5 : Commerce & Boutique Sélective</div>\n            <h4>Le Concept-Store & l'Achat-Revente — L'art de la sélection et du conseil</h4>\n            <p>\n                Plutôt que d'ouvrir une boutique impersonnelle avec des stocks colossaux, les nouveaux commerçants commencent par des pop-up stores d'un week-end, des ventes privées WhatsApp ou des stands sur les marchés d'artisans. Ils sélectionnent des pépites (mode éthique, senteurs d'intérieur, épicerie fine de terroir) avec un coefficient multiplicateur minimum de x2.2 pour absorber l'ensemble de leurs charges et se dégager un vrai revenu.\n            </p>\n            <span class=\"story-moral\"><strong>Ce qu'il faut retenir :</strong> Le commerce physique ou hybride fonctionne si tu maîtrises ta rotation de stock (vendre sous 45 jours) et apportes une vraie expérience humaine.</span>\n        </div>\n\n        <div class=\"highlight-box\">\n            <h4><i class=\"fa-solid fa-lightbulb\"></i> Étape suivante</h4>\n            <p>\n                Tu as maintenant le panorama complet des 5 modèles. Dans le chapitre suivant (Chapitre 5), nous allons t'aider à <strong>poser ton choix officiel</strong> selon tes moyens actuels, sans te disperser.\n            </p>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_5",
+                "title": "Auto-diagnostic réflexif sans pression",
+                "description": "Prends un moment pour noter tes premières impressions avant de formaliser ton choix au Chapitre 5 :",
+                "fields": [
+                    {
+                        "id": "ch4_histoire_resonance",
+                        "type": "textarea",
+                        "label": "Laquelle de ces 5 histoires ou modèles résonne le plus avec ce que tu as envie de bâtir ?",
+                        "placeholder": "Ex: L'histoire de Kelly Massol me parle énormément car j'ai une recette artisanale... OU le modèle du service B2B car je veux démarrer sans stock..."
+                    },
+                    {
+                        "id": "ch4_ressources_actuelles",
+                        "type": "textarea",
+                        "label": "Quels sont tes principaux atouts aujourd'hui (temps disponible, budget de départ, compétences, réseau) ?",
+                        "placeholder": "Ex: J'ai 10h par semaine, un budget limité à 500€, une bonne maîtrise d'Instagram et des outils digitaux..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-6",
+            "number": 6,
+            "badge": "Chapitre 6",
+            "title": "Choisir son chemin et valider sa voie d'action",
+            "subtitle": "L'aiguillage stratégique pour sélectionner ton modèle économique et adapter tout le reste du guide à ta réalité.",
+            "readTime": "7 min",
+            "content": "\n        <p class=\"lead-text\">\n            Tu connais les cinq voies. Le plus grand danger maintenant serait d'hésiter pendant six mois ou de vouloir tout lancer en même temps. <strong>Entreprendre, c'est choisir. Et choisir, c'est renoncer temporairement aux autres options.</strong>\n        </p>\n        <p>\n            Il n'y a pas de voie noble et de voie inférieure : il n'y a que la voie qui correspond à ta trésorerie, ton temps disponible et ton tempérament d'aujourd'hui. Rien ne t'empêchera d'ajouter un produit physique dans deux ans si tu démarres aujourd'hui par du service B2B !\n        </p>\n\n        <!-- Matrice comparative sans filtre -->\n        <div class=\"table-responsive\" style=\"margin: 24px 0;\">\n            <table class=\"table-compare\" style=\"width: 100%; border-collapse: collapse; font-size: 0.9rem;\">\n                <thead>\n                    <tr style=\"background: rgba(16, 185, 129, 0.15); color: var(--accent);\">\n                        <th style=\"padding: 12px; text-align: left;\">Voie Entrepreneuriale</th>\n                        <th style=\"padding: 12px; text-align: center;\">Capital Minimum</th>\n                        <th style=\"padding: 12px; text-align: center;\">Délai 1er Euro</th>\n                        <th style=\"padding: 12px; text-align: center;\">Marge Nette</th>\n                        <th style=\"padding: 12px; text-align: center;\">Complexité Logistique</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr style=\"border-bottom: 1px solid var(--border-subtle);\">\n                        <td style=\"padding: 12px; font-weight: 700;\">📦 Voie 1 : Produits Physiques</td>\n                        <td style=\"padding: 12px; text-align: center;\">500 € – 2 000 €</td>\n                        <td style=\"padding: 12px; text-align: center;\">2 à 4 mois</td>\n                        <td style=\"padding: 12px; text-align: center;\">40% – 60%</td>\n                        <td style=\"padding: 12px; text-align: center; color: #f87171;\">Élevée (DIP, fret, stocks)</td>\n                    </tr>\n                    <tr style=\"border-bottom: 1px solid var(--border-subtle); background: rgba(255,255,255,0.02);\">\n                        <td style=\"padding: 12px; font-weight: 700;\">💼 Voie 2 : Services & Agence B2B</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981; font-weight: 700;\">0 € – 100 €</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981; font-weight: 700;\">7 à 30 jours</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981; font-weight: 700;\">75% – 90%</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981;\">Nulle (Matière grise)</td>\n                    </tr>\n                    <tr style=\"border-bottom: 1px solid var(--border-subtle);\">\n                        <td style=\"padding: 12px; font-weight: 700;\">💻 Voie 3 : Produits Digitaux</td>\n                        <td style=\"padding: 12px; text-align: center;\">50 € – 200 €</td>\n                        <td style=\"padding: 12px; text-align: center;\">15 à 45 jours</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981; font-weight: 700;\">90% – 95%</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981;\">Nulle (Fichiers digitaux)</td>\n                    </tr>\n                    <tr style=\"border-bottom: 1px solid var(--border-subtle); background: rgba(255,255,255,0.02);\">\n                        <td style=\"padding: 12px; font-weight: 700;\">🍳 Voie 4 : Restauration & Food</td>\n                        <td style=\"padding: 12px; text-align: center;\">800 € – 3 000 €</td>\n                        <td style=\"padding: 12px; text-align: center; color: #10b981; font-weight: 700;\">Immédiat (Jour J)</td>\n                        <td style=\"padding: 12px; text-align: center;\">30% – 50%</td>\n                        <td style=\"padding: 12px; text-align: center; color: #fbbf24;\">Quotidienne (HACCP, frais)</td>\n                    </tr>\n                    <tr>\n                        <td style=\"padding: 12px; font-weight: 700;\">🛍️ Voie 5 : Commerce & Revente</td>\n                        <td style=\"padding: 12px; text-align: center;\">500 € – 2 500 €</td>\n                        <td style=\"padding: 12px; text-align: center;\">15 à 30 jours</td>\n                        <td style=\"padding: 12px; text-align: center;\">35% – 55%</td>\n                        <td style=\"padding: 12px; text-align: center; color: #fbbf24;\">Moyenne (Gestion de stock)</td>\n                    </tr>\n                </tbody>\n            </table>\n        </div>\n\n        <h3>Sélectionne et valide ta voie officielle</h3>\n        <p>\n            Clique ci-dessous sur la carte de ton choix. Dès que tu cliques sur <strong>« Valider cette Voie »</strong>, ton guide s'adapte automatiquement, la barre supérieure s'aligne, et le Chapitre 6 se concentrera à 100% sur les réalités de ton modèle.\n        </p>\n\n        <!-- 5 Interactive Decision Cards -->\n        <div class=\"pathway-decision-grid\" id=\"pathway-decision-grid\">\n            <div class=\"pathway-card\" data-sector=\"physique\">\n                <div class=\"pathway-header\">\n                    <div class=\"pathway-icon\"><i class=\"fa-solid fa-bottle-droplet\"></i></div>\n                    <span class=\"pathway-badge\">Voie 1</span>\n                </div>\n                <h4>Produits physiques et terroirs</h4>\n                <p class=\"pathway-desc\">Créer une marque de cosmétique, mode, bien-être ou produits locaux transformés.</p>\n                <div class=\"pathway-metrics\">\n                    <span><i class=\"fa-solid fa-coins\"></i> Budget : 500€ - 2 000€</span>\n                    <span><i class=\"fa-solid fa-clock\"></i> 1er encaissement : 2 à 4 mois</span>\n                </div>\n                <button type=\"button\" class=\"btn-choose-pathway\" data-target=\"physique\">\n                    <i class=\"fa-solid fa-check\"></i> Choisir cette Voie\n                </button>\n            </div>\n\n            <div class=\"pathway-card\" data-sector=\"service\">\n                <div class=\"pathway-header\">\n                    <div class=\"pathway-icon\"><i class=\"fa-solid fa-handshake-angle\"></i></div>\n                    <span class=\"pathway-badge\">Voie 2</span>\n                </div>\n                <h4>Prestations de Services & B2B</h4>\n                <p class=\"pathway-desc\">Vendre son expertise, création de contenu, gestion WhatsApp, consulting ou artisanat.</p>\n                <div class=\"pathway-metrics\">\n                    <span><i class=\"fa-solid fa-coins\"></i> Budget : 0€ - 100€</span>\n                    <span><i class=\"fa-solid fa-clock\"></i> 1er encaissement : 7 à 30 jours</span>\n                </div>\n                <button type=\"button\" class=\"btn-choose-pathway\" data-target=\"service\">\n                    <i class=\"fa-solid fa-check\"></i> Choisir cette Voie\n                </button>\n            </div>\n\n            <div class=\"pathway-card\" data-sector=\"digital\">\n                <div class=\"pathway-header\">\n                    <div class=\"pathway-icon\"><i class=\"fa-solid fa-laptop-code\"></i></div>\n                    <span class=\"pathway-badge\">Voie 3</span>\n                </div>\n                <h4>Produits digitaux et e-books</h4>\n                <p class=\"pathway-desc\">E-books pratiques, guides commando, templates Notion/Excel, formations courtes.</p>\n                <div class=\"pathway-metrics\">\n                    <span><i class=\"fa-solid fa-coins\"></i> Budget : 50€ - 200€</span>\n                    <span><i class=\"fa-solid fa-clock\"></i> 1er encaissement : 15 à 45 jours</span>\n                </div>\n                <button type=\"button\" class=\"btn-choose-pathway\" data-target=\"digital\">\n                    <i class=\"fa-solid fa-check\"></i> Choisir cette Voie\n                </button>\n            </div>\n\n            <div class=\"pathway-card\" data-sector=\"food\">\n                <div class=\"pathway-header\">\n                    <div class=\"pathway-icon\"><i class=\"fa-solid fa-utensils\"></i></div>\n                    <span class=\"pathway-badge\">Voie 4</span>\n                </div>\n                <h4>Restauration, food et street-food</h4>\n                <p class=\"pathway-desc\">Box déjeuners saines, bokits gourmets, traiteur terroir ou pâtisserie créative.</p>\n                <div class=\"pathway-metrics\">\n                    <span><i class=\"fa-solid fa-coins\"></i> Budget : 800€ - 3 000€</span>\n                    <span><i class=\"fa-solid fa-clock\"></i> 1er encaissement : Immédiat</span>\n                </div>\n                <button type=\"button\" class=\"btn-choose-pathway\" data-target=\"food\">\n                    <i class=\"fa-solid fa-check\"></i> Choisir cette Voie\n                </button>\n            </div>\n\n            <div class=\"pathway-card\" data-sector=\"commerce\">\n                <div class=\"pathway-header\">\n                    <div class=\"pathway-icon\"><i class=\"fa-solid fa-shop\"></i></div>\n                    <span class=\"pathway-badge\">Voie 5</span>\n                </div>\n                <h4>Commerce et achat-revente</h4>\n                <p class=\"pathway-desc\">Concept-store, friperie chic, revente d'accessoires ou épicerie fine sélectionnée.</p>\n                <div class=\"pathway-metrics\">\n                    <span><i class=\"fa-solid fa-coins\"></i> Budget : 500€ - 2 500€</span>\n                    <span><i class=\"fa-solid fa-clock\"></i> 1er encaissement : 15 à 30 jours</span>\n                </div>\n                <button type=\"button\" class=\"btn-choose-pathway\" data-target=\"commerce\">\n                    <i class=\"fa-solid fa-check\"></i> Choisir cette Voie\n                </button>\n            </div>\n        </div>\n\n        <div id=\"pathway-confirmation-box\" class=\"pathway-confirmation-banner\" style=\"display: none;\">\n            <div class=\"confirmation-icon\"><i class=\"fa-solid fa-circle-check\"></i></div>\n            <div class=\"confirmation-text\">\n                <h4 id=\"confirmation-title\">Voie validée</h4>\n                <p id=\"confirmation-desc\">Ton carnet de bord et tous les chapitres suivants sont désormais configurés pour ton modèle. Tu peux passer au Chapitre 7 pour auditer tes compétences exactes.</p>\n            </div>\n            <button type=\"button\" class=\"btn-reset-pathway\" id=\"btn-reset-pathway\" title=\"Cliquer pour décocher et réinitialiser ton choix\">\n                <i class=\"fa-solid fa-rotate-left\"></i> Décocher / Changer\n            </button>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_6",
+                "title": "Validation de ta voie d'action",
+                "description": "Sélectionne ta voie officielle ou modifie ton choix ci-dessous :",
+                "fields": [
+                    {
+                        "id": "secteur_activite_selection",
+                        "type": "select",
+                        "label": "Ta voie retenue pour lancer ton activité :",
+                        "options": [
+                            {
+                                "value": "physique",
+                                "label": "Voie 1 : Produits Physiques & Terroirs (Cosmétique, mode, agro)"
+                            },
+                            {
+                                "value": "service",
+                                "label": "Voie 2 : Prestations de Services & Agence B2B (0€ de stock)"
+                            },
+                            {
+                                "value": "digital",
+                                "label": "Voie 3 : Produits Digitaux & E-books (Marge 95%+)"
+                            },
+                            {
+                                "value": "food",
+                                "label": "Voie 4 : Restauration, Food & Street-Food (Cashflow quotidien)"
+                            },
+                            {
+                                "value": "commerce",
+                                "label": "Voie 5 : Commerce & Achat-Revente (Sélection & boutiques)"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "pourquoi_ce_chemin",
+                        "type": "textarea",
+                        "label": "Pourquoi cette voie est-elle le véhicule le plus réaliste pour toi aujourd'hui ?",
+                        "placeholder": "Ex: J'ai besoin de générer mes premiers 1 500 € sous 30 jours sans prendre de risque financier lourd, le service me permet d'encaisser des acomptes tout de suite..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-7",
+            "number": 7,
+            "badge": "Chapitre 7",
+            "title": "Du modèle au métier pour valoriser tes compétences réelles",
+            "subtitle": "Un modèle n'est qu'un véhicule, tu dois définir ton métier exact, tes forces immédiates et ce que tu es capable de délivrer.",
+            "readTime": "8 min",
+            "content": "\n      <p class=\"lead-text\">\n          Attention : voici l'erreur qui fait couler 80% des entrepreneurs débutants. Ils disent fièrement : <em>« J'ai choisi la Voie 2, je fais du service B2B ! »</em> ou <em>« J'ai choisi la Voie 1, je vends des produits physiques ! »</em>. Mais quand un client leur demande : <em>« Concrètement, quel est ton métier et que fais-tu pour moi demain matin ? »</em>, ils bégayent.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-user-gear\"></i></div>\n          <p>\n              « Un client n'achète jamais un \"modèle économique\". Il achète un métier, exercé avec précision par quelqu'un qui maîtrise son art et règle un problème précis. »\n          </p>\n      </div>\n      <p>\n          Une Voie n'est qu'un véhicule. Maintenant, nous devons définir <strong>le moteur et le conducteur</strong> : tes compétences réelles d'aujourd'hui, ton savoir-faire pratique, et le métier exact que tu vas exercer sur le terrain.\n      </p>\n\n      <h3>Le test des 3 filtres de compétences</h3>\n      <p>\n          Pour trouver ton métier rentable sans t'inventer une fausse vie, passe tes compétences à travers ces trois filtres stricts :\n      </p>\n      <div class=\"feature-grid-2\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-bolt\"></i></div>\n              <h4>1. Ce que tu fais déjà avec aisance</h4>\n              <p>Ce qui te paraît naturel mais qui semble insurmontable ou rébarbatif pour les autres (organiser un événement, négocier des prix, monter une vidéo, cuisiner un plat traditionnel, rédiger sans fautes, configurer des outils numériques).</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-hand-holding-dollar\"></i></div>\n              <h4>2. Ce qu'on te demande déjà gratuitement</h4>\n              <p>Pense aux 12 derniers mois. Pour quelles raisons des amis, des collègues ou des membres de ta famille sont-ils venus te demander de l'aide ? C'est le signal le plus fiable de ta valeur perçue.</p>\n          </div>\n      </div>\n\n      <h3>Cartographie des métiers concrets par voie</h3>\n      <p>\n          Voici des exemples réels de métiers ultra-demandés dans nos territoires et la diaspora, qui ne nécessitent aucun diplôme ronflant mais une exécution rigoureuse :\n      </p>\n\n      <div class=\"sector-adaptive-container\" style=\"margin-top: 24px;\">\n          <div class=\"active-sector-indicator-bar\" style=\"margin-bottom: 18px;\">\n              <div class=\"indicator-left\">\n                  <span class=\"indicator-tag\">MÉTIERS CONCRETS PAR VOIE</span>\n                  <span class=\"indicator-sector-name active-sector-label-text\">💼 Voie 2 : Prestations de Services & Agence B2B</span>\n              </div>\n              <button type=\"button\" class=\"btn-change-sector\">\n                  <i class=\"fa-solid fa-arrows-rotate\"></i> Changer de voie\n              </button>\n          </div>\n\n          <div class=\"sector-adaptive-card\" data-sector=\"physique\">\n              <span class=\"sector-adaptive-tag\">Voie 1 : Produits physiques et terroirs</span>\n              <h4><i class=\"fa-solid fa-bottle-droplet\" style=\"color:#10b981;\"></i> Artisanat, beauté et terroirs</h4>\n              <ul style=\"line-height:1.7; padding-left:20px; font-size:0.95rem;\">\n                  <li><strong>Savonnier / Formulateur cosmétique naturel :</strong> Savons au soufre, huiles de carapate/ricin pressées à froid, beurres corporels pour peaux mélanodermes.</li>\n                  <li><strong>Cirier / Artisan senteurs :</strong> Bougies parfumées aux notes tropicales (maracudja, vanille Bourbon, ylang-ylang) pour hôtellerie et particuliers.</li>\n                  <li><strong>Créateur de mode & maroquinerie :</strong> Vêtements sur-mesure aux motifs identitaires, accessoires en madras revisité ou matières recyclées.</li>\n              </ul>\n          </div>\n\n          <div class=\"sector-adaptive-card\" data-sector=\"service\">\n              <span class=\"sector-adaptive-tag\">Voie 2 : Services B2B & Freelance</span>\n              <h4><i class=\"fa-solid fa-briefcase\" style=\"color:#10b981;\"></i> Prestations de Services & B2B</h4>\n              <ul style=\"line-height:1.7; padding-left:20px; font-size:0.95rem;\">\n                  <li><strong>Monteur Vidéo Reels / TikTok pour commerçants :</strong> Tu viens filmer 1h dans leur boutique et tu leur livres 8 vidéos montées avec sous-titres dynamiques.</li>\n                  <li><strong>Gestionnaire WhatsApp Business & Service Client :</strong> Tu configures et réponds aux messages clients des TPE débordées le soir et le week-end.</li>\n                  <li><strong>Assistant(e) administratif(ve) et facturation freelance :</strong> Tu relances les impayés et classes les factures des artisans qui détestent la paperasse.</li>\n                  <li><strong>Nettoyage professionnel spécialisé :</strong> Nettoyage de canapés/tapis à domicile, désinfection de véhicules pros ou fin de chantier.</li>\n              </ul>\n          </div>\n\n          <div class=\"sector-adaptive-card\" data-sector=\"digital\">\n              <span class=\"sector-adaptive-tag\">Voie 3 : Digital & E-learning</span>\n              <h4><i class=\"fa-solid fa-laptop-code\" style=\"color:#10b981;\"></i> Produits digitaux et e-books</h4>\n              <ul style=\"line-height:1.7; padding-left:20px; font-size:0.95rem;\">\n                  <li><strong>Auteur d'E-books pratiques ciblés :</strong> Guide de recettes sans gluten aux tubercules locaux, guide d'installation administrative aux Antilles/Réunion.</li>\n                  <li><strong>Créateur de Templates Notion & Tableurs :</strong> Outils prêts à l'emploi pour gérer les stocks d'un restaurant ou le budget des familles.</li>\n                  <li><strong>Formateur express sur logiciel :</strong> Mini-formation en ligne de 2h pour apprendre Canva ou WhatsApp Business aux indépendants.</li>\n              </ul>\n          </div>\n\n          <div class=\"sector-adaptive-card\" data-sector=\"food\">\n              <span class=\"sector-adaptive-tag\">Voie 4 : Food & Restauration</span>\n              <h4><i class=\"fa-solid fa-utensils\" style=\"color:#10b981;\"></i> Food et restauration rapide</h4>\n              <ul style=\"line-height:1.7; padding-left:20px; font-size:0.95rem;\">\n                  <li><strong>Traiteur boîtes repas du midi pour zones d'activités :</strong> Plats équilibrés et saveurs locales livrés directement aux salariés de bureau à 12h.</li>\n                  <li><strong>Spécialiste Street-Food événementiel :</strong> Stand mobile de bokits, pastels ou accras minute pour foires, mariages et soirées privées.</li>\n                  <li><strong>Pâtisserie personnalisée sur commande :</strong> Gâteaux d'anniversaire créatifs (Cake design) avec livraison sécurisée le samedi.</li>\n              </ul>\n          </div>\n\n          <div class=\"sector-adaptive-card\" data-sector=\"commerce\">\n              <span class=\"sector-adaptive-tag\">Voie 5 : Commerce et achat-revente</span>\n              <h4><i class=\"fa-solid fa-bag-shopping\" style=\"color:#10b981;\"></i> Commerce et achat-revente</h4>\n              <ul style=\"line-height:1.7; padding-left:20px; font-size:0.95rem;\">\n                  <li><strong>Dénicheur de pièces rares / Sourcing local :</strong> Importer des produits de beauté ou accessoires de sport introuvables sur le territoire et livrés sous 24h.</li>\n                  <li><strong>Reconditionneur High-Tech / Téléphonie :</strong> Rachat, nettoyage, changement d'écran et revente d'iPhone d'occasion avec garantie 6 mois.</li>\n                  <li><strong>Boutique éphémère / Pop-up store de prêt-à-porter :</strong> Vente flash de collections sélectionnées le temps d'un week-end festif.</li>\n              </ul>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_7",
+                "title": "Bilan de compétences et choix de ton métier réel",
+                "description": "Aligne tes compétences personnelles avec ton métier concret pour attaquer le marché avec légitimité :",
+                "fields": [
+                    {
+                        "id": "competences_naturelles",
+                        "type": "textarea",
+                        "label": "Quelles sont les 2 compétences pratiques que tu maîtrises déjà le mieux aujourd'hui ?",
+                        "placeholder": "Ex: Organiser et planifier, retoucher des photos et vidéos, cuisiner des marinades, négocier et convaincre au téléphone..."
+                    },
+                    {
+                        "id": "metier_exact_retenu",
+                        "type": "text",
+                        "label": "Quel est l'intitulé EXACT de ton métier ou activité retenue ?",
+                        "placeholder": "Ex: Monteur vidéo Reels pour commerçants locaux, Fabricant de bougies tropicales, Traiteur déjeuners express..."
+                    },
+                    {
+                        "id": "preuve_legitimite_metier",
+                        "type": "textarea",
+                        "label": "Pourquoi es-tu capable de délivrer ce résultat de manière fiable dès ce mois-ci ?",
+                        "placeholder": "Ex: J'ai déjà monté des vidéos pour mon compte perso qui ont fait 10k vues, ou je cuisine cette recette depuis 5 ans avec des retours unanimes..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-8",
+            "number": 8,
+            "badge": "Chapitre 8",
+            "title": "Étude de marché et analyse des opportunités du terrain",
+            "subtitle": "Les quatre failles chroniques des acteurs locaux comme le service client ou les retards, et comment t'y engouffrer.",
+            "readTime": "8 min",
+            "content": "\n        <p class=\"lead-text\">\n            Maintenant que tu as identifié ta Voie et ta Niche, la pire erreur serait d'avancer les yeux fermés en ignorant qui est déjà présent sur le terrain.\n        </p>\n        <p>\n            Faire une étude de marché ne consiste pas à remplir un rapport administratif théorique de 50 pages pour la banque. Sur le terrain, **une vraie étude de marché est une opération de détective** : observer la concurrence, identifier ses failles, et trouver l'espace vide exact où tu vas t'engouffrer.\n        </p>\n\n        <!-- I. CONCURRENTS DIRECTS VS INDIRECTS -->\n        <div class=\"vs-container\">\n            <div class=\"vs-card bad\">\n                <h4><i class=\"fa-solid fa-crosshairs\"></i> Concurrents Directs</h4>\n                <p style=\"font-size:0.88rem; color:#fca5a5; margin-bottom:8px;\">Ils proposent exactement le même type de produit/service à la même cible.</p>\n                <ul>\n                    <li>Exemple : Un autre préparateur de repas food-truck sur le même secteur.</li>\n                    <li>Exemple : Une marque de cosmétique locale vendant des huiles de carapate.</li>\n                </ul>\n            </div>\n            <div class=\"vs-card good\">\n                <h4><i class=\"fa-solid fa-arrows-split-up-and-left\"></i> Concurrents Indirects</h4>\n                <p style=\"font-size:0.88rem; color:#6ee7b7; margin-bottom:8px;\">Ils résolvent le même problème mais avec un format ou un substitut différent.</p>\n                <ul>\n                    <li>Exemple : La boulangerie industrielle qui vend des sandwichs (substitut du déjeuner).</li>\n                    <li>Exemple : Les produits chimiques importés vendus en grandes surfaces.</li>\n                </ul>\n            </div>\n        </div>\n\n        <!-- II. LA MATRICE DES FAIBLESSES = TES OPPORTUNITÉS -->\n        <h3>Les faiblesses de tes concurrents deviennent tes opportunités</h3>\n        <p>\n            Analyse avec lucidité ce qui agace les clients chez tes concurrents actuels. C'est dans leurs failles que réside ta place au soleil :\n        </p>\n\n        <div class=\"highlight-box\" style=\"margin:24px 0;\">\n            <h4 style=\"margin:0 0 10px 0; color:#10b981;\"><i class=\"fa-solid fa-magnifying-glass-location\"></i> Les quatre failles classiques à repérer chez les concurrents</h4>\n            <ul style=\"margin:0; padding-left:20px; line-height:1.65; font-size:0.95rem;\">\n                <li><strong>1. Le service client froid ou inexistant :</strong> Délais de réponse de 3 jours par email, zéro réponse WhatsApp, pas de numéro direct.</li>\n                <li><strong>2. Les délais de livraison interminables :</strong> Produits bloqués 3 semaines en douane ou expédiés sans numéro de suivi.</li>\n                <li><strong>3. Le manque de clarté et de pédagogie :</strong> Des descriptions vagues, du jargon technique incompréhensible, des prix cachés qu'il faut demander en MP.</li>\n                <li><strong>4. L'absence d'incarnation et de relation :</strong> Des marques impersonnelles sans visage qui ne créent aucune fidélité.</li>\n            </ul>\n        </div>\n\n        <!-- III. ÉTUDE DE MARCHÉ ADAPTATIVE SELON TA VOIE -->\n        <h3>Analyse d'opportunité terrain selon ta voie</h3>\n        <p>\n            Voici comment identifier les trous dans la raquette du marché selon le modèle que tu as sélectionné :\n        </p>\n\n        <div class=\"sector-adaptive-container\" style=\"margin-top: 24px;\">\n            <div class=\"active-sector-indicator-bar\" style=\"margin-bottom: 18px;\">\n                <div class=\"indicator-left\">\n                    <span class=\"indicator-tag\">ANALYSE DU MARCHÉ PAR VOIE</span>\n                    <span class=\"indicator-sector-name active-sector-label-text\">📦 Voie 1 : Produits physiques et terroirs</span>\n                </div>\n                <button type=\"button\" class=\"btn-change-sector\">\n                    <i class=\"fa-solid fa-arrows-rotate\"></i> Changer de modèle\n                </button>\n            </div>\n\n            <!-- Voie 1 : Produits physiques et terroirs -->\n            <div class=\"sector-adaptive-card\" data-sector=\"physique\">\n                <span class=\"sector-adaptive-tag\">Voie 1 : Produits physiques et terroirs</span>\n                <h4><i class=\"fa-solid fa-chart-pie\" style=\"color:#10b981;\"></i> Analyse de marché pour les produits physiques</h4>\n                <p>Observe les parapharmacies, boutiques et marques concurrentes sur les réseaux sociaux.</p>\n                <div class=\"social-pillars-grid\">\n                    <div class=\"social-pillar-item\">\n                        <h4>1. Ce que font les concurrents</h4>\n                        <p>Produits importés chers avec des actifs chimiques raffinés et du packaging en plastique bas de gamme.</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>2. Ce que regrettent les clients dans les avis</h4>\n                        <p>« Ça m'a asséché le cuir chevelu », « Livraison de 4 semaines », « Impossible de contacter le SAV ».</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>3. Ton opportunité en or</h4>\n                        <p>Formule locale ultra-fraîche, livraison en 48h en main propre ou Colissimo, SAV WhatsApp réactif en 15 min.</p>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 2 : Services & Agence B2B -->\n            <div class=\"sector-adaptive-card\" data-sector=\"service\">\n                <span class=\"sector-adaptive-tag\">Voie 2 : Services & Agence B2B</span>\n                <h4><i class=\"fa-solid fa-chart-pie\" style=\"color:#10b981;\"></i> Analyse de marché pour les services et prestations B2B</h4>\n                <p>Examine les agences locales et les indépendants travaillant dans ton domaine.</p>\n                <div class=\"social-pillars-grid\">\n                    <div class=\"social-pillar-item\">\n                        <h4>1. Ce que font les concurrents</h4>\n                        <p>Proposent des devis flous à 5 000€ sans engagement de résultat avec un vocabulaire technique obscur.</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>2. Ce que regrettent les clients</h4>\n                        <p>« On a payé 3 000€ et on a eu zéro prospect », « Ils ne répondent plus au téléphone après l'acompte ».</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>3. Ton opportunité en or</h4>\n                        <p>Forfait Sprint 14 jours avec objectifs chiffrés et suivi hebdomadaire vidéo Loom de 5 minutes.</p>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 3 : Produits digitaux et e-books -->\n            <div class=\"sector-adaptive-card\" data-sector=\"digital\">\n                <span class=\"sector-adaptive-tag\">Voie 3 : Produits digitaux et e-books</span>\n                <h4><i class=\"fa-solid fa-chart-pie\" style=\"color:#10b981;\"></i> Analyse de marché pour les produits digitaux</h4>\n                <p>Scanne les e-books et formations concurrentes vendues sur ton sujet.</p>\n                <div class=\"social-pillars-grid\">\n                    <div class=\"social-pillar-item\">\n                        <h4>1. Ce que font les concurrents</h4>\n                        <p>Formations vidéos de 50 heures indigestes ou PDF de 200 pages plein de théorie universitaire.</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>2. Ce que regrettent les clients</h4>\n                        <p>« C'est trop long », « Je ne sais pas par quoi commencer », « C'est adapté aux USA mais pas chez nous ».</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>3. Ton opportunité en or</h4>\n                        <p>Guide commando de 35 pages + Templates Notion/Excel prêts à être utilisés sous 24h.</p>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 4 : Restauration, food et street-food -->\n            <div class=\"sector-adaptive-card\" data-sector=\"food\">\n                <span class=\"sector-adaptive-tag\">Voie 4 : Restauration, food et street-food</span>\n                <h4><i class=\"fa-solid fa-chart-pie\" style=\"color:#10b981;\"></i> Analyse de marché pour la restauration et la food</h4>\n                <p>Inspecte les snacks, restaurants et food-trucks de ton secteur géographique.</p>\n                <div class=\"social-pillars-grid\">\n                    <div class=\"social-pillar-item\">\n                        <h4>1. Ce que font les concurrents</h4>\n                        <p>Menus identiques, produits surgelés réchauffés, queue de 30 minutes le midi, rupture de stock non annoncée.</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>2. Ce que regrettent les clients</h4>\n                        <p>« Attente trop longue », « Plats trop gras ou surgelés », « On ne sait jamais ce qu'ils ont en stock ».</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>3. Ton opportunité en or</h4>\n                        <p>Plat signature cuisiné frais du matin, servi en 3 minutes ou réservable sur WhatsApp dès 10h30.</p>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 5 : Commerce et achat-revente -->\n            <div class=\"sector-adaptive-card\" data-sector=\"commerce\">\n                <span class=\"sector-adaptive-tag\">Voie 5 : Commerce et achat-revente</span>\n                <h4><i class=\"fa-solid fa-chart-pie\" style=\"color:#10b981;\"></i> Analyse de marché pour le commerce et la revente</h4>\n                <p>Observe les boutiques du centre-ville, les concept stores et les comptes Instagram de revente.</p>\n                <div class=\"social-pillars-grid\">\n                    <div class=\"social-pillar-item\">\n                        <h4>1. Ce que font les concurrents</h4>\n                        <p>Revendent tous les mêmes collections grossistes vues partout, vendeuses froides qui ne conseillent pas.</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>2. Ce que regrettent les clients</h4>\n                        <p>« Tout le monde s'habille pareil », « Pas d'aide pour choisir », « Tarifs trop chers pour de la qualité moyenne ».</p>\n                    </div>\n                    <div class=\"social-pillar-item\">\n                        <h4>3. Ton opportunité en or</h4>\n                        <p>Petites séries de 12 pièces exclusives, conseil stylisme personnalisé et accès avant-première VIP WhatsApp.</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n",
+            "exercise": {
+                "id": "ex_chapitre_8",
+                "title": "Étude de marché et analyse concurrentielle",
+                "description": "Analyse tes 2 principaux concurrents et verrouille l'opportunité unique où tu vas t'installer :",
+                "fields": [
+                    {
+                        "id": "marche_concurrents_directs",
+                        "type": "textarea",
+                        "label": "1. Quels sont les 2 principaux concurrents directs ou indirects sur ton secteur ?",
+                        "placeholder": "Ex: '1. Marque X (Cosmétique bio importée) / 2. Savonnerie locale Y (Vente sur les marchés).'"
+                    },
+                    {
+                        "id": "marche_points_forts_faibles",
+                        "type": "textarea",
+                        "label": "2. Quels sont leurs 2 points forts et leurs 2 faiblesses majeures (failles) ?",
+                        "placeholder": "Ex: 'Points forts : Forte communauté Instagram et beau packaging.\nFaiblesses : Délais d'expédition de 3 semaines et zéro réponse en DM.'"
+                    },
+                    {
+                        "id": "marche_trou_raquette_opportunite",
+                        "type": "textarea",
+                        "label": "3. L'opportunité en or (Le trou dans la raquette où tu vas t'engouffrer) :",
+                        "placeholder": "Ex: 'Proposer un produit local 100% frais livré en 48h avec conseils WhatsApp personnalisés en direct.'"
+                    },
+                    {
+                        "id": "marche_mon_avantage_incomparable",
+                        "type": "textarea",
+                        "label": "4. Ton avantage positionnel (Pourquoi ton prospect va te préférer eux) :",
+                        "placeholder": "Ex: 'Je suis la seule marque qui offre un diagnostic vocal de 15 secondes et une garantie satisfait ou remboursé sous 14 jours.'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-9",
+            "number": 9,
+            "badge": "Chapitre 9",
+            "title": "Comprendre la niche et la psychologie du positionnement",
+            "subtitle": "Pourquoi vouloir plaire à tout le monde garantit de ne vendre à personne et comment maîtriser l'art du soulagement.",
+            "readTime": "8 min",
+            "content": "\n        <p class=\"lead-text\">\n            Le piège le plus sournois dans lequel tombent 90% des débutants est de penser que plus leur cible est large, plus ils feront de ventes. <strong>C'est une illusion dévastatrice.</strong>\n        </p>\n        <p>\n            Quand tu tentes de parler à tout le monde, ton message devient fade, tiède et impersonnel. Personne ne se sent concerné. Sur le marché, <strong>les généralistes meurent de faim en bradant leurs prix, tandis que les spécialistes imposent leurs tarifs avec autorité</strong>.\n        </p>\n\n        <!-- Le Choc : Généraliste vs Spécialiste -->\n        <div class=\"vs-container\" style=\"margin: 28px 0;\">\n            <div class=\"vs-card bad\">\n                <h4><i class=\"fa-solid fa-user-doctor\"></i> Le Médecin Généraliste (25 € la consultation)</h4>\n                <p style=\"font-size:0.88rem; color:#fca5a5; margin-bottom:8px;\">Il soigne les rhumes, les maux de gorge, voit 35 patients par jour.</p>\n                <ul>\n                    <li>Salle d'attente bondée, épuisement total.</li>\n                    <li>Tarif bloqué, imposé et négocié par la sécurité sociale.</li>\n                    <li>Remplaceable par n'importe quel autre cabinet à 200 mètres.</li>\n                </ul>\n            </div>\n            <div class=\"vs-card good\">\n                <h4><i class=\"fa-solid fa-heart-pulse\"></i> Le Chirurgien Cardiologue de Pointe (3 500 € l'intervention)</h4>\n                <p style=\"font-size:0.88rem; color:#6ee7b7; margin-bottom:8px;\">Il intervient sur une malformation cardiaque rare et vitale.</p>\n                <ul>\n                    <li>Liste d'attente de 6 mois, les patients viennent de l'autre bout du monde.</li>\n                    <li>Zéro négociation sur le tarif : on paie pour sauver sa vie.</li>\n                    <li>Autorité incontestable et respect absolu.</li>\n                </ul>\n            </div>\n        </div>\n\n        <div class=\"quote-card\">\n            <div class=\"quote-icon\"><i class=\"fa-solid fa-quote-left\"></i></div>\n            <p>\n                « Les gens ne paient pas pour des caractéristiques techniques ou pour des heures de ton temps. Ils paient pour l'élimination d'une douleur aiguë ou pour l'accès à un état de soulagement garanti. »\n            </p>\n        </div>\n\n        <h3>Vendre une transformation plutôt qu'un simple produit</h3>\n        <p>\n            Personne ne se lève le matin en se disant : <em>« Tiens, j'ai envie d'acheter un flacon d'huile de 100ml »</em> ou <em>« Tiens, si je m'achetais 3 heures de coaching »</em>.\n        </p>\n        <p>\n            Ce que ton client achète, c'est le <strong>PONT</strong> entre sa situation de douleur actuelle (<strong>l'État A</strong>) et la situation rêvée qu'il désire désespérément atteindre (<strong>l'État B</strong>).\n        </p>\n\n        <!-- Le Pont de la Transformation -->\n        <div class=\"story-box\" style=\"border-left-color: #10b981; background: rgba(16, 185, 129, 0.05);\">\n            <div class=\"story-badge\" style=\"background: #10b981; color: #020617;\"><i class=\"fa-solid fa-arrow-right-arrow-left\"></i> Le Schéma Universel de la Transformation</div>\n            <div style=\"display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin: 16px 0;\">\n                <div style=\"flex: 1; min-width: 200px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 14px;\">\n                    <strong style=\"color: #f87171; display: block; font-size: 0.95rem; margin-bottom: 6px;\">ÉTAT A (Le Point de Départ)</strong>\n                    <p style=\"font-size: 0.88rem; margin: 0; color: var(--text-secondary);\">Douleur vive, frustration, honte, insécurité, perte de temps, fatigue, impression de tourner en rond.</p>\n                </div>\n                <div style=\"text-align: center; color: var(--accent); font-size: 1.5rem; font-weight: 700;\">\n                    ➔ TON OFFRE (LE PONT) ➔\n                </div>\n                <div style=\"flex: 1; min-width: 200px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 14px;\">\n                    <strong style=\"color: #34d399; display: block; font-size: 0.95rem; margin-bottom: 6px;\">ÉTAT B (La Destination Rêvée)</strong>\n                    <p style=\"font-size: 0.88rem; margin: 0; color: var(--text-secondary);\">Soulagement immédiat, fierté retrouvée, temps libéré, beauté célébrée, autonomie et sérénité.</p>\n                </div>\n            </div>\n        </div>\n\n        <h3>Trois exemples concrets de transformation sur le terrain</h3>\n        <ul>\n            <li>\n                <strong>Exemple 1 : Soin capillaire texturé (Cosmétique)</strong><br>\n                <em>État A :</em> Une femme qui a honte de ses tempes dégarnies par des tresses trop serrées (alopécie de traction) et n'ose plus détacher ses cheveux en public.<br>\n                <em>État B :</em> Des repousses denses et visibles en 8 semaines, la liberté de coiffer ses cheveux naturels avec fierté devant ses collègues.\n            </li>\n            <li style=\"margin-top: 12px;\">\n                <strong>Exemple 2 : Service d'automatisation WhatsApp pour Artisans (Service B2B)</strong><br>\n                <em>État A :</em> Un électricien indépendant qui passe 2 heures chaque soir à trier ses messages au lieu de dîner avec ses enfants et perd 3 chantiers sur 5 faute de répondre à temps.<br>\n                <em>État B :</em> Un assistant WhatsApp qui qualifie les demandes et cale les devis automatiquement. L'électricien rentre serein à 18h en sachant que ses chantiers sont verrouillés.\n            </li>\n            <li style=\"margin-top: 12px;\">\n                <strong>Exemple 3 : Coaching pour Mères Actives Débordées</strong><br>\n                <em>État A :</em> La charge mentale écrasante, la culpabilité constante de ne pas être assez disponible, la fatigue chronique.<br>\n                <em>État B :</em> 1 heure de temps personnel récupérée chaque jour sans culpabilité, un planning familial clair et apaisé.\n            </li>\n        </ul>\n\n        <div class=\"tip-card\">\n            <h4><i class=\"fa-solid fa-compass\"></i> Ce qui t'attend au chapitre suivant</h4>\n            <p>\n                Maintenant que le principe de la niche et de la transformation est parfaitement clair, <strong>tu vas verrouiller au Chapitre 8 ta sous-niche précise et formuler l'État A et l'État B de tes propres clients</strong>.\n            </p>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_9",
+                "title": "Comprendre la transformation de ton client",
+                "description": "Entraîne ton regard stratégique avant d'appliquer cette grille à ton propre projet au Chapitre 8 :",
+                "fields": [
+                    {
+                        "id": "ch7_exercice_comprehension",
+                        "type": "textarea",
+                        "label": "Dans ton idée de projet, quelle est la plus grande DOULEUR (État A) que ressent aujourd'hui ton prospect type ?",
+                        "placeholder": "Ex: Il perd du temps chaque semaine à... Il a peur de se tromper sur... Il a honte de..."
+                    },
+                    {
+                        "id": "ch7_exercice_transformation_visee",
+                        "type": "textarea",
+                        "label": "Quelle est la TRANSFORMATION concrète (État B) qu'il vivra après avoir utilisé ton offre ?",
+                        "placeholder": "Ex: En 30 jours, il aura enfin... Il ressentira de la fierté parce que... Ses revenus augmenteront de..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-10",
+            "number": 10,
+            "badge": "Chapitre 10",
+            "title": "Verrouiller sa niche rentable et sa différenciation",
+            "subtitle": "Passer de la théorie à l'engagement en définissant ton angle unique et ton sous-marché solvable.",
+            "readTime": "8 min",
+            "content": "\n        <p class=\"lead-text\">\n            Tu as compris la psychologie de la spécialisation au Chapitre 7. Il est temps de passer à l'action et de **verrouiller officiellement ta niche rentable**.\n        </p>\n        <p>\n            Pour ne pas chercher dans le vide, voici pour **la voie que tu as sélectionnée** trois opportunités concrètes, rentables et en forte demande non saturée sur nos territoires :\n        </p>\n\n        <!-- Dynamic Niche Opportunities Grid per Sector -->\n        <div class=\"sector-adaptive-container\" style=\"margin-top: 24px;\">\n            <div class=\"active-sector-indicator-bar\" style=\"margin-bottom: 18px;\">\n                <div class=\"indicator-left\">\n                    <span class=\"indicator-tag\">NICHES RECOMMANDÉES POUR TON MODÈLE</span>\n                    <span class=\"indicator-sector-name active-sector-label-text\">📦 Voie 1 : Produits physiques et terroirs</span>\n                </div>\n                <button type=\"button\" class=\"btn-change-sector\">\n                    <i class=\"fa-solid fa-arrows-rotate\"></i> Changer de modèle\n                </button>\n            </div>\n\n            <!-- Voie 1 : Produits physiques et terroirs -->\n            <div class=\"sector-adaptive-card\" data-sector=\"physique\">\n                <span class=\"sector-adaptive-tag\">Voie 1 : Produits physiques et terroirs</span>\n                <h4><i class=\"fa-solid fa-bottle-droplet\" style=\"color:#10b981;\"></i> Trois niches porteuses en produits physiques</h4>\n                <div class=\"adaptive-offers-grid\">\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-tripwire\">Niche 1 : Soin Capillaire Ciblé</span>\n                        <div class=\"adaptive-offer-name\">Soins Anti-Chute & Alopécie de Traction</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Femmes aux cheveux crépus/texturés fragilisés par les tresses serrées ou défrisages. Besoin urgent : repousse visible des tempes dégarnies.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Actifs bruts : Huile de carapate noire pure, ricin, moringa local</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Forte récurrence : achat d'une cure de 3 mois renouvelable</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col highlight-tier\">\n                        <span class=\"adaptive-offer-badge badge-core\">Niche 2 : Épicerie Fine Prestige</span>\n                        <div class=\"adaptive-offer-name\">Condiments & Piments Rares d'Origine</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Épicuriens locaux et diaspora nostalgique cherchant l'authenticité gastronomique sans colorants ni conservateurs industriels.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Coffrets cadeaux bois avec pots numérotés en édition limitée</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Panier moyen élevé : 39€ à 65€ le coffret cadeau</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-vip\">Niche 3 : Mode Éco-Conçue</span>\n                        <div class=\"adaptive-offer-name\">Beachwear & Maillots Morpho-Inclusifs</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Femmes aux morphologies généreuses cherchant maintien parfait, tissus anti-UV respirants et motifs culturels élégants.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Zéro complexe : coupes testées sur des vrais corps locaux</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Taux de retour très faible grâce au conseil morphologie</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 2 : Services & Agence B2B -->\n            <div class=\"sector-adaptive-card\" data-sector=\"service\">\n                <span class=\"sector-adaptive-tag\">Voie 2 : Services & Agence B2B</span>\n                <h4><i class=\"fa-solid fa-handshake-angle\" style=\"color:#10b981;\"></i> Trois niches porteuses en prestations B2B</h4>\n                <div class=\"adaptive-offers-grid\">\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-tripwire\">Niche 1 : Tourisme & Hébergement</span>\n                        <div class=\"adaptive-offer-name\">Réservations Directes pour Gîtes & Villas</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Propriétaires de meublés de tourisme étouffés par les 20% de commission d'Airbnb et Booking.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Proposition : Site one-page rapide + campagnes Google Maps</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Valeur perçue : Économiser 4 000€ à 10 000€ de commissions par an</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col highlight-tier\">\n                        <span class=\"adaptive-offer-badge badge-core\">Niche 2 : Artisans & BTP</span>\n                        <div class=\"adaptive-offer-name\">Système Devis & WhatsApp pour Artisans</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Plombiers, électriciens, peintres qui perdent 10h/semaine à courir après les clients et envoyer des devis tard le soir.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Mise en place d'un répondeur WhatsApp Business automatisé</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Contrat d'installation 1 200€ + maintenance 250€/mois</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-vip\">Niche 3 : E-commerce & Import</span>\n                        <div class=\"adaptive-offer-name\">Optimisation Fret & Formalités Douanières</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Jeunes marques locales bloquées par les calculs d'octroi de mer, frais de dossier et blocages portuaires.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Audit logistique + mise en relation avec transitaires fiables</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Gain de temps et économies directes sur les coûts de fret</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 3 : Produits digitaux et e-books -->\n            <div class=\"sector-adaptive-card\" data-sector=\"digital\">\n                <span class=\"sector-adaptive-tag\">Voie 3 : Produits digitaux et e-books</span>\n                <h4><i class=\"fa-solid fa-laptop-code\" style=\"color:#10b981;\"></i> Trois niches porteuses en produits digitaux</h4>\n                <div class=\"adaptive-offers-grid\">\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-tripwire\">Niche 1 : Administratif & Statut</span>\n                        <div class=\"adaptive-offer-name\">Kit Juridique & Devis Clé-en-Main DOM</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Nouveaux indépendants et prestataires de services qui ont peur de faire une erreur légale sur leurs devis et CGV.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Modèles Word/Notion personnalisables + guide explicatif</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Prix : 37€ à 47€ (vendu 100% en automatique)</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col highlight-tier\">\n                        <span class=\"adaptive-offer-badge badge-core\">Niche 2 : Financement & Aides</span>\n                        <div class=\"adaptive-offer-name\">Dossier Subventions Régionales & ADIE</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Porteurs de projet perdus dans le labyrinthe des aides publiques locales.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Trame prête à remplir + exemples de dossiers acceptés</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Évite de payer 1 500€ à un cabinet de montage de dossier</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-vip\">Niche 3 : Reconversion & Freelance</span>\n                        <div class=\"adaptive-offer-name\">Tremplin Salariat vers Indépendant pour Femmes</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Cadres et salariées des îles souhaitant lancer leur activité sans risquer la stabilité de leur foyer.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Guide stratégique + simulateur financier + masterclass vidéo</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Panier moyen : 97€ pour le bundle complet</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 4 : Restauration, food et street-food -->\n            <div class=\"sector-adaptive-card\" data-sector=\"food\">\n                <span class=\"sector-adaptive-tag\">Voie 4 : Restauration, food et street-food</span>\n                <h4><i class=\"fa-solid fa-utensils\" style=\"color:#10b981;\"></i> Trois niches porteuses en cuisine et food</h4>\n                <div class=\"adaptive-offers-grid\">\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-tripwire\">Niche 1 : Repas Midi Santé</span>\n                        <div class=\"adaptive-offer-name\">Box Déjeuner Healthy Créole au Bureau</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Employés de bureau et soignants qui en ont marre des sandwichs gras et veulent manger sainement le midi.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Légumes pays vapeur, protéines grillées marinées, sauces maison</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Précommande WhatsApp à 10h, livraison groupée à 12h</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col highlight-tier\">\n                        <span class=\"adaptive-offer-badge badge-core\">Niche 2 : Street-Food Gourmet</span>\n                        <div class=\"adaptive-offer-name\">Bokit ou Pastel Fusion au Levain Naturel</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Jeunes actifs et amateurs de street-food cherchant une expérience gastronomique croustillante et raffinée.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Garnitures nobles : poisson frais du matin, effiloché de bœuf épicé</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Prix menu 16€ (ratio matière maîtrisé < 26%)</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-vip\">Niche 3 : Événementiel B2B</span>\n                        <div class=\"adaptive-offer-name\">Cocktail Dînatoire Terroir pour Entreprises</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Entreprises locales organisant des séminaires, pots de départ ou réceptions VIP de 20 à 60 personnes.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Pièces cocktail créatives et élégantes sur plateaux en bois</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Commandes pré-payées de 600€ à 1 800€ la prestation</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Voie 5 : Commerce et achat-revente -->\n            <div class=\"sector-adaptive-card\" data-sector=\"commerce\">\n                <span class=\"sector-adaptive-tag\">Voie 5 : Commerce et achat-revente</span>\n                <h4><i class=\"fa-solid fa-shop\" style=\"color:#10b981;\"></i> Trois niches porteuses en commerce</h4>\n                <div class=\"adaptive-offers-grid\">\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-tripwire\">Niche 1 : Cadeaux Créateurs</span>\n                        <div class=\"adaptive-offer-name\">Boutique Éphémère Artisans & Senteurs</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Clients cherchant un cadeau unique et raffiné qu'on ne trouve dans aucune grande surface.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Bougies végétales aux épices, bijoux faits main, carterie d'art</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Coefficient multiplicateur moyen de x2.5 à x3.0</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col highlight-tier\">\n                        <span class=\"adaptive-offer-badge badge-core\">Niche 2 : Bien-Être & Plantes</span>\n                        <div class=\"adaptive-offer-name\">Comptoir des Super-Aliments & Tisanes Brutes</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Personnes de 35 à 65 ans soucieuses de leur vitalité, cherchant des poudres de feuilles pures (moringa, kinkeliba, curcuma).</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Produits à conservation longue, stockage facile</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Clientèle ultra-fidèle avec réachat mensuel régulier</li>\n                        </ul>\n                    </div>\n                    <div class=\"adaptive-offer-col\">\n                        <span class=\"adaptive-offer-badge badge-vip\">Niche 3 : Mode Responsable</span>\n                        <div class=\"adaptive-offer-name\">Friperie Chic & Vintage Sélectionné</div>\n                        <div class=\"adaptive-offer-desc\">Cible : Femmes branchées cherchant des pièces de marque impeccables à prix doux sans cautionner la fast-fashion.</div>\n                        <ul class=\"adaptive-offer-bullets\">\n                            <li><i class=\"fa-solid fa-check\"></i> Pièces uniques nettoyées, repassées et présentées comme du neuf</li>\n                            <li><i class=\"fa-solid fa-check\"></i> Écoulement immédiat lors des Lives déballage de cartons</li>\n                        </ul>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"highlight-box\" style=\"margin: 24px 0;\">\n            <h4><i class=\"fa-solid fa-check-double\"></i> Les trois piliers de rentabilité à valider</h4>\n            <ul>\n                <li><strong>1. Douleur aiguë ou désir pressant :</strong> Le problème doit être suffisamment pénible pour que le prospect veuille le régler rapidement.</li>\n                <li><strong>2. Pouvoir d'achat avéré :</strong> La cible doit avoir l'habitude d'investir de l'argent dans ce domaine.</li>\n                <li><strong>3. Accessibilité simple :</strong> Tu sais exactement où les trouver (groupes WhatsApp, profils Instagram, lieux physiques, annuaires).</li>\n            </ul>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_10",
+                "title": "Verrouillage de ta niche et différenciation",
+                "description": "Remplis cette fiche pour fixer définitivement ta niche avant de passer à l'étude de la concurrence :",
+                "fields": [
+                    {
+                        "id": "niche_choisie_description",
+                        "type": "textarea",
+                        "label": "1. Quelle est ta sous-niche précise (À qui s'adresse exclusivement ton offre ?) :",
+                        "placeholder": "Ex: 'Les propriétaires de gîtes et villas touristiques en Guadeloupe qui veulent des réservations directes sans verser 20% à Airbnb.'"
+                    },
+                    {
+                        "id": "niche_etat_a_douleur",
+                        "type": "textarea",
+                        "label": "2. Quel est l'ÉTAT A (la douleur aiguë, la frustration ou la perte) qu'ils subissent aujourd'hui ?",
+                        "placeholder": "Ex: 'Voir partir 4 000€ de commissions par an vers des plateformes américaines alors que les charges locales augmentent.'"
+                    },
+                    {
+                        "id": "niche_etat_b_promesse",
+                        "type": "textarea",
+                        "label": "3. Quel est l'ÉTAT B promis (le résultat concret, le soulagement et le bénéfice mesurable) ?",
+                        "placeholder": "Ex: 'Encaisser 60% de réservations directes sur leur propre site WhatsApp/Stripe et récupérer 350€ de marge nette par séjour.'"
+                    },
+                    {
+                        "id": "niche_pouvoir_achat",
+                        "type": "text",
+                        "label": "4. Pourquoi cette cible a-t-elle le pouvoir d'achat nécessaire pour payer ton offre ?",
+                        "placeholder": "Ex: 'Parce que chaque réservation directe supplémentaire rembourse immédiatement mon forfait mensuel.'"
+                    },
+                    {
+                        "id": "niche_lieu_accessibilite",
+                        "type": "text",
+                        "label": "5. Où peux-tu trouver et contacter facilement 20 personnes de cette niche dès cette semaine ?",
+                        "placeholder": "Ex: 'Sur Google Maps (recherche gîtes), dans les groupes Facebook d'hébergeurs locaux et par prospection WhatsApp directe.'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-11",
+            "number": 11,
+            "badge": "Chapitre 11",
+            "title": "Comprendre son client idéal en profondeur",
+            "subtitle": "Le profil de ton client idéal, de ses frustrations inavouées jusqu'à son déclencheur d'achat immédiat.",
+            "readTime": "8 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Arrête de me dire que ton produit s'adresse à 'tout le monde entre 18 et 65 ans'. Si tu essaies de parler à tout le monde, tu ne touches personne.\n                </p>\n                <p>\n                    Dans la réalité d'un business pérenne, tu n'as presque jamais un seul profil figé. Tu as un <strong>cœur de cible grand public (B2C)</strong>, mais tu as souvent aussi des <strong>opportunités auprès de professionnels ou partenaires (B2B)</strong> qui ont du budget, ou des <strong>clients VIP</strong> prêts à payer cher pour un accompagnement exclusif.\n                </p>\n                <p>\n                    Pour concevoir une offre irrésistible, tu dois regarder chaque profil sous <strong>quatre angles complémentaires</strong> :\n                </p>\n\n                <div class=\"grid-2\">\n                    <div class=\"feature-card\">\n                        <div class=\"card-icon\"><i class=\"fa-solid fa-bullseye\"></i></div>\n                        <h4>1. L'Œil du Marketeur</h4>\n                        <p>\n                            Le marketeur cherche la <strong>douleur aiguë</strong>. Quel est le caillou dans la chaussure de ton client ? Quel est le problème précis qui lui fait perdre du temps, de l'argent, ou son sommeil ?\n                        </p>\n                    </div>\n                    <div class=\"feature-card\">\n                        <div class=\"card-icon\"><i class=\"fa-solid fa-gem\"></i></div>\n                        <h4>2. L'Œil du Branding</h4>\n                        <p>\n                            Ton client n'achète pas seulement une solution technique. Il achète une <strong>identité</strong> et un sentiment de fierté. En achetant chez toi, que veut-il projeter aux yeux du monde ?\n                        </p>\n                    </div>\n                    <div class=\"feature-card\">\n                        <div class=\"card-icon\"><i class=\"fa-solid fa-feather-pointed\"></i></div>\n                        <h4>3. L'Œil de l'Auteur</h4>\n                        <p>\n                            C'est la question du <strong>ton de voix</strong>. Quels mots utilise-t-il quand il se plaint à ses amis ? Il doit lire tes pages et se dire : <em>\"Cette personne me comprend mieux que moi-même.\"</em>\n                        </p>\n                    </div>\n                    <div class=\"feature-card\">\n                        <div class=\"card-icon\"><i class=\"fa-solid fa-mobile-screen-button\"></i></div>\n                        <h4>4. L'Œil du Créateur de Contenu</h4>\n                        <p>\n                            Où passe-t-il son temps sur son écran ? Regarde-t-il des vidéos YouTube approfondies le week-end, ou scrolle-t-il sur TikTok à 23h ? Qu'est-ce qui le ferait s'arrêter de scroller net ?\n                        </p>\n                    </div>\n                </div>\n            ",
+            "exercise": {
+                "id": "ex_chapitre_11",
+                "title": "Profils de ton client idéal",
+                "description": "Détaille tes 3 cibles prioritaires pour ne laisser aucun potentiel de chiffre d'affaires de côté :",
+                "fields": [
+                    {
+                        "id": "sec_avatar_1",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-user",
+                        "label": "Avatar 1 : Cœur de Cible Grand Public (B2C)"
+                    },
+                    {
+                        "id": "avatar1_identite",
+                        "type": "text",
+                        "label": "Prénom fictif, tranche d'âge et situation de vie :",
+                        "placeholder": "Ex: Sarah, 28 ans, jeune active dynamique à Fort-de-France"
+                    },
+                    {
+                        "id": "avatar1_douleur",
+                        "type": "textarea",
+                        "label": "Sa douleur quotidienne majeure (la frustration qu'elle veut éliminer) :",
+                        "placeholder": "Ex: Elle en a assez de dépenser des fortunes dans des cosmétiques importés inefficaces et cherche des soins naturels locaux réputés..."
+                    },
+                    {
+                        "id": "avatar1_gain",
+                        "type": "text",
+                        "label": "Le sentiment ou le statut qu'elle ressent après l'achat :",
+                        "placeholder": "Ex: Fière de prendre soin de sa santé tout en valorisant la flore locale."
+                    },
+                    {
+                        "id": "sec_avatar_2",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-briefcase",
+                        "label": "Avatar 2 : Partenaire B2B / Revendeur / Entreprise"
+                    },
+                    {
+                        "id": "avatar2_profil",
+                        "type": "text",
+                        "label": "Type d'entreprise, commerçant ou décideur ciblé :",
+                        "placeholder": "Ex: Gérant d'un concept-store / salon de coiffure haut de gamme"
+                    },
+                    {
+                        "id": "avatar2_roi",
+                        "type": "textarea",
+                        "label": "Son enjeu business (pourquoi il achèterait tes services ou produits pour son commerce) :",
+                        "placeholder": "Ex: Augmenter son panier moyen de 25€ et fidéliser une clientèle exigeante en quête de nouveautés locales."
+                    },
+                    {
+                        "id": "sec_avatar_3",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-crown",
+                        "label": "Avatar 3 : Client VIP / Offre Panier Élevé"
+                    },
+                    {
+                        "id": "avatar3_profil",
+                        "type": "textarea",
+                        "label": "Qui est le client prêt à payer 3x à 10x plus cher pour une solution clé en main ou personnalisée ?",
+                        "placeholder": "Ex: Une cliente pressée qui veut une box personnalisée livrée chaque mois avec bilan capillaire individuel par visio..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-12",
+            "number": 12,
+            "badge": "Chapitre 12",
+            "title": "Les vrais fondamentaux de la marque et de la réputation",
+            "subtitle": "Ta réputation te précède toujours, voici comment construire une marque forte sans budget excessif.",
+            "readTime": "7 min",
+            "content": "\n        <p class=\"lead-text\">\n            Démystifions immédiatement le branding : <strong>le branding n'a rien à voir avec un prompt d'intelligence artificielle, un fichier SVG ou un dégradé de couleurs à la mode</strong>.\n        </p>\n        <p>\n            Si tu passes trois semaines à chercher des formules magiques ou à payer une agence 2 000€ pour une charte graphique alors que tu n'as pas encore parlé à ton premier client... tu fais fausse route.\n        </p>\n\n        <h3>1. Le branding dans la vie de tous les jours</h3>\n        <p>\n            Dans la vie quotidienne, chacun d'entre nous possède déjà une marque personnelle, qu'il le veuille ou non. C'est tout simplement ta <strong>réputation</strong> :\n        </p>\n        <ul>\n            <li>Est-ce que tu es quelqu'un de ponctuel ou quelqu'un qui arrive systématiquement avec 20 minutes de retard ?</li>\n            <li>Quand tu donnes ta parole sur un engagement, est-ce que tes proches savent que c'est sacré ou qu'il y a 50% de chances que tu oublies ?</li>\n            <li>Quand tu quittes une pièce après une réunion de famille ou un échange entre amis, <em>quels sont les 3 mots exacts que les gens emploient pour te décrire</em> ?</li>\n        </ul>\n        <p>\n            Voilà ce qu'est le branding dans sa forme la plus pure. Quelqu'un qui a une réputation d'intégrité, d'écoute et de rigueur sera recommandé naturellement par tout son entourage, même s'il n'a ni carte de visite ni logo.\n        </p>\n\n        <div class=\"quote-card\">\n            <div class=\"quote-icon\"><i class=\"fa-solid fa-quote-left\"></i></div>\n            <p>\n                « Ton branding n'est pas ce que <em>toi</em> tu racontes sur ton site. C'est ce que ton client raconte à son meilleur ami quand tu as le dos tourné. »\n            </p>\n        </div>\n\n        <h3>2. Le branding dans ton business et la promesse tenue</h3>\n        <p>\n            Dans une entreprise, le branding n'est rien d'autre que la <strong>constance</strong> à délivrer une promesse spécifique. C'est la confiance accumulée au fil des interactions :\n        </p>\n        <div class=\"highlight-box\">\n            <h4 style=\"margin:0 0 10px 0;\"><i class=\"fa-solid fa-gem\"></i> Les trois piliers de la perception</h4>\n            <ul style=\"margin:0; padding-left:20px; line-height:1.6; font-size:0.95rem;\">\n                <li><strong>La Confiance :</strong> L'assurance immédiate que tu comprends le problème de ton client mieux que n'importe qui et que tu ne vas pas disparaître avec son argent.</li>\n                <li><strong>La Constance :</strong> La régularité sans faille. Si le service est exceptionnel le lundi mais catastrophique le jeudi, ton branding est détruit. La constance bat toujours le coup d'éclat éphémère.</li>\n                <li><strong>La Singularité :</strong> Le détail mémorable que personne d'autre n'ose faire (un accueil ultra-chaleureux, un suivi personnalisé par message vocal, un soin méticuleux apporté à l'emballage).</li>\n            </ul>\n        </div>\n\n        <h3>3. Travailler ton état d'esprit de fondateur</h3>\n        <p>\n            Avant même de toucher à la moindre couleur ou au moindre dessin, réponds avec franchise aux questions ci-dessous dans ton carnet. Ce sont ces réponses qui dicteront tout le reste.\n        </p>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_12",
+                "title": "Fondations de ta réputation et de ta marque",
+                "description": "Travaille ton cerveau d'entrepreneur pour définir ta réputation et tes lignes rouges fondamentales :",
+                "fields": [
+                    {
+                        "id": "branding_nom_officiel",
+                        "type": "text",
+                        "label": "1. Nom officiel de ta marque ou de ton projet :",
+                        "placeholder": "Ex: KréyolTech / Nappy Botanicals / Atelier Gwada..."
+                    },
+                    {
+                        "id": "branding_promesse_sacree",
+                        "type": "text",
+                        "label": "2. Ta Promesse Sacrée : Les 3 mots que chaque client doit associer immédiatement à toi :",
+                        "placeholder": "Ex: Rapidité, Chaleur, Efficacité (ou : Rigueur, Transparence, Résultats)"
+                    },
+                    {
+                        "id": "branding_test_reputation",
+                        "type": "textarea",
+                        "label": "3. Le Test de la Pièce : Quand un client parle de toi à un ami sans que tu sois là, quelle phrase exacte doit-il prononcer ?",
+                        "placeholder": "Ex: 'Va les voir les yeux fermés : ils répondent en moins de 10 minutes, ils connaissent parfaitement leur métier et ils ne t'arnaquent jamais sur les prix.'"
+                    },
+                    {
+                        "id": "branding_anti_modele",
+                        "type": "textarea",
+                        "label": "4. Ton Anti-Modèle Absolu : La pratique ou le comportement que tu refuses catégoriquement d'adopter dans ton secteur :",
+                        "placeholder": "Ex: 'Je refuse catégoriquement de vendre du rêve en promettant des résultats miracles en 48h, et je refuse de laisser un message client sans réponse plus de 24h.'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-13",
+            "number": 13,
+            "badge": "Chapitre 13",
+            "title": "Créer son premier logo sans prise de tête",
+            "subtitle": "La règle d'or reste la lisibilité sur smartphone avant tout, avec des couleurs adaptées à ton message.",
+            "readTime": "8 min",
+            "content": "\n        <p class=\"lead-text\">\n            Soyons très clairs : <strong>aucun client n'a jamais acheté un produit uniquement parce que le logo était joli</strong>.\n        </p>\n        <p>\n            Au démarrage de ton projet, passer des semaines entières à hésiter entre trois nuances de bleu ou à payer 1 500€ à une agence est une forme grave de procrastination. Ce qui te fera vivre, c'est ton offre, la qualité de ton travail et le respect de tes engagements. Ton logo n'a qu'un seul rôle au début : être <em>propre, lisible et reconnaissable</em>.\n        </p>\n\n        <h3>Les deux seuls formats efficaces pour démarrer</h3>\n        <p>\n            Inutile de vouloir dessiner un personnage complexe ou une illustration chargée qui sera illisible en tout petit sur l'écran d'un smartphone. Choisis l'une de ces <strong>2 options intemporelles</strong> :\n        </p>\n\n        <div class=\"branding-archetypes-grid\" style=\"grid-template-columns: 1fr 1fr; margin-bottom: 24px;\">\n            <div class=\"branding-archetype-card\">\n                <div class=\"archetype-header\">\n                    <div class=\"archetype-icon-box\"><i class=\"fa-solid fa-font\"></i></div>\n                    <div>\n                        <h4 class=\"archetype-title\">Option 1, le wordmark typographique</h4>\n                        <span class=\"archetype-examples\">Exemples : Zara, Google, Dior, Respire, Sony</span>\n                    </div>\n                </div>\n                <p style=\"font-size:0.9rem; color:var(--text-secondary); line-height:1.5;\">\n                    Ton nom écrit en toutes lettres avec une typographie propre, moderne et aérée (sans-serif élégante).\n                </p>\n                <p style=\"font-size:0.85rem; color:#10b981; margin:0;\">\n                    <strong>Avantage :</strong> Mémorisation directe de ton nom, élégance immédiate, impossible à démoder, facile à imprimer sur n'importe quel packaging ou facture.\n                </p>\n            </div>\n\n            <div class=\"branding-archetype-card\">\n                <div class=\"archetype-header\">\n                    <div class=\"archetype-icon-box\"><i class=\"fa-solid fa-signature\"></i></div>\n                    <div>\n                        <h4 class=\"archetype-title\">Option 2, le monogramme avec initiales</h4>\n                        <span class=\"archetype-examples\">Exemples : Chanel (CC), YSL, Louis Vuitton (LV), DTC</span>\n                    </div>\n                </div>\n                <p style=\"font-size:0.9rem; color:var(--text-secondary); line-height:1.5;\">\n                    Les 2 ou 3 initiales de ton entreprise stylisées de manière géométrique et équilibrée.\n                </p>\n                <p style=\"font-size:0.85rem; color:#10b981; margin:0;\">\n                    <strong>Avantage :</strong> Format carré ou circulaire parfait pour la photo de profil WhatsApp, l'avatar Instagram, l'étiquette produit et le favicon web.\n                </p>\n            </div>\n        </div>\n\n        <h3>Guide pratique de la psychologie des couleurs</h3>\n        <p>\n            Ne mélange pas 5 couleurs. Choisis <strong>1 couleur maîtresse</strong> selon l'émotion que tu veux susciter, plus une couleur de fond sobre (blanc cassé ou noir profond) :\n        </p>\n\n        <div class=\"color-psychology-grid\">\n            <div class=\"color-swatch-card\">\n                <div class=\"color-swatch-circle\" style=\"background:#10b981;\"></div>\n                <div class=\"color-swatch-info\">\n                    <h5>Vert (Terroirs & Santé)</h5>\n                    <p>Nature, plantes caribéennes, fraîcheur, éco-responsabilité, bien-être, apaisement.</p>\n                </div>\n            </div>\n            <div class=\"color-swatch-card\">\n                <div class=\"color-swatch-circle\" style=\"background:#2563eb;\"></div>\n                <div class=\"color-swatch-info\">\n                    <h5>Bleu (Confiance & B2B)</h5>\n                    <p>Sérieux, rigueur, sécurité financière, prestations de services, technologie, fiabilité.</p>\n                </div>\n            </div>\n            <div class=\"color-swatch-card\">\n                <div class=\"color-swatch-circle\" style=\"background:#f97316;\"></div>\n                <div class=\"color-swatch-info\">\n                    <h5>Orange & Ocre (Chaleur & Food)</h5>\n                    <p>Convivialité créole, cuisine, épices, gourmandise, accueil généreux, énergie solaire.</p>\n                </div>\n            </div>\n            <div class=\"color-swatch-card\">\n                <div class=\"color-swatch-circle\" style=\"background:#ec4899;\"></div>\n                <div class=\"color-swatch-info\">\n                    <h5>Rose & Violet (Beauté & Soin)</h5>\n                    <p>Cosmétique, soins capillaires nappy, douceur, féminité affirmée, univers créatif.</p>\n                </div>\n            </div>\n            <div class=\"color-swatch-card\">\n                <div class=\"color-swatch-circle\" style=\"background:#d4af37;\"></div>\n                <div class=\"color-swatch-info\">\n                    <h5>Noir & Or (Prestige & Luxe)</h5>\n                    <p>Excellence, rareté, haut de gamme, autorité, conciergerie VIP et spiritueux nobles.</p>\n                </div>\n            </div>\n        </div>\n\n        <p style=\"font-size:0.92rem; color:var(--text-secondary);\">\n            <strong>Règle d'or de simplicité :</strong> 1 couleur de fond dominante + 1 couleur de structure pour tes textes + 1 couleur contrastée (accent) réservée <em>uniquement</em> à tes boutons d'achat et d'action.\n        </p>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_13",
+                "title": "Studio logo et test en situation réelle",
+                "description": "Importe ton logo ou esquisse pour le visualiser instantanément sur tes supports réels :",
+                "fields": [
+                    {
+                        "id": "branding_logo_file",
+                        "type": "image-upload",
+                        "label": "Studio Logo : Importe ton logo pour le prévisualiser en direct :",
+                        "hint": "Glisse ton fichier PNG (fond transparent recommandé), JPG ou SVG. Il apparaîtra instantanément sur tes 3 mockups réels (Avatar profil, Carte de visite haut de gamme, Favicon & Étiquette packaging)."
+                    },
+                    {
+                        "id": "logo_format_choisi",
+                        "type": "select",
+                        "label": "Format de logo retenu pour ton démarrage :",
+                        "options": [
+                            {
+                                "value": "wordmark",
+                                "label": "Wordmark Typographique (Nom épuré et lisible — style Zara / Respire)"
+                            },
+                            {
+                                "value": "monogramme",
+                                "label": "Monogramme / Initiales (Style Chanel / YSL / DTC)"
+                            },
+                            {
+                                "value": "symbole_simple",
+                                "label": "Symbole / Icône géométrique simple"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "logo_couleurs_dominantes",
+                        "type": "text",
+                        "label": "Tes 2 couleurs principales (Codes HEX ou noms simples) :",
+                        "placeholder": "Ex: Fond Blanc cassé (#FAFAFA) + Vert Forêt (#0F382C) + Bouton Or (#D4AF37)"
+                    },
+                    {
+                        "id": "logo_checklist_lisibilite",
+                        "type": "textarea",
+                        "label": "Test de Lisibilité Smartphone : Ton logo passe-t-il le test du mobile ?",
+                        "placeholder": "Vérifie : 1. Est-il parfaitement lisible en taille miniature (32x32 px) ? 2. Se détache-t-il bien sur fond blanc et sur fond sombre ? 3. Un enfant de 8 ans peut-il le redessiner de mémoire ?"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-14",
+            "number": 14,
+            "badge": "Chapitre 14",
+            "title": "Construire une offre irrésistible et fixer ses prix",
+            "subtitle": "Transformer un simple produit en une offre évidente grâce à trois paliers de valeur pour maximiser tes revenus.",
+            "readTime": "9 min",
+            "content": "\n        <p class=\"lead-text\">\n            Vendre pas cher est le piège mortel du débutant qui manque de confiance en lui.\n        </p>\n        <p>\n            Quand tu fixes un prix au rabais en te disant <em>« comme ça tout le monde pourra acheter »</em>, voici ce qui se passe réellement sur le terrain :\n        </p>\n        <ul>\n            <li>Tu attires les clients les plus exigeants, les plus toxiques et les moins reconnaissants de ton travail.</li>\n            <li>Tu n'as plus aucune marge de sécurité pour absorber un aléa logistique, payer ton fret maritime ou offrir un cadeau à tes clients.</li>\n            <li>Tu envoies un signal de mauvaise qualité (dans l'esprit du public : pas cher = suspect ou bas de gamme).</li>\n        </ul>\n\n        <h3>L'équation de la valeur pour ton offre</h3>\n        <p>\n            Pour faire payer 500€, 1 500€ ou 3 000€ à un client sans qu'il négocie, tu dois maximiser la <strong>valeur perçue</strong> selon cette formule mathématique universelle :\n        </p>\n        <div class=\"highlight-box\">\n            <h4 style=\"margin:0 0 10px 0;\"><i class=\"fa-solid fa-brain\"></i> La formule de la valeur perçue</h4>\n            <p style=\"font-size:1.1rem; font-weight:700; color:#10b981; margin:0 0 12px 0;\">\n                VALEUR = (Rêve Résolu × Certitude de Réussite) ÷ (Délai de Réalisation × Effort & Sacrifice)\n            </p>\n            <ul style=\"font-size:0.95rem; margin:0; padding-left:20px; line-height:1.6;\">\n                <li><strong>Augmente le numérateur :</strong> Montre une transformation spectaculaire et prouve avec des témoignages irréfutables que ton client va réussir.</li>\n                <li><strong>Divise le dénominateur :</strong> Réduis le temps nécessaire pour obtenir le premier résultat et prends en charge le travail fastidieux à sa place.</li>\n            </ul>\n        </div>\n\n        <h3>La suite d'offres pour ne jamais dépendre d'une seule vente</h3>\n        <p>\n            Un business solide ne repose pas sur une seule offre rigide. Il repose sur une <strong>Échelle de Valeur en 3 paliers</strong> :\n        </p>\n        <ol>\n            <li><strong>1. L'Offre d'Entrée / Tripwire :</strong> Un mini-produit, kit échantillon ou audit flash (ex: 19€ à 49€) qui élimine la barrière psychologique et transforme un inconnu en client payant.</li>\n            <li><strong>2. L'Offre Cœur (Core Offer) :</strong> Ton produit ou service phare (ex: 75€ à 250€ pour un produit, 700€ à 1 800€ pour une prestation). C'est le moteur principal qui génère ton volume de marge saine.</li>\n            <li><strong>3. L'Offre Haute Valeur / VIP ou B2B :</strong> Un accompagnement sur-mesure, une cure complète exclusive ou un pack revendeur (ex: 1 500€ à 3 500€). Seuls 5% à 10% de tes clients la prendront, mais elle représentera 40% de ton bénéfice net !</li>\n        </ol>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_14",
+                "title": "Architecture de ton échelle d'offres en trois paliers",
+                "description": "Structure tes 3 niveaux de prix pour maximiser la rentabilité de chaque prospect :",
+                "fields": [
+                    {
+                        "id": "sec_offre_0",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-bullseye",
+                        "label": "Étape 1 : Le 'Dream Outcome' Chiffré & Mesurable"
+                    },
+                    {
+                        "id": "offre_dream_outcome",
+                        "type": "textarea",
+                        "label": "Quelle est la promesse chiffrée et indiscutable que tu garantis à ton client ?",
+                        "placeholder": "Ex: 'Stopper la chute de cheveux et relancer 3cm de repousse en 90 jours' ou 'Générer 5 nouveaux contrats B2B signés en 30 jours sans prospection à froid'."
+                    },
+                    {
+                        "id": "sec_offre_1",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-door-open",
+                        "label": "Étape 2 — Palier 1 : Offre d'Entrée (Désamorce le doute)"
+                    },
+                    {
+                        "id": "offre_appel_titre_prix",
+                        "type": "text",
+                        "label": "Nom de l'offre d'entrée et prix envisagé :",
+                        "placeholder": "Ex: Pack Échantillon Découverte (19€) / Diagnostic Express 30 min (39€)"
+                    },
+                    {
+                        "id": "offre_appel_promesse",
+                        "type": "textarea",
+                        "label": "Quelle victoire rapide ou transformation immédiate apporte-t-elle au client ?",
+                        "placeholder": "Ex: Permet de tester la texture sur ses mèches sans engagement / Repérer ses 3 erreurs majeures sur Instagram..."
+                    },
+                    {
+                        "id": "sec_offre_2",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-star",
+                        "label": "Étape 2 — Palier 2 : Offre Cœur (Ton moteur de rentabilité principal)"
+                    },
+                    {
+                        "id": "offre_coeur_titre_prix",
+                        "type": "text",
+                        "label": "Nom et prix de ton offre phare :",
+                        "placeholder": "Ex: Gamme Complète Pousse 4 produits (79€) / Forfait Gestion & Vidéos (750€/mois)"
+                    },
+                    {
+                        "id": "offre_coeur_livrable",
+                        "type": "textarea",
+                        "label": "Contenu précis et résultat final garanti :",
+                        "placeholder": "Ex: 4 soins complets pour 3 mois de routine / 8 vidéos filmées et montées avec calendrier de publication..."
+                    },
+                    {
+                        "id": "sec_offre_3",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-crown",
+                        "label": "Étape 2 — Palier 3 : Offre VIP / Haute Valeur (Forte Marge)"
+                    },
+                    {
+                        "id": "offre_vip_titre_prix",
+                        "type": "textarea",
+                        "label": "Nom, prix et condition de ton offre haut de gamme ou B2B :",
+                        "placeholder": "Ex: Pack Revendeur Concept Store 50 unités (1 400€) / Accompagnement VIP individuel 90 jours (1 800€)"
+                    },
+                    {
+                        "id": "sec_offre_4",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-rocket",
+                        "label": "Étape 3 : Le Bonus Accélérateur (L'élément qui rend le 'Non' impossible)"
+                    },
+                    {
+                        "id": "offre_bonus_accelerateur",
+                        "type": "textarea",
+                        "label": "Quel livrable ou outil gratuit exclusif inclus lèves-tu pour accélérer la victoire du client ?",
+                        "placeholder": "Ex: 'Un carnet de suivi capillaire offert + 1 bonnet en satin de soie' ou '1 kit de 30 templates Canva prêts à l'emploi offert avec le pack'."
+                    },
+                    {
+                        "id": "sec_offre_5",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-shield-check",
+                        "label": "Étape 4 : L'Inversion du Risque (Garantie de Sérénité)"
+                    },
+                    {
+                        "id": "offre_garantie_inversion_risque",
+                        "type": "textarea",
+                        "label": "Quelle garantie prends-tu à ta charge pour que le prospect n'ait absolument rien à perdre ?",
+                        "placeholder": "Ex: 'Satisfait ou remboursé sous 30 jours sans question' ou 'Si tu n'as pas obtenu au moins 3 réservations sous 45 jours, on continue à travailler gratuitement avec toi jusqu'à ce que ce soit le cas'."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-15",
+            "number": 15,
+            "badge": "Chapitre 15",
+            "title": "Lancer une offre bêta et récolter ses premières preuves sociales",
+            "subtitle": "Le secret des lancements réussis repose sur trois à cinq clients tests avant de dévoiler ton offre au grand public.",
+            "readTime": "7 min",
+            "content": "\n      <p class=\"lead-text\">\n          Règle d'or de tout stratège commercial : <strong>on ne lance jamais une offre à plein tarif devant des inconnus sans avoir validé la machine avec des testeurs pionniers</strong>.\n      </p>\n      <p>\n          Sur nos territoires ultramarins et dans les communautés soudées, la méfiance initiale est naturelle. Tout le monde se connaît, les promesses non tenues se paient cher, et l'acheteur moyen attend de voir si son voisin a testé et validé avant d'ouvrir son portefeuille.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-users-viewfinder\"></i></div>\n          <p>\n              « Ce n'est pas ce que TOI tu dis de ton produit qui fait vendre. C'est ce que tes 5 premiers clients disent de toi avec des étoiles dans les yeux. »\n          </p>\n      </div>\n\n      <h3>Le protocole du lancement avec les clients bêta</h3>\n      <p>\n          Ton objectif n'est pas de faire fortune la première semaine, mais de <strong>récolter 5 preuves sociales irréfutables</strong> (témoignages audio WhatsApp, captures d'écran de compliments, ou vidéos face caméra).\n      </p>\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">Protocole Fondateur</span>\n              <h4>L'accord clair avec tes cinq clients tests</h4>\n          </div>\n          <div class=\"method-body\">\n              <p>Tu approches 5 personnes correspondant exactement à ton avatar et tu leur dis sans détour :</p>\n              <blockquote style=\"background:rgba(245,158,11,0.08); border-left:4px solid #f59e0b; padding:12px 16px; margin:12px 0; border-radius:0 8px 8px 0; font-style:italic;\">\n                  « Je finalise le lancement officiel de mon service/produit [Nom]. Avant de l'ouvrir au public à [Tarif normal, ex: 150€], je sélectionne 5 clients testeurs à un tarif privilégié de [50% ou 0€ selon tes moyens]. En échange, tu t'engages à me faire un retour franc et, si tu es ravi du résultat, à m'enregistrer un court témoignage de 45 secondes racontant ton expérience. Est-ce que tu veux faire partie des 5 ? »\n              </blockquote>\n          </div>\n      </div>\n\n      <h3>Les 4 questions magiques pour un témoignage qui vend</h3>\n      <p>\n          Quand un client dit simplement <em>\"C'est super, merci\"</em>, ça ne convertit personne. Pour qu'un avis déclenche des ventes automatiques, pose-lui ces 4 questions par note vocale :\n      </p>\n      <div class=\"feature-grid-2\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\">1</div>\n              <h4>Quelle était ta situation avant ?</h4>\n              <p>Permet aux futurs prospects de s'identifier à la même douleur initiale.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\">2</div>\n              <h4>Quelle était ta crainte principale avant d'essayer ?</h4>\n              <p>Désarme les objections des acheteurs frileux (prix, délai, qualité).</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\">3</div>\n              <h4>Quel résultat concret as-tu obtenu ?</h4>\n              <p>Des faits mesurables : du temps gagné, des compliments reçus, un problème réglé.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\">4</div>\n              <h4>Que dirais-tu à quelqu'un qui hésite ?</h4>\n              <p>La recommandation chaleureuse qui pousse à l'action immédiate.</p>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_15",
+                "title": "Recrutement de tes cinq premiers clients tests",
+                "description": "Sélectionne dès maintenant tes 5 premiers testeurs pour sécuriser tes preuves sociales :",
+                "fields": [
+                    {
+                        "id": "beta_noms_testeurs",
+                        "type": "textarea",
+                        "label": "Les noms ou profils des 3 à 5 personnes ou entreprises que tu vas contacter pour l'offre Bêta :",
+                        "placeholder": "1. Marc (restaurant local)\n2. Julie (amie active qui manque de temps)\n3. Cabinet X..."
+                    },
+                    {
+                        "id": "beta_condition_echange",
+                        "type": "text",
+                        "label": "Quelle condition avantageuse leur proposes-tu en échange de leur avis complet ?",
+                        "placeholder": "Ex: -50% sur la prestation, ou première boîte offerte, ou bonus exclusif..."
+                    },
+                    {
+                        "id": "beta_date_collecte_avis",
+                        "type": "text",
+                        "label": "À quelle date précise auras-tu collecté ces 5 avis sur ton téléphone ?",
+                        "placeholder": "Ex: Dans 10 jours maximum (le 18 du mois)"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-16",
+            "number": 16,
+            "badge": "Chapitre 16",
+            "title": "Créer une page de vente simple et efficace",
+            "subtitle": "Une seule page bien structurée en cinq blocs suffit pour convertir tes visiteurs en acheteurs sans site complexe.",
+            "readTime": "7 min",
+            "content": "\n      <p class=\"lead-text\">\n          Arrête de croire qu'il te faut un site internet de 10 pages à 2 500€ avec un blog, une page \"À propos\" et une galerie photo pour vendre. C'est l'illusion favorite des agences web pour vider la trésorerie des créateurs d'entreprise.\n      </p>\n      <p>\n          En 2026, <strong>plus de 85% de ton trafic arrive depuis un smartphone</strong> via Instagram, TikTok, WhatsApp ou un lien partagé. Le prospect a une durée d'attention de 8 secondes. S'il doit chercher où cliquer, il quitte la page.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-mobile-screen-button\"></i></div>\n          <p>\n              « Une page de vente efficace est un couloir fermé : le visiteur n'a que deux choix possibles : acheter maintenant ou fermer la page. Aucune distraction possible. »\n          </p>\n      </div>\n\n      <h3>Les cinq blocs essentiels d'une page qui convertit</h3>\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">Anatomie de Conversion</span>\n              <h4>La Structure de Haut en Bas</h4>\n          </div>\n          <div class=\"method-body\">\n              <div class=\"method-steps\">\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">1</div>\n                      <div class=\"method-step-content\">\n                          <strong>Le Hero Banner (L'Accroche Immédiate) :</strong>\n                          <p>Ta promesse d'État B en 1 phrase percutante, une photo ou vidéo courte montrant le résultat, et un gros bouton d'action visible sans avoir besoin de faire défiler l'écran.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">2</div>\n                      <div class=\"method-step-content\">\n                          <strong>L'Agonie & l'Empathie (Le Problème) :</strong>\n                          <p>Trois puces décrivant la douleur actuelle de ton client. Il doit se dire : <em>« C'est exactement ce que je vis tous les matins »</em>.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">3</div>\n                      <div class=\"method-step-content\">\n                          <strong>La Solution & l'Offre en 3 Paliers :</strong>\n                          <p>Présentation limpide de ton offre (Tripwire, Offre Cœur, Option VIP) avec le détail précis de ce qui est inclus et le tarif clair.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">4</div>\n                      <div class=\"method-step-content\">\n                          <strong>Le Mur de Confiance (Preuves Sociales) :</strong>\n                          <p>Les 3 à 5 témoignages récoltés lors de ta phase Bêta (Ch. 15). Captures d'écran WhatsApp authentiques ou citations avec prénoms.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">5</div>\n                      <div class=\"method-step-content\">\n                          <strong>L'Appel à l'Action sans Friction (Le Bouton Ultime) :</strong>\n                          <p>Lien direct vers la commande sécurisée (Stripe/Payhip) ou bouton vert géant : <em>« Commander directement par WhatsApp »</em>.</p>\n                      </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n\n      <h3>Les outils gratuits ou ultra-économiques pour créer ta page en 2h</h3>\n      <div class=\"feature-grid-3\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-cube\"></i></div>\n              <h4>Carrd.co (19$/an)</h4>\n              <p>Le roi absolu de la One-Page mobile. Rapide, fluide, magnifique et intégrable avec Stripe en 3 clics.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-download\"></i></div>\n              <h4>Payhip (0€ / 5% par vente)</h4>\n              <p>Parfait pour vendre des e-books, du coaching ou des acomptes sans payer aucun abonnement mensuel au départ.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-brands fa-whatsapp\"></i></div>\n              <h4>Catalogue WhatsApp Business</h4>\n              <p>100% gratuit. Tes fiches produits directement dans la messagerie avec prix, photos et lien de commande.</p>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_16",
+                "title": "Structure de ta page de vente en cinq blocs",
+                "description": "Rédige les éléments clés de ta page d'atterrissage pour être prêt à accueillir tes prospects :",
+                "fields": [
+                    {
+                        "id": "onepage_titre_hero",
+                        "type": "text",
+                        "label": "Le titre de ton Hero Banner (Promesse État B en 1 phrase) :",
+                        "placeholder": "Ex: Obtenez 8 vidéos prêtes à poster par mois sans toucher à un logiciel de montage."
+                    },
+                    {
+                        "id": "onepage_3_douleurs",
+                        "type": "textarea",
+                        "label": "Les 3 douleurs ou blocages majeurs listés dans la section Empathie :",
+                        "placeholder": "1. Pas le temps de publier régulièrement\n2. Peur d'être ridicule en vidéo\n3. Aucun résultat malgré des heures d'efforts"
+                    },
+                    {
+                        "id": "onepage_outil_choisi",
+                        "type": "select",
+                        "label": "Outil retenu pour héberger ta page :",
+                        "options": [
+                            {
+                                "value": "dtcbio",
+                                "label": "DTC Bio (Page de profil vitrine Domtom Connect)"
+                            },
+                            "Catalogue WhatsApp Business (0€ - Recommandé pour démarrer local)",
+                            "Carrd.co (One-Page épurée - 19$/an)",
+                            "Payhip (0€ fixe - Idéal digital & coaching)",
+                            "Lien direct vers DM WhatsApp"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-17",
+            "number": 17,
+            "badge": "Chapitre 17",
+            "title": "Encaisser sans friction et maîtriser sa rentabilité",
+            "subtitle": "La finance enfin démystifiée avec les bons outils d'encaissement, le calcul du point mort et ton simulateur de revenus.",
+            "readTime": "8 min",
+            "content": "\n    <p class=\"lead-text\">\n        Il existe une règle impitoyable dans le business : <strong>tant que l'argent n'est pas sur ton compte, tu n'as pas fait de vente, tu as simplement eu une conversation amicale</strong>.\n    </p>\n    <p>\n        Le plus grand frein à la vente chez les indépendants n'est pas le prix : c'est <em>la friction au moment de payer</em>. Un client chaud qui attend un RIB pendant 48 heures est un client qui a le temps de changer d'avis.\n    </p>\n\n    <h3>Le Stack d'Encaissement sans Friction (2026)</h3>\n    <p>\n        Voici les solutions modernes indispensables pour que ton client puisse te payer en 30 secondes chrono, où qu'il soit :\n    </p>\n    <div class=\"feature-grid-3\">\n        <div class=\"feature-card\">\n            <div class=\"feature-card-icon\"><i class=\"fa-brands fa-stripe\"></i></div>\n            <h4>Stripe et liens de paiement</h4>\n            <p>Génère un lien de paiement en 2 clics et envoie-le par WhatsApp ou SMS. Le client paie par Carte Bancaire ou Apple Pay en 10 secondes. Reçu automatique.</p>\n        </div>\n        <div class=\"feature-card\">\n            <div class=\"feature-card-icon\"><i class=\"fa-solid fa-credit-card\"></i></div>\n            <h4>Terminal mobile SumUp et Zettle</h4>\n            <p>Le boîtier autonome à 29€ connecté en Bluetooth. Indispensable sur les marchés, salons, livraisons physiques ou chantiers. Sans abonnement mensuel.</p>\n        </div>\n        <div class=\"feature-card\">\n            <div class=\"feature-card-icon\"><i class=\"fa-solid fa-money-bill-transfer\"></i></div>\n            <h4>Alma / Paiement en 3x ou 4x</h4>\n            <p>Pour toute offre supérieure à 150€. Le client paie en 3 mensualités, toi tu touches 100% de la somme immédiatement. Augmente le taux de conversion de 30%.</p>\n        </div>\n    </div>\n  \n        <p class=\"lead-text\">\n            Beaucoup d'entrepreneurs pensent qu'il faut un prêt bancaire de 50 000€ pour démarrer. C'est le moyen le plus sûr de se mettre la corde au cou avant même d'avoir testé son marché.\n        </p>\n        <p>\n            Ce chapitre te donne la méthode pour démarrer avec les moyens du bord, gérer tes finances avec <strong>la règle d'or des 3 comptes</strong> et calculer ton vrai seuil de rentabilité sans jargon comptable.\n        </p>\n\n        <h3>La règle simple des trois comptes bancaires</h3>\n        <p>\n            Ne mélange JAMAIS l'argent de ton entreprise avec ton argent personnel. Dès ton premier encaissement, répartis chaque euro qui entre selon ce circuit étanche :\n        </p>\n\n        <div class=\"accounts-flow-grid\">\n            <div class=\"account-flow-card acc-op\">\n                <span class=\"account-percent-badge\">50%</span>\n                <h4 style=\"color:#60a5fa; margin:0 0 8px 0;\"><i class=\"fa-solid fa-gears\"></i> Compte Opérations</h4>\n                <p style=\"font-size:0.85rem; color:var(--text-secondary); margin:0;\">\n                    Sert <strong>exclusivement</strong> à faire tourner le business : stock, fret, emballages, abonnements logiciels indispensables.\n                </p>\n            </div>\n            <div class=\"account-flow-card acc-tax\">\n                <span class=\"account-percent-badge\">30%</span>\n                <h4 style=\"color:#f87171; margin:0 0 8px 0;\"><i class=\"fa-solid fa-landmark\"></i> Compte impôts et cotisations</h4>\n                <p style=\"font-size:0.85rem; color:var(--text-secondary); margin:0;\">\n                    Argent sacré auquel tu ne touches JAMAIS. Il sert à payer tes cotisations sociales et taxes sans sueur froide en fin de trimestre.\n                </p>\n            </div>\n            <div class=\"account-flow-card acc-pay\">\n                <span class=\"account-percent-badge\">20%</span>\n                <h4 style=\"color:#34d399; margin:0 0 8px 0;\"><i class=\"fa-solid fa-wallet\"></i> Compte salaire et réserve</h4>\n                <p style=\"font-size:0.85rem; color:var(--text-secondary); margin:0;\">\n                    Ta rémunération nette et ton matelas de trésorerie pour récompenser tes efforts et protéger ton foyer.\n                </p>\n            </div>\n        </div>\n\n        <h3>Le matelas de sécurité de trois mois</h3>\n        <p>\n            Avant de réinvestir dans du matériel ou de faire des folies, bâtis ton <strong>matelas de survie de 90 jours</strong> : conserve l'équivalent de 3 mois de charges fixes strictes sur un compte d'épargne pro. C'est ce matelas qui t'évite de stresser quand un virement client a 15 jours de retard ou qu'un conteneur maritime tarde au port.\n        </p>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_17",
+                "title": "Simulateur financier de rentabilité et cadence de vente",
+                "description": "Remplis les champs ci-dessous pour calculer en direct ton seuil de rentabilité et le nombre de ventes requises :",
+                "isCalculator": true,
+                "fields": [
+                    {
+                        "id": "charges_fixes",
+                        "type": "number",
+                        "label": "1. Tes charges fixes mensuelles d'exploitation en € (outils, forfaits, abonnements) :",
+                        "placeholder": "Ex: 150"
+                    },
+                    {
+                        "id": "salaire_net_vise",
+                        "type": "number",
+                        "label": "2. Le salaire mensuel net que tu veux te verser en € :",
+                        "placeholder": "Ex: 2000"
+                    },
+                    {
+                        "id": "taux_charges_sociales",
+                        "type": "select",
+                        "label": "3. Ton statut ou taux estimé de cotisations sociales :",
+                        "options": [
+                            {
+                                "value": "22.0",
+                                "label": "Micro-entreprise : Prestations de services / B2B (~22%)"
+                            },
+                            {
+                                "value": "12.3",
+                                "label": "Micro-entreprise : Vente de marchandises / E-commerce (~12.3%)"
+                            },
+                            {
+                                "value": "11.0",
+                                "label": "Bénéficiaire ACRE 1ère année (~11%)"
+                            },
+                            {
+                                "value": "0.0",
+                                "label": "Phase de test / Zéro cotisation"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "prix_unitaire_vente",
+                        "type": "number",
+                        "label": "4. Prix de vente unitaire de ton offre principale en € :",
+                        "placeholder": "Ex: 75"
+                    },
+                    {
+                        "id": "cout_unitaire_variable",
+                        "type": "number",
+                        "label": "5. Coût de revient direct par unité vendue en € (matière première, emballage, fret unitaire) :",
+                        "placeholder": "Ex: 15"
+                    },
+                    {
+                        "id": "tresorerie_matelas_survie",
+                        "type": "text",
+                        "label": "6. Montant cible de ton matelas de sécurité de 90 jours (Charges fixes × 3 mois) :",
+                        "placeholder": "Ex: 150€ × 3 = 450€ de sécurité minimum à conserver sur le compte de réserve."
+                    },
+                    {
+                        "id": "repartition_3_comptes",
+                        "type": "select",
+                        "label": "7. Structure de tes comptes bancaires :",
+                        "options": [
+                            {
+                                "value": "3_comptes_actifs",
+                                "label": "J'ai configuré 3 comptes séparés (Opérations 50% / Impôts 30% / Salaire 20%)"
+                            },
+                            {
+                                "value": "en_cours_ouverture",
+                                "label": "En cours d'ouverture sur une banque en ligne pro"
+                            },
+                            {
+                                "value": "a_faire_semaine",
+                                "label": "À faire impérativement avant mon premier encaissement"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-18",
+            "number": 18,
+            "badge": "Chapitre 18",
+            "title": "Choisir les bons outils selon son activité",
+            "subtitle": "Moins tu as d'outils, plus tu vas vite grâce à une sélection minimale et gratuite pour faire tourner ton activité.",
+            "readTime": "5 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Trop d'entrepreneurs dépensent 150€ par mois en abonnements logiciels avant même d'avoir encaissé leur premier euro. C'est absurde.\n                </p>\n                <div class=\"tools-table\">\n                    <table>\n                        <thead>\n                            <tr>\n                                <th>Besoin</th>\n                                <th>Outil Gratuit / Pas Cher</th>\n                                <th>Pourquoi c'est suffisant au démarrage</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr>\n                                <td><strong>Encaissement</strong></td>\n                                <td>Stripe / Wave / Orange Money / PayPal</td>\n                                <td>Aucun abonnement fixe, seulement une commission sur les ventes réelles.</td>\n                            </tr>\n                            <tr>\n                                <td><strong>Prise de RDV</strong></td>\n                                <td>Calendly / Cal.com</td>\n                                <td>Évite 15 allers-retours par message pour caler un appel commercial.</td>\n                            </tr>\n                            <tr>\n                                <td><strong>Organisation & Devis</strong></td>\n                                <td>Notion + Google Workspace</td>\n                                <td>Permet de centraliser tout ton suivi client pour 0€.</td>\n                            </tr>\n                            <tr>\n                                <td><strong>Boutique en ligne</strong></td>\n                                <td>Shopify / WooCommerce / Payhip</td>\n                                <td>Shopify pour la simplicité, Payhip pour les produits digitaux sans frais fixes.</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n                <p>\n                    Si ton offre ne se vend pas par message privé ou au téléphone, aucun logiciel à 200€ ne la vendra à ta place.\n                </p>\n            ",
+            "exercise": {
+                "id": "ex_chapitre_18",
+                "title": "Ta pile d'outils minimale",
+                "description": "Choisis 3 outils essentiels et supprime tout le superflu :",
+                "fields": [
+                    {
+                        "id": "stack_outils",
+                        "type": "textarea",
+                        "label": "Quels sont les 3 seuls outils dont tu as besoin cette semaine pour opérer ?",
+                        "placeholder": "1. WhatsApp Business pour communiquer avec mes prospects\\n2. Stripe pour envoyer des liens de paiement\\n3. Notion pour suivre mes livrables"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-19",
+            "number": 19,
+            "badge": "Chapitre 19",
+            "title": "Réseaux sociaux, algorithmes et incarnation de marque",
+            "subtitle": "Ce qui fait vendre aujourd'hui repose sur l'humain derrière l'écran et la confiance authentique plutôt que des comptes vitrines sans visage.",
+            "readTime": "8 min",
+            "content": "\n      <p class=\"lead-text\">\n          Mettons fin au plus grand mythe du marketing digital : <strong>avoir des milliers d'abonnés ne veut absolument pas dire être rentable</strong>.\n      </p>\n      <p>\n          Combien d'influenceurs avec 50 000 followers n'arrivent pas à payer leur loyer à la fin du mois, pendant que des artisans ou consultants avec 800 abonnés ultra-qualifiés encaissent 4 000€ à 8 000€ mensuels ?\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-brain\"></i></div>\n          <p>\n              « Les abonnés sont une vanity metric (flatterie d'ego). Les vues sont une curiosité. Seules les conversations privées (DMs et WhatsApp) et les euros sur ton compte sont une mesure de ton succès. »\n          </p>\n      </div>\n\n      <h3>Comment fonctionnent réellement les algorithmes en 2026</h3>\n      <p>\n          Que tu sois sur Instagram, TikTok, Facebook ou LinkedIn, l'algorithme n'est pas un ennemi : c'est un robot programmé pour retenir l'attention des utilisateurs.\n      </p>\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">La Mécanique Secrète</span>\n              <h4>Le test des deux cents premières personnes</h4>\n          </div>\n          <div class=\"method-body\">\n              <p>Quand tu publies une vidéo ou une photo, l'algorithme ne la montre pas à tout le monde. Il la montre à un échantillon test de 200 à 300 personnes. Il mesure 3 critères :</p>\n              <ul>\n                  <li><strong>Le Watch Time (Temps de rétention) :</strong> Les gens regardent-ils plus de 3 secondes ? Restent-ils jusqu'à la fin ?</li>\n                  <li><strong>Les Partages et Sauvegardes :</strong> Le contenu apporte-t-il une valeur telle qu'on veut le réécouter ou l'envoyer à un proche ?</li>\n                  <li><strong>Les Messages Privés déclenchés :</strong> Le signal suprême en 2026. Si ton post pousse quelqu'un à t'envoyer un DM, l'algorithme décuple ta visibilité.</li>\n              </ul>\n          </div>\n      </div>\n\n      <h3>L'incarnation pour créer une relation de confiance</h3>\n      <p>\n          Les logos abstraits n'inspirent confiance à personne. Surtout dans nos régions, l'acheteur a besoin de savoir qui se trouve derrière la marque. Montrer ton visage, parler avec ton accent naturel, raconter tes anecdotes locales et assumer tes valeurs crée un bouclier d'attachement qu'aucune grande multinationale ne pourra jamais copier.\n      </p>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_19",
+                "title": "Diagnostic d'incarnation et de visibilité",
+                "description": "Prépare ton profil pour qu'il inspire confiance dès la première seconde :",
+                "fields": [
+                    {
+                        "id": "rs_incarnation_visage",
+                        "type": "select",
+                        "label": "Quel est ton niveau d'incarnation actuel sur tes réseaux ?",
+                        "options": [
+                            "J'assume mon visage face caméra (recommandé - taux de confiance maximal)",
+                            "Je montre mes mains et mon travail en coulisses (voix off)",
+                            "Je suis encore anonyme (urgent à faire évoluer pour vendre)"
+                        ]
+                    },
+                    {
+                        "id": "rs_bio_transformation",
+                        "type": "textarea",
+                        "label": "Rédige ta bio en 3 lignes (Qui tu aides + Quel résultat + Ton lien d'action) :",
+                        "placeholder": "Ex: J'aide les restaurateurs à doubler leurs réservations grâce à des vidéos captivantes.\n👇 Réserve ton audit gratuit ici :"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-20",
+            "number": 20,
+            "badge": "Chapitre 20",
+            "title": "Créer un système de contenu régulier sans s'épuiser",
+            "subtitle": "La méthode des quatre piliers pour tourner et planifier un mois de publications en trois heures chrono.",
+            "readTime": "8 min",
+            "content": "\n      <p class=\"lead-text\">\n          Voici la tragédie du créateur débutant : il se réveille le lundi matin, il allume son téléphone sous pression, il se demande <em>« Qu'est-ce que je vais bien pouvoir poster aujourd'hui ? »</em>, il passe 2 heures à bricoler un visuel sur Canva, il récolte 9 likes, et au bout de trois semaines d'épuisement mental, il abandonne totalement les réseaux sociaux.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-clock-rotate-left\"></i></div>\n          <p>\n              « L'inspiration au jour le jour est le poison de la constance. Les entrepreneurs qui durent ne créent jamais au feeling : ils séparent radicalement la phase de production de la phase de distribution. »\n          </p>\n      </div>\n\n      <h3>La méthode du batching en trois heures par mois</h3>\n      <p>\n          Le principe du <strong>batching</strong> consiste à regrouper toutes les tâches similaires sur un seul bloc de temps. Tu ne filmes pas une vidéo chaque jour : tu filmes <strong>12 vidéos d'un coup en 1 heure</strong> un dimanche après-midi ou un lundi matin.\n      </p>\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">La Session Chrono 3h</span>\n              <h4>Le découpage par étape</h4>\n          </div>\n          <div class=\"method-body\">\n              <div class=\"method-steps\">\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">0h45</div>\n                      <div class=\"method-step-content\">\n                          <strong>Étape 1 : Le Brainstorming des 4 Piliers</strong>\n                          <p>Tu listes 12 idées précises réparties sur tes 4 piliers de contenu (3 idées par pilier). Pas de script mot à mot : juste une accroche et 3 puces mémo.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">1h00</div>\n                      <div class=\"method-step-content\">\n                          <strong>Étape 2 : Le Tournage Commando</strong>\n                          <p>Tu poses ton smartphone sur un trépied face à une fenêtre. Tu filmes les 12 vidéos courtes (45 à 60 secondes max) à la suite. Tu changes de veste ou de t-shirt toutes les 3 vidéos si tu veux varier les plans.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">0h45</div>\n                      <div class=\"method-step-content\">\n                          <strong>Étape 3 : Légendes & Call-to-Action</strong>\n                          <p>Tu rédiges les 12 descriptions avec des accroches percutantes et ton appel à l'action vers les DMs ou ta page One-Page.</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">0h30</div>\n                      <div class=\"method-step-content\">\n                          <strong>Étape 4 : Programmation Automatique</strong>\n                          <p>Tu charges tout dans Meta Business Suite (gratuit pour Instagram/Facebook) ou TikTok Studio. C'est programmé à 3 publications par semaine. Tu es libre pour les 30 prochains jours.</p>\n                      </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n\n      <h3>Les quatre piliers de contenu</h3>\n      <div class=\"feature-grid-2\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-graduation-cap\"></i></div>\n              <h4>Pilier 1, valeur et conseils utiles</h4>\n              <p>Règle un micro-problème en 45 secondes. Ex : <em>« L'erreur numéro 1 que font tous les propriétaires de voiture aux Antilles... »</em></p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-eye\"></i></div>\n              <h4>Pilier 2, coulisses et réalité du terrain</h4>\n              <p>Montre ce qui est vrai : la préparation des colis à 6h du matin, un échec sur une recette, la vérité sur les délais de livraison.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-star\"></i></div>\n              <h4>Pilier 3, preuves et retours d'expérience</h4>\n              <p>Les avis de tes clients Bêta, les Avant/Après spectaculaires, la capture d'un message WhatsApp de remerciement.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-bullhorn\"></i></div>\n              <h4>Pilier 4, présentation directe de l'offre</h4>\n              <p>Parle franchement : <em>« Il me reste 3 créneaux disponibles pour [Service] cette semaine. Envoie-moi 'INFOS' en DM pour réserver. »</em></p>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_20",
+                "title": "Matrice des quatre piliers de contenu",
+                "description": "Définis immédiatement tes 4 premiers sujets de vidéos pour ta prochaine session de batching :",
+                "fields": [
+                    {
+                        "id": "batching_sujet_valeur",
+                        "type": "text",
+                        "label": "Pilier 1 (Valeur / Micro-conseil) : Ton idée de sujet en 1 phrase",
+                        "placeholder": "Ex: 3 astuces pour repérer un vrai savon artisanal sans produits chimiques..."
+                    },
+                    {
+                        "id": "batching_sujet_coulisses",
+                        "type": "text",
+                        "label": "Pilier 2 (Coulisses / Sans filtre) : Quelle scène réelle de ton travail vas-tu filmer ?",
+                        "placeholder": "Ex: Comment j'emballe les commandes fragiles pour résister à la livraison locale..."
+                    },
+                    {
+                        "id": "batching_sujet_preuve",
+                        "type": "text",
+                        "label": "Pilier 3 (Preuve / Témoignage) : Quel retour client vas-tu mettre en avant ?",
+                        "placeholder": "Ex: La capture du message vocal de Sarah qui a gagné 3h de gestion cette semaine..."
+                    },
+                    {
+                        "id": "batching_date_session",
+                        "type": "text",
+                        "label": "Date et heure de ton créneau réservé de 3h dans ton agenda :",
+                        "placeholder": "Ex: Samedi prochain de 9h à 12h"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-21",
+            "number": 21,
+            "badge": "Chapitre 21",
+            "title": "Choisir son canal principal et structurer son tunnel de vente",
+            "subtitle": "Un seul réseau social maîtrisé vaut dix comptes abandonnés pour attirer, fidéliser et convertir simplement.",
+            "readTime": "10 min",
+            "content": "\n        <p class=\"lead-text\">\n            Mettons fin au plus grand mythe du marketing digital : <strong>avoir des abonnés ne veut absolument pas dire avoir un business rentable</strong>.\n        </p>\n        <p>\n            Poster des photos sans structure en espérant que quelqu'un achète par magie est une perte de temps. Un vrai système d'acquisition sur les réseaux sociaux fonctionne toujours comme un <strong>entonnoir en 3 étapes</strong> :\n        </p>\n\n        <!-- 1. TOFU - MOFU - BOFU Acquisition Funnel (PROMINENT AT TOP) -->\n        <div class=\"social-funnel-grid\">\n            <div class=\"social-funnel-card\">\n                <div class=\"funnel-stage-header\">\n                    <span class=\"funnel-badge-pill pill-tofu\">Étape 1 : Attraction</span>\n                    <i class=\"fa-solid fa-bullhorn\" style=\"color:#60a5fa; font-size:1.2rem;\"></i>\n                </div>\n                <h4 class=\"funnel-card-title\">TOFU — Top of Funnel</h4>\n                <p class=\"funnel-card-role\">\n                    <strong>Découverte & Trafic Froid :</strong> Capter l'attention de parfaits inconnus qui ne te connaissent pas encore.\n                </p>\n                <div class=\"funnel-card-details\">\n                    <div><span class=\"funnel-detail-label\">Formats :</span> <span class=\"funnel-detail-val\">Reels, TikToks, Shorts (15-30s)</span></div>\n                    <div><span class=\"funnel-detail-label\">Objectif :</span> <span class=\"funnel-detail-val\">Stopper le scroll, intriguer</span></div>\n                    <div><span class=\"funnel-detail-label\">Métrique clé :</span> <span class=\"funnel-detail-val\">Vues & Nouveaux abonnés</span></div>\n                </div>\n            </div>\n\n            <div class=\"social-funnel-card\">\n                <div class=\"funnel-stage-header\">\n                    <span class=\"funnel-badge-pill pill-mofu\">Étape 2 : Confiance</span>\n                    <i class=\"fa-solid fa-heart\" style=\"color:#fbbf24; font-size:1.2rem;\"></i>\n                </div>\n                <h4 class=\"funnel-card-title\">MOFU — Middle of Funnel</h4>\n                <p class=\"funnel-card-role\">\n                    <strong>Relation, Éducation & Connexion :</strong> Montrer tes coulisses et prouver ton expertise pour créer l'attachement.\n                </p>\n                <div class=\"funnel-card-details\">\n                    <div><span class=\"funnel-detail-label\">Formats :</span> <span class=\"funnel-detail-val\">Stories quotidiennes, Carrousels</span></div>\n                    <div><span class=\"funnel-detail-label\">Objectif :</span> <span class=\"funnel-detail-val\">Bâtir la confiance intime</span></div>\n                    <div><span class=\"funnel-detail-label\">Métrique clé :</span> <span class=\"funnel-detail-val\">Réponses aux stories, DMs</span></div>\n                </div>\n            </div>\n\n            <div class=\"social-funnel-card\">\n                <div class=\"funnel-stage-header\">\n                    <span class=\"funnel-badge-pill pill-bofu\">Étape 3 : Conversion</span>\n                    <i class=\"fa-solid fa-sack-dollar\" style=\"color:#34d399; font-size:1.2rem;\"></i>\n                </div>\n                <h4 class=\"funnel-card-title\">BOFU — Bottom of Funnel</h4>\n                <p class=\"funnel-card-role\">\n                    <strong>Conversion & Encaissement :</strong> Transformer un abonné convaincu en client payant avec une offre claire.\n                </p>\n                <div class=\"funnel-card-details\">\n                    <div><span class=\"funnel-detail-label\">Formats :</span> <span class=\"funnel-detail-val\">Messages DM, WhatsApp, Liens bio</span></div>\n                    <div><span class=\"funnel-detail-label\">Objectif :</span> <span class=\"funnel-detail-val\">Encaisser l'acompte ou la commande</span></div>\n                    <div><span class=\"funnel-detail-label\">Métrique clé :</span> <span class=\"funnel-detail-val\">Chiffre d'affaires réel encaissé</span></div>\n                </div>\n            </div>\n        </div>\n\n        <h3>Les différents réseaux et le choix de ton canal principal</h3>\n        <p>\n            Plutôt que de t'épuiser à publier partout en même temps, concentre 100% de ton énergie sur le réseau qui correspond exactement à ton modèle. <strong>Clique sur un réseau ci-dessous pour voir sa fiche d'action claire :</strong>\n        </p>\n\n        <!-- 2. Interactive 6-Network Pill Navigator -->\n        <div class=\"matrix-navigator-container\">\n            <div class=\"matrix-navigator-bar\">\n                <button type=\"button\" class=\"matrix-nav-btn active\" data-target-network=\"instagram\">\n                    <i class=\"fa-brands fa-instagram\" style=\"color:#E1306C;\"></i> Instagram\n                </button>\n                <button type=\"button\" class=\"matrix-nav-btn\" data-target-network=\"tiktok\">\n                    <i class=\"fa-brands fa-tiktok\" style=\"color:#00F2FE;\"></i> TikTok\n                </button>\n                <button type=\"button\" class=\"matrix-nav-btn\" data-target-network=\"whatsapp\">\n                    <i class=\"fa-brands fa-whatsapp\" style=\"color:#25D366;\"></i> WhatsApp\n                </button>\n                <button type=\"button\" class=\"matrix-nav-btn\" data-target-network=\"youtube\">\n                    <i class=\"fa-brands fa-youtube\" style=\"color:#FF0000;\"></i> YouTube\n                </button>\n                <button type=\"button\" class=\"matrix-nav-btn\" data-target-network=\"linkedin\">\n                    <i class=\"fa-brands fa-linkedin\" style=\"color:#0A66C2;\"></i> LinkedIn\n                </button>\n                <button type=\"button\" class=\"matrix-nav-btn\" data-target-network=\"facebook\">\n                    <i class=\"fa-brands fa-facebook\" style=\"color:#1877F2;\"></i> Facebook\n                </button>\n            </div>\n\n            <!-- Panel 1: Instagram -->\n            <div class=\"matrix-card-panel active\" data-network=\"instagram\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-instagram\" style=\"color:#E1306C;\"></i>\n                            <h4>Instagram pour la relation et la conversion en message privé</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-mofu\">Idéal Relation & Vente</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Marques visuelles (cosmétique, mode, créateurs de terroirs), prestations créatives, coachs et consultants.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Stories quotidiennes créant un lien d'intimité et de confiance exceptionnel.</li>\n                                <li>Messagerie DM parfaite pour diagnostiquer les besoins et closer sans site web lourd.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>La portée des posts photos simples est devenue quasi-nulle (Reels obligatoires).</li>\n                                <li>Exige une présence régulière sous peine de voir l'algorithme t'oublier.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Utilise les Reels pour attirer des inconnus (TOFU), les Stories pour créer le lien intime (MOFU), et les DMs pour encaisser (BOFU).\n                    </div>\n                </div>\n            </div>\n\n            <!-- Panel 2: TikTok -->\n            <div class=\"matrix-card-panel\" data-network=\"tiktok\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-tiktok\" style=\"color:#00F2FE;\"></i>\n                            <h4>TikTok pour la visibilité et le storytelling spontané</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-tofu\">Idéal Découverte & Visibilité</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Produits physiques, food & street-food, coulisses d'ateliers, défis d'entrepreneurs et marques grand public.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Algorithme 100% méritocratique : tu peux faire 50 000 vues dès ta première vidéo sans aucun abonné.</li>\n                                <li>Format idéal pour raconter tes galères réelles et créer un capital sympathie immédiat.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Audience très volatile qui swipe en 1 seconde : le hook de départ doit être chirurgical.</li>\n                                <li>Difficile de vendre directement sans une passerelle claire vers ton lien en bio ou WhatsApp.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Ne fais jamais de publicité corporate. Filme avec ton smartphone sans filtre, montre tes colis, tes recettes et tes ratés.\n                    </div>\n                </div>\n            </div>\n\n            <!-- Panel 3: WhatsApp Business -->\n            <div class=\"matrix-card-panel\" data-network=\"whatsapp\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-whatsapp\" style=\"color:#25D366;\"></i>\n                            <h4>WhatsApp Business pour la relation client directe</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-bofu\">Idéal Conversion N°1</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Tout entrepreneur opérant aux Antilles, en Guyane, à La Réunion, en Afrique ou dans la diaspora.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Taux d'ouverture supérieur à 90% et proximité humaine incomparable par messages vocaux.</li>\n                                <li>Fonctionnalités pro gratuites : catalogue produits avec photos et prix, réponses automatiques.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Tolérance zéro pour le spam : si tu envoies des promotions sans autorisation, tu es bloqué.</li>\n                                <li>Nécessite d'avoir déjà obtenu le numéro du prospect via tes réseaux ou tes rencontres.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Les Statuts WhatsApp sont ta vitrine quotidienne la plus vue. Poste chaque matin 2 photos des coulisses ou des commandes du jour.\n                    </div>\n                </div>\n            </div>\n\n            <!-- Panel 4: YouTube -->\n            <div class=\"matrix-card-panel\" data-network=\"youtube\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-youtube\" style=\"color:#FF0000;\"></i>\n                            <h4>YouTube pour l'autorité durable et la recherche</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-mofu\">Idéal Autorité & SEO</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Experts, formateurs, artisans passionnés, tutoriels approfondis et déconstruction de mythes.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Actif patrimonial : une bonne vidéo continue d'attirer des clients 3 à 5 ans après publication.</li>\n                                <li>Autorité suprême : un prospect qui écoute 15 minutes de tes explications est déjà convaincu à 90%.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Temps de production plus long (tournage posé, son propre, miniature soignée).</li>\n                                <li>Démarrage plus lent : il faut plusieurs semaines de régularité pour que l'algorithme s'active.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Réponds directement aux questions exactes que tes clients tapent dans la barre de recherche Google ou YouTube.\n                    </div>\n                </div>\n            </div>\n\n            <!-- Panel 5: LinkedIn -->\n            <div class=\"matrix-card-panel\" data-network=\"linkedin\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-linkedin\" style=\"color:#0A66C2;\"></i>\n                            <h4>LinkedIn pour les services professionnels et les décideurs</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-bofu\">Idéal B2B & Gros Budgets</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Prestataires de services aux entreprises, agences, experts-comptables, consultants et formateurs pro.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Paniers moyens très élevés : contrats de 1 000€ à 10 000€+ signés directement avec des directeurs.</li>\n                                <li>Accès direct aux décideurs économiques de ton île ou de ton territoire sans barrage standard.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Totalement inadapté à la vente impulsive de petits produits B2C pas chers.</li>\n                                <li>La prospection agressive par copier-coller détruit instantanément ta crédibilité.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Partage des retours d'expérience concrets et des études de cas réelles de clients que tu as débloqués.\n                    </div>\n                </div>\n            </div>\n\n            <!-- Panel 6: Facebook -->\n            <div class=\"matrix-card-panel\" data-network=\"facebook\">\n                <div class=\"network-spotlight-card\">\n                    <div class=\"network-spotlight-header\">\n                        <div class=\"network-spotlight-title\">\n                            <i class=\"fa-brands fa-facebook\" style=\"color:#1877F2;\"></i>\n                            <h4>Facebook pour les communautés locales et le bouche-à-oreille</h4>\n                        </div>\n                        <span class=\"funnel-badge-pill pill-tofu\">Idéal Communauté Locale</span>\n                    </div>\n                    <div class=\"network-target-box\">\n                        <strong>Pour qui c'est fait :</strong> Événements locaux, commerces de quartier, traiteurs, ventes directes et public de 35 ans et plus.\n                    </div>\n                    <div class=\"network-pros-cons-grid\">\n                        <div class=\"pros-box\">\n                            <div class=\"pros-title\">✓ 2 Atouts Majeurs</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>Groupes locaux ultra-actifs dans chaque commune de Guadeloupe, Martinique, Guyane et Réunion.</li>\n                                <li>Facilité de partage au sein des cercles familiaux et communautaires de proximité.</li>\n                            </ul>\n                        </div>\n                        <div class=\"cons-box\">\n                            <div class=\"cons-title\">✗ 2 Pièges Mortels</div>\n                            <ul class=\"pros-cons-list\">\n                                <li>La portée des pages professionnelles est quasi-nulle sans budget publicitaire (privilégie les groupes).</li>\n                                <li>Moins adapté pour cibler les tranches d'âge 18-28 ans.</li>\n                            </ul>\n                        </div>\n                    </div>\n                    <div class=\"network-golden-rule\">\n                        <strong>La Règle d'or Domtom Connect :</strong> Sois actif dans les groupes d'entraide et d'annonces locales en apportant des réponses utiles avant de poster des liens.\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <!-- 3. 10 Viral Hooks Ready to Use -->\n        <h3>Dix accroches prêtes à l'emploi pour capter l'attention</h3>\n        <p>\n            Les 3 premières secondes d'une vidéo déterminent 90% de son succès. Voici 10 formules éprouvées classées par objectif :\n        </p>\n\n        <div class=\"viral-hooks-container\">\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Curiosité</span>\n                <span class=\"viral-hook-text\">« La plupart des gens pensent que [Croyance courante], alors qu'en réalité... »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Curiosité</span>\n                <span class=\"viral-hook-text\">« Si vous avez encore ce problème avec [Sujet], voici le détail qui change tout : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Contre-Intuitif</span>\n                <span class=\"viral-hook-text\">« Pourquoi vous devriez impérativement arrêter d'utiliser [Produit concurrent / Mauvaise habitude] : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Contre-Intuitif</span>\n                <span class=\"viral-hook-text\">« Voici la seule raison pour laquelle 90% des personnes échouent à [Objectif visé] : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Chiffre Choc</span>\n                <span class=\"viral-hook-text\">« Comment ce client est passé de 0 à [Résultat chiffré] en seulement [Délai court] sans [Contrainte] : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Chiffre Choc</span>\n                <span class=\"viral-hook-text\">« Il y a exactement [Nombre] erreurs qui vous coûtent de l'argent chaque mois sur [Domaine] : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Urgence</span>\n                <span class=\"viral-hook-text\">« Regardez cette vidéo avant de commander votre prochain [Produit / Prestation]... »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Urgence</span>\n                <span class=\"viral-hook-text\">« Si vous habitez aux Antilles et que vous cherchez [Solution], écoutez bien ceci : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Coulisses</span>\n                <span class=\"viral-hook-text\">« On m'avait dit que c'était impossible de lancer [Projet] ici sans piston, voici ce qui s'est passé : »</span>\n            </div>\n            <div class=\"viral-hook-card\">\n                <span class=\"viral-hook-category\">Coulisses</span>\n                <span class=\"viral-hook-text\">« Venez avec moi préparer cette commande spéciale pour [Client / Événement] : »</span>\n            </div>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_21",
+                "title": "Stratégie de ton tunnel d'attraction et de conversion",
+                "description": "Structure tes 3 étapes d'acquisition et choisis ton hook de la semaine :",
+                "fields": [
+                    {
+                        "id": "reseau_social_prioritaire",
+                        "type": "select",
+                        "label": "1. Quel est ton Canal d'Attraction Maître (où tu captes l'attention de nouvelles personnes) ?",
+                        "options": [
+                            {
+                                "value": "instagram",
+                                "label": "📸 Instagram (Reels & Stories visuelles)"
+                            },
+                            {
+                                "value": "tiktok",
+                                "label": "🎵 TikTok (Vidéos courtes virales & coulisses atelier)"
+                            },
+                            {
+                                "value": "whatsapp_business",
+                                "label": "💬 WhatsApp Business (Statuts & bouche-à-oreille direct)"
+                            },
+                            {
+                                "value": "youtube",
+                                "label": "📺 YouTube (Vidéos tutoriels & autorité pérenne)"
+                            },
+                            {
+                                "value": "linkedin",
+                                "label": "💼 LinkedIn (Publications d'expertise B2B)"
+                            },
+                            {
+                                "value": "facebook",
+                                "label": "👥 Facebook (Groupes locaux & proximité)"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "canal_conversion_secondaire",
+                        "type": "select",
+                        "label": "2. Quel est ton Canal de Conversion Directe (où tu dialogues et signes les ventes) ?",
+                        "options": [
+                            {
+                                "value": "whatsapp_pro",
+                                "label": "💬 WhatsApp Business (Messages vocaux, catalogue et lien wa.me)"
+                            },
+                            {
+                                "value": "instagram_dm",
+                                "label": "✉️ Messages Privés Instagram (Diagnostic personnalisé en DM)"
+                            },
+                            {
+                                "value": "appel_decouverte",
+                                "label": "📞 Appel de cadrage téléphonique 15 min"
+                            },
+                            {
+                                "value": "boutique_site",
+                                "label": "🛍️ Page de commande directe / Boutique Payhip / Shopify"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "tofu_action_hebdo",
+                        "type": "textarea",
+                        "label": "3. Ta stratégie TOFU : Quelle vidéo courte d'attraction publies-tu cette semaine ?",
+                        "placeholder": "Ex: Une vidéo de 25s montrant l'erreur n°1 que font les gens pour démêler leurs cheveux, avec un appel à commenter SOIN en bas."
+                    },
+                    {
+                        "id": "mofu_action_story",
+                        "type": "textarea",
+                        "label": "4. Ta stratégie MOFU : Que vas-tu montrer en Story chaque jour pour créer du lien et de la sympathie ?",
+                        "placeholder": "Ex: La fabrication artisanale des baumes le matin, un sondage interactif sur les parfums préférés, et le témoignage vidéo reçu d'une cliente."
+                    },
+                    {
+                        "id": "bofu_action_closing",
+                        "type": "textarea",
+                        "label": "5. Ta stratégie BOFU : Vers quel lien ou canal diriges-tu les prospects pour encaisser ?",
+                        "placeholder": "Ex: 'Écris-moi en message privé sur WhatsApp au 0690... pour réserver l'une des 10 places test de la semaine.'"
+                    },
+                    {
+                        "id": "contenu_hook_viral_choisi",
+                        "type": "textarea",
+                        "label": "6. Ton premier Hook viral rédigé (inspiré des 10 modèles au-dessus) :",
+                        "placeholder": "Ex: 'Si vous habitez en Guadeloupe et que vous perdez encore vos cheveux après chaque shampooing, regardez bien cet ingrédient...'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-22",
+            "number": 22,
+            "badge": "Chapitre 22",
+            "title": "Converser et conclure ses ventes par message privé",
+            "subtitle": "Les scripts adaptés à ton secteur pour transformer une simple demande de renseignement en vente conclue.",
+            "readTime": "12 min",
+            "content": "\n        <p class=\"lead-text\">\n            Chaque réseau social exige une mécanique de conversion spécifique. Ce qui fonctionne sur TikTok pour du e-commerce est totalement inefficace sur LinkedIn pour du service B2B.\n        </p>\n        <p>\n            Ce chapitre est <strong>entièrement interactif</strong> : clique sur ton canal maître ci-dessous pour afficher son blueprint d'action complet et adapter automatiquement ton carnet de bord :\n        </p>\n\n        <!-- Channel Strategy Switcher Banner -->\n        <div class=\"channel-switcher-banner\">\n            <div class=\"channel-switcher-header\">\n                <h3><i class=\"fa-solid fa-diagram-project\"></i> Sélectionne ton canal principal</h3>\n                <p>Clique sur l'un des 5 réseaux pour révéler son tunnel de conversion et sa routine hebdomadaire :</p>\n            </div>\n            <div class=\"channel-strategy-grid\">\n                <button type=\"button\" class=\"channel-strategy-btn active\" data-target-channel=\"instagram\">\n                    <div class=\"channel-tab-top\"><i class=\"fa-brands fa-instagram\" style=\"color:#E1306C;\"></i> <span>Canal 1</span></div>\n                    <div class=\"channel-tab-title\">Instagram</div>\n                    <div class=\"channel-tab-desc\">Reels, Stories quotidiennes & Closing conversationnel en DM.</div>\n                </button>\n                <button type=\"button\" class=\"channel-strategy-btn\" data-target-channel=\"tiktok\">\n                    <div class=\"channel-tab-top\"><i class=\"fa-brands fa-tiktok\" style=\"color:#00F2FE;\"></i> <span>Canal 2</span></div>\n                    <div class=\"channel-tab-title\">TikTok</div>\n                    <div class=\"channel-tab-desc\">Trafic viral froid, coulisses réelles & redirection lien bio.</div>\n                </button>\n                <button type=\"button\" class=\"channel-strategy-btn\" data-target-channel=\"whatsapp\">\n                    <div class=\"channel-tab-top\"><i class=\"fa-brands fa-whatsapp\" style=\"color:#25D366;\"></i> <span>Canal 3</span></div>\n                    <div class=\"channel-tab-title\">WhatsApp Business</div>\n                    <div class=\"channel-tab-desc\">Catalogue pro, Statuts 24h & Relance VIP en 3 temps.</div>\n                </button>\n                <button type=\"button\" class=\"channel-strategy-btn\" data-target-channel=\"linkedin\">\n                    <div class=\"channel-tab-top\"><i class=\"fa-brands fa-linkedin\" style=\"color:#0A66C2;\"></i> <span>Canal 4</span></div>\n                    <div class=\"channel-tab-title\">LinkedIn B2B</div>\n                    <div class=\"channel-tab-desc\">Posts d'autorité, ciblage de dirigeants & contrats 1k€-5k€.</div>\n                </button>\n                <button type=\"button\" class=\"channel-strategy-btn\" data-target-channel=\"youtube\">\n                    <div class=\"channel-tab-top\"><i class=\"fa-brands fa-youtube\" style=\"color:#FF0000;\"></i> <span>Canal 5</span></div>\n                    <div class=\"channel-tab-title\">YouTube Long</div>\n                    <div class=\"channel-tab-desc\">Vidéos piliers de fond (15 min), SEO Google & autorité sur 3 ans.</div>\n                </button>\n            </div>\n        </div>\n\n        <!-- 5 Separate Channel Strategy Panels -->\n        <div class=\"channel-article-panel active\" data-channel=\"instagram\">\n            <div class=\"sector-card\" style=\"border-left: 4px solid #E1306C;\">\n                <h4><i class=\"fa-brands fa-instagram\" style=\"color:#E1306C;\"></i> Méthode Instagram pour converser et vendre en message privé</h4>\n                <p><strong>La Mécanique en 3 Étapes :</strong></p>\n                <ol>\n                    <li><strong>Attraction (Reels 3x/semaine) :</strong> Vidéos courtes (20-40s) axées sur un problème précis. Appel à l'action final : <em>« Commente GUIDE sous cette vidéo pour recevoir la méthode gratuite en privé. »</em></li>\n                    <li><strong>Connexion & Rétention (Stories Quotidiennes) :</strong> Montre 3 à 5 stories par jour : coulisses, anecdotes, avant-après clients, sondages interactifs.</li>\n                    <li><strong>Conversion en DM (Le Script Doux) :</strong> Dès qu'un prospect commente, réponds-lui immédiatement en message privé pour engager la conversation.</li>\n                </ol>\n                <div class=\"script-box-container\">\n                    <div class=\"script-step\">\n                        <div class=\"script-step-title\">Script Mot pour Mot Instagram DM :</div>\n                        <div class=\"script-step-example\">\n                            « Salut [Prénom] ! Voici le lien de ton guide comme promis [Lien]. Dis-moi, tu es plutôt dans la phase de lancement de ton projet ou tu as déjà des premiers clients ? »<br>\n                            <em>(Attendre la réponse, puis rebondir avec empathie)</em><br>\n                            « Je comprends à 100%. Si tu veux, j'ai préparé une solution clé en main qui règle ce souci en 14 jours. Tu veux que je te montre à quoi ça ressemble ? »\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"channel-article-panel\" data-channel=\"tiktok\">\n            <div class=\"sector-card\" style=\"border-left: 4px solid #00F2FE;\">\n                <h4><i class=\"fa-brands fa-tiktok\" style=\"color:#00F2FE;\"></i> Méthode TikTok pour partager son parcours et orienter vers son offre</h4>\n                <p><strong>La Mécanique en 3 Étapes :</strong></p>\n                <ol>\n                    <li><strong>Arrêter le scroll dans les 3 premières secondes :</strong> Utilise un mouvement visuel ou une phrase provocante (ex: <em>« Si vous habitez aux Antilles et que vous achetez encore ceci, vous perdez de l'argent »</em>).</li>\n                    <li><strong>Raconter une histoire authentique (Storytelling des coulisses) :</strong> Les gens n'aiment pas les publicités parfaites sur TikTok. Ils aiment voir l'atelier, les galères d'expédition, les paquets préparés à la main et les retours clients sincères.</li>\n                    <li><strong>Redirection Chirurgicale vers la Bio :</strong> Termine toujours par une raison impérieuse d'aller cliquer sur le lien en bio (ex: <em>« Le lien pour tester gratuitement est tout en haut de mon profil »</em>).</li>\n                </ol>\n                <div class=\"script-box-container\">\n                    <div class=\"script-step\">\n                        <div class=\"script-step-title\">Structure d'un TikTok Gagnant en 35 secondes :</div>\n                        <div class=\"script-step-example\">\n                            <strong>0-3s :</strong> Hook choc (visuel + phrase textuelle à l'écran).<br>\n                            <strong>3-20s :</strong> L'histoire ou l'erreur courante démontrée par la preuve.<br>\n                            <strong>20-30s :</strong> La solution simple que tu apportes avec ton produit.<br>\n                            <strong>30-35s :</strong> Appel à l'action clair vers le lien en bio.\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"channel-article-panel\" data-channel=\"whatsapp\">\n            <div class=\"sector-card\" style=\"border-left: 4px solid #25D366;\">\n                <h4><i class=\"fa-brands fa-whatsapp\" style=\"color:#25D366;\"></i> Méthode WhatsApp Business pour organiser son catalogue et ses échanges</h4>\n                <p><strong>La Mécanique en 3 Étapes :</strong></p>\n                <ol>\n                    <li><strong>Configuration Professionnelle Impeccable :</strong> Photo de profil nette, description claire avec horaires d'ouverture, lien vers ton offre et <strong>Catalogue WhatsApp</strong> rempli avec prix et photos nettes.</li>\n                    <li><strong>Les Statuts WhatsApp Quotidiens (Le secret le mieux gardé) :</strong> Aux Antilles et en Afrique, des milliers de personnes regardent les statuts chaque jour. Poste chaque matin une photo de tes coulisses, un avis client ou un produit disponible en quantité limitée.</li>\n                    <li><strong>La Relance Délicate en 3 Temps :</strong> Si un prospect a demandé un renseignement puis n'a plus répondu, relance-le 48h plus tard sans agressivité.</li>\n                </ol>\n                <div class=\"script-box-container\">\n                    <div class=\"script-step\">\n                        <div class=\"script-step-title\">Script de Relance Bienveillante en 3 Temps :</div>\n                        <div class=\"script-step-example\">\n                            « Bonjour [Prénom], j'espère que tu passes une bonne journée ! Je préparais les commandes de la semaine et j'ai pensé à notre échange d'avant-hier sur [besoin]. Est-ce que tu as eu le temps de regarder ou tu as une question sur la formule ? Passe un excellent après-midi ! »\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"channel-article-panel\" data-channel=\"linkedin\">\n            <div class=\"sector-card\" style=\"border-left: 4px solid #0A66C2;\">\n                <h4><i class=\"fa-brands fa-linkedin\" style=\"color:#0A66C2;\"></i> Méthode LinkedIn pour approcher des professionnels avec pertinence</h4>\n                <p><strong>La Mécanique en 3 Étapes :</strong></p>\n                <ol>\n                    <li><strong>Profil Optimisé en Page de Vente :</strong> Ton titre ne doit pas être <em>« Consultant »</em> ou <em>« Étudiant »</em>, mais : <em>« J'aide les [Cible Dirigeants] à [Résultat Chiffré] grâce à [Méthode]. »</em></li>\n                    <li><strong>2 Publications d'Études de Cas par Semaine :</strong> Raconte comment un client est passé de la galère au résultat en détaillant les étapes concrètes sans jargon.</li>\n                    <li><strong>L'Approche Directe de Valeur Offerte :</strong> Contacte 5 décideurs cibles par semaine en leur apportant un retour d'expérience constructif sur leur entreprise, sans jamais leur envoyer de lien de vente direct.</li>\n                </ol>\n                <div class=\"script-box-container\">\n                    <div class=\"script-step\">\n                        <div class=\"script-step-title\">Message d'Approche LinkedIn Personnalisé :</div>\n                        <div class=\"script-step-example\">\n                            « Bonjour [Prénom], je suis vos actualités sur [Secteur] avec beaucoup d'intérêt. J'ai remarqué un petit point d'optimisation rapide sur votre communication [Détail précis]. J'ai enregistré une vidéo explicative de 2 minutes pour vous montrer comment corriger ça simplement. Si ça vous intéresse, dites-moi et je vous transmets le lien avec plaisir ! »\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <div class=\"channel-article-panel\" data-channel=\"youtube\">\n            <div class=\"sector-card\" style=\"border-left: 4px solid #FF0000;\">\n                <h4><i class=\"fa-brands fa-youtube\" style=\"color:#FF0000;\"></i> Blueprint YouTube pour l'autorité durable et la recherche</h4>\n                <p><strong>La Mécanique en 3 Étapes :</strong></p>\n                <ol>\n                    <li><strong>Vidéos Piliers de 12 à 18 minutes :</strong> Réponds aux questions exactes que tes clients tapent dans Google (ex: <em>« Comment créer sa marque de cosmétique aux Antilles sans diplôme »</em>).</li>\n                    <li><strong>Miniature & Titre à Fort Contraste :</strong> Un visage expressif, un texte court de 3 à 4 mots maximum et un contraste visuel fort pour susciter le clic.</li>\n                    <li><strong>Tunnel dans la Description :</strong> La 1ère ligne de ta description doit contenir l'appel à l'action direct vers ton offre ou ton WhatsApp : <em>« 👉 Réserver votre diagnostic offert : [Lien] »</em>.</li>\n                </ol>\n            </div>\n        </div>\n    ",
+            "exercise": {
+                "id": "ex_chapitre_22",
+                "title": "Plan d'action et scripts de conversation sur ton canal",
+                "description": "Ce carnet s'adapte en direct à ton canal sélectionné pour poser ta cadence et tes scripts mot pour mot :",
+                "fields": [
+                    {
+                        "id": "sec_plan_ig",
+                        "channel": "instagram",
+                        "type": "section-header",
+                        "icon": "fa-brands fa-instagram",
+                        "label": "Feuille de Route Instagram : Stories, Reels & DMs"
+                    },
+                    {
+                        "id": "ig_cadence_reels_stories",
+                        "channel": "instagram",
+                        "type": "text",
+                        "label": "1. Ta cadence hebdomadaire d'exécution Instagram :",
+                        "placeholder": "Ex: 3 Reels par semaine (Lundi, Mercredi, Vendredi) + 4 Stories quotidiennes du Lundi au Samedi."
+                    },
+                    {
+                        "id": "ig_lead_magnet_mot_cle",
+                        "channel": "instagram",
+                        "type": "text",
+                        "label": "2. Ton mot-clé d'appel à l'action en commentaire :",
+                        "placeholder": "Ex: 'Commente GUIDE sous ce Reel et je t'envoie la méthode complète en message privé.'"
+                    },
+                    {
+                        "id": "ig_script_closing_dm",
+                        "channel": "instagram",
+                        "type": "textarea",
+                        "label": "3. Ton script d'amorce de conversation en message privé (DM) :",
+                        "placeholder": "« Salut [Prénom], voici le lien de ton guide ! Dis-moi, tu rencontres quelle difficulté principale actuellement sur [sujet] ? »"
+                    },
+                    {
+                        "id": "ig_plan_14_jours",
+                        "channel": "instagram",
+                        "type": "textarea",
+                        "label": "4. Ton plan d'action commando Instagram sur les 14 prochains jours :",
+                        "placeholder": "Jours 1-3 : Optimiser la bio et créer le lien wa.me / Jours 4-10 : Publier 5 Reels avec hooks / Jours 11-14 : Répondre à chaque DM et closer 3 clients."
+                    },
+                    {
+                        "id": "sec_plan_tt",
+                        "channel": "tiktok",
+                        "type": "section-header",
+                        "icon": "fa-brands fa-tiktok",
+                        "label": "Feuille de Route TikTok : Storytelling & Trafic Froid"
+                    },
+                    {
+                        "id": "tt_rythme_tournage",
+                        "channel": "tiktok",
+                        "type": "text",
+                        "label": "1. Ton rythme de tournage par lot (Batching) :",
+                        "placeholder": "Ex: Tourner 6 vidéos courtes le dimanche après-midi pour publier 1 vidéo par jour à 18h30."
+                    },
+                    {
+                        "id": "tt_coulisses_storytelling",
+                        "channel": "tiktok",
+                        "type": "textarea",
+                        "label": "2. Quels moments réels des coulisses vas-tu filmer sans filtre ?",
+                        "placeholder": "Ex: La préparation des colis à 6h du matin, les tests ratés de recettes, le témoignage spontané d'une cliente en salon."
+                    },
+                    {
+                        "id": "tt_redirection_bio_wa",
+                        "channel": "tiktok",
+                        "type": "text",
+                        "label": "3. Ta phrase d'accroche pour rediriger vers le lien en bio :",
+                        "placeholder": "Ex: 'Pour recevoir la fiche technique gratuite avant ce soir, le lien direct est en haut sur mon profil !'"
+                    },
+                    {
+                        "id": "tt_plan_14_jours",
+                        "channel": "tiktok",
+                        "type": "textarea",
+                        "label": "4. Ton plan d'action commando TikTok sur les 14 prochains jours :",
+                        "placeholder": "Jours 1-2 : Lister 15 idées de hooks / Jours 3-8 : Publier 1 vidéo par jour / Jours 9-14 : Analyser la vidéo qui perce et décliner le concept en série."
+                    },
+                    {
+                        "id": "sec_plan_wa",
+                        "channel": "whatsapp",
+                        "type": "section-header",
+                        "icon": "fa-brands fa-whatsapp",
+                        "label": "Feuille de Route WhatsApp : Catalogue, Statuts & Relance"
+                    },
+                    {
+                        "id": "wa_catalogue_produits",
+                        "channel": "whatsapp",
+                        "type": "textarea",
+                        "label": "1. Les 3 premières offres ou produits intégrés dans ton catalogue WhatsApp :",
+                        "placeholder": "1. Formule Découverte (19€)\\n2. Pack Complet (79€)\\n3. Pack Cadeau VIP (140€)"
+                    },
+                    {
+                        "id": "wa_rituel_statuts_matin",
+                        "channel": "whatsapp",
+                        "type": "text",
+                        "label": "2. Ton rituel quotidien de publication en Statuts WhatsApp (heure et type de photo) :",
+                        "placeholder": "Ex: Chaque matin à 8h30 : 1 photo des fabrications du jour + 1 question/sondage."
+                    },
+                    {
+                        "id": "wa_script_relance_perso",
+                        "channel": "whatsapp",
+                        "type": "textarea",
+                        "label": "3. Ton message vocal ou texte de relance bienveillante 48h après une demande d'info :",
+                        "placeholder": "« Bonjour [Prénom], j'espère que tu vas bien ! Je finalise les envois de la semaine et je voulais savoir si tu avais pu regarder la formule ? Passe une super journée ! »"
+                    },
+                    {
+                        "id": "wa_plan_14_jours",
+                        "channel": "whatsapp",
+                        "type": "textarea",
+                        "label": "4. Ton plan d'action commando WhatsApp sur les 14 prochains jours :",
+                        "placeholder": "Jours 1-2 : Remplir le catalogue et configurer le message d'accueil / Jours 3-7 : Envoyer le lien du catalogue à 25 contacts bienveillants / Jours 8-14 : Encaisser 5 premières commandes."
+                    },
+                    {
+                        "id": "sec_plan_li",
+                        "channel": "linkedin",
+                        "type": "section-header",
+                        "icon": "fa-brands fa-linkedin",
+                        "label": "Feuille de Route LinkedIn : Autorité B2B & Prospection"
+                    },
+                    {
+                        "id": "li_titre_profil_positionnement",
+                        "channel": "linkedin",
+                        "type": "text",
+                        "label": "1. Ton titre de profil LinkedIn ultra-ciblé (formule résultat) :",
+                        "placeholder": "Ex: 'J'aide les commerçants et hôteliers des Antilles à générer +30% de réservations directes grâce au marketing vidéo court.'"
+                    },
+                    {
+                        "id": "li_themes_2_posts_hebdo",
+                        "channel": "linkedin",
+                        "type": "textarea",
+                        "label": "2. Tes 2 thèmes de publications hebdomadaires basés sur tes retours d'expérience :",
+                        "placeholder": "Post 1 (Mardi) : Étude de cas décortiquant une erreur coûteuse d'un client.\\nPost 2 (Jeudi) : Les 3 leviers méconnus pour optimiser sa trésorerie en outre-mer."
+                    },
+                    {
+                        "id": "li_script_approche_dirigeant",
+                        "channel": "linkedin",
+                        "type": "textarea",
+                        "label": "3. Ton message d'approche sans vente directe envoyé à 5 décideurs cibles :",
+                        "placeholder": "« Bonjour [Prénom], je suis vos actions avec intérêt. J'ai remarqué un axe d'amélioration rapide sur [détail]. Si vous le souhaitez, je vous partage une note de 2 min pour vous montrer comment corriger ça simplement. »"
+                    },
+                    {
+                        "id": "li_plan_14_jours",
+                        "channel": "linkedin",
+                        "type": "textarea",
+                        "label": "4. Ton plan d'action commando LinkedIn sur les 14 prochains jours :",
+                        "placeholder": "Jours 1-3 : Optimiser le profil et la bannière / Jours 4-10 : Publier 2 études de cas et commenter 10 posts de dirigeants / Jours 11-14 : Échanger en direct et caler 2 audits offerts."
+                    },
+                    {
+                        "id": "sec_plan_yt",
+                        "channel": "youtube",
+                        "type": "section-header",
+                        "icon": "fa-brands fa-youtube",
+                        "label": "Feuille de Route YouTube : Vidéos Piliers & SEO Durable"
+                    },
+                    {
+                        "id": "yt_sujet_premiere_video",
+                        "channel": "youtube",
+                        "type": "text",
+                        "label": "1. Le titre exact de ta première vidéo pilier (question tapée sur Google) :",
+                        "placeholder": "Ex: 'Comment fabriquer son huile de carapate pure aux Antilles sans matériel pro (Guide complet 2026)'"
+                    },
+                    {
+                        "id": "yt_appel_action_description",
+                        "channel": "youtube",
+                        "type": "textarea",
+                        "label": "2. La première ligne de ta description YouTube (vers où renvoies-tu l'audience ?) :",
+                        "placeholder": "Ex: '👉 Téléchargez gratuitement la liste des 15 fournisseurs certifiés : [Lien wa.me]'"
+                    },
+                    {
+                        "id": "yt_plan_14_jours",
+                        "channel": "youtube",
+                        "type": "textarea",
+                        "label": "3. Ton plan d'action commando YouTube sur les 14 prochains jours :",
+                        "placeholder": "Jours 1-4 : Écrire le plan de la vidéo pilier / Jours 5-8 : Tourner et monter la vidéo de 12 minutes / Jours 9-14 : Publier, relayer sur WhatsApp et découper en 3 Shorts."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-23",
+            "number": 23,
+            "badge": "Chapitre 23",
+            "title": "Présenter son projet en une phrase percutante",
+            "subtitle": "La formule en quatre briques pour expliquer ton activité à n'importe qui en dix secondes chrono.",
+            "readTime": "6 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Si tu ne peux pas expliquer ce que tu vends en une seule phrase limpide, personne ne comprendra, personne ne s'en souviendra, et personne ne t'achètera quoi que ce soit.\n                </p>\n                <p>\n                    Voici la <strong>formule universelle du pitch éclair</strong>. Elle est utilisée par les meilleurs entrepreneurs du monde pour capter l'attention en un clin d'œil :\n                </p>\n                <div class=\"highlight-box\">\n                    <h4 style=\"margin:0 0 10px 0;\"><i class=\"fa-solid fa-bolt\"></i> La formule en quatre parties pour ton pitch</h4>\n                    <p style=\"font-size:1.15rem; font-weight:700; color:#10b981; margin:0;\">\n                        « J'aide [Cible Précise] à [Résultat Mesurable Désiré] grâce à [Méthode / Offre Unique], sans [Leur Pire Douleur / Frustration]. »\n                    </p>\n                </div>\n                <h3>Pourquoi cette structure fonctionne</h3>\n                <ul>\n                    <li><strong>Elle qualifie immédiatement :</strong> Ton interlocuteur sait en 2 secondes si c'est pour lui ou pour quelqu'un de son entourage.</li>\n                    <li><strong>Elle parle de bénéfice réel :</strong> Pas de jargon creux. Tu ne vends pas des séances ou des flacons, tu vends un résultat qui résout une vraie souffrance.</li>\n                    <li><strong>Elle pulvérise l'objection majeure :</strong> En précisant <em>« sans [contrainte] »</em>, tu désamorces la première excuse mentale du client avant même qu'il ne la prononce.</li>\n                </ul>\n            ",
+            "exercise": {
+                "id": "ex_chapitre_23",
+                "title": "Formuler ton pitch en une phrase",
+                "description": "Complète les 4 briques ci-dessous. Ton pitch complet se génère automatiquement en bas :",
+                "fields": [
+                    {
+                        "id": "pitch_cible",
+                        "type": "text",
+                        "label": "1. Qui aides-tu ? (Cible précise) :",
+                        "placeholder": "Ex: Les commerçants locaux / Les femmes actives aux cheveux crépus..."
+                    },
+                    {
+                        "id": "pitch_resultat",
+                        "type": "text",
+                        "label": "2. À obtenir quel résultat concret ? :",
+                        "placeholder": "Ex: Doubler leurs réservations / Retrouver des cheveux denses et hydratés..."
+                    },
+                    {
+                        "id": "pitch_methode",
+                        "type": "text",
+                        "label": "3. Grâce à quoi ? (Ton angle, produit ou méthode) :",
+                        "placeholder": "Ex: Notre méthode de micro-vidéos ciblées / Notre formule végétale 100% locale..."
+                    },
+                    {
+                        "id": "pitch_sans_douleur",
+                        "type": "text",
+                        "label": "4. Sans quelle contrainte majeure ? :",
+                        "placeholder": "Ex: Sans budget publicitaire / Sans routine compliquée de 2 heures..."
+                    },
+                    {
+                        "id": "pitch_complet_final",
+                        "type": "textarea",
+                        "label": "Ton pitch complet (généré et prêt à être prononcé à voix haute) :",
+                        "placeholder": "J'aide [cible] à [résultat] grâce à [méthode], sans [contrainte]."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-24",
+            "number": 24,
+            "badge": "Chapitre 24",
+            "title": "Surmonter l'échec, le rejet et les moments de doute",
+            "subtitle": "Le rejet n'est pas une sentence mais une donnée pour apprendre à ajuster ton offre et garder le cap.",
+            "readTime": "7 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Parlons de ce dont personne ne parle dans les vidéos motivantes sur fond de musique épique : que fais-tu quand tu as passé deux semaines à préparer ton offre, que tu l'envoies plein d'espoir... et que la personne te répond <em>\"C'est trop cher\"</em> ou, pire, ne te répond jamais ?\n                </p>\n                <p>\n                    C'est exactement là que 90% des aspirants entrepreneurs s'effondrent. Ils prennent le rejet personnellement. Ils se disent : <em>\"Je ne suis pas fait pour ça, les gens sont ingrats, mon projet est nul.\"</em>\n                </p>\n                <div class=\"quote-card\">\n                    <div class=\"quote-icon\"><i class=\"fa-solid fa-heart-crack\"></i></div>\n                    <p>\n                        « Le rejet d'un client n'est pas un jugement sur ta valeur en tant qu'être humain. C'est simplement une donnée statistique sur ton offre actuelle. »\n                    </p>\n                </div>\n                <h3>Comprendre les vraies raisons d'un refus</h3>\n                <ol>\n                    <li><strong>Problème de confiance :</strong> Il ne doute pas que ton produit soit bien, il doute que <em>toi</em> tu puisses lui apporter le résultat (manque de preuves ou d'exemples).</li>\n                    <li><strong>Problème d'urgence :</strong> Le problème fait mal, mais pas assez pour qu'il sorte sa carte bancaire aujourd'hui.</li>\n                    <li><strong>Mauvaise cible :</strong> Tu as pitché à quelqu'un qui n'a pas le budget ou qui n'est pas le décideur final.</li>\n                    <li><strong>Offre confuse :</strong> Si ton prospect doit froncer les sourcils pour comprendre ce qu'il achète, il préfère dire non.</li>\n                </ol>\n                <h3>Le protocole pour rebondir après un refus</h3>\n                <p>\n                    Quand un prospect te dit non ou hésite, ne sois ni vexé ni insistant. Pose cette question avec bienveillance :\n                </p>\n                <div class=\"tip-card\">\n                    <p>\n                        <em>« Je comprends tout à fait [Prénom], aucun problème. Juste pour m'aider à progresser : qu'est-ce qui t'a manqué dans ma proposition pour que tu te dises 'oui, c'est exactement ce qu'il me faut' ? »</em>\n                    </p>\n                </div>\n                <p>\n                    Huit fois sur dix, sa réponse va te donner gratuitement la clé pour corriger ton offre et closer le prochain client !\n                </p>\n            ",
+            "exercise": {
+                "id": "ex_chapitre_24",
+                "title": "Protocole pour surmonter le rejet et les objections",
+                "description": "Prépare ton mental à la confrontation terrain :",
+                "fields": [
+                    {
+                        "id": "plan_rejet_objection",
+                        "type": "textarea",
+                        "label": "Quelle est la principale objection que tes prospects vont te faire ('trop cher', 'pas le temps'...) et que vas-tu répondre ?",
+                        "placeholder": "Objection : 'C'est trop cher pour moi en ce moment.'\\nMa réponse : 'Je comprends. Si on étale le paiement en 3 fois ou si on commence par le module essentiel à 150€, est-ce que ça te permet de démarrer sans bloquer ta trésorerie ?'"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-25",
+            "number": 25,
+            "badge": "Chapitre 25",
+            "title": "Fidéliser ses clients et créer une boucle de recommandation",
+            "subtitle": "Fidéliser ses clients existants coûte bien moins cher que d'en chercher de nouveaux grâce à un protocole de suivi attentif.",
+            "readTime": "7 min",
+            "content": "\n      <p class=\"lead-text\">\n          La plupart des entrepreneurs débutants ont une passoire en guise de business : ils déploient une énergie titanesque pour trouver de nouveaux clients, et une fois la vente conclue, ils ne donnent plus jamais signe de vie.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-repeat\"></i></div>\n          <p>\n              « Ton premier client te donne de l'oxygène. Son réachat et les 3 amis qu'il t'amène te donnent ta liberté financière. »\n          </p>\n      </div>\n      <p>\n          Dans les économies insulaires et communautaires, la proximité humaine est ton plus grand avantage compétitif face aux multinationales froides. Un client traité comme un roi après l'achat devient ton commercial le plus fidèle.\n      </p>\n\n      <h3>Le protocole de suivi attentif après chaque vente</h3>\n      <p>\n          Ne laisse jamais le hasard décider de la relation client. Programme ces 3 messages automatiques ou semi-manuels :\n      </p>\n      <div class=\"method-box\">\n          <div class=\"method-header\">\n              <span class=\"method-badge\">La Cadence de Rétention</span>\n              <h4>Les 3 Relances Chaleureuses</h4>\n          </div>\n          <div class=\"method-body\">\n              <div class=\"method-steps\">\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">J+3</div>\n                      <div class=\"method-step-content\">\n                          <strong>La Prise de Nouvelles (Zéro Vente) :</strong>\n                          <p><em>« Bonjour [Prénom], c'est [Ton Nom]. Je voulais juste m'assurer que tu as bien reçu ta commande / que la première mise en place s'est bien passée. Est-ce que tout est clair pour toi ? »</em> (Démontre une attention sincère rarissime).</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">J+15</div>\n                      <div class=\"method-step-content\">\n                          <strong>Le Conseil à Forte Valeur Ajoutée :</strong>\n                          <p><em>« Salut [Prénom], voici une astuce supplémentaire pour maximiser l'effet de ton produit / service... »</em> (Renforce ton statut d'expert bienveillant).</p>\n                      </div>\n                  </div>\n                  <div class=\"method-step-item\">\n                      <div class=\"method-step-num\">J+30</div>\n                      <div class=\"method-step-content\">\n                          <strong>Le Réachat & l'Offre de Renouvellement :</strong>\n                          <p><em>« Salut [Prénom], ton stock arrive probablement sur la fin / il est temps de passer au niveau supérieur pour le mois prochain. Voici un lien réservé à nos clients VIP avec -15% ou un cadeau offert pour ta réappro. »</em></p>\n                      </div>\n                  </div>\n              </div>\n          </div>\n      </div>\n\n      <h3>La boucle de recommandation naturelle par le bouche-à-oreille</h3>\n      <p>\n          Ne dis pas simplement <em>\"Parlez-en autour de vous\"</em> (personne ne le fait). Donne une incitation précise et valorisante :\n      </p>\n      <div class=\"feature-grid-2\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-gift\"></i></div>\n              <h4>L'Offre Gagnant-Gagnant</h4>\n              <p>« Donne ce code personnalisé à 1 collègue ou ami : il bénéficie de 15€ offerts sur sa 1ère commande, et toi tu reçois 15€ de crédit direct sur ta prochaine facture. »</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-share-nodes\"></i></div>\n              <h4>Le Statut d'Ambassadeur</h4>\n              <p>Remercie publiquement ou envoie un petit produit bonus inattendu à tout client qui partage ta publication en story. L'effet de réciprocité est immédiat.</p>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_25",
+                "title": "Protocole de suivi post-vente et parrainage",
+                "description": "Mets en place ton système de réachat pour transformer chaque client en rentier de confiance :",
+                "fields": [
+                    {
+                        "id": "retention_message_j3",
+                        "type": "textarea",
+                        "label": "Ton message type personnalisé à envoyer à J+3 après chaque livraison ou prestation :",
+                        "placeholder": "Ex: Bonjour [Prénom], j'espère que tu vas bien. As-tu pu tester [Produit] ? Je reste disponible si tu as la moindre question !"
+                    },
+                    {
+                        "id": "retention_offre_reachat_j30",
+                        "type": "text",
+                        "label": "Quelle offre ou produit complémentaire proposes-tu à J+30 pour inciter au réachat ?",
+                        "placeholder": "Ex: Recharge format éco avec -15%, ou forfait suivi mensuel avec 1er mois à tarif préférentiel..."
+                    },
+                    {
+                        "id": "retention_parrainage_incentive",
+                        "type": "text",
+                        "label": "Quel avantage concret offres-tu pour chaque recommandation réussie ?",
+                        "placeholder": "Ex: 10€ de réduction pour le filleul et 10€ de bon d'achat pour le parrain."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-26",
+            "number": 26,
+            "badge": "Chapitre 26",
+            "title": "Entreprendre seul ou s'associer avec les bonnes règles",
+            "subtitle": "Les questions indispensables à clarifier avant de s'associer afin d'éviter les pièges et désaccords futurs.",
+            "readTime": "6 min",
+            "content": "\n      <p class=\"lead-text\">\n          La plupart des créateurs qui cherchent un associé au démarrage ne cherchent pas des compétences complémentaires : <strong>ils cherchent quelqu'un avec qui partager leur peur d'échouer</strong>.\n      </p>\n      <div class=\"quote-card\">\n          <div class=\"quote-icon\"><i class=\"fa-solid fa-user-group\"></i></div>\n          <p>\n              « Mieux vaut être seul et avancer lentement que mal accompagné et devoir négocier chaque décision commerciale jusqu'à l'épuisement. »\n          </p>\n      </div>\n\n      <h3>Les 3 Règles d'Or de l'Association Réussie</h3>\n      <div class=\"feature-grid-3\">\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-puzzle-piece\"></i></div>\n              <h4>1. Des compétences complémentaires</h4>\n              <p>Deux cuisiniers ou deux graphistes associés se marchent sur les pieds. L'association idéale réunit <strong>un créateur/technicien</strong> et <strong>un commercial/vendeur</strong>.</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-handshake\"></i></div>\n              <h4>2. Le 50/50 par Politesse est Interdit</h4>\n              <p>En cas de désaccord stratégique urgent, le 50/50 bloque l'entreprise. Il doit toujours y avoir un décisionnaire final clair (51/49 ou répartition par domaine de responsabilité).</p>\n          </div>\n          <div class=\"feature-card\">\n              <div class=\"feature-card-icon\"><i class=\"fa-solid fa-file-contract\"></i></div>\n              <h4>3. Le pacte d'associés clarifié dès le départ</h4>\n              <p>On rédige le divorce le jour du mariage. Que se passe-t-il si l'un veut arrêter dans 1 an ? Comment sont rachetées ses parts ? Tout doit être noir sur blanc.</p>\n          </div>\n      </div>\n  ",
+            "exercise": {
+                "id": "ex_chapitre_26",
+                "title": "Diagnostic d'association et répartition des rôles",
+                "description": "Clarifie ta position sur l'association pour éviter tout conflit destructeur de valeur :",
+                "fields": [
+                    {
+                        "id": "assoc_besoin_reel",
+                        "type": "select",
+                        "label": "Quelle est ta situation actuelle concernant l'association ?",
+                        "options": [
+                            "Je lance mon activité 100% en solo (recommandé pour démarrer vite)",
+                            "J'ai déjà un associé aux compétences complémentaires identifié",
+                            "Je cherche un associé commercial / profil vendeur",
+                            "Je cherche un associé technique / profil production"
+                        ]
+                    },
+                    {
+                        "id": "assoc_repartition_pouvoir",
+                        "type": "textarea",
+                        "label": "Si tu t'associes, qui a le dernier mot sur les décisions commerciales et financières ?",
+                        "placeholder": "Ex: Je prends 100% des décisions de prix et de vente, mon associé gère 100% de la production..."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "chapitre-27",
+            "number": 27,
+            "badge": "Chapitre 27",
+            "title": "Plan d'action concret pour tes trente premiers jours",
+            "subtitle": "Ta feuille de route semaine par semaine pour passer de l'idée brute jusqu'à tes premiers clients payants.",
+            "readTime": "9 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Tu as refermé les théories. Tu connais ton Why, tes multi-avatars, ton échelle d'offres, ton point mort et ton pitch. Maintenant, que fais-tu concrètement lundi matin à 8h00 ?\n                </p>\n                <p>\n                    Voici ta <strong>feuille de route sur 4 semaines</strong>. Une seule mission par semaine. 80% d'action, 20% de réflexion. Coche chaque case au fur et à mesure de tes victoires terrain :\n                </p>\n\n                <div class=\"roadmap-container\">\n                    <div class=\"roadmap-step\">\n                        <div class=\"step-num\">S1</div>\n                        <div class=\"step-body\">\n                            <h4>Semaine 1, écoute et découverte du terrain</h4>\n                            <p><strong>Objectif :</strong> Parler à 5 vraies personnes cibles sans chercher à leur vendre quoi que ce soit pour extraire leurs douleurs exactes.</p>\n                        </div>\n                    </div>\n\n                    <div class=\"roadmap-step\">\n                        <div class=\"step-num\">S2</div>\n                        <div class=\"step-body\">\n                            <h4>Semaine 2, finalisation de l'offre et calcul de rentabilité</h4>\n                            <p><strong>Objectif :</strong> Formaliser ton offre en 1 page, fixer ton prix à la valeur et configurer ton encaissement direct.</p>\n                        </div>\n                    </div>\n\n                    <div class=\"roadmap-step\">\n                        <div class=\"step-num\">S3</div>\n                        <div class=\"step-body\">\n                            <h4>Semaine 3, visibilité et premiers contacts commerciaux</h4>\n                            <p><strong>Objectif :</strong> Déclencher tes 3 premiers contenus (TOFU/MOFU/BOFU) et contacter 15 prospects pour encaisser tes premiers euros réels.</p>\n                        </div>\n                    </div>\n\n                    <div class=\"roadmap-step\">\n                        <div class=\"step-num\">S4</div>\n                        <div class=\"step-body\">\n                            <h4>Semaine 4, livraison soignée et premiers retours d'expérience</h4>\n                            <p><strong>Objectif :</strong> Livrer ton premier client avec un soin maniaque, récolter un témoignage vidéo, et postuler au Programme Tremplin.</p>\n                        </div>\n                    </div>\n                </div>\n            ",
+            "exercise": {
+                "id": "ex_chapitre_27",
+                "title": "Feuille de route des trente premiers jours",
+                "description": "Coche chaque étape directement dans le carnet au fur et à mesure de ta progression. Tes coches sont sauvegardées automatiquement :",
+                "fields": [
+                    {
+                        "id": "sec_s1_check",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-calendar-week",
+                        "label": "Semaine 1 : Validation & Écoute Terrain"
+                    },
+                    {
+                        "id": "s1_check_1",
+                        "type": "checkbox",
+                        "label": "Identifier 10 personnes correspondant à mon profil Avatar (B2C ou B2B)",
+                        "hint": "Profils réels sur WhatsApp, Instagram, LinkedIn ou commerces de proximité."
+                    },
+                    {
+                        "id": "s1_check_2",
+                        "type": "checkbox",
+                        "label": "Réaliser 5 entretiens d'écoute de 15 minutes sans chercher à vendre",
+                        "hint": "Poser des questions ouvertes sur leurs pires galères actuelles."
+                    },
+                    {
+                        "id": "s1_check_3",
+                        "type": "checkbox",
+                        "label": "Consigner les expressions exactes et mots-clés prononcés par les prospects",
+                        "hint": "Ces mots formeront le vocabulaire exact de tes futures pages et vidéos."
+                    },
+                    {
+                        "id": "sec_s2_check",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-file-invoice-dollar",
+                        "label": "Semaine 2 : Packaging & Structure Financière"
+                    },
+                    {
+                        "id": "s2_check_1",
+                        "type": "checkbox",
+                        "label": "Rédiger ma fiche d'offre en 1 page (promesse, livrables, garantie)",
+                        "hint": "Une offre si claire qu'un adolescent de 14 ans la comprend en 30 secondes."
+                    },
+                    {
+                        "id": "s2_check_2",
+                        "type": "checkbox",
+                        "label": "Calculer mon point mort et ma cadence de vente dans le simulateur financier (Chapitre 17)",
+                        "hint": "Savoir exactement combien de ventes par semaine sont requises pour payer mes charges et mon salaire."
+                    },
+                    {
+                        "id": "s2_check_3",
+                        "type": "checkbox",
+                        "label": "Créer mon compte d'encaissement et tester mon premier lien de paiement (Stripe / Wave)",
+                        "hint": "Zéro blocage technique : être capable d'envoyer un lien de paiement par message en 5 secondes."
+                    },
+                    {
+                        "id": "sec_s3_check",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-bolt",
+                        "label": "Semaine 3 : Contenu, Chasse Directe & Premier Cash"
+                    },
+                    {
+                        "id": "s3_check_1",
+                        "type": "checkbox",
+                        "label": "Publier mes 3 premiers contenus stratégiques (1 TOFU, 1 MOFU, 1 BOFU)",
+                        "hint": "Enregistrer les liens dans le carnet du Chapitre 16 pour suivre la régularité."
+                    },
+                    {
+                        "id": "s3_check_2",
+                        "type": "checkbox",
+                        "label": "Recontacter les 5 personnes de la Semaine 1 avec une offre test à tarif préférentiel",
+                        "hint": "'Suite à notre échange, j'ai conçu la solution exacte. J'ouvre 3 places tests avec 30% de remise en échange d'un retour d'expérience sincère.'"
+                    },
+                    {
+                        "id": "s3_check_3",
+                        "type": "checkbox",
+                        "label": "Engager la conversation avec 15 nouveaux prospects qualifiés par message privé",
+                        "hint": "Approche directe, humaine, axée sur la résolution de leur problème."
+                    },
+                    {
+                        "id": "s3_check_4",
+                        "type": "checkbox",
+                        "label": "Encaisser mon tout premier acompte client ou mes 5 premières précommandes !",
+                        "hint": "La preuve ultime qui éteint tous les doutes et valide le modèle économique."
+                    },
+                    {
+                        "id": "sec_s4_check",
+                        "type": "section-header",
+                        "icon": "fa-solid fa-trophy",
+                        "label": "Semaine 4 : Sur-Délivrance & Effet Tremplin"
+                    },
+                    {
+                        "id": "s4_check_1",
+                        "type": "checkbox",
+                        "label": "Livrer la prestation ou le produit avec un effet 'Whaouh' (sur-délivrer)",
+                        "hint": "Ajouter un petit bonus inattendu qui transforme le client en fan absolu."
+                    },
+                    {
+                        "id": "s4_check_2",
+                        "type": "checkbox",
+                        "label": "Recueillir un témoignage vidéo ou écrit avec photo du client satisfait",
+                        "hint": "Ton témoignage le plus précieux pour convaincre les 10 prochains clients sans effort."
+                    },
+                    {
+                        "id": "s4_check_3",
+                        "type": "checkbox",
+                        "label": "Poser ma candidature au Programme Tremplin de Domtom Connect",
+                        "hint": "Passer de la validation artisanale à une machine d'acquisition structurée en 8 semaines avec les mentors de l'écosystème."
+                    }
+                ]
+            }
+        },
+        {
+            "id": "conclusion",
+            "number": 28,
+            "badge": "Conclusion & Passage à l'Action",
+            "title": "Pour conclure cette consultation",
+            "subtitle": "Le serment de passage à l'action, l'export de ton plan et tes opportunités avec l'écosystème Domtom Connect.",
+            "readTime": "4 min",
+            "content": "\n                <p class=\"lead-text\">\n                    Si tu es arrivé jusqu'ici, tu ne portes plus ton projet de la même façon qu'au premier chapitre.\n                </p>\n                <p>\n                    Tu sais maintenant qu'il n'existe pas un seul chemin pour entreprendre, mais plusieurs, et que le tien peut démarrer aujourd'hui avec ce que tu as réellement entre les mains. Tu as identifié ton Why, tes 5 histoires de référence, ton client idéal, ton seuil de rentabilité, la différence entre buzz d'influenceur et chiffre d'affaires réel, et ton plan militaire sur 30 jours.\n                </p>\n                <p>\n                    Peu importe où tu te trouves — aux Antilles, en Guyane, à La Réunion, en Afrique ou dans une diaspora européenne — ce guide avait un seul et unique objectif : <strong>te prouver que c'est possible, que tu es légitime, et que commencer petit n'a jamais empêché personne d'aller très loin</strong>.\n                </p>\n\n                <div class=\"cta-programs-section\">\n                    <h3>Comment veux-tu continuer à avancer avec Domtom Connect ?</h3>\n                    <p>Trois accélérateurs sont à ta disposition selon ton stade d'avancement :</p>\n\n                    <div class=\"programs-grid\">\n                        <div class=\"program-card highlight\">\n                            <span class=\"program-badge\">Le Plus Populaire</span>\n                            <h4><i class=\"fa-solid fa-rocket\"></i> Le Programme Tremplin</h4>\n                            <p class=\"program-desc\">\n                                <strong>80% Action, 20% Réflexion</strong>. Un cadre collectif d'accélération intensive avec sessions de groupe, mentorat individuel et soutien opérationnel sur tes tâches chronophages pour lancer ton business en 8 semaines.\n                            </p>\n                            <a href=\"candidature-tremplin.html\" class=\"btn-program primary\">Candidater à Tremplin</a>\n                        </div>\n\n                        <div class=\"program-card\">\n                            <span class=\"program-badge\">Sur Mesure</span>\n                            <h4><i class=\"fa-solid fa-user-tie\"></i> Accompagnement 1-à-1</h4>\n                            <p class=\"program-desc\">\n                                Des séances de consultation stratégique individuelles avec un expert du terrain ultramarin et africain pour débloquer tes choix de modèle, de prix et de prospection.\n                            </p>\n                            <a href=\"candidature-mastermind.html\" class=\"btn-program secondary\">Postuler au Mentorat</a>\n                        </div>\n\n                        <div class=\"program-card\">\n                            <span class=\"program-badge\">Délégation</span>\n                            <h4><i class=\"fa-solid fa-gears\"></i> Le Copilotage</h4>\n                            <p class=\"program-desc\">\n                                Ton business tourne déjà mais tu es débordé sous la charge administrative, logistique et commerciale ? Notre équipe prend en charge tes opérations pour te redonner du temps libre.\n                            </p>\n                            <a href=\"pilotage.html\" class=\"btn-program secondary\">Découvrir le Copilotage</a>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"final-word\">\n                    <p>\n                        <em>« Les trois chemins sont valables. Le seul qui ne l'est pas, c'est celui où tu éteins ton écran et où tu ne fais rien de différent demain matin. »</em>\n                    </p>\n                </div>\n            ",
+            "exercise": {
+                "id": "ex_conclusion",
+                "title": "Bilan et export de ton plan d'action",
+                "description": "Toutes tes réponses saisies tout au long de ce guide ont été précieusement sauvegardées dans ton navigateur. Tu peux désormais exporter ton carnet de bord personnel complet :",
+                "fields": [
+                    {
+                        "id": "conclusion_choix_action",
+                        "type": "select",
+                        "label": "Quelle est ta prochaine étape avec Domtom Connect ?",
+                        "options": [
+                            {
+                                "value": "tremplin",
+                                "label": "Je postule au programme Tremplin (80% Action)"
+                            },
+                            {
+                                "value": "solo_30j",
+                                "label": "J'exécute ma feuille de route 30 jours en solo"
+                            },
+                            {
+                                "value": "mentorat",
+                                "label": "Je demande une séance d'accompagnement individuel"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+};

@@ -1,0 +1,210 @@
+
+=== [0] couverture : Couverture — Tome 1 ===
+   NO EXERCISE
+
+=== [1] avant-propos : Avant de commencer — La Consultation ===
+   Titre Exo: Ton Engagement de Consultation
+   - [engagement_nom] (text) : Ton prénom & nom ou nom de projet :
+   - [engagement_date_blocage] (textarea) : Quelle est l'excuse principale qui t'a empêché de démarrer jusqu'ici ?
+
+=== [2] chapitre-1 : Ce que tu crois savoir sur l'entrepreneuriat est faux ===
+   Titre Exo: Action Immédiate : Le Test des 5 Personnes
+   - [ch1_probleme_identifie] (textarea) : Quel est le problème douloureux et précis que tu veux résoudre ?
+   - [ch1_cible_5_personnes] (textarea) : Liste 5 personnes de ton réseau (amis, commerçants, collègues) à qui tu vas poser une question sous 24h :
+
+=== [3] chapitre-2 : Le mur que tu t'es construit toi-même ===
+   Titre Exo: Briser le Plafond de Verre
+   - [ch2_peur_principale] (textarea) : Quelle est la phrase toxique sur l'argent ou le travail que tu as le plus entendue dans ton enfance ?
+   - [ch2_contre_croyance] (textarea) : Quelle nouvelle règle de vie choisis-tu d'adopter dès aujourd'hui pour la remplacer ?
+
+=== [4] chapitre-3 : Ton Why, ta légitimité ===
+   Titre Exo: Générateur Guidé de Ton 'Why'
+   - [ch3_why_profond] (textarea) : Pour quelle cause ou pour qui te bats-tu en construisant cette entreprise ?
+
+=== [5] chapitre-4 : La Loi de Pareto (80% Action, 20% Réflexion) : Faire un max avec tes moyens ===
+   Titre Exo: Ton Filtre Pareto & Ta Première Action à 0 €
+   - [pareto_80_distractions] (textarea) : Quelles sont les 2 ou 3 tâches secondaires sur lesquelles tu perdais ton temps et que tu abandonnes dès aujourd'hui ?
+   - [pareto_20_action_vitale] (textarea) : Quelle est l'UNIQUE action commerciale (tes 20% vitaux) qui peut te générer un premier échange client sous 48h ?
+   - [pareto_action_zero_euro] (text) : Le prénom ou nom de la première personne réelle que tu vas contacter aujourd'hui sans dépenser 1 centime :
+
+=== [6] chapitre-5 : Comprendre les 5 Chemins (+ 5 Histoires Réelles) ===
+   Titre Exo: Auto-Diagnostic Réflexif (Sans Pression)
+   - [ch4_histoire_resonance] (textarea) : Laquelle de ces 5 histoires ou modèles résonne le plus avec ce que tu as envie de bâtir ?
+   - [ch4_ressources_actuelles] (textarea) : Quels sont tes principaux atouts aujourd'hui (temps disponible, budget de départ, compétences, réseau) ?
+
+=== [7] chapitre-6 : Choisir son Chemin & Valider sa Voie (L'Aiguillage) ===
+   Titre Exo: Validation Formelle de Ta Voie
+   - [secteur_activite_selection] (select) : Ta voie retenue pour lancer ton activité :
+   - [pourquoi_ce_chemin] (textarea) : Pourquoi cette voie est-elle le véhicule le plus réaliste pour toi aujourd'hui ?
+
+=== [8] chapitre-7 : Du Modèle au Métier : Bilan de Compétences & Choix de Spécialité ===
+   Titre Exo: Bilan de Compétences & Verrouillage de Ton Métier Réel
+   - [competences_naturelles] (textarea) : Quelles sont les 2 compétences pratiques que tu maîtrises déjà le mieux aujourd'hui ?
+   - [metier_exact_retenu] (text) : Quel est l'intitulé EXACT de ton métier ou activité retenue ?
+   - [preuve_legitimite_metier] (textarea) : Pourquoi es-tu capable de délivrer ce résultat de manière fiable dès ce mois-ci ?
+
+=== [9] chapitre-8 : Étude de Marché, Analyse de la Concurrence & Opportunités Uniques ===
+   Titre Exo: Ton Étude de Marché & Analyse Concurrentielle
+   - [marche_concurrents_directs] (textarea) : 1. Quels sont les 2 principaux concurrents directs ou indirects sur ton secteur ?
+   - [marche_points_forts_faibles] (textarea) : 2. Quels sont leurs 2 points forts et leurs 2 faiblesses majeures (failles) ?
+   - [marche_trou_raquette_opportunite] (textarea) : 3. L'opportunité en or (Le trou dans la raquette où tu vas t'engouffrer) :
+   - [marche_mon_avantage_incomparable] (textarea) : 4. Ton avantage positionnel (Pourquoi ton prospect va te préférer eux) :
+
+=== [10] chapitre-9 : Comprendre la Niche & la Transformation (La Psychologie du Positionnement) ===
+   Titre Exo: Test d'Assimilation : Maîtriser l'État A ➔ État B
+   - [ch7_exercice_comprehension] (textarea) : Dans ton idée de projet, quelle est la plus grande DOULEUR (État A) que ressent aujourd'hui ton prospect type ?
+   - [ch7_exercice_transformation_visee] (textarea) : Quelle est la TRANSFORMATION concrète (État B) qu'il vivra après avoir utilisé ton offre ?
+
+=== [11] chapitre-10 : Verrouiller sa Niche Rentable & sa Différenciation (Action & Décision) ===
+   Titre Exo: Verrouillage de Ta Niche & Différenciation
+   - [niche_choisie_description] (textarea) : 1. Quelle est ta sous-niche précise (À qui s'adresse exclusivement ton offre ?) :
+   - [niche_etat_a_douleur] (textarea) : 2. Quel est l'ÉTAT A (la douleur aiguë, la frustration ou la perte) qu'ils subissent aujourd'hui ?
+   - [niche_etat_b_promesse] (textarea) : 3. Quel est l'ÉTAT B promis (le résultat concret, le soulagement et le bénéfice mesurable) ?
+   - [niche_pouvoir_achat] (text) : 4. Pourquoi cette cible a-t-elle le pouvoir d'achat nécessaire pour payer ton offre ?
+   - [niche_lieu_accessibilite] (text) : 5. Où peux-tu trouver et contacter facilement 20 personnes de cette niche dès cette semaine ?
+
+=== [12] chapitre-11 : Ton client, en profondeur ===
+   Titre Exo: Fiches Multi-Avatars (B2C, B2B & Profil VIP)
+   - [avatar1_identite] (text) : Prénom fictif, tranche d'âge et situation de vie :
+   - [avatar1_douleur] (textarea) : Sa douleur quotidienne majeure (la frustration qu'elle veut éliminer) :
+   - [avatar1_gain] (text) : Le sentiment ou le statut qu'elle ressent après l'achat :
+   - [avatar2_profil] (text) : Type d'entreprise, commerçant ou décideur ciblé :
+   - [avatar2_roi] (textarea) : Son enjeu business (pourquoi il achèterait tes services ou produits pour son commerce) :
+   - [avatar3_profil] (textarea) : Qui est le client prêt à payer 3x à 10x plus cher pour une solution clé en main ou personnalisée ?
+
+=== [13] chapitre-12 : Les Vrais Fondamentaux du Branding (Mentalité & Réputation) ===
+   Titre Exo: Fondations de Ta Réputation & Identité Réelle
+   - [branding_nom_officiel] (text) : 1. Nom officiel de ta marque ou de ton projet :
+   - [branding_promesse_sacree] (text) : 2. Ta Promesse Sacrée : Les 3 mots que chaque client doit associer immédiatement à toi :
+   - [branding_test_reputation] (textarea) : 3. Le Test de la Pièce : Quand un client parle de toi à un ami sans que tu sois là, quelle phrase exacte doit-il prononcer ?
+   - [branding_anti_modele] (textarea) : 4. Ton Anti-Modèle Absolu : La pratique ou le comportement que tu refuses catégoriquement d'adopter dans ton secteur :
+
+=== [14] chapitre-13 : Ton Premier Logo : Zéro Prise de Tête & Psychologie des Couleurs ===
+   Titre Exo: Studio Logo & Test en Situation Réelle
+   - [branding_logo_file] (image-upload) : Studio Logo : Importe ton logo pour le prévisualiser en direct :
+   - [logo_format_choisi] (select) : Format de logo retenu pour ton démarrage :
+   - [logo_couleurs_dominantes] (text) : Tes 2 couleurs principales (Codes HEX ou noms simples) :
+   - [logo_checklist_lisibilite] (textarea) : Test de Lisibilité Smartphone : Ton logo passe-t-il le test du mobile ?
+
+=== [15] chapitre-14 : Architecture de l'Offre Irrésistible & Stratégie de Pricing ===
+   Titre Exo: Architecture de Ton Échelle d'Offres (3 Paliers)
+   - [offre_dream_outcome] (textarea) : Quelle est la promesse chiffrée et indiscutable que tu garantis à ton client ?
+   - [offre_appel_titre_prix] (text) : Nom de l'offre d'entrée et prix envisagé :
+   - [offre_appel_promesse] (textarea) : Quelle victoire rapide ou transformation immédiate apporte-t-elle au client ?
+   - [offre_coeur_titre_prix] (text) : Nom et prix de ton offre phare :
+   - [offre_coeur_livrable] (textarea) : Contenu précis et résultat final garanti :
+   - [offre_vip_titre_prix] (textarea) : Nom, prix et condition de ton offre haut de gamme ou B2B :
+   - [offre_bonus_accelerateur] (textarea) : Quel livrable ou outil gratuit exclusif inclus lèves-tu pour accélérer la victoire du client ?
+   - [offre_garantie_inversion_risque] (textarea) : Quelle garantie prends-tu à ta charge pour que le prospect n'ait absolument rien à perdre ?
+
+=== [16] chapitre-15 : L'Offre Bêta & Collecter ses 5 Preuves Sociales ===
+   Titre Exo: Recrutement de tes 5 Bêta-Testeurs & Protocole d'Avis
+   - [beta_noms_testeurs] (textarea) : Les noms ou profils des 3 à 5 personnes ou entreprises que tu vas contacter pour l'offre Bêta :
+   - [beta_condition_echange] (text) : Quelle condition avantageuse leur proposes-tu en échange de leur avis complet ?
+   - [beta_date_collecte_avis] (text) : À quelle date précise auras-tu collecté ces 5 avis sur ton téléphone ?
+
+=== [17] chapitre-16 : La Page de Vente One-Page & Link-in-Bio ===
+   Titre Exo: Structure de ta One-Page & Lien Bio
+   - [onepage_titre_hero] (text) : Le titre de ton Hero Banner (Promesse État B en 1 phrase) :
+   - [onepage_3_douleurs] (textarea) : Les 3 douleurs ou blocages majeurs listés dans la section Empathie :
+   - [onepage_outil_choisi] (select) : Outil retenu pour héberger ta page :
+
+=== [18] chapitre-17 : Encaisser sans Friction & Maîtriser ses Chiffres Simples ===
+   Titre Exo: Simulateur Financier : Point Mort & Cadence Hebdo
+   - [charges_fixes] (number) : 1. Tes charges fixes mensuelles d'exploitation en € (outils, forfaits, abonnements) :
+   - [salaire_net_vise] (number) : 2. Le salaire mensuel net que tu veux te verser en € :
+   - [taux_charges_sociales] (select) : 3. Ton statut ou taux estimé de cotisations sociales :
+   - [prix_unitaire_vente] (number) : 4. Prix de vente unitaire de ton offre principale en € :
+   - [cout_unitaire_variable] (number) : 5. Coût de revient direct par unité vendue en € (matière première, emballage, fret unitaire) :
+   - [tresorerie_matelas_survie] (text) : 6. Montant cible de ton matelas de sécurité de 90 jours (Charges fixes × 3 mois) :
+   - [repartition_3_comptes] (select) : 7. Structure de tes comptes bancaires :
+
+=== [19] chapitre-18 : Les outils selon ton business ===
+   Titre Exo: Ta Pile d'Outils Minimale (Stack)
+   - [stack_outils] (textarea) : Quels sont les 3 seuls outils dont tu as besoin cette semaine pour opérer ?
+
+=== [20] chapitre-19 : Réseaux Sociaux (1/3) — Psychologie, Algorithme 2026 & Incarnation ===
+   Titre Exo: Ton Diagnostic d'Incarnation & de Référencement Social
+   - [rs_incarnation_visage] (select) : Quel est ton niveau d'incarnation actuel sur tes réseaux ?
+   - [rs_bio_transformation] (textarea) : Rédige ta bio en 3 lignes (Qui tu aides + Quel résultat + Ton lien d'action) :
+
+=== [21] chapitre-20 : Le Système de Contenu sans Burnout (Batching 1 mois en 3h) ===
+   Titre Exo: Matrice des 4 Piliers & Calendrier 1 Mois en 3h
+   - [batching_sujet_valeur] (text) : Pilier 1 (Valeur / Micro-conseil) : Ton idée de sujet en 1 phrase
+   - [batching_sujet_coulisses] (text) : Pilier 2 (Coulisses / Sans filtre) : Quelle scène réelle de ton travail vas-tu filmer ?
+   - [batching_sujet_preuve] (text) : Pilier 3 (Preuve / Témoignage) : Quel retour client vas-tu mettre en avant ?
+   - [batching_date_session] (text) : Date et heure de ton créneau réservé de 3h dans ton agenda :
+
+=== [22] chapitre-21 : Réseaux Sociaux (2/3) — Le Tunnel TOFU-MOFU-BOFU & Choisir son Canal Maître ===
+   Titre Exo: Stratégie de Ton Tunnel TOFU-MOFU-BOFU
+   - [reseau_social_prioritaire] (select) : 1. Quel est ton Canal d'Attraction Maître (où tu captes l'attention de nouvelles personnes) ?
+   - [canal_conversion_secondaire] (select) : 2. Quel est ton Canal de Conversion Directe (où tu dialogues et signes les ventes) ?
+   - [tofu_action_hebdo] (textarea) : 3. Ta stratégie TOFU : Quelle vidéo courte d'attraction publies-tu cette semaine ?
+   - [mofu_action_story] (textarea) : 4. Ta stratégie MOFU : Que vas-tu montrer en Story chaque jour pour créer du lien et de la sympathie ?
+   - [bofu_action_closing] (textarea) : 5. Ta stratégie BOFU : Vers quel lien ou canal diriges-tu les prospects pour encaisser ?
+   - [contenu_hook_viral_choisi] (textarea) : 6. Ton premier Hook viral rédigé (inspiré des 10 modèles au-dessus) :
+
+=== [23] chapitre-22 : Réseaux Sociaux (3/3) — Playbooks par Secteur & Scripts de Closing en DM ===
+   Titre Exo: Blueprint & Plan d'Action sur Ton Canal Maître
+   - [ig_cadence_reels_stories] (text) : 1. Ta cadence hebdomadaire d'exécution Instagram :
+   - [ig_lead_magnet_mot_cle] (text) : 2. Ton mot-clé d'appel à l'action en commentaire :
+   - [ig_script_closing_dm] (textarea) : 3. Ton script d'amorce de conversation en message privé (DM) :
+   - [ig_plan_14_jours] (textarea) : 4. Ton plan d'action commando Instagram sur les 14 prochains jours :
+   - [tt_rythme_tournage] (text) : 1. Ton rythme de tournage par lot (Batching) :
+   - [tt_coulisses_storytelling] (textarea) : 2. Quels moments réels des coulisses vas-tu filmer sans filtre ?
+   - [tt_redirection_bio_wa] (text) : 3. Ta phrase d'accroche pour rediriger vers le lien en bio :
+   - [tt_plan_14_jours] (textarea) : 4. Ton plan d'action commando TikTok sur les 14 prochains jours :
+   - [wa_catalogue_produits] (textarea) : 1. Les 3 premières offres ou produits intégrés dans ton catalogue WhatsApp :
+   - [wa_rituel_statuts_matin] (text) : 2. Ton rituel quotidien de publication en Statuts WhatsApp (heure et type de photo) :
+   - [wa_script_relance_perso] (textarea) : 3. Ton message vocal ou texte de relance bienveillante 48h après une demande d'info :
+   - [wa_plan_14_jours] (textarea) : 4. Ton plan d'action commando WhatsApp sur les 14 prochains jours :
+   - [li_titre_profil_positionnement] (text) : 1. Ton titre de profil LinkedIn ultra-ciblé (formule résultat) :
+   - [li_themes_2_posts_hebdo] (textarea) : 2. Tes 2 thèmes de publications hebdomadaires basés sur tes retours d'expérience :
+   - [li_script_approche_dirigeant] (textarea) : 3. Ton message d'approche sans vente directe envoyé à 5 décideurs cibles :
+   - [li_plan_14_jours] (textarea) : 4. Ton plan d'action commando LinkedIn sur les 14 prochains jours :
+   - [yt_sujet_premiere_video] (text) : 1. Le titre exact de ta première vidéo pilier (question tapée sur Google) :
+   - [yt_appel_action_description] (textarea) : 2. La première ligne de ta description YouTube (vers où renvoies-tu l'audience ?) :
+   - [yt_plan_14_jours] (textarea) : 3. Ton plan d'action commando YouTube sur les 14 prochains jours :
+
+=== [24] chapitre-23 : Le Pitch en Une Phrase ===
+   Titre Exo: Générateur Automatique de Pitch en Une Phrase
+   - [pitch_cible] (text) : 1. Qui aides-tu ? (Cible précise) :
+   - [pitch_resultat] (text) : 2. À obtenir quel résultat concret ? :
+   - [pitch_methode] (text) : 3. Grâce à quoi ? (Ton angle, produit ou méthode) :
+   - [pitch_sans_douleur] (text) : 4. Sans quelle contrainte majeure ? :
+   - [pitch_complet_final] (textarea) : Ton pitch complet (généré et prêt à être prononcé à voix haute) :
+
+=== [25] chapitre-24 : Quand ça coince : surmonter l'échec et le rejet ===
+   Titre Exo: Protocole Anti-Rejet
+   - [plan_rejet_objection] (textarea) : Quelle est la principale objection que tes prospects vont te faire ('trop cher', 'pas le temps'...) et que vas-tu répondre ?
+
+=== [26] chapitre-25 : Rétention, Réachat & Boucle de Parrainage ===
+   Titre Exo: Protocole de Suivi Post-Vente & Boucle Ambassadeur
+   - [retention_message_j3] (textarea) : Ton message type personnalisé à envoyer à J+3 après chaque livraison ou prestation :
+   - [retention_offre_reachat_j30] (text) : Quelle offre ou produit complémentaire proposes-tu à J+30 pour inciter au réachat ?
+   - [retention_parrainage_incentive] (text) : Quel avantage concret offres-tu pour chaque recommandation réussie ?
+
+=== [27] chapitre-26 : Seul ou accompagné : faut-il t'associer ? ===
+   Titre Exo: Diagnostic Association & Rôles Clairs
+   - [assoc_besoin_reel] (select) : Quelle est ta situation actuelle concernant l'association ?
+   - [assoc_repartition_pouvoir] (textarea) : Si tu t'associes, qui a le dernier mot sur les décisions commerciales et financières ?
+
+=== [28] chapitre-27 : Tes 30 premiers jours d'action (Semaine par Semaine) ===
+   Titre Exo: Checklist Interactive des 30 Premiers Jours
+   - [s1_check_1] (checkbox) : Identifier 10 personnes correspondant à mon profil Avatar (B2C ou B2B)
+   - [s1_check_2] (checkbox) : Réaliser 5 entretiens d'écoute de 15 minutes sans chercher à vendre
+   - [s1_check_3] (checkbox) : Consigner les expressions exactes et mots-clés prononcés par les prospects
+   - [s2_check_1] (checkbox) : Rédiger ma fiche d'offre en 1 page (promesse, livrables, garantie)
+   - [s2_check_2] (checkbox) : Calculer mon point mort et ma cadence de vente dans le Simulateur du Chapitre 12
+   - [s2_check_3] (checkbox) : Créer mon compte d'encaissement et tester mon premier lien de paiement (Stripe / Wave)
+   - [s3_check_1] (checkbox) : Publier mes 3 premiers contenus stratégiques (1 TOFU, 1 MOFU, 1 BOFU)
+   - [s3_check_2] (checkbox) : Recontacter les 5 personnes de la Semaine 1 avec une offre test à tarif préférentiel
+   - [s3_check_3] (checkbox) : Engager la conversation avec 15 nouveaux prospects qualifiés par message privé
+   - [s3_check_4] (checkbox) : Encaisser mon tout premier acompte client ou mes 5 premières précommandes !
+   - [s4_check_1] (checkbox) : Livrer la prestation ou le produit avec un effet 'Whaouh' (sur-délivrer)
+   - [s4_check_2] (checkbox) : Recueillir un témoignage vidéo ou écrit avec photo du client satisfait
+   - [s4_check_3] (checkbox) : Poser ma candidature au Programme Tremplin de Domtom Connect
+
+=== [29] conclusion : Pour conclure cette consultation ===
+   Titre Exo: Bilan & Export de Ton Plan d'Action Entrepreneur
+   - [conclusion_choix_action] (select) : Quelle est ta prochaine étape avec Domtom Connect ?

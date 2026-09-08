@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Fondamentaux de l'Entrepreneur — Tome 1 | Domtom Connect</title>
+    <meta name="description" content="Le guide interactif pour entreprendre sans excuse : mindset, validation terrain, choix du chemin, calcul financier, pitch et feuille de route 30 jours pour les Caraïbes, l'Afrique et la diaspora.">
+    <meta name="keywords" content="entrepreneuriat, domtom connect, caraibes, afrique, diaspora, guide digital, produit digital, tremplin, business">
+    
+    <!-- Open Graph / Meta Réseaux -->
+    <meta property="og:title" content="Les Fondamentaux de l'Entrepreneur — Tome 1 | Domtom Connect">
+    <meta property="og:description" content="Le guide interactif pour passer de l'idée au terrain : 80% d'action, 20% de réflexion.">
+    <meta property="og:image" content="assets/images/logo-domtomconnect.png">
+    <meta property="og:type" content="book">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Guide Reader & Workbook Styles -->
+    <link rel="stylesheet" href="assets/css/guide-reader.css?v=14.0">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1C5QTWZFER');
+    </script>
+</head>
+<body>
+
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress-container">
+        <div id="reading-progress-bar" class="reading-progress-bar"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation (Table of Contents) -->
+        <aside class="guide-sidebar" id="guide-sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-brand">
+                    <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect Logo">
+                    <div>
+                        <div class="brand-title">Domtom Connect</div>
+                        <span class="brand-badge">Édition Tome 1</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-stats">
+                <div class="stats-label">
+                    <span>Progression du Guide</span>
+                    <span id="stats-percent">0% complété</span>
+                </div>
+                <div class="stats-bar-track">
+                    <div id="stats-bar-fill" class="stats-bar-fill"></div>
+                </div>
+            </div>
+
+            <!-- List of chapters rendered dynamically -->
+            <nav class="sidebar-toc" id="sidebar-toc-list">
+                <!-- Injected via JS -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="btn-export-workbook" class="btn-sidebar-action" title="Exporter mon plan d'action">
+                    <i class="fa-solid fa-file-export"></i> Mon Carnet de Bord
+                </button>
+                <a href="guide-entrepreneur.html" class="btn-sidebar-action" target="_blank" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.35); font-weight: 700;">
+                    <i class="fa-solid fa-gift"></i> Découvrir l'E-book & Outils
+                </a>
+                <a href="tremplin.html" class="btn-sidebar-action" target="_blank">
+                    <i class="fa-solid fa-rocket"></i> Découvrir Tremplin
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="guide-main">
+            <!-- Reader Top Bar -->
+            <header class="reader-topbar">
+                <div class="topbar-left">
+                    <button id="btn-toggle-sidebar" class="btn-toggle-sidebar" aria-label="Menu du sommaire">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <span id="topbar-breadcrumb" class="breadcrumb-chapter">Chargement du guide...</span>
+                    <button type="button" id="btn-topbar-sector-switch" class="topbar-sector-pill unselected" title="Cliquer pour choisir ou ajuster ta voie entrepreneuriale">
+                        <span class="pill-dot"></span>
+                        <span id="topbar-sector-name">✨ Choisis ta voie (au Ch. 5)</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size:0.75rem; margin-left:2px;"></i>
+                    </button>
+                </div>
+
+                <div class="topbar-right">
+                    <a href="guide-entrepreneur.html" class="btn-topbar-tool" title="Découvrir la Boîte à Outils" style="color: #10b981; font-weight: 700; border-color: rgba(16,185,129,0.3);">
+                        <i class="fa-solid fa-book"></i> <span style="display:inline-block; margin-left:4px;">L'E-book & Outils</span>
+                    </a>
+                    <button id="btn-theme-toggle" class="btn-topbar-tool" title="Mode Sombre / Clair">
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                    <a href="index.html" class="btn-topbar-tool" title="Retour au site principal">
+                        <i class="fa-solid fa-house"></i> Accueil
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dynamic Chapter Container -->
+            <div class="reader-container" id="chapter-content-container">
+                <!-- Injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Export Carnet de Bord -->
+    <div id="modal-export" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-book-bookmark"></i> Mon Carnet de Bord d'Entrepreneur</h3>
+                <button id="btn-modal-close" class="btn-modal-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modal-export-content">
+                <!-- Dynamically compiled answers -->
+            </div>
+            <div class="modal-footer">
+                <button id="btn-copy-export" class="btn-topbar-tool">
+                    <i class="fa-regular fa-copy"></i> Copier le texte
+                </button>
+                <button id="btn-print-export" class="btn-program primary">
+                    <i class="fa-solid fa-print"></i> Imprimer / Sauvegarder en PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sélection Globale de Voie Entrepreneuriale -->
+    <div id="modal-sector-selector" class="modal-backdrop">
+        <div class="modal-card sector-modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-layer-group" style="color:#10b981;"></i> Choisis Ta Voie Entrepreneuriale</h3>
+                <button id="btn-sector-modal-close" class="btn-modal-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p style="color:var(--text-secondary); margin-bottom:18px; font-size:0.95rem; line-height:1.5;">
+                    Sélectionne ton modèle économique ci-dessous. <strong>Tout le guide (exemples d'offres, calculs financiers, réseaux sociaux recommandés et questions du carnet)</strong> s'adaptera instantanément à ton choix :
+                </p>
+                <div class="sector-modal-grid">
+                    <button type="button" class="sector-modal-btn" data-sector-choice="physique">
+                        <div class="sector-modal-icon"><i class="fa-solid fa-bottle-droplet"></i></div>
+                        <div class="sector-modal-info">
+                            <h4>Voie 1 : Produits Physiques & Terroirs</h4>
+                            <p>Cosmétique, mode, usines, DIP & fret maritime.</p>
+                        </div>
+                    </button>
+                    <button type="button" class="sector-modal-btn" data-sector-choice="service">
+                        <div class="sector-modal-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                        <div class="sector-modal-info">
+                            <h4>Voie 2 : Services & Agence B2B</h4>
+                            <p>0€ de stock, closing direct en DM & 80%+ marge nette.</p>
+                        </div>
+                    </button>
+                    <button type="button" class="sector-modal-btn" data-sector-choice="digital">
+                        <div class="sector-modal-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        <div class="sector-modal-info">
+                            <h4>Voie 3 : Produits Digitaux & E-books</h4>
+                            <p>Marge brute > 95%, vente automatisée 24h/24 dans le monde.</p>
+                        </div>
+                    </button>
+                    <button type="button" class="sector-modal-btn" data-sector-choice="food">
+                        <div class="sector-modal-icon"><i class="fa-solid fa-utensils"></i></div>
+                        <div class="sector-modal-info">
+                            <h4>Voie 4 : Restauration, Food & Street-Food</h4>
+                            <p>Dark Kitchen, Click & Collect, HACCP & ratio matière &lt; 28%.</p>
+                        </div>
+                    </button>
+                    <button type="button" class="sector-modal-btn" data-sector-choice="commerce">
+                        <div class="sector-modal-icon"><i class="fa-solid fa-shop"></i></div>
+                        <div class="sector-modal-info">
+                            <h4>Voie 5 : Commerce & Achat-Revente</h4>
+                            <p>Boutique, grossistes, coefficient &gt; x2.2 & rotation de stock.</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Paywall Accès Complet -->
+    <div id="modal-paywall" class="modal-backdrop">
+        <div class="modal-card paywall-modal-card" style="max-width: 520px; text-align: center;">
+            <div class="modal-header" style="justify-content: flex-end; border-bottom: none; padding-bottom: 0;">
+                <button id="btn-paywall-close" class="btn-modal-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="padding-top: 0; padding-bottom: 24px;">
+                <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: #10b981; font-size: 1.5rem;">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 style="font-size: 1.4rem; font-weight: 900; color: #ffffff; margin-bottom: 10px;">Débloque la consultation complète</h3>
+                <p style="color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; margin-bottom: 24px;">
+                    Tu as terminé l'échantillon gratuit. Accède immédiatement aux <strong>27 chapitres</strong>, au carnet de bord interactif complet, aux simulateurs financiers et à l'export PDF personnalisé.
+                </p>
+
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
+                    <a href="https://buy.stripe.com/5kQ28qdpP6QI2205E97Re03" target="_blank" rel="noopener" class="btn-program primary" style="justify-content: center; font-size: 0.95rem; padding: 13px 20px; text-decoration: none;">
+                        <i class="fa-solid fa-bolt"></i> <span>Débloquer dès 27 € (Guide Solo)</span>
+                    </a>
+                    <a href="https://buy.stripe.com/9B6aEWetTcb25ec3w17Re04" target="_blank" rel="noopener" class="btn-program" style="justify-content: center; font-size: 0.9rem; background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); text-decoration: none;">
+                        <i class="fa-solid fa-rocket"></i> <span>Rejoindre le Pack Fondateur (47 €)</span>
+                    </a>
+                </div>
+
+                <div style="border-top: 1px solid var(--border-subtle); padding-top: 15px; margin-top: 15px;">
+                    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px;">Déjà client ou accès créateur ?</p>
+                    <button type="button" id="btn-unlock-code" style="background: none; border: none; color: var(--accent); font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: underline;">
+                        Entrer mon code d'accès
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/data/guide-tome1.js?v=14.0"></script>
+    <script src="assets/js/guide-reader.js?v=14.0"></script>
+</body>
+</html>
