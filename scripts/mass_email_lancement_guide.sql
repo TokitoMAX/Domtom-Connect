@@ -1,6 +1,8 @@
 -- ============================================================
 -- mass_email_lancement_guide.sql – Domtom Connect
 -- Envoi de l'Email de Lancement Officiel du Guide Tome 1 à toute la base
+-- Format : Standard HTML classique, 100% compatible tous clients mail
+-- Règle : STRICTEMENT AUCUN ÉMOJI (sujet et corps)
 -- ============================================================
 -- MODE D'EMPLOI :
 -- 1. Vérifier votre quota Brevo (300 emails/jour sur plan gratuit, ou illimité sur plan payant)
@@ -16,14 +18,14 @@ DECLARE
     email_body      TEXT;
     first_name      TEXT;
 BEGIN
-    -- Sujet percutant et engageant
-    email_subject := 'Nouveau : Les Fondamentaux de l''Entrepreneur (Tome 1) est disponible';
+    -- Sujet standard et professionnel (aucun émoji)
+    email_subject := 'Nouveau sur Domtom Connect : Guide de l''Entrepreneur (Tome 1)';
 
     -- Boucle sur tous les utilisateurs actifs avec email confirmé
     FOR rec IN
         SELECT
             au.email,
-            COALESCE(p.full_name, 'Entrepreneur') AS full_name
+            COALESCE(p.full_name, 'Membre du réseau') AS full_name
         FROM auth.users au
         LEFT JOIN public.profiles p ON p.id = au.id
         WHERE au.email IS NOT NULL
@@ -34,109 +36,185 @@ BEGIN
         -- Extraction du prénom pour personnalisation
         first_name := split_part(rec.full_name, ' ', 1);
         IF first_name = '' OR first_name IS NULL THEN
-            first_name := 'Cher entrepreneur';
+            first_name := 'Membre du réseau';
         END IF;
 
-        -- Corps de l'email responsive aux couleurs officielles Domtom Connect
+        -- Format email HTML classique 600px, fond clair, styles inline, 100% compatible (Outlook, Gmail, Apple Mail)
         email_body := '
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lancement Guide de l''Entrepreneur — Tome 1</title>
+  <title>Guide de l''Entrepreneur - Tome 1</title>
 </head>
-<body style="margin:0; padding:0; background-color:#020617; font-family: -apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, Helvetica, Arial, sans-serif; color:#f8fafc;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#020617; padding: 40px 15px;">
+<body style="margin:0; padding:0; background-color:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing:antialiased;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; padding:40px 15px;">
     <tr>
       <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background-color:#0b1329; border:1px solid rgba(16, 185, 129, 0.3); border-radius:20px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.5);">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;">
 
-          <!-- En-tête -->
+          <!-- En-tete sombre et sobre -->
           <tr>
-            <td style="background: linear-gradient(135deg, #0b1329 0%, #020617 100%); padding: 36px 30px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.08);">
-              <span style="background: rgba(16, 185, 129, 0.15); color:#10b981; border:1px solid rgba(16, 185, 129, 0.4); padding:6px 16px; border-radius:100px; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; display:inline-block; margin-bottom:14px;">
-                Nouveauté Officielle · Domtom Connect
-              </span>
-              <h1 style="margin:0; color:#ffffff; font-size:1.65rem; font-weight:900; line-height:1.25; letter-spacing:-0.02em;">
-                Les Fondamentaux de l''Entrepreneur <br>
-                <span style="color:#10b981;">Tome 1 · Édition 2026</span>
+            <td style="background-color:#0f172a; border-radius:16px 16px 0 0; padding:32px 40px; text-align:center;">
+              <p style="margin:0; color:#10b981; font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;">
+                Domtom Connect - La Boutique
+              </p>
+              <h1 style="margin:12px 0 0 0; color:#ffffff; font-size:1.75rem; font-weight:800; letter-spacing:-0.03em; line-height:1.3;">
+                Les Fondamentaux de l''Entrepreneur<br>
+                <span style="color:#10b981;">Tome 1 - Edition 2026</span>
               </h1>
             </td>
           </tr>
 
-          <!-- Visuel Mockup du Livre -->
+          <!-- Corps principal blanc -->
           <tr>
-            <td align="center" style="padding: 28px 20px 10px; background-color:#0b1329;">
-              <a href="https://domtomconnect.com/guide-entrepreneur.html" target="_blank" style="text-decoration:none;">
-                <img src="https://domtomconnect.com/assets/images/bundle-mockup-tome1.jpg" alt="Guide de l''Entrepreneur Domtom Connect" width="460" style="max-width:100%; height:auto; border-radius:14px; border:1px solid rgba(16,185,129,0.3); box-shadow:0 10px 30px rgba(0,0,0,0.6); display:block;">
-              </a>
-            </td>
-          </tr>
+            <td style="background-color:#ffffff; padding:40px; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0;">
 
-          <!-- Corps du Message -->
-          <tr>
-            <td style="padding: 24px 34px; font-size:1rem; line-height:1.7; color:#cbd5e1;">
-              <p style="margin-top:0; font-size:1.1rem; color:#ffffff;">
-                Bonjour <strong>' || first_name || '</strong>,
+              <p style="margin:0 0 24px 0; font-size:1.05rem; color:#334155; line-height:1.7;">
+                Bonjour ' || first_name || ',
               </p>
 
-              <p>
-                On a tous vu passer des cours en ligne de 40 heures conçus pour des marchés saturés, où l''on te conseille de lever des millions avant même d''avoir validé ta première vente.
+              <p style="margin:0 0 20px 0; font-size:1rem; color:#334155; line-height:1.7;">
+                Lancer une activite rentable aux Antilles, en Guyane, a La Reunion, en Afrique ou au sein de la diaspora exige une approche adaptee. Les realites locales (fret, octroi de mer, taille de marche, circuits courts) ne s''improvisent pas avec des cours purement theoriques.
               </p>
 
-              <p>
-                Sur nos territoires — <strong>aux Antilles, en Guyane, à La Réunion, en Afrique ou au sein de la diaspora</strong> — la réalité est différente. Il y a le fret, l''octroi de mer, la proximité du réseau local et la nécessité absolue d''être rentable tout de suite.
+              <p style="margin:0 0 24px 0; font-size:1rem; color:#334155; line-height:1.7;">
+                C''est pourquoi nous venons de publier officiellement <strong>Les Fondamentaux de l''Entrepreneur (Tome 1)</strong>. Concu comme une veritable consultation numerique pas-a-pas, ce guide interactif vous permet de batir et valider votre offre sur le terrain.
               </p>
 
-              <p>
-                C''est pour cette raison exacte que nous avons conçu <strong>Les Fondamentaux de l''Entrepreneur — Tome 1</strong> : la toute première consultation numérique en 27 étapes d''action sur le terrain.
-              </p>
-
-              <!-- Points Clés -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 24px 0; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px 20px;">
+              <!-- Apercu Visuel -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
                 <tr>
-                  <td style="color:#cbd5e1; font-size:0.95rem; line-height:1.6;">
-                    <div style="margin-bottom:10px;"><strong style="color:#10b981;">✓ 27 Chapitres Pratiques :</strong> 80% d''action, 20% de réflexion pour construire ton offre et la tester.</div>
-                    <div style="margin-bottom:10px;"><strong style="color:#10b981;">✓ Carnet de Bord Interactif :</strong> Tes réponses sont sauvegardées en temps réel dans ton navigateur.</div>
-                    <div style="margin-bottom:10px;"><strong style="color:#10b981;">✓ Simulateur Financier :</strong> Calcule ton point mort, tes marges et ton rythme de vente au centime près.</div>
-                    <div><strong style="color:#10b981;">✓ Export PDF Personnalisé :</strong> Repars avec ton plan d''action 30 jours complet et structuré.</div>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Tarif de lancement -->
-              <p style="text-align:center; margin: 26px 0 16px;">
-                <span style="font-size:0.85rem; color:#94a3b8; text-transform:uppercase; letter-spacing:0.06em; display:block;">Tarif Spécial Lancement</span>
-                <span style="font-size:2rem; font-weight:900; color:#ffffff;">27 €</span>
-                <span style="font-size:1.1rem; color:#64748b; text-decoration:line-through; margin-left:8px;">47 €</span>
-              </p>
-
-              <!-- Bouton CTA -->
-              <table width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td align="center" style="padding: 10px 0 20px;">
-                    <a href="https://domtomconnect.com/guide-entrepreneur.html" target="_blank" style="background:#10b981; color:#020617; font-weight:900; font-size:1.05rem; padding:16px 36px; border-radius:12px; text-decoration:none; display:inline-block; box-shadow:0 8px 24px rgba(16,185,129,0.35);">
-                      Découvrir le Guide & Débloquer mon Accès &rarr;
+                  <td align="center">
+                    <a href="https://domtomconnect.com/guide-entrepreneur.html" target="_blank" style="text-decoration:none; display:block;">
+                      <img src="https://domtomconnect.com/assets/images/bundle-mockup-tome1.jpg" alt="Guide Tome 1 Domtom Connect" width="520" style="max-width:100%; height:auto; border-radius:10px; border:1px solid #e2e8f0; display:block;">
                     </a>
                   </td>
                 </tr>
               </table>
 
-              <p style="font-size:0.85rem; color:#94a3b8; text-align:center; margin-bottom:0;">
-                Accès immédiat à vie · Mises à jour incluses · Compatible smartphone, tablette et PC
+              <p style="margin:0 0 20px 0; font-size:1rem; font-weight:700; color:#0f172a;">
+                Ce que contient cette premiere edition :
               </p>
+
+              <!-- Liste des fonctionnalites avec puces table standard (sans emoji) -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+                <tr>
+                  <td style="padding:12px 0; border-bottom:1px solid #f1f5f9; vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="width:32px; vertical-align:top; padding-top:2px;">
+                          <div style="width:8px; height:8px; background-color:#10b981; border-radius:50%; margin-top:6px;"></div>
+                        </td>
+                        <td>
+                          <strong style="color:#0f172a; font-size:0.95rem;">27 chapitres d''action concrets</strong>
+                          <p style="margin:4px 0 0 0; color:#64748b; font-size:0.875rem; line-height:1.5;">80% d''exercices et 20% de reflexion pour passer a l''action des aujourd''hui.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:12px 0; border-bottom:1px solid #f1f5f9; vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="width:32px; vertical-align:top; padding-top:2px;">
+                          <div style="width:8px; height:8px; background-color:#10b981; border-radius:50%; margin-top:6px;"></div>
+                        </td>
+                        <td>
+                          <strong style="color:#0f172a; font-size:0.95rem;">Carnet de bord interactif integre</strong>
+                          <p style="margin:4px 0 0 0; color:#64748b; font-size:0.875rem; line-height:1.5;">Toutes vos reponses et plans strategiques sont sauvegardes dans votre navigateur.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:12px 0; border-bottom:1px solid #f1f5f9; vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="width:32px; vertical-align:top; padding-top:2px;">
+                          <div style="width:8px; height:8px; background-color:#10b981; border-radius:50%; margin-top:6px;"></div>
+                        </td>
+                        <td>
+                          <strong style="color:#0f172a; font-size:0.95rem;">Simulateur financier de rentabilite</strong>
+                          <p style="margin:4px 0 0 0; color:#64748b; font-size:0.875rem; line-height:1.5;">Calcul automatique de votre point mort, volume de ventes et marge brute.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:12px 0; vertical-align:top;">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="width:32px; vertical-align:top; padding-top:2px;">
+                          <div style="width:8px; height:8px; background-color:#10b981; border-radius:50%; margin-top:6px;"></div>
+                        </td>
+                        <td>
+                          <strong style="color:#0f172a; font-size:0.95rem;">Export PDF personnalise de votre feuille de route</strong>
+                          <p style="margin:4px 0 0 0; color:#64748b; font-size:0.875rem; line-height:1.5;">Telechargez et imprimez votre plan d''action 30 jours directement finalise.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Encadre Tarif de Lancement -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:22px; margin-bottom:28px; text-align:center;">
+                <tr>
+                  <td align="center">
+                    <p style="margin:0 0 6px 0; font-size:0.75rem; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:0.1em;">
+                      Offre Speciale de Lancement
+                    </p>
+                    <p style="margin:0; font-size:2rem; font-weight:800; color:#0f172a; line-height:1.2;">
+                      27 EUR
+                      <span style="font-size:1.1rem; color:#94a3b8; text-decoration:line-through; font-weight:400; margin-left:8px;">47 EUR</span>
+                    </p>
+                    <p style="margin:8px 0 0 0; font-size:0.85rem; color:#64748b;">
+                      Acces immediat et illimite - Mises a jour a vie incluses
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bouton CTA Principal (standard table button, compatible Outlook & Mobile) -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+                <tr>
+                  <td align="center">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td align="center" style="background-color:#10b981; border-radius:10px;">
+                          <a href="https://domtomconnect.com/guide-entrepreneur.html" target="_blank" style="display:inline-block; padding:16px 36px; font-family:-apple-system, BlinkMacSystemFont, ''Segoe UI'', Roboto, Helvetica, Arial, sans-serif; font-size:1rem; font-weight:700; color:#ffffff; text-decoration:none; border-radius:10px;">
+                            Consulter la Boutique et Debloquer l''Acces
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0; font-size:0.85rem; color:#64748b; text-align:center; line-height:1.5;">
+                Consultable instantanement sur smartphone, tablette et ordinateur.
+              </p>
+
             </td>
           </tr>
 
-          <!-- Pied de page -->
+          <!-- Pied de page classique -->
           <tr>
-            <td style="background-color:#020617; border-top:1px solid rgba(255,255,255,0.06); padding: 24px 30px; text-align:center;">
+            <td style="background-color:#f1f5f9; border-radius:0 0 16px 16px; border:1px solid #e2e8f0; border-top:none; padding:24px 40px; text-align:center;">
               <p style="margin:0 0 6px 0; font-size:0.8rem; color:#64748b;">
-                Domtom Connect — L''écosystème entrepreneurial des Caraïbes, de l''Afrique et de la diaspora.
+                Domtom Connect - La plateforme des entrepreneurs d''Outre-Mer et de la diaspora.
               </p>
-              <p style="margin:0; font-size:0.75rem; color:#475569;">
-                Pour modifier vos préférences ou nous poser une question : <a href="mailto:contact@domtomconnect.com" style="color:#10b981; text-decoration:none;">contact@domtomconnect.com</a>
+              <p style="margin:0; font-size:0.75rem; color:#94a3b8;">
+                Pour toute question ou assistance, repondez directement a cet email ou ecrivez a : <a href="mailto:contact@domtomconnect.com" style="color:#10b981; text-decoration:none;">contact@domtomconnect.com</a>
               </p>
             </td>
           </tr>
@@ -165,6 +243,6 @@ BEGIN
 
     END LOOP;
 
-    RAISE NOTICE 'Campagne de lancement envoyée avec succès à % entrepreneurs.', user_count;
+    RAISE NOTICE 'Campagne de lancement envoyee avec succes a % utilisateurs.', user_count;
 END;
 $$;
