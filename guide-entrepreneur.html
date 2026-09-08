@@ -59,14 +59,15 @@
             font-size: 16px;
         }
 
-        /* Top Bar */
+        /* Top Bar - Elegant Dark Theme */
         .ecom-topbar {
-            background: linear-gradient(90deg, #047857 0%, #10b981 50%, #059669 100%);
-            color: #020617;
-            padding: 10px 20px;
+            background: #090e1f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 9px 20px;
             text-align: center;
-            font-size: 0.88rem;
-            font-weight: 800;
+            font-size: 0.82rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -74,13 +75,23 @@
         }
 
         .ecom-topbar span.pill {
-            background: #020617;
-            color: #ffffff;
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.35);
             padding: 2px 10px;
             border-radius: 999px;
             font-size: 0.72rem;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+
+        .topbar-text-mobile {
+            display: none;
+        }
+
+        .topbar-text-desktop {
+            display: inline;
         }
 
         /* Navbar */
@@ -1047,7 +1058,28 @@
             color: var(--accent);
         }
 
-        /* Responsive */
+        /* Sticky Mobile Buy Bar Base */
+        .mobile-sticky-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.65);
+            padding: 12px 18px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            z-index: 9999;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        /* Responsive Breakpoints */
         @media (max-width: 900px) {
             .hero-container {
                 grid-template-columns: 1fr;
@@ -1059,14 +1091,14 @@
             }
             .hero-specs-grid {
                 grid-template-columns: 1fr;
-                max-width: 360px;
+                max-width: 420px;
                 margin: 0 auto;
             }
             .contrast-grid {
                 grid-template-columns: 1fr;
             }
             .phases-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
             }
             .transformation-grid {
                 grid-template-columns: 1fr;
@@ -1090,23 +1122,287 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding-bottom: 85px;
+            }
             .mobile-sticky-bar {
                 display: flex;
             }
-            body {
-                padding-bottom: 75px;
-            }
-        }
 
-        @media (max-width: 600px) {
+            /* Hide topbar on mobile for clean immediate viewport */
+            .ecom-topbar {
+                display: none !important;
+            }
+
+            .ecom-nav {
+                padding: 12px 16px;
+            }
+            .nav-brand-logo img {
+                height: 32px;
+            }
+            .nav-brand-logo .brand-text {
+                font-size: 1rem;
+            }
+            .nav-brand-logo .brand-badge {
+                font-size: 0.68rem;
+                padding: 2px 6px;
+            }
+            /* Hide top CTA button on mobile: sticky bottom bar handles it elegantly */
+            .btn-nav-cta {
+                display: none !important;
+            }
+
+            /* Punchy Hero Section */
+            .product-hero {
+                padding: 32px 16px 44px;
+            }
+            .hero-badge-pill {
+                font-size: 0.74rem;
+                padding: 5px 12px;
+                margin-bottom: 14px;
+            }
+            .hero-headline {
+                font-size: 1.85rem;
+                line-height: 1.22;
+                margin-bottom: 14px;
+                letter-spacing: -0.02em;
+            }
+            .hero-subheadline {
+                font-size: 0.96rem;
+                line-height: 1.6;
+                margin-bottom: 22px;
+            }
+            .hero-buttons-row {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+            .btn-hero-buy, .btn-hero-demo {
+                width: 100%;
+                justify-content: center;
+                padding: 15px 20px;
+                font-size: 1rem;
+                border-radius: var(--radius-sm);
+            }
+            .hero-specs-grid {
+                width: 100%;
+                max-width: 100%;
+                gap: 8px;
+            }
+            .spec-item-box {
+                font-size: 0.84rem;
+                padding: 8px 12px;
+                justify-content: flex-start;
+                text-align: left;
+            }
+
+            /* 3D Mockup on Mobile: Clean Flat Presentation, no distortion */
+            .showcase-3d-wrapper {
+                perspective: none !important;
+                margin-top: 14px;
+            }
+            .showcase-3d-card {
+                transform: none !important;
+                max-width: 300px !important;
+                margin: 0 auto;
+                border-radius: 16px !important;
+                border: 1px solid rgba(255, 255, 255, 0.12) !important;
+                box-shadow: 0 16px 45px rgba(0, 0, 0, 0.75) !important;
+            }
+            .showcase-floating-badge {
+                display: none !important;
+            }
+
+            /* Section Spacing & Headings */
+            .section-wrap {
+                padding: 42px 16px;
+            }
+            .section-header-center {
+                margin-bottom: 26px;
+            }
+            .section-header-center h2 {
+                font-size: 1.55rem;
+                line-height: 1.25;
+            }
+            .section-header-center p {
+                font-size: 0.92rem;
+                line-height: 1.6;
+            }
+            .section-tag {
+                font-size: 0.72rem;
+                padding: 4px 12px;
+                margin-bottom: 10px;
+            }
+
+            /* Contrast & Value Prop Cards */
+            .contrast-grid {
+                gap: 16px;
+                margin-top: 20px;
+            }
+            .contrast-box {
+                padding: 22px 16px;
+                border-radius: var(--radius-md);
+            }
+            .contrast-box.bad {
+                background: rgba(15, 23, 42, 0.5) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            }
+            .contrast-box.good {
+                background: rgba(15, 23, 42, 0.85) !important;
+                border: 1px solid rgba(16, 185, 129, 0.35) !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+            }
+            .contrast-header {
+                gap: 10px;
+                margin-bottom: 14px;
+            }
+            .contrast-header h3 {
+                font-size: 1.12rem;
+            }
+            .contrast-list {
+                gap: 11px;
+            }
+            .contrast-list li {
+                font-size: 0.88rem;
+                line-height: 1.5;
+                gap: 10px;
+            }
+
+            /* 4 Phases Action Cards */
             .phases-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .phase-card {
+                padding: 20px 18px;
+                gap: 8px;
+                border-radius: var(--radius-md);
+            }
+            .phase-card h4 {
+                font-size: 1.1rem;
+            }
+            .phase-card p {
+                font-size: 0.86rem;
+                line-height: 1.55;
+            }
+
+            /* Transformation Cards */
+            .transformation-grid {
+                gap: 16px;
+            }
+            .transfo-card {
+                padding: 22px 18px;
+                border-radius: var(--radius-md);
+                gap: 14px;
+            }
+            .transfo-card h3 {
+                font-size: 1.18rem;
+            }
+            .transfo-list {
+                gap: 12px;
+            }
+            .transfo-list li {
+                font-size: 0.88rem;
+                line-height: 1.5;
+                gap: 10px;
+            }
+            .transfo-banner {
+                margin-top: 20px;
+                padding: 20px 16px;
+                text-align: center;
+                align-items: center;
+                gap: 16px;
+            }
+            .transfo-banner-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+            }
+
+            /* Reviews / Testimonials */
+            .reviews-grid {
+                gap: 16px;
+            }
+            .review-card {
+                padding: 20px 18px;
+                border-radius: var(--radius-md);
+                gap: 14px;
+            }
+            .review-quote {
+                font-size: 0.88rem;
+                line-height: 1.55;
+            }
+
+            /* Pricing Cards */
+            .pricing-grid {
+                gap: 20px;
             }
             .pricing-card {
-                padding: 30px 20px;
+                padding: 26px 18px;
+                border-radius: var(--radius-md);
+            }
+            .pricing-plan-title {
+                font-size: 1.3rem;
+            }
+            .pricing-plan-desc {
+                font-size: 0.88rem;
+                min-height: auto;
+                margin-bottom: 16px;
+            }
+            .pricing-price-wrap {
+                margin-bottom: 18px;
+                padding-bottom: 16px;
             }
             .price-amount {
-                font-size: 2.7rem;
+                font-size: 2.6rem;
+            }
+            .price-original {
+                font-size: 1.25rem;
+            }
+            .pricing-features-list {
+                gap: 11px;
+                margin-bottom: 24px;
+            }
+            .pricing-features-list li {
+                font-size: 0.88rem;
+                line-height: 1.45;
+                gap: 10px;
+            }
+            .btn-pricing-cta {
+                padding: 15px 20px;
+                font-size: 0.98rem;
+                border-radius: var(--radius-sm);
+            }
+            .security-guarantee-box {
+                margin-top: 24px;
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                font-size: 0.82rem;
+            }
+
+            /* FAQ */
+            .faq-accordion {
+                gap: 12px;
+            }
+            .faq-item {
+                padding: 16px 16px;
+                border-radius: var(--radius-sm);
+            }
+            .faq-question {
+                font-size: 0.95rem;
+            }
+            .faq-answer {
+                font-size: 0.88rem;
+                line-height: 1.55;
+                margin-top: 10px;
+            }
+
+            /* Footer */
+            .ecom-footer {
+                padding: 40px 16px 20px;
             }
         }
     </style>
@@ -1115,8 +1411,9 @@
 
     <!-- Top Notification Bar -->
     <div class="ecom-topbar">
-        <span class="pill">Offre de Lancement 2026</span>
-        <span>Accès Immédiat à Vie &amp; Mises à Jour Incluses pour les Membres Fondateurs</span>
+        <span class="pill">Offre 2026</span>
+        <span class="topbar-text-desktop">Accès Immédiat à Vie &amp; Mises à Jour Incluses pour les Membres Fondateurs</span>
+        <span class="topbar-text-mobile">Tarif Spécial 27 € au lieu de 47 €</span>
     </div>
 
     <!-- Navigation Bar -->
@@ -1129,7 +1426,6 @@
             </a>
 
             <div class="nav-links-desktop">
-                <a href="#transformation">Transformation</a>
                 <a href="#programme">Le Programme (27 Ch.)</a>
                 <a href="#methode">La Méthode</a>
                 <a href="#tarifs">Tarifs</a>
@@ -1149,43 +1445,43 @@
         <div class="hero-container">
             <div class="hero-text-col">
                 <span class="hero-badge-pill">
-                    <i class="fa-solid fa-gem"></i> Consultation 1-on-1 &amp; Guide Interactif
+                    <i class="fa-solid fa-book-bookmark"></i> Tome 1 · Édition 2026
                 </span>
                 <h1 class="hero-headline">
                     Transforme ton idée en business rentable, <br>
                     <span class="green-accent">sans excuse et sans gros budget</span>
                 </h1>
                 <p class="hero-subheadline">
-                    Le premier système numérique <strong>80% action et 20% réflexion</strong> taillé pour les Antilles, la Guyane, La Réunion, l'Afrique et les diasporas : 27 chapitres de consultation pas-à-pas, ton carnet de bord sauvegardé automatiquement et ton simulateur financier en direct.
+                    Le premier guide numérique <strong>80% action et 20% réflexion</strong> taillé pour les réalités du terrain aux Antilles, en Guyane, à La Réunion, en Afrique et dans les diasporas : 27 chapitres opérationnels, carnet de bord sauvegardé en direct et simulateur financier de rentabilité.
                 </p>
 
                 <div class="hero-buttons-row">
                     <a href="#tarifs" class="btn-hero-buy">
-                        <span>Rejoindre la Consultation (Dès 27 €)</span>
+                        <span>Débloquer le Guide (Dès 27 €)</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <a href="guide.html#couverture" class="btn-hero-demo">
-                        <i class="fa-solid fa-book-open"></i>
-                        <span>Explorer la Démo en Direct</span>
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Explorer l'Échantillon Gratuit</span>
                     </a>
                 </div>
 
                 <div class="hero-specs-grid">
                     <div class="spec-item-box">
                         <i class="fa-solid fa-layer-group"></i>
-                        <span>27 Chapitres de consultation terrain</span>
+                        <span>27 Chapitres d'action terrain</span>
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-floppy-disk"></i>
-                        <span>Carnet de bord à sauvegarde automatique</span>
+                        <span>Carnet de bord interactif intégré</span>
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-calculator"></i>
-                        <span>Simulateur financier de rentabilité en direct</span>
+                        <span>Simulateur financier de rentabilité</span>
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-file-pdf"></i>
-                        <span>Export PDF de ton plan d'action personnalisé</span>
+                        <span>Export PDF de ta feuille de route</span>
                     </div>
                 </div>
             </div>
@@ -1286,171 +1582,9 @@
         </div>
     </section>
 
-    <!-- Transformation Section (Avant / Après) -->
-    <section class="transformation-section" id="transformation">
-        <div class="section-header-center">
-            <span class="section-tag">La Valeur Concrète</span>
-            <h2>Ta transformation après les 27 chapitres</h2>
-            <p>
-                Ce n'est pas de la théorie à mémoriser. C'est une métamorphose opérationnelle de ton projet entre le jour où tu commences et le jour où tu encaisses tes premiers clients.
-            </p>
-        </div>
 
-        <div class="transformation-grid">
-            <!-- Avant -->
-            <div class="transfo-card before">
-                <span class="transfo-badge">
-                    <i class="fa-solid fa-hourglass-half"></i> Avant la consultation
-                </span>
-                <h3>Le flou, les doutes et la procrastination</h3>
-                <ul class="transfo-list">
-                    <li>
-                        <i class="fa-solid fa-xmark"></i>
-                        <span><strong>Idée confuse :</strong> Tu as envie d'entreprendre mais tu ne sais pas par quel bout commencer ni quoi vendre exactement.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-xmark"></i>
-                        <span><strong>Peur des pièges locaux :</strong> Les contraintes de fret, d'octroi de mer, de TVA et de trésorerie te paraissent insurmontables.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-xmark"></i>
-                        <span><strong>Dispersion stérile :</strong> Tu passes des heures à peaufiner des logos ou à poster sur les réseaux sans offre structurée ni stratégie d'encaissement.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-xmark"></i>
-                        <span><strong>Calculs à l'aveugle :</strong> Aucune idée de ton seuil de rentabilité, de ton pricing ou du montant exact qu'il te faut pour te verser un revenu.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-xmark"></i>
-                        <span><strong>Sentiment d'isolement :</strong> Tu te retrouves seul face à tes blocages, sans méthode éprouvée pour franchir le pas.</span>
-                    </li>
-                </ul>
-            </div>
 
-            <!-- Après -->
-            <div class="transfo-card after">
-                <span class="transfo-badge">
-                    <i class="fa-solid fa-circle-check"></i> Après la consultation
-                </span>
-                <h3>La clarté absolue et une machine prête à encaisser</h3>
-                <ul class="transfo-list">
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        <span><strong>Une offre irrésistible en main :</strong> Ton positionnement est tranché, testé auprès de ton avatar client idéal avec une proposition de valeur unique.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        <span><strong>Le bon véhicule économique validé :</strong> Tu as choisi parmi les 5 voies celui qui correspond précisément à tes compétences et à ton budget initial (même à 0 €).</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        <span><strong>Système d'encaissement actif :</strong> Ta stack minimale (WhatsApp Business, Stripe / Wave / SumUp) est en place pour transformer les contacts en clients payants.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        <span><strong>Rentabilité maîtrisée au centime près :</strong> Grâce au simulateur financier, tu connais ton point mort, tes marges et le nombre exact de ventes mensuelles nécessaires.</span>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-check"></i>
-                        <span><strong>Feuille de route de 30 jours exportée :</strong> Tu repars avec ton plan d'action personnalisé en PDF pour lancer ton premier mois avec discipline et sérénité.</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
-        <div class="transfo-banner">
-            <div class="transfo-banner-text">
-                <i class="fa-solid fa-rocket"></i>
-                <span>En 30 jours, tu passes du rôle d'observateur indécis à celui d'entrepreneur qui exécute et génère ses premières ventes.</span>
-            </div>
-            <a href="#tarifs" class="transfo-banner-btn">
-                <span>Passer à l'action dès 27 €</span>
-                <i class="fa-solid fa-arrow-right"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Reviews / Social Proof Section -->
-    <section class="reviews-section" id="temoignages">
-        <div class="section-header-center">
-            <span class="section-tag">Retours d'Expérience Terrain</span>
-            <h2>Ce qu'en disent les entrepreneurs des territoires</h2>
-            <p>
-                Des porteurs de projets et dirigeants qui sont passés de l'hésitation à l'exécution avec la méthode Domtom Connect.
-            </p>
-        </div>
-
-        <div class="reviews-grid">
-            <!-- Review 1 -->
-            <div class="review-card">
-                <div>
-                    <div class="review-stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-quote" style="margin-top: 14px;">
-                        « Ce qui m'a débloquée, c'est le calcul du fret et de l'octroi de mer dès le départ. J'ai arrêté d'essayer de concurrencer les importateurs sur les prix pour me positionner sur le haut de gamme local. Mon premier stock s'est vendu en 10 jours. »
-                    </p>
-                </div>
-                <div class="review-author">
-                    <div class="review-avatar">AM</div>
-                    <div class="review-meta">
-                        <h4>Aurélie M.</h4>
-                        <span>Cosmétique &amp; Terroir · Martinique</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Review 2 -->
-            <div class="review-card">
-                <div>
-                    <div class="review-stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-quote" style="margin-top: 14px;">
-                        « Le chapitre sur le closing en DM et la proposition de valeur en une phrase est redoutable. J'ai signé 2 contrats d'accompagnement à 850 € sans site web complexe, juste avec WhatsApp Business et mon lien Stripe. »
-                    </p>
-                </div>
-                <div class="review-author">
-                    <div class="review-avatar">YK</div>
-                    <div class="review-meta">
-                        <h4>Yannick K.</h4>
-                        <span>Conseil B2B · Dakar &amp; Diaspora Paris</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Review 3 -->
-            <div class="review-card">
-                <div>
-                    <div class="review-stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="review-quote" style="margin-top: 14px;">
-                        « Le simulateur financier de rentabilité est une pépite. En 5 minutes j'ai compris quel était mon seuil d'équilibre et combien de ventes quotidiennes je devais faire. La clarté remplace enfin le stress. »
-                    </p>
-                </div>
-                <div class="review-author">
-                    <div class="review-avatar">SL</div>
-                    <div class="review-meta">
-                        <h4>Stéphane L.</h4>
-                        <span>Produits Digitaux · La Réunion</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Pricing Section (2 Paliers Clairs) -->
     <section class="pricing-section" id="tarifs">
