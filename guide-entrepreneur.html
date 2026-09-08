@@ -1037,6 +1037,591 @@
             transform: rotate(180deg);
         }
 
+        /* ========================================================
+           Impact Metrics Bar (Chiffres Chocs)
+           ======================================================== */
+        .impact-metrics-wrap {
+            max-width: 1220px;
+            margin: -35px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .impact-metrics-bar {
+            background: linear-gradient(135deg, rgba(17, 30, 56, 0.95) 0%, rgba(11, 19, 41, 0.98) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(16, 185, 129, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 24px 36px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: center;
+            gap: 24px;
+            backdrop-filter: blur(16px);
+        }
+
+        .impact-metric-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .metric-number {
+            font-size: 2.6rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+            flex-shrink: 0;
+        }
+
+        .metric-info strong {
+            display: block;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+
+        .metric-info span {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+
+        .metric-divider {
+            width: 1px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ========================================================
+           Interactive 3-in-1 Visual Selector
+           ======================================================== */
+        .interactive-preview-section {
+            padding: 20px 20px 70px;
+        }
+
+        .preview-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--bg-surface);
+            border: 1px solid rgba(16, 185, 129, 0.28);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(16, 185, 129, 0.1);
+            overflow: hidden;
+        }
+
+        /* Tab Navigation */
+        .preview-tabs-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: rgba(2, 6, 23, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px;
+            gap: 8px;
+        }
+
+        .preview-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            padding: 14px 18px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .preview-tab-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .preview-tab-btn.active {
+            background: rgba(16, 185, 129, 0.14);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+        }
+
+        .preview-tab-pane {
+            display: none;
+            padding: 34px 36px;
+            animation: fadeInTab 0.25s ease forwards;
+        }
+
+        .preview-tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tab 1: Guide Chapters Layout */
+        .guide-preview-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .guide-preview-sidebar {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 16px;
+        }
+
+        .sidebar-header {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-chapter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .preview-chapter-list li {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            transition: all 0.18s ease;
+        }
+
+        .preview-chapter-list li:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .preview-chapter-list li.active {
+            background: rgba(16, 185, 129, 0.15);
+            color: #ffffff;
+            font-weight: 700;
+            border-left: 3px solid #10b981;
+        }
+
+        .chap-badge {
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+        .guide-preview-body {
+            background: rgba(2, 6, 23, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+        }
+
+        .preview-body-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 16px;
+        }
+
+        .body-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #10b981;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .preview-body-header h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+
+        .body-time {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .preview-body-text {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .preview-checklist-card {
+            background: rgba(11, 19, 41, 0.7);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+        }
+
+        .checklist-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.88rem;
+            color: #e2e8f0;
+            cursor: pointer;
+            margin-bottom: 10px;
+            line-height: 1.45;
+            user-select: none;
+        }
+
+        .preview-check-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .preview-check-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #10b981;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Tab 2: Carnet Interactif */
+        .carnet-interactive-demo {
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 26px 30px;
+        }
+
+        .carnet-demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .carnet-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .live-dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+            animation: pulseGlow 1.5s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .carnet-sync-badge {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .carnet-label span {
+            display: block;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .carnet-label small {
+            display: block;
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+
+        .carnet-textarea {
+            width: 100%;
+            background: #020617;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            color: #f8fafc;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            margin-bottom: 14px;
+        }
+
+        .carnet-textarea:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .carnet-footer-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .char-count {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .carnet-tip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 14px;
+            border-radius: 8px;
+        }
+
+        /* Tab 3: Simulateur Financier */
+        .sim-interactive-demo {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .sim-inputs-col {
+            background: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-md);
+            padding: 24px 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .sim-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sim-control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .sim-highlight {
+            color: #10b981;
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+
+        .sim-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.12);
+            outline: none;
+            accent-color: #10b981;
+            cursor: pointer;
+        }
+
+        .sim-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            border: 2px solid #ffffff;
+        }
+
+        .slider-ticks {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: #64748b;
+        }
+
+        .sim-output-col {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sim-result-box {
+            background: linear-gradient(145deg, rgba(16, 185, 129, 0.12) 0%, rgba(11, 19, 41, 0.9) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .sim-result-sub {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .sim-ca-monthly {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .sim-ca-monthly span {
+            font-size: 1rem;
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .sim-ca-annual {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sim-ca-annual strong {
+            color: #34d399;
+            font-weight: 900;
+        }
+
+        .sim-result-explanation {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            text-align: left;
+            font-size: 0.82rem;
+            color: #94a3b8;
+            line-height: 1.45;
+        }
+
+        .sim-result-explanation strong {
+            color: #ffffff;
+        }
+
+        /* Preview Bottom Strip CTA */
+        .preview-cta-strip {
+            background: rgba(2, 6, 23, 0.92);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .preview-cta-text strong {
+            display: block;
+            color: #ffffff;
+            font-size: 0.98rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+
+        .preview-cta-text span {
+            color: var(--text-secondary);
+            font-size: 0.84rem;
+        }
+
+        .btn-preview-unlock {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #020617;
+            font-weight: 900;
+            font-size: 0.92rem;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+        }
+
+        .btn-preview-unlock:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
         /* Footer */
         .ecom-footer {
             background: #01040f;
@@ -1212,6 +1797,69 @@
             }
             .showcase-floating-badge {
                 display: none !important;
+            }
+
+            /* Impact Metrics on Mobile */
+            .impact-metrics-wrap {
+                margin: -20px auto 25px;
+                padding: 0 16px;
+            }
+            .impact-metrics-bar {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 20px 18px;
+                text-align: left;
+            }
+            .metric-divider {
+                display: none;
+            }
+            .metric-number {
+                font-size: 2.2rem;
+            }
+
+            /* Preview Section on Mobile */
+            .interactive-preview-section {
+                padding: 24px 16px 40px;
+            }
+            .preview-tabs-nav {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                padding: 6px;
+            }
+            .preview-tab-btn {
+                padding: 12px 14px;
+                font-size: 0.88rem;
+                justify-content: flex-start;
+            }
+            .preview-tab-pane {
+                padding: 20px 16px;
+            }
+            .guide-preview-layout {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .preview-body-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .sim-interactive-demo {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .sim-ca-monthly {
+                font-size: 2.4rem;
+            }
+            .preview-cta-strip {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 18px 16px;
+                gap: 14px;
+            }
+            .btn-preview-unlock {
+                justify-content: center;
+                width: 100%;
+                padding: 14px 18px;
             }
 
             /* Section Spacing & Headings */
@@ -1445,35 +2093,35 @@
         <div class="hero-container">
             <div class="hero-text-col">
                 <span class="hero-badge-pill">
-                    <i class="fa-solid fa-book-bookmark"></i> Tome 1 · Édition 2026
+                    <i class="fa-solid fa-fire" style="color: #10b981;"></i> Édition 2026 · Le Plan d'Action Terrain
                 </span>
                 <h1 class="hero-headline">
-                    Transforme ton idée en business rentable, <br>
-                    <span class="green-accent">sans excuse et sans gros budget</span>
+                    Arrête de regarder les autres réussir. <br>
+                    <span class="green-accent">Lance ton business rentable ce mois-ci.</span>
                 </h1>
                 <p class="hero-subheadline">
-                    Le premier guide numérique <strong>80% action et 20% réflexion</strong> taillé pour les réalités du terrain aux Antilles, en Guyane, à La Réunion, en Afrique et dans les diasporas : 27 chapitres opérationnels, carnet de bord sauvegardé en direct et simulateur financier de rentabilité.
+                    <strong>Combien de temps vas-tu encore laisser ton projet dormir dans les notes de ton téléphone ?</strong> Ce n'est pas un énième cours théorique : c'est 27 chapitres d'action terrain, ton carnet de bord sauvegardé en direct et ton simulateur financier pour bâtir, tester et encaisser tes premiers clients aux Antilles, en Guyane, à La Réunion, en Afrique et dans la diaspora.
                 </p>
 
                 <div class="hero-buttons-row">
                     <a href="#tarifs" class="btn-hero-buy">
-                        <span>Débloquer le Guide (Dès 27 €)</span>
+                        <span>Je Passe à l'Action (Dès 27 €)</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <a href="guide.html#couverture" class="btn-hero-demo">
                         <i class="fa-solid fa-eye"></i>
-                        <span>Explorer l'Échantillon Gratuit</span>
+                        <span>Tester l'Échantillon Gratuit</span>
                     </a>
                 </div>
 
                 <div class="hero-specs-grid">
                     <div class="spec-item-box">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <span>27 Chapitres d'action terrain</span>
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>27 Chapitres d'action immédiate</span>
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-floppy-disk"></i>
-                        <span>Carnet de bord interactif intégré</span>
+                        <span>Carnet de bord interactif sauvegardé</span>
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-calculator"></i>
@@ -1481,7 +2129,7 @@
                     </div>
                     <div class="spec-item-box">
                         <i class="fa-solid fa-file-pdf"></i>
-                        <span>Export PDF de ta feuille de route</span>
+                        <span>Export PDF de ton plan 30 jours</span>
                     </div>
                 </div>
             </div>
@@ -1506,40 +2154,236 @@
         </div>
     </header>
 
+    <!-- Impact Metrics Bar (Chiffres Chocs) -->
+    <section class="impact-metrics-wrap">
+        <div class="impact-metrics-bar">
+            <div class="impact-metric-item">
+                <div class="metric-number">27</div>
+                <div class="metric-info">
+                    <strong>Étapes d'action concrètes</strong>
+                    <span>Zéro théorie abstraite, 100% terrain</span>
+                </div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="impact-metric-item">
+                <div class="metric-number">0 €</div>
+                <div class="metric-info">
+                    <strong>De capital requis</strong>
+                    <span>Méthode de validation avant dépenses</span>
+                </div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="impact-metric-item">
+                <div class="metric-number">30 Jours</div>
+                <div class="metric-info">
+                    <strong>Feuille de route pas à pas</strong>
+                    <span>Pour signer tes premiers clients</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive 3-in-1 Visual Selector: Show, Don't Tell -->
+    <section class="section-wrap interactive-preview-section" id="apercu-interactif">
+        <div class="section-header-center">
+            <span class="section-tag"><i class="fa-solid fa-gamepad" style="margin-right: 6px;"></i> Démonstration Live</span>
+            <h2>Ce n'est pas un simple PDF. C'est un copilote d'action.</h2>
+            <p>
+                Touche du doigt l'interface avant même de la commander. Choisis un onglet ci-dessous pour tester les outils en direct :
+            </p>
+        </div>
+
+        <div class="preview-container">
+            <!-- Tab Switcher -->
+            <div class="preview-tabs-nav" role="tablist">
+                <button class="preview-tab-btn active" data-tab="guide" role="tab" aria-selected="true">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>1. Les 27 Chapitres</span>
+                </button>
+                <button class="preview-tab-btn" data-tab="carnet" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>2. Carnet Interactif</span>
+                </button>
+                <button class="preview-tab-btn" data-tab="simulateur" role="tab" aria-selected="false">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>3. Simulateur Financier</span>
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Guide Chapters -->
+            <div class="preview-tab-pane active" id="tab-pane-guide" role="tabpanel">
+                <div class="guide-preview-layout">
+                    <div class="guide-preview-sidebar">
+                        <div class="sidebar-header">
+                            <i class="fa-solid fa-list-check"></i> Sommaire d'Action
+                        </div>
+                        <ul class="preview-chapter-list">
+                            <li class="active" data-chapter="ch4">
+                                <span class="chap-badge">Ch. 4</span>
+                                <span class="chap-name">Valider son idée à 0 €</span>
+                            </li>
+                            <li data-chapter="ch7">
+                                <span class="chap-badge">Ch. 7</span>
+                                <span class="chap-name">Les 5 voies sans emprunt</span>
+                            </li>
+                            <li data-chapter="ch12">
+                                <span class="chap-badge">Ch. 12</span>
+                                <span class="chap-name">Le simulateur de rentabilité</span>
+                            </li>
+                            <li data-chapter="ch21">
+                                <span class="chap-badge">Ch. 21</span>
+                                <span class="chap-name">Vendre par WhatsApp</span>
+                            </li>
+                            <li data-chapter="ch27">
+                                <span class="chap-badge">Ch. 27</span>
+                                <span class="chap-name">Le plan d'action 30 jours</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="guide-preview-body">
+                        <div class="preview-body-header">
+                            <div>
+                                <span class="body-tag" id="preview-body-tag">Phase 1 · Validation</span>
+                                <h3 id="preview-chap-title">Chapitre 4 : La validation à 0 € avant tout investissement</h3>
+                            </div>
+                            <span class="body-time" id="preview-body-time"><i class="fa-solid fa-stopwatch"></i> 15 min d'action</span>
+                        </div>
+                        <p class="preview-body-text" id="preview-chap-desc">
+                            La première cause d'échec dans nos territoires, c'est de dépenser ses économies dans du stock ou un local sans certitude que le marché veut payer. Voici la méthode en 3 étapes pour sécuriser 3 précommandes fermes en 48h.
+                        </p>
+                        <div class="preview-checklist-card">
+                            <div class="checklist-title">
+                                <i class="fa-solid fa-square-check" style="color: #10b981;"></i> Exercice terrain interactif (clique pour tester) :
+                            </div>
+                            <label class="preview-check-item">
+                                <input type="checkbox" checked>
+                                <span id="chk-label-1">Rédiger une offre irrésistible en 1 phrase claire avec la promesse précise.</span>
+                            </label>
+                            <label class="preview-check-item">
+                                <input type="checkbox">
+                                <span id="chk-label-2">Envoyer le message test à 5 prospects cibles dans tes contacts WhatsApp.</span>
+                            </label>
+                            <label class="preview-check-item">
+                                <input type="checkbox">
+                                <span id="chk-label-3">Encaisser un acompte avec un lien de paiement Stripe ou Wave avant de produire.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Carnet Interactif -->
+            <div class="preview-tab-pane" id="tab-pane-carnet" role="tabpanel">
+                <div class="carnet-interactive-demo">
+                    <div class="carnet-demo-header">
+                        <div class="carnet-status-pill">
+                            <span class="live-dot-pulse"></span>
+                            <span id="carnet-save-status">Sauvegarde automatique dans ton navigateur</span>
+                        </div>
+                        <span class="carnet-sync-badge"><i class="fa-solid fa-cloud-arrow-up"></i> Zéro perte de données</span>
+                    </div>
+                    <div class="carnet-card-body">
+                        <label for="demo-carnet-input" class="carnet-label">
+                            <span>Exercice 1.2 · Quelle est la promesse de ton offre ?</span>
+                            <small>Tape ton idée ci-dessous pour tester la réactivité en direct :</small>
+                        </label>
+                        <textarea id="demo-carnet-input" class="carnet-textarea" rows="3" placeholder="Ex: J'aide les restaurateurs de Martinique et Guadeloupe à remplir leurs salles le mardi soir avec des vidéos gourmandes ciblées..."></textarea>
+                        <div class="carnet-footer-action">
+                            <div class="char-count"><span id="demo-char-count">0</span> caractères saisis</div>
+                            <div class="carnet-tip">
+                                <i class="fa-solid fa-lightbulb" style="color: #f59e0b;"></i>
+                                <span>Dans le guide complet, toutes tes saisies sont préservées pour chaque chapitre et prêtes à être exportées en PDF d'un clic.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content 3: Simulateur Financier -->
+            <div class="preview-tab-pane" id="tab-pane-simulateur" role="tabpanel">
+                <div class="sim-interactive-demo">
+                    <div class="sim-inputs-col">
+                        <div class="sim-control-group">
+                            <div class="sim-control-label">
+                                <span>Prix de ton produit / service :</span>
+                                <strong id="sim-price-val" class="sim-highlight">45 €</strong>
+                            </div>
+                            <input type="range" id="sim-price-range" min="10" max="300" step="5" value="45" class="sim-slider">
+                            <div class="slider-ticks"><span>10 €</span><span>150 €</span><span>300 €</span></div>
+                        </div>
+
+                        <div class="sim-control-group">
+                            <div class="sim-control-label">
+                                <span>Clients / ventes ciblés par mois :</span>
+                                <strong id="sim-sales-val" class="sim-highlight">20 ventes</strong>
+                            </div>
+                            <input type="range" id="sim-sales-range" min="1" max="100" step="1" value="20" class="sim-slider">
+                            <div class="slider-ticks"><span>1 client</span><span>50 clients</span><span>100 clients</span></div>
+                        </div>
+                    </div>
+
+                    <div class="sim-output-col">
+                        <div class="sim-result-box">
+                            <span class="sim-result-sub">Projection de chiffre d'affaires</span>
+                            <div class="sim-ca-monthly" id="sim-monthly-result">900 € <span>/ mois</span></div>
+                            <div class="sim-ca-annual" id="sim-annual-result">Soit <strong>10 800 €</strong> sur 1 an</div>
+                            <div class="sim-result-explanation">
+                                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                                <span>Il te suffit de seulement <strong><span id="sim-daily-orders">1 vente tous les 1.5 jours</span></strong> pour atteindre ce résultat. Le guide complet te donne les templates exacts pour y parvenir.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Bottom Strip CTA -->
+            <div class="preview-cta-strip">
+                <div class="preview-cta-text">
+                    <strong>Prêt à passer de la démo à tes premiers revenus ?</strong>
+                    <span>Accède immédiatement aux 27 chapitres, au carnet complet et au simulateur financier dès 27 €.</span>
+                </div>
+                <a href="#tarifs" class="btn-preview-unlock">
+                    <span>Débloquer mon accès (27 €)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contrast Section: Pourquoi ce guide est unique -->
     <section class="section-wrap" id="methode">
         <div class="section-header-center">
-            <span class="section-tag">La Fin des Théories Inutiles</span>
-            <h2>Pourquoi 90% des formations échouent là où cette consultation réussit</h2>
+            <span class="section-tag">La Vérité du Terrain</span>
+            <h2>Ce qui sépare ceux qui rêvent de ceux qui encaissent</h2>
             <p>
-                On a tous vu passer des cours en ligne de 40 heures remplis de jargon de salon, conçus pour des marchés saturés où l'on te conseille de lever des millions. Sur nos territoires, la réalité est différente.
+                Si tu as l'impression de tourner en rond, ce n'est pas de ta faute : on t'a appris à réfléchir pendant des mois au lieu d'exécuter en 48 heures.
             </p>
         </div>
 
         <div class="contrast-grid">
             <div class="contrast-box bad">
                 <div class="contrast-header">
-                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.6rem;"></i>
-                    <h3>Les formations classiques à 997 €</h3>
+                    <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.5rem;"></i>
+                    <h3>Le piège habituel qui fait stagner</h3>
                 </div>
                 <ul class="contrast-list">
-                    <li><i class="fa-solid fa-xmark"></i> Des dizaines de vidéos passives sans passage à l'action.</li>
-                    <li><i class="fa-solid fa-xmark"></i> Des conseils hors-sol inadaptés aux réalités insulaires et africaines (octroi de mer, fret, logistique locale).</li>
-                    <li><i class="fa-solid fa-xmark"></i> T'oblige à payer des abonnements mensuels de logiciels coûteux avant d'avoir encaissé ton premier euro.</li>
-                    <li><i class="fa-solid fa-xmark"></i> Aucun livrable concret à la fin : tu te retrouves seul avec des doutes.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Passer 3 mois à peaufiner un logo Canva avant d'avoir parlé à un seul client.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Attendre d'avoir 10 000 € de capital ou un prêt bancaire pour oser démarrer.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Ingurgiter des formations théoriques de 40h inadaptées à nos îles et à nos réalités.</li>
+                    <li><i class="fa-solid fa-xmark"></i> Laisser le regard des proches et le syndrome de l'imposteur tuer ton élan.</li>
                 </ul>
             </div>
 
             <div class="contrast-box good">
                 <div class="contrast-header">
-                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.6rem;"></i>
-                    <h3>La Consultation Domtom Connect</h3>
+                    <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.5rem;"></i>
+                    <h3>Le système Domtom Connect</h3>
                 </div>
                 <ul class="contrast-list">
-                    <li><i class="fa-solid fa-check"></i> <strong>80% action et 20% réflexion :</strong> chaque chapitre débouche sur un exercice appliqué dans ton carnet de bord.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Analyse des failles locales :</strong> comment battre les acteurs en place sur le SAV, les délais et le relationnel client.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Stack minimale à 0 € :</strong> encaisse sans friction avec Stripe, SumUp, Wave et WhatsApp Business.</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Un plan exportable :</strong> tu repars avec ton plan d'action validé sur 30 jours, prêt à signer tes premiers clients.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>La règle 80/20 :</strong> 80% d'exercices terrain, 20% de réflexion. Tu avances chaque jour.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Lancement à 0 € :</strong> encaisse sans frais fixes avec WhatsApp Business et Stripe / Wave.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Fret &amp; marges maîtrisés :</strong> le simulateur financier calcule ton point mort au centime près.</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Feuille de route 30 jours :</strong> tu repars avec ton plan d'action validé pour signer tes premiers clients.</li>
                 </ul>
             </div>
         </div>
@@ -1549,9 +2393,9 @@
     <section class="section-wrap" id="programme" style="background: rgba(11, 19, 41, 0.4); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
         <div class="section-header-center">
             <span class="section-tag">Parcours Étape par Étape</span>
-            <h2>Une consultation complète structurée en 4 phases d'action</h2>
+            <h2>De l'idée floue à tes premiers clients payants</h2>
             <p>
-                Tu n'es pas laissé à l'abandon. Ce guide te prend par la main du déblocage psychologique jusqu'à la fidélisation de tes premiers clients payants.
+                Une progression millimétrée en 4 phases pour débloquer ton potentiel et structurer une offre que les clients ont envie d'acheter.
             </p>
         </div>
 
@@ -1570,7 +2414,7 @@
 
             <div class="phase-card">
                 <span class="phase-badge">Phase 3 (Ch. 11 à 18)</span>
-                <h4>Offre, marque et finance</h4>
+                <h4>Offre, Marque &amp; Finance</h4>
                 <p>Fiche Avatar client, échelle d'offre en 3 paliers, lancement bêta test, page de vente One-Page et simulateur de rentabilité financière.</p>
             </div>
 
@@ -1578,6 +2422,25 @@
                 <span class="phase-badge">Phase 4 (Ch. 19 à 27)</span>
                 <h4>Conversion &amp; Fidélisation</h4>
                 <p>Batching de contenu 1 mois en 3h, closing en message privé (DM), pitch en une phrase, boucle de parrainage et feuille de route 30 jours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Psychological Pivot Section: Le Vrai Risque / Le Coût de l'Inaction -->
+    <section class="section-wrap" style="padding-top: 15px; padding-bottom: 25px;">
+        <div style="background: linear-gradient(145deg, rgba(16, 185, 129, 0.08) 0%, rgba(11, 19, 41, 0.95) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-lg); padding: 36px 28px; max-width: 960px; margin: 0 auto; text-align: center;">
+            <span class="section-tag" style="margin-bottom: 12px;">Le Recadrage</span>
+            <h2 style="font-size: clamp(1.5rem, 2.7vw, 2.1rem); font-weight: 900; color: #ffffff; line-height: 1.25; margin-bottom: 16px;">
+                27 €, c'est le prix d'un repas. <br>
+                <span style="color: #10b981;">Où seras-tu dans 6 mois si tu ne passes pas à l'action ?</span>
+            </h2>
+            <p style="font-size: 1rem; color: #cbd5e1; line-height: 1.7; max-width: 760px; margin: 0 auto 22px;">
+                Ce week-end, ces 27 € auront disparu dans une commande ou une sortie éphémère. Et lundi matin, rien n'aura changé dans ton quotidien. <br><br>
+                <strong>Ou alors, tu décides que ton avenir mérite mieux que d'attendre.</strong> Tu investis ce même montant une seule fois sur toi. Dans 30 jours, tu as ton offre prête, tes marges calculées au centime près et ton système pour encaisser tes premiers clients.
+            </p>
+            <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 999px; font-size: 0.86rem; color: #94a3b8;">
+                <i class="fa-solid fa-shield-halved" style="color: #10b981;"></i>
+                <span>Le seul vrai risque, c'est de fermer cette page et de regarder les autres avancer sans toi.</span>
             </div>
         </div>
     </section>
@@ -1599,50 +2462,50 @@
         <div class="pricing-grid">
             <!-- Formule 1 : Guide interactif solo -->
             <div class="pricing-card">
-                <h3 class="pricing-plan-title">Guide interactif solo</h3>
-                <p class="pricing-plan-desc">L'essentiel pour structurer ton projet et démarrer immédiatement sur le terrain.</p>
+                <h3 class="pricing-plan-title">Guide Solo · Lancement Rapide</h3>
+                <p class="pricing-plan-desc">Idéal pour briser l'hésitation, structurer ton offre et valider tes premières ventes sur le terrain.</p>
                 
                 <div class="pricing-price-wrap">
                     <span class="price-amount">27 €</span>
                     <span class="price-original">47 €</span>
-                    <span class="price-billing-label">Paiement unique, accès à vie</span>
+                    <span class="price-billing-label">Paiement unique · Accès à vie</span>
                 </div>
 
                 <ul class="pricing-features-list">
-                    <li><i class="fa-solid fa-check"></i> <strong>Les 27 chapitres complets</strong> de consultation pas-à-pas</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Carnet de bord interactif</strong> avec sauvegarde automatique</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Simulateur financier dynamique</strong> de point mort et cadence</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Export PDF personnalisé</strong> de ton plan d'action</li>
-                    <li><i class="fa-solid fa-check"></i> Mises à jour gratuites de la version web</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Les 27 chapitres complets</strong> de passage à l'action</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Carnet de bord interactif</strong> sauvegardé dans ton navigateur</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Simulateur financier de rentabilité</strong> pour ne jamais vendre à perte</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Export PDF personnalisé</strong> de ton plan d'action 30 jours</li>
+                    <li><i class="fa-solid fa-check"></i> Mises à jour gratuites et enrichissements futurs</li>
                 </ul>
 
                 <a href="https://buy.stripe.com/5kQ28qdpP6QI2205E97Re03" class="btn-pricing-cta secondary" target="_blank" rel="noopener">
-                    <span>Choisir le guide solo (27 €)</span>
+                    <span>Obtenir mon accès immédiat (27 €)</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
             <!-- Formule 2 : Pack fondateur et accélérateur -->
             <div class="pricing-card featured">
-                <span class="popular-pill">⭐ Le choix recommandé</span>
-                <h3 class="pricing-plan-title">Pack fondateur et accélérateur</h3>
-                <p class="pricing-plan-desc">Le système complet avec intégration dans notre incubateur et accès à l'application.</p>
+                <span class="popular-pill"><i class="fa-solid fa-crown" style="margin-right: 4px;"></i> Le Choix Fondateur</span>
+                <h3 class="pricing-plan-title">Pack Fondateur &amp; Accélérateur</h3>
+                <p class="pricing-plan-desc">Pour ceux qui veulent aller au bout : le système complet avec accès privilégié à l'écosystème.</p>
                 
                 <div class="pricing-price-wrap">
                     <span class="price-amount">47 €</span>
                     <span class="price-original">97 €</span>
-                    <span class="price-billing-label">Paiement unique, accès fondateur</span>
+                    <span class="price-billing-label">Paiement unique · Statut Fondateur</span>
                 </div>
 
                 <ul class="pricing-features-list">
-                    <li><i class="fa-solid fa-check"></i> <strong>Tout ce qui est inclus dans le guide solo</strong></li>
-                    <li class="bonus-item"><i class="fa-solid fa-mobile-screen" style="color:#10b981;"></i> <strong>Accès à la bêta fermée de l'application mobile DTC Pulse</strong></li>
-                    <li class="bonus-item"><i class="fa-solid fa-rocket" style="color:#10b981;"></i> <strong>Intégration dans l'incubateur Domtom Connect</strong></li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Badge exclusif membre fondateur</strong> Domtom Connect</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Tout ce qui est inclus dans le Guide Solo</strong></li>
+                    <li class="bonus-item"><i class="fa-solid fa-mobile-screen" style="color:#10b981;"></i> <strong>Accès prioritaire à l'application mobile DTC Pulse</strong></li>
+                    <li class="bonus-item"><i class="fa-solid fa-rocket" style="color:#10b981;"></i> <strong>Accompagnement &amp; visibilité dans l'incubateur Domtom Connect</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Badge membre fondateur</strong> vérifié sur ton profil</li>
                 </ul>
 
                 <a href="https://buy.stripe.com/9B6aEWetTcb25ec3w17Re04" class="btn-pricing-cta primary" target="_blank" rel="noopener">
-                    <span>Rejoindre le pack fondateur (47 €)</span>
+                    <span>Devenir Membre Fondateur (47 €)</span>
                     <i class="fa-solid fa-bolt"></i>
                 </a>
             </div>
@@ -1755,12 +2618,12 @@
             </div>
         </div>
         <a href="#tarifs" style="background: #10b981; color: #020617; font-weight: 900; font-size: 0.9rem; padding: 11px 22px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
-            <span>Débloquer mon accès</span>
+            <span>Je me lance</span>
             <i class="fa-solid fa-arrow-right"></i>
         </a>
     </div>
 
-    <!-- Interactive Card 3D Tilt Script & Accordion -->
+    <!-- Interactive Card 3D Tilt Script, Preview Tabs, & Accordion -->
     <script>
         // 3D Card Interactive Tilt on Mouse Move
         const card = document.getElementById('interactive-book-card');
@@ -1787,6 +2650,200 @@
                 if (!isActive) item.classList.add('active');
             });
         });
+
+        // ========================================================
+        // Interactive 3-in-1 Visual Selector Logic
+        // ========================================================
+        // 1. Tab Switching
+        const previewTabButtons = document.querySelectorAll('.preview-tab-btn');
+        const previewTabPanes = {
+            guide: document.getElementById('tab-pane-guide'),
+            carnet: document.getElementById('tab-pane-carnet'),
+            simulateur: document.getElementById('tab-pane-simulateur')
+        };
+
+        previewTabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTab = btn.getAttribute('data-tab');
+                previewTabButtons.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+
+                Object.keys(previewTabPanes).forEach(k => {
+                    if (previewTabPanes[k]) {
+                        previewTabPanes[k].classList.toggle('active', k === targetTab);
+                    }
+                });
+            });
+        });
+
+        // 2. Guide Chapter Switching
+        const chaptersData = {
+            ch4: {
+                tag: "Phase 1 · Validation",
+                time: "15 min d'action",
+                title: "Chapitre 4 : La validation à 0 € avant tout investissement",
+                desc: "La première cause d'échec dans nos territoires, c'est de dépenser ses économies dans du stock ou un local sans certitude que le marché veut payer. Voici la méthode en 3 étapes pour sécuriser 3 précommandes fermes en 48h.",
+                checks: [
+                    "Rédiger une offre irrésistible en 1 phrase claire avec la promesse précise.",
+                    "Envoyer le message test à 5 prospects cibles dans tes contacts WhatsApp.",
+                    "Encaisser un acompte avec un lien de paiement Stripe ou Wave avant de produire."
+                ]
+            },
+            ch7: {
+                tag: "Phase 2 · Structuration",
+                time: "20 min d'action",
+                title: "Chapitre 7 : Les 5 voies pour démarrer sans emprunt bancaire",
+                desc: "Pas besoin de convaincre un banquier frileux pour te lancer. Découvre comment transformer tes compétences en prestation de service immédiate ou monter une précommande communautaire sans aucun risque financier.",
+                checks: [
+                    "Identifier laquelle des 5 voies correspond à tes compétences actuelles.",
+                    "Éliminer tous les coûts fixes superflus (aucun local physique requis au démarrage).",
+                    "Définir le tarif plancher pour générer du bénéfice dès la première mission."
+                ]
+            },
+            ch12: {
+                tag: "Phase 2 · Finances",
+                time: "10 min d'action",
+                title: "Chapitre 12 : Le simulateur de rentabilité & fret dom-tom",
+                desc: "Aux Antilles, à La Réunion et en Guyane, négliger l'octroi de mer et la logistique tue un business en 3 mois. Apprends à calculer tes marges réelles pour ne jamais vendre à perte.",
+                checks: [
+                    "Calculer ton coût de revient exact (achat + fret + douanes locales).",
+                    "Fixer une marge brute minimale de 50% pour absorber les aléas insulaires.",
+                    "Déterminer le nombre précis de ventes nécessaires pour couvrir tes charges."
+                ]
+            },
+            ch21: {
+                tag: "Phase 3 · Acquisition",
+                time: "25 min d'action",
+                title: "Chapitre 21 : Vendre et closer par WhatsApp Business",
+                desc: "Dans notre communauté, WhatsApp convertit 10 fois plus qu'un site web froid. Utilise les 3 scripts de closing prêts à l'emploi pour transformer une simple prise de contact en paiement validé.",
+                checks: [
+                    "Configurer un profil WhatsApp Business pro avec catalogue et message d'accueil.",
+                    "Appliquer le script de closing en 3 temps (Écoute + Preuve + Lien direct).",
+                    "Envoyer ton lien de paiement direct au lieu de perdre le prospect dans un long tunnel."
+                ]
+            },
+            ch27: {
+                tag: "Phase 4 · Passage à l'Action",
+                time: "30 jours guidés",
+                title: "Chapitre 27 : Ton plan d'action 30 jours (Semaine par semaine)",
+                desc: "Fini de douter le matin. Chaque jour, tu sais exactement quelle action concrète exécuter pour bâtir ton offre, tester le terrain et encaisser tes premiers clients.",
+                checks: [
+                    "Semaine 1 : Structuration de l'offre et liste des 10 premiers contacts chauds.",
+                    "Semaine 2 : Démarrage des prises de contact directes et validation du prix.",
+                    "Semaines 3-4 : Premiers encaissements et activation de la boucle de parrainage."
+                ]
+            }
+        };
+
+        const chapterItems = document.querySelectorAll('.preview-chapter-list li');
+        chapterItems.forEach(item => {
+            item.addEventListener('click', () => {
+                chapterItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+
+                const chKey = item.getAttribute('data-chapter');
+                const data = chaptersData[chKey];
+                if (data) {
+                    const tagEl = document.getElementById('preview-body-tag');
+                    const timeEl = document.getElementById('preview-body-time');
+                    const titleEl = document.getElementById('preview-chap-title');
+                    const descEl = document.getElementById('preview-chap-desc');
+                    const chk1 = document.getElementById('chk-label-1');
+                    const chk2 = document.getElementById('chk-label-2');
+                    const chk3 = document.getElementById('chk-label-3');
+
+                    if (tagEl) tagEl.textContent = data.tag;
+                    if (timeEl) timeEl.innerHTML = `<i class="fa-solid fa-stopwatch"></i> ${data.time}`;
+                    if (titleEl) titleEl.textContent = data.title;
+                    if (descEl) descEl.textContent = data.desc;
+                    if (chk1 && data.checks[0]) chk1.textContent = data.checks[0];
+                    if (chk2 && data.checks[1]) chk2.textContent = data.checks[1];
+                    if (chk3 && data.checks[2]) chk3.textContent = data.checks[2];
+                }
+            });
+        });
+
+        // 3. Carnet Interactif Live Typing & Local Simulation
+        const carnetInput = document.getElementById('demo-carnet-input');
+        const charCountEl = document.getElementById('demo-char-count');
+        const saveStatusEl = document.getElementById('carnet-save-status');
+        let saveTimeout = null;
+
+        if (carnetInput) {
+            // Restore previous demo draft if exists
+            const savedDraft = sessionStorage.getItem('dtc_demo_carnet_draft');
+            if (savedDraft) {
+                carnetInput.value = savedDraft;
+                if (charCountEl) charCountEl.textContent = savedDraft.length;
+            }
+
+            carnetInput.addEventListener('input', () => {
+                const text = carnetInput.value;
+                if (charCountEl) charCountEl.textContent = text.length;
+
+                if (saveStatusEl) {
+                    saveStatusEl.textContent = "Sauvegarde en cours...";
+                    saveStatusEl.style.color = "#f59e0b";
+                }
+
+                clearTimeout(saveTimeout);
+                saveTimeout = setTimeout(() => {
+                    sessionStorage.setItem('dtc_demo_carnet_draft', text);
+                    if (saveStatusEl) {
+                        saveStatusEl.innerHTML = '<i class="fa-solid fa-check"></i> Sauvegardé automatiquement dans ton navigateur';
+                        saveStatusEl.style.color = "#10b981";
+                    }
+                }, 400);
+            });
+        }
+
+        // 4. Financial Simulator Live Sliders
+        const priceSlider = document.getElementById('sim-price-range');
+        const salesSlider = document.getElementById('sim-sales-range');
+        const priceValDisplay = document.getElementById('sim-price-val');
+        const salesValDisplay = document.getElementById('sim-sales-val');
+        const monthlyResult = document.getElementById('sim-monthly-result');
+        const annualResult = document.getElementById('sim-annual-result');
+        const dailyOrdersResult = document.getElementById('sim-daily-orders');
+
+        function updateSimulator() {
+            if (!priceSlider || !salesSlider) return;
+            const price = parseInt(priceSlider.value, 10);
+            const sales = parseInt(salesSlider.value, 10);
+
+            if (priceValDisplay) priceValDisplay.textContent = `${price} €`;
+            if (salesValDisplay) salesValDisplay.textContent = `${sales} ${sales > 1 ? 'ventes' : 'vente'}`;
+
+            const monthlyCA = price * sales;
+            const annualCA = monthlyCA * 12;
+
+            if (monthlyResult) {
+                monthlyResult.innerHTML = `${monthlyCA.toLocaleString('fr-FR')} € <span>/ mois</span>`;
+            }
+            if (annualResult) {
+                annualResult.innerHTML = `Soit <strong>${annualCA.toLocaleString('fr-FR')} €</strong> sur 1 an`;
+            }
+
+            if (dailyOrdersResult) {
+                if (sales >= 30) {
+                    const perDay = (sales / 30).toFixed(1);
+                    dailyOrdersResult.textContent = `${perDay} vente${perDay > 1 ? 's' : ''} par jour`;
+                } else {
+                    const daysPerSale = (30 / sales).toFixed(1);
+                    dailyOrdersResult.textContent = `1 vente tous les ${daysPerSale} jours`;
+                }
+            }
+        }
+
+        if (priceSlider && salesSlider) {
+            priceSlider.addEventListener('input', updateSimulator);
+            salesSlider.addEventListener('input', updateSimulator);
+            updateSimulator();
+        }
     </script>
 </body>
 </html>
