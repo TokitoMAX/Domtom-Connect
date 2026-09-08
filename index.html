@@ -185,6 +185,28 @@ function openCalendlyDiagnostic(e) {
         }
         #parcours h3 { color: var(--text-primary); }
         #parcours p { font-size: 0.95rem; }
+
+        #boutique-showcase .showcase-grid-wrap {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            align-items: center;
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+        @media (max-width: 900px) {
+            #boutique-showcase .showcase-grid-wrap {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            #boutique-showcase .showcase-features-grid {
+                grid-template-columns: 1fr !important;
+            }
+            #boutique-showcase .showcase-cta-row {
+                justify-content: center;
+            }
+        }
     </style>
 <!-- Google tag (gtag.js) -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-1C5QTWZFER"></script>
@@ -208,18 +230,28 @@ function openCalendlyDiagnostic(e) {
 <header class="hero-section" style="padding: 110px 0 70px; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: white; border-bottom: 1px solid rgba(255, 255, 255, 0.05); position: relative; overflow: hidden;">
 <div style="position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%); pointer-events: none;"></div>
 <div class="container" style="position: relative; z-index: 2;">
-<div class="hero-content" style="text-align: center; max-width: 920px; margin: 0 auto;">
-<span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 20px; border-radius: 100px; font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em; display: inline-block; margin-bottom: 24px;">Cabinet &amp; Écosystème d'Accélération Business</span>
+<div class="hero-content" style="text-align: center; max-width: 960px; margin: 0 auto;">
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap;">
+    <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 20px; border-radius: 100px; font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.12em;">Cabinet &amp; Écosystème d'Accélération</span>
+    <a href="guide-entrepreneur.html" style="text-decoration: none;">
+        <span style="background: rgba(16, 185, 129, 0.2); color: #ffffff; border: 1px solid #10b981; padding: 8px 20px; border-radius: 100px; font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 8px; transition: all 0.25s;" onmouseover="this.style.background='#10b981'; this.style.color='#020617';" onmouseout="this.style.background='rgba(16, 185, 129, 0.2)'; this.style.color='#ffffff';">
+            <i class="fa-solid fa-fire" style="color: #10b981;"></i> Nouveauté · Guide Tome 1 Disponible &rarr;
+        </span>
+    </a>
+</div>
 <h1 class="hero-title" style="font-size: clamp(2.4rem, 5.8vw, 4.4rem); font-weight: 950; line-height: 1.12; margin-bottom: 1.8rem; letter-spacing: -0.03em; color: white;">Propulsez votre entreprise <br/><span style="color: #10b981;">dans les Caraïbes, en Afrique &amp; dans la Diaspora.</span></h1>
-<p class="hero-subtitle" style="font-size: 1.3rem; color: #94a3b8; margin-bottom: 2.8rem; max-width: 840px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 500;">
-                    Accompagnement stratégique sur-mesure, accélération d'exécution, copilotage opérationnel et réseau d'experts certifiés pour valider votre Business Plan, débloquer vos financements et développer votre chiffre d'affaires.
-                </p>
-<div class="hero-actions" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-<a class="cta-button primary" href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" style="padding: 20px 44px; font-size: 1.15rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; background: #10b981; color: white; border: none; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)';">
-    Réserver un Diagnostic Offert (30 min) <i class="fas fa-arrow-right"></i>
+<p class="hero-subtitle" style="font-size: 1.25rem; color: #94a3b8; margin-bottom: 2.6rem; max-width: 860px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 500;">
+    Accompagnement stratégique sur-mesure, accélération d'exécution, copilotage opérationnel et boîte à outils pour valider votre business plan, débloquer vos financements et développer votre chiffre d'affaires.
+</p>
+<div class="hero-actions" style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+<a class="cta-button primary" href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" style="padding: 18px 36px; font-size: 1.05rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; background: #10b981; color: white; border: none; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.background='#059669'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#10b981'; this.style.transform='translateY(0)';">
+    Réserver un Diagnostic (30 min) <i class="fas fa-arrow-right"></i>
 </a>
-<a class="cta-button secondary" href="#nos-accompagnements" style="padding: 20px 36px; font-size: 1.1rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2); color: white; background: rgba(255, 255, 255, 0.05); font-weight: 700; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.1)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)';">
-    Voir nos Formules d'Accompagnement
+<a class="cta-button boutique-hero" href="guide-entrepreneur.html" style="padding: 18px 32px; font-size: 1.05rem; border-radius: 16px; border: 1.5px solid #10b981; color: #10b981; background: rgba(16, 185, 129, 0.12); font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s ease; box-shadow: 0 8px 22px rgba(16, 185, 129, 0.15);" onmouseover="this.style.background='#10b981'; this.style.color='#020617'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='rgba(16, 185, 129, 0.12)'; this.style.color='#10b981'; this.style.transform='translateY(0)';">
+    <i class="fa-solid fa-book-open"></i> La Boutique &amp; E-book (Dès 27 €)
+</a>
+<a class="cta-button secondary" href="#nos-accompagnements" style="padding: 18px 30px; font-size: 1.02rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2); color: white; background: rgba(255, 255, 255, 0.05); font-weight: 700; text-decoration: none; transition: 0.3s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.1)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.05)';">
+    Nos Formules
 </a>
 </div>
 </div>
@@ -238,6 +270,112 @@ function openCalendlyDiagnostic(e) {
 </div>
 </div>
 </div>
+
+<!-- SECTION SHOWCASE 3D : LA BOUTIQUE & L'E-BOOK INTERACTIF (NOUVEAUTÉ VEDETTE) -->
+<section id="boutique-showcase" style="padding: 95px 0 90px; background: radial-gradient(circle at 75% 35%, rgba(16, 185, 129, 0.12) 0%, transparent 60%), #020617; border-bottom: 1px solid rgba(255, 255, 255, 0.06); color: white; position: relative; overflow: hidden;">
+    <!-- Ambient Glow effects -->
+    <div style="position: absolute; top: -100px; left: -50px; width: 450px; height: 450px; background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%); pointer-events: none;"></div>
+    
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="showcase-grid-wrap">
+            
+            <!-- Left Column: Emotional Presentation -->
+            <div>
+                <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 7px 18px; border-radius: 100px; margin-bottom: 22px;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></span>
+                    <span style="color: #10b981; font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em;">Nouveauté Officielle · La Boutique Domtom Connect</span>
+                </div>
+
+                <h2 style="font-size: clamp(2.3rem, 4.8vw, 3.6rem); font-weight: 950; color: #ffffff; line-height: 1.12; margin-bottom: 22px; letter-spacing: -0.03em;">
+                    Le 1<sup>er</sup> Guide Interactif pour Réussir <br/>
+                    <span style="color: #10b981;">entre nos Îles, l'Afrique &amp; la Diaspora.</span>
+                </h2>
+
+                <p style="font-size: 1.18rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 28px; font-weight: 400;">
+                    Fini les cours théoriques déconnectés de nos réalités. Voici <strong>la consultation privée en 27 étapes d'action</strong> condensant le terrain brut : déjouer les monopoles locaux, maîtriser le fret et l'octroi de mer, choisir sa voie parmi 5 modèles rentables et signer ses premiers clients dès 0 € de capital.
+                </p>
+
+                <!-- Value Highlights Grid -->
+                <div class="showcase-features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 34px;">
+                    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span style="font-size: 0.92rem; font-weight: 700; color: #f1f5f9;">27 Chapitres Pratiques (80% action)</span>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </div>
+                        <span style="font-size: 0.92rem; font-weight: 700; color: #f1f5f9;">Carnet de bord interactif sauvegardé</span>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <span style="font-size: 0.92rem; font-weight: 700; color: #f1f5f9;">Simulateur financier de rentabilité</span>
+                    </div>
+
+                    <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: #10b981; flex-shrink: 0;">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <span style="font-size: 0.92rem; font-weight: 700; color: #f1f5f9;">Export PDF de ton plan d'action</span>
+                    </div>
+                </div>
+
+                <!-- CTA Row -->
+                <div class="showcase-cta-row" style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 22px;">
+                    <a href="guide-entrepreneur.html" style="padding: 18px 36px; background: #10b981; color: #020617; font-weight: 900; font-size: 1.05rem; border-radius: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 14px 36px rgba(16, 185, 129, 0.45)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(16, 185, 129, 0.35)';">
+                        <span>Accéder à la Boutique (Dès 27 €)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="guide.html#couverture" style="padding: 18px 28px; background: rgba(255, 255, 255, 0.06); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.18); font-weight: 700; font-size: 1.02rem; border-radius: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255, 255, 255, 0.12)';" onmouseout="this.style.background='rgba(255, 255, 255, 0.06)';">
+                        <i class="fa-solid fa-book-open" style="color: #10b981;"></i>
+                        <span>Feuilleter l'E-book en Démo</span>
+                    </a>
+                </div>
+
+                <div style="display: flex; gap: 20px; font-size: 0.85rem; color: #94a3b8; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-check" style="color: #10b981; margin-right: 6px;"></i>Accès immédiat à vie</span>
+                    <span><i class="fa-solid fa-check" style="color: #10b981; margin-right: 6px;"></i>Compatible Mobile &amp; PC</span>
+                    <span><i class="fa-solid fa-check" style="color: #10b981; margin-right: 6px;"></i>Mises à jour gratuites incluses</span>
+                </div>
+            </div>
+
+            <!-- Right Column: 3D Mockup Showcase -->
+            <div style="display: flex; justify-content: center; position: relative;">
+                <div style="position: relative; max-width: 440px; width: 100%; perspective: 1200px;">
+                    <a href="guide-entrepreneur.html" style="text-decoration: none; display: block;">
+                        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 24px; padding: 18px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.2); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; transform: rotateY(-6deg) rotateX(4deg);" onmouseover="this.style.transform='rotateY(0deg) rotateX(0deg) scale(1.03)'; this.style.boxShadow='0 30px 60px -10px rgba(0, 0, 0, 0.8), 0 0 50px rgba(16, 185, 129, 0.35)';" onmouseout="this.style.transform='rotateY(-6deg) rotateX(4deg) scale(1)'; this.style.boxShadow='0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.2)';">
+                            <div style="border-radius: 16px; overflow: hidden; position: relative;">
+                                <img src="assets/images/bundle-mockup-tome1.jpg" alt="Pack Digital E-book & Carnet de bord Domtom Connect" style="width: 100%; height: auto; display: block; object-fit: cover;">
+                                
+                                <div style="position: absolute; top: 12px; right: 12px; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(8px); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; font-weight: 800; font-size: 0.75rem; padding: 4px 12px; border-radius: 999px; text-transform: uppercase;">
+                                    ⭐ Édition 2026
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 6px 8px;">
+                                <div>
+                                    <div style="font-size: 1rem; font-weight: 800; color: #ffffff;">Tome 1 · Les Fondamentaux</div>
+                                    <div style="font-size: 0.82rem; color: #94a3b8;">Web App interactive + Carnet de Bord</div>
+                                </div>
+                                <span style="background: #10b981; color: #020617; font-weight: 900; font-size: 0.85rem; padding: 6px 14px; border-radius: 999px;">
+                                    Dès 27 €
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 <!-- SECTION AVANT / APRÈS (Problème vs Solution - Vendre la Transformation) -->
 <section class="before-after-section" style="padding: 80px 0; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); border-top: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: white;">
 <div class="container">

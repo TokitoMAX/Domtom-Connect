@@ -339,6 +339,7 @@ const UIComponents = {
         if (session) {
             config = {
                 network: { label: 'Le Réseau', path: 'marketplace/directory.html' },
+                boutique: { label: 'La Boutique', path: 'guide-entrepreneur.html' },
                 communaute: { label: 'Groupes WhatsApp', path: 'rejoindre.html' },
                 companies: { label: 'Entreprises', path: 'marketplace/companies.html' },
                 jobs: { label: 'Missions', path: 'marketplace/jobs.html' },
@@ -347,11 +348,9 @@ const UIComponents = {
         } else {
             config = {
                 app: { label: 'App DTC Pulse', path: 'beta-test.html' },
-                communaute: { label: 'Rejoindre le Réseau', path: 'rejoindre.html' },
+                boutique: { label: 'La Boutique', path: 'guide-entrepreneur.html' },
                 nosAccompagnements: { label: 'Nos Programmes', path: 'index.html#nos-accompagnements' },
-                tremplin: { label: 'Tremplin', path: 'tremplin.html' },
-                premium: { label: 'Premium 1-to-1', path: 'premium.html' },
-                copilotage: { label: 'Copilotage', path: 'pilotage.html' }
+                communaute: { label: 'Rejoindre le Réseau', path: 'rejoindre.html' }
             };
         }
 
