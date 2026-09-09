@@ -1707,46 +1707,276 @@
         }
 
         @media (max-width: 768px) {
-        @media (max-width: 768px) {
-            /* Mobile Optimization for Guide Preview */
+            /* Mobile Optimization for Interactive Preview (#apercu-interactif) */
+            .interactive-preview-section {
+                padding: 30px 12px !important;
+                scroll-margin-top: 70px !important;
+            }
+            .interactive-preview-section .section-header-center h2 {
+                font-size: 1.35rem !important;
+                line-height: 1.3 !important;
+                padding: 0 4px;
+            }
+            .interactive-preview-section .section-header-center p {
+                font-size: 0.88rem !important;
+                padding: 0 4px;
+            }
+
+            .preview-container {
+                border-radius: var(--radius-md) !important;
+                overflow: hidden !important;
+                margin-top: 18px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Sleek Segmented 3-Tab Bar */
+            .preview-tabs-nav {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                padding: 6px 4px !important;
+                gap: 5px !important;
+                background: rgba(2, 6, 23, 0.95) !important;
+            }
+            .preview-tab-btn {
+                padding: 10px 4px !important;
+                font-size: 0.74rem !important;
+                font-weight: 700 !important;
+                gap: 5px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                border-radius: 8px !important;
+                line-height: 1.25 !important;
+                min-height: 52px !important;
+            }
+            .preview-tab-btn i {
+                font-size: 1rem !important;
+            }
+
+            /* Tab Pane padding */
+            .preview-tab-pane {
+                padding: 14px 10px 18px !important;
+            }
+
+            /* Tab 1: Layout - Stack sidebar above preview body */
+            .guide-preview-layout {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 12px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Sidebar / Sommaire horizontal scroll pills */
             .guide-preview-sidebar {
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                padding-bottom: 12px;
-                margin-bottom: 14px;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                border-radius: 12px !important;
+                padding: 10px 10px !important;
+                background: rgba(2, 6, 23, 0.6) !important;
             }
             .guide-preview-sidebar .sidebar-header {
-                font-size: 0.82rem;
-                margin-bottom: 8px;
+                font-size: 0.76rem !important;
+                margin-bottom: 8px !important;
+                color: #94a3b8 !important;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
             }
             .preview-chapter-list {
                 display: flex !important;
                 flex-direction: row !important;
                 overflow-x: auto !important;
-                gap: 8px !important;
-                padding-bottom: 6px !important;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
+                gap: 6px !important;
+                padding: 2px 2px 6px !important;
+                margin: 0 !important;
+                list-style: none !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+                -ms-overflow-style: none !important;
+            }
+            .preview-chapter-list::-webkit-scrollbar {
+                display: none !important;
+                height: 0px !important;
+                width: 0px !important;
+                background: transparent !important;
+            }
+            .preview-chapter-list::-webkit-scrollbar-track,
+            .preview-chapter-list::-webkit-scrollbar-thumb,
+            .preview-chapter-list::-webkit-scrollbar-button {
+                display: none !important;
+                height: 0px !important;
+                width: 0px !important;
             }
             .preview-chapter-list li {
                 flex: 0 0 auto !important;
                 white-space: nowrap !important;
-                scroll-snap-align: start;
-                padding: 8px 12px !important;
+                padding: 7px 11px !important;
                 border-radius: 999px !important;
-                font-size: 0.82rem !important;
+                font-size: 0.78rem !important;
+                gap: 6px !important;
+                background: rgba(255, 255, 255, 0.04) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                color: #94a3b8 !important;
+                transition: all 0.15s ease !important;
+            }
+            .preview-chapter-list li.active {
+                background: rgba(16, 185, 129, 0.2) !important;
+                border-color: rgba(16, 185, 129, 0.5) !important;
+                color: #ffffff !important;
+                font-weight: 700 !important;
+                border-left: 1px solid rgba(16, 185, 129, 0.5) !important;
             }
             .preview-chapter-list li .chap-badge {
+                font-size: 0.68rem !important;
+                padding: 2px 5px !important;
+                border-radius: 4px !important;
+                background: rgba(16, 185, 129, 0.25) !important;
+                color: #10b981 !important;
+            }
+
+            /* Guide Preview Body - No clipping, full responsive width */
+            .guide-preview-body {
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 16px 14px !important;
+                border-radius: 12px !important;
+                background: rgba(2, 6, 23, 0.5) !important;
+                border: 1px solid rgba(255, 255, 255, 0.08) !important;
+                overflow: hidden !important;
+            }
+            .preview-body-header {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 8px !important;
+                margin-bottom: 12px !important;
+            }
+            .preview-body-header > div {
+                width: 100% !important;
+            }
+            .body-tag {
                 font-size: 0.7rem !important;
-                padding: 2px 6px !important;
+                margin-bottom: 4px !important;
+            }
+            #preview-chap-title {
+                font-size: 1.08rem !important;
+                line-height: 1.35 !important;
+                font-weight: 800 !important;
+                color: #ffffff !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+                margin: 0 !important;
+            }
+            .body-time {
+                font-size: 0.72rem !important;
+                padding: 3px 8px !important;
+                align-self: flex-start !important;
+            }
+            .preview-body-text {
+                font-size: 0.86rem !important;
+                line-height: 1.55 !important;
+                color: #cbd5e1 !important;
+                margin-bottom: 16px !important;
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
             }
             .preview-checklist-card {
-                padding: 14px !important;
+                padding: 12px 12px !important;
+                border-radius: 8px !important;
+                background: rgba(11, 19, 41, 0.8) !important;
+                border: 1px solid rgba(16, 185, 129, 0.25) !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .checklist-title {
+                font-size: 0.82rem !important;
+                line-height: 1.35 !important;
+                margin-bottom: 10px !important;
+                word-break: break-word !important;
             }
             .preview-check-item {
-                font-size: 0.86rem !important;
-                padding: 8px !important;
+                display: flex !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                font-size: 0.82rem !important;
+                line-height: 1.4 !important;
+                padding: 6px 0 !important;
+                margin-bottom: 6px !important;
             }
-        }
+            .preview-check-item span {
+                word-break: break-word !important;
+                overflow-wrap: break-word !important;
+            }
+            .preview-check-item input[type="checkbox"] {
+                margin-top: 2px !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* Tab 2: Carnet Interactif Mobile */
+            .carnet-interactive-demo {
+                padding: 16px 14px !important;
+                border-radius: 12px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .carnet-demo-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 8px !important;
+                margin-bottom: 14px !important;
+            }
+            .carnet-label span {
+                font-size: 0.95rem !important;
+                line-height: 1.35 !important;
+                word-break: break-word !important;
+            }
+            .carnet-label small {
+                font-size: 0.8rem !important;
+                margin-bottom: 10px !important;
+            }
+            .carnet-textarea {
+                padding: 12px !important;
+                font-size: 0.88rem !important;
+                box-sizing: border-box !important;
+            }
+            .carnet-footer-action {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 8px !important;
+            }
+            .carnet-tip {
+                font-size: 0.78rem !important;
+                line-height: 1.4 !important;
+                padding: 8px 10px !important;
+            }
+
+            /* Tab 3: Simulateur Financier Mobile */
+            .sim-interactive-demo {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 14px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .sim-inputs-col, .sim-results-col {
+                width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 16px 14px !important;
+                border-radius: 12px !important;
+            }
+            .sim-control-label {
+                font-size: 0.85rem !important;
+            }
+            .sim-highlight {
+                font-size: 1rem !important;
+            }
 
             body {
                 padding-bottom: 85px;
