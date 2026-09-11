@@ -12,6 +12,7 @@
     
     <!-- Base Styles -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
 
     <style>
         /* Surcharge pour le thème Dark / Emerald du funnel */
@@ -343,11 +344,72 @@
     </style>
 </head>
 <body>
+    <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
+                </a>
 
-    <!-- En-tête minimaliste -->
-    <header class="funnel-header">
-        <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
+                <nav class="nav-menu">
+                    <a href="index.html#solutions" class="active">Nos programmes</a>
+                    <a href="guide-entrepreneur.html">Le guide pratique</a>
+                    <a href="co-fondateurs.html">Trouver un associé</a>
+                    <a href="beta-test.html">App DTC Pulse</a>
+                    <a href="rejoindre.html">La communauté</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Diagnostic offert</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </header>
+
+    <!-- Universal Responsive Mobile Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="index.html#solutions" class="mobile-nav-link" style="color: var(--funnel-accent);">
+            <span>Nos programmes</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="guide-entrepreneur.html" class="mobile-nav-link">
+            <span>Le guide pratique (Tome 1)</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="co-fondateurs.html" class="mobile-nav-link">
+            <span>Trouver un associé</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="beta-test.html" class="mobile-nav-link">
+            <span>Application DTC Pulse</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="rejoindre.html" class="mobile-nav-link">
+            <span>La communauté</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Diagnostic offert (30 min)</span>
+            </a>
+            <a href="login.html" class="mobile-nav-login">
+                <i class="fas fa-user-circle"></i>
+                <span>Espace membre / Se connecter</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Héro & VSL -->
     <main class="hero-funnel">
@@ -530,5 +592,6 @@
     </footer>
 
     <script src="./assets/js/mobile-nav.js?v=12.00"></script>
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 </html>

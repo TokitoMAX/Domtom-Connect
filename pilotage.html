@@ -11,89 +11,75 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
 
     <style>
-        :root {
-            --premium-bg: #020617;
-            --premium-surface: #0f172a;
-            --premium-card: #1e293b;
+        :root {            --premium-bg: #020617;
+            --premium-surface: #0b1329;
+            --premium-card: #0f172a;
             --accent: #10b981;
             --accent-hover: #059669;
-            --text-muted: #94a3b8;
-            --border-subtle: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #cbd5e1;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(16, 185, 129, 0.35);
         }
 
         body {
             background-color: var(--premium-bg);
-            color: #ffffff;
+            color: var(--text-primary);
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Header / Nav */
-        .funnel-header {
-            padding: 24px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-subtle);
-            background: rgba(15, 23, 42, 0.95);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .funnel-header img {
-            height: 40px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Hero */
         .hero {
-            min-height: 80vh;
+            min-height: 75vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 70px 20px 50px;
+            padding: 70px 20px 55px;
             position: relative;
             background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
             border-bottom: 1px solid var(--border-subtle);
         }
 
         .badge-pilotage {
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(16, 185, 129, 0.15);
             color: var(--accent);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 8px 20px;
+            border: 1px solid var(--border-accent);
+            padding: 8px 22px;
             border-radius: 100px;
             font-size: 0.82rem;
             font-weight: 800;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 24px;
             display: inline-block;
         }
 
         h1 {
-            font-size: clamp(2.3rem, 5vw, 4rem);
+            font-size: clamp(2.3rem, 5vw, 3.8rem);
             font-weight: 950;
-            line-height: 1.15;
-            letter-spacing: -0.04em;
+            line-height: 1.16;
+            letter-spacing: -0.035em;
             margin-bottom: 24px;
-            max-width: 920px;
+            max-width: 950px;
             color: #ffffff;
         }
 
         .subtitle {
             font-size: clamp(1.1rem, 2vw, 1.25rem);
-            color: var(--text-muted);
-            max-width: 760px;
-            line-height: 1.65;
+            color: #e2e8f0;
+            max-width: 780px;
+            line-height: 1.7;
             margin: 0 auto 36px auto;
         }
 
@@ -111,14 +97,14 @@
             justify-content: center;
             gap: 10px;
             background: var(--accent);
-            color: #ffffff;
+            color: #020617;
             padding: 18px 36px;
             border-radius: 16px;
             font-size: 1.05rem;
             font-weight: 800;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
             border: none;
             cursor: pointer;
         }
@@ -126,7 +112,7 @@
         .cta-button:hover {
             transform: translateY(-2px);
             background: var(--accent-hover);
-            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.45);
         }
 
         .cta-secondary {
@@ -138,22 +124,23 @@
             font-size: 1.05rem;
             font-weight: 700;
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .cta-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
 
         /* Container */
         .section-container {
             max-width: 1160px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 85px 20px;
         }
 
         .section-header {
@@ -161,54 +148,69 @@
             margin-bottom: 50px;
         }
 
+        .section-tag {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
         .section-title {
-            font-size: clamp(1.9rem, 4vw, 2.8rem);
+            font-size: clamp(1.9rem, 3.8vw, 2.7rem);
             font-weight: 900;
             letter-spacing: -0.03em;
-            color: white;
+            color: #ffffff;
             margin-bottom: 16px;
         }
 
         .section-desc {
-            font-size: 1.15rem;
-            color: var(--text-muted);
+            font-size: 1.12rem;
+            color: #cbd5e1;
             max-width: 760px;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
-        /* 3 Columns Grid */
+        /* 3 Columns Grid - High Contrast */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 24px;
+            gap: 26px;
         }
 
         .feature-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            padding: 32px;
-            transition: all 0.3s ease;
+            background: #0b1329;
+            border: 1px solid var(--border-accent);
+            border-radius: 22px;
+            padding: 34px 28px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(16, 185, 129, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s ease;
         }
 
         .feature-card:hover {
-            border-color: var(--accent);
+            border-color: #34d399;
             transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 35px rgba(16, 185, 129, 0.12);
         }
 
         .feature-icon {
-            width: 52px;
-            height: 52px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            width: 54px;
+            height: 54px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--accent);
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.45rem;
+            margin-bottom: 22px;
         }
 
         .feature-title {
@@ -216,33 +218,106 @@
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 12px;
+            line-height: 1.3;
         }
 
         .feature-text {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
+            color: #e2e8f0;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 22px;
         }
 
-        /* Two columns target */
-        .target-box {
+        .feature-bullets {
+            list-style: none;
+            padding: 18px 0 0;
+            margin: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .feature-bullets li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #f1f5f9;
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.45;
+        }
+
+        .feature-bullets li i {
+            color: var(--accent);
+            margin-top: 3px;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* 2 Columns Decision / Comparison Grid */
+        .comparison-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 28px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border-subtle);
-            border-radius: 28px;
-            padding: 40px;
             margin-top: 40px;
         }
 
-        .target-col h3 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            margin-bottom: 20px;
+        @media (max-width: 860px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .target-list {
+        .comparison-card {
+            border-radius: 24px;
+            padding: 36px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-freins {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .card-solutions {
+            background: linear-gradient(145deg, #0b152d 0%, #060e20 100%);
+            border: 1px solid var(--border-accent);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45), 0 0 35px rgba(16, 185, 129, 0.08);
+        }
+
+        .comp-badge {
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 14px;
+            border-radius: 999px;
+            width: fit-content;
+        }
+
+        .comp-badge-frein {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .comp-badge-solution {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+        }
+
+        .comp-title {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .comp-list {
             list-style: none;
             padding: 0;
             margin: 0;
@@ -251,172 +326,442 @@
             gap: 16px;
         }
 
-        .target-item {
+        .comp-item {
             display: flex;
             align-items: flex-start;
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 14px;
+            font-size: 0.96rem;
+            line-height: 1.55;
+            color: #e2e8f0;
+        }
+
+        .comp-item strong {
+            display: block;
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .comp-item i {
+            margin-top: 4px;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* 3 Steps Process */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 860px) {
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .process-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 30px 24px;
+            position: relative;
+        }
+
+        .process-step-num {
+            font-size: 1.8rem;
+            font-weight: 950;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-family: monospace;
+        }
+
+        .process-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .process-card p {
+            color: #cbd5e1;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Pricing Card */
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 26, 54, 0.85) 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: 28px;
+            padding: 55px 30px;
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .pricing-guarantees {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+            font-size: 0.86rem;
             color: #cbd5e1;
         }
 
-        .target-item strong {
-            color: #ffffff;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        /* Pricing Box */
-        .pricing-card {
-            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 32px;
-            padding: 50px 30px;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .pricing-card h2 {
-            color: #ffffff;
+        .pricing-guarantees span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
     </style>
 </head>
 <body>
+    <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
+                </a>
 
-    <header class="funnel-header">
-        <a href="index.html">
-            <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
-        </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li class="has-dropdown">
+                        <a href="index.html#solutions" class="nav-link dropdown-toggle active" id="nav-programmes-btn">
+                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Accompagnement & Direction</span>
+                                    <span class="dropdown-desc">Pilotage externe & rentabilité d'entreprise</span>
+                                </div>
+                            </a>
+                            <a href="tremplin.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Programme Tremplin</span>
+                                    <span class="dropdown-desc">Validation et décollage de votre projet</span>
+                                </div>
+                            </a>
+                            <a href="co-fondateurs.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Trouver un Associé</span>
+                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
+                                </div>
+                            </a>
+                            <a href="incubateur.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Incubateur & Hub</span>
+                                    <span class="dropdown-desc">Écosystème & ressources collectives</span>
+                                </div>
+                            </a>
+                            <a href="boutique.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">La Librairie & Guides</span>
+                                    <span class="dropdown-desc">Tome 1, simulateur interactif & outils</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-footer">
+                                <a href="index.html#solutions" class="dropdown-overview-link">
+                                    <span>Voir la vue d'ensemble des piliers</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
+                    <li><a href="rejoindre.html" class="nav-link">La communauté</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Diagnostic offert</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </header>
 
+    <!-- Universal Responsive Mobile Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="index.html" class="mobile-nav-link">
+            <span><i class="fas fa-home" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Accueil</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-group open">
+            <div class="mobile-nav-group-header">
+                <span><i class="fas fa-compass" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Programmes & Pages Dédiées</span>
+                <i class="fas fa-chevron-down mobile-group-caret"></i>
+            </div>
+            <div class="mobile-nav-sublinks">
+                <a href="pilotage.html" class="mobile-sublink" style="color: var(--accent);">
+                    <i class="fas fa-chart-line"></i> Accompagnement Stratégique & Copilotage
+                </a>
+                <a href="tremplin.html" class="mobile-sublink">
+                    <i class="fas fa-rocket"></i> Programme Tremplin
+                </a>
+                <a href="co-fondateurs.html" class="mobile-sublink">
+                    <i class="fas fa-handshake"></i> Trouver un Associé
+                </a>
+                <a href="incubateur.html" class="mobile-sublink">
+                    <i class="fas fa-network-wired"></i> Incubateur & Hub Projets
+                </a>
+                <a href="boutique.html" class="mobile-sublink">
+                    <i class="fas fa-book-bookmark"></i> La Librairie (Tome 1)
+                </a>
+                <a href="index.html#solutions" class="mobile-sublink overview">
+                    <i class="fas fa-th-large"></i> Vue d'ensemble des 3 piliers
+                </a>
+            </div>
+        </div>
+        <a href="beta-test.html" class="mobile-nav-link">
+            <span>Application DTC Pulse</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="rejoindre.html" class="mobile-nav-link">
+            <span>La communauté</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Diagnostic offert (30 min)</span>
+            </a>
+            <a href="login.html" class="mobile-nav-login">
+                <i class="fas fa-user-circle"></i>
+                <span>Espace membre / Se connecter</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Hero -->
-    <header class="hero">
-        <div class="badge-pilotage">Bras Droit Opérationnel à la Demande</div>
+    <section class="hero" style="padding-top: 50px;">
+        <div class="badge-pilotage">Pilotage Stratégique & Direction Opérationnelle Externe</div>
         
-        <h1>Concentrez-vous sur vos ventes. <br><span style="color: var(--accent);">Nous gérons les blocages opérationnels.</span></h1>
+        <h1>Reprenez le contrôle de vos marges. <br><span style="color: var(--accent);">Déléguez le pilotage opérationnel complexe.</span></h1>
         
         <p class="subtitle">
-            Gérer un site web, produire du contenu, configurer des outils ou relancer des prestataires consomme votre temps et votre énergie. Nous intervenons comme votre bras droit opérationnel pour régler ces frictions et vous permettre de développer votre chiffre d'affaires.
+            Entre surcoûts d'importation, logistique insulaire et gestion du quotidien, votre temps de dirigeant ne devrait pas être aspiré par les détails techniques. Nous intervenons comme votre copilote exécutif pour protéger votre rentabilité nette et accélérer votre croissance.
         </p>
 
         <div class="cta-group">
             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button">
-                Réserver un échange de cadrage (30 min) <i class="fas fa-arrow-right"></i>
+                Réserver un diagnostic stratégique offert (30 min) <i class="fas fa-arrow-right"></i>
             </a>
-            <a href="index.html#nos-accompagnements" class="cta-secondary">
-                Voir tous nos programmes
+            <a href="index.html#solutions" class="cta-secondary">
+                Voir la vue d'ensemble des 3 piliers
             </a>
         </div>
-    </header>
+    </section>
 
     <!-- 3 Domaines d'intervention -->
     <section class="section-container">
         <div class="section-header">
             <h2 class="section-title">Ce que nous prenons en charge</h2>
             <p class="section-desc">
-                Une intervention sur-mesure pour vous décharger immédiatement des tâches techniques et chronophages.
+                Une prise en main directe sur les 3 leviers critiques de la rentabilité et de la croissance de votre entreprise.
             </p>
         </div>
 
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-laptop-code"></i></div>
-                <h3 class="feature-title">Site Web &amp; Outils Digitaux</h3>
+                <div class="feature-icon"><i class="fas fa-calculator"></i></div>
+                <h3 class="feature-title">Ingénierie Financière &amp; Marges</h3>
                 <p class="feature-text">
-                    Création, mise à jour, intégration de formulaires de contact et maintenance technique de vos plateformes sans perte de temps.
+                    Audit approfondi de vos coûts de revient, optimisation des surcoûts d'importation (fret, octroi de mer) et pilotage mensuel de votre trésorerie nette.
                 </p>
+                <ul class="feature-bullets">
+                    <li><i class="fas fa-check"></i> Audit du seuil de rentabilité par offre &amp; produit</li>
+                    <li><i class="fas fa-check"></i> Anticipation des tensions de trésorerie &amp; arbitrages</li>
+                    <li><i class="fas fa-check"></i> Rationalisation des coûts de transport &amp; logistique</li>
+                </ul>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-bullhorn"></i></div>
-                <h3 class="feature-title">Création de Contenu &amp; Visibilité</h3>
+                <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                <h3 class="feature-title">Moteurs d'Acquisition &amp; Croissance</h3>
                 <p class="feature-text">
-                    Mise en forme de vos publications, montage de vidéos courtes et optimisation de vos visuels pour alimenter votre communication.
+                    Repositionnement de vos offres pour capter la clientèle solvable locale et diaspora, et déploiement de tunnels de qualification performants.
                 </p>
+                <ul class="feature-bullets">
+                    <li><i class="fas fa-check"></i> Restructuration des offres vers une forte valeur perçue</li>
+                    <li><i class="fas fa-check"></i> Qualification automatique des prospects B2B &amp; B2C</li>
+                    <li><i class="fas fa-check"></i> Augmentation de la valeur à vie client &amp; panier moyen</li>
+                </ul>
             </div>
 
             <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-tasks"></i></div>
-                <h3 class="feature-title">Coordination Opérationnelle</h3>
+                <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3 class="feature-title">Direction Opérationnelle &amp; Déblocage</h3>
                 <p class="feature-text">
-                    Suivi de vos prestataires, paramétrage de vos tunnels de qualification et résolution des blocages du quotidien.
+                    Votre bras droit exécutif : cadrage et pilotage des prestataires, levée des goulots d'étranglement et comités d'arbitrage hebdomadaires.
                 </p>
+                <ul class="feature-bullets">
+                    <li><i class="fas fa-check"></i> Point d'arbitrage hebdomadaire avec tableau de bord</li>
+                    <li><i class="fas fa-check"></i> Cadrage strict et suivi des prestataires externes</li>
+                    <li><i class="fas fa-check"></i> 10 à 15h par semaine restituées au dirigeant</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- À qui s'adresse le Copilotage ? -->
-    <section style="background: rgba(2, 6, 23, 0.7); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+    <!-- Grille comparative / Décision : Pour qui est faite cette offre ? -->
+    <section style="background: rgba(2, 6, 23, 0.7); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); padding: 70px 0;">
         <div class="section-container">
             <div class="section-header">
-                <h2 class="section-title">Pour qui est faite cette offre ?</h2>
+                <h2 class="section-title">Cette offre est-elle adaptée à votre entreprise ?</h2>
                 <p class="section-desc">
-                    Une collaboration agile conçue pour les dirigeants qui ont besoin d'exécution rapide.
+                    Une grille de décision claire pour identifier si notre intervention produira un effet de levier direct sur vos résultats.
                 </p>
             </div>
 
-            <div class="target-box">
-                <div class="target-col">
-                    <h3 style="color: var(--accent);">Idéal pour votre entreprise si</h3>
-                    <div class="target-list">
-                        <div class="target-item">
-                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+            <div class="comparison-grid">
+                <!-- Situation Actuelle / Freins -->
+                <div class="comparison-card card-freins">
+                    <span class="comp-badge comp-badge-frein">Situation actuelle fréquente</span>
+                    <h3 class="comp-title">Les freins qui bloquent votre rentabilité</h3>
+                    <ul class="comp-list">
+                        <li class="comp-item">
+                            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
                             <div>
-                                <strong>Vous manquez de temps</strong>
-                                Vous passez trop d'heures sur des détails techniques au lieu de prospecter et de servir vos clients.
+                                <strong>Noyé dans les urgences opérationnelles</strong>
+                                Vous passez vos soirées et week-ends à régler des blocages logistiques ou administratifs au lieu de prospecter et de piloter.
                             </div>
-                        </div>
-                        <div class="target-item">
-                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
                             <div>
-                                <strong>Vous voulez de l'agilité</strong>
-                                Pas besoin de recruter à temps plein : vous bénéficiez d'une assistance opérationnelle à la demande.
+                                <strong>Marges rognées par les spécificités locales</strong>
+                                Fret maritime ou aérien, octroi de mer, délais d'approvisionnement : ces surcoûts grignotent votre marge nette sans visibilité claire.
                             </div>
-                        </div>
-                        <div class="target-item">
-                            <i class="fas fa-check" style="color: var(--accent); margin-top: 4px;"></i>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
                             <div>
-                                <strong>Vous avez une activité en cours</strong>
-                                Vous générez déjà des revenus ou vous lancez une offre validée nécessitant un déploiement propre.
+                                <strong>Isolement dans la prise de décision</strong>
+                                Trancher seul sur les embauches, les investissements et les contrats sans regard stratégique externe aguerri au terrain.
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-times-circle" style="color: #ef4444;"></i>
+                            <div>
+                                <strong>Plafond de verre de chiffre d'affaires</strong>
+                                L'activité tourne, mais la croissance stagne faute de process d'acquisition structurés et reproductibles.
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="target-col" style="border-left: 1px solid var(--border-subtle); padding-left: 20px;">
-                    <h3 style="color: #cbd5e1;">Les bénéfices immédiats</h3>
-                    <div class="target-list">
-                        <div class="target-item">
-                            <i class="fas fa-arrow-right" style="color: var(--accent); margin-top: 4px;"></i>
+                <!-- Solution Domtom Connect -->
+                <div class="comparison-card card-solutions">
+                    <span class="comp-badge comp-badge-solution">Avec le Copilotage Domtom Connect</span>
+                    <h3 class="comp-title">Un cap clair et une rentabilité défendue</h3>
+                    <ul class="comp-list">
+                        <li class="comp-item">
+                            <i class="fas fa-check-circle" style="color: var(--accent);"></i>
                             <div>
-                                <strong>Charge mentale réduite</strong>
-                                Vous savez que l'exécution technique et le suivi sont traités par une équipe réactive.
+                                <strong>10 à 15 heures libérées chaque semaine</strong>
+                                Nous absorbons la coordination opérationnelle et débloquons les frictions. Vous vous consacrez à vos clients et vos ventes.
                             </div>
-                        </div>
-                        <div class="target-item">
-                            <i class="fas fa-arrow-right" style="color: var(--accent); margin-top: 4px;"></i>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-check-circle" style="color: var(--accent);"></i>
                             <div>
-                                <strong>Accélération commerciale</strong>
-                                Vous consacrez 100% de votre énergie aux rendez-vous clients et à la facturation.
+                                <strong>Visibilité financière en temps réel</strong>
+                                Marges unitaires maîtrisées, seuil de rentabilité audité, arbitrages de cash sécurisés face aux contraintes insulaires.
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                            <div>
+                                <strong>Un copilote engagé à vos côtés</strong>
+                                Un regard stratégique externe direct, sans complaisance, pour trancher rapidement et sécuriser vos orientations d'entreprise.
+                            </div>
+                        </li>
+                        <li class="comp-item">
+                            <i class="fas fa-check-circle" style="color: var(--accent);"></i>
+                            <div>
+                                <strong>Actifs d'acquisition rentables</strong>
+                                Offres repackagées à forte valeur perçue, tunnels de conversion activés et flux de prospects qualifiés régulier.
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing / Next Steps -->
-    <section class="section-container">
+    <!-- Le processus en 3 étapes -->
+    <section class="section-container" style="padding: 70px 24px;">
+        <div class="section-header">
+            <h2 class="section-title">Le processus de copilotage en 3 étapes</h2>
+            <p class="section-desc">
+                Une méthode structurée pour sécuriser des victoires concrètes dès les 30 premiers jours.
+            </p>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-card">
+                <div class="process-step-num">01</div>
+                <h3>Audit Initial &amp; Diagnostic (Offert)</h3>
+                <p>
+                    30 minutes d'échange pour auditer vos marges, vos coûts de fonctionnement, vos blocages actuels et définir les priorités d'arbitrage.
+                </p>
+            </div>
+            <div class="process-card">
+                <div class="process-step-num">02</div>
+                <h3>Feuille de Route à 90 Jours</h3>
+                <p>
+                    Plan d'action précis axé sur la protection du cash immédiat, la clarification de vos offres et la levée des goulots d'étranglement.
+                </p>
+            </div>
+            <div class="process-card">
+                <div class="process-step-num">03</div>
+                <h3>Copilotage &amp; Arbitrages Réguliers</h3>
+                <p>
+                    Points d'arbitrage hebdomadaires, suivi des indicateurs clés sur tableau de bord partagé et soutien opérationnel continu.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Next Steps Callout -->
+    <section class="section-container" style="padding-bottom: 70px;">
         <div class="pricing-card">
-            <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; margin-bottom: 14px; color: #ffffff;">Un accompagnement sur-mesure</h2>
-            <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto 28px;">
-                Chaque entreprise a des besoins spécifiques. Nous dimensionnons notre intervention après un diagnostic direct de votre situation.
+            <div style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 12px;">Accompagnement Sur-Mesure</div>
+            <h2 style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 900; margin-bottom: 16px; color: #ffffff;">Prêt à structurer votre entreprise et sécuriser vos marges ?</h2>
+            <p style="color: #cbd5e1; font-size: 1.05rem; max-width: 620px; margin: 0 auto 30px; line-height: 1.6;">
+                Chaque entreprise ultramarine présente des défis spécifiques. Nous dimensionnons notre intervention sur-mesure après avoir audité votre modèle économique.
             </p>
             
-            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button">
-                Planifier un diagnostic stratégique offert (30 min) <i class="fas fa-arrow-right"></i>
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button" style="font-size: 1.05rem; padding: 18px 36px;">
+                Planifier mon diagnostic stratégique offert (30 min) <i class="fas fa-arrow-right"></i>
             </a>
+
+            <div class="pricing-guarantees">
+                <span><i class="fas fa-shield-alt" style="color: var(--accent);"></i> Sans engagement 12 mois</span>
+                <span><i class="fas fa-lock" style="color: var(--accent);"></i> Confidentialité totale (accord NDA)</span>
+                <span><i class="fas fa-globe-americas" style="color: var(--accent);"></i> Expertise Outre-mer &amp; Diaspora</span>
+            </div>
         </div>
     </section>
 
@@ -427,9 +772,10 @@
             <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
                 <a href="tremplin.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Programme Tremplin</a>
                 <a href="pilotage.html" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">Offre de Copilotage</a>
-                <a href="co-fondateurs.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Création de Business à Deux</a>
-                <a href="incubateur.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">L'Incubateur</a>
-                <a href="index.html#nos-accompagnements" style="padding: 10px 20px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Voir toutes les offres</a>
+                <a href="co-fondateurs.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Trouver un Associé</a>
+                <a href="incubateur.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">L'Incubateur &amp; Hub</a>
+                <a href="boutique.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">La Librairie (Tome 1)</a>
+                <a href="index.html#solutions" style="padding: 10px 20px; background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Vue d'ensemble des 3 piliers</a>
             </div>
         </div>
     </div>
@@ -448,6 +794,6 @@
         </div>
     </footer>
 
-    <script src="./assets/js/mobile-nav.js?v=12.00"></script>
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 </html>

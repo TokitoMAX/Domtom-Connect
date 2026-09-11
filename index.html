@@ -47,6 +47,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="assets/css/site-nav.css"/>
 
     <!-- Calendly Integration -->
     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
@@ -142,159 +143,54 @@
             z-index: 0;
         }
 
-        /* Clean Top Navigation */
-        .site-nav {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: rgba(2, 6, 23, 0.94);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-subtle);
-            height: 76px;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            gap: 24px;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            flex-shrink: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .nav-brand:hover {
-            opacity: 0.92;
-        }
-
-        .nav-brand img {
-            height: 40px;
-            width: auto;
-            max-width: 110px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .nav-brand-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-brand-tag {
-            font-size: 0.72rem;
-            background: rgba(16, 185, 129, 0.12);
-            color: var(--accent);
-            border: 1px solid rgba(16, 185, 129, 0.28);
-            padding: 3px 9px;
-            border-radius: 999px;
-            font-weight: 700;
-            margin-left: 2px;
-        }
-
-        @media (max-width: 1100px) {
-            .nav-brand-tag { display: none; }
-        }
-
-        @media (max-width: 480px) {
-            .nav-brand img {
-                height: 32px;
+        /* Responsive Enhancements for Hero & Components */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 40px 0 50px !important;
             }
-            .nav-brand-title {
-                font-size: 1rem;
+            .hero-left h1 {
+                font-size: 1.95rem !important;
+                line-height: 1.25 !important;
             }
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-menu a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-
-        .nav-menu a:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .nav-btn-login {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 8px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .nav-btn-login:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .nav-btn-cta {
-            background: var(--accent);
-            color: #020617 !important;
-            font-weight: 800;
-            font-size: 0.86rem;
-            padding: 10px 18px;
-            border-radius: 12px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
-            white-space: nowrap;
-        }
-
-        .nav-btn-cta:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: transparent;
-            border: none;
-            color: #ffffff;
-            font-size: 1.3rem;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        @media (max-width: 992px) {
-            .nav-menu { display: none; }
-            .mobile-toggle { display: block; }
+            .hero-left p.hero-desc {
+                font-size: 0.98rem !important;
+                line-height: 1.6 !important;
+            }
+            .hero-actions-wrap {
+                flex-direction: column !important;
+                width: 100% !important;
+                gap: 12px !important;
+            }
+            .hero-actions-wrap .btn-primary,
+            .hero-actions-wrap .btn-secondary {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 14px 20px !important;
+                font-size: 0.95rem !important;
+            }
+            .reassurance-list {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+                font-size: 0.82rem !important;
+                width: 100% !important;
+            }
+            .scope-strip-inner {
+                flex-direction: column !important;
+                gap: 12px !important;
+                text-align: center !important;
+            }
+            .situation-tabs {
+                flex-direction: column !important;
+                gap: 8px !important;
+                width: 100% !important;
+            }
+            .situation-tab-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                text-align: center !important;
+                padding: 12px 16px !important;
+            }
         }
 
         /* Badges */
@@ -1233,13 +1129,59 @@
                     <span class="nav-brand-tag">Conseil &amp; Réseau</span>
                 </a>
 
-                <nav class="nav-menu">
-                    <a href="#solutions">Nos programmes</a>
-                    <a href="guide-entrepreneur.html">Le guide pratique</a>
-                    <a href="co-fondateurs.html">Trouver un associé</a>
-                    <a href="beta-test.html">App DTC Pulse</a>
-                    <a href="rejoindre.html">La communauté</a>
-                </nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li class="has-dropdown">
+                        <a href="#solutions" class="nav-link dropdown-toggle" id="nav-programmes-btn">
+                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Accompagnement & Direction</span>
+                                    <span class="dropdown-desc">Pilotage externe & rentabilité d'entreprise</span>
+                                </div>
+                            </a>
+                            <a href="tremplin.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Programme Tremplin</span>
+                                    <span class="dropdown-desc">Validation et décollage de votre projet</span>
+                                </div>
+                            </a>
+                            <a href="co-fondateurs.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Trouver un Associé</span>
+                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
+                                </div>
+                            </a>
+                            <a href="incubateur.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Incubateur & Hub</span>
+                                    <span class="dropdown-desc">Écosystème & ressources collectives</span>
+                                </div>
+                            </a>
+                            <a href="boutique.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">La Librairie & Guides</span>
+                                    <span class="dropdown-desc">Tome 1, simulateur interactif & outils</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-footer">
+                                <a href="#solutions" class="dropdown-overview-link">
+                                    <span>Voir la vue d'ensemble des piliers</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
+                    <li><a href="rejoindre.html" class="nav-link">La communauté</a></li>
+                </ul>
 
                 <div class="nav-actions">
                     <a href="login.html" class="nav-btn-login">Se connecter</a>
@@ -1247,13 +1189,66 @@
                         <span>Diagnostic offert</span>
                         <i class="fas fa-calendar-alt"></i>
                     </a>
-                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn">
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Universal Responsive Mobile Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="index.html" class="mobile-nav-link">
+            <span><i class="fas fa-home" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Accueil</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-group">
+            <div class="mobile-nav-group-header">
+                <span><i class="fas fa-compass" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Programmes & Pages Dédiées</span>
+                <i class="fas fa-chevron-down mobile-group-caret"></i>
+            </div>
+            <div class="mobile-nav-sublinks">
+                <a href="pilotage.html" class="mobile-sublink">
+                    <i class="fas fa-chart-line"></i> Accompagnement Stratégique & Copilotage
+                </a>
+                <a href="tremplin.html" class="mobile-sublink">
+                    <i class="fas fa-rocket"></i> Programme Tremplin
+                </a>
+                <a href="co-fondateurs.html" class="mobile-sublink">
+                    <i class="fas fa-handshake"></i> Trouver un Associé
+                </a>
+                <a href="incubateur.html" class="mobile-sublink">
+                    <i class="fas fa-network-wired"></i> Incubateur & Hub Projets
+                </a>
+                <a href="boutique.html" class="mobile-sublink">
+                    <i class="fas fa-book-bookmark"></i> La Librairie (Tome 1)
+                </a>
+                <a href="#solutions" class="mobile-sublink overview">
+                    <i class="fas fa-th-large"></i> Vue d'ensemble des 3 piliers
+                </a>
+            </div>
+        </div>
+        <a href="beta-test.html" class="mobile-nav-link">
+            <span>Application DTC Pulse</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="rejoindre.html" class="mobile-nav-link">
+            <span>La communauté</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" class="mobile-nav-cta">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Diagnostic offert (30 min)</span>
+            </a>
+            <a href="login.html" class="mobile-nav-login">
+                <i class="fas fa-user-circle"></i>
+                <span>Espace membre / Se connecter</span>
+            </a>
+        </div>
+    </div>
 
     <!-- SLIDE 1 : HERO SECTION (Split Layout + Visual Product Showcase) -->
     <section class="hero-section">
@@ -1893,27 +1888,8 @@
                     });
                 }
             });
-
-            // Mobile menu toggle
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const navMenu = document.querySelector('.nav-menu');
-            if (mobileBtn && navMenu) {
-                mobileBtn.addEventListener('click', () => {
-                    const isVisible = navMenu.style.display === 'flex';
-                    navMenu.style.display = isVisible ? 'none' : 'flex';
-                    if (!isVisible) {
-                        navMenu.style.position = 'absolute';
-                        navMenu.style.top = '76px';
-                        navMenu.style.left = '0';
-                        navMenu.style.width = '100%';
-                        navMenu.style.flexDirection = 'column';
-                        navMenu.style.background = '#020617';
-                        navMenu.style.padding = '20px';
-                        navMenu.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
-                    }
-                });
-            }
         });
     </script>
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 </html>

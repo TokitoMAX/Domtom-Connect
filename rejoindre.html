@@ -29,6 +29,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css?v=12.00">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
     
     <style>
         :root {
@@ -428,18 +429,144 @@
     </style>
 </head>
 <body>
+    <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li class="has-dropdown">
+                        <a href="index.html#solutions" class="nav-link dropdown-toggle" id="nav-programmes-btn">
+                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Accompagnement & Direction</span>
+                                    <span class="dropdown-desc">Pilotage externe & rentabilité d'entreprise</span>
+                                </div>
+                            </a>
+                            <a href="tremplin.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Programme Tremplin</span>
+                                    <span class="dropdown-desc">Validation et décollage de votre projet</span>
+                                </div>
+                            </a>
+                            <a href="co-fondateurs.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Trouver un Associé</span>
+                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
+                                </div>
+                            </a>
+                            <a href="incubateur.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Incubateur & Hub</span>
+                                    <span class="dropdown-desc">Écosystème & ressources collectives</span>
+                                </div>
+                            </a>
+                            <a href="boutique.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">La Librairie & Guides</span>
+                                    <span class="dropdown-desc">Tome 1, simulateur interactif & outils</span>
+                                </div>
+                            </a>
+                            <div class="dropdown-footer">
+                                <a href="index.html#solutions" class="dropdown-overview-link">
+                                    <span>Voir la vue d'ensemble des piliers</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
+                    <li><a href="rejoindre.html" class="nav-link active">La communauté</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Diagnostic offert</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Universal Responsive Mobile Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="index.html" class="mobile-nav-link">
+            <span><i class="fas fa-home" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Accueil</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-group">
+            <div class="mobile-nav-group-header">
+                <span><i class="fas fa-compass" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Programmes & Pages Dédiées</span>
+                <i class="fas fa-chevron-down mobile-group-caret"></i>
+            </div>
+            <div class="mobile-nav-sublinks">
+                <a href="pilotage.html" class="mobile-sublink">
+                    <i class="fas fa-chart-line"></i> Accompagnement Stratégique & Copilotage
+                </a>
+                <a href="tremplin.html" class="mobile-sublink">
+                    <i class="fas fa-rocket"></i> Programme Tremplin
+                </a>
+                <a href="co-fondateurs.html" class="mobile-sublink">
+                    <i class="fas fa-handshake"></i> Trouver un Associé
+                </a>
+                <a href="incubateur.html" class="mobile-sublink">
+                    <i class="fas fa-network-wired"></i> Incubateur & Hub Projets
+                </a>
+                <a href="boutique.html" class="mobile-sublink">
+                    <i class="fas fa-book-bookmark"></i> La Librairie (Tome 1)
+                </a>
+                <a href="index.html#solutions" class="mobile-sublink overview">
+                    <i class="fas fa-th-large"></i> Vue d'ensemble des 3 piliers
+                </a>
+            </div>
+        </div>
+        <a href="beta-test.html" class="mobile-nav-link">
+            <span>Application DTC Pulse</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="rejoindre.html" class="mobile-nav-link" style="color: var(--brand-green);">
+            <span>La communauté</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Diagnostic offert (30 min)</span>
+            </a>
+            <a href="login.html" class="mobile-nav-login">
+                <i class="fas fa-user-circle"></i>
+                <span>Espace membre / Se connecter</span>
+            </a>
+        </div>
+    </div>
 
     <!-- Header / Brand -->
-    <header class="hub-header">
-        <a href="index.html" class="hub-logo-container">
-            <img src="assets/images/logo-domtomconnect.png" alt="Logo Domtom Connect" class="hub-logo-img">
-            <span class="hub-logo-text">Domtom <span>Connect</span></span>
-        </a>
+    <section class="hub-header" style="padding-top: 40px;">
         <h1 class="hub-title">Rejoignez la Communauté WhatsApp</h1>
         <p class="hub-subtitle">
             Échangez, partagez des opportunités et développez votre réseau avec les acteurs des Caraïbes, d'Afrique et de la Diaspora.
         </p>
-    </header>
+    </section>
 
     <!-- Main Container -->
     <main class="hub-main">
@@ -836,5 +963,6 @@
             }, 1200);
         });
     </script>
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 </html>

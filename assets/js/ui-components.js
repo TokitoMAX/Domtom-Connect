@@ -363,7 +363,7 @@ const UIComponents = {
 
         navContainer.innerHTML = `
             <a href="${adjust('index.html')}" class="nav-brand">
-                <img src="${adjust('assets/images/logo-domtomconnect.png')}" alt="Domtom Connect" class="nav-logo">
+                <img src="${adjust('assets/images/logo-emblem-dark-clean.png')}" alt="Domtom Connect" class="nav-logo">
                 <span class="nav-brand-name" style="${isDarkPage ? 'color: white;' : ''}">Domtom Connect</span>
             </a>
             

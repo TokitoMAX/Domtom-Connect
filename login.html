@@ -20,6 +20,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="assets/css/style.css?v=10.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
 
     <style>
         .auth-page {
@@ -156,35 +158,72 @@
 </head>
 
 <body class="auth-page">
-    <nav class="navbar">
+    <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
         <div class="container">
-            <a href="" class="nav-brand" id="logo-home" title="Accueil Domtom Connect">
-                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="nav-logo">
-                <div class="nav-brand-text">
-                    <span class="nav-brand-name">Domtom Connect</span>
-                </div>
-            </a>
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"
-                aria-controls="primary-navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-content" id="primary-navigation">
-                <div class="nav-links" id="nav-links-container">
-                    <a href="marketplace/directory">Talents</a>
-                    <a href="marketplace/jobs">Missions</a>
-                    <a href="marketplace/projects">Projets</a>
-                    <a href="marketplace/evenements">Événements</a>
-                    <a href="marketplace/companies">Entreprises</a>
-                </div>
-                <div class="nav-actions" id="nav-actions-container">
-                    <a href="login.html" class="cta-button secondary" id="login-link">Connexion</a>
-                    <a href="register-choice.html" class="cta-button primary" id="start-button">Démarrer</a>
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
+                </a>
+
+                <nav class="nav-menu">
+                    <a href="index.html#solutions">Nos programmes</a>
+                    <a href="guide-entrepreneur.html">Le guide pratique</a>
+                    <a href="co-fondateurs.html">Trouver un associé</a>
+                    <a href="beta-test.html">App DTC Pulse</a>
+                    <a href="rejoindre.html">La communauté</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login" style="color: #ffffff;">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Diagnostic offert</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
+
+    <!-- Universal Responsive Mobile Drawer -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="index.html#solutions" class="mobile-nav-link">
+            <span>Nos programmes</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="guide-entrepreneur.html" class="mobile-nav-link">
+            <span>Le guide pratique (Tome 1)</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="co-fondateurs.html" class="mobile-nav-link">
+            <span>Trouver un associé</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="beta-test.html" class="mobile-nav-link">
+            <span>Application DTC Pulse</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="rejoindre.html" class="mobile-nav-link">
+            <span>La communauté</span>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Diagnostic offert (30 min)</span>
+            </a>
+            <a href="login.html" class="mobile-nav-login" style="color: var(--accent);">
+                <i class="fas fa-user-circle"></i>
+                <span>Espace membre / Se connecter</span>
+            </a>
+        </div>
+    </div>
 
     <main class="auth-card" style="margin-top: 100px;">
         <header class="auth-header">
@@ -319,6 +358,7 @@
             }
         });
     </script>
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 
 </html>
