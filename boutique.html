@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Librairie — Domtom Connect Éditions</title>
+    <meta name="description" content="Découvrez les ouvrages et guides d'action de Domtom Connect Éditions pour entreprendre sans excuse dans les Caraïbes, l'Afrique, l'Océan Indien et la diaspora.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #020617;
+            --bg-surface: #0b1329;
+            --bg-card: #0f172a;
+            --bg-card-hover: #141f36;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-gold: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(16, 185, 129, 0.35);
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .topbar {
+            background: #090e1f;
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 8px 20px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .topbar .pill {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 24px;
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+        .nav-brand img {
+            height: 36px;
+            filter: brightness(0) invert(1);
+        }
+        .nav-brand .brand-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .nav-brand .brand-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 70px 20px 50px;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.18) 0%, transparent 60%);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .badge-edition {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Container & Catalog */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px 90px;
+        }
+
+        .section-title-box {
+            margin-bottom: 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 16px;
+        }
+        .section-title-box h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .section-title-box span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Carte Bestseller Tome 1 */
+        .featured-book-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 50px;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 45px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4), 0 0 40px rgba(16, 185, 129, 0.06);
+            position: relative;
+        }
+
+        .book-cover-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .book-cover-wrap {
+            width: 100%;
+            max-width: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 20px;
+            background: #020617;
+        }
+        .book-cover-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .btn-read-sample {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 280px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .btn-read-sample:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Contenu du livre */
+        .book-info-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .book-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            width: fit-content;
+            margin-bottom: 12px;
+        }
+        .book-title {
+            font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+            font-weight: 900;
+            line-height: 1.25;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .book-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 18px;
+        }
+        .book-meta-tags {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .book-meta-tags span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .book-meta-tags i {
+            color: var(--accent);
+        }
+        .book-desc {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 28px;
+        }
+
+        /* Sélecteur de format e-commerce */
+        .format-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+        .format-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .format-box:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--bg-card-hover);
+        }
+        .format-box.featured-format {
+            border-color: #3b82f6;
+            background: linear-gradient(145deg, #0d172a 0%, #10203e 100%);
+        }
+        .format-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        .format-box.featured-format .format-tag {
+            color: #60a5fa;
+        }
+        .format-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        .format-details {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            margin-bottom: 16px;
+        }
+        .format-price-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .format-price {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+        }
+        .format-strike {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .btn-buy-format {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+        .btn-buy-5 {
+            background: var(--accent);
+            color: #041f17;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .btn-buy-5:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+        .btn-buy-27 {
+            background: #3b82f6;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        .btn-buy-27:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        /* Cartes du reste de la collection (Tome 2 Soon) */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .book-card-soon {
+            background: var(--bg-card);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            opacity: 0.85;
+        }
+        .badge-soon {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            width: fit-content;
+            margin-bottom: 16px;
+        }
+        .soon-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .soon-desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        .btn-notify-soon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: default;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 50px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .featured-book-card {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 24px;
+            }
+            .format-selection-grid {
+                grid-template-columns: 1fr;
+            }
+            .book-cover-col {
+                max-width: 240px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="topbar">
+        <span class="pill">Domtom Connect Éditions</span>
+        <span>Ouvrages d'Action & Stratégie pour les Caraïbes, l'Afrique et la Diaspora</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect Logo">
+                <div>
+                    <span class="brand-title">Domtom Connect</span>
+                    <span class="brand-badge">La Librairie</span>
+                </div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="chapitre1-lecture.html" style="color: var(--accent);">Chapitre 1 Gratuit</a>
+                <a href="#catalogue">Collection</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <div class="hero-container">
+            <div class="badge-edition">
+                <i class="fa-solid fa-book-bookmark"></i> Catalogue Officiel
+            </div>
+            <h1>La Librairie de l'Entrepreneur de Terrain.</h1>
+            <p>
+                Des ouvrages d'action sans fioritures ni théorie déconnectée, écrits spécifiquement pour la réalité économique et humaine de nos territoires.
+            </p>
+        </div>
+    </header>
+
+    <!-- Catalogue -->
+    <main class="container" id="catalogue">
+
+        <div class="section-title-box">
+            <h2>Collection Officielle · Les Fondamentaux</h2>
+            <span>Édition d'Auteur Domtom Connect</span>
+        </div>
+
+        <!-- 1. LIVRE EN VEDETTE : TOME 1 -->
+        <article class="featured-book-card">
+            
+            <!-- Colonne Couverture -->
+            <div class="book-cover-col">
+                <div class="book-cover-wrap">
+                    <img src="assets/images/couverture-guide-tome1.jpg" alt="Couverture Livre Tome 1">
+                </div>
+                <a href="chapitre1-lecture.html" class="btn-read-sample">
+                    <i class="fa-solid fa-eye"></i> Feuilleter le Chapitre 1
+                </a>
+            </div>
+
+            <!-- Colonne Contenu & Formats -->
+            <div class="book-info-col">
+                <div class="book-status-badge">
+                    <i class="fa-solid fa-circle-check"></i> Tome 1 · Disponible Immédiatement
+                </div>
+                
+                <h3 class="book-title">
+                    Les Fondamentaux de l'Entrepreneur
+                </h3>
+                <div class="book-subtitle">
+                    La Première Séance : De l'Idée au Terrain sans Excuse
+                </div>
+
+                <div class="book-meta-tags">
+                    <span><i class="fa-solid fa-file-lines"></i> 41 pages denses</span>
+                    <span><i class="fa-solid fa-layer-group"></i> 4 Actes · 28 chapitres</span>
+                    <span><i class="fa-solid fa-location-dot"></i> Caraïbes · Afrique · Réunion · Diaspora</span>
+                </div>
+
+                <p class="book-desc">
+                    La consultation écrite sans concession pour nettoyer les illusions d'Internet, débloquer le syndrome de l'imposteur, structurer une offre que le client ne peut pas refuser, et trouver ses premiers clients sous 30 jours sans risquer la ruine de sa famille.
+                </p>
+
+                <!-- Sélecteur de formats e-commerce -->
+                <div class="format-selection-grid">
+                    
+                    <!-- Format 1 : Livre Numérique (5 €) -->
+                    <div class="format-box">
+                        <div>
+                            <div class="format-tag">Format Essentiel</div>
+                            <div class="format-title">Livre d'Auteur (PDF + EPUB)</div>
+                            <div class="format-details">
+                                Le livre complet de 41 pages en PDF Haute Définition + format EPUB pour liseuses et smartphones. Lecture posée hors-ligne.
+                            </div>
+                        </div>
+                        <div>
+                            <div class="format-price-row">
+                                <span class="format-strike">15,00 €</span>
+                                <span class="format-price">5,00 €</span>
+                            </div>
+                            <a href="https://buy.stripe.com/3cIcN4gC16QI220aYt7Re05" class="btn-buy-format btn-buy-5">
+                                Obtenir le Livre (5 €) →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Format 2 : Ebook Interactif (27 €) -->
+                    <div class="format-box featured-format">
+                        <div>
+                            <div class="format-tag">Format Pratique & Action</div>
+                            <div class="format-title">Ebook Interactif & Outils</div>
+                            <div class="format-details">
+                                Web App complète avec simulateur financier de rentabilité, carnet de bord sauvegardé et export PDF personnalisé de sa feuille de route 30 jours.
+                            </div>
+                        </div>
+                        <div>
+                            <div class="format-price-row">
+                                <span class="format-strike">47,00 €</span>
+                                <span class="format-price">27,00 €</span>
+                            </div>
+                            <a href="guide-entrepreneur.html" class="btn-buy-format btn-buy-27">
+                                Découvrir l'Interactif (27 €) →
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="font-size: 0.82rem; color: var(--text-secondary); display: flex; gap: 16px; flex-wrap: wrap;">
+                    <span>✓ Paiements 100% sécurisés par Stripe</span>
+                    <span>✓ Accès & téléchargement immédiats</span>
+                </div>
+            </div>
+
+        </article>
+
+        <!-- 2. LA SUITE DE LA COLLECTION (TOME 2 BIENTÔT DISPONIBLE) -->
+        <div class="section-title-box" style="margin-top: 60px;">
+            <h2>Prochainement dans la Collection</h2>
+            <span>En cours d'écriture</span>
+        </div>
+
+        <div class="collection-grid">
+            
+            <div class="book-card-soon">
+                <div>
+                    <div class="badge-soon">
+                        <i class="fa-regular fa-clock"></i> Tome 2 · Bientôt Disponible
+                    </div>
+                    <div class="soon-title">
+                        Tome 2 · La Suite des Fondamentaux
+                    </div>
+                    <p class="soon-desc">
+                        Le prochain volet de la collection pour passer à la vitesse supérieure une fois vos premiers clients et votre offre validés sur le terrain.
+                    </p>
+                </div>
+                <div class="btn-notify-soon">
+                    <i class="fa-solid fa-hourglass-half"></i> En préparation
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 Domtom Connect Éditions · Tous droits réservés.</p>
+        <p style="margin-top: 6px;">
+            <a href="index.html">Retour à l'accueil Domtom Connect</a> · 
+            <a href="chapitre1-lecture.html">Lire le Chapitre 1</a> · 
+            <a href="mailto:contact@domtomconnect.com">Support Client</a>
+        </p>
+    </footer>
+
+</body>
+</html>
