@@ -338,8 +338,8 @@ const UIComponents = {
         let config = {};
         if (session) {
             config = {
-                network: { label: 'Le Réseau', path: 'marketplace/directory.html' },
-                boutique: { label: 'La Boutique', path: 'guide-entrepreneur.html' },
+                network: { label: 'Le réseau', path: 'marketplace/directory.html' },
+                boutique: { label: 'Le guide pratique', path: 'guide-entrepreneur.html' },
                 communaute: { label: 'Groupes WhatsApp', path: 'rejoindre.html' },
                 companies: { label: 'Entreprises', path: 'marketplace/companies.html' },
                 jobs: { label: 'Missions', path: 'marketplace/jobs.html' },
@@ -347,36 +347,27 @@ const UIComponents = {
             };
         } else {
             config = {
+                nosAccompagnements: { label: 'Nos programmes', path: 'index.html#solutions' },
+                boutique: { label: 'Le guide pratique', path: 'guide-entrepreneur.html' },
+                coFondateurs: { label: 'Trouver un associé', path: 'co-fondateurs.html' },
                 app: { label: 'App DTC Pulse', path: 'beta-test.html' },
-                boutique: { label: 'La Boutique', path: 'guide-entrepreneur.html' },
-                nosAccompagnements: { label: 'Nos Programmes', path: 'index.html#nos-accompagnements' },
-                communaute: { label: 'Rejoindre le Réseau', path: 'rejoindre.html' }
+                communaute: { label: 'La communauté', path: 'rejoindre.html' }
             };
         }
 
-        // --- NEW: Global Android App Banner ---
-        if (!window.location.pathname.includes('beta-test.html') && !document.getElementById('android-promo-banner') && localStorage.getItem('hideAndroidBanner') !== 'true') {
-            const banner = document.createElement('div');
-            banner.id = 'android-promo-banner';
-            banner.style.cssText = 'background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-align: center; padding: 12px 20px; font-family: "Plus Jakarta Sans", sans-serif; font-size: 0.95rem; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 16px; position: relative; z-index: 1000; flex-wrap: wrap; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);';
-            banner.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <i class="fab fa-android" style="font-size: 1.2rem;"></i>
-                    <span><strong>Nouveau :</strong> L'application mobile DTC Pulse est disponible pour Android (installation directe).</span>
-                </div>
-                <a href="${adjust('beta-test.html')}" style="background: white; color: #059669; padding: 6px 16px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.85rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Voir l'application</a>
-                <button onclick="localStorage.setItem('hideAndroidBanner', 'true'); this.parentElement.style.display='none'" style="background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; padding: 8px; margin-left: auto; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'"><i class="fas fa-times"></i></button>
-            `;
-            nav.parentNode.insertBefore(banner, nav);
-        }
+        // Détection de page sombre (accueil, guide, etc.)
+        const isDarkPage = nav.classList.contains('navbar-dark') || 
+                           window.location.pathname.endsWith('index.html') || 
+                           window.location.pathname === '/' || 
+                           window.location.pathname.endsWith('/');
 
         navContainer.innerHTML = `
             <a href="${adjust('index.html')}" class="nav-brand">
                 <img src="${adjust('assets/images/logo-domtomconnect.png')}" alt="Domtom Connect" class="nav-logo">
-                <span class="nav-brand-name">Domtom Connect</span>
+                <span class="nav-brand-name" style="${isDarkPage ? 'color: white;' : ''}">Domtom Connect</span>
             </a>
             
-            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false">
+            <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" style="${isDarkPage ? 'color: white;' : ''}">
                 <span></span><span></span><span></span>
             </button>
             
@@ -384,27 +375,35 @@ const UIComponents = {
                 <div class="nav-links">
                     ${Object.values(config).map(item => {
                         const active = window.location.pathname.includes(item.path.split('/').pop()) ? 'class="active"' : '';
-                        return `<a href="${adjust(item.path)}" ${active}>${item.label}</a>`;
+                        const linkStyle = isDarkPage ? 'style="color: #cbd5e1;"' : '';
+                        return `<a href="${adjust(item.path)}" ${active} ${linkStyle}>${item.label}</a>`;
                     }).join('')}
                 </div>
                 
-                <div class="nav-actions" id="nav-auth-actions" style="display: flex; align-items: center; gap: 16px;">
-                    <a href="${adjust('login.html')}" style="color: #0f172a; font-weight: 700; text-decoration: none;">Se connecter</a>
-                    <a href="${adjust('register-choice.html')}" class="cta-button primary" style="background:#10b981; color: white !important; border: none; padding: 10px 24px; border-radius: 12px;">S'inscrire</a>
+                <div class="nav-actions" id="nav-auth-actions" style="display: flex; align-items: center; gap: 14px;">
+                    <a href="${adjust('login.html')}" style="${isDarkPage ? 'color: #cbd5e1;' : 'color: #0f172a;'} font-weight: 600; text-decoration: none; font-size: 0.92rem;">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" class="cta-button primary" style="background:#10b981; color: white !important; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.92rem; text-decoration: none;">Diagnostic offert</a>
                 </div>
             </div>
         `;
 
-        nav.style.backgroundColor = 'white';
-        nav.style.borderBottom = '1px solid #e2e8f0';
+        if (isDarkPage) {
+            nav.style.backgroundColor = 'rgba(3, 7, 18, 0.92)';
+            nav.style.backdropFilter = 'blur(16px)';
+            nav.style.webkitBackdropFilter = 'blur(16px)';
+            nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
+        } else {
+            nav.style.backgroundColor = 'white';
+            nav.style.borderBottom = '1px solid #e2e8f0';
+        }
         nav.style.display = 'flex';
 
         if (session) {
             const authActions = document.getElementById('nav-auth-actions');
             if (authActions) {
                 authActions.innerHTML = `
-                    <a href="${adjust('mon-espace.html')}" class="cta-button secondary">Dashboard</a>
-                    <a href="${adjust('mon-espace.html#profile')}" class="cta-button primary" style="background:#0f172a; color: white !important;">Mon Profil</a>
+                    <a href="${adjust('mon-espace.html')}" class="cta-button secondary" style="font-size: 0.9rem; padding: 8px 16px;">Mon espace</a>
+                    <a href="${adjust('mon-espace.html#profile')}" class="cta-button primary" style="background:#10b981; color: white !important; font-size: 0.9rem; padding: 8px 16px;">Profil</a>
                 `;
             }
         }
@@ -562,9 +561,9 @@ window.showFlashMessage = function(message, type = 'success', redirectPath = nul
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     `;
     
-    const icon = type === 'success' ? '✅' : '❌';
+    const icon = type === 'success' ? '<i class="fas fa-check-circle" style="color:#34d399;"></i>' : '<i class="fas fa-exclamation-circle" style="color:#f87171;"></i>';
     el.innerHTML = `
-        <span style="font-size: 1.2rem;">${icon}</span>
+        <span style="font-size: 1.2rem; display: flex; align-items: center;">${icon}</span>
         <span style="flex:1;">${message}</span>
     `;
     

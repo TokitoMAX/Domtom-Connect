@@ -3692,3 +3692,55 @@ html {
     }
 }
 
+/* --- Thème sombre pour la barre de navigation (.navbar.navbar-dark) --- */
+.navbar.navbar-dark {
+    background: rgba(3, 7, 18, 0.92) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.navbar.navbar-dark .nav-brand-name {
+    color: #ffffff !important;
+}
+
+.navbar.navbar-dark .nav-links {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+}
+
+.navbar.navbar-dark .nav-links a {
+    color: #cbd5e1 !important;
+    font-weight: 500 !important;
+}
+
+.navbar.navbar-dark .nav-links a:hover,
+.navbar.navbar-dark .nav-links a.active {
+    color: #10b981 !important;
+}
+
+.navbar.navbar-dark .nav-links a::before {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.navbar.navbar-dark .nav-links a:hover::before {
+    background: #10b981 !important;
+}
+
+.navbar.navbar-dark .nav-toggle span {
+    background: #ffffff !important;
+}
+
+@media (max-width: 991px) {
+    .navbar.navbar-dark .nav-content {
+        background: #0b1329 !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    .navbar.navbar-dark .nav-content .nav-links {
+        background: transparent !important;
+        border: none !important;
+    }
+}
+
+
