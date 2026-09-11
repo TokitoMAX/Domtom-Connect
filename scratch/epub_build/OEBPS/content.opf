@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="pub-id" xml:lang="fr">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <dc:identifier id="pub-id">urn:uuid:domtomconnect-guide-tome1-2026</dc:identifier>
+        <dc:title>Les Fondamentaux de l'Entrepreneur — Tome 1</dc:title>
+        <dc:creator>Domtom Connect</dc:creator>
+        <dc:publisher>Domtom Connect Éditions</dc:publisher>
+        <dc:language>fr</dc:language>
+        <dc:description>Le guide universel d'action pour entreprendre sans excuse : mindset, validation terrain, choix du modèle, pricing, encaissement et feuille de route 30 jours pour les Caraïbes, l'Afrique et la diaspora.</dc:description>
+        <meta property="dcterms:modified">2026-09-11T00:00:00Z</meta>
+        <meta name="cover" content="cover-image"/>
+    </metadata>
+    <manifest>
+        <item id="cover-image" href="images/cover.jpg" media-type="image/jpeg" properties="cover-image"/>
+        <item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>
+        <item id="style" href="style.css" media-type="text/css"/>
+        <item id="chap_1" href="chap_1.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_2" href="chap_2.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_3" href="chap_3.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_4" href="chap_4.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_5" href="chap_5.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_6" href="chap_6.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_7" href="chap_7.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_8" href="chap_8.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_9" href="chap_9.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_10" href="chap_10.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_11" href="chap_11.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_12" href="chap_12.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_13" href="chap_13.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_14" href="chap_14.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_15" href="chap_15.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_16" href="chap_16.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_17" href="chap_17.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_18" href="chap_18.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_19" href="chap_19.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_20" href="chap_20.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_21" href="chap_21.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_22" href="chap_22.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_23" href="chap_23.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_24" href="chap_24.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_25" href="chap_25.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_26" href="chap_26.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_27" href="chap_27.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_28" href="chap_28.xhtml" media-type="application/xhtml+xml"/>
+        <item id="chap_29" href="chap_29.xhtml" media-type="application/xhtml+xml"/>
+        <item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav"/>
+        <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml"/>
+    </manifest>
+    <spine toc="ncx">
+        <itemref idref="cover"/>
+        <itemref idref="chap_1"/>
+        <itemref idref="chap_2"/>
+        <itemref idref="chap_3"/>
+        <itemref idref="chap_4"/>
+        <itemref idref="chap_5"/>
+        <itemref idref="chap_6"/>
+        <itemref idref="chap_7"/>
+        <itemref idref="chap_8"/>
+        <itemref idref="chap_9"/>
+        <itemref idref="chap_10"/>
+        <itemref idref="chap_11"/>
+        <itemref idref="chap_12"/>
+        <itemref idref="chap_13"/>
+        <itemref idref="chap_14"/>
+        <itemref idref="chap_15"/>
+        <itemref idref="chap_16"/>
+        <itemref idref="chap_17"/>
+        <itemref idref="chap_18"/>
+        <itemref idref="chap_19"/>
+        <itemref idref="chap_20"/>
+        <itemref idref="chap_21"/>
+        <itemref idref="chap_22"/>
+        <itemref idref="chap_23"/>
+        <itemref idref="chap_24"/>
+        <itemref idref="chap_25"/>
+        <itemref idref="chap_26"/>
+        <itemref idref="chap_27"/>
+        <itemref idref="chap_28"/>
+        <itemref idref="chap_29"/>
+    </spine>
+</package>

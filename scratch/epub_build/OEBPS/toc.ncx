@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+    <head>
+        <meta name="dtb:uid" content="urn:uuid:domtomconnect-guide-tome1-2026"/>
+        <meta name="dtb:depth" content="1"/>
+        <meta name="dtb:totalPageCount" content="0"/>
+        <meta name="dtb:maxPageNumber" content="0"/>
+    </head>
+    <docTitle>
+        <text>Les Fondamentaux de l'Entrepreneur — Tome 1</text>
+    </docTitle>
+    <navMap>
+        <navPoint id="navPoint-1" playOrder="1">
+            <navLabel><text>Avant de commencer, la consultation</text></navLabel>
+            <content src="chap_1.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-2" playOrder="2">
+            <navLabel><text>Ce que tu crois savoir sur l'entrepreneuriat est faux</text></navLabel>
+            <content src="chap_2.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-3" playOrder="3">
+            <navLabel><text>Le mur que tu t'es construit toi-même</text></navLabel>
+            <content src="chap_3.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-4" playOrder="4">
+            <navLabel><text>Ton why et ta légitimité profonde</text></navLabel>
+            <content src="chap_4.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-5" playOrder="5">
+            <navLabel><text>La loi de Pareto pour faire un maximum avec tes moyens actuels</text></navLabel>
+            <content src="chap_5.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-6" playOrder="6">
+            <navLabel><text>Comprendre les cinq chemins à travers cinq histoires réelles</text></navLabel>
+            <content src="chap_6.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-7" playOrder="7">
+            <navLabel><text>Choisir son chemin et valider sa voie d'action</text></navLabel>
+            <content src="chap_7.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-8" playOrder="8">
+            <navLabel><text>Du modèle au métier pour valoriser tes compétences réelles</text></navLabel>
+            <content src="chap_8.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-9" playOrder="9">
+            <navLabel><text>Étude de marché et analyse des opportunités du terrain</text></navLabel>
+            <content src="chap_9.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-10" playOrder="10">
+            <navLabel><text>Comprendre la niche et la psychologie du positionnement</text></navLabel>
+            <content src="chap_10.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-11" playOrder="11">
+            <navLabel><text>Verrouiller sa niche rentable et sa différenciation</text></navLabel>
+            <content src="chap_11.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-12" playOrder="12">
+            <navLabel><text>Comprendre son client idéal en profondeur</text></navLabel>
+            <content src="chap_12.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-13" playOrder="13">
+            <navLabel><text>Les vrais fondamentaux de la marque et de la réputation</text></navLabel>
+            <content src="chap_13.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-14" playOrder="14">
+            <navLabel><text>Créer son premier logo sans prise de tête</text></navLabel>
+            <content src="chap_14.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-15" playOrder="15">
+            <navLabel><text>Construire une offre irrésistible et fixer ses prix</text></navLabel>
+            <content src="chap_15.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-16" playOrder="16">
+            <navLabel><text>Lancer une offre bêta et récolter ses premières preuves sociales</text></navLabel>
+            <content src="chap_16.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-17" playOrder="17">
+            <navLabel><text>Créer une page de vente simple et efficace</text></navLabel>
+            <content src="chap_17.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-18" playOrder="18">
+            <navLabel><text>Encaisser sans friction et maîtriser sa rentabilité</text></navLabel>
+            <content src="chap_18.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-19" playOrder="19">
+            <navLabel><text>Choisir les bons outils selon son activité</text></navLabel>
+            <content src="chap_19.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-20" playOrder="20">
+            <navLabel><text>Réseaux sociaux, algorithmes et incarnation de marque</text></navLabel>
+            <content src="chap_20.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-21" playOrder="21">
+            <navLabel><text>Créer un système de contenu régulier sans s'épuiser</text></navLabel>
+            <content src="chap_21.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-22" playOrder="22">
+            <navLabel><text>Choisir son canal principal et structurer son tunnel de vente</text></navLabel>
+            <content src="chap_22.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-23" playOrder="23">
+            <navLabel><text>Converser et conclure ses ventes par message privé</text></navLabel>
+            <content src="chap_23.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-24" playOrder="24">
+            <navLabel><text>Présenter son projet en une phrase percutante</text></navLabel>
+            <content src="chap_24.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-25" playOrder="25">
+            <navLabel><text>Surmonter l'échec, le rejet et les moments de doute</text></navLabel>
+            <content src="chap_25.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-26" playOrder="26">
+            <navLabel><text>Fidéliser ses clients et créer une boucle de recommandation</text></navLabel>
+            <content src="chap_26.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-27" playOrder="27">
+            <navLabel><text>Entreprendre seul ou s'associer avec les bonnes règles</text></navLabel>
+            <content src="chap_27.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-28" playOrder="28">
+            <navLabel><text>Plan d'action concret pour tes trente premiers jours</text></navLabel>
+            <content src="chap_28.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-29" playOrder="29">
+            <navLabel><text>Pour conclure cette consultation</text></navLabel>
+            <content src="chap_29.xhtml"/>
+        </navPoint>
+    </navMap>
+</ncx>

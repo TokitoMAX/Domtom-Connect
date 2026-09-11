@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
+    <head>
+        <meta name="dtb:uid" content="urn:uuid:domtomconnect-guide-tome1-litteraire-2026"/>
+        <meta name="dtb:depth" content="1"/>
+        <meta name="dtb:totalPageCount" content="0"/>
+        <meta name="dtb:maxPageNumber" content="0"/>
+    </head>
+    <docTitle>
+        <text>Les Fondamentaux de l'Entrepreneur — Tome 1</text>
+    </docTitle>
+    <navMap>
+        <navPoint id="navPoint-1" playOrder="1">
+            <navLabel><text>Ch. 1 · Le mirage de l'entrepreneuriat</text></navLabel>
+            <content src="chap_1.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-2" playOrder="2">
+            <navLabel><text>Ch. 2 · Le mur invisible</text></navLabel>
+            <content src="chap_2.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-3" playOrder="3">
+            <navLabel><text>Ch. 3 · Trouver ton moteur profond</text></navLabel>
+            <content src="chap_3.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-4" playOrder="4">
+            <navLabel><text>Ch. 4 · La loi des 80/20</text></navLabel>
+            <content src="chap_4.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-5" playOrder="5">
+            <navLabel><text>Ch. 5 · Les cinq chemins de l'entrepreneuriat</text></navLabel>
+            <content src="chap_5.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-6" playOrder="6">
+            <navLabel><text>Ch. 6 · Choisir sa voie</text></navLabel>
+            <content src="chap_6.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-7" playOrder="7">
+            <navLabel><text>Ch. 7 · La spécialisation radicale</text></navLabel>
+            <content src="chap_7.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-8" playOrder="8">
+            <navLabel><text>Ch. 8 · L'espionnage commando</text></navLabel>
+            <content src="chap_8.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-9" playOrder="9">
+            <navLabel><text>Ch. 9 · La douleur du client</text></navLabel>
+            <content src="chap_9.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-10" playOrder="10">
+            <navLabel><text>Ch. 10 · La réputation insulaire</text></navLabel>
+            <content src="chap_10.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-11" playOrder="11">
+            <navLabel><text>Ch. 11 · L'identité sobre</text></navLabel>
+            <content src="chap_11.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-12" playOrder="12">
+            <navLabel><text>Ch. 12 · L'équation de la transformation</text></navLabel>
+            <content src="chap_12.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-13" playOrder="13">
+            <navLabel><text>Ch. 13 · L'offre irrésistible</text></navLabel>
+            <content src="chap_13.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-14" playOrder="14">
+            <navLabel><text>Ch. 14 · Le prix plancher</text></navLabel>
+            <content src="chap_14.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-15" playOrder="15">
+            <navLabel><text>Ch. 15 · L'offre bêta</text></navLabel>
+            <content src="chap_15.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-16" playOrder="16">
+            <navLabel><text>Ch. 16 · La clarté du message</text></navLabel>
+            <content src="chap_16.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-17" playOrder="17">
+            <navLabel><text>Ch. 17 · Encaisser avec dignité</text></navLabel>
+            <content src="chap_17.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-18" playOrder="18">
+            <navLabel><text>Ch. 18 · L'arsenal minimaliste</text></navLabel>
+            <content src="chap_18.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-19" playOrder="19">
+            <navLabel><text>Ch. 19 · Incarner sa marque</text></navLabel>
+            <content src="chap_19.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-20" playOrder="20">
+            <navLabel><text>Ch. 20 · La régularité sans souffrance</text></navLabel>
+            <content src="chap_20.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-21" playOrder="21">
+            <navLabel><text>Ch. 21 · Le canal unique</text></navLabel>
+            <content src="chap_21.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-22" playOrder="22">
+            <navLabel><text>Ch. 22 · La conversation humaine</text></navLabel>
+            <content src="chap_22.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-23" playOrder="23">
+            <navLabel><text>Ch. 23 · Le pitch en une phrase</text></navLabel>
+            <content src="chap_23.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-24" playOrder="24">
+            <navLabel><text>Ch. 24 · Traverser la tempête</text></navLabel>
+            <content src="chap_24.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-25" playOrder="25">
+            <navLabel><text>Ch. 25 · L'effet de recommandation</text></navLabel>
+            <content src="chap_25.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-26" playOrder="26">
+            <navLabel><text>Ch. 26 · Seul ou associé</text></navLabel>
+            <content src="chap_26.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-27" playOrder="27">
+            <navLabel><text>Ch. 27 · La feuille de route des 30 premiers jours</text></navLabel>
+            <content src="chap_27.xhtml"/>
+        </navPoint>
+        <navPoint id="navPoint-28" playOrder="28">
+            <navLabel><text>Ch. 28 · La porte du cabinet se referme</text></navLabel>
+            <content src="chap_28.xhtml"/>
+        </navPoint>
+    </navMap>
+</ncx>
