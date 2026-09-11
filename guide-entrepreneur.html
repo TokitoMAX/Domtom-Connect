@@ -813,9 +813,9 @@
 
         .pricing-grid {
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 30px;
-            max-width: 1040px;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
             margin: 0 auto;
             align-items: stretch;
         }
@@ -2333,9 +2333,9 @@
 
     <!-- Top Notification Bar -->
     <div class="ecom-topbar">
-        <span class="pill">Offre 2026</span>
-        <span class="topbar-text-desktop">Accès Immédiat à Vie &amp; Mises à Jour Incluses pour les Membres Fondateurs</span>
-        <span class="topbar-text-mobile">Tarif Spécial 27 € au lieu de 47 €</span>
+        <span class="pill">La Boutique Officielle</span>
+        <span class="topbar-text-desktop">Tome 1 disponible · Livre d'Auteur (PDF HD + EPUB) à 5 € ou E-book Interactif à 27 €</span>
+        <span class="topbar-text-mobile">Livre Classique 5 € · Interactif 27 €</span>
     </div>
 
     <!-- Navigation Bar -->
@@ -2344,19 +2344,20 @@
             <a href="index.html" class="nav-brand-logo">
                 <img src="assets/images/logo-domtomconnect.png" alt="Domtom Connect">
                 <span class="brand-text">Domtom Connect</span>
-                <span class="brand-badge">Guide Interactif</span>
+                <span class="brand-badge">La Boutique</span>
             </a>
 
             <div class="nav-links-desktop">
-                <a href="#programme">Le Programme (27 Ch.)</a>
-                <a href="#methode">La Méthode</a>
+                <a href="#tarifs">Le Livre (5 €)</a>
+                <a href="#programme">L'Interactif (27 €)</a>
+                <a href="chapitre1-lecture.html" style="color: #10b981;">Chapitre 1 Gratuit</a>
                 <a href="#tarifs">Tarifs</a>
                 <a href="#faq">FAQ</a>
             </div>
 
             <div class="nav-right-actions">
                 <a href="#tarifs" class="btn-nav-cta">
-                    <i class="fa-solid fa-bolt"></i> Commencer Dès 27 €
+                    <i class="fa-solid fa-book-open"></i> Choisir mon Format (Dès 5 €)
                 </a>
             </div>
         </div>
@@ -2367,24 +2368,28 @@
         <div class="hero-container">
             <div class="hero-text-col">
                 <span class="hero-badge-pill">
-                    <i class="fa-solid fa-fire" style="color: #10b981;"></i> Édition 2026 · Le Plan d'Action Terrain
+                    <i class="fa-solid fa-fire" style="color: #10b981;"></i> Édition 2026 · Domtom Connect Éditions
                 </span>
                 <h1 class="hero-headline">
                     Arrête de regarder les autres réussir. <br>
                     <span class="green-accent">Lance ton business rentable ce mois-ci.</span>
                 </h1>
                 <p class="hero-subheadline">
-                    <strong>Combien de temps vas-tu encore laisser ton projet dormir dans les notes de ton téléphone ?</strong> Ce n'est pas un énième cours théorique : c'est 27 chapitres d'action terrain, ton carnet de bord sauvegardé en direct et ton simulateur financier pour bâtir, tester et encaisser tes premiers clients aux Antilles, en Guyane, à La Réunion, en Afrique et dans la diaspora.
+                    <strong>Disponible en 2 formats selon tes besoins :</strong> le <strong>Livre E-book Classique</strong> (41 pages · 28 chapitres · PDF HD &amp; EPUB) pour forger ta vision et tes fondations à <strong>5 €</strong>, et la <strong>Version Interactive</strong> avec simulateur financier de rentabilité et carnet de bord sauvegardé pour passer à l'action à <strong>27 €</strong>.
                 </p>
 
                 <div class="hero-buttons-row">
-                    <a href="#tarifs" class="btn-hero-buy">
-                        <span>Je Passe à l'Action (Dès 27 €)</span>
-                        <i class="fa-solid fa-arrow-right"></i>
+                    <a href="https://buy.stripe.com/3cIcN4gC16QI220aYt7Re05" class="btn-hero-buy" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35); color: #020617;" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-book"></i>
+                        <span>Livre E-book Classique (5 €)</span>
                     </a>
-                    <a href="guide.html#couverture" class="btn-hero-demo">
+                    <a href="#tarifs" class="btn-hero-buy">
+                        <i class="fa-solid fa-laptop-code"></i>
+                        <span>E-book Interactif &amp; Outils (27 €)</span>
+                    </a>
+                    <a href="chapitre1-lecture.html" class="btn-hero-demo">
                         <i class="fa-solid fa-eye"></i>
-                        <span>Tester l'Échantillon Gratuit</span>
+                        <span>Feuilleter le Ch. 1 Gratuit</span>
                     </a>
                 </div>
 
@@ -2723,45 +2728,77 @@
 
 
 
-    <!-- Pricing Section (2 Paliers Clairs) -->
+    <!-- Pricing Section (3 Formules Claires) -->
     <section class="pricing-section" id="tarifs">
         <div class="section-header-center">
             <span class="section-tag">Investissement Rentable</span>
-            <h2>Choisis la formule adaptée à ton ambition</h2>
+            <h2>Choisis le format adapté à tes besoins</h2>
             <p>
-                Moins cher qu'un seul repas au restaurant, pour acquérir les compétences et la feuille de route qui vont générer tes premiers milliers d'euros de chiffre d'affaires.
+                Du livre d'auteur pour forger ta vision sans baratin jusqu'à la Web App interactive complète avec simulateur financier et carnet de bord sauvegardé.
             </p>
         </div>
 
         <div class="pricing-grid">
-            <!-- Formule 1 : Guide interactif solo -->
+            <!-- Formule 1 : Livre E-book Classique (5 €) -->
             <div class="pricing-card">
-                <h3 class="pricing-plan-title">Guide Solo · Lancement Rapide</h3>
-                <p class="pricing-plan-desc">Idéal pour briser l'hésitation, structurer ton offre et valider tes premières ventes sur le terrain.</p>
+                <span class="popular-pill" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.35);"><i class="fa-solid fa-book" style="margin-right: 4px;"></i> Format Essentiel</span>
+                <h3 class="pricing-plan-title">Livre E-book Classique</h3>
+                <p class="pricing-plan-desc">L'ouvrage de référence (41 pages · 28 chapitres) pour poser tes fondations d'adulte sans excuses.</p>
+                
+                <div class="pricing-price-wrap">
+                    <span class="price-amount">5 €</span>
+                    <span class="price-original">15 €</span>
+                    <span class="price-billing-label">Paiement unique · Téléchargement direct</span>
+                </div>
+
+                <ul class="pricing-features-list">
+                    <li><i class="fa-solid fa-check"></i> <strong>Livre complet de 41 pages</strong> en PDF Haute Définition</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Format EPUB 3 officiel</strong> (Kindle, Kobo & smartphones)</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Les 4 Actes &amp; 28 chapitres</strong> d'auteur sans fioritures</li>
+                    <li><i class="fa-solid fa-check"></i> Lecture posée hors-ligne sur tous tes appareils</li>
+                    <li><i class="fa-solid fa-check"></i> Téléchargement immédiat après validation</li>
+                </ul>
+
+                <a href="https://buy.stripe.com/3cIcN4gC16QI220aYt7Re05" class="btn-pricing-cta" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #020617; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35); font-weight: 800;" target="_blank" rel="noopener">
+                    <span>Télécharger le Livre (5 €)</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <div style="text-align: center; margin-top: 14px;">
+                    <a href="chapitre1-lecture.html" style="font-size: 0.85rem; color: #94a3b8; text-decoration: underline;">
+                        Feuilleter le Chapitre 1 en ligne gratuitement
+                    </a>
+                </div>
+            </div>
+
+            <!-- Formule 2 : Guide interactif solo (27 €) -->
+            <div class="pricing-card featured">
+                <span class="popular-pill"><i class="fa-solid fa-star" style="margin-right: 4px;"></i> Le Plus Choisi · 80% Action</span>
+                <h3 class="pricing-plan-title">Guide Interactif &amp; Outils</h3>
+                <p class="pricing-plan-desc">La Web Application vivante pour bâtir ton projet, calculer tes prix réels et passer à l'action.</p>
                 
                 <div class="pricing-price-wrap">
                     <span class="price-amount">27 €</span>
                     <span class="price-original">47 €</span>
-                    <span class="price-billing-label">Paiement unique · Accès à vie</span>
+                    <span class="price-billing-label">Paiement unique · Accès Web à vie</span>
                 </div>
 
                 <ul class="pricing-features-list">
-                    <li><i class="fa-solid fa-check"></i> <strong>Les 27 chapitres complets</strong> de passage à l'action</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Carnet de bord interactif</strong> sauvegardé dans ton navigateur</li>
-                    <li><i class="fa-solid fa-check"></i> <strong>Simulateur financier de rentabilité</strong> pour ne jamais vendre à perte</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Tout le contenu du livre</strong> en Web App interactive</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Les 27 étapes d'action terrain</strong> pas à pas</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Carnet de bord interactif</strong> sauvegardé dans le navigateur</li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Simulateur financier de rentabilité</strong> pour tes marges</li>
                     <li><i class="fa-solid fa-check"></i> <strong>Export PDF personnalisé</strong> de ton plan d'action 30 jours</li>
-                    <li><i class="fa-solid fa-check"></i> Mises à jour gratuites et enrichissements futurs</li>
                 </ul>
 
-                <a href="https://buy.stripe.com/5kQ28qdpP6QI2205E97Re03" class="btn-pricing-cta secondary" target="_blank" rel="noopener">
-                    <span>Obtenir mon accès immédiat (27 €)</span>
-                    <i class="fa-solid fa-arrow-right"></i>
+                <a href="https://buy.stripe.com/5kQ28qdpP6QI2205E97Re03" class="btn-pricing-cta primary" target="_blank" rel="noopener">
+                    <span>Accès Interactif Immédiat (27 €)</span>
+                    <i class="fa-solid fa-bolt"></i>
                 </a>
             </div>
 
-            <!-- Formule 2 : Pack fondateur et accélérateur -->
-            <div class="pricing-card featured">
-                <span class="popular-pill"><i class="fa-solid fa-crown" style="margin-right: 4px;"></i> Le Choix Fondateur</span>
+            <!-- Formule 3 : Pack fondateur et accélérateur (47 €) -->
+            <div class="pricing-card">
+                <span class="popular-pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.35);"><i class="fa-solid fa-crown" style="margin-right: 4px;"></i> Statut Fondateur</span>
                 <h3 class="pricing-plan-title">Pack Fondateur &amp; Accélérateur</h3>
                 <p class="pricing-plan-desc">Pour ceux qui veulent aller au bout : le système complet avec accès privilégié à l'écosystème.</p>
                 
@@ -2772,16 +2809,36 @@
                 </div>
 
                 <ul class="pricing-features-list">
-                    <li><i class="fa-solid fa-check"></i> <strong>Tout ce qui est inclus dans le Guide Solo</strong></li>
+                    <li><i class="fa-solid fa-check"></i> <strong>Tout ce qui est inclus dans le Guide Interactif</strong></li>
                     <li class="bonus-item"><i class="fa-solid fa-mobile-screen" style="color:#10b981;"></i> <strong>Accès prioritaire à l'application mobile DTC Pulse</strong></li>
                     <li class="bonus-item"><i class="fa-solid fa-rocket" style="color:#10b981;"></i> <strong>Accompagnement &amp; visibilité dans l'incubateur Domtom Connect</strong></li>
                     <li><i class="fa-solid fa-check"></i> <strong>Badge membre fondateur</strong> vérifié sur ton profil</li>
                 </ul>
 
-                <a href="https://buy.stripe.com/9B6aEWetTcb25ec3w17Re04" class="btn-pricing-cta primary" target="_blank" rel="noopener">
+                <a href="https://buy.stripe.com/9B6aEWetTcb25ec3w17Re04" class="btn-pricing-cta secondary" target="_blank" rel="noopener">
                     <span>Devenir Membre Fondateur (47 €)</span>
-                    <i class="fa-solid fa-bolt"></i>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </a>
+            </div>
+        </div>
+
+        <!-- Encart Tome 2 Soon -->
+        <div style="margin-top: 45px; background: rgba(15, 23, 42, 0.7); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: var(--radius-md); padding: 24px 28px; max-width: 1200px; margin-left: auto; margin-right: auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+            <div style="max-width: 760px;">
+                <span style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px;">
+                    Collection Les Fondamentaux
+                </span>
+                <h4 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 4px;">
+                    Tome 2 · Bientôt disponible (En préparation)
+                </h4>
+                <p style="font-size: 0.9rem; color: #94a3b8; margin: 0; line-height: 1.5;">
+                    Le prochain volet de la collection pour passer à la vitesse supérieure une fois vos premiers clients et votre offre validés sur le terrain.
+                </p>
+            </div>
+            <div>
+                <span style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #cbd5e1; font-size: 0.85rem; font-weight: 700;">
+                    <i class="fa-solid fa-hourglass-half" style="color: #f59e0b;"></i> Sortie prochaine
+                </span>
             </div>
         </div>
 
@@ -2812,11 +2869,12 @@
         <div class="faq-accordion">
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>Est-ce un simple fichier PDF à télécharger ?</span>
+                    <span>Quelle est la différence entre le Livre Classique (5 €) et le Guide Interactif (27 €) ?</span>
                     <i class="fa-solid fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    Non, absolument pas ! C'est une <strong>Web Application interactive vivante</strong>. Tu peux y accéder depuis ton smartphone, ta tablette ou ton PC. Tes réponses aux exercices se sauvegardent automatiquement dans ton navigateur, et tu disposes d'un simulateur financier interactif pour calculer ta rentabilité en direct. Tu peux également exporter tout ton travail en PDF à n'importe quel moment.
+                    <strong>Le Livre Classique (5 €)</strong> est l'ouvrage d'auteur complet (41 pages · 28 chapitres) fourni aux formats PDF Haute Définition et EPUB officiel, idéal pour une lecture posée sur liseuse ou smartphone sans distraction.<br><br>
+                    <strong>Le Guide Interactif (27 €)</strong> est une Web Application vivante avec carnet de bord interactif sauvegardé dans ton navigateur, simulateur financier de rentabilité pour calculer tes prix réels et tes marges, et export PDF personnalisé de ta feuille de route 30 jours.
                 </div>
             </div>
 
