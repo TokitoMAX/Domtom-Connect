@@ -1070,88 +1070,7 @@
             line-height: 1.6;
         }
 
-        /* 8. FOOTER */
-        .site-footer {
-            background: #01040f;
-            border-top: 1px solid var(--border-subtle);
-            padding: 60px 0 35px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 45px;
-        }
-
-        @media (max-width: 900px) {
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 540px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .footer-brand p {
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            line-height: 1.6;
-            margin-top: 14px;
-            max-width: 320px;
-        }
-
-        .footer-col h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: white;
-            text-transform: none;
-            margin-bottom: 18px;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .footer-col a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s;
-            font-size: 0.88rem;
-        }
-
-        .footer-col a:hover {
-            color: var(--accent);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--border-subtle);
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        .footer-bottom a {
-            color: var(--text-muted);
-            text-decoration: none;
-        }
-
-        .footer-bottom a:hover {
-            color: white;
-        }
+        /* 8. FOOTER STYLES MANAGED CENTRALLY IN site-nav.css */
     </style>
 </head>
 <body>
@@ -1817,68 +1736,98 @@
 
     <!-- FOOTER COMPLET -->
     <footer class="site-footer">
-        <div class="container">
+        <div class="footer-ambient-glow"></div>
+        <div class="container footer-container">
             <div class="footer-grid">
                 <!-- Col 1 : Marque -->
                 <div class="footer-brand">
-                    <a href="index.html" style="display: flex; align-items: center; gap: 14px; text-decoration: none;">
-                        <img src="assets/images/logo-emblem-dark-clean.png" alt="Logo Domtom Connect" style="height: 40px; width: auto; object-fit: contain; display: block;"/>
-                        <span style="font-size: 1.25rem; font-weight: 800; color: white; letter-spacing: -0.02em;">Domtom Connect</span>
+                    <a href="index.html" class="footer-brand-logo">
+                        <img src="assets/images/logo-emblem-dark-clean.png" alt="Logo Domtom Connect" width="40" height="40" />
+                        <div class="footer-brand-title-wrap">
+                            <span class="footer-brand-title">Domtom Connect</span>
+                            <span class="footer-brand-badge">Conseil &amp; Réseau</span>
+                        </div>
                     </a>
-                    <p>
+                    <p class="footer-brand-desc">
                         Cabinet de conseil stratégique et réseau d'affaires pour les entrepreneurs et projets des Caraïbes, de l'Afrique et de la diaspora.
                     </p>
-                    <div style="display: flex; gap: 10px; margin-top: 18px;">
-                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" rel="noopener" aria-label="LinkedIn" style="width: 34px; height: 34px; background: rgba(255,255,255,0.06); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://www.instagram.com/domtomconnect" target="_blank" rel="noopener" aria-label="Instagram" style="width: 34px; height: 34px; background: rgba(255,255,255,0.06); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" rel="noopener" aria-label="YouTube" style="width: 34px; height: 34px; background: rgba(255,255,255,0.06); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" rel="noopener" aria-label="TikTok" style="width: 34px; height: 34px; background: rgba(255,255,255,0.06); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary);"><i class="fab fa-tiktok"></i></a>
+                    <div class="footer-territories-wrap">
+                        <span class="footer-territory-tag"><i class="fas fa-map-marker-alt"></i> Caraïbes</span>
+                        <span class="footer-territory-tag">Océan Indien</span>
+                        <span class="footer-territory-tag">Afrique</span>
+                        <span class="footer-territory-tag">Diaspora</span>
+                    </div>
+                    <div class="footer-social-wrap">
+                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social-btn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/domtomconnect" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" rel="noopener" aria-label="TikTok" class="footer-social-btn"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
 
                 <!-- Col 2 : Programmes -->
                 <div class="footer-col">
-                    <h4>Programmes</h4>
-                    <ul>
-                        <li><a href="tremplin.html">Programme Tremplin</a></li>
-                        <li><a href="premium.html">Conseil 1-to-1</a></li>
-                        <li><a href="pilotage.html">Offre de copilotage</a></li>
-                        <li><a href="co-fondateurs.html">Trouver un associé</a></li>
-                        <li><a href="incubateur.html">L'incubateur</a></li>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Programmes</h4>
+                    <ul class="footer-links">
+                        <li><a href="tremplin.html"><i class="fas fa-angle-right"></i> Programme Tremplin</a></li>
+                        <li><a href="pilotage.html"><i class="fas fa-angle-right"></i> Offre de Copilotage</a></li>
+                        <li><a href="co-fondateurs.html"><i class="fas fa-angle-right"></i> Trouver un Associé</a></li>
+                        <li><a href="incubateur.html"><i class="fas fa-angle-right"></i> L'Incubateur &amp; Hub</a></li>
+                        <li><a href="premium.html"><i class="fas fa-angle-right"></i> Conseil 1-to-1</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 3 : Outils & Plateforme -->
                 <div class="footer-col">
-                    <h4>Outils &amp; Réseau</h4>
-                    <ul>
-                        <li><a href="guide-entrepreneur.html">Guide Tome 1 (5 € &amp; 27 €)</a></li>
-                        <li><a href="beta-test.html">Application DTC Pulse</a></li>
-                        <li><a href="marketplace/directory.html">Annuaire des talents</a></li>
-                        <li><a href="marketplace/companies.html">Réseau entreprises</a></li>
-                        <li><a href="rejoindre.html">Groupes WhatsApp</a></li>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Outils &amp; Réseau</h4>
+                    <ul class="footer-links">
+                        <li><a href="guide-entrepreneur.html"><i class="fas fa-angle-right"></i> Guide Tome 1 (5 € &amp; 27 €)</a></li>
+                        <li><a href="beta-test.html"><i class="fas fa-angle-right"></i> Application DTC Pulse</a></li>
+                        <li><a href="marketplace/directory.html"><i class="fas fa-angle-right"></i> Annuaire des talents</a></li>
+                        <li><a href="marketplace/companies.html"><i class="fas fa-angle-right"></i> Réseau entreprises</a></li>
+                        <li><a href="rejoindre.html"><i class="fas fa-angle-right"></i> Groupes WhatsApp</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 4 : À propos & Support -->
                 <div class="footer-col">
-                    <h4>Ressources &amp; Support</h4>
-                    <ul>
-                        <li><a href="a-propos.html">À propos de nous</a></li>
-                        <li><a href="blog/index.html">Le blog</a></li>
-                        <li><a href="support.html">Contact &amp; Assistance</a></li>
-                        <li><a href="login.html">Espace membre</a></li>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Ressources &amp; Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="a-propos.html"><i class="fas fa-angle-right"></i> À propos de nous</a></li>
+                        <li><a href="blog/index.html"><i class="fas fa-angle-right"></i> Le Blog</a></li>
+                        <li><a href="support.html"><i class="fas fa-angle-right"></i> Contact &amp; Assistance</a></li>
+                        <li><a href="login.html"><i class="fas fa-angle-right"></i> Espace membre</a></li>
                     </ul>
                 </div>
             </div>
 
+            <div class="footer-trust-bar">
+                <div class="footer-trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Sans engagement long terme</span>
+                </div>
+                <div class="footer-trust-item">
+                    <i class="fas fa-lock"></i>
+                    <span>Confidentialité totale (accord NDA)</span>
+                </div>
+                <div class="footer-trust-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Méthodologie terrain éprouvée</span>
+                </div>
+            </div>
+
             <div class="footer-bottom">
-                <div>
+                <div class="footer-bottom-copy">
                     © 2026 Domtom Connect. Tous droits réservés. L'expertise stratégique au service des territoires ultramarins et de la diaspora.
                 </div>
-                <div style="display: flex; gap: 18px;">
+                <div class="footer-bottom-links">
                     <a href="legal/terms.html">Conditions générales</a>
+                    <span class="footer-sep">•</span>
                     <a href="legal/privacy.html">Politique de confidentialité</a>
+                    <span class="footer-sep">•</span>
+                    <a href="#" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                        Haut de page <i class="fas fa-arrow-up"></i>
+                    </a>
                 </div>
             </div>
         </div>
