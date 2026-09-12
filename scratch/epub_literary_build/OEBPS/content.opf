@@ -12,7 +12,9 @@
     </metadata>
     <manifest>
         <item id="cover-image" href="images/cover.jpg" media-type="image/jpeg" properties="cover-image"/>
+        <item id="backcover-image" href="images/backcover.jpg" media-type="image/jpeg"/>
         <item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>
+        <item id="backcover" href="backcover.xhtml" media-type="application/xhtml+xml"/>
         <item id="style" href="style.css" media-type="text/css"/>
         <item id="chap_1" href="chap_1.xhtml" media-type="application/xhtml+xml"/>
         <item id="chap_2" href="chap_2.xhtml" media-type="application/xhtml+xml"/>
@@ -75,5 +77,6 @@
         <itemref idref="chap_26"/>
         <itemref idref="chap_27"/>
         <itemref idref="chap_28"/>
+        <itemref idref="backcover"/>
     </spine>
 </package>

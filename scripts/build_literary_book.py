@@ -24,6 +24,7 @@ if hasattr(sys.stderr, 'reconfigure'):
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUTPUT_DIR = os.path.join(ROOT_DIR, "assets", "ebooks")
 COVER_IMG_SRC = os.path.join(ROOT_DIR, "assets", "images", "couverture-guide-tome1.jpg")
+BACK_COVER_IMG_SRC = os.path.join(ROOT_DIR, "assets", "images", "quatrieme-couverture-guide-tome1.jpg")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Importer les 4 Actes
@@ -69,6 +70,7 @@ def build_markdown_manuscript():
 def build_pdf_book():
     html_path = os.path.join(ROOT_DIR, "scratch", "guide-tome1-print.html")
     cover_uri = "file:///" + COVER_IMG_SRC.replace("\\", "/")
+    back_cover_uri = "file:///" + BACK_COVER_IMG_SRC.replace("\\", "/")
     
     # Sommaire
     toc_items = []
@@ -193,7 +195,7 @@ def build_pdf_book():
             }}
         }}
 
-        @page :first {{
+        @page cover-page {{
             margin: 0;
             @bottom-right {{ content: normal; }}
             @bottom-left {{ content: normal; }}
@@ -213,9 +215,10 @@ def build_pdf_book():
             padding: 0;
         }}
 
-        /* COUVERTURE */
+        /* COUVERTURE & 4EME DE COUVERTURE PLEINE PAGE */
         .page-cover {{
-            width: 100%;
+            page: cover-page;
+            width: 100vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -223,8 +226,27 @@ def build_pdf_book():
             align-items: center;
             justify-content: center;
             background-color: #090d16;
+            overflow: hidden;
         }}
         .page-cover img {{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }}
+        .page-back-cover-full {{
+            page: cover-page;
+            page-break-before: always;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #090d16;
+            overflow: hidden;
+        }}
+        .page-back-cover-full img {{
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -390,6 +412,105 @@ def build_pdf_book():
             color: #09090b;
         }}
 
+        /* 4ÈME DE COUVERTURE */
+        .page-back-cover {{
+            page-break-before: always;
+            box-sizing: border-box;
+            border: 1px solid #d4d4d8;
+            background: #ffffff;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 86vh;
+            padding: 36px 32px 28px 32px;
+        }}
+        .back-top {{
+            flex-grow: 1;
+        }}
+        .back-collection {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8.5pt;
+            font-weight: 800;
+            color: #52525b;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #18181b;
+            padding-bottom: 10px;
+        }}
+        .back-hook {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15.5pt;
+            font-weight: 800;
+            color: #09090b;
+            line-height: 1.35;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.01em;
+        }}
+        .back-text p {{
+            font-family: 'Lora', Georgia, serif;
+            font-size: 10.5pt;
+            line-height: 1.75;
+            color: #18181b;
+            text-align: justify;
+            text-justify: inter-word;
+            margin-bottom: 14px;
+        }}
+        .back-target-box {{
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: #f4f4f5;
+            border-left: 4px solid #18181b;
+            border-radius: 2px;
+        }}
+        .back-target-label {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #52525b;
+            margin-bottom: 4px;
+        }}
+        .back-target-desc {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 9pt;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #18181b;
+        }}
+        .back-bottom {{
+            margin-top: 30px;
+            padding-top: 18px;
+            border-top: 1px solid #e4e4e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }}
+        .back-meta-left {{
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8pt;
+            color: #71717a;
+            line-height: 1.6;
+        }}
+        .back-meta-right {{
+            text-align: right;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }}
+        .back-price {{
+            font-size: 11.5pt;
+            font-weight: 900;
+            color: #09090b;
+            letter-spacing: 0.02em;
+        }}
+        .back-isbn {{
+            font-size: 8pt;
+            color: #71717a;
+            margin-top: 2px;
+            letter-spacing: 0.05em;
+        }}
+
     </style>
 </head>
 <body>
@@ -422,6 +543,11 @@ def build_pdf_book():
 
     <!-- 4. LES 28 CHAPITRES EN PROSE CONTINUE -->
     {all_chapters_html}
+
+    <!-- 5. QUATRIÈME DE COUVERTURE OFFICIELLE HAUTE DÉFINITION -->
+    <div class="page-back-cover-full">
+        <img src="{back_cover_uri}" alt="Quatrième de couverture officielle Tome 1" />
+    </div>
 
 </body>
 </html>
@@ -483,8 +609,9 @@ def build_epub_book():
     images_dir = os.path.join(oebps, "images")
     os.makedirs(images_dir)
     
-    # Copier la couverture
+    # Copier la couverture et la 4ème de couverture
     shutil.copyfile(COVER_IMG_SRC, os.path.join(images_dir, "cover.jpg"))
+    shutil.copyfile(BACK_COVER_IMG_SRC, os.path.join(images_dir, "backcover.jpg"))
     
     # CSS EPUB épuré
     css_content = """
@@ -541,6 +668,43 @@ def build_epub_book():
         max-height: 100vh;
         height: auto;
     }
+    .backcover-box {
+        border: 1px solid #e5e7eb;
+        padding: 24px;
+        background-color: #fafafa;
+        margin-top: 20px;
+    }
+    .back-collection {
+        font-size: 0.75em;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #4b5563;
+        letter-spacing: 0.1em;
+        margin-bottom: 1em;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 0.5em;
+    }
+    .back-hook {
+        font-size: 1.25em;
+        font-weight: bold;
+        color: #111827;
+        line-height: 1.35;
+        margin-bottom: 1em;
+    }
+    .back-target {
+        background: #ffffff;
+        border-left: 3px solid #111827;
+        padding: 12px 16px;
+        margin-top: 1.5em;
+        font-size: 0.9em;
+    }
+    .back-footer {
+        margin-top: 2em;
+        padding-top: 1em;
+        border-top: 1px solid #e5e7eb;
+        font-size: 0.8em;
+        color: #6b7280;
+    }
     """
     with open(os.path.join(oebps, "style.css"), "w", encoding="utf-8") as f:
         f.write(css_content)
@@ -568,7 +732,9 @@ def build_epub_book():
     spine_items = ["cover"]
     manifest_items = [
         '<item id="cover-image" href="images/cover.jpg" media-type="image/jpeg" properties="cover-image"/>',
+        '<item id="backcover-image" href="images/backcover.jpg" media-type="image/jpeg"/>',
         '<item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>',
+        '<item id="backcover" href="backcover.xhtml" media-type="application/xhtml+xml"/>',
         '<item id="style" href="style.css" media-type="text/css"/>'
     ]
     toc_entries = []
@@ -608,6 +774,28 @@ def build_epub_book():
         manifest_items.append(f'<item id="{chap_id}" href="{file_name}" media-type="application/xhtml+xml"/>')
         spine_items.append(chap_id)
         toc_entries.append((chap_id, file_name, f"Ch. {ch['num']} · {title}"))
+
+    # Quatrième de couverture EPUB (Haute Définition)
+    backcover_xhtml = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="fr">
+<head>
+    <title>Quatrième de couverture</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <style>
+        body { margin: 0; padding: 0; text-align: center; background-color: #090d16; }
+        img { max-width: 100%; height: auto; max-height: 100vh; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="cover-container">
+        <img src="images/backcover.jpg" alt="Quatrième de couverture — Les Fondamentaux de l'Entrepreneur" />
+    </div>
+</body>
+</html>"""
+    with open(os.path.join(oebps, "backcover.xhtml"), "w", encoding="utf-8") as f:
+        f.write(backcover_xhtml)
+    spine_items.append("backcover")
 
     # Navigation EPUB 3 (nav.xhtml)
     nav_li = "\n".join([f'        <li><a href="{fn}">{xml_escape(t)}</a></li>' for _, fn, t in toc_entries])

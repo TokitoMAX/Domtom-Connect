@@ -26,7 +26,7 @@
             }
         }
 
-        @page :first {
+        @page cover-page {
             margin: 0;
             @bottom-right { content: normal; }
             @bottom-left { content: normal; }
@@ -46,9 +46,10 @@
             padding: 0;
         }
 
-        /* COUVERTURE */
+        /* COUVERTURE & 4EME DE COUVERTURE PLEINE PAGE */
         .page-cover {
-            width: 100%;
+            page: cover-page;
+            width: 100vw;
             height: 100vh;
             margin: 0;
             padding: 0;
@@ -56,8 +57,27 @@
             align-items: center;
             justify-content: center;
             background-color: #090d16;
+            overflow: hidden;
         }
         .page-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .page-back-cover-full {
+            page: cover-page;
+            page-break-before: always;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #090d16;
+            overflow: hidden;
+        }
+        .page-back-cover-full img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -221,6 +241,105 @@
             padding-top: 4px;
             font-weight: 600;
             color: #09090b;
+        }
+
+        /* 4ÈME DE COUVERTURE */
+        .page-back-cover {
+            page-break-before: always;
+            box-sizing: border-box;
+            border: 1px solid #d4d4d8;
+            background: #ffffff;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 86vh;
+            padding: 36px 32px 28px 32px;
+        }
+        .back-top {
+            flex-grow: 1;
+        }
+        .back-collection {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8.5pt;
+            font-weight: 800;
+            color: #52525b;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #18181b;
+            padding-bottom: 10px;
+        }
+        .back-hook {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15.5pt;
+            font-weight: 800;
+            color: #09090b;
+            line-height: 1.35;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.01em;
+        }
+        .back-text p {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 10.5pt;
+            line-height: 1.75;
+            color: #18181b;
+            text-align: justify;
+            text-justify: inter-word;
+            margin-bottom: 14px;
+        }
+        .back-target-box {
+            margin-top: 24px;
+            padding: 16px 20px;
+            background: #f4f4f5;
+            border-left: 4px solid #18181b;
+            border-radius: 2px;
+        }
+        .back-target-label {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #52525b;
+            margin-bottom: 4px;
+        }
+        .back-target-desc {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 9pt;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #18181b;
+        }
+        .back-bottom {
+            margin-top: 30px;
+            padding-top: 18px;
+            border-top: 1px solid #e4e4e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .back-meta-left {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8pt;
+            color: #71717a;
+            line-height: 1.6;
+        }
+        .back-meta-right {
+            text-align: right;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .back-price {
+            font-size: 11.5pt;
+            font-weight: 900;
+            color: #09090b;
+            letter-spacing: 0.02em;
+        }
+        .back-isbn {
+            font-size: 8pt;
+            color: #71717a;
+            margin-top: 2px;
+            letter-spacing: 0.05em;
         }
 
     </style>
@@ -890,6 +1009,11 @@
             </div>
         </section>
         
+
+    <!-- 5. QUATRIÈME DE COUVERTURE OFFICIELLE HAUTE DÉFINITION -->
+    <div class="page-back-cover-full">
+        <img src="file:///C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/assets/images/quatrieme-couverture-guide-tome1.jpg" alt="Quatrième de couverture officielle Tome 1" />
+    </div>
 
 </body>
 </html>
