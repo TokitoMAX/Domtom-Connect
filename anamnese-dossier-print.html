@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dossier d'anamnèse de l'entrepreneur · Domtom Connect Éditions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 16mm 18mm 16mm;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #0f172a;
+            font-family: 'Lora', Georgia, serif;
+            font-size: 10pt;
+            line-height: 1.6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .header {
+            border-bottom: 2px solid #0f172a;
+            padding-bottom: 10px;
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .brand-title {
+            font-size: 13pt;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-sub {
+            font-size: 8pt;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #64748b;
+        }
+
+        .badge-confidential {
+            font-size: 7.5pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 4px 10px;
+            border: 1px solid #047857;
+            color: #047857;
+            border-radius: 4px;
+        }
+
+        h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 21pt;
+            font-weight: 800;
+            line-height: 1.25;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .lead-quote {
+            font-style: italic;
+            font-size: 10.5pt;
+            color: #334155;
+            border-left: 3px solid #047857;
+            padding-left: 14px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .box-warning {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #047857;
+            padding: 12px 14px;
+            margin: 16px 0 22px 0;
+            font-size: 9pt;
+            line-height: 1.5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #334155;
+        }
+
+        .section-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #0f172a;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 5px;
+            margin-top: 22px;
+            margin-bottom: 14px;
+        }
+
+        .act-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 13px 15px;
+            margin-bottom: 14px;
+            page-break-inside: avoid;
+        }
+
+        .act-header {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 8pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #047857;
+            margin-bottom: 4px;
+        }
+
+        .act-question {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .act-options-list {
+            list-style: none;
+            margin-bottom: 8px;
+        }
+
+        .act-options-list li {
+            font-size: 8.5pt;
+            margin-bottom: 4px;
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .act-mirror-box {
+            background: #f8fafc;
+            border-left: 3px solid #047857;
+            padding: 7px 10px;
+            margin-top: 6px;
+            font-size: 8pt;
+            font-style: italic;
+            color: #1e293b;
+        }
+
+        .archetypes-grid {
+            margin-top: 10px;
+        }
+
+        .archetype-item {
+            border: 1px solid #e2e8f0;
+            padding: 12px 14px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            page-break-inside: avoid;
+        }
+
+        .archetype-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 10pt;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 3px;
+        }
+
+        .archetype-sub {
+            font-size: 8.5pt;
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .archetype-desc {
+            font-size: 8.5pt;
+            color: #1e293b;
+            line-height: 1.45;
+        }
+
+        .prescription-box {
+            background: #f8fafc;
+            border: 1px solid #047857;
+            border-left: 4px solid #047857;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin: 18px 0;
+            page-break-inside: avoid;
+        }
+
+        .prescription-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 9.5pt;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #047857;
+            margin-bottom: 8px;
+        }
+
+        .prescription-list {
+            list-style: none;
+        }
+
+        .prescription-list li {
+            font-size: 8.5pt;
+            margin-bottom: 6px;
+            line-height: 1.45;
+            color: #1e293b;
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 7.5pt;
+            color: #94a3b8;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Page 1 -->
+    <header class="header">
+        <div>
+            <div class="brand-title">Domtom Connect Éditions</div>
+            <div class="brand-sub">Ouvrages d'action · Caraïbes · Afrique · Océan Indien · Diaspora</div>
+        </div>
+        <div class="badge-confidential">Consultation 10 Actes</div>
+    </header>
+
+    <h1>L'anamnèse de l'entrepreneur.</h1>
+    <div class="lead-quote">
+        « En médecine, l'anamnèse est l'interrogatoire rigoureux mené pour reconstituer l'historique d'un mal et déceler son origine profonde, bien au-delà des symptômes visibles. »
+    </div>
+
+    <p>
+        Ce dossier est un protocole clinique complet en dix actes conçu pour ausculter avec précision le modèle économique, la viabilité financière et les blocages psychologiques du porteur de projet ou du dirigeant d'entreprise (commerce physique, prestation de service, digital ou production locale).
+    </p>
+
+    <div class="box-warning">
+        <strong>Avertissement liminaire :</strong> Si vous cherchez des flatteries ou des théories confortables pour justifier l'inaction, refermez ce document. Si vous acceptez de regarder vos réels arbitrages de gestion et de vente en face, suivez l'examen acte par acte.
+    </div>
+
+    <div class="section-title">Les dix actes d'auscultation clinique</div>
+
+    <!-- Acte 1 -->
+    <div class="act-card">
+        <div class="act-header">Acte I · La gestation et le temps suspendu</div>
+        <div class="act-question">Depuis combien de temps votre activité existe-t-elle sans générer de revenus réguliers et suffisants ?</div>
+        <ul class="act-options-list">
+            <li><strong>A. Moins de 3 mois :</strong> Phase de formalisation active de l'offre.</li>
+            <li><strong>B. Entre 3 et 12 mois :</strong> Peaufinage de l'offre, du logo ou des formalités.</li>
+            <li><strong>C. Entre 1 et 3 ans :</strong> Activité qui tourne au ralenti ou stagne sans salaire net régulier.</li>
+            <li><strong>D. Plus de 3 ans :</strong> Ambition constante sans jamais avoir trouvé la formule économique.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Passer plus d'un an sans traction prouve que vous inventez des corvées secondaires pour fuir le risque d'un refus client.
+        </div>
+    </div>
+
+    <!-- Acte 2 -->
+    <div class="act-card">
+        <div class="act-header">Acte II · L'illusion du financement préalable</div>
+        <div class="act-question">Comment envisagez-vous le démarrage de votre trésorerie et vos premiers mois d'exploitation ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Attendre une subvention (Région, CTM, Feder), un prêt bancaire ou un investisseur.</li>
+            <li><strong>B.</strong> Investir mes économies personnelles dans du stock ou du matériel avant d'avoir des commandes fermes.</li>
+            <li><strong>C.</strong> Concevoir une offre où l'acompte du client finance intégralement l'exécution du travail.</li>
+            <li><strong>D.</strong> Gérer à vue sans plan de trésorerie précis.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : L'argent suit la traction, il ne la précède jamais. L'acompte à la commande est le seul véritable test de marché.
+        </div>
+    </div>
+
+    <!-- Acte 3 -->
+    <div class="act-card">
+        <div class="act-header">Acte III · L'anatomie de l'offre et la marge brute</div>
+        <div class="act-question">Quelle est la structure de votre proposition face à la concurrence locale ou internationale ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> S'aligner sur les prix bas du marché pour capter des clients coûte que coûte.</li>
+            <li><strong>B.</strong> Offre complexe difficile à expliquer en moins de trente secondes à un prospect.</li>
+            <li><strong>C.</strong> Solution packagée à haute marge brute justifiant un tarif ferme et rentable.</li>
+            <li><strong>D.</strong> Vente d'heures au thermomètre sans forfait ni plafond.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Casser ses prix n'apporte pas des clients fidèles : cela attire des clients ingrats et garantit la faillite.
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <span>L'anamnèse de l'entrepreneur · Domtom Connect Éditions</span>
+        <span>Page 1 sur 4</span>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page-break"></div>
+
+    <header class="header">
+        <div>
+            <div class="brand-title">Domtom Connect Éditions</div>
+            <div class="brand-sub">Auscultation des opérations et des coûts</div>
+        </div>
+        <div class="badge-confidential">Gestion & Vente</div>
+    </header>
+
+    <!-- Acte 4 -->
+    <div class="act-card">
+        <div class="act-header">Acte IV · Le gouffre des charges fixes et des dépenses futiles</div>
+        <div class="act-question">Comment gérez-vous vos coûts d'exploitation (local, logiciels, matériel, communication) ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Frais fixes lourds engagés avant d'avoir un flux de trésorerie régulier.</li>
+            <li><strong>B.</strong> Commando léger : charges proches de zéro, chaque euro dépensé doit rapporter du CA sous 30 jours.</li>
+            <li><strong>C.</strong> Dépenses au coup par coup sans mesurer le coût d'acquisition d'un client.</li>
+            <li><strong>D.</strong> Blocage dans l'attente de pouvoir financer le matériel rêvé.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Le patron prudent opère avec des coûts fixes minimaux jusqu'à ce que la trésorerie déborde.
+        </div>
+    </div>
+
+    <!-- Acte 5 -->
+    <div class="act-card">
+        <div class="act-header">Acte V · La mécanique commerciale et la prospection</div>
+        <div class="act-question">Quelle est votre routine hebdomadaire réelle pour acquérir de nouveaux clients ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Espérer le bouche-à-oreille naturel de mes amis ou de mon entourage.</li>
+            <li><strong>B.</strong> Publier du contenu sur les réseaux sociaux sans tunnel de vente direct.</li>
+            <li><strong>C.</strong> Contacter directement au moins dix prospects qualifiés par semaine par téléphone ou sur le terrain.</li>
+            <li><strong>D.</strong> Malaise total avec la vente : attente d'un commercial ou d'un associé pour s'en charger.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Les likes ne paient pas les factures. Si le fondateur ne sait pas vendre son produit, personne ne le fera pour lui.
+        </div>
+    </div>
+
+    <!-- Acte 6 -->
+    <div class="act-card">
+        <div class="act-header">Acte VI · L'affirmation tarifaire et le recouvrement</div>
+        <div class="act-question">Quand un prospect négocie durement ou tarde à régler sa facture, quelle est votre règle ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Accorder spontanément une réduction par peur de perdre la vente.</li>
+            <li><strong>B.</strong> Exiger 50 % d'acompte à la commande et suspendre toute livraison en cas de retard.</li>
+            <li><strong>C.</strong> Attendre poliment par fausse pudeur financière sans oser relancer fermement.</li>
+            <li><strong>D.</strong> Livrer la totalité du travail avant facturation sur la simple parole.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : L'acompte de 50 % est la règle de fer : il filtre les mauvais payeurs dès l'entrée et protège votre trésorerie.
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <span>L'anamnèse de l'entrepreneur · Domtom Connect Éditions</span>
+        <span>Page 2 sur 4</span>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page-break"></div>
+
+    <header class="header">
+        <div>
+            <div class="brand-title">Domtom Connect Éditions</div>
+            <div class="brand-sub">Environnement territorial et psychologie</div>
+        </div>
+        <div class="badge-confidential">Territoire & Dirigeant</div>
+    </header>
+
+    <!-- Acte 7 -->
+    <div class="act-card">
+        <div class="act-header">Acte VII · La pression territoriale et le regard des proches</div>
+        <div class="act-question">Quelle est la plus grande interférence sociale qui freine vos décisions sur votre territoire ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> La terreur du qu'en-dira-t-on local et des commérages si l'entreprise échoue.</li>
+            <li><strong>B.</strong> Le siphon familial : l'obligation morale d'aider tout le monde avant de consolider la boîte.</li>
+            <li><strong>C.</strong> Le sentiment d'isolement total, sans pairs exigeants pour échanger de chef à chef.</li>
+            <li><strong>D.</strong> Frontière étanche entre les obligations de l'entreprise et la vie familiale.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Ceux qui critiquent votre tentative le font pour calmer la honte de leur propre immobilisme.
+        </div>
+    </div>
+
+    <!-- Acte 8 -->
+    <div class="act-card">
+        <div class="act-header">Acte VIII · L'autopsie des journées réelles et les diversions futiles</div>
+        <div class="act-question">Où est passée la majeure partie de vos heures productives ces deux dernières semaines ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Peaufiner le logo, les visuels, le site ou l'agencement matériel de l'espace.</li>
+            <li><strong>B.</strong> Consommer des vidéos de motivation, des tutoriels et des podcasts d'affaires.</li>
+            <li><strong>C.</strong> Négocier avec des clients, livrer des prestations et relancer des devis.</li>
+            <li><strong>D.</strong> Gérer la fatigue de l'emploi salarié et les urgences du quotidien.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : Le perfectionnisme cosmétique est la forme la plus lâche de la procrastination : vous repeignez un magasin vide.
+        </div>
+    </div>
+
+    <!-- Acte 9 -->
+    <div class="act-card">
+        <div class="act-header">Acte IX · Le piège de l'association et la gouvernance</div>
+        <div class="act-question">Comment est organisée la direction de votre entreprise et qui porte le risque final ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Association informelle par amitié sans pacte d'associés ni contrat écrit.</li>
+            <li><strong>B.</strong> Unicité de commandement : seul maître à bord avec prestataires payés au résultat.</li>
+            <li><strong>C.</strong> Recherche désespérée d'un associé sauveur pour porter le risque à ma place.</li>
+            <li><strong>D.</strong> Peur obsessionnelle qu'on me vole mon idée en en parlant autour de moi.</li>
+        </ul>
+        <div class="act-mirror-box">
+            Constat : S'associer sans contrat clair est une bombe à retardement. Une idée ne se vole pas : seule l'exécution se monétise.
+        </div>
+    </div>
+
+    <!-- Acte 10 -->
+    <div class="act-card">
+        <div class="act-header">Acte X · La sentence du temps et l'urgence de rupture</div>
+        <div class="act-question">Si dans exactement un an votre situation n'a pas bougé d'un millimètre, quel sera votre état d'esprit ?</div>
+        <ul class="act-options-list">
+            <li><strong>A.</strong> Une fureur silencieuse contre moi-même d'avoir encore gaspillé une année entière.</li>
+            <li><strong>B.</strong> Une résignation amère à accepter que l'indépendance n'était pas faite pour moi.</li>
+            <li><strong>C.</strong> L'angoisse de voir le temps défiler sans jamais laisser de patrimoine solide aux miens.</li>
+            <li><strong>D.</strong> Inconcevable : la rupture commence cette semaine avec une méthode implacable.</li>
+        </ul>
+    </div>
+
+    <div class="footer-note">
+        <span>L'anamnèse de l'entrepreneur · Domtom Connect Éditions</span>
+        <span>Page 3 sur 4</span>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page-break"></div>
+
+    <header class="header">
+        <div>
+            <div class="brand-title">Domtom Connect Éditions</div>
+            <div class="brand-sub">Rapport clinique & ordonnance de terrain</div>
+        </div>
+        <div class="badge-confidential">Ordonnance d'Action</div>
+    </header>
+
+    <div class="section-title">Les quatre profils cliniques dominants</div>
+
+    <div class="archetypes-grid">
+        <div class="archetype-item">
+            <div class="archetype-title">1. Le perfectionniste en fuite (Code P-01)</div>
+            <div class="archetype-sub">« Vous utilisez la recherche du détail impeccable comme un bouclier pour fuir la confrontation commerciale. »</div>
+            <div class="archetype-desc">Vous passez des semaines à peaufiner des éléments secondaires (supports, charte, agencement) parce que tant que le chantier n'est pas parfait, vous avez une excuse honorable pour ne pas vendre. Le marché ne paie pas le décor, il paie le soulagement d'une douleur.</div>
+        </div>
+
+        <div class="archetype-item">
+            <div class="archetype-title">2. Le spectateur théoricien (Code T-02)</div>
+            <div class="archetype-sub">« Vous accumulez des connaissances pour apaiser votre anxiété sans jamais descendre dans l'arène du terrain. »</div>
+            <div class="archetype-desc">Vous collectionnez les formations, livres et podcasts. Vous maîtrisez le vocabulaire des affaires, mais vous n'avez jamais mené une vente difficile jusqu'à son terme. Ce savoir non appliqué se transforme en doute et vous paralyse.</div>
+        </div>
+
+        <div class="archetype-item">
+            <div class="archetype-title">3. L'intimidé du qu'en-dira-t-on (Code I-03)</div>
+            <div class="archetype-sub">« Vous laissez le regard de vos proches et de votre communauté fixer les limites de votre liberté. »</div>
+            <div class="archetype-desc">Vous vivez dans la terreur qu'un échec écorne votre réputation locale. Vous cherchez l'approbation de gens qui n'ont jamais risqué leur propre argent sur une idée. Vos clients sérieux sont des inconnus impartiaux.</div>
+        </div>
+
+        <div class="archetype-item">
+            <div class="archetype-title">4. Le mendiant de salut financier (Code M-04)</div>
+            <div class="archetype-sub">« Vous avez fait du manque d'argent préalable l'alibi confortable de votre inaction quotidienne. »</div>
+            <div class="archetype-desc">Vous attendez un prêt bancaire ou une subvention pour prouver la valeur d'une offre. L'argent suit la traction, il ne la précède jamais. Si personne ne verse un acompte sur votre simple parole, aucune aide ne sauvera votre boîte.</div>
+        </div>
+    </div>
+
+    <!-- Ordonnance -->
+    <div class="prescription-box">
+        <div class="prescription-title">L'ordonnance immédiate · Les trois interdictions formelles</div>
+        <ul class="prescription-list">
+            <li><strong>01. Interdiction formelle de retoucher votre site web ou votre logo</strong> pendant trente jours. Vendez d'abord votre offre sur une simple feuille de papier.</li>
+            <li><strong>02. Cessation complète de toute consommation de vidéos ou podcasts business.</strong> Votre journée ne se mesure qu'au nombre d'échanges commerciaux directs menés.</li>
+            <li><strong>03. Règle de l'acompte obligatoire de 50 % à la commande.</strong> Ne commencez aucun travail sans encaissement préalable pour sécuriser votre trésorerie.</li>
+        </ul>
+    </div>
+
+    <!-- Passerelle en 2 Paliers (Noir, Blanc, Vert) -->
+    <div style="background: #020617; border: 1px solid rgba(16, 185, 129, 0.4); color: #ffffff; padding: 18px 22px; border-radius: 6px; font-family: 'Plus Jakarta Sans', sans-serif;">
+        <div style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.12em; color: #10b981; font-weight: 800; margin-bottom: 4px;">Passerelle de redressement Domtom Connect</div>
+        <div style="font-size: 11pt; font-weight: 800; margin-bottom: 8px;">Deux voies selon votre niveau d'autonomie</div>
+        <div style="font-size: 8.5pt; color: #cbd5e1; line-height: 1.6;">
+            <strong style="color: #ffffff;">Palier 1 · L'autonomie outillée :</strong><br>
+            • <em>Le Tome 1 : Les Fondamentaux de l'Entrepreneur (5 €)</em> — 41 pages d'écriture dense pour assainir vos bases et signer vos premiers clients sans capital.<br>
+            • <em>L'Ebook interactif et boîte à outils (27 €)</em> — Simulateur financier de rentabilité, carnet de bord sauvegardé et feuille de route 30 jours.<br><br>
+            <strong style="color: #ffffff;">Palier 2 · L'accompagnement stratégique direct :</strong><br>
+            Si malgré la méthode vous avez besoin d'un copilote d'expérience pour valider chaque étape, cadrer vos finances et piloter votre développement sur votre territoire, le <em>Programme Tremplin</em> et le <em>Copilotage Stratégique Domtom Connect</em> prennent le relais.
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <span>L'anamnèse de l'entrepreneur · Domtom Connect Éditions</span>
+        <span>Page 4 sur 4</span>
+    </div>
+
+</body>
+</html>
