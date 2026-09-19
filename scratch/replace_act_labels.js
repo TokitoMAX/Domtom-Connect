@@ -1,0 +1,14 @@
+const fs = require('fs');
+let c = fs.readFileSync('assets/js/anamnese.js', 'utf8');
+c = c.replace(/label: "Acte I /g, 'label: "Question 1 ');
+c = c.replace(/label: "Acte II /g, 'label: "Question 2 ');
+c = c.replace(/label: "Acte III /g, 'label: "Question 3 ');
+c = c.replace(/label: "Acte IV /g, 'label: "Question 4 ');
+c = c.replace(/label: "Acte V /g, 'label: "Question 5 ');
+c = c.replace(/label: "Acte VI /g, 'label: "Question 6 ');
+c = c.replace(/label: "Acte VII /g, 'label: "Question 7 ');
+c = c.replace(/label: "Acte VIII /g, 'label: "Question 8 ');
+c = c.replace(/label: "Acte IX /g, 'label: "Question 9 ');
+c = c.replace(/label: "Acte X /g, 'label: "Question 10 ');
+fs.writeFileSync('assets/js/anamnese.js', c, 'utf8');
+console.log('Replaced all Acte labels with Question labels');

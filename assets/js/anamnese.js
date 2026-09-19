@@ -1,4 +1,4 @@
-/**
+﻿/**
  * DOMTOM CONNECT — MOTEUR D'ANAMNÈSE CLINIQUE TRILINGUE (FR · EN · ES)
  * 10 Actes d'auscultation chirurgicale, adaptation par stade (idee/lancement/installe),
  * syntaxe territoriale grammaticalement correcte, intégration WhatsApp.
@@ -41,38 +41,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dictionnaire de traductions pour l'interface globale
     const UI_TRANSLATIONS = {
         fr: {
-            sessionBadge: "Consultation à huis clos",
+            sessionBadge: "Session à huis clos",
             leadTag: "Édition spéciale · Première séance",
-            mainTitle: "L'anamnèse de l'entrepreneur.",
-            prologue1: "En médecine, l'anamnèse est l'interrogatoire méthodique mené par le clinicien pour reconstituer l'historique d'un mal et déceler son origine profonde, bien au-delà des symptômes visibles.",
-            prologue2: "Ce protocole n'est ni un quiz commercial flatteur, ni une checklist superficielle. C'est une confrontation calme, rigoureuse et sans détour avec vos réelles habitudes professionnelles et les réalités économiques de votre terrain.",
-            warning: "Si vous cherchez des encouragements polis pour justifier votre immobilité, quittez cette page. Si vous êtes prêt à regarder la vérité en face, sélectionnez votre territoire d'ancrage et commencez votre examen.",
-            setupTitle: "Calibrage de votre consultation",
-            setupDesc: "Un commerce physique en Martinique, un cabinet à Abidjan ou une entreprise à la Barbade n'ont ni les mêmes marges, ni les mêmes périls. Renseignez votre profil réel :",
+            mainTitle: "Votre bilan entrepreneur.",
+            prologue1: "Dans une vraie session de coaching, le coach commence toujours par une seule chose : poser les bonnes questions, sans ménagement, pour comprendre où vous en êtes réellement.",
+            prologue2: "Ce bilan n'est ni un quiz flatteur, ni une checklist superficielle. C'est une confrontation directe avec vos vraies habitudes de travail et les réalités économiques de votre terrain.",
+            warning: "Si vous cherchez des encouragements polis pour justifier votre immobilité, quittez cette page. Si vous êtes prêt à regarder la vérité en face, sélectionnez votre territoire et commencez votre bilan.",
+            setupTitle: "Calibrage de votre session",
+            setupDesc: "Un commerce physique en Martinique, un cabinet à Abidjan ou une entreprise à la Barbade n'ont ni les mêmes marges, ni les mêmes défis. Renseignez votre profil réel :",
             lblTerritory: "1. Votre territoire d'ancrage",
             lblBusinessType: "2. Nature de votre activité",
             lblBusinessStage: "3. Stade d'avancement réel",
-            btnStart: "Commencer l'auscultation clinique (10 Actes)",
-            stepLabel: "Acte",
+            btnStart: "Commencer le bilan (10 questions)",
+            stepLabel: "Question",
             ofLabel: "sur",
-            mirrorTitle: "Constat sans filtre",
-            btnNext: "Poursuivre l'examen",
-            captureTag: "Clôture de l'examen",
-            captureTitle: "Vos données ont été consolidées.",
-            captureDesc: "L'analyse de vos arbitrages comportementaux a permis d'isoler précisément votre mécanisme d'auto-sabotage dominant. Renseignez votre identité pour déverrouiller votre ordonnance écrite :",
-            lblFirstName: "Prénom usuel",
-            lblLastName: "Nom de famille (optionnel)",
-            lblEmail: "Adresse électronique personnelle",
+            mirrorTitle: "Le regard du coach",
+            btnNext: "Question suivante",
+            captureTag: "Bilan complété",
+            captureTitle: "Votre profil a été établi.",
+            captureDesc: "L'analyse de vos réponses pour votre territoire a permis d'identifier précisément votre frein dominant. Renseignez votre identité pour recevoir votre plan d'action personnalisé :",
+            lblFirstName: "Prénom",
+            lblLastName: "Nom (optionnel)",
+            lblEmail: "Adresse e-mail",
             lblPhone: "Téléphone / WhatsApp (optionnel)",
             lblPhonePlaceholder: "Ex : 0696 00 00 00 ou +596 000 000",
-            btnUnlock: "Déverrouiller mon ordonnance clinique",
+            btnUnlock: "Recevoir mon plan d'action",
             privacyNote: "Vos données sont strictement confidentielles. Aucun démarchage abusif ne sera toléré.",
-            btnSubmitting: "Génération de votre ordonnance...",
-            reportHeader: "Dossier clinique",
-            prescriptionHeader: "Ordonnance immédiate · Les trois interdictions formelles",
-            solutionsTag: "Protocole de traitement",
+            btnSubmitting: "Génération de votre plan d'action...",
+            reportHeader: "Votre profil entrepreneur",
+            prescriptionHeader: "Plan d'action immédiat · Les trois priorités",
+            solutionsTag: "La suite du parcours",
             solutionsTitle: "Sortir de l'impasse : vos leviers d'action.",
-            solutionsDesc: "Le diagnostic est posé. La prise de conscience reste stérile sans application concrète. Deux voies s'offrent à vous selon votre niveau d'autonomie.",
+            solutionsDesc: "Le bilan est posé. La prise de conscience reste stérile sans application concrète. Deux voies s'offrent à vous selon votre niveau d'autonomie.",
             tier1Tag: "Fondations et esprit de terrain",
             tier1Title: "Les Fondamentaux de l'Entrepreneur",
             tier1Desc: "41 pages d'écriture dense sans complaisance pour nettoyer vos illusions, déraciner le syndrome de l'imposteur local et signer vos premiers contrats sans capital initial.",
@@ -81,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
             tier2Title: "Ebook interactif et boîte à outils",
             tier2Desc: "L'application web complète avec simulateur financier de rentabilité, carnet de bord sauvegardé et génération de votre feuille de route terrain sur trente jours.",
             tier2Btn: "Accéder aux outils (27 €)",
-            coachingTag: "Palier supérieur · Direction de terrain",
-            coachingTitle: "Besoin d'un copilote pour valider votre exécution ?",
-            coachingDesc: "Les outils digitaux vous donnent l'autonomie et la méthode. Mais si votre situation exige un regard extérieur sans concession, un cadrage financier sur-mesure et un accompagnement rapproché sur votre territoire, nos programmes directeurs prennent le relais.",
+            coachingTag: "Accompagnement · Coaching de terrain",
+            coachingTitle: "Besoin d'un copilote pour avancer plus vite ?",
+            coachingDesc: "Les outils digitaux vous donnent l'autonomie et la méthode. Mais si votre situation exige un regard extérieur direct, un cadrage financier sur-mesure et un suivi rapproché sur votre territoire, nos programmes d'accompagnement prennent le relais.",
             coachingBtn: "Découvrir l'accompagnement",
             viewCatalog: "Consulter l'ensemble de la librairie et des programmes Domtom Connect →",
             whatsappGroupTag: "Communauté Domtom Connect",
@@ -94,38 +94,38 @@ document.addEventListener('DOMContentLoaded', () => {
             whatsappGroupBtn: "Rejoindre le groupe WhatsApp"
         },
         en: {
-            sessionBadge: "Confidential Clinical Consultation",
+            sessionBadge: "Private Coaching Session",
             leadTag: "Special Edition · First Session",
-            mainTitle: "The Entrepreneur's Anamnesis.",
-            prologue1: "In clinical medicine, anamnesis is the systematic interrogation conducted to trace the true etiology of an ailment, looking far beyond superficial symptoms.",
-            prologue2: "This protocol is neither a flattering quiz nor a shallow marketing checklist. It is a calm, rigorous, and uncompromising mirror reflecting your real daily habits and the financial realities of your ground.",
-            warning: "If you seek polite encouragement to justify inaction, exit this page immediately. If you are ready to face reality without excuses, select your territory and begin the clinical assessment.",
-            setupTitle: "Consultation Calibration",
-            setupDesc: "A brick-and-mortar store in Jamaica, a consultancy in London, or an import venture in Ghana face vastly different margins and hazards. Configure your real profile:",
+            mainTitle: "Your Entrepreneur Assessment.",
+            prologue1: "In a real coaching session, the coach always starts with one thing: asking the right questions, without sugarcoating, to understand where you truly stand.",
+            prologue2: "This assessment is neither a flattering quiz nor a shallow marketing checklist. It is a direct confrontation with your real work habits and the financial realities of your market.",
+            warning: "If you seek polite encouragement to justify inaction, exit this page immediately. If you are ready to face reality without excuses, select your territory and begin your assessment.",
+            setupTitle: "Session Calibration",
+            setupDesc: "A brick-and-mortar store in Jamaica, a consultancy in London, or an import venture in Ghana face vastly different margins and challenges. Configure your real profile:",
             lblTerritory: "1. Your Primary Territory or Base",
             lblBusinessType: "2. Business Model & Activity",
             lblBusinessStage: "3. Actual Stage of Business",
-            btnStart: "Begin Clinical Assessment (10 Acts)",
-            stepLabel: "Act",
+            btnStart: "Begin Assessment (10 Questions)",
+            stepLabel: "Question",
             ofLabel: "of",
-            mirrorTitle: "Uncompromising Diagnosis",
-            btnNext: "Proceed to Next Act",
-            captureTag: "Clinical Consolidation",
-            captureTitle: "Your diagnostic profile is consolidated.",
-            captureDesc: "Our analysis of your operational decisions and territory has isolated your dominant self-sabotage pattern. Enter your details to unlock your written clinical prescription:",
+            mirrorTitle: "Coach's Take",
+            btnNext: "Next Question",
+            captureTag: "Assessment Complete",
+            captureTitle: "Your profile has been established.",
+            captureDesc: "Our analysis of your answers has identified your dominant blocker. Enter your details to receive your personalized action plan:",
             lblFirstName: "First Name",
             lblLastName: "Last Name (Optional)",
-            lblEmail: "Personal Email Address",
+            lblEmail: "Email Address",
             lblPhone: "Phone / WhatsApp (Optional)",
             lblPhonePlaceholder: "E.g. +1 876 000 0000 or +44 7700 000000",
-            btnUnlock: "Unlock My Clinical Prescription",
+            btnUnlock: "Get My Action Plan",
             privacyNote: "Your data is strictly confidential. Zero spam or aggressive sales tactics.",
-            btnSubmitting: "Generating clinical prescription...",
-            reportHeader: "Clinical File",
-            prescriptionHeader: "Immediate Prescription · Three Strict Prohibitions",
-            solutionsTag: "Treatment Protocol",
+            btnSubmitting: "Generating your action plan...",
+            reportHeader: "Your Entrepreneur Profile",
+            prescriptionHeader: "Immediate Action Plan · Three Key Priorities",
+            solutionsTag: "Next Steps",
             solutionsTitle: "Breaking the Deadlock: Your Action Pathways.",
-            solutionsDesc: "The diagnosis is established. Awareness is useless without disciplined execution. Two options are available based on your required level of support.",
+            solutionsDesc: "The assessment is done. Awareness is useless without disciplined execution. Two options are available based on your required level of support.",
             tier1Tag: "Field Foundations & Mindset",
             tier1Title: "The Entrepreneur's Fundamentals",
             tier1Desc: "Dense, uncompromising field playbook to strip away corporate illusions, defeat local imposter syndrome, and secure your first clients with zero initial capital.",
@@ -134,10 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
             tier2Title: "Interactive Ebook & Action Toolkit",
             tier2Desc: "Complete web application featuring financial profitability simulators, saved strategic workbooks, and custom 30-day field roadmaps.",
             tier2Btn: "Access the Toolkit (€27)",
-            coachingTag: "Executive Tier · Field Direction",
-            coachingTitle: "Need a Field Co-pilot to Validate Execution?",
-            coachingDesc: "Digital toolkits grant autonomy and structure. However, if your venture demands relentless strategic oversight, customized financial modeling, and on-the-ground guidance, our executive programs step in.",
-            coachingBtn: "Explore Executive Programs",
+            coachingTag: "Coaching · Field Direction",
+            coachingTitle: "Need a Field Co-pilot to Move Faster?",
+            coachingDesc: "Digital toolkits grant autonomy and structure. However, if your venture demands direct strategic oversight, customized financial modeling, and on-the-ground guidance, our coaching programs step in.",
+            coachingBtn: "Explore Coaching Programs",
             viewCatalog: "Explore the full Domtom Connect library and programs →",
             whatsappGroupTag: "Domtom Connect Community",
             whatsappGroupTitleIdea: "Join the Founders & Project Starters Group",
@@ -147,38 +147,38 @@ document.addEventListener('DOMContentLoaded', () => {
             whatsappGroupBtn: "Join the WhatsApp Group"
         },
         es: {
-            sessionBadge: "Consulta Clínica Confidencial",
+            sessionBadge: "Sesión de Coaching Privada",
             leadTag: "Edición Especial · Primera Sesión",
-            mainTitle: "La Anamnesis del Emprendedor.",
-            prologue1: "En medicina clínica, la anamnesis es el interrogatorio riguroso realizado para rastrear el origen profundo de un padecimiento, más allá de los síntomas visibles.",
-            prologue2: "Este protocolo no es un test complaciente ni una lista superficial. Es una confrontación serena, rigurosa y directa con sus verdaderos hábitos de gestión y las realidades económicas de su territorio.",
-            warning: "Si busca elogios corteses para justificar la inacción, cierre esta página. Si está preparado para confrontar la realidad con honestidad absoluta, seleccione su territorio y comience su examen.",
-            setupTitle: "Calibración de su Consulta",
-            setupDesc: "Un comercio físico en República Dominicana, una consultoría en Madrid o un negocio en Cuba no enfrentan los mismos márgenes ni los mismos riesgos. Indique su perfil real:",
+            mainTitle: "Su diagnóstico emprendedor.",
+            prologue1: "En una sesión de coaching real, el coach siempre empieza por una sola cosa: hacer las preguntas correctas, sin rodeos, para entender dónde se encuentra realmente.",
+            prologue2: "Este diagnóstico no es un test complaciente ni una lista superficial. Es una confrontación directa con sus verdaderos hábitos de gestión y las realidades económicas de su territorio.",
+            warning: "Si busca elogios corteses para justificar la inacción, cierre esta página. Si está preparado para confrontar la realidad con honestidad absoluta, seleccione su territorio y comience.",
+            setupTitle: "Calibración de su Sesión",
+            setupDesc: "Un comercio físico en República Dominicana, una consultoría en Madrid o un negocio en Cuba no enfrentan los mismos márgenes ni los mismos retos. Indique su perfil real:",
             lblTerritory: "1. Su territorio de implantación",
             lblBusinessType: "2. Naturaleza de su actividad",
             lblBusinessStage: "3. Etapa real de su proyecto",
-            btnStart: "Iniciar Examen Clínico (10 Actos)",
-            stepLabel: "Acto",
+            btnStart: "Comenzar el Diagnóstico (10 Preguntas)",
+            stepLabel: "Pregunta",
             ofLabel: "de",
-            mirrorTitle: "Diagnóstico sin Filtro",
-            btnNext: "Continuar el Examen",
-            captureTag: "Cierre del Examen",
-            captureTitle: "Sus datos han sido consolidados.",
-            captureDesc: "El análisis de sus decisiones operativas ha aislado su mecanismo de autosabotaje dominante. Ingrese su identidad para desbloquear su receta clínica por escrito:",
+            mirrorTitle: "La perspectiva del coach",
+            btnNext: "Siguiente Pregunta",
+            captureTag: "Diagnóstico Completado",
+            captureTitle: "Su perfil ha sido establecido.",
+            captureDesc: "El análisis de sus respuestas ha identificado su freno dominante. Ingrese su identidad para recibir su plan de acción personalizado:",
             lblFirstName: "Nombre de pila",
             lblLastName: "Apellido (opcional)",
-            lblEmail: "Correo electrónico personal",
+            lblEmail: "Correo electrónico",
             lblPhone: "Teléfono / WhatsApp (opcional)",
             lblPhonePlaceholder: "Ej: +1 809 000 0000 o +34 600 000 000",
-            btnUnlock: "Desbloquear mi Receta Clínica",
+            btnUnlock: "Recibir mi plan de acción",
             privacyNote: "Sus datos son rigurosamente confidenciales. Prohibido el correo no deseado.",
-            btnSubmitting: "Generando su receta clínica...",
-            reportHeader: "Expediente Clínico",
-            prescriptionHeader: "Receta Inmediata · Las Tres Prohibiciones Formales",
-            solutionsTag: "Protocolo de Tratamiento",
+            btnSubmitting: "Generando su plan de acción...",
+            reportHeader: "Su Perfil Emprendedor",
+            prescriptionHeader: "Plan de Acción Inmediato · Las Tres Prioridades",
+            solutionsTag: "Los próximos pasos",
             solutionsTitle: "Salir del Estancamiento: Sus Vías de Acción.",
-            solutionsDesc: "El diagnóstico está establecido. La toma de conciencia es estéril sin ejecución práctica. Dos opciones están disponibles según su grado de autonomía.",
+            solutionsDesc: "El diagnóstico está hecho. La toma de conciencia es estéril sin ejecución práctica. Dos opciones están disponibles según su grado de autonomía.",
             tier1Tag: "Fundamentos y mentalidad de campo",
             tier1Title: "Los Fundamentos del Emprendedor",
             tier1Desc: "Manual de campo denso y sin concesiones para erradicar ilusiones, superar el síndrome del impostor y cerrar sus primeros clientes sin capital inicial.",
@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
             tier2Title: "Ebook Interactivo y Caja de Herramientas",
             tier2Desc: "Aplicación web completa con simulador financiero de rentabilidad, cuaderno de trabajo guardado y hoja de ruta sobre el terreno de 30 días.",
             tier2Btn: "Acceder a las Herramientas (27 €)",
-            coachingTag: "Nivel Superior · Dirección Estratégica",
-            coachingTitle: "¿Necesita un copiloto para validar su ejecución?",
-            coachingDesc: "Las herramientas digitales proporcionan autonomía y método. Pero si su proyecto exige supervisión estratégica directa, modelado financiero a medida y acompañamiento en su territorio, nuestros programas ejecutivos toman el relevo.",
+            coachingTag: "Coaching · Dirección Estratégica",
+            coachingTitle: "¿Necesita un copiloto para avanzar más rápido?",
+            coachingDesc: "Las herramientas digitales proporcionan autonomía y método. Pero si su proyecto exige supervisión estratégica directa, modelado financiero a medida y acompañamiento en su territorio, nuestros programas de coaching toman el relevo.",
             coachingBtn: "Conocer el Acompañamiento",
             viewCatalog: "Consultar el catálogo completo de Domtom Connect →",
             whatsappGroupTag: "Comunidad Domtom Connect",
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fr: [
             {
                 id: 1,
-                label: "Acte I · La gestation et le temps suspendu",
+                label: "Question 1 · La gestation et le temps suspendu",
                 quote: "Une idée ne mûrit pas dans un carnet. Elle s'évente, perd de sa puissance et finit par vous anesthésier. L'attente n'est presque jamais de la prudence : c'est la peur panique de poser la première pierre sous les yeux de votre communauté.",
                 stages: {
                     idee: {
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 2,
-                label: "Acte II · L'illusion du financement préalable",
+                label: "Question 2 · L'illusion du financement préalable",
                 quote: "L'alibi classique consiste à affirmer : « Si seulement j'avais 20 000 euros, tout irait vite. » Mais l'argent n'a jamais apporté de clarté. L'argent amplifie ce qui existe déjà : si votre offre est floue sans argent, elle deviendra un gouffre financier avec du capital.",
                 stages: {
                     idee: {
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 3,
-                label: "Acte III · L'anatomie de l'offre et la marge brute",
+                label: "Question 3 · L'anatomie de l'offre et la marge brute",
                 quote: "Une entreprise qui ne dégage pas 50 % à 70 % de marge brute sur ses prestations est une entreprise mourante. Casser ses prix pour plaire à tout le monde est la signature des amateurs apeurés.",
                 stages: {
                     idee: {
@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 4,
-                label: "Acte IV · Le gouffre des charges fixes et des dépenses futiles",
+                label: "Question 4 · Le gouffre des charges fixes et des dépenses futiles",
                 quote: "Observez où part le compte en banque d'une jeune entreprise : logiciels inutiles, loyers surdimensionnés, baux commerciaux trop lourds. On dépense pour avoir l'air d'un patron avant d'avoir dégagé le premier bénéfice.",
                 stages: {
                     idee: {
@@ -386,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 5,
-                label: "Acte V · L'anémie commerciale et la prospection fantôme",
+                label: "Question 5 · L'anémie commerciale et la prospection fantôme",
                 quote: "La prospection active est la seule pratique qui garantit la survie. Attendre passivement que les clients arrivent est le luxe des monopoles. Dans nos marchés, personne ne vient frapper à votre porte sans y être invité.",
                 stages: {
                     idee: {
@@ -420,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 6,
-                label: "Acte VI · La négociation avortée et le recouvrement fantôme",
+                label: "Question 6 · La négociation avortée et le recouvrement fantôme",
                 quote: "L'argent de votre client ne vous appartient qu'au moment où il entre sur votre compte. Facturer sans encaisser est du travail bénévole. Le bon payeur ne se plaint jamais des acomptes : il sait que les artisans sérieux en exigent.",
                 stages: {
                     idee: {
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 7,
-                label: "Acte VII · La pression territoriale et le regard des proches",
+                label: "Question 7 · La pression territoriale et le regard des proches",
                 quote: "Dans nos communautés, le qu'en-dira-t-on est un poison violent. Tout le monde observe, commente et attend parfois le premier faux pas pour rappeler que l'ambition dérange.",
                 stages: {
                     idee: {
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 8,
-                label: "Acte VIII · La gestion du temps et l'alibi de l'occupation",
+                label: "Question 8 · La gestion du temps et l'alibi de l'occupation",
                 quote: "Les entrepreneurs qui échouent ne manquent pas de temps. Ils manquent de priorités. L'occupation permanente est la forme la plus sophistiquée de la procrastination : on est absorbé par des tâches secondaires pendant que les actes décisifs attendent.",
                 stages: {
                     idee: {
@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 9,
-                label: "Acte IX · Le piège de l'association et la gouvernance",
+                label: "Question 9 · Le piège de l'association et la gouvernance",
                 quote: "S'associer par amitié ou par parenté sans contrat écrit est le moyen le plus rapide de perdre à la fois son argent, son projet et ses amis. Une association est un contrat d'intérêts et de compétences complémentaires.",
                 stages: {
                     idee: {
@@ -556,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 id: 10,
-                label: "Acte X · La sentence du temps et l'urgence de rupture",
+                label: "Question 10 · La sentence du temps et l'urgence de rupture",
                 quote: "Les années ne pardonnent rien. Pendant que l'on se répète qu'on lancera la machine après les prochaines vacances ou quand la situation sera plus stable, les mois s'envolent et l'énergie s'épuise.",
                 stages: {
                     idee: {
@@ -1488,3 +1488,4 @@ document.addEventListener('DOMContentLoaded', () => {
         setLanguage('fr');
     }
 });
+
