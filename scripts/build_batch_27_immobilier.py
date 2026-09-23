@@ -1,0 +1,120 @@
+import json
+import sys
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+data = [
+  {
+    "company": "SEMAAG",
+    "name": "Direction du développement",
+    "email": "contact@semaag.fr",
+    "domain": "semaag.fr",
+    "zone": "Guadeloupe (Baie-Mahault)",
+    "subject": "Aménagement territorial et commercialisation des parcs d'activités / SEMAAG",
+    "body": "Bonjour,\n\nLa SEMAAG joue un rôle moteur essentiel dans l'aménagement urbain et économique de la Guadeloupe, notamment sur les grands pôles d'activités et d'habitat de Baie-Mahault.\n\nOrchestrer des opérations d'envergure, sécuriser les équilibres financiers face aux délais administratifs et commercialiser auprès d'investisseurs qualifiés demande une énergie stratégique considérable.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires dédié aux dirigeants et bâtisseurs, articulé autour d'un réseau privé WhatsApp et de notre future plateforme DTC Pulse, pensée pour booster la mise en relation et la visibilité vidéo directe sans friction. Vous pouvez découvrir notre démarche sur www.domtomconnect.com\n\nÀ votre échelle d'aménageur, quel est l'obstacle opérationnel ou le goulot d'étranglement qui ralentit le plus la finalisation de vos projets en ce moment ?\n\nSeriez-vous partants pour un court échange téléphonique informel de dix minutes afin de partager vos priorités du moment ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Antilles Immobilier",
+    "name": "Direction de l'agence",
+    "email": "agence@antillesimmobilier.com",
+    "domain": "antillesimmobilier.com",
+    "zone": "Guadeloupe (Le Gosier)",
+    "subject": "Transaction immobilière et flux d'acquéreurs qualifiés / Antilles Immobilier",
+    "body": "Bonjour,\n\nAntilles Immobilier s'est imposé comme un acteur clé de la transaction et de la gestion locative depuis Le Gosier, avec une excellente maîtrise du marché guadeloupéen.\n\nDans un contexte où les taux et les exigences des banques ont évolué, capter rapidement des acquéreurs solvables et valoriser les mandats exclusifs demande une visibilité de plus en plus ciblée.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires réunissant entrepreneurs et investisseurs, relié à notre groupe privé WhatsApp et à notre solution DTC Pulse, conçue pour mettre en lumière les biens d'exception en vidéo immersive. Vous pouvez d'ailleurs jeter un œil sur www.domtomconnect.com\n\nSur votre secteur, quelle est la plus grande difficulté actuelle entre la rentrée de mandats au bon prix et la conversion des prospects en visites décisives ?\n\nAuriez-vous dix minutes ces prochains jours pour un échange téléphonique informel et convivial ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "DR Immo Caraïbes",
+    "name": "Direction prestige",
+    "email": "contact@dr-immocaraibes.com",
+    "domain": "dr-immocaraibes.com",
+    "zone": "Guadeloupe & Martinique",
+    "subject": "Propriétés d'exception et acquéreurs internationaux / DR Immo Caraïbes",
+    "body": "Bonjour,\n\nDR Immo Caraïbes valorise magnifiquement l'immobilier haut de gamme et les villas de prestige à travers la Guadeloupe et la Martinique.\n\nSur ce segment exclusif, toucher la clientèle fortunée de métropole et de l'international tout en offrant une expérience de découverte immersive exige des canaux de diffusion modernes et confidentiels.\n\nChez Domtom Connect, nous développons un réseau d'affaires pour les créateurs de valeur, connecté à notre communauté privée WhatsApp et à notre écosystème DTC Pulse, axé sur les formats vidéo courts et la mise en relation directe avec des investisseurs qualifiés. Vous pouvez consulter notre univers sur www.domtomconnect.com\n\nDans votre quotidien sur le marché du luxe, quel est le principal défi pour concrétiser plus vite les ventes sur les biens d'exception ?\n\nSeriez-vous disponibles pour un court appel téléphonique informel de dix minutes afin d'en discuter en toute simplicité ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Groupimo",
+    "name": "Direction générale",
+    "email": "contact@groupimo.com",
+    "domain": "groupimo.com",
+    "zone": "Martinique (Le Lamentin & Réseau)",
+    "subject": "Dynamique de réseau et gestion patrimoniale / Groupimo",
+    "body": "Bonjour,\n\nGroupimo fait figure de référence historique en Martinique avec un maillage territorial remarquable et une offre complète couvrant la gestion, le syndic et la transaction.\n\nPiloter un tel réseau d'agences, fidéliser les propriétaires bailleurs et maintenir une cadence élevée sur les ventes dans un marché insulaire exige une synchronisation permanente des équipes.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires dédié aux dirigeants de nos territoires, connecté à notre réseau privé WhatsApp et à notre solution DTC Pulse pour fluidifier les opportunités directes. Vous pouvez découvrir notre plateforme sur www.domtomconnect.com\n\nAu regard de votre positionnement, quel est aujourd'hui le point de friction opérationnel ou organisationnel qui mobilise le plus votre temps de direction ?\n\nSeriez-vous ouverts à un court échange téléphonique informel de dix minutes cette semaine pour partager vos perspectives ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Caraîles",
+    "name": "Direction des investissements",
+    "email": "contact@carailes.com",
+    "domain": "carailes.com",
+    "zone": "Martinique, Guadeloupe & Saint-Martin",
+    "subject": "Investissement locatif et commercialisation inter-îles / Caraîles",
+    "body": "Bonjour,\n\nCaraîles réalise un travail pointu pour accompagner les investisseurs et concrétiser les projets immobiliers sur l'ensemble de l'arc antillais, de la Martinique jusqu'à Saint-Martin.\n\nCoordonner des opérations multi-îles, gérer la commercialisation de programmes et rassurer les investisseurs éloignés demande une présence commerciale et digitale sans rupture.\n\nChez Domtom Connect, nous bâtissons actuellement un réseau d'affaires solide entre décideurs et investisseurs, relié à notre groupe privé WhatsApp et à notre future application DTC Pulse pour maximiser la visibilité directe et la prise de décision. Notre univers est accessible sur www.domtomconnect.com\n\nDans votre développement, quelle est la contrainte pratique qui pèse le plus sur la fluidité de vos transactions inter-îles ?\n\nSeriez-vous d'accord pour dix minutes d'échange téléphonique informel afin d'évoquer vos enjeux de terrain ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Emotion Real Estate",
+    "name": "Direction de l'agence",
+    "email": "contact@emotion-realestate.com",
+    "domain": "emotion-realestate.com",
+    "zone": "Saint-Martin (Marigot & Baie Oriente)",
+    "subject": "Immobilier de prestige et clientèle internationale / Emotion Real Estate",
+    "body": "Bonjour,\n\nEmotion Real Estate est devenu un repère incontournable à Saint-Martin pour dénicher des biens d'exception et animer le marché immobilier de l'île avec une belle dynamique.\n\nÀ Saint-Martin, jongler entre la clientèle touristique américaine, les investisseurs européens et les spécificités locales impose une réactivité totale et une mise en valeur visuelle irréprochable.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires reliant nos îles aux investisseurs globaux, via un réseau privé WhatsApp et notre application DTC Pulse, axée sur les capsules vidéo immersives pour déclencher le coup de cœur à distance. Vous pouvez explorer notre univers sur www.domtomconnect.com\n\nActuellement, quel est le principal frein pour convertir plus vite l'intérêt des acheteurs internationaux en offres fermes ?\n\nSeriez-vous partants pour un court échange téléphonique informel de dix minutes afin de partager vos impressions ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Image Immobilier",
+    "name": "Direction commerciale",
+    "email": "contact@immoantilles.com",
+    "domain": "immoantilles.com",
+    "zone": "Saint-Martin (Marigot)",
+    "subject": "Mandats exclusifs et valorisation du littoral / Image Immobilier",
+    "body": "Bonjour,\n\nImage Immobilier fait vivre avec constance le marché de la transaction et de la location saisonnière à Saint-Martin depuis le cœur de Marigot.\n\nEntretenir un portefeuille de biens attractifs face à la concurrence des plateformes en ligne et capter des clients sérieux dès leur arrivée sur l'île est un challenge quotidien passionnant.\n\nChez Domtom Connect, nous mettons en place un écosystème d'affaires direct entre entrepreneurs et investisseurs, adossé à un groupe privé WhatsApp et à notre solution DTC Pulse pour dynamiser la commande directe et la visibilité vidéo sans intermédiaires. Vous pouvez voir notre approche sur www.domtomconnect.com\n\nEn ce moment, quelle est la priorité commerciale qui demande le plus d'énergie à votre équipe ?\n\nAuriez-vous dix minutes disponibles cette semaine pour un échange téléphonique informel et sans engagement ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Gestimmo Guyane",
+    "name": "Direction générale",
+    "email": "contact@gestimmo.biz",
+    "domain": "gestimmo.biz",
+    "zone": "Guyane (Cayenne & Kourou)",
+    "subject": "Marché immobilier guyanais et fidélisation des bailleurs / Gestimmo",
+    "body": "Bonjour,\n\nGestimmo apporte une expertise précieuse et reconnue sur le marché immobilier guyanais, tant sur la gestion locative que sur la transaction à Cayenne et Kourou.\n\nLa Guyane connaît une dynamique démographique forte, mais les tensions sur les délais de construction, la disponibilité du foncier et les garanties locatives exigent une vigilance de chaque instant.\n\nChez Domtom Connect, nous bâtissons actuellement un réseau d'affaires reliant les dirigeants ultramarins, structuré autour d'un groupe privé WhatsApp et de notre future application DTC Pulse pour renforcer les passerelles économiques. Vous pouvez découvrir notre projet sur www.domtomconnect.com\n\nDans votre pratique quotidienne, quelle est la contrainte locale qui complique le plus le développement de votre portefeuille ?\n\nSeriez-vous disponibles pour un court échange téléphonique informel de dix minutes afin d'en discuter en toute simplicité ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Quadran Immobilier",
+    "name": "Direction générale",
+    "email": "contact@quadran.re",
+    "domain": "quadran.re",
+    "zone": "La Réunion (Saint-Denis & Sud)",
+    "subject": "Développement immobilier et parcours acquéreurs à La Réunion / Quadran",
+    "body": "Bonjour,\n\nQuadran Immobilier développe une approche moderne et qualitative de l'immobilier à La Réunion, avec une présence active sur les secteurs stratégiques de l'île.\n\nLa rareté du foncier sur le littoral réunionnais et l'évolution des conditions de crédit obligent à redoubler d'ingéniosité pour qualifier les dossiers d'achat et valoriser les biens.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires entre créateurs et investisseurs, relié à un groupe privé WhatsApp et à notre application DTC Pulse, pensée pour booster la découverte de projets grâce au format vidéo immersif. Notre univers est détaillé sur www.domtomconnect.com\n\nÀ votre niveau, quel est aujourd'hui l'irritant majeur qui allonge le délai moyen entre l'estimation d'un bien et la signature définitive ?\n\nSeriez-vous ouverts à dix minutes d'échange téléphonique informel cette semaine pour échanger sur le marché réunionnais ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Direct Immo",
+    "name": "Direction de l'agence",
+    "email": "contact@directimmo.re",
+    "domain": "directimmo.re",
+    "zone": "La Réunion (Saint-Gilles & Ouest)",
+    "subject": "Opportunités résidentielles dans l'Ouest et rentabilité locative / Direct Immo",
+    "body": "Bonjour,\n\nDirect Immo anime avec dynamisme le marché de la côte Ouest réunionnaise, un secteur particulièrement prisé pour la douceur de vivre et l'investissement patrimonial.\n\nFace à une forte demande locative et touristique, réussir à capter de nouveaux mandats exclusifs et sécuriser des acquéreurs fiables demande une présence terrain sans relâche.\n\nChez Domtom Connect, nous concevons un écosystème d'affaires direct reliant entrepreneurs et porteurs de capitaux, articulé autour d'un groupe privé WhatsApp et de notre future marketplace vidéo DTC Pulse. Vous pouvez voir notre plateforme sur www.domtomconnect.com\n\nDans votre activité au quotidien, quel est le défi d'organisation ou de prospection qui vous prend le plus de temps utile ?\n\nSeriez-vous partants pour un court échange téléphonique informel de dix minutes afin de partager vos retours de terrain ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "SIM Mayotte",
+    "name": "Direction générale",
+    "email": "communication@sim-mayotte.com",
+    "domain": "sim-mayotte.com",
+    "zone": "Mayotte (Mamoudzou)",
+    "subject": "Défis de construction et aménagement durable / SIM Mayotte",
+    "body": "Bonjour,\n\nLa Société Immobilière de Mayotte accomplit une mission absolument vitale pour la structuration de l'habitat et le développement territorial de l'île depuis plusieurs décennies.\n\nBâtir sous forte contrainte insulaire, sécuriser l'acheminement maritime des matériaux et répondre aux besoins croissants de la population mahoraise représente un véritable tour de force quotidien.\n\nChez Domtom Connect, nous bâtissons actuellement un réseau d'affaires réunissant les bâtisseurs et décideurs de nos territoires, connecté à notre réseau privé WhatsApp et à notre solution DTC Pulse pour favoriser les coopérations directes. Notre univers est accessible sur www.domtomconnect.com\n\nÀ votre niveau d'exploitation, quel est le goulot d'étranglement logistique ou opérationnel qui pèse le plus sur le calendrier de vos chantiers ?\n\nSeriez-vous d'accord pour un court appel téléphonique informel de dix minutes afin d'évoquer vos priorités actuelles ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Kaydan Real Estate",
+    "name": "Direction générale",
+    "email": "info@kaydangroupe.com",
+    "domain": "kaydangroupe.com",
+    "zone": "Côte d'Ivoire (Abidjan)",
+    "subject": "Cités d'affaires d'avant-garde et rayonnement régional / Kaydan Real Estate",
+    "body": "Bonjour,\n\nLe Groupe Kaydan et sa branche Real Estate incarnent l'excellence et l'audace architecturale à Abidjan, avec des réalisations emblématiques qui transforment le paysage urbain ivoirien.\n\nConcevoir des complexes mixtes de classe internationale, attirer des entreprises multinationales et mobiliser des investisseurs régionaux et de la diaspora exige une vision d'ensemble remarquable.\n\nChez Domtom Connect, nous bâtissons un écosystème d'affaires reliant des entrepreneurs de premier plan sur plusieurs continents, adossé à un groupe privé WhatsApp et à notre future application DTC Pulse pour démultiplier la visibilité directe et les synergies économiques. Vous pouvez consulter notre univers sur www.domtomconnect.com\n\nDans votre expansion continue, quel est le défi opérationnel ou de commercialisation qui mobilise le plus votre attention en ce moment ?\n\nSeriez-vous partants pour dix minutes d'échange téléphonique informel afin de partager nos perspectives communes ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  }
+]
+
+with open('batch_27_immobilier_excellence.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+print(f"Batch 27 généré avec succès ({len(data)} cibles ultra-qualifiées) !")

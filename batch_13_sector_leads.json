@@ -1,0 +1,178 @@
+[
+  {
+    "name": "Chocolats Mascarin",
+    "email": "mascarin@mascarin.fr",
+    "domain": "mascarin.fr",
+    "zone": "La Réunion",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Royal Bourbon Industries",
+    "email": "rbi@royalbourbon.com",
+    "domain": "royalbourbon.com",
+    "zone": "La Réunion",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Chatel",
+    "email": "chatel@groupechatel.com",
+    "domain": "groupechatel.com",
+    "zone": "La Réunion",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Jardin d'Eden",
+    "email": "contact@jardindeden.re",
+    "domain": "jardindeden.re",
+    "zone": "La Réunion",
+    "sector": "tourisme",
+    "lang": "fr"
+  },
+  {
+    "name": "Le Labyrinthe Enchampthé",
+    "email": "info@enchampthe.com",
+    "domain": "enchampthe.com",
+    "zone": "La Réunion",
+    "sector": "tourisme",
+    "lang": "fr"
+  },
+  {
+    "name": "Capès Dolé",
+    "email": "contact@capesdole.com",
+    "domain": "capesdole.com",
+    "zone": "Guadeloupe",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Rhum Karukera",
+    "email": "contact@rhum-karukera.com",
+    "domain": "rhum-karukera.com",
+    "zone": "Guadeloupe",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Damoiseau",
+    "email": "rhum@damoiseau.com",
+    "domain": "damoiseau.com",
+    "zone": "Guadeloupe",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Marina Bas-du-Fort",
+    "email": "info@marinaguadeloupe.com",
+    "domain": "marinaguadeloupe.com",
+    "zone": "Guadeloupe",
+    "sector": "tourisme",
+    "lang": "fr"
+  },
+  {
+    "name": "Eaux de Didier (SEEMD)",
+    "email": "seemd@fontainedidier.com",
+    "domain": "fontainedidier.com",
+    "zone": "Martinique",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Chanflor (SOMES)",
+    "email": "marketing@somadicom.fr",
+    "domain": "somadicom.fr",
+    "zone": "Martinique",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Marina du Marin",
+    "email": "contact@marina-martinique.fr",
+    "domain": "marina-martinique.fr",
+    "zone": "Martinique",
+    "sector": "tourisme",
+    "lang": "fr"
+  },
+  {
+    "name": "Denel Martinique",
+    "email": "contact@denelmartinique.com",
+    "domain": "denelmartinique.com",
+    "zone": "Martinique",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "Le Meunier des Antilles",
+    "email": "accueil@meunierdesantilles.com",
+    "domain": "meunierdesantilles.com",
+    "zone": "Martinique",
+    "sector": "agro",
+    "lang": "fr"
+  },
+  {
+    "name": "GDI Guyane",
+    "email": "contact@ardi-gdi.fr",
+    "domain": "ardi-gdi.fr",
+    "zone": "Guyane",
+    "sector": "tech",
+    "lang": "fr"
+  },
+  {
+    "name": "Madi Transit",
+    "email": "contact@madi-transit.com",
+    "domain": "madi-transit.com",
+    "zone": "Mayotte",
+    "sector": "transport",
+    "lang": "fr"
+  },
+  {
+    "name": "TILT Groupe RDT",
+    "email": "mayotte@groupe-rdt.com",
+    "domain": "groupe-rdt.com",
+    "zone": "Mayotte",
+    "sector": "transport",
+    "lang": "fr"
+  },
+  {
+    "name": "InTouch",
+    "email": "contact@intouchgroup.net",
+    "domain": "intouchgroup.net",
+    "zone": "Sénégal / CI",
+    "sector": "tech",
+    "lang": "fr"
+  },
+  {
+    "name": "Djamo",
+    "email": "business@djamo.com",
+    "domain": "djamo.com",
+    "zone": "Côte d'Ivoire",
+    "sector": "tech",
+    "lang": "fr"
+  },
+  {
+    "name": "Yobante Express",
+    "email": "info@yobanteexpress.com",
+    "domain": "yobanteexpress.com",
+    "zone": "Sénégal",
+    "sector": "transport",
+    "lang": "fr"
+  },
+  {
+    "name": "Logidoo",
+    "email": "logidoo@logidoo.co",
+    "domain": "logidoo.co",
+    "zone": "Sénégal",
+    "sector": "transport",
+    "lang": "fr"
+  },
+  {
+    "name": "Coliba Africa",
+    "email": "info@colibaafrica.com",
+    "domain": "colibaafrica.com",
+    "zone": "Côte d'Ivoire",
+    "sector": "tech",
+    "lang": "fr"
+  }
+]

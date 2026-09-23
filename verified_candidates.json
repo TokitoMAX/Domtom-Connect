@@ -1,0 +1,234 @@
+[
+  {
+    "name": "Rhum Damoiseau",
+    "domain": "damoiseau.com",
+    "email": "contact@damoiseau.com",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Chanflor",
+    "domain": "chanflor.com",
+    "email": "contact@chanflor.com",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Biométal",
+    "domain": "biometal.fr",
+    "email": "contact@biometal.fr",
+    "zone": "Martinique / Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Madivial",
+    "domain": "madivial.fr",
+    "email": "contact@madivial.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Outremer Market",
+    "domain": "outremer-market.com",
+    "email": "contact@outremer-market.com",
+    "zone": "DOM-TOM",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Karuline",
+    "domain": "karuline.com",
+    "email": "contact@karuline.com",
+    "zone": "Guadeloupe",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "ColisExpat",
+    "domain": "colisexpat.com",
+    "email": "contact@colisexpat.com",
+    "zone": "DOM / International",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Easy Import Auto",
+    "domain": "easyimportauto.com",
+    "email": "contact@easyimportauto.com",
+    "zone": "France / DOM",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Air Caraïbes Privé",
+    "domain": "aircaraibes.com",
+    "email": "contact@aircaraibes.com",
+    "zone": "Antilles",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "OuiCarry",
+    "domain": "ouicarry.com",
+    "email": "contact@ouicarry.com",
+    "zone": "Sénégal / France",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Paps Logistique",
+    "domain": "paps.sn",
+    "email": "contact@paps.sn",
+    "zone": "Sénégal / Côte d'Ivoire",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Chargel",
+    "domain": "chargel.com",
+    "email": "hello@chargel.com",
+    "zone": "Sénégal",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "CinetPay",
+    "domain": "cinetpay.com",
+    "email": "contact@cinetpay.com",
+    "zone": "Côte d'Ivoire",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Julaya",
+    "domain": "julaya.co",
+    "email": "contact@julaya.co",
+    "zone": "Côte d'Ivoire",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Djamo",
+    "domain": "djamo.ci",
+    "email": "support@djamo.ci",
+    "zone": "Côte d'Ivoire",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Lafricamobile",
+    "domain": "lafricamobile.com",
+    "email": "contact@lafricamobile.com",
+    "zone": "Sénégal / Panafrique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "CoinAfrique",
+    "domain": "coinafrique.com",
+    "email": "contact@coinafrique.com",
+    "zone": "Afrique de l'Ouest",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "WiPay Caribbean",
+    "domain": "wipaycaribbean.com",
+    "email": "info@wipaycaribbean.com",
+    "zone": "Trinidad / Caribbean",
+    "offre": "tremplin",
+    "lang": "en"
+  },
+  {
+    "name": "Mailpac Group",
+    "domain": "mailpac.com",
+    "email": "info@mailpac.com",
+    "zone": "Jamaica",
+    "offre": "copilotage",
+    "lang": "en"
+  },
+  {
+    "name": "Lasco Distributors",
+    "domain": "lascojamaica.com",
+    "email": "info@lascojamaica.com",
+    "zone": "Jamaica",
+    "offre": "copilotage",
+    "lang": "en"
+  },
+  {
+    "name": "GraceKennedy",
+    "domain": "gracekennedy.com",
+    "email": "gracekennedy@gkco.com",
+    "zone": "Jamaica / Global",
+    "offre": "copilotage",
+    "lang": "en"
+  },
+  {
+    "name": "Courts Caribbean",
+    "domain": "shopcourts.com",
+    "email": "customerservice@shopcourts.com",
+    "zone": "Caribbean",
+    "offre": "copilotage",
+    "lang": "en"
+  },
+  {
+    "name": "Goddard Enterprises",
+    "domain": "goddardenterprisesltd.com",
+    "email": "info@gelinfo.com",
+    "zone": "Barbados",
+    "offre": "copilotage",
+    "lang": "en"
+  },
+  {
+    "name": "Aeropaq",
+    "domain": "aeropaq.com",
+    "email": "info@aeropaq.com",
+    "zone": "República Dominicana",
+    "offre": "copilotage",
+    "lang": "es"
+  },
+  {
+    "name": "EPS Courier",
+    "domain": "eps.com.do",
+    "email": "servicioalcliente@eps.com.do",
+    "zone": "República Dominicana",
+    "offre": "copilotage",
+    "lang": "es"
+  },
+  {
+    "name": "BM Cargo",
+    "domain": "bmcargo.com",
+    "email": "info@bmcargo.com",
+    "zone": "República Dominicana",
+    "offre": "copilotage",
+    "lang": "es"
+  },
+  {
+    "name": "Gustazos",
+    "domain": "gustazos.com",
+    "email": "support@gustazos.com",
+    "zone": "Puerto Rico / Caribe",
+    "offre": "tremplin",
+    "lang": "es"
+  },
+  {
+    "name": "Rica Dominicana",
+    "domain": "gruporica.com",
+    "email": "contacto@gruporica.com",
+    "zone": "República Dominicana",
+    "offre": "copilotage",
+    "lang": "es"
+  },
+  {
+    "name": "Cervecería Nacional Dominicana",
+    "domain": "cnd.com.do",
+    "email": "contacto@cnd.com.do",
+    "zone": "República Dominicana",
+    "offre": "copilotage",
+    "lang": "es"
+  }
+]

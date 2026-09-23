@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "entreprise": "Kadalys",
+    "secteur": "Cosmétique & E-commerce",
+    "site": "kadalys.com",
+    "email": "contact@kadalys.com",
+    "destinataire": "Direction",
+    "zone": "Martinique / Paris",
+    "angle_specifique": "Forte expansion commerciale, ventes multicanales, besoin d'alléger le suivi opérationnel quotidien de la direction.",
+    "sujet": "Organisation opérationnelle / Kadalys",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 2,
+    "entreprise": "Shop-e-Dom",
+    "secteur": "E-commerce & Logistique Outre-Mer",
+    "site": "shop-e-dom.com",
+    "email": "contact@shop-e-dom.com",
+    "destinataire": "Direction",
+    "zone": "Guadeloupe / Martinique / Métropole",
+    "angle_specifique": "Activité à gros volume de flux clients et de demandes sur-mesure, forte charge sur la coordination.",
+    "sujet": "Gestion du temps et opérationnel / Shop-e-Dom",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 3,
+    "entreprise": "Dommarket",
+    "secteur": "Plateforme E-commerce Antilles-Guyane",
+    "site": "dommarket.fr",
+    "email": "partners@dommarket.fr",
+    "destinataire": "Direction Partenariats & Opérations",
+    "zone": "Antilles-Guyane",
+    "angle_specifique": "Plateforme marketplace avec beaucoup d'intervenants et de tâches chronophages de gestion.",
+    "sujet": "Votre organisation opérationnelle / Dommarket",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 4,
+    "entreprise": "Panafrica",
+    "secteur": "Marque Lifestyle & Mode éthique",
+    "site": "panafrica-store.com",
+    "email": "hello@panafrica-store.com",
+    "destinataire": "Direction / Fondateurs",
+    "zone": "France / Afrique",
+    "angle_specifique": "Marque en forte croissance entre deux continents, beaucoup de fronts opérationnels à gérer en parallèle.",
+    "sujet": "Alléger votre opérationnel / Panafrica",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 5,
+    "entreprise": "Afrety",
+    "secteur": "Logistique & Fret France-Afrique",
+    "site": "afrety.com",
+    "email": "contact@afrety.com",
+    "destinataire": "Direction",
+    "zone": "France / Sénégal / Côte d'Ivoire",
+    "angle_specifique": "Forte traction logistique, besoin d'un bras droit sur la structuration et la délégation des tâches énergivores.",
+    "sujet": "Copilotage et tâches énergivores / Afrety",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 6,
+    "entreprise": "Umòja",
+    "secteur": "Chaussures & Matériaux durables africains",
+    "site": "umoja-shoes.com",
+    "email": "umoja@umoja-shoes.com",
+    "destinataire": "Direction",
+    "zone": "France / Afrique de l'Ouest",
+    "angle_specifique": "Petite équipe très sollicitée sur la production et la logistique, besoin de dégager du temps pour le développement.",
+    "sujet": "Temps dirigeant et priorités / Umoja",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 7,
+    "entreprise": "Alpha Caraïbe Distribution",
+    "secteur": "Grossiste & Distribution B2B",
+    "site": "alphacaraibe.fr",
+    "email": "contact@alphacaraibe.fr",
+    "destinataire": "Direction",
+    "zone": "Guadeloupe / Martinique",
+    "angle_specifique": "Gestion d'équipes et de flux fournisseurs dense, charge mentale quotidienne importante sur l'exploitation.",
+    "sujet": "Organisation et délégation / Alpha Caraïbe",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 8,
+    "entreprise": "Prodom",
+    "secteur": "Grossiste Alimentaire Restauration",
+    "site": "prodom.fr",
+    "email": "contact@prodom.fr",
+    "destinataire": "Direction Générale",
+    "zone": "Guadeloupe",
+    "angle_specifique": "Secteur où les urgences quotidiennes prennent tout le temps du dirigeant au détriment du recul stratégique.",
+    "sujet": "Temps opérationnel et développement / Prodom",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 9,
+    "entreprise": "Digitom",
+    "secteur": "Services & Solutions Entreprises",
+    "site": "digitom.fr",
+    "email": "contact@digitom.fr",
+    "destinataire": "Direction",
+    "zone": "Guadeloupe / Martinique",
+    "angle_specifique": "Société de services B2B, équilibre délicat entre suivi de projets clients et gestion interne.",
+    "sujet": "Copilotage et priorités business / Digitom",
+    "statut": "Pret pour validation"
+  },
+  {
+    "id": 10,
+    "entreprise": "Laboratoire Château Rouge",
+    "secteur": "Dermo-cosmétique peaux mates & noires",
+    "site": "chateaurouge.net",
+    "email": "contact@chateaurouge.net",
+    "destinataire": "Direction",
+    "zone": "France / International",
+    "angle_specifique": "PME établie avec de multiples distributeurs, charge de gestion et coordination importante.",
+    "sujet": "Optimisation du temps de direction / Château Rouge",
+    "statut": "Pret pour validation"
+  }
+]

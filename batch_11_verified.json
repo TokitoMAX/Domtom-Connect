@@ -1,0 +1,194 @@
+[
+  {
+    "name": "Eshopper",
+    "email": "contact.guadeloupe@eshopper.fr",
+    "domain": "eshopper.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "GLC International",
+    "email": "contact@glc-international.fr",
+    "domain": "glc-international.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Pompière S.A.",
+    "email": "contact@pompiere.fr",
+    "domain": "pompiere.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Newdem Martinique",
+    "email": "martinique@newdem.fr",
+    "domain": "newdem.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "SKMS Transport",
+    "email": "contact.skmstransport@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Guyane",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Garcia Location",
+    "email": "contact@garcialocation.com",
+    "domain": "garcialocation.com",
+    "zone": "La Réunion",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "MultiAuto Réunion",
+    "email": "contact@multiauto.fr",
+    "domain": "multiauto.fr",
+    "zone": "La Réunion",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Idéal Car Guadeloupe",
+    "email": "idealcar971@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Guadeloupe",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Alizés Locations",
+    "email": "contact@alizes-locations.com",
+    "domain": "alizes-locations.com",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Hibiscus Location",
+    "email": "contact@hibiscuslocation.com",
+    "domain": "hibiscuslocation.com",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Pop's Car",
+    "email": "contact@popscar.com",
+    "domain": "popscar.com",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Kawuk",
+    "email": "contact@kawuk.com",
+    "domain": "kawuk.com",
+    "zone": "Guadeloupe",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Digital Freedom Caraïbe",
+    "email": "contact@digitalfreedomcaraibe.com",
+    "domain": "digitalfreedomcaraibe.com",
+    "zone": "Martinique",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Paps Logistics",
+    "email": "hello@paps-app.com",
+    "domain": "paps-app.com",
+    "zone": "Sénégal",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "OuiCarry",
+    "email": "contact@ouicarry.com",
+    "domain": "ouicarry.com",
+    "zone": "Sénégal",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Chargel",
+    "email": "info@chargel.me",
+    "domain": "chargel.me",
+    "zone": "Sénégal",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Baloon Assurance",
+    "email": "contact@baloon.africa",
+    "domain": "baloon.africa",
+    "zone": "Côte d'Ivoire",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Susu",
+    "email": "contact@susu.fr",
+    "domain": "susu.fr",
+    "zone": "Côte d'Ivoire / France",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Bielle",
+    "email": "info@rhumbielle.com",
+    "domain": "rhumbielle.com",
+    "zone": "Marie-Galante",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Neisson",
+    "email": "contact@neisson.com",
+    "domain": "neisson.com",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Depaz",
+    "email": "communication@rhum-depaz.fr",
+    "domain": "rhum-depaz.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Distillerie Montebello",
+    "email": "boutique@distillerie-montebello.fr",
+    "domain": "distillerie-montebello.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Café Chaulet",
+    "email": "cafe.chaulet@wanadoo.fr",
+    "domain": "wanadoo.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "SolarX Africa",
+    "email": "info@solarx-africa.com",
+    "domain": "solarx-africa.com",
+    "zone": "Sénégal / CI",
+    "offre": "copilotage",
+    "lang": "fr"
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Mangofil Martinique",
+    "email": "contact@mangofil.fr",
+    "domain": "mangofil.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Habitation Belfort",
+    "email": "resa@visitebelfort.com",
+    "domain": "visitebelfort.com",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Groupe Macéo",
+    "email": "contact@maceo-groupe.fr",
+    "domain": "maceo-groupe.fr",
+    "zone": "Martinique",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Bubble Dive Martinique",
+    "email": "bubbledivemartinique@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Martinique",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Le Tapeur Parc Aventure",
+    "email": "contact@letapeur.fr",
+    "domain": "letapeur.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Permis Bateaux Guadeloupe",
+    "email": "contact@permisbateauxguadeloupe.fr",
+    "domain": "permisbateauxguadeloupe.fr",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Paradoxe Croisières",
+    "email": "contact@paradoxe-croisieres.com",
+    "domain": "paradoxe-croisieres.com",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Poul'do Bateaux",
+    "email": "reservations@pouldo.com",
+    "domain": "pouldo.com",
+    "zone": "Guadeloupe",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Tropical Boat",
+    "email": "tropicalboat.971@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Guadeloupe",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Caraïbes Nautisme",
+    "email": "caraibesnautisme@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Guadeloupe",
+    "offre": "tremplin",
+    "lang": "fr"
+  },
+  {
+    "name": "Brasseries de Bourbon",
+    "email": "bdb@bdb.re",
+    "domain": "bdb.re",
+    "zone": "La Réunion",
+    "offre": "copilotage",
+    "lang": "fr"
+  },
+  {
+    "name": "Rhum Métiss",
+    "email": "contact@rhum-metiss.com",
+    "domain": "rhum-metiss.com",
+    "zone": "La Réunion",
+    "offre": "copilotage",
+    "lang": "fr"
+  }
+]
