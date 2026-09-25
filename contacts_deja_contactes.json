@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3417,
-  "total_domains": 1964,
+  "total_contacts": 3702,
+  "total_domains": 2197,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -39,7 +39,10 @@
     "act-agency.fr",
     "actech971.com",
     "actimatransit.re",
+    "activilong.com",
     "ade-ecd.fr",
+    "adim-mayotte.fr",
+    "adir.info",
     "adjustrh.com",
     "ads-privatedriver.re",
     "adventif.re",
@@ -47,17 +50,17 @@
     "ady-stbarth.com",
     "ae.linktr.ee",
     "aeparnell.com",
-    "afconsulting.com",
     "afrety.com",
-    "afriknfusion.com",
-    "afro-cooking.com",
+    "afronaturel.com",
     "aftershipapp.com",
+    "agcfinance.re",
     "agefos-pme.com",
     "agence-environnement.fr",
     "agencetroisa.com",
     "agirep.com",
     "aglcyber.com",
     "agnos.io",
+    "agriland.fr",
     "agrologistics.eu",
     "ags-demenagement.com",
     "agwanet.com",
@@ -67,7 +70,9 @@
     "airantilles.com",
     "airawak.com",
     "airfrance.fr",
+    "ajmavocats.com",
     "akatij.fr",
+    "akwabalodge.com",
     "al-bm.com",
     "alamanoservicios.com",
     "albioma.com",
@@ -76,15 +81,18 @@
     "aldes.com",
     "aleeseimage.com",
     "aliciaspalace.com",
+    "alioze.com",
     "alizassur.com",
     "alizes-locations.com",
     "alizoavoyages.com",
     "allianz-outremer.com",
+    "allmol.com",
     "allochauffeur.re",
     "allseasonsresort.bb",
     "almastbarth.fr",
     "almosnino.net",
     "alphacaraibe.fr",
+    "alphaplongee.com",
     "alteny.re",
     "alterego.re",
     "alterelec.re",
@@ -99,20 +107,23 @@
     "americancareerhorizons.com",
     "amicus.legal",
     "amisrestaurant.com",
+    "ampi.mq",
+    "amr.re",
     "amstutz.ca",
     "amtm-stbarth.com",
-    "amyruths.com",
     "angela-greaux.com",
     "angostura.com",
     "anka.africa",
-    "ankole.co.ke",
     "anonymart.net",
     "anroagencies.com",
     "anteagroup.fr",
     "antennereunion.fr",
     "anthurium.com",
+    "antilla-martinique.com",
     "antilles-carrelage.com",
+    "antilles-voyages.com",
     "antillesfreight.com",
+    "antillesimmobilier.com",
     "antillesmedia.com",
     "antillesrecrutement.com",
     "aol.com",
@@ -120,12 +131,15 @@
     "apajhguyane.org",
     "apb-caraibes.com",
     "apix.sn",
+    "apollinemartinique.com",
     "apollo.io",
     "app.opus.pro",
     "aquariumdelareunion.com",
     "aquarunfiltration.com",
     "arawakbeachresort.com",
     "arcbtp.fr",
+    "archipel-conseil.pf",
+    "archipel-residence.com",
     "architectes.org",
     "architectonik.fr",
     "ardi-gdi.fr",
@@ -141,6 +155,7 @@
     "assawaeducation.ci",
     "assistance97.fr",
     "assl.com",
+    "asso-valcaco.fr",
     "atasbh.com",
     "atelier-reiwa.com",
     "atelierdespossibles.com",
@@ -159,10 +174,15 @@
     "aveniroutremer.fr",
     "avenuemedic.com",
     "aviaje.nat.cu",
+    "avicenne.re",
     "avicom.re",
     "avisorex.com",
     "avocat-desailloud.com",
+    "avocat-guyane-affaires.fr",
+    "avocatgirdary.com",
+    "avocats-nativel.com",
     "avocatsbh.com",
+    "avocatsdemartinique.com",
     "avocatstbarth.com",
     "awesomescreenshot.com",
     "axiom-academic.com",
@@ -181,7 +201,6 @@
     "banksdih.com",
     "banquedelareunion.fr",
     "baobabtour.fr",
-    "baofamily.com",
     "barbancourt.com",
     "barcodes.fr",
     "bardespres-sbh.com",
@@ -205,11 +224,13 @@
     "belindamotaze.com",
     "belize.org",
     "belle-case.com",
+    "bellebene.com",
     "benline.com",
     "bequiabeach.com",
     "bertrandrenove.com",
     "bestfrenchforever.com",
     "beyondines.fr",
+    "bfcoi.com",
     "bfloralevents.com",
     "bg-architectes.com",
     "bhac.ky",
@@ -220,10 +241,14 @@
     "bijouxdelamer.com",
     "billing.linktr.ee",
     "bioantilles.gp",
+    "biolissime.com",
     "biometal.fr",
     "biostique.fr",
-    "bistrotcreole.com",
+    "biostratege.com",
+    "biscochoc.nc",
+    "biscuiteriedelavallee.re",
     "bitt.com",
+    "bizouk.com",
     "bkworks.fr",
     "blackchamberpbc.com",
     "blastreunion.re",
@@ -234,8 +259,8 @@
     "bluemahoecapital.com",
     "bluewaters.com",
     "bluewatersslu.com",
-    "bmkparis.com",
     "bms.re",
+    "bni.mg",
     "bniconnectglobal.com",
     "bnifrance.fr",
     "bodyandsoul-stbarth.com",
@@ -247,13 +272,18 @@
     "bonfilon.info",
     "bonitosbh.com",
     "boulofeu.com",
+    "bourbonpackaging.com",
+    "bourbonpalto.com",
     "bourbonvoyages.fr",
     "bovycom.net",
     "bowen.bz",
     "boxea.fr",
     "boxit.ci",
+    "bpce.fr",
     "brandetconsultant.com",
+    "brasserielafabrik.com",
     "bravo.cu",
+    "bred.fr",
     "briceisincharge.com",
     "bristol.bs",
     "bristolgrenadalaw.com",
@@ -276,14 +306,18 @@
     "c-consult.me",
     "c21grenada.com",
     "c2bat.com",
+    "ca-reunion.fr",
     "caa-agencement.fr",
     "cabanonfortin.com",
     "cabanonsboyer.com",
+    "cabinet-labejof.fr",
+    "cabinet-romana.fr",
     "cactuslagos.com",
     "cad.gp",
     "cadriformat.fr",
     "cafe-reunion.com",
     "cafechaulet.fr",
+    "cafeierebeausejour.fr",
     "cafelareunion.com",
     "cafpi.fr",
     "cainesinc.com",
@@ -291,7 +325,9 @@
     "calisoft.cu",
     "calypsostbarth.com",
     "campingbaiedudiable.com",
+    "canalplus-antilles.com",
     "cananga.net",
+    "canc.nc",
     "cancogroup.com",
     "candw.ag",
     "candw.ky",
@@ -303,13 +339,19 @@
     "capemploi971.com",
     "capesdole.com",
     "capitalreliancearuba.com",
+    "capl.pf",
+    "capmacabou.com",
     "captaincontrat.com",
     "captaindoc.fr",
     "capuana-voyages.com",
+    "caraibes-audit.fr",
     "caraibes-energies.com",
     "caraibescleaning.com",
+    "caraibesfroid-industrie.com",
+    "carailes.com",
     "caramanlosfeld.fr",
     "carbone-ingenierie.fr",
+    "cargoservices.fr",
     "carib-export.com",
     "carib-world.com",
     "caribbean-airlines.com",
@@ -333,6 +375,7 @@
     "caribtourism.com",
     "caribwaterplay.com",
     "carlasaintbarth.com",
+    "carolinab.fr",
     "casababa.mq",
     "casacoloniale.com",
     "cashmoneyautosvg.com",
@@ -346,6 +389,8 @@
     "cboterritoria.com",
     "cc1sxm.com",
     "ccdmstbarth.com",
+    "cci.nc",
+    "ccism.pf",
     "ccpf.net",
     "ccscaribbean.com",
     "cdoi-reunion.com",
@@ -355,10 +400,12 @@
     "cemasoltec.net",
     "cemko.fr",
     "cemstbarth.com",
+    "centrimex.com",
     "ceoi.re",
-    "cerp-ba.com",
+    "cepac.fr",
     "cerveceradepr.com",
     "cfrrinkens.com",
+    "cga-guadeloupe.fr",
     "cgdc.cu",
     "chamber.org.tt",
     "chanflor.com",
@@ -367,9 +414,7 @@
     "charlottepozzi.com",
     "chateau-de-sable.com",
     "chateaurouge.net",
-    "chefcreole.com",
     "chefsmarket.fr",
-    "chefsuziearts.ca",
     "chefswarehouse.com",
     "chefsxo.com",
     "chezsauveur.fr",
@@ -377,6 +422,8 @@
     "chickenstreet.fr",
     "chirostbarth.com",
     "chocolatmadagascar.com",
+    "chocotogo.com",
+    "choisy-cliniques.com",
     "christinarebuffet.com",
     "christophedevaud.com",
     "chryso.re",
@@ -386,6 +433,7 @@
     "chv-lawfirm.com",
     "cibcfcib.com",
     "cie.cu",
+    "cienc.nc",
     "ciiq.cu",
     "cil-stbarth.com",
     "cilam.com",
@@ -399,10 +447,12 @@
     "civette.eu",
     "cjameslegal.com",
     "cjs.co.ke",
+    "ckconsultingfwi.com",
     "classauto.gf",
     "clay.com",
     "clear-marketing.com",
     "clhv.llc",
+    "clicanoo.re",
     "clicgallery.com",
     "clickhandshare.com",
     "climactionsbh.com",
@@ -410,19 +460,30 @@
     "climexfroid.com",
     "climfroidservices.com",
     "clinifutur.net",
-    "clivescafe.com",
+    "cliniquebiasa.org",
+    "cliniquedelamadeleine.com",
     "cloudinary.com",
     "club.mountgayrum.com",
+    "cluster-maritime-guadeloupe.fr",
+    "cluster-maritime-martinique.org",
+    "cluster-maritime.pf",
+    "cluster-maritime.re",
+    "clustermaritime.nc",
+    "cma-guyane.fr",
+    "cma-martinique.com",
+    "cma-reunion.fr",
+    "cmamayotte.com",
     "cmguadeloupe.org",
     "cmr.re",
     "cnam.re",
+    "cnoi.info",
     "coachexpat.com",
     "cocowolf.co.uk",
     "cofinacorp.com",
+    "cogedal.re",
     "coinafrique.com",
     "coldwellbanker.aw",
     "colibaafrica.com",
-    "collabsolutions.sn",
     "communications.paypal.com",
     "communitymanager974.re",
     "comopizzeria.com",
@@ -436,29 +497,38 @@
     "confiserieemilie.com",
     "confortmedical.net",
     "connect.blinq.me",
+    "connections-reunion.com",
     "conres.fr",
     "conseil-marketing.re",
     "constructionecobois.com",
     "consumimport.cu",
     "contactyachts.com",
     "corail-btp.com",
+    "corail-helicopteres.com",
+    "corailclubcaraibes.com",
     "corailhelico.com",
     "corcoranstbarth.com",
     "corentincailleau.com",
     "cortoconcept.fr",
-    "cotenyc.com",
     "cotram.com",
     "countigo.cu",
+    "cpme-guadeloupe.fr",
+    "cpme.nc",
+    "cpmemartinique.com",
     "cpmereunion.re",
     "cpn-network.com",
+    "cpnfwi.com",
     "cpvgra.transnet.cu",
     "cr-reunion.fr",
     "createurauthentique.com",
+    "creationorguyane.com",
     "creatives.fr",
     "creator.linktr.ee",
     "creators.spotify.com",
     "credipro.com",
     "credipro.fr",
+    "croec-reunion.com",
+    "croexpertscomptables971.fr",
     "crownpointbeachhotel.com",
     "csi.re",
     "ctguyane.fr",
@@ -467,7 +537,6 @@
     "cuisinebeaujoly.com",
     "cultgaia.com",
     "culturesconnect.me",
-    "curryhouse.ca",
     "cwdom.dm",
     "cwjamaica.com",
     "cyclea.fr",
@@ -493,6 +562,7 @@
     "delassee.com",
     "delices-de-guyane.fr",
     "delicesdeguyane.com",
+    "deloitte.fr",
     "deltinlaw.com",
     "demarchesconsulatfranceusa.com",
     "deminansoluciones.com",
@@ -508,10 +578,12 @@
     "diamondgenesis.com",
     "diamondscars.com",
     "diana-dea-lodge.re",
+    "dianadealodge.re",
     "digitalfreedomcaraibe.com",
     "digitom.fr",
     "dimdimsum.fr",
     "dionysuswines.ca",
+    "diouda.fr",
     "directory-saintbarth.com",
     "dismed.fr",
     "distillerie-montebello.fr",
@@ -527,20 +599,21 @@
     "doctor.com",
     "dolcegabbana.it",
     "dollarantilles.com",
-    "dom-express.fr",
     "domaccess.com",
     "domaine-chateau-gaillard.fr",
+    "domainederobinson.com",
     "domexperts.com",
+    "dominocho.com",
     "dommarket.fr",
     "domotile.re",
     "domtomconnect.atlassian.net",
-    "domtomlivraison.com",
+    "dorwlingcarter.com",
+    "dr-immocaraibes.com",
     "drive-me.re",
     "drytec.fr",
     "dsigntech.re",
     "dsp-consulting.com",
     "dufaultelectrique.ca",
-    "dukunookitchen.com",
     "e-safecare.com",
     "e.atlassian.com",
     "e.snapchat.com",
@@ -560,6 +633,7 @@
     "ecoproenviro.com",
     "ecosoley.fr",
     "ecvegetales.alinet.cu",
+    "edenaboissons.re",
     "edenred.com",
     "edex.re",
     "edimm.fr",
@@ -581,6 +655,7 @@
     "elikyadigital.com",
     "elisabally.com",
     "elite-ecologie.com",
+    "elitecoachingmartinique.com",
     "elixir.ca",
     "elizabethlawchambers.com",
     "elmy-energie.com",
@@ -593,6 +668,7 @@
     "email.openai.com",
     "emccav.co.cu",
     "emeraude-villas.com",
+    "emotion-realestate.com",
     "empreinte-digitale.re",
     "ems-sbh.com",
     "emscaraibes.com",
@@ -618,6 +694,7 @@
     "ericgrafstrom.com",
     "ermitage.re",
     "esab.fr",
+    "escale-bleue.fr",
     "eshopper.fr",
     "esicuba.cu",
     "espmariel.ausa.cu",
@@ -635,6 +712,7 @@
     "evolucion.com",
     "ewag.fr",
     "excellencedessens.com",
+    "excellencerhum.com",
     "exceptionalvillas.com",
     "exco.fr",
     "exodata.fr",
@@ -654,18 +732,25 @@
     "farmacialasrosasarona.es",
     "farmaciametropol.com",
     "fbavocat-sn.com",
+    "fcbtp.nc",
     "fci.re",
     "fco.life",
+    "fcr.re",
     "fedapay.com",
     "feel-better-company.com",
+    "feelingguadeloupe.fr",
     "feelinhome-stbarth.com",
     "femmentrepreneur.com",
     "fendoni.ch",
+    "fenuama.pf",
     "fermobusa.com",
     "fgtool.com",
     "fibres.fr",
+    "fidal.fr",
+    "fifiepicerie.net",
     "fillout.com",
     "finatur.co.cu",
+    "finc.nc",
     "finecosmetics.it",
     "finefoods.it",
     "finefoodsinc.com",
@@ -690,10 +775,12 @@
     "foxvmc.com",
     "fp-wines.com",
     "fpir.re",
+    "fr.ey.com",
     "francaisdanslemonde.fr",
     "franceantilles.fr",
     "francerenovhabitat.com",
     "francoisvochelle.com",
+    "frbtp.re",
     "fredelecsbh.com",
     "free.fr",
     "freedom.fr",
@@ -730,10 +817,12 @@
     "geodim.re",
     "georgiafamilytherapy.com",
     "geranium-bourbon.com",
+    "gestimmo.biz",
     "gestoriaconfias.cu",
     "get974.fr",
     "getmfclaw.com",
     "gfareunion.fr",
+    "gfr-reunion.com",
     "ggadvertising.com",
     "gidc.gd",
     "gis-971.gp",
@@ -741,7 +830,6 @@
     "givewp.com",
     "gkco.com",
     "glabtech.com",
-    "gladalle.fr",
     "glc-international.fr",
     "globalcaribbeannetwork.com",
     "globalknowledge.com",
@@ -756,30 +844,36 @@
     "gmx.fr",
     "godotetfils.com",
     "goldnguestevents.com",
-    "googlemail.com",
     "goshippo.com",
     "goslings.com",
     "gozem.co",
+    "gpgsa.com",
     "gphouse.pl",
     "gpxlogistique.com",
     "gqf.com",
     "gracefoods.ca",
     "grahd.com",
     "gramercytavern.com",
+    "grandbleu.re",
+    "grandhotelmontabo.fr",
     "greenaffair.com",
     "greenenergypv.fr",
+    "greenlorddomaine.com",
     "grenadaco-opbank.com",
     "groupe-acorus.fr",
     "groupe-dijoux.fr",
     "groupe-isautier.com",
     "groupe-rdt.com",
     "groupebarriere.com",
+    "groupebbs.fr",
     "groupebhl.com",
     "groupecbl.com",
     "groupechatel.com",
     "groupedistribur.com",
     "groupellipse.com",
+    "groupepisam.com",
     "groupesfpr.fr",
+    "groupimo.com",
     "grupoelestablo.com",
     "grupohernandez.cu",
     "grupovec.com",
@@ -787,21 +881,27 @@
     "guadeloupe-bureautique.fr",
     "guadeloupe-froid.fr",
     "guadeloupe.cci.fr",
+    "guadeloupe.chambagri.fr",
     "guadeloupeannoncelegale.fr",
     "guajiritos.com",
     "guezcaraibes.fr",
     "guiboutconsulting.com",
+    "guyalog.fr",
     "guyane-agricole.com",
+    "guyane-evasion.com",
     "guyane.cci.fr",
+    "guyane.chambagri.fr",
     "guyaneannoncelegale.fr",
+    "guyanesante.org",
+    "guylesueur.com",
     "gwkent.com",
     "gypsea-stbarth.com",
     "gysbi.com",
     "h2oeseatoys.com",
+    "habitation-bellevue.com",
     "habitation-saint-charles.com",
     "happydayspartystore.com",
     "happyfitfood-sbh.com",
-    "hardrockcafelagos.com",
     "havas.re",
     "haxber.com",
     "healthcarepharmacy.ky",
@@ -819,6 +919,7 @@
     "helloview.net",
     "hermes.com",
     "hermitagebay.com",
+    "heures-saines.gp",
     "hewa.re",
     "hexagonelanguagesolutions.com",
     "hi-technologies.fr",
@@ -835,14 +936,18 @@
     "hotel-austral.fr",
     "hotel-bakoua.fr",
     "hotel-bellepierre.com",
+    "hotel-fleur-depee.com",
     "hotel-lapagerie.com",
     "hotel-le-nil.com",
+    "hotel-simon.com",
     "hotel-villadelisle.com",
     "hotelbambou.fr",
     "hotelchristopher.com",
     "hoteldesroches.com",
     "hotelfrenchcoco.com",
+    "hotelkeralberte.com",
     "hotellerecif.com",
+    "hotellescreoles.com",
     "hotelmanapany.com",
     "hotelpleinsoleil.fr",
     "hotelsaintalexis.com",
@@ -854,6 +959,7 @@
     "hugginsgrenada.com",
     "hughesco-law.com",
     "huguesmarine.com",
+    "huileriedetahiti.pf",
     "human-steps.com",
     "hunter.io",
     "ibs-groupe.com",
@@ -863,17 +969,20 @@
     "idea-expertises.com",
     "idea.re",
     "idee-energies.fr",
-    "idezil.com",
     "iff.re",
     "ifrism.fr",
     "igymarinas.com",
     "ihtl.cc",
     "iju.eicma.cu",
     "iloha.fr",
+    "ima.mq",
     "imagecorp.fr",
     "imageen.re",
+    "immersioncaraibes.com",
+    "immoantilles.com",
     "immobusiness.fr",
     "impactarmorsbh.com",
+    "imprimah.com",
     "impulsorarg.com",
     "industriasbarea.com",
     "inel.une.cu",
@@ -886,12 +995,15 @@
     "infomaniak.com",
     "ingenieaux.com",
     "inie.cu",
+    "initiative-guadeloupe.fr",
+    "initiative-mayotte.fr",
     "initiative-reunion.fr",
     "innocean.re",
     "innovativebeverages.ca",
     "innovativedigitalgroup.com",
     "inovatec.ci",
     "inovista.re",
+    "inoya-laboratoire.com",
     "inset.fr",
     "instantsbh.com",
     "integrale.re",
@@ -907,12 +1019,12 @@
     "investstlucia.com",
     "invitations.mailinblack.com",
     "ipcontrol.fr",
+    "ipreunion.com",
     "ipsos.com",
     "iris.ca",
     "irr.com",
     "isa-informatique.com",
     "isaozen.com",
-    "isautier.com",
     "isla360shop.com",
     "island-spirit-designer.com",
     "islandheritage.com.ky",
@@ -924,17 +1036,22 @@
     "isolex.com",
     "itac-technologies.fr",
     "itacopsicologos.es",
+    "itctropicar.com",
     "itctropicar.re",
     "itecservices.fr",
     "ixeo.re",
     "izem-assurances.fr",
+    "ja-aubert-avocat.com",
     "jacquesscott.com",
     "jade-fiducial.com",
     "jamprocorp.com",
     "jan-pro.com",
     "jardin-botanique.com",
     "jardindebalata.com",
+    "jardindebalata.fr",
     "jardindeden.re",
+    "jardinmalanga.com",
+    "jardinmaore.com",
     "jardinsdenaissance.com",
     "jasonscomputerservices.ca",
     "jcdc.gov.jm",
@@ -960,21 +1077,25 @@
     "julaya.co",
     "julyonthemoon.com",
     "jumasavi.com",
+    "jumbocar.com",
     "jungletech.gf",
     "jungsolutions.ch",
+    "jurifiscal-antilles.fr",
     "kabatis.com",
     "kadalys.com",
-    "kamuy.ca",
+    "kalia-nature.com",
     "kanguroexpres.com",
-    "karethic.com",
     "karibea.com",
+    "karibprofils.fr",
+    "karibuni.fr",
     "karucocoparc.com",
+    "karucocorecept.com",
     "karukera-logistique.gp",
     "karukera-materiaux.gp",
-    "karuline.com",
     "karulynk.com",
-    "katzsdelicatessen.com",
+    "kata-mambo.com",
     "kawuk.com",
+    "kaydangroupe.com",
     "kaysweetkay.fr",
     "kazeco.re",
     "kazinsolite.re",
@@ -999,9 +1120,11 @@
     "komalakaz.re",
     "kompass.com",
     "konfort.cu",
+    "koolboks.com",
     "koscab.com",
     "koze.gp",
     "kpmg.com.jm",
+    "kreyolart.com",
     "kreyolmarket.gp",
     "krysmoneymentor.fr",
     "kuehne-nagel.com",
@@ -1011,28 +1134,33 @@
     "kyurestaurants.com",
     "l-start.com",
     "la-cr.com",
-    "la-creole.fr",
+    "la-martiniquaise.fr",
+    "la-suite-villa.com",
     "labaid.ca",
     "laberinto.3ce.cu",
     "laberinto.tech",
     "labopharma-tarascon.com",
     "laboutiqueantillaise.com",
+    "labriquedeguyane.com",
     "lacaseauxlivres.com",
     "lacoachencuisine.ca",
     "lafargeholcim.com",
     "lafavorite.com",
-    "lafourchette.com",
-    "lafourchetteantillaise.fr",
     "lagenceexecutive.com",
+    "lagonaventure.com",
     "lagranjarestaurants.com",
     "lakalastbarths.com",
+    "lamaisondelavanille.com",
+    "lamaisondesantilles.com",
     "langley.eu",
     "languageislove.com",
     "laparkan.com",
     "laperriere-ggm.com",
     "laposte.net",
     "lareunionautrement.com",
+    "laroutedesrhums.com",
     "lascojamaica.com",
+    "lateliersagip.com",
     "latitudes-bois.com",
     "laubergedigitale.com",
     "laurencemuller.com",
@@ -1044,7 +1172,6 @@
     "lawyerfwi.com",
     "lazylagoon.biz",
     "lbrissettlegal.com",
-    "le-bambou.com",
     "le-stellatraiteur.com",
     "learny-box.com",
     "lebarth.com",
@@ -1055,20 +1182,31 @@
     "lechaidecilaos.com",
     "lecoledegeraldine.com",
     "lecomptoirgeneral.com",
+    "lecurlshop.com",
     "ledomaineansemarcelbeach.com",
     "ledomainedesbulles.com",
     "ledomainedeseverin.fr",
+    "leffet-boutik.re",
+    "lefroid.nc",
+    "legalion.eu",
     "legrandelectric.com",
     "lejournaldemayotte.com",
+    "lekaribuni.com",
+    "lekouz.com",
     "lemac.fr",
     "lemlist.com",
     "lengo.ai",
     "leongrosse.fr",
     "lepapillonivre.com",
+    "lepetithotel.com",
     "lepiceriedugout.com",
+    "lequotidien.re",
     "lerotabas.com",
+    "les-lataniers.com",
+    "lesalmadies.com",
     "lesbellesenvies.fr",
     "lesbelleslunettes.re",
+    "lesdalons.re",
     "lesereno.com",
     "lesgirafons.re",
     "lesjardinsduflamboyant.com",
@@ -1076,6 +1214,7 @@
     "leslaveriesecoclean.re",
     "lesmeublesdemetiers.com",
     "lespep973.org",
+    "lesplanade.com",
     "lestisserands.org",
     "letapeur.fr",
     "letoiny.com",
@@ -1100,6 +1239,7 @@
     "live.com",
     "live.fr",
     "lizine.com",
+    "ljeconseils.fr",
     "llh.immo",
     "lloydies.ca",
     "lmcodesign.com",
@@ -1118,6 +1258,7 @@
     "lparchi.re",
     "lucendi.pro",
     "luma.com",
+    "lumibeauty.com",
     "luso-bat.com",
     "luxeaze.com",
     "luxresorts.com",
@@ -1127,15 +1268,17 @@
     "lyfel.org",
     "lynk.us",
     "m-dl.fr",
+    "m2rmaritime.com",
     "ma.linktr.ee",
     "mac.com",
     "maceo-groupe.fr",
-    "machimachi.fr",
     "maclen.fr",
     "macourtiere.gp",
     "madi-transit.com",
+    "madiacom.fr",
     "madiana.com",
-    "madivial.fr",
+    "madininafret.com",
+    "madras-bazaar.re",
     "madrid-expat-services.com",
     "maersk.com",
     "mafavorite.com",
@@ -1143,6 +1286,7 @@
     "magazineharbour.com",
     "magic-sales.com",
     "magyac.com",
+    "maharajah.fr",
     "mahoraisedeseaux.com",
     "mail-relay.blinq.me",
     "mail.anthropic.com",
@@ -1152,6 +1296,7 @@
     "mail.eu.sumup.com",
     "mail.hunter.io",
     "mail.instagram.com",
+    "mail.pf",
     "mail.restream.io",
     "mail.skl.club",
     "mail.zapier.com",
@@ -1163,17 +1308,15 @@
     "maisonmajorelle.ca",
     "maisonpelican.com",
     "makeupforever.gp",
-    "malaboom.com",
-    "mamour.fr",
     "mandtuscpa.com",
     "manevaconseil.com",
     "mangobay.ca",
+    "mangobutterfull.com",
     "mangofil.fr",
     "manutan.fr",
     "maprinter.cu",
     "maracom.fr",
     "marble.restaurant",
-    "marcelravin.com",
     "marcguyon.com",
     "marfret.fr",
     "mariageanewyork.com",
@@ -1185,13 +1328,24 @@
     "marketingagency.re",
     "marketplaceexcellence.com",
     "marlavillas.com",
+    "martinique.aeroport.fr",
     "martinique.cci.fr",
+    "martinique.chambagri.fr",
+    "martinique.org",
+    "martinique.port.fr",
     "martiniqueannoncelegale.fr",
+    "martiniquedev.fr",
     "martiniquetransport.mq",
     "mascarin.fr",
     "massygroup.com",
     "masterski-pilou.com",
+    "matouba.fr",
     "mauvilac.com",
+    "mayotte.cci.fr",
+    "mayotte.chambagri.fr",
+    "mayottehebdo.com",
+    "maytp.fr",
+    "mazars.fr",
     "mbg-autos.com",
     "mc2saintbarth.com",
     "mc2studies.com",
@@ -1202,12 +1356,14 @@
     "mcnamara.lc",
     "me.com",
     "medef-reunion.com",
+    "medef.nc",
+    "medefguyane.fr",
     "medialight.com",
     "meetable.fr",
     "megumi.fr",
     "meireunion.com",
-    "melbasrestaurant.com",
     "memento.fr",
+    "menakao.com",
     "meriemdraman.com",
     "merkagrande.com",
     "meunierdesantilles.com",
@@ -1220,6 +1376,7 @@
     "mindsetjourneycoaching.com",
     "missimmo.com",
     "misslilys.com",
+    "mix-beauty.com",
     "mizkan.com",
     "mkirscher.com",
     "mlc-consulting.co",
@@ -1230,10 +1387,14 @@
     "momofuku.com",
     "mon-bureau-rh.com",
     "monbarth.com",
+    "monchoco.com",
+    "moov-africa.com",
+    "morganpouly-avocat.fr",
     "mounjob.com",
     "mrkt360.com",
     "msc.com",
     "msimond.fr",
+    "msmayotte.com",
     "msn.com",
     "multiauto.fr",
     "murielleplas.com",
@@ -1248,13 +1409,17 @@
     "mylolapr.com",
     "mypoolsbh.fr",
     "myvillainstbarth.com",
+    "nanawax.com",
     "naobeachclub.com",
+    "nappyqueen.com",
+    "natiyabel.com",
     "natiyeacademie.com",
     "naturo.gp",
     "nauta.com.cu",
     "nauta.cu",
     "nautile.re",
     "navidor.com",
+    "navitour.com",
     "nawar.re",
     "ncj-bat.com",
     "negocioscuba.cu",
@@ -1279,6 +1444,7 @@
     "nicholsonyachts.com",
     "nikkibeach.com",
     "nnespana.com",
+    "noireonaturel.com",
     "nokbyalara.com",
     "nomad-dining.com",
     "nomadiqhub.com",
@@ -1292,12 +1458,16 @@
     "notifs.skool.com",
     "notify.aftershipmail.com",
     "nou-la.com",
+    "noumeaport.nc",
     "novanea.fr",
     "novelvy.com",
     "novumsite.com",
+    "nuhanciam.com",
     "nvsstudio.com",
     "obmi.com",
     "oceanbasket.com",
+    "oceanictransit.com",
+    "oceansvoyages.com",
     "ocii.fr",
     "ocxpress.com",
     "odom.re",
@@ -1317,12 +1487,13 @@
     "optikalin.re",
     "opus.pro",
     "orange.fr",
+    "orangemoney.com",
     "order.eventbrite.com",
     "ordo.re",
     "ortodonciaencaceres.com",
     "oseo.fr",
     "osmose-bistro.re",
-    "otacos.com",
+    "oua-concept.com",
     "ouanalao.studio",
     "oui-immigration.com",
     "oui.digital",
@@ -1332,11 +1503,15 @@
     "outlook.fr",
     "outremer-market.com",
     "outremerformation.com",
+    "outremerfret.com",
+    "outremers360.com",
+    "outremertransit.com",
+    "overeed.com",
+    "pacific-expertise.nc",
     "palig.com",
     "palm.re",
     "palmazenhk.com",
     "panafrica-store.com",
-    "pandapandagroup.com",
     "panicayman.com",
     "papanguetours.com",
     "paparouyo.com",
@@ -1349,9 +1524,13 @@
     "paradise-lens.com",
     "paradise.com",
     "paradoxe-croisieres.com",
+    "pardon.net",
+    "pardon.re",
+    "parfums-des-iles.com",
     "parklandindustrial.com",
     "parlamamie.com",
     "parm.mq",
+    "patisserie-surena.com",
     "patoistoronto.com",
     "pavebriquesdesign.com",
     "paydunya.com",
@@ -1363,7 +1542,6 @@
     "peel-off.net",
     "peggycormaryphotography.com",
     "penonpartners.com",
-    "perelabat.com",
     "perfaddict.com",
     "performreussite.re",
     "perigrine.fr",
@@ -1375,23 +1553,28 @@
     "philipponstephane.com",
     "phoenixbev.mu",
     "physioelite.net",
+    "pierre-fabre.com",
     "pirrha.re",
     "pivotalreillc.com",
     "pixeloi.com",
     "placidom.fr",
     "plassebatiment.fr",
+    "plastiserd.pf",
     "plomberiebeauchemin.ca",
     "po.atlassian.net",
     "podihome.com",
-    "pointb.fr",
     "pointdencre-caraibes.com",
     "poissonfecond.com",
+    "polycliniquefarah.com",
     "pompiere.fr",
     "popsbh.com",
     "popscar.com",
     "popstbarth.com",
+    "port-guadeloupe.com",
+    "portdeguyane.fr",
     "portlandic.com",
     "portmiamicoldstorage.com",
+    "portppt.pf",
     "pose24.fr",
     "positiveshift.fr",
     "pouldo.com",
@@ -1422,11 +1605,13 @@
     "provanille.fr",
     "provenproperties.com",
     "ptitefrimousse.com",
+    "punchmabi.fr",
     "puntacana.com",
     "purestbarth.com",
     "pwc.com",
     "pyxelsolution.com",
     "qtech.re",
+    "quadran.re",
     "qualiblue.com",
     "qualicarry.fr",
     "qualitropic.fr",
@@ -1443,10 +1628,13 @@
     "radiocaraibesinternationalrci.s08.eur1.teams-events.com",
     "radiologie-placedarmes.fr",
     "radioplusfm.fr",
+    "radiosaintpaul.fr",
     "randstad-reunion.com",
     "rapid-diagnostics.re",
+    "ravate.com",
     "rbourbonnais.ca",
     "rccl.com",
+    "rci.fm",
     "rcigroup.fr",
     "rcing.fr",
     "red-samurai.re",
@@ -1454,6 +1642,7 @@
     "reecubiza.co.cu",
     "refletpei.re",
     "regallaw.com",
+    "rehamat.re",
     "relaisdescimes.com",
     "relaisdumoulin.com",
     "relaxndream.com",
@@ -1462,14 +1651,19 @@
     "renova.cu",
     "renovacuba.com",
     "renovem.ca",
+    "reseau-entreprendre.org",
     "reseau-mazette.com",
     "resend.dev",
     "residence-santa-apolonia.com",
     "restaurant-lapetiteplage.com",
     "restaurantlaguerite.com",
+    "reunimer.com",
     "reunion-directory.com",
+    "reunion.aeroport.fr",
     "reunion.cci.fr",
+    "reunion.chambagri.fr",
     "reunion.fr",
+    "reunion.port.fr",
     "reunioncompetences.fr",
     "reunionportage.com",
     "reunitours.com",
@@ -1478,14 +1672,17 @@
     "rhum-clement.com",
     "rhum-depaz.fr",
     "rhum-hardy.com",
+    "rhum-hse.com",
     "rhum-jm.com",
     "rhum-karukera.com",
     "rhum-metiss.com",
+    "rhumattitude.com",
     "rhumbielle.com",
     "rhumbologne.fr",
-    "rhumcorner.com",
+    "rhumduperelabat.com",
     "rhumhse.com",
     "rhumlongueteau.fr",
+    "riamoneytransfer.com",
     "richardmilleusa.com",
     "richelieulaw.com",
     "rimcocat.com",
@@ -1497,19 +1694,19 @@
     "rivieredumat.com",
     "rlgconseils.com",
     "roarsolutions.com",
+    "robertwan.com",
     "rocksrisks.com",
     "rogeralbert.fr",
     "rosaliebaydominica.com",
     "rosdal.com",
     "rosewoodhotels.com",
+    "rotui.pf",
     "routesdeguadeloupe.fr",
     "royalbourbon.com",
     "royalcheesedigital.com",
     "royalpalm.co.tt",
     "roycamille.be",
     "roysyndic.ca",
-    "roywoods.com",
-    "rsvplagos.com",
     "rtd.re",
     "rtwbvi.com",
     "run-enr.com",
@@ -1523,6 +1720,7 @@
     "runthecom.re",
     "ryzwantaheraly.fr",
     "s2er.fr",
+    "s3g-avocats.fr",
     "s3tguyane.com",
     "sachacosmetics.com",
     "sae-reunion.com",
@@ -1536,10 +1734,12 @@
     "saintbarthpatrimoine.com",
     "saintbarthtelecom.fr",
     "saintjames-rum.com",
+    "sakifo.com",
     "salesgosses.re",
     "saltenergy.com",
     "salyam.net",
     "samalex.fr",
+    "samir-martinique.fr",
     "sandals.com",
     "sandcreativeagency.com",
     "sandrabourget.fr",
@@ -1557,6 +1757,7 @@
     "sbsp.fr",
     "schg.artex.cu",
     "scierieds.fr",
+    "scierieoyapock.fr",
     "sclm.fr",
     "scmp.re",
     "scottybonsgrill.com",
@@ -1575,9 +1776,11 @@
     "sebs.re",
     "secab.re",
     "seccsb.fr",
+    "secretsdeloly.com",
     "secutech.re",
     "segecosbh.com",
     "seisa.cu",
+    "semaag.fr",
     "semir.re",
     "sena-moex.com",
     "send.calendly.com",
@@ -1594,8 +1797,11 @@
     "serviceinterim.fr",
     "servitrans.nat.cu",
     "sesame-formation.re",
+    "setcargo.com",
     "seyes.re",
     "sflcn.com",
+    "sfop.fr",
+    "sgcmaritime.com",
     "sgde.fr",
     "sgu.edu",
     "shaken-sbh.com",
@@ -1616,9 +1822,11 @@
     "sicr.re",
     "sidelsky.fr",
     "sidr.fr",
+    "sifca.ci",
     "sigmaequipment.com",
     "signarama.fr",
     "siliconcaribe.com",
+    "sim-mayotte.com",
     "sinouve.com",
     "sipres.sn",
     "sisaconsultores.mx",
@@ -1645,8 +1853,12 @@
     "snds.run",
     "snrguelph.com",
     "snt.re",
+    "soarn.fr",
     "sobartshome.com",
     "soboriz.fr",
+    "societegenerale.re",
+    "socomat.gp",
+    "socoriz.fr",
     "socuisine.net",
     "sodiac.fr",
     "sodirel.re",
@@ -1670,7 +1882,7 @@
     "sonapie.ci",
     "soneva.org",
     "sonoaudition.com",
-    "sopsag.fr",
+    "soprodec.com",
     "soretole.re",
     "sotram.org",
     "sourceoutdoor.net",
@@ -1706,6 +1918,7 @@
     "stbarthelectricite.com",
     "stbarthenergy.com",
     "stbarthevasion.com",
+    "stbarthexcursions.com",
     "stbarthexecutive.com",
     "stbarthimmo.com",
     "stbarthinside.com",
@@ -1721,7 +1934,6 @@
     "stbarts-coffee.com",
     "stbartslive.com",
     "steamaticcaribbean.com",
-    "steambar.fr",
     "steniaevents.com",
     "stephaniebescond.com",
     "stevesmusic.com",
@@ -1732,6 +1944,7 @@
     "stor-solutions.com",
     "strategisconsultants.com",
     "strategit.re",
+    "strm-transports.com",
     "stuartweitzman.fr",
     "studio06h56.com",
     "studioa.re",
@@ -1745,6 +1958,7 @@
     "sunplex.fr",
     "suntanner.net",
     "sunzil.com",
+    "superbeaute.fr",
     "superiorgroup.com",
     "susu.fr",
     "swapamortgage.com",
@@ -1752,10 +1966,12 @@
     "sylviasrestaurant.com",
     "symbiosemedical.com",
     "synapse-oi.com",
+    "synergile.fr",
     "syrius-solar.fr",
     "system-lease.fr",
     "systeme.io",
     "t.brevo.com",
+    "tahiti-vanille.com",
     "takamaka-evasion.re",
     "tamarind.co.ke",
     "tamarinstbarth.com",
@@ -1769,15 +1985,19 @@
     "tec-reunion.re",
     "techniwatt.fr",
     "technopole-reunion.com",
+    "technopolemartinique.org",
     "tecnosime.cu",
     "tecsol-antilles-guyane.fr",
     "tekoa.re",
+    "temergie.com",
+    "temoignages.re",
     "tendacayou.com",
     "teralta-crh.com",
     "tereos.com",
     "terracaribbean.com",
     "terrakulture.com",
     "terredestbarth.com",
+    "terreexotique.fr",
     "tesla.cujae.edu.cu",
     "testmonapp.com",
     "testmonapp.online",
@@ -1792,17 +2012,16 @@
     "thefrenchsophie.com",
     "thelipbar.com",
     "themusettes.com",
+    "theobroma-cacao-guyane.fr",
     "theoconsultant.re",
     "thepotluckclub.co.za",
     "thepropertystory.com",
     "thepurglow.com",
     "thequadacademy.com",
-    "therealjerk.com",
     "thesalesengine.eu",
     "thetalismanrestaurant.com",
     "thetiledesignshop.com",
     "tien-hiang.fr",
-    "tiger-tiger.fr",
     "tikazsofe.com",
     "tikmastery.fr",
     "tirhum-saveurs.gp",
@@ -1812,6 +2031,7 @@
     "toit-moi.fr",
     "toiture-cgr.re",
     "toiturescpoirier.ca",
+    "tokuyama.nc",
     "topbis-reunion.com",
     "topfrogs.org",
     "totalreunion.fr",
@@ -1823,6 +2043,7 @@
     "transconsul.cu",
     "transcontinents.com",
     "transit-repiquet.com",
+    "transitaire-martinique.com",
     "transportcolivex.com",
     "transporte1250.com",
     "transporttmg.fr",
@@ -1832,20 +2053,23 @@
     "tremplinnomade.com",
     "troisrivieresrhum.com",
     "trojanbattery.com",
+    "tropical-tour.com",
     "tropical.com",
     "tropicaldistributors.net",
     "tropicapparthotel.com",
     "tropicmarche.com",
     "tropikelec.re",
     "tsgarraway.com",
+    "tsilaosa.com",
     "tsr.re",
     "ttr-sa.com",
     "ttram.fr",
     "tulipinnsainteclotilde.com",
     "tuuci.com",
     "twg.com",
+    "ubipharm.com",
+    "ude-medef.com",
     "uic.cu",
-    "umoja-shoes.com",
     "un2x3.com",
     "uneca.cu",
     "unessia.fr",
@@ -1862,6 +2086,7 @@
     "ushaitianchamber.org",
     "vahananetworks.com",
     "valombreuse.com",
+    "vanillelavany.com",
     "vanitarosa.com",
     "varda.fr",
     "vascomcmasterville.com",
@@ -1871,6 +2096,7 @@
     "verify.snapchat.com",
     "verleo.re",
     "versaillesrestaurant.com",
+    "vert-intense.com",
     "vetlife.ca",
     "via-gpi.com",
     "viaatv.tv",
@@ -1880,6 +2106,7 @@
     "videotron.ca",
     "villachefstbarth.com",
     "villadelisle.re",
+    "villafleurie.re",
     "villagenature.com",
     "villaromeo.fr",
     "villas-prestige.re",
@@ -1901,11 +2128,13 @@
     "voltadom.net",
     "volverstbarth.com",
     "vscom.com.mx",
+    "waamcosmetics.com",
     "walkerswood.com",
     "wanadoo.fr",
     "waprod.fr",
     "wateke.tech",
     "wattelsesbh.com",
+    "wave.com",
     "wdh.fr",
     "weblogy.com",
     "weezevent.com",
@@ -1942,6 +2171,7 @@
     "yahoo.com",
     "yahoo.es",
     "yahoo.fr",
+    "yakadigital.com",
     "ycbelect.fr",
     "ycpn.org",
     "yello.re",
@@ -1956,86 +2186,20 @@
     "youtube.com",
     "yrausquin.com",
     "yt.dcf-demenagement.com",
+    "yuup-coaching.fr",
+    "zantillesmarket.fr",
     "zenith.re",
     "zenstbarth.com",
     "zeop.re",
     "zhechambers.com",
+    "zinfos974.com",
     "zonakliente.cu",
     "zone01dakar.sn",
     "zoodeguadeloupe.com",
     "zoodemartinique.com",
     "zoom.us",
     "zoorit.com",
-    "zouzin.com",
-    "lessecretsdeloly.com",
-    "noireonaturel.com",
-    "carolinab.fr",
-    "mangobutterfull.com",
-    "activilong.com",
-    "nuhanciam.com",
-    "inoya-laboratoire.com",
-    "waamcosmetics.com",
-    "biolissime.com",
-    "kalianature.com",
-    "afronaturel.com",
-    "soarn.fr",
-    "tropikalbliss.com",
-    "madamelapresidente.fr",
-    "nappyqueen.com",
-    "maisonchateaurouge.com",
-    "nanawax.com",
-    "kentegentlemen.com",
-    "maisonebene.com",
-    "kreyolart.com",
-    "diouda.fr",
-    "mix-beauty.com",
-    "wax-and-co.com",
-    "lecurlshop.com",
-    "colorfulblack.com",
-    "superbeaute.fr",
-    "lumibeauty.com",
-    "bellebene.com",
-    "bijoux-creoles.com",
-    "asso-valcaco.fr",
-    "punchmabi.fr",
-    "legalion.eu",
-    "theobroma-cacao-guyane.fr",
-    "biscuiteriedelavallee.re",
-    "patisserie-surena.com",
-    "vanillelavany.com",
-    "menakao.com",
-    "chocotogo.com",
-    "monchoco.com",
-    "tahiti-vanille.com",
-    "terreexotique.fr",
-    "semaag.fr",
-    "antillesimmobilier.com",
-    "dr-immocaraibes.com",
-    "groupimo.com",
-    "carailes.com",
-    "emotion-realestate.com",
-    "immoantilles.com",
-    "gestimmo.biz",
-    "quadran.re",
-    "directimmo.re",
-    "sim-mayotte.com",
-    "kaydangroupe.com",
-    "groupeseen.com",
-    "socomat.gp",
-    "ravate.com",
-    "caraibesfroid-industrie.com",
-    "fcr.re",
-    "gfr-reunion.com",
-    "guyanet.fr",
-    "jumbocar.com",
-    "outremertransit.com",
-    "koolboks.com",
-    "sifca.ci",
-    "groupepisam.com",
-    "polycliniquefarah.com",
-    "cliniquedelamadeleine.com",
-    "cliniquebiasa.org",
-    "choisy-cliniques.com"
+    "zouzin.com"
   ],
   "contacts": [
     {
@@ -39861,11 +40025,6 @@
       "company": "Quadran Immobilier"
     },
     {
-      "email": "contact@directimmo.re",
-      "name": "Direction de l'agence",
-      "company": "Direct Immo"
-    },
-    {
       "email": "communication@sim-mayotte.com",
       "name": "Direction générale",
       "company": "SIM Mayotte"
@@ -39874,11 +40033,6 @@
       "email": "info@kaydangroupe.com",
       "name": "Direction générale",
       "company": "Kaydan Real Estate"
-    },
-    {
-      "email": "contact@groupeseen.com",
-      "name": "Direction générale",
-      "company": "Groupe SEEN"
     },
     {
       "email": "contact@socomat.gp",
@@ -39904,11 +40058,6 @@
       "email": "contact@gfr-reunion.com",
       "name": "Direction d'exploitation",
       "company": "GFR Réunion"
-    },
-    {
-      "email": "contact@guyanet.fr",
-      "name": "Direction générale",
-      "company": "Guyanet"
     },
     {
       "email": "contact@jumbocar.com",
@@ -39959,6 +40108,2251 @@
       "email": "ru-ddc@choisy-cliniques.com",
       "name": "Direction d'établissement",
       "company": "Clinique de Choisy"
+    },
+    {
+      "email": "contact@radiosaintpaul.fr",
+      "name": "Direction médicale",
+      "company": "Radiologie Saint-Paul"
+    },
+    {
+      "email": "sec.imagerie@guyanesante.org",
+      "name": "Direction du pôle d'imagerie",
+      "company": "Guyane Santé Saint-Gabriel"
+    },
+    {
+      "email": "demandeintervention@avicenne.re",
+      "name": "Direction médicale",
+      "company": "Clinique Avicenne"
+    },
+    {
+      "email": "pourinfo@ubipharm.com",
+      "name": "Direction du développement",
+      "company": "Ubipharm"
+    },
+    {
+      "email": "j.laplanche@gpgsa.com",
+      "name": "Direction d'exploitation",
+      "company": "GPG Guadeloupe"
+    },
+    {
+      "email": "nabiib.boinaidi@msmayotte.com",
+      "name": "Direction générale",
+      "company": "Medical Service Mayotte"
+    },
+    {
+      "email": "info@rehamat.re",
+      "name": "Direction commerciale",
+      "company": "Rehamat Océan Indien"
+    },
+    {
+      "email": "contact@kata-mambo.com",
+      "name": "Direction des excursions",
+      "company": "Kata Mambo"
+    },
+    {
+      "email": "info@heures-saines.gp",
+      "name": "Direction du centre",
+      "company": "Les Heures Saines"
+    },
+    {
+      "email": "info@grandbleu.re",
+      "name": "Direction des opérations",
+      "company": "Le Grand Bleu Réunion"
+    },
+    {
+      "email": "contact@stbarthexcursions.com",
+      "name": "Direction des charters",
+      "company": "St Barth Excursions"
+    },
+    {
+      "email": "edenplongee@gmail.com",
+      "name": "Direction du club",
+      "company": "Eden Plongée"
+    },
+    {
+      "email": "contact@sakifo.com",
+      "name": "Direction du festival",
+      "company": "Sakifo Musik Festival"
+    },
+    {
+      "email": "contact@bizouk.com",
+      "name": "Direction générale",
+      "company": "Bizouk"
+    },
+    {
+      "email": "pros@allmol.com",
+      "name": "Direction des partenariats",
+      "company": "Allmol"
+    },
+    {
+      "email": "boutique@excellencerhum.com",
+      "name": "Direction commerciale",
+      "company": "Excellence Rhum"
+    },
+    {
+      "email": "contact@socoriz.fr",
+      "name": "Direction commerciale",
+      "company": "Socoriz"
+    },
+    {
+      "email": "contact@rhum-hse.com",
+      "name": "Rhum HSE (Habitation Saint-Etienne)",
+      "domain": "rhum-hse.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:01:11 +0200",
+      "subjects": [
+        "Finitions du monde et valorisation directe des cuvées rares / Rhum HSE"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@laroutedesrhums.com",
+      "name": "La Route des Rhums",
+      "domain": "laroutedesrhums.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:01:59 +0200",
+      "subjects": [
+        "Passion du rhum agricole et nouvelles expériences de dégustation / La Route des Rhums"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@pardon.net",
+      "name": "Pardon! Création",
+      "domain": "pardon.net",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:02:15 +0200",
+      "subjects": [
+        "Créativité péi décomplexée et distribution textile indépendante / Pardon!"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@biostratege.com",
+      "name": "Bio Stratège Guyane",
+      "domain": "biostratege.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:02:28 +0200",
+      "subjects": [
+        "Bioprospection éthique et valorisation de la pharmacopée amazonienne / Bio Stratège Guyane"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@lamaisondelavanille.com",
+      "name": "Maison de la Vanille",
+      "domain": "lamaisondelavanille.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:02:47 +0200",
+      "subjects": [
+        "Univers olfactif de la vanille Bourbon et distribution spécialisée / Maison de la Vanille"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@rhumattitude.com",
+      "name": "Rhum Attitude",
+      "domain": "rhumattitude.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:03:17 +0200",
+      "subjects": [
+        "Échantillonnage de rhums de connaisseurs et pédagogie de dégustation / Rhum Attitude"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@lesdalons.re",
+      "name": "Brasserie Dalons",
+      "domain": "lesdalons.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:03:49 +0200",
+      "subjects": [
+        "Bières artisanales péi et convivialité réunionnaise / Brasserie Dalons"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@brasserielafabrik.com",
+      "name": "Brasserie La Fabrik",
+      "domain": "brasserielafabrik.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:04:08 +0200",
+      "subjects": [
+        "Brassage artisanal amazonien et bières de terroir guyanais / La Fabrik"
+      ],
+      "batch": "Batch 31 - DNVB & Terroir Excellence"
+    },
+    {
+      "email": "contact@dianadealodge.re",
+      "name": "Diana Dea Lodge & Spa",
+      "domain": "dianadealodge.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:09:25 +0200",
+      "subjects": [
+        "Éco-luxe dans les hauts péi et réservations directes à forte marge / Diana Dea Lodge"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@tsilaosa.com",
+      "name": "Tsilaosa Hôtel",
+      "domain": "tsilaosa.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:09:41 +0200",
+      "subjects": [
+        "Charme des cirques réunionnais et expérience directe des voyageurs / Tsilaosa"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "reservation@archipel-residence.com",
+      "name": "L'Archipel Hôtel",
+      "domain": "archipel-residence.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:09:56 +0200",
+      "subjects": [
+        "Séjours balnéaires de l'Ouest et optimisation des canaux de distribution / L'Archipel"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@hotellescreoles.com",
+      "name": "Hôtel Les Créoles",
+      "domain": "hotellescreoles.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:10:14 +0200",
+      "subjects": [
+        "Accueil chaleureux à l'Ermitage et indépendance des réservations / Les Créoles"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@jardinmalanga.com",
+      "name": "Le Jardin Malanga",
+      "domain": "jardinmalanga.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:10:31 +0200",
+      "subjects": [
+        "Patrimoine colonial d'exception et captation de voyageurs indépendants / Le Jardin Malanga"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@hotel-fleur-depee.com",
+      "name": "Hôtel Fleur d'Epée",
+      "domain": "hotel-fleur-depee.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:10:46 +0200",
+      "subjects": [
+        "Dynamique événementielle et remplissage hôtelier direct / Fleur d'Epée"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@hotel-simon.com",
+      "name": "Hôtel Simon",
+      "domain": "hotel-simon.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:11:00 +0200",
+      "subjects": [
+        "Standards d'affaires caribéens et valorisation directe des espaces / Hôtel Simon"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@la-suite-villa.com",
+      "name": "La Suite Villa",
+      "domain": "la-suite-villa.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:11:18 +0200",
+      "subjects": [
+        "Expérience hôtelière 5 étoiles arty et réservation directe haute fidélité / La Suite Villa"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@capmacabou.com",
+      "name": "Cap Macabou",
+      "domain": "capmacabou.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:11:36 +0200",
+      "subjects": [
+        "Écotourisme sauvage au Vauclin et réservations directes des passionnés / Cap Macabou"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "reception@grandhotelmontabo.fr",
+      "name": "Grand Hôtel Montabo",
+      "domain": "grandhotelmontabo.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:11:54 +0200",
+      "subjects": [
+        "Rayonnement hôtelier guyanais et dynamiques d'accueil d'affaires / Grand Hôtel Montabo"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@akwabalodge.com",
+      "name": "Akwaba Lodge",
+      "domain": "akwabalodge.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:12:12 +0200",
+      "subjects": [
+        "Éco-tourisme lagunaire et valorisation directe des séjours bien-être / Akwaba Lodge"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@lesalmadies.com",
+      "name": "Les Almadies Lodge",
+      "domain": "lesalmadies.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:12:29 +0200",
+      "subjects": [
+        "Accueil chaleureux à la pointe dakaroise et expérience directe des résidents / Les Almadies Lodge"
+      ],
+      "batch": "Batch 32 - Hôtellerie & Lodges d'Exception"
+    },
+    {
+      "email": "contact@corail-helicopteres.com",
+      "name": "Corail Hélicoptères",
+      "domain": "corail-helicopteres.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:21:40 +0200",
+      "subjects": [
+        "Survols emblématiques péi et valorisation directe des expériences aériennes / Corail Hélicoptères"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@itctropicar.com",
+      "name": "ITC Tropicar",
+      "domain": "itctropicar.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:21:58 +0200",
+      "subjects": [
+        "Mobilité insulaire et relation directe avec les voyageurs péi / ITC Tropicar"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@navitour.com",
+      "name": "Navitour Voyages",
+      "domain": "navitour.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:22:16 +0200",
+      "subjects": [
+        "Agence réceptive guadeloupéenne et canaux d'accueil direct des voyageurs / Navitour"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@guyane-evasion.com",
+      "name": "Guyane Évasion",
+      "domain": "guyane-evasion.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:22:32 +0200",
+      "subjects": [
+        "Expéditions amazoniennes et valorisation de la Guyane sauvage / Guyane Évasion"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@vert-intense.com",
+      "name": "Vert-Intense",
+      "domain": "vert-intense.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:22:49 +0200",
+      "subjects": [
+        "Aventure outdoor en Guadeloupe et accueil direct des groupes passionnés / Vert-Intense"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@lagonaventure.com",
+      "name": "Lagon Aventure Mayotte",
+      "domain": "lagonaventure.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:23:04 +0200",
+      "subjects": [
+        "Lagon de Mayotte et expériences directes des visiteurs passionnés / Lagon Aventure"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@oceansvoyages.com",
+      "name": "Océans Voyages",
+      "domain": "oceansvoyages.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:23:19 +0200",
+      "subjects": [
+        "Séjours martiniquais sur mesure et optimisation de l'accueil direct / Océans Voyages"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@antilles-voyages.com",
+      "name": "Antilles Voyages",
+      "domain": "antilles-voyages.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:23:36 +0200",
+      "subjects": [
+        "Expertise billetterie caribéenne et nouvelles dynamiques du voyage direct / Antilles Voyages"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@madiacom.fr",
+      "name": "Madiacom",
+      "domain": "madiacom.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:23:53 +0200",
+      "subjects": [
+        "Communication digitale guadeloupéenne et nouvelles approches de l'acquisition locale / Madiacom"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@yakadigital.com",
+      "name": "Yaka Digital",
+      "domain": "yakadigital.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:24:11 +0200",
+      "subjects": [
+        "Marketing digital insulaire et croissance des entrepreneurs guadeloupéens / Yaka Digital"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@alioze.com",
+      "name": "Alioze",
+      "domain": "alioze.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:24:27 +0200",
+      "subjects": [
+        "Référencement naturel et visibilité durable des acteurs ultramarins / Alioze"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "contact@pierre-fabre.com",
+      "name": "Pierre Fabre Antilles",
+      "domain": "pierre-fabre.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:24:42 +0200",
+      "subjects": [
+        "Présence pharmaceutique aux Antilles et dynamiques de distribution santé beauté / Pierre Fabre"
+      ],
+      "batch": "Batch 33 - Tourisme, Mobilité & Digital"
+    },
+    {
+      "email": "redaction@outremers360.com",
+      "name": "Outremers360",
+      "domain": "outremers360.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:29:49 +0200",
+      "subjects": [
+        "Actualité économique des Outre-Mer et nouveaux acteurs du développement insulaire / Outremers360"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@rci.fm",
+      "name": "Radio Caraïbes International (RCI)",
+      "domain": "rci.fm",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:30:07 +0200",
+      "subjects": [
+        "Audience caribéenne de premier plan et partenariats innovants avec les entrepreneurs / RCI"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@antilla-martinique.com",
+      "name": "Antilla Martinique",
+      "domain": "antilla-martinique.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:30:26 +0200",
+      "subjects": [
+        "Presse économique martiniquaise et regard sur les nouvelles dynamiques entrepreneuriales / Antilla"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@zinfos974.com",
+      "name": "Zinfos974",
+      "domain": "zinfos974.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:30:43 +0200",
+      "subjects": [
+        "Information péi en temps réel et nouvelles formes de valorisation du tissu économique local / Zinfos974"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@ipreunion.com",
+      "name": "Imaz Press Réunion",
+      "domain": "ipreunion.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:30:59 +0200",
+      "subjects": [
+        "Agence de presse péi et nouvelles formes de valorisation de l'économie réunionnaise / Imaz Press"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@lequotidien.re",
+      "name": "Le Quotidien de La Réunion",
+      "domain": "lequotidien.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:31:17 +0200",
+      "subjects": [
+        "Quotidien péi de référence et dynamiques économiques de l'île / Le Quotidien"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@clicanoo.re",
+      "name": "Clicanoo",
+      "domain": "clicanoo.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:31:35 +0200",
+      "subjects": [
+        "Presse historique péi et nouvelles perspectives du numérique économique réunionnais / Clicanoo"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@mayottehebdo.com",
+      "name": "Mayotte Hebdo",
+      "domain": "mayottehebdo.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:31:50 +0200",
+      "subjects": [
+        "Presse économique mahoraise et regard sur les nouvelles initiatives entrepreneuriales / Mayotte Hebdo"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "redaction@temoignages.re",
+      "name": "Témoignages",
+      "domain": "temoignages.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:32:07 +0200",
+      "subjects": [
+        "Voix historique de La Réunion et nouvelles dynamiques entrepreneuriales de l'île / Témoignages"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@canalplus-antilles.com",
+      "name": "Canal+ Antilles",
+      "domain": "canalplus-antilles.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:32:21 +0200",
+      "subjects": [
+        "Contenus premium caribéens et nouveaux partenariats de création de valeur / Canal+ Antilles"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@sfop.fr",
+      "name": "SFOP Guadeloupe",
+      "domain": "sfop.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:32:39 +0200",
+      "subjects": [
+        "Distribution alimentaire en CHR et approvisionnement insulaire à fort enjeu / SFOP Guadeloupe"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@martinique.org",
+      "name": "Martinique Tourisme",
+      "domain": "martinique.org",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:32:56 +0200",
+      "subjects": [
+        "Rayonnement touristique martiniquais et nouvelles formes d'attractivité directe / Martinique Tourisme"
+      ],
+      "batch": "Batch 34 - Médias, Presse & Partenaires Stratégiques"
+    },
+    {
+      "email": "contact@bred.fr",
+      "name": "BRED Banque Populaire Antilles-Guyane",
+      "domain": "bred.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:37:10 +0200",
+      "subjects": [
+        "Financement des entrepreneurs ultramarins et nouvelles dynamiques de croissance / BRED"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@bpce.fr",
+      "name": "BPCE Antilles-Guyane",
+      "domain": "bpce.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:37:26 +0200",
+      "subjects": [
+        "Développement économique des Antilles et partenariats innovants avec les entrepreneurs locaux / BPCE"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@cepac.fr",
+      "name": "CEPAC — Caisse d'Epargne Provence-Alpes-Corse & La Réunion",
+      "domain": "cepac.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:37:43 +0200",
+      "subjects": [
+        "Soutien à l'économie péi et accompagnement des porteurs de projets / CEPAC Réunion"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@bfcoi.com",
+      "name": "BFC OI — Banque Française Commerciale Océan Indien",
+      "domain": "bfcoi.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:37:57 +0200",
+      "subjects": [
+        "Financement des PME de l'océan Indien et nouvelles synergies économiques insulaires / BFC OI"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@bni.mg",
+      "name": "BNI Madagascar",
+      "domain": "bni.mg",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:38:14 +0200",
+      "subjects": [
+        "Développement économique malgache et nouvelles opportunités de connexions régionales / BNI Madagascar"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@orangemoney.com",
+      "name": "Orange Money Afrique de l'Ouest",
+      "domain": "orangemoney.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:38:30 +0200",
+      "subjects": [
+        "Paiement mobile en Afrique de l'Ouest et nouvelles opportunités du commerce digital / Orange Money"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@wave.com",
+      "name": "Wave Mobile Money",
+      "domain": "wave.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:38:46 +0200",
+      "subjects": [
+        "Transfert d'argent sans frais et inclusion financière africaine / Wave"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@moov-africa.com",
+      "name": "Moov Africa",
+      "domain": "moov-africa.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:39:01 +0200",
+      "subjects": [
+        "Télécoms et Mobile Money en Afrique francophone et nouvelles passerelles commerciales / Moov Africa"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@riamoneytransfer.com",
+      "name": "Ria Money Transfer",
+      "domain": "riamoneytransfer.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:39:14 +0200",
+      "subjects": [
+        "Transferts de fonds de la diaspora ultramarine et africaine et nouvelles formes de valorisation / Ria"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@ca-reunion.fr",
+      "name": "Crédit Agricole Réunion",
+      "domain": "ca-reunion.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:39:32 +0200",
+      "subjects": [
+        "Banque de confiance péi et accompagnement des porteurs de projets réunionnais / Crédit Agricole"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@societegenerale.re",
+      "name": "Société Générale La Réunion",
+      "domain": "societegenerale.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:39:49 +0200",
+      "subjects": [
+        "Services bancaires péi et dynamiques de développement entrepreneurial à La Réunion / Société Générale"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@amr.re",
+      "name": "AMR — Assurance Mutuelle de La Réunion",
+      "domain": "amr.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 02:40:07 +0200",
+      "subjects": [
+        "Protection des entrepreneurs péi et nouvelles formes de soutien à l'économie locale / AMR"
+      ],
+      "batch": "Batch 35 - FinTech, Banques & Services Financiers"
+    },
+    {
+      "email": "contact@alphaplongee.com",
+      "name": "Alpha Plongée Martinique",
+      "domain": "alphaplongee.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:07:09 +0200",
+      "subjects": [
+        "Plongée aux Anses d'Arlet et valorisation directe des séjours sous-marins / Alpha Plongée"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "corailclub@corailclubcaraibes.com",
+      "name": "Corail Club Caraïbes",
+      "domain": "corailclubcaraibes.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:07:26 +0200",
+      "subjects": [
+        "Plongée aux Trois-Îlets et expériences marines caribéennes authentiques / Corail Club Caraïbes"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "info@immersioncaraibes.com",
+      "name": "Immersion Caraïbes",
+      "domain": "immersioncaraibes.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:07:44 +0200",
+      "subjects": [
+        "Plongée au Marin et immersion caribéenne pour les passionnés de la mer / Immersion Caraïbes"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "info@natiyabel.com",
+      "name": "Natiyabel Plongée",
+      "domain": "natiyabel.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:08:02 +0200",
+      "subjects": [
+        "Plongée à Sainte-Anne et valorisation des expériences marines martiniquaises / Natiyabel"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@feelingguadeloupe.fr",
+      "name": "Feeling Guadeloupe",
+      "domain": "feelingguadeloupe.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:08:20 +0200",
+      "subjects": [
+        "Activités et expériences outdoor en Guadeloupe et valorisation directe des réservations / Feeling"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@karucocorecept.com",
+      "name": "Karucocorecept",
+      "domain": "karucocorecept.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:08:36 +0200",
+      "subjects": [
+        "Réceptif guadeloupéen et développement de nouvelles formes d'accueil direct / Karucocorecept"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "receptif@tropical-tour.com",
+      "name": "Tropical Tour Guadeloupe",
+      "domain": "tropical-tour.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:08:54 +0200",
+      "subjects": [
+        "Réceptif tropical guadeloupéen et nouvelles dynamiques d'accueil des voyageurs / Tropical Tour"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "resa@connections-reunion.com",
+      "name": "Connections Réunion",
+      "domain": "connections-reunion.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:09:12 +0200",
+      "subjects": [
+        "Agence réceptive péi et développement des circuits individuels et groupes / Connections Réunion"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@karibuni.fr",
+      "name": "Karibuni",
+      "domain": "karibuni.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:09:30 +0200",
+      "subjects": [
+        "Agrotourisme et immersion nature en Martinique et développement de l'expérience directe / Karibuni"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "info@agriland.fr",
+      "name": "Agriland Guadeloupe",
+      "domain": "agriland.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:09:46 +0200",
+      "subjects": [
+        "Agriculture et développement territorial en Guadeloupe et nouveaux marchés numériques / Agriland"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@greenlorddomaine.com",
+      "name": "Le Gild's — Green Lord Domaine (Guadeloupe)",
+      "domain": "greenlorddomaine.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:10:04 +0200",
+      "subjects": [
+        "Gastronomie de terroir guadeloupéenne et valorisation de l'excellence locale / Green Lord"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@villafleurie.re",
+      "name": "Villa Fleurie La Réunion",
+      "domain": "villafleurie.re",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:10:20 +0200",
+      "subjects": [
+        "Gastronomie contemporaine péi et expériences de table d'exception à La Réunion / Villa Fleurie"
+      ],
+      "batch": "Batch 36 - Plongee, Outdoor & Gastro DOM-TOM (emails verifies)"
+    },
+    {
+      "email": "contact@les-lataniers.com",
+      "name": "Les Lataniers (La Réunion — Écolodge)",
+      "domain": "les-lataniers.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:16:07 +0200",
+      "subjects": [
+        "Hébergement écoresponsable péi et valorisation de l'expérience directe / Les Lataniers"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "info@cafeierebeausejour.fr",
+      "name": "La Caféière Beauséjour (Guadeloupe)",
+      "domain": "cafeierebeausejour.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:16:24 +0200",
+      "subjects": [
+        "Maison d'hôtes de caractère en Guadeloupe et valorisation de l'accueil direct / La Caféière"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@jardinmaore.com",
+      "name": "Le Jardin Maoré (Mayotte — Écolodge 4*)",
+      "domain": "jardinmaore.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:16:38 +0200",
+      "subjects": [
+        "Écolodge 4 étoiles à Mayotte et valorisation de l'expérience balnéaire mahoraise / Jardin Maoré"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@dominocho.com",
+      "name": "Dominocho (e-commerce rhum & épicerie fine réunionnaise)",
+      "domain": "dominocho.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:16:54 +0200",
+      "subjects": [
+        "Rhums et épicerie fine réunionnaise en ligne et nouveaux canaux de vente directe / Dominocho"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@lamaisondesantilles.com",
+      "name": "La Maison des Antilles (e-commerce produits antillais)",
+      "domain": "lamaisondesantilles.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:17:08 +0200",
+      "subjects": [
+        "Produits antillais en ligne et développement de nouveaux circuits de valorisation directe / Maison des Antilles"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@zantillesmarket.fr",
+      "name": "Zantilles Market (épicerie antillaise en ligne)",
+      "domain": "zantillesmarket.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:17:22 +0200",
+      "subjects": [
+        "Épicerie antillaise en ligne et nouvelles formes de connexion avec la clientèle / Zantilles Market"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@oua-concept.com",
+      "name": "OUA Concept (épicerie créole premium)",
+      "domain": "oua-concept.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:17:37 +0200",
+      "subjects": [
+        "Épicerie créole artisanale premium et valorisation des producteurs ultramarins / OUA Concept"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@fifiepicerie.net",
+      "name": "Allô Fifi Épicerie Créole",
+      "domain": "fifiepicerie.net",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:17:51 +0200",
+      "subjects": [
+        "Épicerie créole artisanale et connexion directe avec les amateurs de saveurs authentiques / Allô Fifi"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@ljeconseils.fr",
+      "name": "LJeConseils Martinique",
+      "domain": "ljeconseils.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:18:07 +0200",
+      "subjects": [
+        "Formation professionnelle et coaching entrepreneurial en Martinique et nouvelles approches / LJeConseils"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@elitecoachingmartinique.com",
+      "name": "Elite Coaching Martinique",
+      "domain": "elitecoachingmartinique.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:18:24 +0200",
+      "subjects": [
+        "Coaching entrepreneurial et accompagnement des dirigeants martiniquais / Elite Coaching"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@ckconsultingfwi.com",
+      "name": "CK Consulting FWI (Guadeloupe)",
+      "domain": "ckconsultingfwi.com",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:18:42 +0200",
+      "subjects": [
+        "Accompagnement des entrepreneurs guadeloupéens et nouvelles dynamiques de croissance / CK Consulting"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "email": "contact@yuup-coaching.fr",
+      "name": "YuUp Coaching (La Réunion)",
+      "domain": "yuup-coaching.fr",
+      "count_sent": 1,
+      "count_received": 0,
+      "last_date": "Thu, 24 Sep 2026 03:18:58 +0200",
+      "subjects": [
+        "Coaching et développement des talents péi et nouvelles formes de mise en réseau / YuUp"
+      ],
+      "batch": "Batch 37 - Ecolodges, E-commerce Creole & Coachs"
+    },
+    {
+      "company": "Escale Bleue (Atelier de la Vanille Bleue — La Réunion)",
+      "email": "contact@escale-bleue.fr",
+      "territory": "La Réunion (Saint-Philippe)",
+      "date_contacted": "2026-09-24 03:33:36",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Distillerie Damoiseau (Guadeloupe)",
+      "email": "rhum@damoiseau.com",
+      "territory": "Guadeloupe (Le Moule)",
+      "date_contacted": "2026-09-24 03:33:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Distillerie Poisson / Rhum Père Labat (Marie-Galante)",
+      "email": "contact@rhumduperelabat.com",
+      "territory": "Guadeloupe (Marie-Galante)",
+      "date_contacted": "2026-09-24 03:34:10",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Distillerie Longueteau (Guadeloupe)",
+      "email": "contact@rhumlongueteau.fr",
+      "territory": "Guadeloupe (Capesterre-Belle-Eau)",
+      "date_contacted": "2026-09-24 03:34:26",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Rhum Saint James (Martinique)",
+      "email": "saintjames.international@la-martiniquaise.fr",
+      "territory": "Martinique (Sainte-Marie)",
+      "date_contacted": "2026-09-24 03:34:40",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Habitation Clément (Martinique)",
+      "email": "communication.clement@gbh.fr",
+      "territory": "Martinique (Le François)",
+      "date_contacted": "2026-09-24 03:34:58",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Plantation Trois Rivières (Martinique)",
+      "email": "contact.mq@groupebbs.fr",
+      "territory": "Martinique (Sainte-Luce)",
+      "date_contacted": "2026-09-24 03:35:15",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "M'Amour Confitures (Guy Lesueur — Guadeloupe)",
+      "email": "guylesueur@guylesueur.com",
+      "territory": "Guadeloupe (Pointe-Noire)",
+      "date_contacted": "2026-09-24 03:35:31",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Brasserie Lékouz (Guadeloupe)",
+      "email": "brasserie@lekouz.com",
+      "territory": "Guadeloupe (Goyave)",
+      "date_contacted": "2026-09-24 03:35:47",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Distillerie Bellevue (Marie-Galante)",
+      "email": "contact@habitation-bellevue.com",
+      "territory": "Guadeloupe (Marie-Galante)",
+      "date_contacted": "2026-09-24 03:36:04",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "L'Effet Péi (La Réunion)",
+      "email": "eshop@leffet-boutik.re",
+      "territory": "La Réunion (Le Port / Saint-Paul)",
+      "date_contacted": "2026-09-24 03:36:19",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Jardin de Balata (Martinique)",
+      "email": "contact@jardindebalata.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 03:36:36",
+      "source": "Recherche web ciblée + vérification MX (Batch 38 — Approche Client-Centric / Problématiques)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "La Suite Villa (Trois-Îlets, Martinique)",
+      "email": "reservation@la-suite-villa.com",
+      "territory": "Martinique (Trois-Îlets)",
+      "date_contacted": "2026-09-24 04:12:50",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Apolline Martinique (Fort-de-France, Martinique)",
+      "email": "contact@apollinemartinique.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 04:13:05",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Domaine de Robinson (Anse Noire, Martinique)",
+      "email": "contact@domainederobinson.com",
+      "territory": "Martinique (Anse Noire)",
+      "date_contacted": "2026-09-24 04:13:23",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Tendacayou Écolodge & Spa (Deshaies, Guadeloupe)",
+      "email": "reservation@tendacayou.com",
+      "territory": "Guadeloupe (Deshaies)",
+      "date_contacted": "2026-09-24 04:13:39",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Diana Dea Lodge & Spa (Sainte-Anne, La Réunion)",
+      "email": "reception@diana-dea-lodge.re",
+      "territory": "La Réunion (Sainte-Anne)",
+      "date_contacted": "2026-09-24 04:13:57",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Tsilaosa Hôtel & Spa (Cilaos, La Réunion)",
+      "email": "reception@tsilaosa.com",
+      "territory": "La Réunion (Cilaos)",
+      "date_contacted": "2026-09-24 04:14:14",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Grand Hôtel Montabo (Cayenne, Guyane)",
+      "email": "resa@grandhotelmontabo.fr",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 04:14:31",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Hôtel Ker Alberte (Cayenne, Guyane)",
+      "email": "contact@hotelkeralberte.com",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 04:14:48",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Le Karibuni Boutique Hotel (Cul-de-Sac, Saint-Martin)",
+      "email": "hotel@lekaribuni.com",
+      "territory": "Saint-Martin (Cul-de-Sac)",
+      "date_contacted": "2026-09-24 04:15:06",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Hôtel L'Esplanade (Grand Case, Saint-Martin)",
+      "email": "info@lesplanade.com",
+      "territory": "Saint-Martin (Grand Case)",
+      "date_contacted": "2026-09-24 04:15:23",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Le Petit Hotel (Grand Case, Saint-Martin)",
+      "email": "info@lepetithotel.com",
+      "territory": "Saint-Martin (Grand Case)",
+      "date_contacted": "2026-09-24 04:15:40",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Hôtel Christopher St Barth (Pointe Milou, Saint-Barthélemy)",
+      "email": "reservations@hotelchristopher.com",
+      "territory": "Saint-Barthélemy (Pointe Milou)",
+      "date_contacted": "2026-09-24 04:15:56",
+      "source": "Recherche web ciblée + vérification MX (Batch 39 — Hôtellerie de Prestige / B2B Solutions)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Pardon! (Saint-Denis, La Réunion)",
+      "email": "communication@pardon.re",
+      "territory": "La Réunion (Saint-Denis)",
+      "date_contacted": "2026-09-24 04:36:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Bourbon Palto (Saint-Denis, La Réunion)",
+      "email": "contact@bourbonpalto.com",
+      "territory": "La Réunion (Saint-Denis)",
+      "date_contacted": "2026-09-24 04:37:09",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Parfums des Îles (Sainte-Luce, Martinique)",
+      "email": "contact@parfums-des-iles.com",
+      "territory": "Martinique (Sainte-Luce)",
+      "date_contacted": "2026-09-24 04:37:23",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "La Savonnerie Antillaise (Les Trois-Îlets, Martinique)",
+      "email": "lasavonnerieantillaise@yahoo.fr",
+      "territory": "Martinique (Les Trois-Îlets)",
+      "date_contacted": "2026-09-24 04:37:39",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Madras Bazaar (La Réunion)",
+      "email": "contact@madras-bazaar.re",
+      "territory": "La Réunion",
+      "date_contacted": "2026-09-24 04:37:55",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Madras & Cie (Guadeloupe)",
+      "email": "mpcmadrasetcie@gmail.com",
+      "territory": "Guadeloupe",
+      "date_contacted": "2026-09-24 04:38:12",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Eliette Lesuperbe (Guadeloupe)",
+      "email": "creationslesuperbes@gmail.com",
+      "territory": "Guadeloupe",
+      "date_contacted": "2026-09-24 04:38:29",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Kalia Nature (Paris / Antilles)",
+      "email": "serviceclient@kalia-nature.com",
+      "territory": "France & Antilles",
+      "date_contacted": "2026-09-24 04:38:46",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Les Secrets de Loly (Paris / International)",
+      "email": "contact@secretsdeloly.com",
+      "territory": "France & International",
+      "date_contacted": "2026-09-24 04:39:02",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "NoireÔNaturel (Cosmétique Bio Afro-Caribéenne)",
+      "email": "service-client@noireonaturel.com",
+      "territory": "France & Caraïbes",
+      "date_contacted": "2026-09-24 04:39:18",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Robert Wan (Papeete, Polynésie française)",
+      "email": "info@robertwan.com",
+      "territory": "Polynésie française (Tahiti)",
+      "date_contacted": "2026-09-24 04:39:33",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Création Or Guyane (Cayenne, Guyane)",
+      "email": "contact@creationorguyane.com",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 04:39:50",
+      "source": "Recherche web ciblée + vérification MX (Batch 40 — Mode, Créateurs & Joaillerie / B2B)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Cargo Services (Jarry, Guadeloupe)",
+      "email": "infos@cargoservices.fr",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Tropical Export (Le Lamentin, Martinique)",
+      "email": "tropicalexport.fdf@gmail.com",
+      "territory": "Martinique (Le Lamentin)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Madinina Fret (Le Lamentin, Martinique)",
+      "email": "contact@madininafret.com",
+      "territory": "Martinique (Le Lamentin)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Trans-Fret Services (Le Lamentin, Martinique)",
+      "email": "contact@transitaire-martinique.com",
+      "territory": "Martinique (Le Lamentin)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "M2R Maritime (Caraïbes & Métropole)",
+      "email": "contact@m2rmaritime.com",
+      "territory": "Caraïbes & Métropole",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "SGC Maritime (Antilles, Guyane & Réunion)",
+      "email": "contact@sgcmaritime.com",
+      "territory": "Antilles, Guyane & Réunion",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Guyalog Fret (Guyane)",
+      "email": "contact@guyalog.fr",
+      "territory": "Guyane (Dégrad des Cannes)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Oceanic Transit (Guyane)",
+      "email": "contact@oceanictransit.com",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Centrimex Réunion (La Réunion)",
+      "email": "reunion@centrimex.com",
+      "territory": "La Réunion (Le Port)",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Outremer Fret (Antilles & Réunion)",
+      "email": "contact@outremerfret.com",
+      "territory": "Antilles & Réunion",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Setcargo International (Antilles & Océan Indien)",
+      "email": "contact@setcargo.com",
+      "territory": "Antilles & Océan Indien",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "STRM Transports (Antilles & Métropole)",
+      "email": "contact@strm-transports.com",
+      "territory": "Antilles & Métropole",
+      "date_contacted": "2026-09-24 05:34:52",
+      "source": "Recherche web ciblée + vérification MX (Batch 41 – Logistique, Fret & Transit / B2B Authentique)",
+      "statut": "envoyé"
+    },
+    {
+      "company": "Cabinet Maitre Serge Romana (Martinique)",
+      "email": "contact@cabinet-romana.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "CGA Guadeloupe Centre de Gestion Agree",
+      "email": "contact@cga-guadeloupe.fr",
+      "territory": "Guadeloupe (Pointe-a-Pitre)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Caraibes Audit Expertise Comptable (Martinique)",
+      "email": "contact@caraibes-audit.fr",
+      "territory": "Martinique (Schoelcher)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Deloitte La Reunion (Audit Conseil et Expertise)",
+      "email": "reunion@deloitte.fr",
+      "territory": "La Reunion (Saint-Denis)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Jurifiscal Antilles (Guadeloupe)",
+      "email": "contact@jurifiscal-antilles.fr",
+      "territory": "Guadeloupe (Pointe-a-Pitre)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Avocat Guyane Droit des Affaires (Cayenne)",
+      "email": "contact@avocat-guyane-affaires.fr",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Ernst and Young Martinique (EY Antilles Guyane)",
+      "email": "contact-antilles@fr.ey.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "AGC Finance Reunion (Expertise Comptable Ocean Indien)",
+      "email": "contact@agcfinance.re",
+      "territory": "La Reunion (Saint-Pierre)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Comptable Nouvelle-Caledonie Pacific Expertise",
+      "email": "contact@pacific-expertise.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Fidal Antilles-Guyane (Droit des Affaires DOM)",
+      "email": "antilles@fidal.fr",
+      "territory": "Antilles-Guyane (Fort-de-France)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "MAZARS Guadeloupe (Audit et Expertise Comptable)",
+      "email": "guadeloupe@mazars.fr",
+      "territory": "Guadeloupe (Jarry, Baie-Mahault)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Archipel Conseil Polynesie Francaise (Papeete)",
+      "email": "contact@archipel-conseil.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "date_contacted": "2026-09-24 06:55:07",
+      "source": "Recherche web ciblee + verification MX (Batch 42 - Avocats, Experts-Comptables & Fiduciaires DOM-TOM)",
+      "statut": "rebondi_adresse_invalide"
+    },
+    {
+      "company": "Cabinet Dorwling-Carter-Celcal (Martinique)",
+      "email": "sdc@dorwlingcarter.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.cabinet-dorwling-carter.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Overeed Me Gaelle de Thore (Martinique)",
+      "email": "contact@overeed.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.overeed.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Me Taniev Labejof (Martinique)",
+      "email": "contact@cabinet-labejof.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.cabinet-labejof.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Ordre des Avocats Barreau de Martinique",
+      "email": "ordre@avocatsdemartinique.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.avocatsdemartinique.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "AJM Avocats (Guadeloupe)",
+      "email": "contact@ajmavocats.com",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.ajmavocats.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Me Severine Girdary (Guadeloupe)",
+      "email": "contact@avocatgirdary.com",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.avocatgirdary.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet S3G Avocats (Guyane)",
+      "email": "secretariat@s3g-avocats.fr",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.s3g-avocats.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Janycia Aubert (Guyane)",
+      "email": "contact@ja-aubert-avocat.com",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.janyciaaubertavocat.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Me Morgan Pouly (La Reunion)",
+      "email": "contact@morganpouly-avocat.fr",
+      "territory": "La Reunion (Saint-Denis)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.morganpouly-avocat.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Cabinet Nativel Mickael (La Reunion)",
+      "email": "conseil@avocats-nativel.com",
+      "territory": "La Reunion (Saint-Pierre)",
+      "date_contacted": "2026-09-24 15:31:30",
+      "source": "Site web officiel verifie : https://www.nativel-avocat-reunion.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Ordre des Experts-Comptables de La Reunion (CROEC)",
+      "email": "croec@croec-reunion.com",
+      "territory": "La Reunion (Sainte-Clotilde)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.croec-reunion.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Ordre des Experts-Comptables de Guadeloupe (CROEC)",
+      "email": "contact@croexpertscomptables971.fr",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.croexpertscomptables971.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Ordre des Experts-Comptables de Martinique (CROEC)",
+      "email": "ordexper@orange.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.experts-comptables.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Technopole Martinique (CACEM)",
+      "email": "contact@technopolemartinique.org",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.technopolemartinique.org",
+      "statut": "envoye"
+    },
+    {
+      "company": "UDE-MEDEF Guadeloupe",
+      "email": "contact@ude-medef.com",
+      "territory": "Guadeloupe (Baie-Mahault, Jarry)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.ude-medef.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "CPME Martinique",
+      "email": "secretariat@cpmemartinique.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.cpmemartinique.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "CPME Guadeloupe",
+      "email": "contact@cpme-guadeloupe.fr",
+      "territory": "Guadeloupe (Pointe-a-Pitre)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.cpme-guadeloupe.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "MEDEF Guyane",
+      "email": "contact@medefguyane.fr",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.medefguyane.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Reseau Entreprendre Martinique",
+      "email": "martinique@reseau-entreprendre.org",
+      "territory": "Martinique (Ducos)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.reseau-entreprendre.org",
+      "statut": "envoye"
+    },
+    {
+      "company": "Initiative Guadeloupe",
+      "email": "contact@initiative-guadeloupe.fr",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "date_contacted": "2026-09-24 16:32:19",
+      "source": "Site web officiel verifie : https://www.initiative-guadeloupe.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Chambre de Metiers et de l Artisanat de La Reunion (CMA)",
+      "email": "cdm@cma-reunion.fr",
+      "territory": "La Reunion (Sainte-Clotilde)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cma-reunion.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Chambre de Metiers et de l Artisanat de Martinique (CMA)",
+      "email": "cmm972@cma-martinique.com",
+      "territory": "Martinique (Fort-de-France)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cma-martinique.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Chambre de Metiers et de l Artisanat de Guyane (CMA)",
+      "email": "economie@cma-guyane.fr",
+      "territory": "Guyane (Cayenne)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cma-guyane.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Synergile Pole de Competitivite Caraibes",
+      "email": "contact@synergile.fr",
+      "territory": "Guadeloupe et Caraibes (Baie-Mahault)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.synergile.fr",
+      "statut": "bloque_firewall_o365"
+    },
+    {
+      "company": "CCISM Polynesie Francaise",
+      "email": "info@ccism.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.ccism.pf",
+      "statut": "envoye"
+    },
+    {
+      "company": "MEDEF Nouvelle-Caledonie",
+      "email": "medefnc@medef.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.medef.nc",
+      "statut": "envoye"
+    },
+    {
+      "company": "CPME Nouvelle-Caledonie",
+      "email": "direction@cpme.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cpme.nc",
+      "statut": "envoye"
+    },
+    {
+      "company": "CCI Nouvelle-Caledonie",
+      "email": "cci@cci.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cci.nc",
+      "statut": "envoye"
+    },
+    {
+      "company": "CCI Mayotte",
+      "email": "contact@mayotte.cci.fr",
+      "territory": "Mayotte (Mamoudzou)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.mayotte.cci.fr",
+      "statut": "envoye"
+    },
+    {
+      "company": "Chambre de Metiers et de l Artisanat de Mayotte (CMA)",
+      "email": "cma@cmamayotte.com",
+      "territory": "Mayotte (Mamoudzou)",
+      "date_contacted": "2026-09-24 17:25:45",
+      "source": "Site web officiel verifie : https://www.cmamayotte.com",
+      "statut": "envoye"
+    },
+    {
+      "company": "Chambre d Agriculture de La Reunion",
+      "email": "dg@reunion.chambagri.fr",
+      "territory": "La Reunion (Saint-Denis)",
+      "source": "https://reunion.chambre-agriculture.fr",
+      "date": "2026-09-24 23:28:54",
+      "batch": 46
+    },
+    {
+      "company": "Chambre d Agriculture de Guadeloupe",
+      "email": "cda_direction@guadeloupe.chambagri.fr",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "source": "https://guadeloupe.chambre-agriculture.fr",
+      "date": "2026-09-24 23:29:11",
+      "batch": 46
+    },
+    {
+      "company": "Chambre d Agriculture de Martinique",
+      "email": "ca972@martinique.chambagri.fr",
+      "territory": "Martinique (Le Lamentin)",
+      "source": "https://martinique.chambres-agriculture.fr",
+      "date": "2026-09-24 23:29:28",
+      "batch": 46
+    },
+    {
+      "company": "Chambre d Agriculture de Guyane",
+      "email": "chambre.agriculture@guyane.chambagri.fr",
+      "territory": "Guyane (Macouria)",
+      "source": "https://guyane.chambres-agriculture.fr",
+      "date": "2026-09-24 23:29:46",
+      "batch": 46
+    },
+    {
+      "company": "Chambre de l Agriculture, de la Peche et de l Aquaculture de Mayotte (CAPAM)",
+      "email": "capam@mayotte.chambagri.fr",
+      "territory": "Mayotte (Mamoudzou)",
+      "source": "https://mayotte.chambres-agriculture.fr",
+      "date": "2026-09-24 23:30:03",
+      "batch": 46
+    },
+    {
+      "company": "Chambre d Agriculture de Nouvelle-Caledonie (CANC)",
+      "email": "accueil@canc.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://canc.nc",
+      "date": "2026-09-24 23:30:19",
+      "batch": 46
+    },
+    {
+      "company": "Chambre de l Agriculture et de la Peche Lagonaire de Polynesie Francaise (CAPL)",
+      "email": "secretariat@capl.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "source": "https://capl.pf",
+      "date": "2026-09-24 23:30:36",
+      "batch": 46
+    },
+    {
+      "company": "Martinique Developpement",
+      "email": "contact@martiniquedev.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://martiniquedev.fr",
+      "date": "2026-09-24 23:30:51",
+      "batch": 46
+    },
+    {
+      "company": "Initiative Martinique Active (IMA)",
+      "email": "contact@ima.mq",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://www.ima.mq",
+      "date": "2026-09-24 23:31:05",
+      "batch": 46
+    },
+    {
+      "company": "Initiative Mayotte",
+      "email": "contact@initiative-mayotte.fr",
+      "territory": "Mayotte (Mamoudzou)",
+      "source": "https://initiative-mayotte.fr",
+      "date": "2026-09-24 23:31:23",
+      "batch": 46
+    },
+    {
+      "company": "FRBTP Reunion",
+      "email": "contact@frbtp.re",
+      "territory": "La Reunion (Saint-Denis)",
+      "source": "https://www.frbtp.re",
+      "date": "2026-09-25 00:15:05",
+      "batch": 47
+    },
+    {
+      "company": "ADIR Reunion Association Developpement Industriel",
+      "email": "adir@adir.info",
+      "territory": "La Reunion (Saint-Denis)",
+      "source": "https://www.adir.info",
+      "date": "2026-09-25 00:15:20",
+      "batch": 47
+    },
+    {
+      "company": "AMPI Martinique Association Promotion Industrie",
+      "email": "industrie@ampi.mq",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://www.industrie.mq",
+      "date": "2026-09-25 00:15:38",
+      "batch": 47
+    },
+    {
+      "company": "FCBTP Nouvelle Caledonie",
+      "email": "direction@fcbtp.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://www.fcbtp.nc",
+      "date": "2026-09-25 00:15:55",
+      "batch": 47
+    },
+    {
+      "company": "Grand Port Maritime de La Reunion Port Reunion",
+      "email": "contact@reunion.port.fr",
+      "territory": "La Reunion (Le Port)",
+      "source": "https://reunion.port.fr",
+      "date": "2026-09-25 00:16:10",
+      "batch": 47
+    },
+    {
+      "company": "Grand Port Maritime de la Martinique",
+      "email": "contact@martinique.port.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://www.martinique.port.fr",
+      "date": "2026-09-25 00:16:25",
+      "batch": 47
+    },
+    {
+      "company": "Guadeloupe Port Caraibes GPMG",
+      "email": "dcri@port-guadeloupe.com",
+      "territory": "Guadeloupe (Pointe-a-Pitre)",
+      "source": "https://www.guadeloupe-portcaraibes.com",
+      "date": "2026-09-25 00:16:41",
+      "batch": 47
+    },
+    {
+      "company": "Grand Port Maritime de la Guyane",
+      "email": "gpm@portdeguyane.fr",
+      "territory": "Guyane (Degrad des Cannes)",
+      "source": "https://www.portdeguyane.fr",
+      "date": "2026-09-25 00:16:55",
+      "batch": 47
+    },
+    {
+      "company": "Port Autonome de Papeete Polynesie",
+      "email": "direction@portppt.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "source": "https://www.portdepapeete.pf",
+      "date": "2026-09-25 00:17:13",
+      "batch": 47
+    },
+    {
+      "company": "Port Autonome de la Nouvelle Caledonie Noumea",
+      "email": "panc@noumeaport.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://www.noumeaport.nc",
+      "date": "2026-09-25 00:17:31",
+      "batch": 47
+    },
+    {
+      "company": "Cluster Maritime de La Reunion",
+      "email": "contact@cluster-maritime.re",
+      "territory": "La Reunion (Le Port)",
+      "source": "https://www.cluster-maritime.re",
+      "date": "2026-09-25 01:28:07",
+      "batch": 48
+    },
+    {
+      "company": "Cluster Maritime de la Martinique",
+      "email": "president@cluster-maritime-martinique.org",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://www.cluster-maritime-martinique.org",
+      "date": "2026-09-25 01:28:09",
+      "batch": 48
+    },
+    {
+      "company": "Cluster Maritime de Guadeloupe",
+      "email": "contact@cluster-maritime-guadeloupe.fr",
+      "territory": "Guadeloupe (Baie-Mahault)",
+      "source": "https://www.cluster-maritime-guadeloupe.fr",
+      "date": "2026-09-25 01:28:23",
+      "batch": 48
+    },
+    {
+      "company": "Cluster Maritime de Guyane",
+      "email": "cluster.maritime.guyane@gmail.com",
+      "territory": "Guyane (Remire-Montjoly)",
+      "source": "https://www.cluster-maritime.fr",
+      "date": "2026-09-25 01:28:40",
+      "batch": 48
+    },
+    {
+      "company": "Cluster Maritime de Nouvelle Caledonie",
+      "email": "secretariat@clustermaritime.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://www.clustermaritime.nc",
+      "date": "2026-09-25 01:28:56",
+      "batch": 48
+    },
+    {
+      "company": "Cluster Maritime de Polynesie Francaise",
+      "email": "contact@cluster-maritime.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "source": "https://www.cluster-maritime.pf",
+      "date": "2026-09-25 01:29:13",
+      "batch": 48
+    },
+    {
+      "company": "Temergie Cluster Transition Energetique",
+      "email": "contact@temergie.com",
+      "territory": "La Reunion (Sainte-Marie)",
+      "source": "https://www.temergie.com",
+      "date": "2026-09-25 01:29:29",
+      "batch": 48
+    },
+    {
+      "company": "ADIM Agence Developpement et Innovation de Mayotte",
+      "email": "contact@adim-mayotte.fr",
+      "territory": "Mayotte (Mamoudzou)",
+      "source": "https://www.adim-mayotte.fr",
+      "date": "2026-09-25 01:29:44",
+      "batch": 48
+    },
+    {
+      "company": "SAMAC Aeroport Martinique Aime Cesaire",
+      "email": "contact@martinique.aeroport.fr",
+      "territory": "Martinique (Le Lamentin)",
+      "source": "https://www.martinique.aeroport.fr",
+      "date": "2026-09-25 01:30:00",
+      "batch": 48
+    },
+    {
+      "company": "Aeroport de La Reunion Roland Garros",
+      "email": "contact@reunion.aeroport.fr",
+      "territory": "La Reunion (Sainte-Marie)",
+      "source": "https://www.reunion.aeroport.fr",
+      "date": "2026-09-25 01:30:17",
+      "batch": 48
+    },
+    {
+      "company": "Bourbon Packaging",
+      "email": "contact@bourbonpackaging.com",
+      "territory": "La Reunion (Bras-Panon)",
+      "source": "https://www.bourbonpackaging.com",
+      "date": "2026-09-25 02:26:45",
+      "batch": 49
+    },
+    {
+      "company": "SOPRODEC Guadeloupe",
+      "email": "guadeloupe@soprodec.com",
+      "territory": "Guadeloupe (Baie-Mahault - Jarry)",
+      "source": "https://www.soprodec.com",
+      "date": "2026-09-25 02:27:02",
+      "batch": 49
+    },
+    {
+      "company": "Bio Savane Guyane",
+      "email": "bio.savane@gmail.com",
+      "territory": "Guyane (Macouria)",
+      "source": "https://www.biosavane.com",
+      "date": "2026-09-25 02:27:19",
+      "batch": 49
+    },
+    {
+      "company": "Imprimah Mayotte",
+      "email": "contact@imprimah.com",
+      "territory": "Mayotte (Mamoudzou - Kaweni)",
+      "source": "https://www.imprimah.com",
+      "date": "2026-09-25 02:27:33",
+      "batch": 49
+    },
+    {
+      "company": "Biscochoc Nouvelle Caledonie",
+      "email": "biscochoc@biscochoc.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://www.biscochoc.nc",
+      "date": "2026-09-25 02:27:50",
+      "batch": 49
+    },
+    {
+      "company": "Societe Le Froid Nouvelle Caledonie",
+      "email": "lefroid@lefroid.nc",
+      "territory": "Nouvelle-Caledonie (Noumea - Montravel)",
+      "source": "https://www.lefroid.nc",
+      "date": "2026-09-25 02:28:08",
+      "batch": 49
+    },
+    {
+      "company": "Jus de Fruits de Moorea Rotui",
+      "email": "rotui@rotui.pf",
+      "territory": "Polynesie Francaise (Moorea)",
+      "source": "https://www.rotui.pf",
+      "date": "2026-09-25 02:28:22",
+      "batch": 49
+    },
+    {
+      "company": "Groupe Reunimer",
+      "email": "info@reunimer.com",
+      "territory": "La Reunion (Le Port)",
+      "source": "https://www.reunimer.com",
+      "date": "2026-09-25 02:28:37",
+      "batch": 49
+    },
+    {
+      "company": "Ti Kafe Torrefacteur de Martinique",
+      "email": "cafecaraibe@gmail.com",
+      "territory": "Martinique (Les Trois-Ilets - Tartane)",
+      "source": "https://www.tikafe.fr",
+      "date": "2026-09-25 02:28:53",
+      "batch": 49
+    },
+    {
+      "company": "Edena Boissons",
+      "email": "televentes@edenaboissons.re",
+      "territory": "La Reunion (La Possession)",
+      "source": "https://www.edena-boissons.re",
+      "date": "2026-09-25 02:29:08",
+      "batch": 49
+    },
+    {
+      "company": "Plastiserd Polynesie",
+      "email": "plastiserd@plastiserd.pf",
+      "territory": "Polynesie Francaise (Papeete)",
+      "source": "https://www.plastiserd.pf",
+      "date": "2026-09-25 03:09:07",
+      "batch": 50
+    },
+    {
+      "company": "Tokuyama Nouvelle Caledonie",
+      "email": "direction@tokuyama.nc",
+      "territory": "Nouvelle-Caledonie (Noumea - Numbo)",
+      "source": "https://www.tokuyama.nc",
+      "date": "2026-09-25 03:09:24",
+      "batch": 50
+    },
+    {
+      "company": "La Brique de Guyane B2TG",
+      "email": "info@labriquedeguyane.com",
+      "territory": "Guyane (Matoury)",
+      "source": "https://www.labriquedeguyane.com",
+      "date": "2026-09-25 03:09:42",
+      "batch": 50
+    },
+    {
+      "company": "SOMACO Mayotte",
+      "email": "somaco@maharajah.fr",
+      "territory": "Mayotte (Mamoudzou - Kaweni)",
+      "source": "https://www.somaco-online.fr",
+      "date": "2026-09-25 03:09:59",
+      "batch": 50
+    },
+    {
+      "company": "Karib Profils",
+      "email": "contact@karibprofils.fr",
+      "territory": "Martinique (Le Robert)",
+      "source": "https://www.karibprofils.fr",
+      "date": "2026-09-25 03:10:17",
+      "batch": 50
+    },
+    {
+      "company": "Caraibes Profils Numerique CPN",
+      "email": "contact@cpnfwi.com",
+      "territory": "Guadeloupe (Baie-Mahault - Jarry)",
+      "source": "https://www.cpnfwi.com",
+      "date": "2026-09-25 03:10:32",
+      "batch": 50
+    },
+    {
+      "company": "SAMIR Industrie",
+      "email": "contact@samir-martinique.fr",
+      "territory": "Martinique (Fort-de-France)",
+      "source": "https://www.samir-martinique.fr",
+      "date": "2026-09-25 03:10:51",
+      "batch": 50
+    },
+    {
+      "company": "L'Atelier SAGIP",
+      "email": "contact@lateliersagip.com",
+      "territory": "Martinique (Le Lamentin)",
+      "source": "https://www.lateliersagip.com",
+      "date": "2026-09-25 03:11:08",
+      "batch": 50
+    },
+    {
+      "company": "Mecanique Precision Antilles MPA",
+      "email": "mpa.secretaire@gmail.com",
+      "territory": "Guadeloupe (Baie-Mahault - Jarry)",
+      "source": "https://www.mecanique-precision-antilles.com",
+      "date": "2026-09-25 03:11:24",
+      "batch": 50
+    },
+    {
+      "company": "COGEDAL Le Meunier de Bourbon",
+      "email": "contact@cogedal.re",
+      "territory": "La Reunion (Saint-Pierre)",
+      "source": "https://www.lemeunierdebourbon.re",
+      "date": "2026-09-25 03:11:40",
+      "batch": 50
+    },
+    {
+      "company": "CNOI Chantier Naval de l'Ocean Indien",
+      "email": "cnoi@cnoi.info",
+      "territory": "Ocean Indien (La Reunion)",
+      "source": "https://cnoi.info",
+      "date": "2026-09-25 05:05:40",
+      "batch": 51
+    },
+    {
+      "company": "Chantier Naval du Pacifique Sud CNPS",
+      "email": "cnps@mail.pf",
+      "territory": "Polynesie francaise (Fare Ute - Papeete)",
+      "source": "https://cnps.pf",
+      "date": "2026-09-25 05:06:00",
+      "batch": 51
+    },
+    {
+      "company": "Huilerie de Tahiti",
+      "email": "contact@huileriedetahiti.pf",
+      "territory": "Polynesie francaise (Papeete)",
+      "source": "https://huileriedetahiti.pf",
+      "date": "2026-09-25 05:06:18",
+      "batch": 51
+    },
+    {
+      "company": "CIENC Eaux du Mont-Dore",
+      "email": "contact@cienc.nc",
+      "territory": "Nouvelle-Caledonie (Mont-Dore)",
+      "source": "https://fontainesdeaudumontdore.nc",
+      "date": "2026-09-25 05:06:36",
+      "batch": 51
+    },
+    {
+      "company": "Scierie Oyapock",
+      "email": "office.scierie@scierieoyapock.fr",
+      "territory": "Guyane (Saint-Georges-de-l'Oyapock)",
+      "source": "https://scierieoyapock973.fr",
+      "date": "2026-09-25 05:06:52",
+      "batch": 51
+    },
+    {
+      "company": "Matouba Eaux de Source",
+      "email": "matouba@matouba.fr",
+      "territory": "Guadeloupe (Saint-Claude)",
+      "source": "https://www.matouba.fr",
+      "date": "2026-09-25 05:07:08",
+      "batch": 51
+    },
+    {
+      "company": "MayTP Mayotte BTP",
+      "email": "contact@maytp.fr",
+      "territory": "Mayotte (Mamoudzou)",
+      "source": "https://maytp.fr",
+      "date": "2026-09-25 05:07:24",
+      "batch": 51
+    },
+    {
+      "company": "FINC Federation des Industries de Nouvelle-Caledonie",
+      "email": "accueil@finc.nc",
+      "territory": "Nouvelle-Caledonie (Noumea)",
+      "source": "https://finc.nc",
+      "date": "2026-09-25 05:07:40",
+      "batch": 51
+    },
+    {
+      "company": "Fenua Ma Syndicat Traitement Dechets",
+      "email": "accueil@fenuama.pf",
+      "territory": "Polynesie francaise (Papeete)",
+      "source": "https://fenuama.pf",
+      "date": "2026-09-25 05:07:56",
+      "batch": 51
+    },
+    {
+      "company": "Brasserie de Tahiti Hinano",
+      "email": "hinano@mail.pf",
+      "territory": "Polynesie francaise (Papeete)",
+      "source": "https://brasseriedetahiti.com",
+      "date": "2026-09-25 05:08:12",
+      "batch": 51
     }
   ]
 }
