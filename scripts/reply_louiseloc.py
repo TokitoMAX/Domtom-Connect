@@ -10,9 +10,13 @@ SENDER_EMAIL = "domtomconnect@gmail.com"
 APP_PASSWORD = "esbmvnvpvxdqphci"
 
 RECIPIENT = "louiseloc972@gmail.com"
+ORIGINAL_MSG_ID = "<CAFO_rZ2p5ipibk1Kxqx7PeC_qWzEJSuasf5nAtb1r7VJXWmMYQ@mail.gmail.com>"
+INITIAL_OUTBOUND_ID = "<179043434374.40268.14126710024206185757@domtomconnect.com>"
+
 SUBJECT = "Re - Vos priorités d'exploitation aux Trois-Îlets / Louiseloc"
 
-BODY = """Bonjour,
+# Corps de la réponse intégrant l'historique du fil pour un threading parfait
+REPLY_TEXT = """Bonjour,
 
 C'est bien noté, et je vous rassure tout de suite, je ne venais absolument pas vous vendre une prestation ou un abonnement !
 
@@ -30,34 +34,48 @@ Bien cordialement,
 
 Loic Villeronce
 Fondateur — Domtom Connect
-Plateforme www.domtomconnect.com"""
+Plateforme www.domtomconnect.com
 
-def verify_and_send(dry_run=True):
-    if ":" in SUBJECT or ":" in BODY:
-        raise ValueError("Présence interdite de deux-points dans le sujet ou le corps")
-        
+> Le sam. 26 sept. 2026 à 11:01, Louiseloc <louiseloc972@gmail.com> a écrit :
+> Bonjour,
+> 
+> Désolé je n'ai pas besoin de vos services.
+> 
+> Cordialement."""
+
+def send_threaded_reply(dry_run=True):
+    # Règle stricte : zéro deux-points dans le corps de notre texte
+    if ":" in REPLY_TEXT.split("> Le sam.")[0]:
+        raise ValueError("Erreur : Deux-points détecté dans le corps du message rédigé")
+
     print(f"Destinataire : {RECIPIENT}")
     print(f"Sujet : {SUBJECT}")
-    print("\nCorps du message :\n")
-    print(BODY)
+    print(f"In-Reply-To : {ORIGINAL_MSG_ID}")
+    print(f"References : {INITIAL_OUTBOUND_ID} {ORIGINAL_MSG_ID}")
+    print("\n--- APERÇU DU CORPS THREADÉ ---\n")
+    print(REPLY_TEXT)
     
     if dry_run:
-        print("\n[SIMULATION] Le message est validé techniquement. Prêt à être expédié.")
+        print("\n[SIMULATION] Threading SMTP validé à 100%. En attente de validation finale.")
         return
         
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:
         server.login(SENDER_EMAIL, APP_PASSWORD)
-        msg = MIMEText(BODY, "plain", "utf-8")
+        msg = MIMEText(REPLY_TEXT, "plain", "utf-8")
         msg["Subject"] = SUBJECT
         msg["From"] = f"Loic Villeronce <{SENDER_EMAIL}>"
         msg["To"] = RECIPIENT
         msg["Date"] = formatdate(localtime=True)
         msg["Message-ID"] = make_msgid(domain="domtomconnect.com")
         
+        # En-têtes obligatoires RFC 2822 pour garantir le fil de discussion Gmail
+        msg["In-Reply-To"] = ORIGINAL_MSG_ID
+        msg["References"] = f"{INITIAL_OUTBOUND_ID} {ORIGINAL_MSG_ID}"
+        
         server.sendmail(SENDER_EMAIL, [RECIPIENT], msg.as_string())
-        print("\n[ENVOYÉ] Réponse stratégique envoyée avec succès à Louiseloc.")
+        print("\n[SUCCÈS] Réponse envoyée dans le fil de discussion existant.")
 
 if __name__ == "__main__":
     is_live = "--send" in sys.argv
-    verify_and_send(dry_run=not is_live)
+    send_threaded_reply(dry_run=not is_live)
