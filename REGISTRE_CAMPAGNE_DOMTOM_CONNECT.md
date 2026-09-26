@@ -668,7 +668,8 @@ Cette commande gravera l'ensemble des règles de cette session dans la mémoire 
   1. **Cabinet Maître Serge Romana (Martinique – Fort-de-France)** – contact@cabinet-romana.fr
   2. **CGA Guadeloupe Centre de Gestion Agréé (Guadeloupe – Pointe-à-Pitre)** – contact@cga-guadeloupe.fr
   3. **Caraïbes Audit Expertise Comptable (Martinique – Schoelcher)** – contact@caraibes-audit.fr
-  4. **Deloitte La Réunion (La Réunion – Saint-Denis)** – eunion@deloitte.fr
+  4. **Deloitte La Réunion (La Réunion – Saint-Denis)** – 
+eunion@deloitte.fr
   5. **Cabinet Jurifiscal Antilles (Guadeloupe – Pointe-à-Pitre)** – contact@jurifiscal-antilles.fr
   6. **Cabinet Avocat Guyane Droit des Affaires (Guyane – Cayenne)** – contact@avocat-guyane-affaires.fr
   7. **Ernst & Young Martinique / EY Antilles-Guyane (Martinique – Fort-de-France)** – contact-antilles@fr.ey.com
@@ -889,11 +890,23 @@ Cette commande gravera l'ensemble des règles de cette session dans la mémoire 
 - **Résultat :** **10 / 10 délivrés avec succès (100% de délivrabilité, 0 rebond).**
 - **Base consolidée :** **3 702 contacts nets enregistrés (2 197 domaines uniques).**
 
+---
 
-
-
-
-
-
-
+### Batch 52 — Bien-être des Enfants, Petite Enfance, Éducation & Éveil Péi (10 Cibles 100% Qualifiées)
+- **Date d'exécution :** 26 septembre 2026 à 04h24 CEST.
+- **Protocole :** 100% réel, zéro guessing, adresses vérifiées sur sites officiels, validation technique DNS/MX préalable, déduplication stricte, 0 deux-points (:), temporisation sécurisée 13-18s.
+- **Angle :** Écoute active et découverte des besoins réels d'abord, accompagnement face aux problématiques d'exploitation, présentation du réseau panafricain/caribéen WhatsApp et de l'application DTC Pulse.
+- **Cibles (10/10 délivrées avec succès) :**
+  1. **EduKaraib (Caraïbes – Guadeloupe, Martinique, Guyane)** — contact@edukaraib.com (Source : edukaraib.com) -> ✅ Délivré
+  2. **CRECH'ENDO (Martinique – Fort-de-France)** — contact@crechendo97.com (Source : crechendo97.fr) -> ✅ Délivré
+  3. **Caraïbéditions (Guadeloupe / Martinique)** — fc@caraibeditions.fr (Source : caraibeditions.fr) -> ✅ Délivré
+  4. **Éditions Orphie (La Réunion – Saint-Denis)** — contact@editions-orphie.com (Source : editions-orphie.com) -> ✅ Délivré
+  5. **Les Lapinous Micro-crèche Sensorielle (Guadeloupe – Baie-Mahault)** — micro.creche.sensorielle@gmail.com (Source : micro-creche-sensorielle.fr) -> ✅ Délivré
+  6. **L'Arche des Bambinous (Guadeloupe – Baie-Mahault Belcourt)** — microcreche.larchedesbambinous@gmail.com (Source : larchedesbambinous.fr) -> ✅ Délivré
+  7. **NEOCLUB MONTESSORI (Guyane – Kourou)** — neoclubcontact@gmail.com (Source : neoclubmontessori.fr) -> ✅ Délivré
+  8. **Association Les Petits Papillons (Guyane – Matoury)** — lespetitspapillons973@gmail.com (Source : associationlespetitspapillons.fr) -> ✅ Délivré
+  9. **JUA School (Mayotte – Mamoudzou)** — contact@juaschool.com (Source : juaschool.com) -> ✅ Délivré
+  10. **Educ Oi (La Réunion – Saint-Gilles-les-Hauts)** — educoireunion@gmail.com (Source : educ-oi.com) -> ✅ Délivré
+- **Résultat :** **10 / 10 délivrés avec succès (100% de délivrabilité, 0 rebond).**
+- **Base consolidée :** **3 712 contacts nets enregistrés (2 202 domaines uniques).**
 

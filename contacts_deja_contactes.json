@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3702,
-  "total_domains": 2197,
+  "total_contacts": 3712,
+  "total_domains": 2202,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2199,7 +2199,12 @@
     "zoodemartinique.com",
     "zoom.us",
     "zoorit.com",
-    "zouzin.com"
+    "zouzin.com",
+    "edukaraib.com",
+    "crechendo97.com",
+    "caraibeditions.fr",
+    "editions-orphie.com",
+    "juaschool.com"
   ],
   "contacts": [
     {
@@ -42353,6 +42358,70 @@
       "source": "https://brasseriedetahiti.com",
       "date": "2026-09-25 05:08:12",
       "batch": 51
+    },
+    {
+      "email": "contact@edukaraib.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "contact@crechendo97.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "fc@caraibeditions.fr",
+      "company": "Batch 52"
+    },
+    {
+      "email": "contact@editions-orphie.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "micro.creche.sensorielle@gmail.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "microcreche.larchedesbambinous@gmail.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "neoclubcontact@gmail.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "lespetitspapillons973@gmail.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "contact@juaschool.com",
+      "company": "Batch 52"
+    },
+    {
+      "email": "educoireunion@gmail.com",
+      "company": "Batch 52"
     }
+  ],
+  "emails": [
+    "contact@edukaraib.com",
+    "contact@crechendo97.com",
+    "fc@caraibeditions.fr",
+    "contact@editions-orphie.com",
+    "micro.creche.sensorielle@gmail.com",
+    "microcreche.larchedesbambinous@gmail.com",
+    "neoclubcontact@gmail.com",
+    "lespetitspapillons973@gmail.com",
+    "contact@juaschool.com",
+    "educoireunion@gmail.com"
+  ],
+  "companies": [
+    "EduKaraib",
+    "CRECH'ENDO",
+    "Caraïbéditions",
+    "Editions Orphie",
+    "Les Lapinous Micro-creche Sensorielle",
+    "L'Arche des Bambinous",
+    "NEOCLUB MONTESSORI",
+    "Association Les Petits Papillons",
+    "JUA School",
+    "Educ Oi"
   ]
 }
