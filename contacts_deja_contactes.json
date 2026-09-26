@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3856,
-  "total_domains": 2248,
+  "total_contacts": 3906,
+  "total_domains": 2252,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2250,7 +2250,11 @@
     "gumbs-car-rental.com",
     "travel-sxm.com",
     "valuecarrental.com",
-    "paradisesxm.com"
+    "paradisesxm.com",
+    "lespetitescolombes.fr",
+    "afcayenne.org",
+    "baby-trees.fr",
+    "creche-and-go.fr"
   ],
   "contacts": [
     {
@@ -43020,6 +43024,206 @@
     {
       "email": "majeobyjd@gmail.com",
       "company": "Majeo Car Services"
+    },
+    {
+      "email": "crechetizabitan@gmail.com",
+      "company": "Crèche Ti Zabitan"
+    },
+    {
+      "email": "multiaccueilontibo@gmail.com",
+      "company": "Multi-accueil On Ti Bo"
+    },
+    {
+      "email": "alenacaraibesconseil@gmail.com",
+      "company": "AleNa Caraïbes Conseil"
+    },
+    {
+      "email": "sobaby.creche@gmail.com",
+      "company": "Micro-crèche SO BABY"
+    },
+    {
+      "email": "mcpomdereinette1@gmail.com",
+      "company": "Pom de reinette et Pom d'api"
+    },
+    {
+      "email": "etudeplus971@gmail.com",
+      "company": "Étude Plus Guadeloupe"
+    },
+    {
+      "email": "kazatyka971@gmail.com",
+      "company": "Kazatyka Soutien Scolaire"
+    },
+    {
+      "email": "emerydom.presidente@gmail.com",
+      "company": "Micro-Crèche Chez Maman Doudou"
+    },
+    {
+      "email": "micro-creeche.montsinai@gmail.com",
+      "company": "Micro-crèche Mont Sinaï"
+    },
+    {
+      "email": "contact@lespetitescolombes.fr",
+      "company": "Les Petites Colombes"
+    },
+    {
+      "email": "lestouvanets@gmail.com",
+      "company": "Crèche Les Toucanets"
+    },
+    {
+      "email": "soutien.scolaire.education@gmail.com",
+      "company": "Familles et Scolarité"
+    },
+    {
+      "email": "association.edaguyane@gmail.com",
+      "company": "EDA Guyane"
+    },
+    {
+      "email": "contact@afcayenne.org",
+      "company": "Alliance Française de Cayenne"
+    },
+    {
+      "email": "microcrechelescoquillettes974@gmail.com",
+      "company": "Micro-Crèche Les Coquillettes"
+    },
+    {
+      "email": "microcrechereunion@gmail.com",
+      "company": "Micro-crèche GOBABYGO"
+    },
+    {
+      "email": "ccie.bureau@gmail.com",
+      "company": "Crèche et Cie"
+    },
+    {
+      "email": "micro.clfe@gmail.com",
+      "company": "La Maison de Tante Chou"
+    },
+    {
+      "email": "adm.microcreches@gmail.com",
+      "company": "Micro-crèches Montessori Réunion"
+    },
+    {
+      "email": "lechatetlasouris97419@gmail.com",
+      "company": "Micro-crèche Gadiamb"
+    },
+    {
+      "email": "lapossession@baby-trees.fr",
+      "company": "Baby Trees Réunion"
+    },
+    {
+      "email": "assnotredamedesenfants@gmail.com",
+      "company": "Notre Dame des Enfants"
+    },
+    {
+      "email": "accueil@creche-and-go.fr",
+      "company": "Crèche And Go Réunion"
+    },
+    {
+      "email": "recreafamily974@gmail.com",
+      "company": "Récréa Family"
+    },
+    {
+      "email": "creche.lespetitssoleils@gmail.com",
+      "company": "Les Petits Soleils Dakar"
+    },
+    {
+      "email": "contact.lileauxenfants@gmail.com",
+      "company": "L'Île aux Enfants Dakar"
+    },
+    {
+      "email": "lespetites.mains123@gmail.com",
+      "company": "Les Petites Mains Dakar"
+    },
+    {
+      "email": "yaaru2021@gmail.com",
+      "company": "Yaaru Éducation"
+    },
+    {
+      "email": "esml.direction@gmail.com",
+      "company": "Établissement Scolaire Mission Libanaise"
+    },
+    {
+      "email": "lespetitsangesdelalou@gmail.com",
+      "company": "Les P'tits Anges de Lalou"
+    },
+    {
+      "email": "atelierspommedapi@gmail.com",
+      "company": "Les Ateliers Pomme d'Api"
+    },
+    {
+      "email": "groupefredetpoppee@gmail.com",
+      "company": "Groupe Fred et Poppée"
+    },
+    {
+      "email": "maison.pakken@gmail.com",
+      "company": "Maison Pakken"
+    },
+    {
+      "email": "cpebabilou@gmail.com",
+      "company": "Centre de Petite Enfance Babilou"
+    },
+    {
+      "email": "education.gsbv@gmail.com",
+      "company": "Groupe Scolaire Bilingue Verdun"
+    },
+    {
+      "email": "ndagracel@gmail.com",
+      "company": "LadyBird School Douala"
+    },
+    {
+      "email": "raphanurseryprimaryschool@gmail.com",
+      "company": "Rapha Bilingual School"
+    },
+    {
+      "email": "referencebilingual93@gmail.com",
+      "company": "Reference Bilingual Complex"
+    },
+    {
+      "email": "lespapillons237@gmail.com",
+      "company": "Les Papillons Groupe Scolaire"
+    },
+    {
+      "email": "lilotdesangescreche@gmail.com",
+      "company": "L'Ilot des Anges Crèche"
+    },
+    {
+      "email": "joyeuzenfance@gmail.com",
+      "company": "JoyeuZEnfance Crèche"
+    },
+    {
+      "email": "collegeprestige12@gmail.com",
+      "company": "Prestige Bilingual Complex"
+    },
+    {
+      "email": "ileauxoiseaux2016@gmail.com",
+      "company": "Île aux Oiseaux Crèche"
+    },
+    {
+      "email": "royaumedesangesbenin@gmail.com",
+      "company": "Royaume des Anges Bénin"
+    },
+    {
+      "email": "sognon712@gmail.com",
+      "company": "Complexe Scolaire Les Grâces"
+    },
+    {
+      "email": "centrecles82@gmail.com",
+      "company": "Centre Clés Garderie"
+    },
+    {
+      "email": "secretariat.lesmillepattes@gmail.com",
+      "company": "École Les Mille Pattes"
+    },
+    {
+      "email": "lesptitsmoussesdelanomba@gmail.com",
+      "company": "Les P'tits Mousses Nomba"
+    },
+    {
+      "email": "enocholingaschool@gmail.com",
+      "company": "Enoch Olinga School"
+    },
+    {
+      "email": "direction.cha.apepc@gmail.com",
+      "company": "École des Charbonnages"
     }
   ],
   "emails": [
@@ -43176,7 +43380,57 @@
     "rodrigoservices39@gmail.com",
     "nyatauto@gmail.com",
     "nounglobalinvestsarl@gmail.com",
-    "majeobyjd@gmail.com"
+    "majeobyjd@gmail.com",
+    "crechetizabitan@gmail.com",
+    "multiaccueilontibo@gmail.com",
+    "alenacaraibesconseil@gmail.com",
+    "sobaby.creche@gmail.com",
+    "mcpomdereinette1@gmail.com",
+    "etudeplus971@gmail.com",
+    "kazatyka971@gmail.com",
+    "emerydom.presidente@gmail.com",
+    "micro-creeche.montsinai@gmail.com",
+    "contact@lespetitescolombes.fr",
+    "lestouvanets@gmail.com",
+    "soutien.scolaire.education@gmail.com",
+    "association.edaguyane@gmail.com",
+    "contact@afcayenne.org",
+    "microcrechelescoquillettes974@gmail.com",
+    "microcrechereunion@gmail.com",
+    "ccie.bureau@gmail.com",
+    "micro.clfe@gmail.com",
+    "adm.microcreches@gmail.com",
+    "lechatetlasouris97419@gmail.com",
+    "lapossession@baby-trees.fr",
+    "assnotredamedesenfants@gmail.com",
+    "accueil@creche-and-go.fr",
+    "recreafamily974@gmail.com",
+    "creche.lespetitssoleils@gmail.com",
+    "contact.lileauxenfants@gmail.com",
+    "lespetites.mains123@gmail.com",
+    "yaaru2021@gmail.com",
+    "esml.direction@gmail.com",
+    "lespetitsangesdelalou@gmail.com",
+    "atelierspommedapi@gmail.com",
+    "groupefredetpoppee@gmail.com",
+    "maison.pakken@gmail.com",
+    "cpebabilou@gmail.com",
+    "education.gsbv@gmail.com",
+    "ndagracel@gmail.com",
+    "raphanurseryprimaryschool@gmail.com",
+    "referencebilingual93@gmail.com",
+    "lespapillons237@gmail.com",
+    "lilotdesangescreche@gmail.com",
+    "joyeuzenfance@gmail.com",
+    "collegeprestige12@gmail.com",
+    "ileauxoiseaux2016@gmail.com",
+    "royaumedesangesbenin@gmail.com",
+    "sognon712@gmail.com",
+    "centrecles82@gmail.com",
+    "secretariat.lesmillepattes@gmail.com",
+    "lesptitsmoussesdelanomba@gmail.com",
+    "enocholingaschool@gmail.com",
+    "direction.cha.apepc@gmail.com"
   ],
   "companies": [
     "EduKaraib",
@@ -43330,6 +43584,56 @@
     "Rodrigo Auto Services",
     "NyatAuto",
     "Noun Global Invest",
-    "Majeo Car Services"
+    "Majeo Car Services",
+    "Crèche Ti Zabitan",
+    "Multi-accueil On Ti Bo",
+    "AleNa Caraïbes Conseil",
+    "Micro-crèche SO BABY",
+    "Pom de reinette et Pom d'api",
+    "Étude Plus Guadeloupe",
+    "Kazatyka Soutien Scolaire",
+    "Micro-Crèche Chez Maman Doudou",
+    "Micro-crèche Mont Sinaï",
+    "Les Petites Colombes",
+    "Crèche Les Toucanets",
+    "Familles et Scolarité",
+    "EDA Guyane",
+    "Alliance Française de Cayenne",
+    "Micro-Crèche Les Coquillettes",
+    "Micro-crèche GOBABYGO",
+    "Crèche et Cie",
+    "La Maison de Tante Chou",
+    "Micro-crèches Montessori Réunion",
+    "Micro-crèche Gadiamb",
+    "Baby Trees Réunion",
+    "Notre Dame des Enfants",
+    "Crèche And Go Réunion",
+    "Récréa Family",
+    "Les Petits Soleils Dakar",
+    "L'Île aux Enfants Dakar",
+    "Les Petites Mains Dakar",
+    "Yaaru Éducation",
+    "Établissement Scolaire Mission Libanaise",
+    "Les P'tits Anges de Lalou",
+    "Les Ateliers Pomme d'Api",
+    "Groupe Fred et Poppée",
+    "Maison Pakken",
+    "Centre de Petite Enfance Babilou",
+    "Groupe Scolaire Bilingue Verdun",
+    "LadyBird School Douala",
+    "Rapha Bilingual School",
+    "Reference Bilingual Complex",
+    "Les Papillons Groupe Scolaire",
+    "L'Ilot des Anges Crèche",
+    "JoyeuZEnfance Crèche",
+    "Prestige Bilingual Complex",
+    "Île aux Oiseaux Crèche",
+    "Royaume des Anges Bénin",
+    "Complexe Scolaire Les Grâces",
+    "Centre Clés Garderie",
+    "École Les Mille Pattes",
+    "Les P'tits Mousses Nomba",
+    "Enoch Olinga School",
+    "École des Charbonnages"
   ]
 }

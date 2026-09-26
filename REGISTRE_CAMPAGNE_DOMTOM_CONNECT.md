@@ -1089,3 +1089,23 @@ eunion@deloitte.fr
 - **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 rebond).**
 - **Base consolidée :** **3 856 contacts nets enregistrés (2 254 domaines uniques).**
 
+---
+
+### Batch 56 — Petite Enfance, Éveil, Crèches, Écoles & Soutien Scolaire (50 cibles - 100% envoyé, 0 échec)
+- **Date :** 26 Septembre 2026
+- **Angle :** Écoute des défis quotidiens des directrices et gestionnaires de structures d'éveil (gestion d'équipe, logistique, matériel, pédagogie), présentation de l'accompagnement Domtom Connect, de la communauté WhatsApp d'entraide et de l'application DTC Pulse, proposition d'un court échange téléphonique de 10 minutes.
+- **Répartition territoriale :**
+  - **Guadeloupe & Martinique (10 cibles) :** Crèche Ti Zabitan (Vieux-Habitants), Multi-accueil On Ti Bo (Petit-Canal), AleNa Caraïbes Conseil, Micro-crèche SO BABY (Lamentin), Pom de reinette et Pom d'api (Saint-François), Étude Plus Guadeloupe, Kazatyka Soutien Scolaire (Saint-François), Micro-Crèche Chez Maman Doudou (Schœlcher), Micro-crèche Mont Sinaï (Fort-de-France), Les Petites Colombes (Saint-Joseph).
+  - **Guyane (4 cibles) :** Crèche Les Toucanets (Macouria), Familles et Scolarité (Rémire-Montjoly), EDA Guyane (Cayenne), Alliance Française de Cayenne.
+  - **La Réunion (10 cibles) :** Micro-Crèche Les Coquillettes (Saint-Denis), Micro-crèche GOBABYGO (Saint-Louis), Crèche et Cie (La Possession), La Maison de Tante Chou (Saint-Pierre), Micro-crèches Montessori Réunion (Saint-Denis), Micro-crèche Gadiamb (La Possession), Baby Trees Réunion (La Possession), Notre Dame des Enfants (Saint-Denis), Crèche And Go Réunion, Récréa Family (Saint-Pierre).
+  - **Afrique de l'Ouest & Centrale (26 cibles) :**
+    - Sénégal (Dakar) : Les Petits Soleils Dakar, L'Île aux Enfants Dakar, Les Petites Mains Dakar, Yaaru Éducation, Établissement Scolaire Mission Libanaise.
+    - Côte d'Ivoire (Abidjan) : Les P'tits Anges de Lalou (Cocody), Les Ateliers Pomme d'Api (Biétry), Groupe Fred et Poppée (Attoban), Maison Pakken (Deux Plateaux), Centre de Petite Enfance Babilou (Riviera).
+    - Cameroun (Douala & Yaoundé) : Groupe Scolaire Bilingue Verdun, LadyBird School Douala, Rapha Bilingual School, Reference Bilingual Complex, Les Papillons Groupe Scolaire, L'Ilot des Anges Crèche, JoyeuZEnfance Crèche, Prestige Bilingual Complex.
+    - Bénin (Cotonou) : Île aux Oiseaux Crèche, Royaume des Anges Bénin, Complexe Scolaire Les Grâces, Centre Clés Garderie, École Les Mille Pattes.
+    - Gabon & Togo : Les P'tits Mousses Nomba (Libreville), Enoch Olinga School (Lomé), École des Charbonnages (Libreville).
+- **Conformité stricte :** 100% emails vérifiés avec live DNS/MX, zéro devinette, zéro orange.fr, zéro deux-points dans le corps et le sujet.
+- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 erreur).**
+- **Base consolidée :** **3 906 contacts nets enregistrés.**
+
+
