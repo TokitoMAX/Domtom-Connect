@@ -1108,4 +1108,26 @@ eunion@deloitte.fr
 - **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 erreur).**
 - **Base consolidée :** **3 906 contacts nets enregistrés.**
 
+---
+
+### Batch 57 — Tech, ESN, Agences Web & Digitales, SaaS & Startups (50 cibles - 100% envoyé, 0 échec)
+- **Date :** 26 Septembre 2026
+- **Angle :** Écoute des problématiques opérationnelles et de croissance des acteurs de la tech insulaire et africaine (recrutement tech, acquisition de nouveaux comptes, déploiement régional/international), accompagnement Domtom Connect pour briser l'isolement et ouvrir des passerelles économiques, animation du groupe WhatsApp d'entraide et de l'application DTC Pulse, proposition d'un court échange téléphonique de 10 minutes.
+- **Répartition territoriale :**
+  - **Guadeloupe (9 cibles) :** Caraïbes Web Solutions (CWS), Damedia Agency, Digital Natives Solutions, Karukrea, Creawebstudio, MJ Metrix, Altitude GP, Cyber Formation, Exelcia IT.
+  - **Martinique (8 cibles) :** 18.19 Digital, BPM-AD, Coclico Media, Comwebsolutions, DBNG, Digital Xpress, Agence BeeCee, Agence NASDY.
+  - **Guyane (3 cibles) :** Agence Web Guyane, Web2Web Guyane, ARIAS Informatique.
+  - **La Réunion (2 cibles) :** VIZION Réunion (Saint-Pierre), ADITEC Réunion.
+  - **Mayotte (7 cibles) :** Agence Web Mayotte, UWEZO, Mahaba Info Tech, Reflex Strategy, MPJ Digital, Duckreative, Mascareign Digital.
+  - **Afrique de l'Ouest & Centrale (21 cibles) :**
+    - Sénégal (Dakar) : NOLA Agence Web, TekkiTechno, DIGITPRO.
+    - Côte d'Ivoire (Abidjan) : SKYSOFT CI, Agence Digitale Iroko CI.
+    - Cameroun (Douala & Yaoundé) : BEONWEB, Media System, Agence Performance, Promillys, Alain Web-creator, Onebiz, Actual Solutions, TENET, KMR Start-up Hub.
+    - Bénin (Cotonou) : Digital Innovation, SGTIC, GoSocial BJ, Digital Valley, BloLab, Future Studio.
+    - Togo (Lomé) : Bobo Création.
+- **Conformité stricte :** 100% emails vérifiés avec live DNS/MX, zéro devinette, zéro orange.fr, zéro deux-points dans le corps et le sujet.
+- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 erreur).**
+- **Base consolidée :** **3 956 contacts nets enregistrés.**
+
+
 

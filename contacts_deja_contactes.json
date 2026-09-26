@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3906,
-  "total_domains": 2252,
+  "total_contacts": 3956,
+  "total_domains": 2300,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2254,7 +2254,55 @@
     "lespetitescolombes.fr",
     "afcayenne.org",
     "baby-trees.fr",
-    "creche-and-go.fr"
+    "creche-and-go.fr",
+    "cws.gp",
+    "damedia-agency.com",
+    "karukrea.com",
+    "creawebstudio.com",
+    "mjmetrix.com",
+    "altitudegp.com",
+    "cyberformation.fr",
+    "exelcia-it.com",
+    "1819digital.fr",
+    "bpm-ad.fr",
+    "coclicomedia.com",
+    "comwebsolutions.com",
+    "dbng.fr",
+    "digitalxpress.fr",
+    "beecee.fr",
+    "nasdy.com",
+    "agencewebguyane.fr",
+    "web2web.fr",
+    "ariasnet.com",
+    "vizion.re",
+    "myaditec.com",
+    "agence-web-mayotte.fr",
+    "uwezo.fr",
+    "mahabainfotech.yt",
+    "reflexstrategy.fr",
+    "mpj.digital",
+    "duckreative.com",
+    "mascareign-digital.re",
+    "nola.sn",
+    "tekkitechno.sn",
+    "digissol.com",
+    "skysoft.ci",
+    "iroko.io",
+    "beonweb.cm",
+    "mediasystem.cm",
+    "agenceperformance.cm",
+    "promillys.com",
+    "alainwebcreator.cm",
+    "onebiz.cm",
+    "actual-solutions.cm",
+    "tenet.cm",
+    "kmrstart-up-hub.cm",
+    "digitalinnovation.bj",
+    "sgtic.bj",
+    "gosocial.bj",
+    "digitalvalley.bj",
+    "blolab.bj",
+    "futurestudio.bj"
   ],
   "contacts": [
     {
@@ -43224,6 +43272,206 @@
     {
       "email": "direction.cha.apepc@gmail.com",
       "company": "École des Charbonnages"
+    },
+    {
+      "email": "contact@cws.gp",
+      "company": "Caraïbes Web Solutions (CWS)"
+    },
+    {
+      "email": "contact@damedia-agency.com",
+      "company": "Damedia Agency"
+    },
+    {
+      "email": "dns21.contact@gmail.com",
+      "company": "Digital Natives Solutions"
+    },
+    {
+      "email": "contact@karukrea.com",
+      "company": "Karukrea"
+    },
+    {
+      "email": "willy@creawebstudio.com",
+      "company": "Creawebstudio"
+    },
+    {
+      "email": "direction@mjmetrix.com",
+      "company": "MJ Metrix"
+    },
+    {
+      "email": "contact@altitudegp.com",
+      "company": "Altitude GP"
+    },
+    {
+      "email": "contact@cyberformation.fr",
+      "company": "Cyber Formation"
+    },
+    {
+      "email": "contact@exelcia-it.com",
+      "company": "Exelcia IT"
+    },
+    {
+      "email": "contact@1819digital.fr",
+      "company": "18.19 Digital"
+    },
+    {
+      "email": "contact@bpm-ad.fr",
+      "company": "BPM-AD"
+    },
+    {
+      "email": "info@coclicomedia.com",
+      "company": "Coclico Media"
+    },
+    {
+      "email": "contact@comwebsolutions.com",
+      "company": "Comwebsolutions"
+    },
+    {
+      "email": "contact@dbng.fr",
+      "company": "DBNG"
+    },
+    {
+      "email": "bonjour@digitalxpress.fr",
+      "company": "Digital Xpress"
+    },
+    {
+      "email": "contact@beecee.fr",
+      "company": "Agence BeeCee"
+    },
+    {
+      "email": "contact@nasdy.com",
+      "company": "Agence NASDY"
+    },
+    {
+      "email": "contact@agencewebguyane.fr",
+      "company": "Agence Web Guyane"
+    },
+    {
+      "email": "guyane@web2web.fr",
+      "company": "Web2Web Guyane"
+    },
+    {
+      "email": "contact@ariasnet.com",
+      "company": "ARIAS Informatique"
+    },
+    {
+      "email": "contact@vizion.re",
+      "company": "VIZION Réunion"
+    },
+    {
+      "email": "contact@myaditec.com",
+      "company": "ADITEC Réunion"
+    },
+    {
+      "email": "contact@agence-web-mayotte.fr",
+      "company": "Agence Web Mayotte"
+    },
+    {
+      "email": "contact@uwezo.fr",
+      "company": "UWEZO"
+    },
+    {
+      "email": "contact@mahabainfotech.yt",
+      "company": "Mahaba Info Tech"
+    },
+    {
+      "email": "contact@reflexstrategy.fr",
+      "company": "Reflex Strategy"
+    },
+    {
+      "email": "contact@mpj.digital",
+      "company": "MPJ Digital"
+    },
+    {
+      "email": "contact@duckreative.com",
+      "company": "Duckreative"
+    },
+    {
+      "email": "contact@mascareign-digital.re",
+      "company": "Mascareign Digital"
+    },
+    {
+      "email": "contact@nola.sn",
+      "company": "NOLA Agence Web"
+    },
+    {
+      "email": "contact@tekkitechno.sn",
+      "company": "TekkiTechno"
+    },
+    {
+      "email": "contact@digissol.com",
+      "company": "DIGITPRO"
+    },
+    {
+      "email": "hello@skysoft.ci",
+      "company": "SKYSOFT CI"
+    },
+    {
+      "email": "ali@iroko.io",
+      "company": "Agence Digitale Iroko CI"
+    },
+    {
+      "email": "contact@beonweb.cm",
+      "company": "BEONWEB"
+    },
+    {
+      "email": "contact@mediasystem.cm",
+      "company": "Media System"
+    },
+    {
+      "email": "hello@agenceperformance.cm",
+      "company": "Agence Performance"
+    },
+    {
+      "email": "contact@promillys.com",
+      "company": "Promillys"
+    },
+    {
+      "email": "info@alainwebcreator.cm",
+      "company": "Alain Web-creator"
+    },
+    {
+      "email": "one@onebiz.cm",
+      "company": "Onebiz"
+    },
+    {
+      "email": "contact@actual-solutions.cm",
+      "company": "Actual Solutions"
+    },
+    {
+      "email": "contact@tenet.cm",
+      "company": "TENET"
+    },
+    {
+      "email": "contact@kmrstart-up-hub.cm",
+      "company": "KMR Start-up Hub"
+    },
+    {
+      "email": "contact@digitalinnovation.bj",
+      "company": "Digital Innovation"
+    },
+    {
+      "email": "info@sgtic.bj",
+      "company": "SGTIC"
+    },
+    {
+      "email": "contact@gosocial.bj",
+      "company": "GoSocial BJ"
+    },
+    {
+      "email": "hello@digitalvalley.bj",
+      "company": "Digital Valley"
+    },
+    {
+      "email": "contact@blolab.bj",
+      "company": "BloLab"
+    },
+    {
+      "email": "info@futurestudio.bj",
+      "company": "Future Studio"
+    },
+    {
+      "email": "solimcpaka@gmail.com",
+      "company": "Bobo Création"
     }
   ],
   "emails": [
@@ -43430,7 +43678,57 @@
     "secretariat.lesmillepattes@gmail.com",
     "lesptitsmoussesdelanomba@gmail.com",
     "enocholingaschool@gmail.com",
-    "direction.cha.apepc@gmail.com"
+    "direction.cha.apepc@gmail.com",
+    "contact@cws.gp",
+    "contact@damedia-agency.com",
+    "dns21.contact@gmail.com",
+    "contact@karukrea.com",
+    "willy@creawebstudio.com",
+    "direction@mjmetrix.com",
+    "contact@altitudegp.com",
+    "contact@cyberformation.fr",
+    "contact@exelcia-it.com",
+    "contact@1819digital.fr",
+    "contact@bpm-ad.fr",
+    "info@coclicomedia.com",
+    "contact@comwebsolutions.com",
+    "contact@dbng.fr",
+    "bonjour@digitalxpress.fr",
+    "contact@beecee.fr",
+    "contact@nasdy.com",
+    "contact@agencewebguyane.fr",
+    "guyane@web2web.fr",
+    "contact@ariasnet.com",
+    "contact@vizion.re",
+    "contact@myaditec.com",
+    "contact@agence-web-mayotte.fr",
+    "contact@uwezo.fr",
+    "contact@mahabainfotech.yt",
+    "contact@reflexstrategy.fr",
+    "contact@mpj.digital",
+    "contact@duckreative.com",
+    "contact@mascareign-digital.re",
+    "contact@nola.sn",
+    "contact@tekkitechno.sn",
+    "contact@digissol.com",
+    "hello@skysoft.ci",
+    "ali@iroko.io",
+    "contact@beonweb.cm",
+    "contact@mediasystem.cm",
+    "hello@agenceperformance.cm",
+    "contact@promillys.com",
+    "info@alainwebcreator.cm",
+    "one@onebiz.cm",
+    "contact@actual-solutions.cm",
+    "contact@tenet.cm",
+    "contact@kmrstart-up-hub.cm",
+    "contact@digitalinnovation.bj",
+    "info@sgtic.bj",
+    "contact@gosocial.bj",
+    "hello@digitalvalley.bj",
+    "contact@blolab.bj",
+    "info@futurestudio.bj",
+    "solimcpaka@gmail.com"
   ],
   "companies": [
     "EduKaraib",
@@ -43634,6 +43932,56 @@
     "École Les Mille Pattes",
     "Les P'tits Mousses Nomba",
     "Enoch Olinga School",
-    "École des Charbonnages"
+    "École des Charbonnages",
+    "Caraïbes Web Solutions (CWS)",
+    "Damedia Agency",
+    "Digital Natives Solutions",
+    "Karukrea",
+    "Creawebstudio",
+    "MJ Metrix",
+    "Altitude GP",
+    "Cyber Formation",
+    "Exelcia IT",
+    "18.19 Digital",
+    "BPM-AD",
+    "Coclico Media",
+    "Comwebsolutions",
+    "DBNG",
+    "Digital Xpress",
+    "Agence BeeCee",
+    "Agence NASDY",
+    "Agence Web Guyane",
+    "Web2Web Guyane",
+    "ARIAS Informatique",
+    "VIZION Réunion",
+    "ADITEC Réunion",
+    "Agence Web Mayotte",
+    "UWEZO",
+    "Mahaba Info Tech",
+    "Reflex Strategy",
+    "MPJ Digital",
+    "Duckreative",
+    "Mascareign Digital",
+    "NOLA Agence Web",
+    "TekkiTechno",
+    "DIGITPRO",
+    "SKYSOFT CI",
+    "Agence Digitale Iroko CI",
+    "BEONWEB",
+    "Media System",
+    "Agence Performance",
+    "Promillys",
+    "Alain Web-creator",
+    "Onebiz",
+    "Actual Solutions",
+    "TENET",
+    "KMR Start-up Hub",
+    "Digital Innovation",
+    "SGTIC",
+    "GoSocial BJ",
+    "Digital Valley",
+    "BloLab",
+    "Future Studio",
+    "Bobo Création"
   ]
 }
