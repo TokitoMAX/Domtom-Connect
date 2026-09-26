@@ -1,6 +1,6 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3804,
+  "total_contacts": 3806,
   "total_domains": 2242,
   "domains": [
     "100capri.com",
@@ -42806,6 +42806,14 @@
     {
       "email": "contacts.rcmlocation@gmail.com",
       "company": "RCM Location Guadeloupe"
+    },
+    {
+      "email": "damien.sarazin@labriquedeguyane.com",
+      "company": "La Brique de Guyane B2TG"
+    },
+    {
+      "email": "adv@labriquedeguyane.com",
+      "company": "La Brique de Guyane B2TG"
     }
   ],
   "emails": [
@@ -42910,7 +42918,9 @@
     "ckf.motors@gmail.com",
     "abidjancarrental@gmail.com",
     "carmen-location@citadelle-sa.com",
-    "contacts.rcmlocation@gmail.com"
+    "contacts.rcmlocation@gmail.com",
+    "damien.sarazin@labriquedeguyane.com",
+    "adv@labriquedeguyane.com"
   ],
   "companies": [
     "EduKaraib",
