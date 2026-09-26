@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3752,
-  "total_domains": 2223,
+  "total_contacts": 3802,
+  "total_domains": 2241,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2225,7 +2225,25 @@
     "montessorikidsacademy-douala.com",
     "lacrechedesmerveilles.com",
     "ecolelesribambelles.com",
-    "lescaramboles.com"
+    "lescaramboles.com",
+    "bleulagonlocation.com",
+    "zenithautorent.com",
+    "harmonylocation.fr",
+    "nloc-guadeloupe.com",
+    "car-bike-loc.net",
+    "carmenlocation.com",
+    "izycarloc.rent",
+    "flexicarlocation.com",
+    "js-auto-location-martinique.com",
+    "ixora-martinique.fr",
+    "alwego.capital",
+    "xrent-auto.com",
+    "mauricecarrental.com",
+    "quicklyrentacar.com",
+    "kar-amazonie-location.com",
+    "nouloutou.com",
+    "car-rent.re",
+    "smdexpresssarl.com"
   ],
   "contacts": [
     {
@@ -42579,6 +42597,206 @@
     {
       "email": "lacentralebilingualschool@gmail.com",
       "company": "La Centrale Bilingual School"
+    },
+    {
+      "email": "contact@bleulagonlocation.com",
+      "company": "Le Bleu Lagon Location"
+    },
+    {
+      "email": "contact.caribbeancarrental@gmail.com",
+      "company": "Caribbean Car Rental"
+    },
+    {
+      "email": "contacts.dolorentfwi@gmail.com",
+      "company": "Dolo Rent"
+    },
+    {
+      "email": "localez971@gmail.com",
+      "company": "Loca'Léz"
+    },
+    {
+      "email": "caribrental@gmail.com",
+      "company": "Caribbean Rental"
+    },
+    {
+      "email": "contact@zenithautorent.com",
+      "company": "Zenith Auto Rent"
+    },
+    {
+      "email": "contact@harmonylocation.fr",
+      "company": "Harmony Location"
+    },
+    {
+      "email": "contact@nloc-guadeloupe.com",
+      "company": "N'LOC Guadeloupe"
+    },
+    {
+      "email": "information@car-bike-loc.net",
+      "company": "Car-Bike-Loc"
+    },
+    {
+      "email": "pacificar.guadeloupe@gmail.com",
+      "company": "Pacificar"
+    },
+    {
+      "email": "contact.zedlocation@gmail.com",
+      "company": "Z'ed Location"
+    },
+    {
+      "email": "rcmlocation@gmail.com",
+      "company": "RCM Location"
+    },
+    {
+      "email": "location.voitures.gpe@gmail.com",
+      "company": "Location Voitures Guadeloupe"
+    },
+    {
+      "email": "tripcarlocation971@gmail.com",
+      "company": "Trip Car Location"
+    },
+    {
+      "email": "jimmyslocation@gmail.com",
+      "company": "Jimmy's Location"
+    },
+    {
+      "email": "angelcarslocation@gmail.com",
+      "company": "Angel Cars Location"
+    },
+    {
+      "email": "contact@carmenlocation.com",
+      "company": "Car'Men Location"
+    },
+    {
+      "email": "tropiquevasion@gmail.com",
+      "company": "Tropique Évasion"
+    },
+    {
+      "email": "reservation@izycarloc.rent",
+      "company": "IZYCARLOC"
+    },
+    {
+      "email": "amcphone972@gmail.com",
+      "company": "MadininaCar AMC"
+    },
+    {
+      "email": "contact@flexicarlocation.com",
+      "company": "Flexicar Location"
+    },
+    {
+      "email": "contact@js-auto-location-martinique.com",
+      "company": "JS Auto Location"
+    },
+    {
+      "email": "contact@ixora-martinique.fr",
+      "company": "IXORA Location"
+    },
+    {
+      "email": "centrale@alwego.capital",
+      "company": "Alwégo Location"
+    },
+    {
+      "email": "contact@xrent-auto.com",
+      "company": "XRENT-AUTO"
+    },
+    {
+      "email": "voiturelocationmartinique@gmail.com",
+      "company": "Voiture Location Martinique"
+    },
+    {
+      "email": "dylocandgo@gmail.com",
+      "company": "DYLOC AND GO"
+    },
+    {
+      "email": "kettlocation@gmail.com",
+      "company": "Kett Location"
+    },
+    {
+      "email": "martiniquelocvac@gmail.com",
+      "company": "Martinique Loc Vac"
+    },
+    {
+      "email": "madinina.locauto@gmail.com",
+      "company": "Madinina Loc'Auto"
+    },
+    {
+      "email": "info@mauricecarrental.com",
+      "company": "Maurice Car Rental"
+    },
+    {
+      "email": "reservation@quicklyrentacar.com",
+      "company": "Quickly Rent A Car"
+    },
+    {
+      "email": "yanarent973@gmail.com",
+      "company": "Yana Rent"
+    },
+    {
+      "email": "contact@kar-amazonie-location.com",
+      "company": "Kar'Amazonie"
+    },
+    {
+      "email": "sabialiba@gmail.com",
+      "company": "Sabi Aliba"
+    },
+    {
+      "email": "ent.tplm@gmail.com",
+      "company": "TPLM Location"
+    },
+    {
+      "email": "contact@nouloutou.com",
+      "company": "Nouloutou"
+    },
+    {
+      "email": "fly.locationreunion@gmail.com",
+      "company": "Fly Location Réunion"
+    },
+    {
+      "email": "contact@car-rent.re",
+      "company": "Car'Ent"
+    },
+    {
+      "email": "mlcarlocreunion@gmail.com",
+      "company": "ML CAR Location"
+    },
+    {
+      "email": "ah.location974@gmail.com",
+      "company": "AH Location"
+    },
+    {
+      "email": "ethanservicelocation@gmail.com",
+      "company": "Ethan Service Location"
+    },
+    {
+      "email": "julautos974@gmail.com",
+      "company": "JulAutos"
+    },
+    {
+      "email": "location.carree@gmail.com",
+      "company": "Location Carrée"
+    },
+    {
+      "email": "contact.autowou@gmail.com",
+      "company": "Autowou Sénégal"
+    },
+    {
+      "email": "kamaautomobile1@gmail.com",
+      "company": "KAMA Automobile"
+    },
+    {
+      "email": "btp.diallo@gmail.com",
+      "company": "Diallo Logistique Auto"
+    },
+    {
+      "email": "contact@smdexpresssarl.com",
+      "company": "SMD Express Sénégal"
+    },
+    {
+      "email": "ckf.motors@gmail.com",
+      "company": "CKF Motors"
+    },
+    {
+      "email": "abidjancarrental@gmail.com",
+      "company": "LVCI Location Voitures"
     }
   ],
   "emails": [
@@ -42631,7 +42849,57 @@
     "directrice@ecolelesribambelles.com",
     "info@lescaramboles.com",
     "ecolecsoy@gmail.com",
-    "lacentralebilingualschool@gmail.com"
+    "lacentralebilingualschool@gmail.com",
+    "contact@bleulagonlocation.com",
+    "contact.caribbeancarrental@gmail.com",
+    "contacts.dolorentfwi@gmail.com",
+    "localez971@gmail.com",
+    "caribrental@gmail.com",
+    "contact@zenithautorent.com",
+    "contact@harmonylocation.fr",
+    "contact@nloc-guadeloupe.com",
+    "information@car-bike-loc.net",
+    "pacificar.guadeloupe@gmail.com",
+    "contact.zedlocation@gmail.com",
+    "rcmlocation@gmail.com",
+    "location.voitures.gpe@gmail.com",
+    "tripcarlocation971@gmail.com",
+    "jimmyslocation@gmail.com",
+    "angelcarslocation@gmail.com",
+    "contact@carmenlocation.com",
+    "tropiquevasion@gmail.com",
+    "reservation@izycarloc.rent",
+    "amcphone972@gmail.com",
+    "contact@flexicarlocation.com",
+    "contact@js-auto-location-martinique.com",
+    "contact@ixora-martinique.fr",
+    "centrale@alwego.capital",
+    "contact@xrent-auto.com",
+    "voiturelocationmartinique@gmail.com",
+    "dylocandgo@gmail.com",
+    "kettlocation@gmail.com",
+    "martiniquelocvac@gmail.com",
+    "madinina.locauto@gmail.com",
+    "info@mauricecarrental.com",
+    "reservation@quicklyrentacar.com",
+    "yanarent973@gmail.com",
+    "contact@kar-amazonie-location.com",
+    "sabialiba@gmail.com",
+    "ent.tplm@gmail.com",
+    "contact@nouloutou.com",
+    "fly.locationreunion@gmail.com",
+    "contact@car-rent.re",
+    "mlcarlocreunion@gmail.com",
+    "ah.location974@gmail.com",
+    "ethanservicelocation@gmail.com",
+    "julautos974@gmail.com",
+    "location.carree@gmail.com",
+    "contact.autowou@gmail.com",
+    "kamaautomobile1@gmail.com",
+    "btp.diallo@gmail.com",
+    "contact@smdexpresssarl.com",
+    "ckf.motors@gmail.com",
+    "abidjancarrental@gmail.com"
   ],
   "companies": [
     "EduKaraib",
@@ -42683,6 +42951,56 @@
     "École Les Ribambelles",
     "Les Caramboles",
     "Canadian School of Yaoundé",
-    "La Centrale Bilingual School"
+    "La Centrale Bilingual School",
+    "Le Bleu Lagon Location",
+    "Caribbean Car Rental",
+    "Dolo Rent",
+    "Loca'Léz",
+    "Caribbean Rental",
+    "Zenith Auto Rent",
+    "Harmony Location",
+    "N'LOC Guadeloupe",
+    "Car-Bike-Loc",
+    "Pacificar",
+    "Z'ed Location",
+    "RCM Location",
+    "Location Voitures Guadeloupe",
+    "Trip Car Location",
+    "Jimmy's Location",
+    "Angel Cars Location",
+    "Car'Men Location",
+    "Tropique Évasion",
+    "IZYCARLOC",
+    "MadininaCar AMC",
+    "Flexicar Location",
+    "JS Auto Location",
+    "IXORA Location",
+    "Alwégo Location",
+    "XRENT-AUTO",
+    "Voiture Location Martinique",
+    "DYLOC AND GO",
+    "Kett Location",
+    "Martinique Loc Vac",
+    "Madinina Loc'Auto",
+    "Maurice Car Rental",
+    "Quickly Rent A Car",
+    "Yana Rent",
+    "Kar'Amazonie",
+    "Sabi Aliba",
+    "TPLM Location",
+    "Nouloutou",
+    "Fly Location Réunion",
+    "Car'Ent",
+    "ML CAR Location",
+    "AH Location",
+    "Ethan Service Location",
+    "JulAutos",
+    "Location Carrée",
+    "Autowou Sénégal",
+    "KAMA Automobile",
+    "Diallo Logistique Auto",
+    "SMD Express Sénégal",
+    "CKF Motors",
+    "LVCI Location Voitures"
   ]
 }

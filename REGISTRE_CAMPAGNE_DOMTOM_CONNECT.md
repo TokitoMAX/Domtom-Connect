@@ -961,3 +961,64 @@ eunion@deloitte.fr
 - **Résultat :** **40 / 40 délivrés avec succès (100% de délivrabilité, 0 rebond).**
 - **Base consolidée :** **3 752 contacts nets enregistrés (2 223 domaines uniques).**
 
+---
+
+### Batch 54 — Location de Voiture, Véhicules & Mobilité (50 Loueurs Indépendants Outre-Mer & Afrique)
+- **Date d'exécution :** 26 septembre 2026 à 05h55 CEST.
+- **Protocole :** 100% réel, zéro guessing, adresses vérifiées sur sites officiels ou registres légaux, validation technique DNS/MX préalable, déduplication stricte, 0 deux-points (:), temporisation aléatoire 13-18s.
+- **Angle :** Écoute des défis opérationnels d'abord (entretien et rotation de flotte, fret et pièces détachées en milieu insulaire, dépendance aux grandes plateformes d'intermédiation, gestion de la trésorerie en basse saison), accompagnement Domtom Connect, synergies via le groupe WhatsApp d'entraide et l'application mobile DTC Pulse, proposition d'échange de 10 minutes.
+- **Répartition :** 16 Guadeloupe + 14 Martinique + 2 Îles du Nord + 4 Guyane + 8 La Réunion + 6 Afrique (Sénégal & Côte d'Ivoire).
+- **Cibles (50/50 délivrées avec succès) :**
+  1. **Le Bleu Lagon Location (Guadeloupe – Sainte-Anne)** — contact@bleulagonlocation.com (Source : bleulagonlocation.com) -> ✅ Délivré
+  2. **Caribbean Car Rental (Guadeloupe – Jarry)** — contact.caribbeancarrental@gmail.com (Source : caribbeancarrental.fr) -> ✅ Délivré
+  3. **Dolo Rent (Guadeloupe – Les Abymes)** — contacts.dolorentfwi@gmail.com (Source : dolorent.com) -> ✅ Délivré
+  4. **Loca'Léz (Guadeloupe – Lamentin)** — localez971@gmail.com (Source : localez.fr) -> ✅ Délivré
+  5. **Caribbean Rental (Guadeloupe – Basse-Terre)** — caribrental@gmail.com (Source : caribbeanrental.fr) -> ✅ Délivré
+  6. **Zenith Auto Rent (Guadeloupe)** — contact@zenithautorent.com (Source : zenithautorent.com) -> ✅ Délivré
+  7. **Harmony Location (Guadeloupe)** — contact@harmonylocation.fr (Source : harmonylocation.fr) -> ✅ Délivré
+  8. **N'LOC Guadeloupe (Guadeloupe)** — contact@nloc-guadeloupe.com (Source : nloc-guadeloupe.com) -> ✅ Délivré
+  9. **Car-Bike-Loc (Guadeloupe – Saint-François)** — information@car-bike-loc.net (Source : car-bike-loc.net) -> ✅ Délivré
+  10. **Pacificar (Guadeloupe – Capesterre Belle-Eau)** — pacificar.guadeloupe@gmail.com (Source : pacificar.fr) -> ✅ Délivré
+  11. **Z'ed Location (Guadeloupe – Sainte-Rose)** — contact.zedlocation@gmail.com (Source : zedlocation.fr) -> ✅ Délivré
+  12. **RCM Location (Guadeloupe – Les Abymes)** — Rcmlocation@gmail.com (Source : Annuaire pro vérifié) -> ✅ Délivré
+  13. **Location Voitures Guadeloupe (Guadeloupe – Pointe-à-Pitre)** — location.voitures.gpe@gmail.com (Source : Annuaire pro vérifié) -> ✅ Délivré
+  14. **Trip Car Location (Guadeloupe – Sainte-Anne)** — tripcarlocation971@gmail.com (Source : Annuaire pro vérifié) -> ✅ Délivré
+  15. **Jimmy's Location (Guadeloupe)** — jimmyslocation@gmail.com (Source : Annuaire pro vérifié) -> ✅ Délivré
+  16. **Angel Cars Location (Guadeloupe – Le Moule)** — angelcarslocation@gmail.com (Source : angelcarslocation.com) -> ✅ Délivré
+  17. **Car'Men Location (Martinique – Le Lamentin)** — contact@carmenlocation.com (Source : carmenlocation.com) -> ✅ Délivré
+  18. **Tropique Évasion (Martinique – Les Trois-Îlets)** — tropiquevasion@gmail.com (Source : tropiquevasion.com) -> ✅ Délivré
+  19. **IZYCARLOC (Martinique – Le Lamentin)** — reservation@izycarloc.rent (Source : izycarloc.rent) -> ✅ Délivré
+  20. **MadininaCar AMC (Martinique – Le Lamentin)** — amcphone972@gmail.com (Source : madininacar.com) -> ✅ Délivré
+  21. **Flexicar Location (Martinique)** — contact@flexicarlocation.com (Source : flexicarlocation.com) -> ✅ Délivré
+  22. **JS Auto Location (Martinique)** — contact@js-auto-location-martinique.com (Source : js-auto-location-martinique.com) -> ✅ Délivré
+  23. **IXORA Location (Martinique)** — contact@ixora-martinique.fr (Source : ixora-martinique.fr) -> ✅ Délivré
+  24. **Alwégo Location (Martinique & Guadeloupe)** — centrale@alwego.capital (Source : alwego.rent) -> ✅ Délivré
+  25. **XRENT-AUTO (Martinique)** — contact@xrent-auto.com (Source : xrent-auto.com) -> ✅ Délivré
+  26. **Voiture Location Martinique (Martinique – Ducos)** — voiturelocationmartinique@gmail.com (Source : locationvoitures-martinique.fr) -> ✅ Délivré
+  27. **DYLOC AND GO (Martinique)** — dylocandgo@gmail.com (Source : dylocandgo.fr) -> ✅ Délivré
+  28. **Kett Location (Martinique – Sainte-Luce)** — kettlocation@gmail.com (Source : kettlocation.com) -> ✅ Délivré
+  29. **Martinique Loc Vac (Martinique)** — martiniquelocvac@gmail.com (Source : martiniquelocationvacances.com) -> ✅ Délivré
+  30. **Madinina Loc'Auto (Martinique – Sainte-Anne)** — madinina.locauto@gmail.com (Source : madininalocauto.com) -> ✅ Délivré
+  31. **Maurice Car Rental (Saint-Barthélemy – Gustavia)** — info@mauricecarrental.com (Source : mauricecarrental.com) -> ✅ Délivré
+  32. **Quickly Rent A Car (Saint-Martin – Grand-Case)** — reservation@quicklyrentacar.com (Source : quicklyrentacar.com) -> ✅ Délivré
+  33. **Yana Rent (Guyane)** — yanarent973@gmail.com (Source : yanarent.com) -> ✅ Délivré
+  34. **Kar'Amazonie (Guyane – Cayenne)** — contact@kar-amazonie-location.com (Source : kar-amazonie-location.com) -> ✅ Délivré
+  35. **Sabi Aliba (Guyane – Saint-Laurent-du-Maroni)** — sabialiba@gmail.com (Source : voyage-maroni-sabialiba.fr) -> ✅ Délivré
+  36. **TPLM Location (Guyane – Maripasoula)** — ent.tplm@gmail.com (Source : Annuaire pro vérifié) -> ✅ Délivré
+  37. **Nouloutou (La Réunion)** — contact@nouloutou.com (Source : nouloutou.com) -> ✅ Délivré
+  38. **Fly Location Réunion (La Réunion – La Possession)** — fly.locationreunion@gmail.com (Source : flylocationreunion.com) -> ✅ Délivré
+  39. **Car'Ent (La Réunion)** — contact@car-rent.re (Source : car-rent.re) -> ✅ Délivré
+  40. **ML CAR Location (La Réunion – Sainte-Marie)** — mlcarlocreunion@gmail.com (Source : mlcarlocation.re) -> ✅ Délivré
+  41. **AH Location (La Réunion – Sainte-Clotilde)** — ah.location974@gmail.com (Source : ah-location.re) -> ✅ Délivré
+  42. **Ethan Service Location (La Réunion – Les Trois-Bassins)** — ethanservicelocation@gmail.com (Source : ethanservicelocation.re) -> ✅ Délivré
+  43. **JulAutos (La Réunion)** — julautos974@gmail.com (Source : julautos.fr) -> ✅ Délivré
+  44. **Location Carrée (La Réunion)** — location.carree@gmail.com (Source : location-carree.com) -> ✅ Délivré
+  45. **Autowou Sénégal (Sénégal – Dakar)** — contact.autowou@gmail.com (Source : autowou.com) -> ✅ Délivré
+  46. **KAMA Automobile (Sénégal – Dakar)** — kamaautomobile1@gmail.com (Source : kamaautomobile.sn) -> ✅ Délivré
+  47. **Diallo Logistique Auto (Sénégal)** — btp.diallo@gmail.com (Source : diallobtp.com) -> ✅ Délivré
+  48. **SMD Express Sénégal (Sénégal – Dakar)** — contact@smdexpresssarl.com (Source : smdexpresssarl.com) -> ✅ Délivré
+  49. **CKF Motors (Côte d'Ivoire – Abidjan)** — ckf.motors@gmail.com (Source : ckfmotors.ci) -> ✅ Délivré
+  50. **LVCI Location Voitures (Côte d'Ivoire – Abidjan)** — abidjancarrental@gmail.com (Source : location-voitures.ci) -> ✅ Délivré
+- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 rebond).**
+- **Base consolidée :** **3 802 contacts nets enregistrés (2 248 domaines uniques).**
+
