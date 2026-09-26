@@ -910,3 +910,54 @@ eunion@deloitte.fr
 - **Résultat :** **10 / 10 délivrés avec succès (100% de délivrabilité, 0 rebond).**
 - **Base consolidée :** **3 712 contacts nets enregistrés (2 202 domaines uniques).**
 
+---
+
+### Batch 53 — Bien-être des Enfants, Éducation & Petite Enfance Pan-Caraïbes & Afrique (40 Cibles 100% Qualifiées)
+- **Date d'exécution :** 26 septembre 2026 à 05h26 CEST.
+- **Protocole :** 100% réel, zéro guessing, adresses vérifiées sur sites officiels, validation technique DNS/MX préalable, déduplication stricte, 0 deux-points (:), temporisation aléatoire 13-18s.
+- **Angle :** Écoute active des besoins et frictions de terrain d'abord, accompagnement face aux problématiques d'exploitation, création d'un réseau fort reliant les Caraïbes, l'Afrique et la diaspora via le groupe WhatsApp et l'application mobile DTC Pulse.
+- **Répartition :** 20 Caraïbes + 20 Continent Africain.
+- **Cibles (40/40 délivrées avec succès) :**
+  1. **MaxiRéussite Caraïbes (Guadeloupe / Martinique)** — contact@maxireussite.fr (Source : maxireussite.com) -> ✅ Délivré
+  2. **Micro-crèche Du Sens O Eveils (Guadeloupe – Le Gosier)** — dusensoeveils@outlook.com (Source : Annuaire officiel) -> ✅ Délivré
+  3. **Micro-crèche Du Sens O Pluriels (Guadeloupe – Le Gosier)** — dusensopluriels@gmail.com (Source : Annuaire officiel) -> ✅ Délivré
+  4. **Crèche Evanoë (Guadeloupe – Le Gosier)** — avanoe971@gmail.com (Source : Annuaire officiel) -> ✅ Délivré
+  5. **MAM Soleil d'Enfance (Guadeloupe – Le Gosier)** — mamsoleildenfant@gmail.com (Source : Registre petite enfance) -> ✅ Délivré
+  6. **Micro-crèche Les Petites Pépites (Guadeloupe – Sainte-Anne)** — lpp97180@gmail.com (Source : Registre petite enfance) -> ✅ Délivré
+  7. **Maia Village (Guyane – Matoury)** — infos@maiavillage.com (Source : maiavillage.fr) -> ✅ Délivré
+  8. **Les P'tites Bouilles (Guyane – Cayenne)** — contact@lesptitesbouilles-guyane.fr (Source : lesptitesbouilles-guyane.fr) -> ✅ Délivré
+  9. **PLB Éditions (Guadeloupe – Le Gosier)** — contact@plbeditions.com (Source : plbeditions.com) -> ✅ Délivré
+  10. **École Maternelle La Coccinelle (Saint-Martin – Marigot)** — lacoccinelle.sxm@gmail.com (Source : Annuaire officiel) -> ✅ Délivré
+  11. **Kazajeux (Martinique – Fort-de-France)** — kazajeux@gmail.com (Source : kazajeux.fr) -> ✅ Délivré
+  12. **Librairie Générale Jasor (Guadeloupe – Baie-Mahault)** — contact@librairiegenerale.fr (Source : Site officiel) -> ✅ Délivré
+  13. **Librairie Kazabul (Martinique – Fort-de-France)** — librairie@kazabulmartinique.fr (Source : kazabulmartinique.fr) -> ✅ Délivré
+  14. **Lettres d'Amazonie / Cas'à Bulles (Guyane – Cayenne)** — librairies@lettres-amazonie.fr (Source : Annuaire officiel) -> ✅ Délivré
+  15. **Nomany Cré'action (Guadeloupe – Baie-Mahault)** — nomanycreaction@gmail.com (Source : Annuaire petite enfance) -> ✅ Délivré
+  16. **Enfants Harmonie (Martinique – Le Marin)** — enfants.harmoniepbb@gmail.com (Source : Annuaire officiel) -> ✅ Délivré
+  17. **Les Petits Sourires (Guyane – Matoury)** — contact@lespetitssourires.fr (Source : lespetitssourires.fr) -> ✅ Délivré
+  18. **Domicours Guadeloupe (Guadeloupe – Les Abymes)** — domicours.abymes@gmail.com (Source : Annuaire scolaire) -> ✅ Délivré
+  19. **Mental'O Antilles (Guadeloupe / Martinique)** — sandsaintg@gmail.com (Source : mental-o.fr) -> ✅ Délivré
+  20. **MAM Kaz A Ti Doudou (Guadeloupe – Les Abymes)** — kazatidoudou@yahoo.com (Source : Registre petite enfance) -> ✅ Délivré
+  21. **EDTECH CASE (Côte d'Ivoire – Abidjan)** — info@edtechcase.com (Source : edtechcase.com) -> ✅ Délivré
+  22. **EDC Sénégal (Sénégal – Dakar)** — contact@edcsenegal.sn (Source : edcsenegal.sn) -> ✅ Délivré
+  23. **Educautisme Dakar (Sénégal – Dakar)** — bilal.faye@educautismeofficiel.sn (Source : educautismeofficiel.sn) -> ✅ Délivré
+  24. **Enko Education (Panafricain – Dakar, Abidjan, Yaoundé)** — waca@enkoeducation.com (Source : enkoeducation.com) -> ✅ Délivré
+  25. **Maison Cerise Abidjan (Côte d'Ivoire – Abidjan Riviera)** — maisoncerise.abidjan@gmail.com (Source : maisonceriseabidjan.com) -> ✅ Délivré
+  26. **École Maternelle Les Tournesols (Côte d'Ivoire – Abidjan)** — contact@lestournesols.ci (Source : lestournesols.ci) -> ✅ Délivré
+  27. **Le Nid de Cocody (Côte d'Ivoire – Abidjan)** — info@lenidecocody.com (Source : lenidecocody.com) -> ✅ Délivré
+  28. **Nid d'Or Crèches (Côte d'Ivoire – Abidjan Palmeraie)** — niddorsipim4@gmail.com (Source : niddorcreches.com) -> ✅ Délivré
+  29. **Crèche & Maternelle Beldo (Sénégal – Dakar Point E)** — contact@beldo.sn (Source : beldo.sn) -> ✅ Délivré
+  30. **École Française des Almadies (Sénégal – Dakar Almadies)** — directrice.lefda@gmail.com (Source : ecolefrancaisedakaralmadies.net) -> ✅ Délivré
+  31. **Editions Or (Côte d'Ivoire – Abidjan)** — info@editionsor.net (Source : editionsor.net) -> ✅ Délivré
+  32. **Les Éditions du Makri (Côte d'Ivoire – Abidjan)** — leseditionsdumakri@gmail.com (Source : editionsmakri.com) -> ✅ Délivré
+  33. **Éditions Supernova (Côte d'Ivoire – Abidjan)** — info@editionsupernova.com (Source : editionsupernova.com) -> ✅ Délivré
+  34. **BK Éditions (Côte d'Ivoire – Abidjan)** — bkeditions@gmail.com (Source : bkeditions.org) -> ✅ Délivré
+  35. **Montessori Kids Academy Douala (Cameroun – Douala)** — contact@montessorikidsacademy-douala.com (Source : montessorikidsacademy-douala.com) -> ✅ Délivré
+  36. **La Crèche des Merveilles Bastos (Cameroun – Yaoundé)** — contact@lacrechedesmerveilles.com (Source : lacrechedesmerveilles.com) -> ✅ Délivré
+  37. **École Les Ribambelles (Cameroun – Douala)** — directrice@ecolelesribambelles.com (Source : ecolelesribambelles.com) -> ✅ Délivré
+  38. **Les Caramboles (Cameroun – Yaoundé)** — info@lescaramboles.com (Source : lescaramboles.com) -> ✅ Délivré
+  39. **Canadian School of Yaoundé (Cameroun – Yaoundé)** — ecolecsoy@gmail.com (Source : csoy.net) -> ✅ Délivré
+  40. **La Centrale Bilingual School (Cameroun – Douala)** — lacentralebilingualschool@gmail.com (Source : Registre bilingue) -> ✅ Délivré
+- **Résultat :** **40 / 40 délivrés avec succès (100% de délivrabilité, 0 rebond).**
+- **Base consolidée :** **3 752 contacts nets enregistrés (2 223 domaines uniques).**
+
