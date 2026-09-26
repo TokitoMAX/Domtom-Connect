@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3802,
-  "total_domains": 2241,
+  "total_contacts": 3804,
+  "total_domains": 2242,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2243,7 +2243,8 @@
     "kar-amazonie-location.com",
     "nouloutou.com",
     "car-rent.re",
-    "smdexpresssarl.com"
+    "smdexpresssarl.com",
+    "citadelle-sa.com"
   ],
   "contacts": [
     {
@@ -42797,6 +42798,14 @@
     {
       "email": "abidjancarrental@gmail.com",
       "company": "LVCI Location Voitures"
+    },
+    {
+      "email": "carmen-location@citadelle-sa.com",
+      "company": "Car'Men Location Citadelle"
+    },
+    {
+      "email": "contacts.rcmlocation@gmail.com",
+      "company": "RCM Location Guadeloupe"
     }
   ],
   "emails": [
@@ -42899,7 +42908,9 @@
     "btp.diallo@gmail.com",
     "contact@smdexpresssarl.com",
     "ckf.motors@gmail.com",
-    "abidjancarrental@gmail.com"
+    "abidjancarrental@gmail.com",
+    "carmen-location@citadelle-sa.com",
+    "contacts.rcmlocation@gmail.com"
   ],
   "companies": [
     "EduKaraib",
@@ -43001,6 +43012,8 @@
     "Diallo Logistique Auto",
     "SMD Express Sénégal",
     "CKF Motors",
-    "LVCI Location Voitures"
+    "LVCI Location Voitures",
+    "Car'Men Location Citadelle",
+    "RCM Location Guadeloupe"
   ]
 }
