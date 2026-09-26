@@ -1019,6 +1019,12 @@ eunion@deloitte.fr
   48. **SMD Express Sénégal (Sénégal – Dakar)** — contact@smdexpresssarl.com (Source : smdexpresssarl.com) -> ✅ Délivré
   49. **CKF Motors (Côte d'Ivoire – Abidjan)** — ckf.motors@gmail.com (Source : ckfmotors.ci) -> ✅ Délivré
   50. **LVCI Location Voitures (Côte d'Ivoire – Abidjan)** — abidjancarrental@gmail.com (Source : location-voitures.ci) -> ✅ Délivré
-- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 rebond).**
+- **Résultat :** **47 / 50 reçus avec succès (94% de délivrabilité réelle nette).**
+- **Incidents d'acheminement (3) :** `contact@flexicarlocation.com` (550 User Unknown), `madinina.locauto@gmail.com` (550 No such user), `contact@car-rent.re` (550 User Unknown) — immédiatement purgés et inscrits définitivement dans `scripts/exclusions.json`.
+- **Premières réponses & signaux positifs reçus :**
+  1. **RCM Location (Guadeloupe – Les Abymes) :** Notification de mise à jour d'adresse avec communication de leur nouvelle adresse directe `contacts.rcmlocation@gmail.com` et lignes directes (0690 76 42 45 / 0590 22 29 61).
+  2. **Car'Men Location (Martinique – Le Lamentin / Groupe Citadelle) :** Réponse d'Isabelle CAPEL SIMBA (Responsable d'exploitation), précisant ses congés jusqu'au 12 octobre et communiquant son mobile direct (+596 696 38 01 58) ainsi que le mail de gestion `carmen-location@citadelle-sa.com`.
+  3. **Caribbean Car Rental (Guadeloupe & Martinique) :** Accusé de réception avec coordonnées d'agences locales directes (06.90.95.73.03 / 06.96.44.74.68).
+  4. **AH Location (La Réunion) :** Accusé de réception et ligne directe permanente (0692 48 02 90).
 - **Base consolidée :** **3 802 contacts nets enregistrés (2 248 domaines uniques).**
 
