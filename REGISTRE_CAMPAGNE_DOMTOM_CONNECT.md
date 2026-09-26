@@ -1026,5 +1026,66 @@ eunion@deloitte.fr
   2. **Car'Men Location (Martinique – Le Lamentin / Groupe Citadelle) :** Réponse d'Isabelle CAPEL SIMBA (Responsable d'exploitation), précisant ses congés jusqu'au 12 octobre et communiquant son mobile direct (+596 696 38 01 58) ainsi que le mail de gestion `carmen-location@citadelle-sa.com`.
   3. **Caribbean Car Rental (Guadeloupe & Martinique) :** Accusé de réception avec coordonnées d'agences locales directes (06.90.95.73.03 / 06.96.44.74.68).
   4. **AH Location (La Réunion) :** Accusé de réception et ligne directe permanente (0692 48 02 90).
-- **Base consolidée :** **3 802 contacts nets enregistrés (2 248 domaines uniques).**
+- **Base consolidée :** **3 806 contacts nets enregistrés (2 248 domaines uniques).**
+
+---
+
+### Batch 55 — Location de Voiture & Mobilité Indépendante — Vague 1 / 4 (50 Cibles 100% Qualifiées)
+- **Date d'exécution :** 26 septembre 2026 à 17h03 CEST.
+- **Protocole :** 100% réel, zéro guessing, adresses vérifiées sur sites officiels ou registres professionnels, validation DNS/MX préalable, déduplication stricte, 0 deux-points (:), temporisation aléatoire 13-18s.
+- **Angle :** Écoute des problématiques opérationnelles (gestion de parc, rotation de flotte, approvisionnement en pièces en contexte insulaire, charges d'assurance, dépendance aux intermédiaires), accompagnement Domtom Connect, synergies du groupe WhatsApp d'entraide et application DTC Pulse, proposition d'échange téléphonique de 10 minutes.
+- **Répartition :** 13 Guadeloupe + 7 Martinique + 7 Îles du Nord + 2 Guyane + 7 Réunion/Mayotte + 14 Afrique (Sénégal, Côte d'Ivoire, Bénin, Cameroun, Madagascar).
+- **Cibles (50/50 délivrées avec succès) :**
+  1. **Gagli Autos (Guadeloupe – Sainte-Anne)** — gagliservicesplus@gmail.com (Source : gagliautos-guadeloupe.fr) -> ✅ Délivré
+  2. **Antilles Autoloc Shuttle (Guadeloupe – Deshaies)** — aasv.gwada@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  3. **IlikoCar Guadeloupe (Guadeloupe)** — ilikocargp@gmail.com (Source : ilikocar.com) -> ✅ Délivré
+  4. **Gualoc (Guadeloupe – Sainte-Anne)** — contact@gualoc.fr (Source : gualoc.com) -> ✅ Délivré
+  5. **Le Loueur 971 (Guadeloupe)** — leloueur971@gmail.com (Source : leloueur971.fr) -> ✅ Délivré
+  6. **Bel' Ile Location (Guadeloupe)** — belilelocation@gmail.com (Source : belilelocation.fr) -> ✅ Délivré
+  7. **DJACAR Location (Guadeloupe)** — djacarlocation@gmail.com (Source : djacarlocation.fr) -> ✅ Délivré
+  8. **Hibis Cars (Guadeloupe)** — hibiscars971@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  9. **Platinium Cars Antilles (Guadeloupe – Lamentin)** — steeve.varieux@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  10. **Heliconia Location (Guadeloupe – Les Abymes)** — heliconialocation@gmail.com (Source : heliconialocation.fr) -> ✅ Délivré
+  11. **Terre de Haut Location (Guadeloupe – Les Saintes)** — terredehautlocation@gmail.com (Source : terredehautlocation.com) -> ✅ Délivré
+  12. **Marie-Galante Online Loc (Guadeloupe – Marie-Galante)** — mariegalanteonline@gmail.com (Source : mariegalanteonline.com) -> ✅ Délivré
+  13. **Lagon Travel (Guadeloupe – Marie-Galante)** — lagon.travel.caraibes@gmail.com (Source : lagon-travel.com) -> ✅ Délivré
+  14. **Louiseloc Martinique (Martinique – Trois-Îlets)** — louiseloc972@gmail.com (Source : louiseloc.fr) -> ✅ Délivré
+  15. **Melaclem Location (Martinique)** — melaclem972@gmail.com (Source : melaclem.com) -> ✅ Délivré
+  16. **R.CAR Martinique (Martinique)** — rcars.martinique@gmail.com (Source : location-voituremartinique.com) -> ✅ Délivré
+  17. **2LM Location (Martinique)** — location.2lm@gmail.com (Source : 2lm-location.com) -> ✅ Délivré
+  18. **SN'D Location (Martinique)** — sarlsndloc@gmail.com (Source : sndloc.com) -> ✅ Délivré
+  19. **Luxiane Car (Martinique)** — contact@luxianecar.com (Source : luxianecar.com) -> ✅ Délivré
+  20. **Planète Location (Martinique – La Trinité)** — planetelocation@gmail.com (Source : planetelocation.com) -> ✅ Délivré
+  21. **Gumbs Car Rental (Saint-Barthélemy – Aéroport Rémy de Haenen)** — contact@gumbs-car-rental.com (Source : gumbs-car-rental.com) -> ✅ Délivré
+  22. **Beranger Rental (Saint-Barthélemy – Gustavia)** — beranger.rentalcarsbh@gmail.com (Source : beranger-rental.com) -> ✅ Délivré
+  23. **EZ Loc St-Barth (Saint-Barthélemy – Saline)** — ezlocstbarth@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  24. **Travel Rent a Car SXM (Saint-Martin)** — hello@travel-sxm.com (Source : travel-sxm.com) -> ✅ Délivré
+  25. **Exclusive Car Rental Ryan (Saint-Martin)** — ryancarssxm@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  26. **Value Car Rental SXM (Saint-Martin)** — info@valuecarrental.com (Source : valuecarrental.com) -> ✅ Délivré
+  27. **Paradise Car Rental SXM (Saint-Martin)** — rent@paradisesxm.com (Source : paradisesxm.com) -> ✅ Délivré
+  28. **JMB Location Madeleine (Guyane – Cayenne)** — jmblocationmadeleine@gmail.com (Source : jmblocation.fr) -> ✅ Délivré
+  29. **Wedrivus Guyane (Guyane)** — locations.wedrivusparticulier@gmail.com (Source : wedrivus.com) -> ✅ Délivré
+  30. **RED LOC SHN Auto (La Réunion)** — shn.auto974@gmail.com (Source : redloc.re) -> ✅ Délivré
+  31. **IJ Location (La Réunion – Saint-Louis)** — ijlocation97450@gmail.com (Source : location-voiture-st-louis974.fr) -> ✅ Délivré
+  32. **Mik Location Lud (La Réunion – Saint-Pierre)** — ludlocations@gmail.com (Source : mik-location.com) -> ✅ Délivré
+  33. **Car Checking Location (La Réunion – Saint-Gilles)** — carcheckinglocation974@gmail.com (Source : carcheckinglocation974.com) -> ✅ Délivré
+  34. **CMG Location (La Réunion – Saint-Pierre)** — cmgrun1@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  35. **Vahiné Location (Mayotte – Mamoudzou)** — vahinelocation@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  36. **Maore V&S (Mayotte)** — maorevs@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  37. **Kalsane Automobile (Sénégal – Dakar)** — kalsaneautomobile@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  38. **Buggy Evasion (Sénégal – Saly)** — buggyevasion02@gmail.com (Source : buggyevasionsenegal.com) -> ✅ Délivré
+  39. **Hibiscus Tours (Bénin – Cotonou)** — ibiscustours22@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  40. **Sion Car Benin (Bénin – Cotonou)** — sioncarbenin1@gmail.com (Source : sioncarbenin.com) -> ✅ Délivré
+  41. **Auto Ivoire (Côte d'Ivoire – Abidjan Riviera)** — automobileivoire@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  42. **Lux Location Abidjan (Côte d'Ivoire – Abidjan)** — office.luxlocation@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  43. **CCTH Afrique Évasion (Côte d'Ivoire – Abidjan)** — ccthafrique@gmail.com (Source : ccthafriqueevasion.com) -> ✅ Délivré
+  44. **JMNGA Services (Madagascar – Nosy Be)** — contact.jmnga@gmail.com (Source : jmnga-services.com) -> ✅ Délivré
+  45. **Agora Travel Mada (Madagascar)** — agora.travelmada@gmail.com (Source : agoratravel.fr) -> ✅ Délivré
+  46. **FWS Location Voitures (Cameroun – Douala)** — fwslocationdevoitures@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  47. **Rodrigo Auto Services (Cameroun – Douala)** — rodrigoservices39@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  48. **NyatAuto (Cameroun – Douala)** — nyatauto@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  49. **Noun Global Invest (Cameroun – Yaoundé)** — nounglobalinvestsarl@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+  50. **Majeo Car Services (Cameroun – Yaoundé)** — majeobyjd@gmail.com (Source : Annuaire pro) -> ✅ Délivré
+- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 rebond).**
+- **Base consolidée :** **3 856 contacts nets enregistrés (2 254 domaines uniques).**
 

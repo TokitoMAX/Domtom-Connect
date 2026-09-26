@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 3806,
-  "total_domains": 2242,
+  "total_contacts": 3856,
+  "total_domains": 2248,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2244,7 +2244,13 @@
     "nouloutou.com",
     "car-rent.re",
     "smdexpresssarl.com",
-    "citadelle-sa.com"
+    "citadelle-sa.com",
+    "gualoc.fr",
+    "luxianecar.com",
+    "gumbs-car-rental.com",
+    "travel-sxm.com",
+    "valuecarrental.com",
+    "paradisesxm.com"
   ],
   "contacts": [
     {
@@ -42814,6 +42820,206 @@
     {
       "email": "adv@labriquedeguyane.com",
       "company": "La Brique de Guyane B2TG"
+    },
+    {
+      "email": "gagliservicesplus@gmail.com",
+      "company": "Gagli Autos"
+    },
+    {
+      "email": "aasv.gwada@gmail.com",
+      "company": "Antilles Autoloc Shuttle"
+    },
+    {
+      "email": "ilikocargp@gmail.com",
+      "company": "IlikoCar Guadeloupe"
+    },
+    {
+      "email": "contact@gualoc.fr",
+      "company": "Gualoc"
+    },
+    {
+      "email": "leloueur971@gmail.com",
+      "company": "Le Loueur 971"
+    },
+    {
+      "email": "belilelocation@gmail.com",
+      "company": "Bel' Ile Location"
+    },
+    {
+      "email": "djacarlocation@gmail.com",
+      "company": "DJACAR Location"
+    },
+    {
+      "email": "hibiscars971@gmail.com",
+      "company": "Hibis Cars"
+    },
+    {
+      "email": "steeve.varieux@gmail.com",
+      "company": "Platinium Cars Antilles"
+    },
+    {
+      "email": "heliconialocation@gmail.com",
+      "company": "Heliconia Location"
+    },
+    {
+      "email": "terredehautlocation@gmail.com",
+      "company": "Terre de Haut Location"
+    },
+    {
+      "email": "mariegalanteonline@gmail.com",
+      "company": "Marie-Galante Online Loc"
+    },
+    {
+      "email": "lagon.travel.caraibes@gmail.com",
+      "company": "Lagon Travel"
+    },
+    {
+      "email": "louiseloc972@gmail.com",
+      "company": "Louiseloc Martinique"
+    },
+    {
+      "email": "melaclem972@gmail.com",
+      "company": "Melaclem Location"
+    },
+    {
+      "email": "rcars.martinique@gmail.com",
+      "company": "R.CAR Martinique"
+    },
+    {
+      "email": "location.2lm@gmail.com",
+      "company": "2LM Location"
+    },
+    {
+      "email": "sarlsndloc@gmail.com",
+      "company": "SN'D Location"
+    },
+    {
+      "email": "contact@luxianecar.com",
+      "company": "Luxiane Car"
+    },
+    {
+      "email": "planetelocation@gmail.com",
+      "company": "Planète Location"
+    },
+    {
+      "email": "contact@gumbs-car-rental.com",
+      "company": "Gumbs Car Rental"
+    },
+    {
+      "email": "beranger.rentalcarsbh@gmail.com",
+      "company": "Beranger Rental"
+    },
+    {
+      "email": "ezlocstbarth@gmail.com",
+      "company": "EZ Loc St-Barth"
+    },
+    {
+      "email": "hello@travel-sxm.com",
+      "company": "Travel Rent a Car SXM"
+    },
+    {
+      "email": "ryancarssxm@gmail.com",
+      "company": "Exclusive Car Rental Ryan"
+    },
+    {
+      "email": "info@valuecarrental.com",
+      "company": "Value Car Rental SXM"
+    },
+    {
+      "email": "rent@paradisesxm.com",
+      "company": "Paradise Car Rental SXM"
+    },
+    {
+      "email": "jmblocationmadeleine@gmail.com",
+      "company": "JMB Location Madeleine"
+    },
+    {
+      "email": "locations.wedrivusparticulier@gmail.com",
+      "company": "Wedrivus Guyane"
+    },
+    {
+      "email": "shn.auto974@gmail.com",
+      "company": "RED LOC SHN Auto"
+    },
+    {
+      "email": "ijlocation97450@gmail.com",
+      "company": "IJ Location"
+    },
+    {
+      "email": "ludlocations@gmail.com",
+      "company": "Mik Location Lud"
+    },
+    {
+      "email": "carcheckinglocation974@gmail.com",
+      "company": "Car Checking Location"
+    },
+    {
+      "email": "cmgrun1@gmail.com",
+      "company": "CMG Location"
+    },
+    {
+      "email": "vahinelocation@gmail.com",
+      "company": "Vahiné Location"
+    },
+    {
+      "email": "maorevs@gmail.com",
+      "company": "Maore V&S"
+    },
+    {
+      "email": "kalsaneautomobile@gmail.com",
+      "company": "Kalsane Automobile"
+    },
+    {
+      "email": "buggyevasion02@gmail.com",
+      "company": "Buggy Evasion"
+    },
+    {
+      "email": "ibiscustours22@gmail.com",
+      "company": "Hibiscus Tours"
+    },
+    {
+      "email": "sioncarbenin1@gmail.com",
+      "company": "Sion Car Benin"
+    },
+    {
+      "email": "automobileivoire@gmail.com",
+      "company": "Auto Ivoire"
+    },
+    {
+      "email": "office.luxlocation@gmail.com",
+      "company": "Lux Location Abidjan"
+    },
+    {
+      "email": "ccthafrique@gmail.com",
+      "company": "CCTH Afrique Évasion"
+    },
+    {
+      "email": "contact.jmnga@gmail.com",
+      "company": "JMNGA Services"
+    },
+    {
+      "email": "agora.travelmada@gmail.com",
+      "company": "Agora Travel Mada"
+    },
+    {
+      "email": "fwslocationdevoitures@gmail.com",
+      "company": "FWS Location Voitures"
+    },
+    {
+      "email": "rodrigoservices39@gmail.com",
+      "company": "Rodrigo Auto Services"
+    },
+    {
+      "email": "nyatauto@gmail.com",
+      "company": "NyatAuto"
+    },
+    {
+      "email": "nounglobalinvestsarl@gmail.com",
+      "company": "Noun Global Invest"
+    },
+    {
+      "email": "majeobyjd@gmail.com",
+      "company": "Majeo Car Services"
     }
   ],
   "emails": [
@@ -42920,7 +43126,57 @@
     "carmen-location@citadelle-sa.com",
     "contacts.rcmlocation@gmail.com",
     "damien.sarazin@labriquedeguyane.com",
-    "adv@labriquedeguyane.com"
+    "adv@labriquedeguyane.com",
+    "gagliservicesplus@gmail.com",
+    "aasv.gwada@gmail.com",
+    "ilikocargp@gmail.com",
+    "contact@gualoc.fr",
+    "leloueur971@gmail.com",
+    "belilelocation@gmail.com",
+    "djacarlocation@gmail.com",
+    "hibiscars971@gmail.com",
+    "steeve.varieux@gmail.com",
+    "heliconialocation@gmail.com",
+    "terredehautlocation@gmail.com",
+    "mariegalanteonline@gmail.com",
+    "lagon.travel.caraibes@gmail.com",
+    "louiseloc972@gmail.com",
+    "melaclem972@gmail.com",
+    "rcars.martinique@gmail.com",
+    "location.2lm@gmail.com",
+    "sarlsndloc@gmail.com",
+    "contact@luxianecar.com",
+    "planetelocation@gmail.com",
+    "contact@gumbs-car-rental.com",
+    "beranger.rentalcarsbh@gmail.com",
+    "ezlocstbarth@gmail.com",
+    "hello@travel-sxm.com",
+    "ryancarssxm@gmail.com",
+    "info@valuecarrental.com",
+    "rent@paradisesxm.com",
+    "jmblocationmadeleine@gmail.com",
+    "locations.wedrivusparticulier@gmail.com",
+    "shn.auto974@gmail.com",
+    "ijlocation97450@gmail.com",
+    "ludlocations@gmail.com",
+    "carcheckinglocation974@gmail.com",
+    "cmgrun1@gmail.com",
+    "vahinelocation@gmail.com",
+    "maorevs@gmail.com",
+    "kalsaneautomobile@gmail.com",
+    "buggyevasion02@gmail.com",
+    "ibiscustours22@gmail.com",
+    "sioncarbenin1@gmail.com",
+    "automobileivoire@gmail.com",
+    "office.luxlocation@gmail.com",
+    "ccthafrique@gmail.com",
+    "contact.jmnga@gmail.com",
+    "agora.travelmada@gmail.com",
+    "fwslocationdevoitures@gmail.com",
+    "rodrigoservices39@gmail.com",
+    "nyatauto@gmail.com",
+    "nounglobalinvestsarl@gmail.com",
+    "majeobyjd@gmail.com"
   ],
   "companies": [
     "EduKaraib",
@@ -43024,6 +43280,56 @@
     "CKF Motors",
     "LVCI Location Voitures",
     "Car'Men Location Citadelle",
-    "RCM Location Guadeloupe"
+    "RCM Location Guadeloupe",
+    "Gagli Autos",
+    "Antilles Autoloc Shuttle",
+    "IlikoCar Guadeloupe",
+    "Gualoc",
+    "Le Loueur 971",
+    "Bel' Ile Location",
+    "DJACAR Location",
+    "Hibis Cars",
+    "Platinium Cars Antilles",
+    "Heliconia Location",
+    "Terre de Haut Location",
+    "Marie-Galante Online Loc",
+    "Lagon Travel",
+    "Louiseloc Martinique",
+    "Melaclem Location",
+    "R.CAR Martinique",
+    "2LM Location",
+    "SN'D Location",
+    "Luxiane Car",
+    "Planète Location",
+    "Gumbs Car Rental",
+    "Beranger Rental",
+    "EZ Loc St-Barth",
+    "Travel Rent a Car SXM",
+    "Exclusive Car Rental Ryan",
+    "Value Car Rental SXM",
+    "Paradise Car Rental SXM",
+    "JMB Location Madeleine",
+    "Wedrivus Guyane",
+    "RED LOC SHN Auto",
+    "IJ Location",
+    "Mik Location Lud",
+    "Car Checking Location",
+    "CMG Location",
+    "Vahiné Location",
+    "Maore V&S",
+    "Kalsane Automobile",
+    "Buggy Evasion",
+    "Hibiscus Tours",
+    "Sion Car Benin",
+    "Auto Ivoire",
+    "Lux Location Abidjan",
+    "CCTH Afrique Évasion",
+    "JMNGA Services",
+    "Agora Travel Mada",
+    "FWS Location Voitures",
+    "Rodrigo Auto Services",
+    "NyatAuto",
+    "Noun Global Invest",
+    "Majeo Car Services"
   ]
 }
