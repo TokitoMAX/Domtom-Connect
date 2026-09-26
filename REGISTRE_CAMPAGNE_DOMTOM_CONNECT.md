@@ -1129,5 +1129,22 @@ eunion@deloitte.fr
 - **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 erreur).**
 - **Base consolidée :** **3 956 contacts nets enregistrés.**
 
+---
+
+### Batch 58 — Activités Nautiques, Plaisance, Charters & Plongée (50 cibles - 100% envoyé, 0 échec)
+- **Date :** 26 Septembre 2026
+- **Angle :** Valorisation du patrimoine sous-marin et maritime insulaire (plongée, sorties lagon, charters voiliers et catamarans), accompagnement Domtom Connect pour optimiser la distribution directe hors commissions d'intermédiaires et lisser l'effet basse saison, présentation de la communauté d'entraide WhatsApp et de l'application DTC Pulse, proposition d'un court échange téléphonique de 10 minutes.
+- **Répartition territoriale :**
+  - **Guadeloupe (12 cibles) :** Anse Caraïbe Plongée (Pointe-Noire), Atlantis Plongée (Bouillante), CIP Guadeloupe (Bouillante), Infini Plongée (Saint-François), Noa Plongée (Saint-François), Sailoé Caraïbes (Pointe-à-Pitre), Corail Caraïbes (Pointe-à-Pitre), Gwada Marine (Saint-François), Chris Marine (Saint-François), Tiki Boat Guadeloupe (Le Gosier), Fiesta Boat Location (Sainte-Anne), Hiwigoloc (Baie-Mahault).
+  - **Martinique (8 cibles) :** DSC Plongée (Le Diamant), Marin Plongée (Le Marin), Case Plongée (Schœlcher), A Papa D'Lo Plongée (Saint-Pierre), Aliotis Martinique (Trois-Îlets), Autremer Concept (Le Marin), Punch Croisières (Le Marin), Seek Sail (Le Marin).
+  - **Saint-Martin & Saint-Barthélemy (9 cibles) :** Blue Odyssey Diving, Atabey Dive Center, Creole Rock Watersports, Saint Martin Boat Charter, Manutea Charter, Arawak Charters, Caribbean Marines, Wind Adventures (Orient Bay), Captain SUP SXM.
+  - **La Réunion (11 cibles) :** Corail Plongée Réunion (Saint-Gilles), Escapade Plongée Réunion (Saint-Gilles), Gecko Bleu Réunion (Saint-Gilles), Bulle d'Air Réunion (Saint-Gilles), Plongée Ô Sea Bleu (Saint-Gilles), Réunion Diving (Saint-Gilles), Gloria Maris Plongée (Saint-Gilles), Abyss Plongée Réunion (Saint-Leu), Excelsus Plongée Réunion (Saint-Leu), Aquabulle Plongée Réunion (Saint-Leu), Plongée Péi Réunion (Saint-Leu).
+  - **Mayotte (5 cibles) :** Lagon Maore (Kani-Kéli), Nautilus Plongée Mayotte (Mamoudzou), Cétamayotte (Mamoudzou), Maoré Jet (Dzaoudzi), Lagon Aventure Mayotte (Dzaoudzi).
+  - **Polynésie française (5 cibles) :** Eleuthera Tahiti Diving (Punaauia), Tahiti Yacht Charter (Raiatea), Moorea Blue Diving (Moorea), Charter Polynésie (Huahine), Poe Charter Tahiti (Papeete).
+- **Conformité stricte :** 100% emails vérifiés avec live DNS/MX, zéro devinette, zéro orange.fr, zéro deux-points dans le corps et le sujet.
+- **Résultat :** **50 / 50 délivrés avec succès (100% de délivrabilité, 0 erreur).**
+- **Base consolidée finale :** **4 006 contacts nets enregistrés.**
+
+
 
 
