@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politique de Confidentialité - DomtomConnect</title>
+    <meta name="description" content="Politique de confidentialité de DomtomConnect et de l'application DTC Pulse : collecte de données, utilisation, droits des utilisateurs et protection de la vie privée.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A84FF;
+            --primary-light: rgba(10, 132, 255, 0.12);
+            --background: #0A0E17;
+            --card-bg: #131A26;
+            --card-alt: #0F1520;
+            --text: #E5E9F0;
+            --text-muted: #8E9AA8;
+            --border: #232E42;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.75;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { max-width: 820px; width: 100%; }
+
+        .page-header { text-align: center; margin-bottom: 40px; }
+
+        .header-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px; height: 72px;
+            border-radius: 20px;
+            background: var(--primary-light);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .header-icon svg { width: 34px; height: 34px; }
+
+        .page-header h1 {
+            color: #fff;
+            font-size: 2.2rem;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header .subtitle { color: var(--text-muted); font-size: 0.97rem; margin: 0; }
+
+        .app-badge {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            margin-bottom: 24px;
+        }
+
+        .card-alt { background-color: var(--card-alt); }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .section-label svg { width: 13px; height: 13px; }
+
+        h2 { color: #fff; font-size: 1.4rem; margin: 0 0 16px 0; font-weight: 700; }
+        h3 { color: var(--text); font-size: 1.05rem; margin: 22px 0 8px 0; font-weight: 600; }
+        p { color: var(--text-muted); font-size: 0.98rem; margin: 0 0 14px 0; }
+        p:last-child { margin-bottom: 0; }
+
+        ul {
+            padding-left: 20px;
+            margin: 8px 0 14px 0;
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        ul li { margin-bottom: 6px; }
+
+        .divider { height: 1px; background: var(--border); margin: 22px 0; }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(10,132,255,0.08), rgba(10,132,255,0.03));
+            border: 1px solid rgba(10,132,255,0.25);
+            border-radius: 14px;
+            padding: 22px 26px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-top: 8px;
+        }
+
+        .contact-box .cb-icon {
+            flex-shrink: 0;
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            border: 1px solid rgba(10,132,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .contact-box .cb-icon svg { width: 20px; height: 20px; }
+        .contact-box .cb-info h3 { color: #fff; margin: 0 0 4px 0; font-size: 1rem; }
+        .contact-box .cb-info p { margin: 0; font-size: 0.9rem; }
+        .contact-box .cb-info a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .contact-box .cb-info a:hover { text-decoration: underline; }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+        }
+
+        footer a { color: var(--primary); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        footer .links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        strong { color: var(--text); }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        @media (max-width: 560px) {
+            .card { padding: 22px 18px; }
+            .page-header h1 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header">
+        <div class="header-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+        </div>
+        <div class="app-badge">DTC Pulse &bull; DomtomConnect</div>
+        <h1>Politique de Confidentialit&eacute;</h1>
+        <p class="subtitle">Protection des donn&eacute;es personnelles &mdash; Derni&egrave;re mise &agrave; jour : 30 septembre 2026</p>
+    </div>
+
+    <!-- 1. Introduction -->
+    <div class="card">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Introduction
+        </div>
+        <h2>Qui sommes-nous ?</h2>
+        <p>DomtomConnect (&laquo;&nbsp;nous&nbsp;&raquo;, &laquo;&nbsp;notre&nbsp;&raquo;) exploite l'application mobile <strong>DTC Pulse</strong> (identifiant Google Play : <strong>com.domtomconnect.app</strong>) ainsi que le site web <strong>domtomconnect.com</strong>.</p>
+        <p>La pr&eacute;sente Politique de Confidentialit&eacute; d&eacute;crit la mani&egrave;re dont nous collectons, utilisons, stockons et prot&eacute;geons vos donn&eacute;es personnelles, conform&eacute;ment au R&egrave;glement G&eacute;n&eacute;ral sur la Protection des Donn&eacute;es (RGPD) et &agrave; la loi Informatique et Libert&eacute;s.</p>
+    </div>
+
+    <!-- 2. Données collectées -->
+    <div class="card card-alt">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+            </svg>
+            Données collectées
+        </div>
+        <h2>Quelles donn&eacute;es collectons-nous ?</h2>
+
+        <h3>Donn&eacute;es fournies lors de l'inscription</h3>
+        <ul>
+            <li>Nom, pr&eacute;nom et pseudonyme</li>
+            <li>Adresse e-mail</li>
+            <li>Mot de passe (stock&eacute; sous forme chiffr&eacute;e)</li>
+            <li>Date de naissance (pour v&eacute;rifier l'&acirc;ge minimum de 13 ans)</li>
+            <li>Pays et territoire de r&eacute;sidence</li>
+        </ul>
+
+        <h3>Donn&eacute;es g&eacute;n&eacute;r&eacute;es lors de l'utilisation</h3>
+        <ul>
+            <li>Publications, commentaires et contenus partag&eacute;s</li>
+            <li>Messages priv&eacute;s entre utilisateurs</li>
+            <li>Interactions (mentions J'aime, partages, signalements)</li>
+            <li>Donn&eacute;es de navigation et journaux d'acc&egrave;s (adresse IP, type d'appareil, version de l'application)</li>
+        </ul>
+
+        <h3>Donn&eacute;es collect&eacute;es automatiquement</h3>
+        <ul>
+            <li>Identifiants d'appareil (pour les notifications push)</li>
+            <li>Donn&eacute;es d'utilisation agr&eacute;g&eacute;es &agrave; des fins analytiques</li>
+        </ul>
+    </div>
+
+    <!-- 3. Utilisation -->
+    <div class="card">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Utilisation des données
+        </div>
+        <h2>Comment utilisons-nous vos donn&eacute;es ?</h2>
+        <p>Vos donn&eacute;es sont utilis&eacute;es exclusivement pour :</p>
+        <ul>
+            <li>Fournir, exploiter et am&eacute;liorer les fonctionnalit&eacute;s de DTC Pulse</li>
+            <li>Authentifier votre compte et s&eacute;curiser l'acc&egrave;s</li>
+            <li>Vous envoyer des notifications relatives &agrave; votre activit&eacute; sur la plateforme</li>
+            <li>Mod&eacute;rer les contenus et appliquer nos Conditions G&eacute;n&eacute;rales d'Utilisation</li>
+            <li>R&eacute;pondre &agrave; vos demandes de support</li>
+            <li>Respecter nos obligations l&eacute;gales (notamment en mati&egrave;re de s&eacute;curit&eacute; des enfants)</li>
+        </ul>
+        <p>Nous ne vendons pas vos donn&eacute;es personnelles &agrave; des tiers et ne les utilisons pas &agrave; des fins publicitaires sans votre consentement explicite.</p>
+    </div>
+
+    <!-- 4. Conservation -->
+    <div class="card card-alt">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Conservation
+        </div>
+        <h2>Dur&eacute;e de conservation</h2>
+        <p>Vos donn&eacute;es sont conserv&eacute;es aussi longtemps que votre compte est actif. En cas de suppression de compte, vos donn&eacute;es personnelles sont effac&eacute;es dans un d&eacute;lai de <strong>30 jours</strong>, sauf obligation l&eacute;gale de conservation plus longue (notamment dans le cadre de proc&eacute;dures judiciaires).</p>
+        <p>Les journaux de connexion sont conserv&eacute;s 12 mois conform&eacute;ment &agrave; la l&eacute;gislation fran&ccedil;aise.</p>
+    </div>
+
+    <!-- 5. Droits -->
+    <div class="card">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            Vos droits
+        </div>
+        <h2>Vos droits sur vos donn&eacute;es</h2>
+        <p>Conform&eacute;ment au RGPD, vous disposez des droits suivants :</p>
+        <ul>
+            <li><strong>Droit d'acc&egrave;s :</strong> obtenir une copie de vos donn&eacute;es personnelles</li>
+            <li><strong>Droit de rectification :</strong> corriger des donn&eacute;es inexactes ou incompl&egrave;tes</li>
+            <li><strong>Droit &agrave; l'effacement :</strong> demander la suppression de vos donn&eacute;es</li>
+            <li><strong>Droit &agrave; la portabilit&eacute; :</strong> recevoir vos donn&eacute;es dans un format structur&eacute;</li>
+            <li><strong>Droit d'opposition :</strong> vous opposer &agrave; certains traitements</li>
+            <li><strong>Droit &agrave; la limitation :</strong> restreindre le traitement dans certains cas</li>
+        </ul>
+        <p>Pour exercer ces droits, contactez-nous &agrave; l'adresse indiqu&eacute;e ci-dessous. Nous r&eacute;pondrons dans un d&eacute;lai de 30 jours.</p>
+    </div>
+
+    <!-- 6. Sécurité -->
+    <div class="card card-alt">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Sécurité
+        </div>
+        <h2>S&eacute;curit&eacute; des donn&eacute;es</h2>
+        <p>Nous mettons en oeuvre des mesures techniques et organisationnelles adapt&eacute;es pour prot&eacute;ger vos donn&eacute;es contre tout acc&egrave;s non autoris&eacute;, perte, destruction ou divulgation. Nos infrastructures sont h&eacute;berg&eacute;es sur des serveurs s&eacute;curis&eacute;s avec chiffrement des donn&eacute;es en transit (TLS) et au repos.</p>
+        <p>Pour tout ce qui concerne la s&eacute;curit&eacute; des mineurs, veuillez consulter notre <a href="/child-safety">Politique de S&eacute;curit&eacute; des Enfants</a>.</p>
+    </div>
+
+    <!-- 7. Contact -->
+    <div class="card">
+        <div class="section-label">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Contact
+        </div>
+        <h2>Nous contacter</h2>
+        <p>Pour toute question relative &agrave; la pr&eacute;sente politique ou pour exercer vos droits :</p>
+
+        <div class="contact-box">
+            <div class="cb-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <div class="cb-info">
+                <h3>DomtomConnect &mdash; Responsable des donn&eacute;es</h3>
+                <p>R&eacute;ponse sous 30 jours maximum</p>
+                <a href="mailto:domtomconnect@gmail.com">domtomconnect@gmail.com</a>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+        <p>Vous avez &eacute;galement le droit d'introduire une r&eacute;clamation aupr&egrave;s de la <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL (Commission Nationale de l'Informatique et des Libert&eacute;s)</a> si vous estimez que vos droits n'ont pas &eacute;t&eacute; respect&eacute;s.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 DomtomConnect. Tous droits r&eacute;serv&eacute;s.</p>
+        <div class="links">
+            <a href="https://domtomconnect.com">Accueil</a>
+            <a href="/child-safety">S&eacute;curit&eacute; des enfants</a>
+            <a href="mailto:domtomconnect@gmail.com">Nous contacter</a>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>
