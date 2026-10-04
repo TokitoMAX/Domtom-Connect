@@ -210,6 +210,7 @@
     "guyane-agricole.com",
     "guyane-evasion.com",
     "guyanet.fr",
+    "h-import-export.com",
     "h2oeseatoys.com",
     "happydayspartystore.com",
     "happyfitfood-sbh.com",
@@ -282,6 +283,7 @@
     "lafourchetteantillaise.fr",
     "lagarde.nc",
     "lagarde.nc.",
+    "lalaitiere971.com.",
     "lamajore.com",
     "langley.eu",
     "laparkan.com",
@@ -532,6 +534,7 @@
     "bonjour@digitalxpress.fr",
     "bonjour@digitalxpress.fr.",
     "bonjour@steambar.fr",
+    "bordeaux@h-import-export.com",
     "boutique.reunion@lmdw.com",
     "boutique.stbarth@stuartweitzman.fr",
     "br@banquedelareunion.fr",
@@ -697,6 +700,7 @@
     "contact@lafourchette.com",
     "contact@lagarde.nc",
     "contact@lagarde.nc.",
+    "contact@lalaitiere971.com.",
     "contact@lamajore.com",
     "contact@lasourcecosmetics.com",
     "contact@le-bambou.com",
@@ -1125,8 +1129,8 @@
     "Webmails grand public Orange / Wanadoo (bloquage OFR_506)",
     "Entreprises dont l'email direct et fonctionnel du dirigeant/responsable n'est pas 100% verifie et source"
   ],
-  "total_excluded_emails": 625,
-  "total_excluded_domains": 490,
+  "total_excluded_emails": 627,
+  "total_excluded_domains": 492,
   "bounced_emails": [
     "export@spiridom.com"
   ],

@@ -49294,9 +49294,10 @@
       "entreprise": "Hippocampe Import Export",
       "batch": "batch_79",
       "date_contact": "2026-10-04",
-      "statut": "ENVOYE",
+      "statut": "BOUNCE_EXCLU",
       "source": "https://h-import-export.com",
-      "notes": "Batch 79 - Fret Régulier & Transit Mayotte Océan Indien (Mayotte / Réunion / Comores)"
+      "notes": "Batch 79 - Fret Régulier & Transit Mayotte Océan Indien (Mayotte / Réunion / Comores)",
+      "bounced": true
     },
     {
       "email": "jac@jac.pf",
