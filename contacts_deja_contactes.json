@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 4603,
-  "total_domains": 2727,
+  "total_contacts": 4661,
+  "total_domains": 2832,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2819,7 +2819,22 @@
     "eshiplog.com",
     "sidina78.com",
     "colisantilles.fr",
-    "tdm-caraibes.com"
+    "tdm-caraibes.com",
+    "braud-quennesson.com",
+    "filaoconseil.fr",
+    "biotope.fr",
+    "ecr-environnement.com",
+    "impact-mer.fr",
+    "zone-up.fr",
+    "acrorunelagage.com",
+    "brasserie-sazile.fr",
+    "doubsis.com",
+    "brasseriedescouleurs.fr",
+    "bieregayar.com",
+    "brasserieouest.re",
+    "ledemeter.fr",
+    "maison-kalao.com",
+    "kaynoo.sn"
   ],
   "contacts": [
     {
@@ -48981,6 +48996,171 @@
       "date_contact": "Sun, 04 Oct 2026 03:03:11 +0200",
       "source": "Site officiel tdm-caraibes.com",
       "batch": "Batch 77 (Fret Express & Logistique Diaspora)"
+    },
+    {
+      "email": "contact@braud-quennesson.com",
+      "nom": "Distillerie Braud et Quennesson",
+      "prenom": "",
+      "entreprise": "Distillerie Braud et Quennesson",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://sud-martinique-tourisme.com",
+      "notes": "Batch 78 - Spiritueux & Terroirs d'Exception (Martinique)"
+    },
+    {
+      "email": "info@filaoconseil.fr",
+      "nom": "Filao Ingénieurs Conseils",
+      "prenom": "",
+      "entreprise": "Filao Ingénieurs Conseils",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://www.filaoconseil.fr/contact",
+      "notes": "Batch 78 - Ingénierie Environnementale & Territoires (Guadeloupe)"
+    },
+    {
+      "email": "caraibes@biotope.fr",
+      "nom": "Biotope Caraïbes",
+      "prenom": "",
+      "entreprise": "Biotope Caraïbes",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://www.biotope.fr/contactez-nous",
+      "notes": "Batch 78 - Biodiversité, Écologie & RSE (Guadeloupe / Martinique)"
+    },
+    {
+      "email": "lareunion@ecr-environnement.com",
+      "nom": "ECR Environnement Océan Indien",
+      "prenom": "",
+      "entreprise": "ECR Environnement Océan Indien",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://ecr-environnement.com",
+      "notes": "Batch 78 - Ingénierie Environnementale & Géotechnique (La Réunion)"
+    },
+    {
+      "email": "contact@impact-mer.fr",
+      "nom": "Impact Mer",
+      "prenom": "",
+      "entreprise": "Impact Mer",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://www.impact-mer.fr",
+      "notes": "Batch 78 - Environnement Marin & Économie Bleue (Martinique / Caraïbes)"
+    },
+    {
+      "email": "l.bregent@zone-up.fr",
+      "nom": "Zone-UP Architectes Paysagistes",
+      "prenom": "",
+      "entreprise": "Zone-UP Architectes Paysagistes",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://www.zone-up.fr",
+      "notes": "Batch 78 - Architecture du Paysage & Aménagement Durable (La Réunion)"
+    },
+    {
+      "email": "contact@acrorunelagage.com",
+      "nom": "Acrorun Élagage & Paysage",
+      "prenom": "",
+      "entreprise": "Acrorun Élagage & Paysage",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://acrorunelagage.com",
+      "notes": "Batch 78 - Aménagement Paysager Tropical & Espaces Verts (La Réunion)"
+    },
+    {
+      "email": "contact@brasserie-sazile.fr",
+      "nom": "Brasserie Sazilé",
+      "prenom": "",
+      "entreprise": "Brasserie Sazilé",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://brasserie-sazile.fr",
+      "notes": "Batch 78 - Brasserie Artisanale Insulaire (Mayotte / Océan Indien)"
+    },
+    {
+      "email": "contact@doubsis.com",
+      "nom": "Brasserie Doubsis",
+      "prenom": "",
+      "entreprise": "Brasserie Doubsis",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://doubsis.com",
+      "notes": "Batch 78 - Microbrasserie Artisanale Antillaise (Martinique)"
+    },
+    {
+      "email": "contact@brasseriedescouleurs.fr",
+      "nom": "Brasserie des Couleurs",
+      "prenom": "",
+      "entreprise": "Brasserie des Couleurs",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://brasseriedescouleurs.fr",
+      "notes": "Batch 78 - Bière Artisanale & Terroir Péi (La Réunion)"
+    },
+    {
+      "email": "contact@bieregayar.com",
+      "nom": "Brasserie Gayar",
+      "prenom": "",
+      "entreprise": "Brasserie Gayar",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://bieregayar.com",
+      "notes": "Batch 78 - Brasserie Artisanale Locale (La Réunion)"
+    },
+    {
+      "email": "info@brasserieouest.re",
+      "nom": "Brasserie de l'Ouest Ti Mouss",
+      "prenom": "",
+      "entreprise": "Brasserie de l'Ouest Ti Mouss",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://brasserieouest.re",
+      "notes": "Batch 78 - Microbrasserie Artisanale Péi (La Réunion)"
+    },
+    {
+      "email": "samuel@ledemeter.fr",
+      "nom": "Le Demeter",
+      "prenom": "",
+      "entreprise": "Le Demeter",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://ledemeter.fr",
+      "notes": "Batch 78 - Craft Beer & Brasserie Artisanale (La Réunion)"
+    },
+    {
+      "email": "contact@maison-kalao.com",
+      "nom": "Maison Kalao",
+      "prenom": "",
+      "entreprise": "Maison Kalao",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://maison-kalao.com",
+      "notes": "Batch 78 - Brasserie Artisanale Céréales Locales (Sénégal)"
+    },
+    {
+      "email": "contact@kaynoo.sn",
+      "nom": "Kaynoo",
+      "prenom": "",
+      "entreprise": "Kaynoo",
+      "batch": "batch_78",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://kaynoo.sn",
+      "notes": "Batch 78 - Marketplace Terroir & Boissons Locales (Sénégal)"
     }
   ],
   "emails": [
