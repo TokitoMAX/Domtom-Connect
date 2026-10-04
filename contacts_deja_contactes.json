@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 4676,
-  "total_domains": 2847,
+  "total_contacts": 4691,
+  "total_domains": 2862,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2849,7 +2849,22 @@
     "jac.pf",
     "altitrans.nc",
     "polynesietransit.pf",
-    "transit.pf"
+    "transit.pf",
+    "jfdpatrimoine-immobilier.fr",
+    "coconseils.fr",
+    "avocat-conseil.fr",
+    "nplavocats.com",
+    "cagepa.fr",
+    "bucketlistvilla.com",
+    "ckconciergerie.com",
+    "cotecaraibes.com",
+    "villasmartinique.fr",
+    "moorea-ocean-adventures.com",
+    "topdive.com",
+    "dodopalme.com",
+    "aquabulle.com",
+    "fluidtahiti.com",
+    "boraoceanadventures.com"
   ],
   "contacts": [
     {
@@ -49342,6 +49357,171 @@
       "statut": "ENVOYE",
       "source": "https://transit.pf",
       "notes": "Batch 79 - Logistique Maritime, Déménagements & Fret Océanie (Polynésie française (Papeete))"
+    },
+    {
+      "email": "contact@jfdpatrimoine-immobilier.fr",
+      "nom": "JFD Patrimoine",
+      "prenom": "",
+      "entreprise": "JFD Patrimoine",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://jfdpatrimoine-immobilier.fr",
+      "notes": "Batch 80 - Gestion de Patrimoine & Investissement (La Réunion (Saint-Paul))"
+    },
+    {
+      "email": "contact@coconseils.fr",
+      "nom": "CO Conseils",
+      "prenom": "",
+      "entreprise": "CO Conseils",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://coconseils.fr",
+      "notes": "Batch 80 - Conseil Patrimonial & Dispositifs Outre-Mer (La Réunion)"
+    },
+    {
+      "email": "claudine.portel@avocat-conseil.fr",
+      "nom": "Cabinet Claudine Portel",
+      "prenom": "",
+      "entreprise": "Cabinet Claudine Portel",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://claudine-portel-avocat.com",
+      "notes": "Batch 80 - Droit Fiscal & Conseil Patrimonial (Martinique (Fort-de-France))"
+    },
+    {
+      "email": "cabinet@nplavocats.com",
+      "nom": "NPL Avocats",
+      "prenom": "",
+      "entreprise": "NPL Avocats",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://nplavocats.com",
+      "notes": "Batch 80 - Droit des Affaires & Stratégie Fiscale (Guadeloupe)"
+    },
+    {
+      "email": "saint-martin@cagepa.fr",
+      "nom": "CAGEPA Saint-Martin",
+      "prenom": "",
+      "entreprise": "CAGEPA Saint-Martin",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://cagepa.fr",
+      "notes": "Batch 80 - Gestion de Patrimoine & Immobilier d'Exception (Saint-Martin)"
+    },
+    {
+      "email": "contact@bucketlistvilla.com",
+      "nom": "Bucket List Villa",
+      "prenom": "",
+      "entreprise": "Bucket List Villa",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://bucketlistvilla.com",
+      "notes": "Batch 80 - Conciergerie Privée & Villas de Prestige (Saint-Barthélemy)"
+    },
+    {
+      "email": "gwen@ckconciergerie.com",
+      "nom": "Caribbean Keys Conciergerie",
+      "prenom": "",
+      "entreprise": "Caribbean Keys Conciergerie",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://ckconciergerie.com",
+      "notes": "Batch 80 - Gestion Locative & Conciergerie de Prestige (Guadeloupe)"
+    },
+    {
+      "email": "christelle@cotecaraibes.com",
+      "nom": "Côté Caraïbes Conciergerie",
+      "prenom": "",
+      "entreprise": "Côté Caraïbes Conciergerie",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://cotecaraibes.com",
+      "notes": "Batch 80 - Gestion Immobilière & Conciergerie Privée (Guadeloupe)"
+    },
+    {
+      "email": "contact@villasmartinique.fr",
+      "nom": "Villas Martinique",
+      "prenom": "",
+      "entreprise": "Villas Martinique",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://villasmartinique.fr",
+      "notes": "Batch 80 - Location Saisonnière & Propriétés de Prestige (Martinique)"
+    },
+    {
+      "email": "info@moorea-ocean-adventures.com",
+      "nom": "Moorea Ocean Adventures",
+      "prenom": "",
+      "entreprise": "Moorea Ocean Adventures",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://moorea-ocean-adventures.com",
+      "notes": "Batch 80 - Safaris Marins Privés & Écotourisme Océanique (Polynésie française (Moorea))"
+    },
+    {
+      "email": "dive@topdive.com",
+      "nom": "Top Dive Polynésie",
+      "prenom": "",
+      "entreprise": "Top Dive Polynésie",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://topdive.fr",
+      "notes": "Batch 80 - Réseau de Centres de Plongée & Croisières Plongée (Polynésie française)"
+    },
+    {
+      "email": "contact@dodopalme.com",
+      "nom": "Le Dodo Palmé",
+      "prenom": "",
+      "entreprise": "Le Dodo Palmé",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://dodopalme.com",
+      "notes": "Batch 80 - Centre de Plongée, Formations & Randonnées Baleines (La Réunion (Le Port))"
+    },
+    {
+      "email": "info@aquabulle.com",
+      "nom": "Aquabulle Martinique",
+      "prenom": "",
+      "entreprise": "Aquabulle Martinique",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://aquabulle.com",
+      "notes": "Batch 80 - Bateau à Vision Sous-Marine & Écotourisme Marin (Martinique (Le Marin))"
+    },
+    {
+      "email": "info@fluidtahiti.com",
+      "nom": "Fluid Tahiti Plongée",
+      "prenom": "",
+      "entreprise": "Fluid Tahiti Plongée",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://fluid-tahiti.com",
+      "notes": "Batch 80 - Centre de Plongée Sous-Marine & Explorations Récifales (Polynésie française (Tahiti))"
+    },
+    {
+      "email": "contact@boraoceanadventures.com",
+      "nom": "Bora Ocean Adventures",
+      "prenom": "",
+      "entreprise": "Bora Ocean Adventures",
+      "batch": "batch_80",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://boraoceanadventures.com",
+      "notes": "Batch 80 - Excursions Maritimes Privées & Safari Lagon (Polynésie française (Bora Bora))"
     }
   ],
   "emails": [
