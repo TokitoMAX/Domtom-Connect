@@ -1,7 +1,7 @@
 {
   "extracted_at": "2026-09-23T05:19:38.552818",
-  "total_contacts": 4661,
-  "total_domains": 2832,
+  "total_contacts": 4676,
+  "total_domains": 2847,
   "domains": [
     "100capri.com",
     "11102005.brevosend.com",
@@ -2834,7 +2834,22 @@
     "brasserieouest.re",
     "ledemeter.fr",
     "maison-kalao.com",
-    "kaynoo.sn"
+    "kaynoo.sn",
+    "alternative-sailing.com",
+    "epm972.fr",
+    "bleumarineplongee.re",
+    "reunionplongee.com",
+    "archipel-plongee.fr",
+    "abaca-croisieres.com",
+    "trans-madikera.com",
+    "gta-transitaire.com",
+    "rgt.re",
+    "chenal-sas.com",
+    "h-import-export.com",
+    "jac.pf",
+    "altitrans.nc",
+    "polynesietransit.pf",
+    "transit.pf"
   ],
   "contacts": [
     {
@@ -49161,6 +49176,171 @@
       "statut": "ENVOYE",
       "source": "https://kaynoo.sn",
       "notes": "Batch 78 - Marketplace Terroir & Boissons Locales (Sénégal)"
+    },
+    {
+      "email": "contact@alternative-sailing.com",
+      "nom": "Alternative Sailing",
+      "prenom": "",
+      "entreprise": "Alternative Sailing",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://alternative-sailing.com",
+      "notes": "Batch 79 - Location & Gestion de Catamarans Haut de Gamme (Martinique (Le Marin))"
+    },
+    {
+      "email": "infos@epm972.fr",
+      "nom": "Espace Plongée Martinique",
+      "prenom": "",
+      "entreprise": "Espace Plongée Martinique",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://espaceplongee-martinique.com",
+      "notes": "Batch 79 - Plongée & Croisières Écotouristiques Catamaran (Martinique (Pointe du Bout))"
+    },
+    {
+      "email": "contact@bleumarineplongee.re",
+      "nom": "Bleu Marine Réunion",
+      "prenom": "",
+      "entreprise": "Bleu Marine Réunion",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://bleumarineplongee.re",
+      "notes": "Batch 79 - Centre de Plongée & Exploration Sous-Marine (La Réunion (Saint-Gilles))"
+    },
+    {
+      "email": "contact@reunionplongee.com",
+      "nom": "Scubananas Réunion Plongée",
+      "prenom": "",
+      "entreprise": "Scubananas Réunion Plongée",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://reunionplongee.com",
+      "notes": "Batch 79 - Plongée & Safari Cétacés Péi (La Réunion (Saint-Gilles))"
+    },
+    {
+      "email": "plongee@archipel-plongee.fr",
+      "nom": "Archipel Plongée",
+      "prenom": "",
+      "entreprise": "Archipel Plongée",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://archipel-plongee.fr",
+      "notes": "Batch 79 - Plongée & Découverte Réserve Cousteau (Guadeloupe (Malendure))"
+    },
+    {
+      "email": "yves@abaca-croisieres.com",
+      "nom": "Abaca Croisières",
+      "prenom": "",
+      "entreprise": "Abaca Croisières",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "http://abaca-croisieres.com",
+      "notes": "Batch 79 - Croisières Catamaran & Charters Lagon (Nouvelle-Calédonie (Nouméa))"
+    },
+    {
+      "email": "logistique@trans-madikera.com",
+      "nom": "Trans Madikera Express",
+      "prenom": "",
+      "entreprise": "Trans Madikera Express",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://trans-madikera.com",
+      "notes": "Batch 79 - Logistique Inter-Îles, Groupage & Fret (Guadeloupe (Jarry))"
+    },
+    {
+      "email": "contact@gta-transitaire.com",
+      "nom": "GTA Groupeur Transitaire Associés",
+      "prenom": "",
+      "entreprise": "GTA Groupeur Transitaire Associés",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://gta-transitaire.com",
+      "notes": "Batch 79 - Fret Maritime, Aérien & Transit International (Afrique / Outre-Mer)"
+    },
+    {
+      "email": "contact@rgt.re",
+      "nom": "Reunion Groupage Transit",
+      "prenom": "",
+      "entreprise": "Reunion Groupage Transit",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://rgt.re",
+      "notes": "Batch 79 - Groupage Maritime & Déménagements Internationaux (La Réunion (Le Port))"
+    },
+    {
+      "email": "contact@chenal-sas.com",
+      "nom": "Chenal SAS",
+      "prenom": "",
+      "entreprise": "Chenal SAS",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://chenal-sas.com",
+      "notes": "Batch 79 - Transport Maritime & Logistique Insulaire (Mayotte / La Réunion)"
+    },
+    {
+      "email": "bordeaux@h-import-export.com",
+      "nom": "Hippocampe Import Export",
+      "prenom": "",
+      "entreprise": "Hippocampe Import Export",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://h-import-export.com",
+      "notes": "Batch 79 - Fret Régulier & Transit Mayotte Océan Indien (Mayotte / Réunion / Comores)"
+    },
+    {
+      "email": "jac@jac.pf",
+      "nom": "J.A. Cowan et Fils",
+      "prenom": "",
+      "entreprise": "J.A. Cowan et Fils",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://jac.pf",
+      "notes": "Batch 79 - Transit Portuaire, Manutention & Fret International (Polynésie française (Papeete))"
+    },
+    {
+      "email": "info@altitrans.nc",
+      "nom": "AltiTrans",
+      "prenom": "",
+      "entreprise": "AltiTrans",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://altitrans.nc",
+      "notes": "Batch 79 - Fret Express, Transit & Logistique du Pacifique (Nouvelle-Calédonie (Nouméa))"
+    },
+    {
+      "email": "contact@polynesietransit.pf",
+      "nom": "Polynésie Transit",
+      "prenom": "",
+      "entreprise": "Polynésie Transit",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://polynesietransit.pf",
+      "notes": "Batch 79 - Fret Maritime, Aérien & Dédouanement Insulaire (Polynésie française (Papeete))"
+    },
+    {
+      "email": "info@transit.pf",
+      "nom": "Transit SAT NUI",
+      "prenom": "",
+      "entreprise": "Transit SAT NUI",
+      "batch": "batch_79",
+      "date_contact": "2026-10-04",
+      "statut": "ENVOYE",
+      "source": "https://transit.pf",
+      "notes": "Batch 79 - Logistique Maritime, Déménagements & Fret Océanie (Polynésie française (Papeete))"
     }
   ],
   "emails": [
