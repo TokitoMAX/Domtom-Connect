@@ -2807,7 +2807,19 @@
     "naturaform.re",
     "parc-aquacole.fr",
     "aquasearch.fr",
-    "sypagua.com"
+    "sypagua.com",
+    "leslodgesdeloyack.fr",
+    "amazonie-decouverte.com",
+    "amazonenature.com",
+    "aqualodge.fr",
+    "hotel-ledimitile.com",
+    "niassam.com",
+    "souimanga-lodge.com",
+    "gopak.fr",
+    "eshiplog.com",
+    "sidina78.com",
+    "colisantilles.fr",
+    "tdm-caraibes.com"
   ],
   "contacts": [
     {
@@ -44070,7 +44082,9 @@
     },
     {
       "email": "contact@kar-amazonie-location.com",
-      "company": "Kar'Amazonie"
+      "company": "Kar'Amazonie",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "sabialiba@gmail.com",
@@ -44630,7 +44644,9 @@
     },
     {
       "email": "bonjour@digitalxpress.fr",
-      "company": "Digital Xpress"
+      "company": "Digital Xpress",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "contact@beecee.fr",
@@ -44786,7 +44802,9 @@
     },
     {
       "email": "contact@cip-guadeloupe.com",
-      "company": "CIP Guadeloupe"
+      "company": "CIP Guadeloupe",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "infiniplongee@gmail.com",
@@ -45713,7 +45731,9 @@
     },
     {
       "email": "contact@madinstore.com",
-      "company": "Madin Store"
+      "company": "Madin Store",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "contact@afrocaribmarket.com",
@@ -46935,7 +46955,9 @@
       "city": "Nouméa",
       "source": "Site officiel lagarde.nc",
       "batch": "batch_67_experts_juridique_affaires_50",
-      "contacted_at": "2026-09-29 00:18:52"
+      "contacted_at": "2026-09-29 00:18:52",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "company": "Audifi Tahiti",
@@ -48608,7 +48630,9 @@
       "category": "Architecture & Ingénierie",
       "date_contact": "Sat, 03 Oct 2026 21:23:50 +0200",
       "source": "Site officiel philippe-zaffran-architecte.fr",
-      "batch": "Batch 75 Architecture Solaire & Conseil"
+      "batch": "Batch 75 Architecture Solaire & Conseil",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "contact@css-solaire.com",
@@ -48689,7 +48713,9 @@
       "category": "Conseil & Stratégie Panafricaine",
       "date_contact": "Sat, 03 Oct 2026 21:24:44 +0200",
       "source": "Site officiel mcg.sn",
-      "batch": "Batch 75 Architecture Solaire & Conseil"
+      "batch": "Batch 75 Architecture Solaire & Conseil",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
     },
     {
       "email": "contact@aceconsulting.sn",
@@ -48843,6 +48869,118 @@
       "date_contact": "Sun, 04 Oct 2026 02:40:41 +0200",
       "source": "Site officiel sypagua.com",
       "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "contact@leslodgesdeloyack.fr",
+      "company": "Les Lodges de l'Oyack",
+      "territory": "Guyane",
+      "category": "Écolodges & Nature",
+      "date_contact": "Sun, 04 Oct 2026 03:02:06 +0200",
+      "source": "Site officiel leslodgesdeloyack.fr",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "info@amazonie-decouverte.com",
+      "company": "Rour'Attitude",
+      "territory": "Guyane",
+      "category": "Écolodges & Nature",
+      "date_contact": "Sun, 04 Oct 2026 03:02:12 +0200",
+      "source": "Site officiel location-guyane.fr",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "contact@amazonenature.com",
+      "company": "Amazone Nature Lodge",
+      "territory": "Guyane",
+      "category": "Écolodges & Nature",
+      "date_contact": "Sun, 04 Oct 2026 03:02:19 +0200",
+      "source": "Site officiel amazonenature.com",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "contact@aqualodge.fr",
+      "company": "Aqua Lodge Guadeloupe",
+      "territory": "Guadeloupe",
+      "category": "Écolodges Flottants & Hébergement Insolite",
+      "date_contact": "Sun, 04 Oct 2026 03:02:25 +0200",
+      "source": "Site officiel aqualodge.fr",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "contact@hotel-ledimitile.com",
+      "company": "Dimitile Hôtel & Spa",
+      "territory": "La Réunion",
+      "category": "Hôtellerie de Charme & Patrimoine",
+      "date_contact": "Sun, 04 Oct 2026 03:02:31 +0200",
+      "source": "Site officiel hotel-ledimitile.com",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "resa@niassam.com",
+      "company": "Les Collines de Niassam",
+      "territory": "Sénégal",
+      "category": "Écolodges & Écotourisme Panafricain",
+      "date_contact": "Sun, 04 Oct 2026 03:02:36 +0200",
+      "source": "Site officiel niassam.com",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)"
+    },
+    {
+      "email": "dmenciere@souimanga-lodge.com",
+      "company": "Souimanga Lodge",
+      "territory": "Sénégal",
+      "category": "Écolodges & Écotourisme Panafricain",
+      "date_contact": "Sun, 04 Oct 2026 03:02:43 +0200",
+      "source": "Site officiel souimanga-lodge.com",
+      "batch": "Batch 77 (Écolodges & Tourisme Immersif)",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
+    },
+    {
+      "email": "contact@gopak.fr",
+      "company": "GO PAK Express",
+      "territory": "Afrique / France",
+      "category": "Fret Aérien Express & Colis Diaspora",
+      "date_contact": "Sun, 04 Oct 2026 03:02:49 +0200",
+      "source": "Site officiel gopak.fr",
+      "batch": "Batch 77 (Fret Express & Logistique Diaspora)"
+    },
+    {
+      "email": "info@eshiplog.com",
+      "company": "e.SHIPLOG",
+      "territory": "Afrique de l'Ouest / France",
+      "category": "Transit Multimodal & Logistique Régionale",
+      "date_contact": "Sun, 04 Oct 2026 03:02:54 +0200",
+      "source": "Site officiel eshiplog.com",
+      "batch": "Batch 77 (Fret Express & Logistique Diaspora)"
+    },
+    {
+      "email": "contacts@sidina78.com",
+      "company": "Sidina 78 Express",
+      "territory": "Madagascar / France",
+      "category": "Transport de Colis & Fret Océan Indien",
+      "date_contact": "Sun, 04 Oct 2026 03:02:59 +0200",
+      "source": "Site officiel sidina78.com",
+      "batch": "Batch 77 (Fret Express & Logistique Diaspora)",
+      "bounced": true,
+      "statut": "BOUNCE_EXCLU"
+    },
+    {
+      "email": "info@colisantilles.fr",
+      "company": "Colis Antilles",
+      "territory": "Antilles / France",
+      "category": "Réexpédition & Fret Colis Outre-mer",
+      "date_contact": "Sun, 04 Oct 2026 03:03:05 +0200",
+      "source": "Site officiel colisantilles.fr",
+      "batch": "Batch 77 (Fret Express & Logistique Diaspora)"
+    },
+    {
+      "email": "contact@tdm-caraibes.com",
+      "company": "TDM Caraïbes",
+      "territory": "Martinique / Guadeloupe",
+      "category": "Groupage, Fret & Transport Régional",
+      "date_contact": "Sun, 04 Oct 2026 03:03:11 +0200",
+      "source": "Site officiel tdm-caraibes.com",
+      "batch": "Batch 77 (Fret Express & Logistique Diaspora)"
     }
   ],
   "emails": [
@@ -50601,7 +50739,19 @@
     "Naturaform",
     "Parc Aquacole de Guadeloupe",
     "Aquasearch",
-    "SYPAGUA Guadeloupe"
+    "SYPAGUA Guadeloupe",
+    "Les Lodges de l'Oyack",
+    "Rour'Attitude",
+    "Amazone Nature Lodge",
+    "Aqua Lodge Guadeloupe",
+    "Dimitile Hôtel & Spa",
+    "Les Collines de Niassam",
+    "Souimanga Lodge",
+    "GO PAK Express",
+    "e.SHIPLOG",
+    "Sidina 78 Express",
+    "Colis Antilles",
+    "TDM Caraïbes"
   ],
   "contact@aquereburu-partners.com": {
     "nom": "SCP Aquereburu & Partners (Me Ehonam A. GAMISSO YEVENOU)",
