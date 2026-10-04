@@ -2794,7 +2794,20 @@
     "barakaconsulting.ci",
     "sandconsulting.sn",
     "mcg.sn",
-    "aceconsulting.sn"
+    "aceconsulting.sn",
+    "naomimartino.fr",
+    "audaces.re",
+    "lepasseurdaromes.re",
+    "domaineducafegrille.fr",
+    "lstradenature.com",
+    "comptoirdesmonoi.com",
+    "pacifiquesud.com",
+    "sargawatt.fr",
+    "acpenvironnement.org",
+    "naturaform.re",
+    "parc-aquacole.fr",
+    "aquasearch.fr",
+    "sypagua.com"
   ],
   "contacts": [
     {
@@ -48686,6 +48699,150 @@
       "date_contact": "Sat, 03 Oct 2026 21:24:48 +0200",
       "source": "Site officiel aceconsulting.sn",
       "batch": "Batch 75 Architecture Solaire & Conseil"
+    },
+    {
+      "email": "chocolats@naomimartino.fr",
+      "company": "Naomi Martino Chocolats",
+      "territory": "Guadeloupe",
+      "category": "Chocolaterie Artisanale Bean-to-Bar",
+      "date_contact": "Sun, 04 Oct 2026 02:39:20 +0200",
+      "source": "Site officiel naomimartino.fr",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "fxcaussade@audaces.re",
+      "company": "Audaces Chocolat",
+      "territory": "La Réunion",
+      "category": "Chocolaterie Artisanale Bean-to-Bar",
+      "date_contact": "Sun, 04 Oct 2026 02:39:26 +0200",
+      "source": "Site officiel audaces.re",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "contact@lepasseurdaromes.re",
+      "company": "Le Passeur d'Arômes",
+      "territory": "La Réunion",
+      "category": "Chocolaterie Artisanale Bean-to-Bar",
+      "date_contact": "Sun, 04 Oct 2026 02:39:30 +0200",
+      "source": "Site officiel lepasseurdaromes.re",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "gestion@domaineducafegrille.fr",
+      "company": "Domaine du Café Grillé",
+      "territory": "La Réunion",
+      "category": "Café Rare & Terroirs d'Exception",
+      "date_contact": "Sun, 04 Oct 2026 02:39:37 +0200",
+      "source": "Site officiel domaineducafegrille.fr",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "franckmorel974@gmail.com",
+      "company": "Bitasyon Bio",
+      "territory": "La Réunion",
+      "category": "Chocolaterie Paysanne & Cacao Bio",
+      "date_contact": "Sun, 04 Oct 2026 02:39:43 +0200",
+      "source": "Site officiel bitasyonbio.fr",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "reservation.maisonducacao@gmail.com",
+      "company": "La Maison du Cacao",
+      "territory": "Guadeloupe",
+      "category": "Cacao de Terroir & Agrotourisme",
+      "date_contact": "Sun, 04 Oct 2026 02:39:49 +0200",
+      "source": "Site officiel maisonducacao.fr",
+      "batch": "Batch 76 Niches (Chocolat Bean-to-Bar & Terroirs)"
+    },
+    {
+      "email": "contact@lstradenature.com",
+      "company": "LS Trade Nature",
+      "territory": "Martinique",
+      "category": "Huiles Végétales & Cosmétique Naturelle",
+      "date_contact": "Sun, 04 Oct 2026 02:39:54 +0200",
+      "source": "Site officiel lstradenature.com",
+      "batch": "Batch 76 Niches (Cosmétique Botanique & Huiles Rares)"
+    },
+    {
+      "email": "contactdelicathe@gmail.com",
+      "company": "Délicathe",
+      "territory": "La Réunion",
+      "category": "Cosmétique Naturelle & Savonnerie",
+      "date_contact": "Sun, 04 Oct 2026 02:40:00 +0200",
+      "source": "Site officiel delicathe.com",
+      "batch": "Batch 76 Niches (Cosmétique Botanique & Huiles Rares)"
+    },
+    {
+      "email": "info@comptoirdesmonoi.com",
+      "company": "Comptoir des Monoï",
+      "territory": "Polynésie",
+      "category": "Monoï de Tahiti Appellation d'Origine",
+      "date_contact": "Sun, 04 Oct 2026 02:40:04 +0200",
+      "source": "Site officiel comptoirdesmonoi.fr",
+      "batch": "Batch 76 Niches (Cosmétique Botanique & Huiles Rares)"
+    },
+    {
+      "email": "info-tahiti@pacifiquesud.com",
+      "company": "Laboratoire Pacifique Sud LCPS",
+      "territory": "Polynésie",
+      "category": "Extraction Botanique & Ingrédients Cosmétiques",
+      "date_contact": "Sun, 04 Oct 2026 02:40:10 +0200",
+      "source": "Site officiel pacifiquesud.com",
+      "batch": "Batch 76 Niches (Cosmétique Botanique & Huiles Rares)"
+    },
+    {
+      "email": "contact@sargawatt.fr",
+      "company": "Sargawatt",
+      "territory": "Martinique",
+      "category": "Valorisation de la Biomasse & Énergie",
+      "date_contact": "Sun, 04 Oct 2026 02:40:15 +0200",
+      "source": "Site officiel sargawatt.com",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "contact@acpenvironnement.org",
+      "company": "ACP Environnement",
+      "territory": "Martinique",
+      "category": "Valorisation Organique & Compostage",
+      "date_contact": "Sun, 04 Oct 2026 02:40:21 +0200",
+      "source": "Site officiel acpenvironnement.org",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "contact@naturaform.re",
+      "company": "Naturaform",
+      "territory": "La Réunion",
+      "category": "Micro-algues & Compléments Naturels",
+      "date_contact": "Sun, 04 Oct 2026 02:40:26 +0200",
+      "source": "Site officiel naturaform.re",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "info@parc-aquacole.fr",
+      "company": "Parc Aquacole de Guadeloupe",
+      "territory": "Guadeloupe",
+      "category": "Aquaculture Durable & Écotourisme",
+      "date_contact": "Sun, 04 Oct 2026 02:40:32 +0200",
+      "source": "Site officiel parc-aquacole.fr",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "contact@aquasearch.fr",
+      "company": "Aquasearch",
+      "territory": "Martinique",
+      "category": "Bio-Ressources Marines & Ingénierie",
+      "date_contact": "Sun, 04 Oct 2026 02:40:36 +0200",
+      "source": "Site officiel aquasearch.fr",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
+    },
+    {
+      "email": "info@sypagua.com",
+      "company": "SYPAGUA Guadeloupe",
+      "territory": "Guadeloupe",
+      "category": "Filière Aquacole & Croissance Bleue",
+      "date_contact": "Sun, 04 Oct 2026 02:40:41 +0200",
+      "source": "Site officiel sypagua.com",
+      "batch": "Batch 76 Niches (Agri-Tech & Bio-Ressources)"
     }
   ],
   "emails": [
@@ -50428,7 +50585,23 @@
     "Baraka Consulting Abidjan",
     "Sand Consulting Dakar",
     "MCG Mbacke Consulting Group",
-    "ACE Consulting Dakar"
+    "ACE Consulting Dakar",
+    "Naomi Martino Chocolats",
+    "Audaces Chocolat",
+    "Le Passeur d'Arômes",
+    "Domaine du Café Grillé",
+    "Bitasyon Bio",
+    "La Maison du Cacao",
+    "LS Trade Nature",
+    "Délicathe",
+    "Comptoir des Monoï",
+    "Laboratoire Pacifique Sud LCPS",
+    "Sargawatt",
+    "ACP Environnement",
+    "Naturaform",
+    "Parc Aquacole de Guadeloupe",
+    "Aquasearch",
+    "SYPAGUA Guadeloupe"
   ],
   "contact@aquereburu-partners.com": {
     "nom": "SCP Aquereburu & Partners (Me Ehonam A. GAMISSO YEVENOU)",

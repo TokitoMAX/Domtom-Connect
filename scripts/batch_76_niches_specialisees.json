@@ -1,0 +1,122 @@
+[
+  {
+    "niche": "Niche 1 - Chocolat Bean-to-Bar & Terroirs",
+    "company": "Naomi Martino Chocolats",
+    "name": "Naomi Martino",
+    "email": "chocolats@naomimartino.fr",
+    "website": "https://naomimartino.fr",
+    "source": "Site officiel naomimartino.fr",
+    "territory": "Guadeloupe",
+    "category": "Chocolaterie Artisanale Bean-to-Bar",
+    "hook": "votre démarche d'excellence en chocolat Bean to Bar et la valorisation remarquable des fèves et épices du terroir guadeloupéen",
+    "core_value": "l'authenticité des saveurs locales, la créativité gustative et l'exigence d'un artisanat d'art sans compromis"
+  },
+  {
+    "niche": "Niche 1 - Chocolat Bean-to-Bar & Terroirs",
+    "company": "Audaces Chocolat",
+    "name": "François-Xavier Caussade",
+    "email": "fxcaussade@audaces.re",
+    "website": "https://audaces.re",
+    "source": "Site officiel audaces.re",
+    "territory": "La Réunion",
+    "category": "Chocolaterie Artisanale Bean-to-Bar",
+    "hook": "vos créations chocolatières Bean to Bar et l'alliance originale avec les trésors aromatiques réunionnais comme le combava ou le faham",
+    "core_value": "la précision de la torréfaction des fèves pures origines et la mise en lumière du patrimoine gustatif de l'île"
+  },
+  {
+    "niche": "Niche 1 - Chocolat Bean-to-Bar & Terroirs",
+    "company": "Le Passeur d'Arômes",
+    "name": "Direction Le Passeur d'Arômes",
+    "email": "contact@lepasseurdaromes.re",
+    "website": "https://lepasseurdaromes.re",
+    "source": "Site officiel lepasseurdaromes.re",
+    "territory": "La Réunion",
+    "category": "Chocolaterie Artisanale Bean-to-Bar",
+    "hook": "votre travail minutieux d'artisan chocolatier Bean to Bar et votre sélection rigoureuse de cacaos fins à La Réunion",
+    "core_value": "le respect scrupuleux du produit brut et la finesse du conchage artisanal"
+  },
+  {
+    "niche": "Niche 1 - Chocolat Bean-to-Bar & Terroirs",
+    "company": "Domaine du Café Grillé",
+    "name": "Direction Domaine du Café Grillé",
+    "email": "gestion@domaineducafegrille.fr",
+    "website": "https://domaineducafegrille.fr",
+    "source": "Site officiel domaineducafegrille.fr",
+    "territory": "La Réunion",
+    "category": "Café Rare & Terroirs d'Exception",
+    "hook": "votre mise en valeur vivante de l'histoire du café réunionnais et la transmission du patrimoine agricole créole",
+    "core_value": "l'agrotourisme culturel et l'enracinement des savoir-faire botaniques dans le Sud sauvage"
+  },
+  {
+    "niche": "Niche 3 - Cosmétique Botanique & Huiles Rares",
+    "company": "Délicathe",
+    "name": "Direction Délicathe",
+    "email": "contactdelicathe@gmail.com",
+    "website": "https://delicathe.com",
+    "source": "Site officiel delicathe.com",
+    "territory": "La Réunion",
+    "category": "Cosmétique Naturelle & Savonnerie",
+    "hook": "vos soins cosmétiques naturels et savons artisanaux élaborés à La Possession dans une démarche éthique et bienveillante",
+    "core_value": "le plaisir sensoriel, la pureté des formules et la valorisation du bien-être au naturel"
+  },
+  {
+    "niche": "Niche 4 - Agri-Tech & Bio-Ressources",
+    "company": "Sargawatt",
+    "name": "Direction Sargawatt",
+    "email": "contact@sargawatt.fr",
+    "website": "https://sargawatt.com",
+    "source": "Site officiel sargawatt.com",
+    "territory": "Martinique",
+    "category": "Valorisation de la Biomasse & Énergie",
+    "hook": "vos solutions innovantes de traitement, séchage et transformation industrielle des algues sargasses en Martinique",
+    "core_value": "la transformation d'un fléau écologique en opportunité économique et industrielle vertueuse"
+  },
+  {
+    "niche": "Niche 4 - Agri-Tech & Bio-Ressources",
+    "company": "ACP Environnement",
+    "name": "Direction ACP Environnement",
+    "email": "contact@acpenvironnement.org",
+    "website": "https://acpenvironnement.org",
+    "source": "Site officiel acpenvironnement.org",
+    "territory": "Martinique",
+    "category": "Valorisation des Déchets Organiques & Compostage",
+    "hook": "vos projets engagés d'économie circulaire, de valorisation organique et de protection des sols aux Antilles",
+    "core_value": "la régénération écologique locale et la gestion durable des cycles de matière"
+  },
+  {
+    "niche": "Niche 4 - Agri-Tech & Bio-Ressources",
+    "company": "Naturaform",
+    "name": "Direction Naturaform",
+    "email": "contact@naturaform.re",
+    "website": "https://naturaform.re",
+    "source": "Site officiel naturaform.re",
+    "territory": "La Réunion",
+    "category": "Micro-algues & Compléments Naturels",
+    "hook": "votre culture de spiruline péi de haute qualité et le développement de super-aliments nutritifs au Port à La Réunion",
+    "core_value": "l'autonomie nutritionnelle locale, la traçabilité irréprochable et la vitalité naturelle"
+  },
+  {
+    "niche": "Niche 4 - Agri-Tech & Bio-Ressources",
+    "company": "Parc Aquacole de Guadeloupe",
+    "name": "Direction Parc Aquacole",
+    "email": "info@parc-aquacole.fr",
+    "website": "https://parc-aquacole.fr",
+    "source": "Site officiel parc-aquacole.fr",
+    "territory": "Guadeloupe",
+    "category": "Aquaculture Durable & Écotourisme",
+    "hook": "votre modèle exemplaire d'aquaculture d'eau douce responsable et de valorisation écotouristique à Pointe-Noire",
+    "core_value": "l'harmonie entre production aquacole saine et sensibilisation active du grand public"
+  },
+  {
+    "niche": "Niche 4 - Agri-Tech & Bio-Ressources",
+    "company": "Aquasearch",
+    "name": "Direction Aquasearch",
+    "email": "contact@aquasearch.fr",
+    "website": "https://aquasearch.fr",
+    "source": "Site officiel aquasearch.fr",
+    "territory": "Martinique",
+    "category": "Bio-Ressources Marines & Ingénierie",
+    "hook": "vos expertises pointues en écologie marine, suivi de la biodiversité tropicale et ingénierie aquacole au Robert",
+    "core_value": "la rigueur scientifique et l'innovation appliquée à la préservation du milieu marin caribéen"
+  }
+]
