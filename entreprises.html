@@ -51,35 +51,34 @@
             max-width: 100vw;
             width: 100%;
             position: relative;
-            line-height: 1.65;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Glow Top */
         .ambient-glow-top {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: min(1100px, 100vw);
+            width: min(1000px, 100vw);
             max-width: 100%;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, rgba(2, 6, 23, 0) 70%);
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Hero */
+        /* HERO DIRECT */
         .hero {
             position: relative;
             z-index: 1;
-            min-height: 70vh;
+            min-height: 65vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 85px 20px 65px;
+            padding: 75px 20px 50px;
             border-bottom: 1px solid var(--border-subtle);
         }
 
@@ -87,13 +86,13 @@
             background: rgba(16, 185, 129, 0.12);
             color: var(--accent);
             border: 1px solid var(--border-accent);
-            padding: 8px 20px;
+            padding: 6px 18px;
             border-radius: 999px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -108,12 +107,12 @@
         }
 
         h1 {
-            font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+            font-size: clamp(2.2rem, 4.5vw, 3.6rem);
             font-weight: 900;
-            line-height: 1.16;
-            letter-spacing: -0.035em;
-            margin-bottom: 24px;
-            max-width: 980px;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            max-width: 920px;
             color: #ffffff;
         }
 
@@ -122,16 +121,16 @@
         }
 
         .subtitle {
-            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            font-size: clamp(1.05rem, 1.6vw, 1.2rem);
             color: var(--text-secondary);
-            max-width: 820px;
-            line-height: 1.7;
-            margin: 0 auto 36px auto;
+            max-width: 760px;
+            line-height: 1.65;
+            margin: 0 auto 32px auto;
         }
 
         .cta-group {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
@@ -144,19 +143,19 @@
             gap: 10px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #020617;
-            padding: 17px 34px;
-            border-radius: 14px;
-            font-size: 1.05rem;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 800;
             text-decoration: none;
-            transition: all 0.25s ease;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
         }
 
         .cta-primary:hover {
             transform: translateY(-2px);
             background: linear-gradient(135deg, #34d399, #10b981);
-            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.45);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
         }
 
         .cta-secondary {
@@ -164,9 +163,9 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 17px 30px;
-            border-radius: 14px;
-            font-size: 1.05rem;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: 700;
             color: #ffffff;
             background: rgba(255, 255, 255, 0.05);
@@ -183,194 +182,255 @@
 
         /* Container */
         .section-container {
-            max-width: 1160px;
+            max-width: 1140px;
             margin: 0 auto;
-            padding: 85px 20px;
+            padding: 70px 20px;
             position: relative;
             z-index: 1;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 45px;
         }
 
         .section-tag {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 800;
             color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             display: inline-block;
         }
 
         .section-title {
-            font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
             font-weight: 900;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.025em;
             color: #ffffff;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .section-desc {
             color: var(--text-muted);
-            font-size: 1.05rem;
-            max-width: 740px;
+            font-size: 1rem;
+            max-width: 680px;
             margin: 0 auto;
-            line-height: 1.65;
+            line-height: 1.6;
         }
 
-        /* Philosophy Grid */
-        .philosophy-grid {
+        /* PAIN GRID */
+        .pain-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-            gap: 22px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 20px;
         }
 
-        .philosophy-card {
-            background: #0b1329;
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
+        .pain-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: 18px;
             padding: 28px 24px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            transition: transform 0.2s, border-color 0.2s;
+            gap: 12px;
         }
 
-        .philosophy-card:hover {
-            border-color: var(--border-accent);
-            transform: translateY(-3px);
-        }
-
-        .philo-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 12px;
+        .pain-metric {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f87171;
+            line-height: 1;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-size: 1.25rem;
+            gap: 8px;
         }
 
-        .philo-title {
+        .pain-title {
             font-size: 1.15rem;
             font-weight: 800;
             color: #ffffff;
-            line-height: 1.3;
         }
 
-        .philo-desc {
-            font-size: 0.92rem;
+        .pain-text {
             color: var(--text-secondary);
-            line-height: 1.6;
+            font-size: 0.92rem;
+            line-height: 1.55;
             margin: 0;
         }
 
-        /* 3 Piliers Entreprises */
-        .pillars-grid {
+        /* FUNNEL EN 3 ÉTAPES */
+        .funnel-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-            gap: 26px;
+            gap: 24px;
         }
 
-        .pillar-card {
-            background: #0b1329;
+        .funnel-card {
+            background: linear-gradient(145deg, #0b152d 0%, #060e20 100%);
             border: 1px solid var(--border-accent);
-            border-radius: 22px;
-            padding: 34px 28px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 32px 26px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.25s ease, border-color 0.25s ease;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, border-color 0.2s;
         }
 
-        .pillar-card:hover {
-            transform: translateY(-4px);
+        .funnel-card:hover {
+            transform: translateY(-3px);
             border-color: #34d399;
         }
 
-        .pillar-icon {
-            width: 54px;
-            height: 54px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-size: 1.4rem;
-            margin-bottom: 22px;
+        .step-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: rgba(16, 185, 129, 0.2);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.05em;
         }
 
-        .pillar-title {
+        .funnel-title {
             font-size: 1.25rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             line-height: 1.3;
         }
 
-        .pillar-text {
+        .funnel-text {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.65;
-            margin-bottom: 20px;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
         }
 
-        .pillar-badge-sub {
-            font-size: 0.78rem;
-            color: #cbd5e1;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 6px 12px;
+        .funnel-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.12);
+            padding: 5px 12px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-accent);
             margin-top: auto;
+            width: fit-content;
         }
 
-        /* Bottom CTA Box */
-        .bottom-cta-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 26, 54, 0.85) 100%);
+        /* FILTRE : POUR QUI / PAS POUR QUI */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+            gap: 24px;
+        }
+
+        .filter-card {
+            border-radius: 20px;
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .filter-card.yes {
+            background: linear-gradient(145deg, #0b152d 0%, #04101e 100%);
             border: 1px solid var(--border-accent);
-            border-radius: 26px;
-            padding: 55px 35px;
+        }
+
+        .filter-card.no {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .filter-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .filter-card.yes .filter-header {
+            color: var(--accent);
+        }
+
+        .filter-card.no .filter-header {
+            color: #94a3b8;
+        }
+
+        .filter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .filter-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: var(--text-secondary);
+        }
+
+        .filter-list li i {
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .filter-card.yes .filter-list li i {
+            color: var(--accent);
+        }
+
+        .filter-card.no .filter-list li i {
+            color: #64748b;
+        }
+
+        /* BOTTOM FUNNEL BOX */
+        .bottom-cta-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(15, 26, 54, 0.9) 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: 24px;
+            padding: 50px 30px;
             text-align: center;
-            max-width: 860px;
+            max-width: 820px;
             margin: 0 auto;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
         .bottom-cta-box h2 {
-            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
             font-weight: 900;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             color: #ffffff;
         }
 
         .bottom-cta-box p {
             color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 640px;
-            margin: 0 auto 30px;
-            line-height: 1.65;
+            font-size: 1.02rem;
+            max-width: 620px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
         }
 
         @media (max-width: 768px) {
             .hero {
-                padding: 65px 16px 45px;
+                padding: 55px 16px 40px;
             }
             .section-container {
-                padding: 60px 16px;
+                padding: 50px 16px;
             }
             .bottom-cta-box {
-                padding: 40px 20px;
+                padding: 35px 18px;
             }
         }
     </style>
@@ -467,7 +527,7 @@
                 <div class="nav-actions">
                     <a href="login.html" class="nav-btn-login">Se connecter</a>
                     <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
-                        <span>Échange 30 min</span>
+                        <span>Échange 20 min</span>
                         <i class="fas fa-calendar-alt"></i>
                     </a>
                     <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
@@ -478,7 +538,7 @@
         </div>
     </header>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION : ACCROCHE DIRECTE -->
     <section class="hero">
         <div class="badge-sector">
             <span class="dot"></span>
@@ -486,139 +546,194 @@
         </div>
 
         <h1>
-            Sécuriser votre rentabilité, déléguer l'opérationnel et <span>accélérer votre entreprise.</span>
+            Sortez de la solitude opérationnelle. <span>Sécurisez votre rentabilité.</span>
         </h1>
 
         <p class="subtitle">
-            Domtom Connect accompagne les entreprises établies face à la solitude du dirigeant, aux contraintes insulaires et à la surcharge opérationnelle. Bénéficiez du <b>Programme Tremplin</b> et d'un <b>copilotage direct</b> pour débloquer votre croissance sans vous épuiser.
+            Zéro théorie, zéro PowerPoint inutile. Domtom Connect agit comme votre bras droit opérationnel via le <b>Programme Tremplin</b> et le <b>Copilotage</b> pour assainir vos marges, déléguer l'intendance et accélérer votre chiffre d'affaires.
         </p>
 
         <div class="cta-group">
             <a href="anamnese.html" class="cta-primary">
                 <i class="fas fa-stethoscope"></i>
-                <span>Faire l'Anamnèse de votre entreprise (Gratuit)</span>
+                <span>Passer l'Anamnèse Entreprise (10 min · Gratuit)</span>
             </a>
             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
                 <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
-                <span>Réserver un échange de 30 min</span>
+                <span>Réserver un call direct (20 min)</span>
             </a>
         </div>
     </section>
 
-    <!-- SECTION 1 : AVEC QUELLES ENTREPRISES NOUS TRAVAILLONS -->
+    <!-- ÉTAPE 1 DU FUNNEL : LE CONSTAT SANS FILTRE -->
     <div class="section-container">
         <div class="section-header">
-            <span class="section-tag">Notre philosophie de sélection</span>
-            <h2 class="section-title">Le profil d'entreprises que Domtom Connect vise en priorité</h2>
+            <span class="section-tag">Ce qui vous coûte cher en ce moment</span>
+            <h2 class="section-title">Les 3 freins qui étouffent le dirigeant et brident la PME</h2>
             <p class="section-desc">
-                Nous ne prétendons pas tout faire pour tout le monde. Notre valeur ajoutée s'exprime pleinement auprès d'entreprises qui rencontrent des problématiques précises de structuration et de développement.
+                Pourquoi travailler 65h par semaine si votre entreprise ne peut pas tourner sans vous ?
             </p>
         </div>
 
-        <div class="philosophy-grid">
-            <div class="philosophy-card">
-                <div class="philo-icon"><i class="fas fa-briefcase"></i></div>
-                <h3 class="philo-title">TPE et PME avec une activité réelle</h3>
-                <p class="philo-desc">
-                    Vous générez déjà du chiffre d'affaires (services B2B, commerces, hôtellerie, tourisme, artisanat de production, santé ou transport). Vous avez une équipe, des clients, et vous voulez consolider vos bases pour passer un cap.
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-user-xmark"></i> 65h / sem.</div>
+                <h3 class="pain-title">La solitude et la surcharge opérationnelle</h3>
+                <p class="pain-text">
+                    Au four et au moulin. Vous passez vos journées à éteindre des incendies administratifs, logistiques ou managériaux au lieu de piloter la rentabilité et les ventes.
                 </p>
             </div>
 
-            <div class="philosophy-card">
-                <div class="philo-icon"><i class="fas fa-user-clock"></i></div>
-                <h3 class="philo-title">Des dirigeants au four et au moulin</h3>
-                <p class="philo-desc">
-                    Vous portez toute la boîte sur vos épaules. Entre l'opérationnel quotidien, les urgences administratives et le management, vous n'avez plus de bande passante pour la stratégie et le développement commercial.
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-chart-pie"></i> -30 %</div>
+                <h3 class="pain-title">Des marges grignotées par les contraintes locales</h3>
+                <p class="pain-text">
+                    Octroi de mer mal anticipé, surcoûts de transport imprévus, retards d'approvisionnement. Votre chiffre d'affaires augmente mais vos bénéfices réels stagnent.
                 </p>
             </div>
 
-            <div class="philosophy-card">
-                <div class="philo-icon"><i class="fas fa-island-tropical"></i></div>
-                <h3 class="philo-title">La maîtrise des contraintes de nos territoires</h3>
-                <p class="philo-desc">
-                    Nos marchés ont leurs spécificités (coûts du fret, octroi de mer, étroitesse des bassins locaux, délais d'approvisionnement). Vous cherchez un accompagnement qui comprend ces réalités, pas des théories déconnectées de la métropole.
-                </p>
-            </div>
-
-            <div class="philosophy-card">
-                <div class="philo-icon"><i class="fas fa-chart-line-up"></i></div>
-                <h3 class="philo-title">La volonté d'optimiser les marges et le CA</h3>
-                <p class="philo-desc">
-                    Travailler plus ne sert à rien si les marges fondent. Vous êtes prêt à auditer sans complaisance vos coûts cachés, à éliminer les tâches chronophages et à vous concentrer sur votre zone de génie.
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-ban"></i> 0 impact</div>
+                <h3 class="pain-title">Les prestataires décevants et les faux conseils</h3>
+                <p class="pain-text">
+                    Des milliers d'euros investis dans des consultants qui ne connaissent rien au terrain ultramarin ou des prestataires fantômes qui n'apportent aucun client qualifié.
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- SECTION 2 : CE QUE DOMTOM CONNECT APPORTE AUX ENTREPRISES -->
+    <!-- ÉTAPE 2 DU FUNNEL : LA MÉTHODE EN 3 ACTIONS -->
     <div style="background: rgba(11, 19, 41, 0.45); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-tag">Des piliers concrets</span>
-                <h2 class="section-title">Ce que nous mettons en œuvre pour votre entreprise</h2>
+                <span class="section-tag">L'entonnoir d'action</span>
+                <h2 class="section-title">Comment nous réglons ça ensemble en 3 étapes</h2>
                 <p class="section-desc">
-                    Un soutien opérationnel direct pour décharger le dirigeant et assainir la structure financière.
+                    Un copilotage direct, sans jargon, axé sur les résultats opérationnels.
                 </p>
             </div>
 
-            <div class="pillars-grid">
-                <!-- Pilier 1 -->
-                <div class="pillar-card">
+            <div class="funnel-grid">
+                <!-- Étape 1 -->
+                <div class="funnel-card">
                     <div>
-                        <div class="pillar-icon"><i class="fas fa-chart-pie"></i></div>
-                        <h3 class="pillar-title">Programme Tremplin &amp; Copilotage Opérationnel</h3>
-                        <p class="pillar-text">
-                            Un accompagnement à 360° en suivi individuel direct. Domtom Connect intervient comme un bras droit externe pour auditer vos marges, structurer vos processus de vente, automatiser ce qui peut l'être et vous libérer des dizaines d'heures chaque mois pour faire du chiffre.
+                        <div class="step-number">01</div>
+                        <h3 class="funnel-title">L'Audit Anamnèse Entreprise</h3>
+                        <p class="funnel-text">
+                            En 10 minutes, nous passons au crible la santé financière et opérationnelle de votre boîte : marges nettes, trésorerie, goulots d'étranglement et pricing. Vous repartez avec un diagnostic clair et un plan d'action immédiat.
                         </p>
                     </div>
-                    <div class="pillar-badge-sub"><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Pilotage externe &amp; décharge opérationnelle</div>
+                    <div class="funnel-pill"><i class="fas fa-bolt"></i> 100 % gratuit · Bilan sans complaisance</div>
                 </div>
 
-                <!-- Pilier 2 -->
-                <div class="pillar-card">
+                <!-- Étape 2 -->
+                <div class="funnel-card">
                     <div>
-                        <div class="pillar-icon"><i class="fas fa-handshake"></i></div>
-                        <h3 class="pillar-title">Réseau d'Affaires &amp; Tiers de Confiance</h3>
-                        <p class="pillar-text">
-                            Accédez à des partenaires et prestataires rigoureusement vérifiés (experts comptables, avocats d'affaires, logisticiens, solutions tech) au sein de la Caraïbe, de l'Afrique et de la diaspora. Fini les intermédiaires douteux et les prestations facturées sans résultat.
+                        <div class="step-number">02</div>
+                        <h3 class="funnel-title">Copilotage &amp; Décharge Opérationnelle</h3>
+                        <p class="funnel-text">
+                            Domtom Connect intervient comme votre bras droit opérationnel (Programme Tremplin). Nous restructurons vos marges, sécurisons vos process et prenons en charge les tâches énergivores pour vous libérer 10 à 15h par semaine.
                         </p>
                     </div>
-                    <div class="pillar-badge-sub"><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Prestataires qualifiés &amp; synergies directes</div>
+                    <div class="funnel-pill"><i class="fas fa-hands-holding"></i> Bras droit externe &amp; process sains</div>
                 </div>
 
-                <!-- Pilier 3 -->
-                <div class="pillar-card">
+                <!-- Étape 3 -->
+                <div class="funnel-card">
                     <div>
-                        <div class="pillar-icon"><i class="fas fa-stethoscope"></i></div>
-                        <h3 class="pillar-title">L'Anamnèse Clinique Entreprise</h3>
-                        <p class="pillar-text">
-                            Notre audit de santé clinique en 10 Actes. Nous examinons vos marges nettes, vos canaux d'acquisition, votre trésorerie et vos goulots d'étranglement opérationnels. Vous obtenez un diagnostic clair et pragmatique avant de prendre toute décision stratégique.
+                        <div class="step-number">03</div>
+                        <h3 class="funnel-title">Croissance Sereine &amp; Réseau d'Affaires</h3>
+                        <p class="funnel-text">
+                            Accès direct à nos tiers de confiance vérifiés (avocats, experts-comptables, partenaires territoriaux) et développement commercial vers la diaspora et la Caraïbe. Vous pilotez avec des repères solides.
                         </p>
                     </div>
-                    <div class="pillar-badge-sub"><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> 100 % gratuit · Bilan sans concession</div>
+                    <div class="funnel-pill"><i class="fas fa-shield-check"></i> Partenaires fiables &amp; CA sécurisé</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SECTION 3 : CALL TO ACTION -->
+    <!-- ÉTAPE 3 DU FUNNEL : LE FILTRE SANS BULLSHIT -->
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Qualification mutuelle</span>
+            <h2 class="section-title">Pour qui c'est fait (et pour qui ce n'est PAS fait)</h2>
+            <p class="section-desc">
+                Nous nous engageons uniquement auprès d'entreprises où nous pouvons apporter une réelle plus-value opérationnelle.
+            </p>
+        </div>
+
+        <div class="filter-grid">
+            <div class="filter-card yes">
+                <div class="filter-header">
+                    <i class="fas fa-check-circle"></i>
+                    <span>C'est fait pour vous si :</span>
+                </div>
+                <ul class="filter-list">
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Vous dirigez une TPE ou PME déjà active (services, commerces, tourisme, transport, B2B, artisanat).</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Vous générez déjà du chiffre d'affaires et voulez franchir un palier de rentabilité et d'organisation.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Vous en avez assez de tout porter seul et êtes prêt à déléguer l'intendance chronophage.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Vous cherchez des solutions terrain adaptées aux territoires ultramarins, pas des PowerPoint théoriques.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="filter-card no">
+                <div class="filter-header">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Ce n'est PAS pour vous si :</span>
+                </div>
+                <ul class="filter-list">
+                    <li>
+                        <i class="fas fa-times"></i>
+                        <span>Vous n'avez pas encore d'entreprise et cherchez simplement une idée sans passer à l'action.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-times"></i>
+                        <span>Vous refusez de regarder la réalité de vos marges ou de faire évoluer votre façon de travailler.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-times"></i>
+                        <span>Vous cherchez une subvention passive sans engagement dans la rentabilité de votre entreprise.</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-times"></i>
+                        <span>Vous attendez que quelqu'un dirige votre entreprise à votre place sans votre validation.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 4 : ACTION IMMÉDIATE -->
     <div class="section-container">
         <div class="bottom-cta-box">
-            <h2>Reprenez la maîtrise de votre temps et de vos marges</h2>
+            <h2>Prêt à reprendre la maîtrise de votre temps et de vos marges ?</h2>
             <p>
-                Passez dès maintenant l'Anamnèse clinique pour évaluer les points de friction de votre entreprise ou réservez un échange informel de 30 minutes avec l'équipe Domtom Connect.
+                Deux options simples : passez l'Anamnèse clinique en 10 minutes pour auditer la santé de votre boîte, ou réservez un échange direct de 20 minutes avec l'équipe Domtom Connect.
             </p>
             <div class="cta-group">
                 <a href="anamnese.html" class="cta-primary">
                     <i class="fas fa-stethoscope"></i>
-                    <span>Commencer l'Anamnèse (Gratuit)</span>
+                    <span>Passer l'Anamnèse (10 min · Gratuit)</span>
                 </a>
                 <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
                     <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
-                    <span>Réserver un échange de 30 min</span>
+                    <span>Réserver un call direct (20 min)</span>
                 </a>
             </div>
-            <div style="margin-top: 24px; font-size: 0.88rem; color: var(--text-muted);">
+            <div style="margin-top: 22px; font-size: 0.88rem; color: var(--text-muted);">
                 Contact direct : <b>+33 6 20 78 33 77</b> · <b>domtomconnect@gmail.com</b>
             </div>
         </div>
