@@ -5,7 +5,7 @@ from email.header import Header
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL_USER = "domtomconnect@gmail.com"
-EMAIL_PASS = "esbmvnvpvxdqphci"
+EMAIL_PASS = "geqpuqluimxdjxeo"
 
 TO_EMAIL = "domtomconnect@gmail.com"
 SUBJECT = "[TEST RENDU] Vos tâches énergivores / Kadalys"

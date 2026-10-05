@@ -18,7 +18,7 @@ def save_exclusions(data):
 def run():
     print("=== NETTOYAGE ET ARCHIVAGE DES REBONDS GMAIL ===", flush=True)
     mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login("domtomconnect@gmail.com", "esbmvnvpvxdqphci")
+    mail.login("domtomconnect@gmail.com", "geqpuqluimxdjxeo")
     mail.select("INBOX")
     
     # Recherche ciblée sur les messages récents (depuis le 25 septembre) de mailer-daemon

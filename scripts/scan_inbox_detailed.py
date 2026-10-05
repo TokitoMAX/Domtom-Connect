@@ -6,7 +6,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 def decode_mime(header_val):
     if not header_val:

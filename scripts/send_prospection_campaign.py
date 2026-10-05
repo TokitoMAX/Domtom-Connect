@@ -9,7 +9,7 @@ import os
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL_USER = "domtomconnect@gmail.com"
-EMAIL_PASS = "esbmvnvpvxdqphci"
+EMAIL_PASS = "geqpuqluimxdjxeo"
 
 PROSPECTS_FILE = os.path.join(os.path.dirname(__file__), "..", "fichier_prospection_copilotage.json")
 

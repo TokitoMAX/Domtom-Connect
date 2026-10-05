@@ -7,7 +7,7 @@ from collections import defaultdict
 from datetime import datetime
 
 EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 INTERNAL_EMAILS = {
     "domtomconnect@gmail.com",

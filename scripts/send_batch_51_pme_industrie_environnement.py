@@ -11,7 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 SENDER_EMAIL = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 CONTACTS_DB_FILE = "contacts_deja_contactes.json"
 
 # BATCH 51 — PME & PMI INDUSTRIELLES, BOIS, AGROALIMENTAIRE, NAUTISME & INFRASTRUCTURES OUTRE-MER (10 CIBLES ULTRA-QUALIFIEES)

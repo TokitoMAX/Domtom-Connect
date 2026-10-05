@@ -6,7 +6,7 @@ import re
 import os
 
 EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 try:
     print(f"Connexion à imap.gmail.com avec {EMAIL_ACCOUNT}...")

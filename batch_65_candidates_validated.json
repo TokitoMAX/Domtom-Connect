@@ -1,0 +1,373 @@
+[
+  {
+    "company": "Cabinet Lissade",
+    "email": "info@lissadelaw.com",
+    "country": "Haïti",
+    "sector": "Droit Maritime, Fiscalité & Sociétés",
+    "source": "Site officiel lissadelaw.com"
+  },
+  {
+    "company": "Cabinet Leblanc & Associés",
+    "email": "info@avocatleblanc.com",
+    "country": "Haïti",
+    "sector": "Droit des Sociétés & Fiscalité",
+    "source": "Site officiel avocatleblanc.com"
+  },
+  {
+    "company": "Cabinet Patrick Laurent & Associés",
+    "email": "plaurent@cabinetpatricklaurent.com",
+    "country": "Haïti",
+    "sector": "Droit des Affaires & International",
+    "source": "Site officiel cabinetpatricklaurent.com"
+  },
+  {
+    "company": "CCIH (Chambre de Commerce et d'Industrie d'Haïti)",
+    "email": "info@ccih.ht",
+    "country": "Haïti",
+    "sector": "Chambre de Commerce & d'Industrie Nationale",
+    "source": "Site officiel ccih.ht"
+  },
+  {
+    "company": "REBO Café Haïti",
+    "email": "info@rebo.ht",
+    "country": "Haïti",
+    "sector": "Café de Terroir & Torréfaction d'Origine",
+    "source": "Site officiel rebo.ht"
+  },
+  {
+    "company": "Chatelain Cargo Services",
+    "email": "sales@chatelaincargo.com",
+    "country": "Haïti",
+    "sector": "Logistique, Fret & Transit Maritime Caribéen",
+    "source": "Site officiel chatelaincargo.com"
+  },
+  {
+    "company": "Floissac Fleming & Associates",
+    "email": "info@floissaclawyers.com",
+    "country": "Sainte-Lucie",
+    "sector": "Corporate & Financial Law",
+    "source": "Site officiel floissaclawyers.com"
+  },
+  {
+    "company": "Nicholas John & Co",
+    "email": "info@saintlucialawyer.com",
+    "country": "Sainte-Lucie",
+    "sector": "Corporate Law & Maritime",
+    "source": "Site officiel saintlucialawyer.com"
+  },
+  {
+    "company": "St. Lucia Chamber of Commerce",
+    "email": "info@stluciachamber.org",
+    "country": "Sainte-Lucie",
+    "sector": "Commerce & Industrie Caribéenne",
+    "source": "Site officiel stluciachamber.org"
+  },
+  {
+    "company": "St. Lucia Distillers",
+    "email": "info@saintluciarums.com",
+    "country": "Sainte-Lucie",
+    "sector": "Rhums d'Excellence & Terroir Caribéen",
+    "source": "Site officiel saintluciarums.com"
+  },
+  {
+    "company": "Dominica Association of Industry and Commerce",
+    "email": "info@dominicachamber.com",
+    "country": "Dominique",
+    "sector": "Chambre de Commerce & Industrie",
+    "source": "Site officiel daic.dm / dominicachamber.com"
+  },
+  {
+    "company": "Invest Dominica Authority",
+    "email": "info@investdominica.dm",
+    "country": "Dominique",
+    "sector": "Agence Nationale d'Investissement",
+    "source": "Site officiel investdominica.dm"
+  },
+  {
+    "company": "HAJ Law Offices",
+    "email": "joshuafrancis@hajlawoffices.com",
+    "country": "Dominique",
+    "sector": "Cabinet Juridique & Affaires",
+    "source": "Site officiel hajlegalservices.com"
+  },
+  {
+    "company": "CCISM Saint-Martin",
+    "email": "info@ccism.com",
+    "country": "Saint-Martin",
+    "sector": "Chambre Consulaire Interprofessionnelle",
+    "source": "Site officiel ccism.fr"
+  },
+  {
+    "company": "Grand Case Beach Club",
+    "email": "reservations@grandcasebeachclub.com",
+    "country": "Saint-Martin",
+    "sector": "Hôtellerie de Prestige & Tourisme",
+    "source": "Site officiel grandcasebeachclub.com"
+  },
+  {
+    "company": "Orient Beach Hotel",
+    "email": "contact@orientbeachhotel.com",
+    "country": "Saint-Martin",
+    "sector": "Hôtellerie Balnéaire & Événements",
+    "source": "Site officiel orientbeachhotel.com"
+  },
+  {
+    "company": "Clarke Gittens Farmer",
+    "email": "contact@cgf.law",
+    "country": "Barbade",
+    "sector": "Cabinet d'Avocats d'Affaires Caribéen",
+    "source": "Site officiel cgf.law"
+  },
+  {
+    "company": "Lex Caribbean Barbados",
+    "email": "barbados@lexcaribbean.com",
+    "country": "Barbade",
+    "sector": "Corporate & Commercial Law Firm",
+    "source": "Site officiel lexcaribbean.com"
+  },
+  {
+    "company": "Lex Caribbean Trinidad",
+    "email": "trinidad@lexcaribbean.com",
+    "country": "Trinité-et-Tobago",
+    "sector": "Corporate Law & Transactional Advisory",
+    "source": "Site officiel lexcaribbean.com"
+  },
+  {
+    "company": "Jamaica Chamber of Commerce",
+    "email": "info@jamaicachamber.org.jm",
+    "country": "Jamaïque",
+    "sector": "Chambre de Commerce & d'Industrie",
+    "source": "Site officiel jamaicachamber.org.jm"
+  },
+  {
+    "company": "Bahamas Chamber of Commerce",
+    "email": "info@thebahamaschamber.com",
+    "country": "Bahamas",
+    "sector": "Chambre de Commerce & Employeurs",
+    "source": "Site officiel thebahamaschamber.com"
+  },
+  {
+    "company": "Chazai & Partners",
+    "email": "contact@chazai-partners.com",
+    "country": "Cameroun",
+    "sector": "Avocats d'Affaires OHADA & M&A",
+    "source": "Site officiel chazai-partners.com"
+  },
+  {
+    "company": "Jing & Partners",
+    "email": "info@jingpartners.com",
+    "country": "Cameroun",
+    "sector": "Cabinet Juridique International & Projets",
+    "source": "Site officiel jingpartners.com"
+  },
+  {
+    "company": "GECAM (Groupement des Entreprises du Cameroun)",
+    "email": "gecam@legecam.cm",
+    "country": "Cameroun",
+    "sector": "Patronat & Développement Économique",
+    "source": "Site officiel legecam.cm"
+  },
+  {
+    "company": "Maviance PLC",
+    "email": "contact@maviance.com",
+    "country": "Cameroun",
+    "sector": "Fintech & Solutions de Paiement Digital",
+    "source": "Site officiel maviance.com"
+  },
+  {
+    "company": "Sogetrans Cameroun",
+    "email": "info@sogetrans-cm.com",
+    "country": "Cameroun",
+    "sector": "Transit & Logistique Multimodale",
+    "source": "Site officiel sogetrans-cm.com"
+  },
+  {
+    "company": "Transimex Cameroun",
+    "email": "info@transimex-cm.com",
+    "country": "Cameroun",
+    "sector": "Consignation & Fret Maritime Port de Douala",
+    "source": "Site officiel transimex-cm.com"
+  },
+  {
+    "company": "TOKCHAM",
+    "email": "contact@tokcham.fr",
+    "country": "Cameroun",
+    "sector": "Chocolaterie Artisanale & Fèves d'Excellence",
+    "source": "Site officiel tokcham.fr"
+  },
+  {
+    "company": "Toumaka Café",
+    "email": "contact@toumaka.coffee",
+    "country": "Cameroun",
+    "sector": "Café Bio Artisanal des Hauts Plateaux",
+    "source": "Site officiel toumaka.coffee"
+  },
+  {
+    "company": "Cabinet Emery Mukendi Wafwana & Associés",
+    "email": "cabsecretariat@cabemery.org",
+    "country": "RDC",
+    "sector": "Cabinet Juridique Panafricain & Énergie",
+    "source": "Site officiel cabemery.org"
+  },
+  {
+    "company": "Sylla & Partners",
+    "email": "accueil@syllapartners.com",
+    "country": "Guinée",
+    "sector": "Avocats d'Affaires & Projets d'Infrastructures",
+    "source": "Site officiel syllapartners.com"
+  },
+  {
+    "company": "Jurifis Consult",
+    "email": "contact@jurifis.com",
+    "country": "Mali",
+    "sector": "Conseil Juridique, Fiscal & Stratégique",
+    "source": "Site officiel jurifis.com"
+  },
+  {
+    "company": "Cabinet Aquereburu & Partners",
+    "email": "contact@aquereburu-partners.com",
+    "country": "Togo",
+    "sector": "Cabinet d'Avocats d'Affaires OHADA",
+    "source": "Site officiel aquereburu-partners.com"
+  },
+  {
+    "company": "CCITogo",
+    "email": "ccit@ccit.tg",
+    "country": "Togo",
+    "sector": "Chambre de Commerce et d'Industrie du Togo",
+    "source": "Site officiel ccit.tg"
+  },
+  {
+    "company": "Ordre des Avocats du Bénin",
+    "email": "contact@barreaudubenin.bj",
+    "country": "Bénin",
+    "sector": "Secrétariat Général du Barreau Béninois",
+    "source": "Site officiel barreaudubenin.bj"
+  },
+  {
+    "company": "CCIB Bénin",
+    "email": "info@ccib.bj",
+    "country": "Bénin",
+    "sector": "Chambre de Commerce et d'Industrie du Bénin",
+    "source": "Site officiel ccib.bj"
+  },
+  {
+    "company": "ANPI Gabon",
+    "email": "contact@investingabon.ga",
+    "country": "Gabon",
+    "sector": "Promotion des Investissements & Guichet Numérique",
+    "source": "Site officiel investingabon.ga"
+  },
+  {
+    "company": "CGECI (Patronat Ivoirien)",
+    "email": "cgeci@cgeci.com",
+    "country": "Côte d'Ivoire",
+    "sector": "Confédération Générale des Entreprises",
+    "source": "Site officiel cgeci.com"
+  },
+  {
+    "company": "Le Chocolatier Ivoirien",
+    "email": "lechocolatierivoirien@gmail.com",
+    "country": "Côte d'Ivoire",
+    "sector": "Transformation Cacao & Chocolat Artisanal",
+    "source": "Site officiel lechocolatierivoirien.com"
+  },
+  {
+    "company": "AGL Côte d'Ivoire",
+    "email": "contact.ci@aglgroup.com",
+    "country": "Côte d'Ivoire",
+    "sector": "Logistique & Opérations Portuaires",
+    "source": "Site officiel aglgroup.com"
+  },
+  {
+    "company": "SCPA Houda",
+    "email": "houda@avocatshouda.com",
+    "country": "Sénégal",
+    "sector": "Cabinet d'Avocats Spécialisé Affaires OHADA",
+    "source": "Site officiel avocatshouda.com"
+  },
+  {
+    "company": "CCIAD Dakar",
+    "email": "marketing@cciad.sn",
+    "country": "Sénégal",
+    "sector": "Chambre de Commerce, d'Industrie et d'Agriculture de Dakar",
+    "source": "Site officiel cciad.sn"
+  },
+  {
+    "company": "Tongoro",
+    "email": "contact@tongoro.com",
+    "country": "Sénégal",
+    "sector": "Mode & DNVB Internationale",
+    "source": "Site officiel tongoro.com"
+  },
+  {
+    "company": "K-Solutions & Partners",
+    "email": "info@ksolutions-law.com",
+    "country": "Rwanda",
+    "sector": "Corporate & Financial Law Firm",
+    "source": "Site officiel ksolutions-law.com"
+  },
+  {
+    "company": "Trust Law Chambers",
+    "email": "info@trustchambers.rw",
+    "country": "Rwanda",
+    "sector": "Business Law & Commercial Advisory",
+    "source": "Site officiel trustchambers.rw"
+  },
+  {
+    "company": "Madagascar Conseil International",
+    "email": "conseils@cabinet-mci.com",
+    "country": "Madagascar",
+    "sector": "Cabinet de Conseil Juridique & Fiscal",
+    "source": "Site officiel cabinet-mci.com"
+  },
+  {
+    "company": "John W Ffooks & Co",
+    "email": "madagascar@jwflegal.com",
+    "country": "Madagascar",
+    "sector": "Cabinet d'Avocats d'Affaires Panafricain",
+    "source": "Site officiel jwflegal.com"
+  },
+  {
+    "company": "GEM (Groupement des Entreprises de Madagascar)",
+    "email": "gem@iris.mg",
+    "country": "Madagascar",
+    "sector": "Patronat & Développement Économique",
+    "source": "Site officiel gem-madagascar.com"
+  },
+  {
+    "company": "Chocolaterie Robert Madagascar",
+    "email": "shop@chocolaterierobert.fr",
+    "country": "Madagascar",
+    "sector": "Pur Cacao Fin & Chocolaterie Historique",
+    "source": "Site officiel chocolaterierobert.fr"
+  },
+  {
+    "company": "BLC Robert & Associates",
+    "email": "chambers@blc.mu",
+    "country": "Maurice",
+    "sector": "Leading Business Law Firm Indian Ocean",
+    "source": "Site officiel blc.mu"
+  },
+  {
+    "company": "MCCI (Mauritius Chamber of Commerce)",
+    "email": "mcci@mcci.org",
+    "country": "Maurice",
+    "sector": "Chambre de Commerce & Industrie de Maurice",
+    "source": "Site officiel mcci.org"
+  },
+  {
+    "company": "EDB Mauritius (Economic Development Board)",
+    "email": "contact@edbmauritius.org",
+    "country": "Maurice",
+    "sector": "Agence Nationale de Promotion & Investissements",
+    "source": "Site officiel edbmauritius.org"
+  },
+  {
+    "company": "Alizés Fret",
+    "email": "enlevement@alizesfret.com",
+    "country": "Antilles",
+    "sector": "Fret Aérien & Maritime Spécialisé",
+    "source": "Site officiel alizesfret.com"
+  }
+]

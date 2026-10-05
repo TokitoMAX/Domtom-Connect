@@ -1,0 +1,302 @@
+[
+  {
+    "company": "Ty Domino",
+    "email": "tydomino@gmail.com",
+    "territory": "Martinique (Le Robert)",
+    "source": "https://ty-domino.fr"
+  },
+  {
+    "company": "The Big Blue 972",
+    "email": "thebigblue972@gmail.com",
+    "territory": "Martinique (Le François)",
+    "source": "https://thebigblue972.fr"
+  },
+  {
+    "company": "Au Gré du Vent",
+    "email": "croisiereaugreduvent@gmail.com",
+    "territory": "Martinique (Le François)",
+    "source": "https://croisiereaugreduvent.com"
+  },
+  {
+    "company": "Sea The Way",
+    "email": "seatheway.mq@gmail.com",
+    "territory": "Martinique (Le François)",
+    "source": "https://seatheway.fr"
+  },
+  {
+    "company": "Skipper Antilles Charter",
+    "email": "skipperantillescharter@gmail.com",
+    "territory": "Martinique (Le Marin)",
+    "source": "https://skipper-antilles.com"
+  },
+  {
+    "company": "Sun Exil Attitud",
+    "email": "sunexilattitud@gmail.com",
+    "territory": "Martinique (Sainte-Luce)",
+    "source": "https://seattitudexcursions.com"
+  },
+  {
+    "company": "Blue Dream Croisières",
+    "email": "bluedreamcroisieres@gmail.com",
+    "territory": "Martinique (Le Marin)",
+    "source": "https://bluedream-croisieres.com"
+  },
+  {
+    "company": "Madisail",
+    "email": "contact@madisail.com",
+    "territory": "Martinique (Le Marin)",
+    "source": "https://madisail.com"
+  },
+  {
+    "company": "Tropic Voile",
+    "email": "contact@tropicvoile.fr",
+    "territory": "Martinique (Le Marin)",
+    "source": "https://tropicvoile.fr"
+  },
+  {
+    "company": "France Escales Antilles",
+    "email": "contact@france-escales-antilles.fr",
+    "territory": "Martinique (Le Marin)",
+    "source": "https://escales-grenadines.com"
+  },
+  {
+    "company": "Ecolodge Martinique",
+    "email": "ecolodgemartinique@gmail.com",
+    "territory": "Martinique (Fort-de-France)",
+    "source": "https://ecolodge-martinique.com"
+  },
+  {
+    "company": "Dom Nature Lodge & Spa",
+    "email": "contact.domnature@gmail.com",
+    "territory": "Martinique (Sainte-Luce)",
+    "source": "https://domnaturelodge.com"
+  },
+  {
+    "company": "Zannanna Lodge",
+    "email": "zannannalodge@gmail.com",
+    "territory": "Martinique (Le Diamant)",
+    "source": "https://zannannalodge.com"
+  },
+  {
+    "company": "Ecolodge Kay Milo",
+    "email": "madinvillas@gmail.com",
+    "territory": "Martinique (Sainte-Anne)",
+    "source": "https://kay-milo.fr"
+  },
+  {
+    "company": "Julien Guide de Pêche",
+    "email": "julien.guidedepeche@gmail.com",
+    "territory": "Guadeloupe (Pointe-à-Pitre)",
+    "source": "https://julienguidedepeche.com"
+  },
+  {
+    "company": "ACM Caraïbes",
+    "email": "commercial@acm-caraibes.com",
+    "territory": "Guadeloupe (Pointe-à-Pitre)",
+    "source": "https://acm-caraibes.com"
+  },
+  {
+    "company": "Libellule Excursion",
+    "email": "contact.libelluleexcursion@gmail.com",
+    "territory": "Guadeloupe (Sainte-Rose)",
+    "source": "https://facebook.com/libelluleexcursion"
+  },
+  {
+    "company": "Manta Evasion",
+    "email": "mantaevasion@gmail.com",
+    "territory": "Guadeloupe (Petit-Canal)",
+    "source": "https://lagon-travel.com"
+  },
+  {
+    "company": "Sademar",
+    "email": "reservationsademar@gmail.com",
+    "territory": "Guadeloupe (Saint-François)",
+    "source": "https://sademar.fr"
+  },
+  {
+    "company": "AWAK Guadeloupe",
+    "email": "awak.reservation@gmail.com",
+    "territory": "Guadeloupe (Saint-François)",
+    "source": "https://awak-guadeloupe.com"
+  },
+  {
+    "company": "Butterfly Tours",
+    "email": "butterflytours971@gmail.com",
+    "territory": "Guadeloupe (Saint-François)",
+    "source": "https://loeildegwada.net"
+  },
+  {
+    "company": "Paradoxe Croisières",
+    "email": "paradoxecroisieres97118@gmail.com",
+    "territory": "Guadeloupe (Saint-François)",
+    "source": "https://loeildegwada.net"
+  },
+  {
+    "company": "Nakolodge",
+    "email": "nakolodge@gmail.com",
+    "territory": "Guadeloupe (Sainte-Anne)",
+    "source": "https://nakolodge-guadeloupe.com"
+  },
+  {
+    "company": "Au Jardin des Colibris",
+    "email": "ecolodge@aujardindescolibris.com",
+    "territory": "Guadeloupe (Deshaies)",
+    "source": "https://aujardindescolibris.com"
+  },
+  {
+    "company": "Iguana Ecolodge",
+    "email": "contact@iguana-ecolodge.com",
+    "territory": "Guadeloupe (Saint-François)",
+    "source": "https://iguana-ecolodge.com"
+  },
+  {
+    "company": "Tropicangel Ecolodge",
+    "email": "tropicangel.reception@gmail.com",
+    "territory": "Guadeloupe (Pointe-Noire)",
+    "source": "https://tropicangel.com"
+  },
+  {
+    "company": "Les Bananes Vertes",
+    "email": "info@lesbananesvertes.fr",
+    "territory": "Guadeloupe (Saint-Claude)",
+    "source": "https://lesbananesvertes.fr"
+  },
+  {
+    "company": "Sea Breeze Boat Charter",
+    "email": "seabreezeboatsxm@gmail.com",
+    "territory": "Saint-Martin",
+    "source": "https://seabreezeboatsxm.com"
+  },
+  {
+    "company": "Aquadventure Boat",
+    "email": "contact.aquadventure@gmail.com",
+    "territory": "Saint-Martin",
+    "source": "https://aquadventure-sxm.com"
+  },
+  {
+    "company": "Go and Sea Boat Charters",
+    "email": "goandseaboatcharters@gmail.com",
+    "territory": "Saint-Martin",
+    "source": "https://goandseaboatcharters.com"
+  },
+  {
+    "company": "Blue Pelican Boat Rental",
+    "email": "islandtime.contact@gmail.com",
+    "territory": "Saint-Martin",
+    "source": "https://bluepelicansxm.com"
+  },
+  {
+    "company": "SXM Divers",
+    "email": "info@sxmdivers.com",
+    "territory": "Saint-Martin",
+    "source": "https://sxmdivers.com"
+  },
+  {
+    "company": "St Barth Yachting",
+    "email": "contact@stbarth-yachting.com",
+    "territory": "Saint-Barthélemy",
+    "source": "https://stbarth-yachting.com"
+  },
+  {
+    "company": "St Barth Excursions",
+    "email": "saintbarthexcursions@gmail.com",
+    "territory": "Saint-Barthélemy",
+    "source": "https://saintbarthexcursions.com"
+  },
+  {
+    "company": "Blue Escape FWI",
+    "email": "stephane@blueescapefwi.com",
+    "territory": "Saint-Barthélemy",
+    "source": "https://blueescapefwi.com"
+  },
+  {
+    "company": "Splash FWI",
+    "email": "splashfwi@gmail.com",
+    "territory": "Saint-Barthélemy",
+    "source": "Annuaire Saint-Barth"
+  },
+  {
+    "company": "Island Diving St-Barth",
+    "email": "contact@islandiving.com",
+    "territory": "Saint-Barthélemy",
+    "source": "https://islandiving.fr"
+  },
+  {
+    "company": "SBH SUB",
+    "email": "contact@sbhsub.org",
+    "territory": "Saint-Barthélemy",
+    "source": "https://sbhsub.org"
+  },
+  {
+    "company": "EKAWLODGE",
+    "email": "ekawlodge@gmail.com",
+    "territory": "Guyane (Marais de Kaw)",
+    "source": "https://ekawlodge.com"
+  },
+  {
+    "company": "Camp Cariacou",
+    "email": "infos.campcariacou@gmail.com",
+    "territory": "Guyane (Kourou)",
+    "source": "https://campcariacou.com"
+  },
+  {
+    "company": "L'Oiseau de Paradis",
+    "email": "contact@ecolodgeoiseauparadis.com",
+    "territory": "Guyane (Sinnamary)",
+    "source": "https://ecolodgeoiseauparadis.com"
+  },
+  {
+    "company": "Le Sourou",
+    "email": "carbet.sourou@gmail.com",
+    "territory": "Guyane (Roura)",
+    "source": "https://parcnaturel-guyane.fr"
+  },
+  {
+    "company": "Obungal'eau",
+    "email": "obungaleau973@gmail.com",
+    "territory": "Guyane (Maripa-Soula)",
+    "source": "https://parc-amazonien-guyane.fr"
+  },
+  {
+    "company": "T'Air Nature Guyane",
+    "email": "infos@t-airnatureguyane.com",
+    "territory": "Guyane (Cayenne)",
+    "source": "https://tairnature-guyane.com"
+  },
+  {
+    "company": "Réunion Fishing Club",
+    "email": "contact@reunionfishingclub.com",
+    "territory": "La Réunion (Saint-Gilles)",
+    "source": "https://reunionfishingclub.com"
+  },
+  {
+    "company": "BLUE Pêche au gros",
+    "email": "bluemarlin97434@gmail.com",
+    "territory": "La Réunion (Saint-Gilles)",
+    "source": "https://bluepecheaugros.fr"
+  },
+  {
+    "company": "Sindbad Réunion Pêche",
+    "email": "contact@sindbadreunionpeche.com",
+    "territory": "La Réunion (Saint-Gilles)",
+    "source": "https://sindbadreunionpeche.com"
+  },
+  {
+    "company": "Jolly Rodgers Pêche",
+    "email": "contact@jrpeche.fr",
+    "territory": "La Réunion (Le Port)",
+    "source": "https://jrpeche.fr"
+  },
+  {
+    "company": "Namasté Catamaran",
+    "email": "info@namastecatamaran.re",
+    "territory": "La Réunion (Le Port)",
+    "source": "https://namastecatamaran.re"
+  },
+  {
+    "company": "Festiyacht de Bourbon",
+    "email": "contact@fyb.re",
+    "territory": "La Réunion (Le Port)",
+    "source": "https://fyb.re"
+  }
+]

@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
 mail.login(EMAIL_ACCOUNT, APP_PASSWORD)

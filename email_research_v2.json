@@ -1,0 +1,77 @@
+[
+  {
+    "company": "Guyane Evasion",
+    "email": "info@guyane-evasion.com",
+    "status": "OK"
+  },
+  {
+    "company": "Lagon Aventure Mayotte",
+    "email": "contact@lagonaventure.com",
+    "status": "OK"
+  },
+  {
+    "company": "Corail Helicopteres",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "ITC Tropicar",
+    "email": "contact.itc@gbh.fr",
+    "status": "OK"
+  },
+  {
+    "company": "Navitour Voyages",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Rhum Agricole HSE",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Rhum JM Martinique",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Martinique Excursions",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Evasion Tropicale",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Ti Kaz Marmay (Reunion)",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Passion Plongee Martinique",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Bleublancterre (agri Reunion)",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Agriland Guadeloupe",
+    "email": "info@agriland.fr",
+    "status": "OK"
+  },
+  {
+    "company": "La Maison du Cacao (Martinique)",
+    "email": null,
+    "status": "NOTFOUND"
+  },
+  {
+    "company": "Speedy Guadeloupe",
+    "email": null,
+    "status": "NOTFOUND"
+  }
+]

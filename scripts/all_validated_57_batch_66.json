@@ -1,0 +1,515 @@
+[
+  {
+    "company": "Melios Patrimoine",
+    "name": "Direction Melios",
+    "email": "contact@melios-epargneconseil.fr",
+    "website": "https://www.melios-epargneconseil.fr",
+    "source": "Site officiel melios-epargneconseil.fr/contact",
+    "territory": "Guadeloupe",
+    "city": "Jarry"
+  },
+  {
+    "company": "LML Patrimoine",
+    "name": "Alain Limol",
+    "email": "a.limol@lmlpatrimoine.com",
+    "website": "https://www.lmlpatrimoine.com",
+    "source": "Site officiel lmlpatrimoine.com",
+    "territory": "Martinique",
+    "city": "Fort-de-France"
+  },
+  {
+    "company": "Cabinet Solya",
+    "name": "Direction Solya",
+    "email": "cabinetsolya@solya-ae.fr",
+    "website": "https://www.solya-ae.fr",
+    "source": "Site officiel solya-ae.fr",
+    "territory": "Martinique",
+    "city": "Le Lamentin"
+  },
+  {
+    "company": "Cabinet Célestine Patrimoine",
+    "name": "Direction Célestine",
+    "email": "secretariat@cabinetcelestine.com",
+    "website": "https://www.cabinetcelestine.com",
+    "source": "Site officiel cabinetcelestine.com",
+    "territory": "Martinique",
+    "city": "Fort-de-France"
+  },
+  {
+    "company": "Investis DOM Martinique",
+    "name": "Direction Investis DOM",
+    "email": "contact@investis-dom.com",
+    "website": "https://www.investis-dom.com",
+    "source": "Site officiel investis-dom.com",
+    "territory": "Martinique",
+    "city": "Le Lamentin"
+  },
+  {
+    "company": "Amarante Patrimoine Guyane",
+    "name": "Direction Amarante",
+    "email": "contact@amarantepatrimoine.com",
+    "website": "https://www.amarantepatrimoine.com",
+    "source": "Site officiel amarantepatrimoine.com",
+    "territory": "Guyane",
+    "city": "Cayenne"
+  },
+  {
+    "company": "Guyane Patrimoine Conseil",
+    "name": "Amélie Remond",
+    "email": "amelieremond@guyanepatrimoine.com",
+    "website": "https://www.guyanepatrimoine.com",
+    "source": "Site officiel guyanepatrimoine.com",
+    "territory": "Guyane",
+    "city": "Remire-Montjoly"
+  },
+  {
+    "company": "ACA Patrimoine",
+    "name": "Aymeric Foucque",
+    "email": "aymeric.foucque@acapatrimoine.fr",
+    "website": "https://www.acapatrimoine.fr",
+    "source": "Site officiel acapatrimoine.fr",
+    "territory": "La Réunion",
+    "city": "Saint-Denis"
+  },
+  {
+    "company": "AGC Réunion Conseil",
+    "name": "Direction AGC Réunion",
+    "email": "contact@agcreunion.fr",
+    "website": "https://www.agcreunion.fr",
+    "source": "Site officiel agcreunion.fr",
+    "territory": "La Réunion",
+    "city": "Saint-Denis"
+  },
+  {
+    "company": "Austral Expert Patrimoine",
+    "name": "Direction Austral Expert",
+    "email": "contact@austral-expert.re",
+    "website": "https://www.austral-expert.re",
+    "source": "Site officiel austral-expert.re",
+    "territory": "La Réunion",
+    "city": "Saint-Pierre"
+  },
+  {
+    "company": "JHP Patrimoine Réunion",
+    "name": "Direction JHP",
+    "email": "contact@jhp.fr",
+    "website": "https://www.jhp.fr",
+    "source": "Site officiel jhp.fr",
+    "territory": "La Réunion",
+    "city": "Sainte-Clotilde"
+  },
+  {
+    "company": "Evencia Patrimoine",
+    "name": "Direction Evencia",
+    "email": "contact@evencia.re",
+    "website": "https://www.evencia.re",
+    "source": "Site officiel evencia.re",
+    "territory": "La Réunion",
+    "city": "Saint-Paul"
+  },
+  {
+    "company": "Groupe Profina",
+    "name": "Direction Partenariats Profina",
+    "email": "contact@groupe-profina.com",
+    "website": "https://www.groupe-profina.com",
+    "source": "Site officiel groupe-profina.com",
+    "territory": "France & Outre-Mer",
+    "city": "Paris"
+  },
+  {
+    "company": "Inter Invest Outre-Mer",
+    "name": "Direction des Partenariats",
+    "email": "contact@inter-invest.fr",
+    "website": "https://www.inter-invest.fr",
+    "source": "Site officiel inter-invest.fr",
+    "territory": "France & Outre-Mer",
+    "city": "Paris"
+  },
+  {
+    "company": "Haussmann Patrimoine",
+    "name": "Emmanuel Nerson",
+    "email": "info@haussmann-patrimoine.fr",
+    "website": "https://www.haussmann-patrimoine.fr",
+    "source": "Site officiel haussmann-patrimoine.fr",
+    "territory": "France & Diaspora",
+    "city": "Paris"
+  },
+  {
+    "company": "KP Finance",
+    "name": "Direction KP Finance",
+    "email": "contact@kp-finance.com",
+    "website": "https://www.kp-finance.com",
+    "source": "Site officiel kp-finance.com",
+    "territory": "France & Outre-Mer",
+    "city": "Paris"
+  },
+  {
+    "company": "Agora Finance Gestion Privée",
+    "name": "Arnaud Guichard",
+    "email": "aguichard@agorafinance.fr",
+    "website": "https://www.agorafinance.fr",
+    "source": "Site officiel agorafinance.fr",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "Groupe Quintésens",
+    "name": "Direction Quintésens",
+    "email": "contact@groupe-quintesens.fr",
+    "website": "https://www.groupe-quintesens.fr",
+    "source": "Site officiel groupe-quintesens.fr",
+    "territory": "France & DOM",
+    "city": "Paris"
+  },
+  {
+    "company": "Magna Carta Réseau CGP",
+    "name": "Direction Réseau Magna Carta",
+    "email": "jecris@magnacarta.fr",
+    "website": "https://www.magnacarta.fr",
+    "source": "Site officiel magnacarta.fr",
+    "territory": "France & Outre-Mer",
+    "city": "Neuilly-sur-Seine"
+  },
+  {
+    "company": "Primonial Gestion Privée",
+    "name": "Direction Partenariats",
+    "email": "contact@primonial.com",
+    "website": "https://www.primonial.com",
+    "source": "Site officiel primonial.com",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "Selexium Gestion de Fortune",
+    "name": "Direction Selexium",
+    "email": "contact@selexium.com",
+    "website": "https://www.selexium.com",
+    "source": "Site officiel selexium.com",
+    "territory": "France & DOM",
+    "city": "Paris"
+  },
+  {
+    "company": "Herez Family Office",
+    "name": "Direction Herez",
+    "email": "contact@herez.com",
+    "website": "https://www.herez.com",
+    "source": "Site officiel herez.com",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "Netinvestissement Conseils",
+    "name": "Direction Partenaires Netinvestissement",
+    "email": "contact@netinvestissement.fr",
+    "website": "https://www.netinvestissement.fr",
+    "source": "Site officiel netinvestissement.fr",
+    "territory": "France & DOM",
+    "city": "Bordeaux & Paris"
+  },
+  {
+    "company": "Fare Épargne & Conseils",
+    "name": "Direction Fare Épargne",
+    "email": "contact@fare-epargne.com",
+    "website": "https://www.fare-epargne.com",
+    "source": "Site officiel fare-epargne.com",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Patrimonia Pacifique",
+    "name": "Direction Patrimonia",
+    "email": "contact@patrimonia.pf",
+    "website": "https://www.patrimonia.pf",
+    "source": "Site officiel patrimonia.pf",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Ora Nui Finance SGP",
+    "name": "Direction Ora Nui Finance",
+    "email": "sgp@oranuifinance.com",
+    "website": "https://www.oranuifinance.com",
+    "source": "Site officiel oranuifinance.com",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Terrae Patrimoine Pacifique",
+    "name": "Direction Terrae Patrimoine",
+    "email": "contact@terrae-patrimoine.fr",
+    "website": "https://www.terrae-patrimoine.fr",
+    "source": "Site officiel terrae-patrimoine.fr",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Ora Compta & Conseil Patrimoine",
+    "name": "Direction Ora Compta",
+    "email": "contact@oracompta.com",
+    "website": "https://www.oracompta.com",
+    "source": "Site officiel oracompta.com",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Fideliance Pacifique",
+    "name": "Secrétariat Fideliance",
+    "email": "secretariat@fideliance.pf",
+    "website": "https://www.fideliance.pf",
+    "source": "Site officiel fideliance.pf",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Pleion Private Wealth Mauritius",
+    "name": "Direction Pleion Wealth",
+    "email": "info@pleion.mu",
+    "website": "https://www.pleion.mu",
+    "source": "Site officiel pleion.mu",
+    "territory": "Île Maurice & Océan Indien",
+    "city": "Grand Baie"
+  },
+  {
+    "company": "Warwyck Private Bank & Wealth",
+    "name": "Direction Gestion Privée",
+    "email": "contact@warwyckprivatebank.com",
+    "website": "https://www.warwyckprivatebank.com",
+    "source": "Site officiel warwyckprivatebank.com",
+    "territory": "Île Maurice & International",
+    "city": "Vacoas-Phoenix"
+  },
+  {
+    "company": "Intercontinental Trust Mauritius",
+    "name": "Direction Wealth Solutions",
+    "email": "info@intercontinentaltrust.com",
+    "website": "https://www.intercontinentaltrust.com",
+    "source": "Site officiel intercontinentaltrust.com",
+    "territory": "Île Maurice & Afrique",
+    "city": "Ebène"
+  },
+  {
+    "company": "Ocorian Private Client Mauritius",
+    "name": "Direction Ocorian Mauritius",
+    "email": "contact@ocorian.com",
+    "website": "https://www.ocorian.com",
+    "source": "Site officiel ocorian.com",
+    "territory": "Île Maurice & International",
+    "city": "Cybercity Ebène"
+  },
+  {
+    "company": "Sanne Group Mauritius",
+    "name": "Direction Client Services",
+    "email": "mauritius@sannegroup.com",
+    "website": "https://www.sannegroup.com",
+    "source": "Site officiel sannegroup.com",
+    "territory": "Île Maurice & Afrique",
+    "city": "Ebène"
+  },
+  {
+    "company": "AXYS Private Wealth",
+    "name": "Direction AXYS Wealth",
+    "email": "contact@axys.mu",
+    "website": "https://www.axys.mu",
+    "source": "Site officiel axys.mu",
+    "territory": "Île Maurice & Océan Indien",
+    "city": "Port-Louis"
+  },
+  {
+    "company": "Rogers Capital Wealth",
+    "name": "Direction Wealth Management",
+    "email": "contact@rogerscapital.mu",
+    "website": "https://www.rogerscapital.mu",
+    "source": "Site officiel rogerscapital.mu",
+    "territory": "Île Maurice & Océan Indien",
+    "city": "Port-Louis"
+  },
+  {
+    "company": "FCI Conseil Patrimoine Abidjan",
+    "name": "Direction FCI Conseil",
+    "email": "contact@fciconseil.com",
+    "website": "https://www.fciconseil.com",
+    "source": "Site officiel fciconseil.com",
+    "territory": "Côte d'Ivoire & Diaspora",
+    "city": "Abidjan"
+  },
+  {
+    "company": "AfricInvest Private Wealth",
+    "name": "Direction AfricInvest",
+    "email": "info@africinvest.com",
+    "website": "https://www.africinvest.com",
+    "source": "Site officiel africinvest.com",
+    "territory": "Afrique & Diaspora",
+    "city": "Tunis & Abidjan"
+  },
+  {
+    "company": "Patrimoine Consultants Outre-Mer",
+    "name": "Direction Patrimoine Consultants",
+    "email": "contact@patrimoineconsultants.com",
+    "website": "https://www.patrimoineconsultants.com",
+    "source": "Site officiel patrimoineconsultants.com",
+    "territory": "France & DOM",
+    "city": "Paris"
+  },
+  {
+    "company": "Astoria Finance Gestion Privée",
+    "name": "Direction Astoria",
+    "email": "contact@astoriafinance.com",
+    "website": "https://www.astoriafinance.com",
+    "source": "Site officiel astoriafinance.com",
+    "territory": "France & DOM",
+    "city": "Paris"
+  },
+  {
+    "company": "Nortia Gestion Privée",
+    "name": "Direction Nortia",
+    "email": "contact@nortia.fr",
+    "website": "https://www.nortia.fr",
+    "source": "Site officiel nortia.fr",
+    "territory": "France & International",
+    "city": "Roubaix & Paris"
+  },
+  {
+    "company": "Cyrus Conseil Gestion Privée",
+    "name": "Direction Cyrus",
+    "email": "contact@cyrusconseil.fr",
+    "website": "https://www.cyrusconseil.fr",
+    "source": "Site officiel cyrusconseil.fr",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "Kereis Patrimoine",
+    "name": "Direction Kereis",
+    "email": "contact@kereis.com",
+    "website": "https://www.kereis.com",
+    "source": "Site officiel kereis.com",
+    "territory": "France & Outre-Mer",
+    "city": "Paris"
+  },
+  {
+    "company": "Theseis Conseil Patrimonial",
+    "name": "Direction Theseis",
+    "email": "contact@theseis.fr",
+    "website": "https://www.theseis.fr",
+    "source": "Site officiel theseis.fr",
+    "territory": "France & Outre-Mer",
+    "city": "Toulouse & Paris"
+  },
+  {
+    "company": "Consultim Groupe Outre-Mer",
+    "name": "Direction Consultim",
+    "email": "contact@consultim.com",
+    "website": "https://www.consultim.com",
+    "source": "Site officiel consultim.com",
+    "territory": "France & Outre-Mer",
+    "city": "Nantes & Paris"
+  },
+  {
+    "company": "Nithyam Consulting",
+    "name": "Direction Nithyam",
+    "email": "info@nithyamconsulting.com",
+    "website": "https://www.nithyamconsulting.com",
+    "source": "Site officiel nithyamconsulting.com",
+    "territory": "Guadeloupe",
+    "city": "Saint-François"
+  },
+  {
+    "company": "Equance Gestion Privée",
+    "name": "Direction Equance",
+    "email": "contact@equance.com",
+    "website": "https://www.equance.com",
+    "source": "Site officiel equance.com",
+    "territory": "France & International",
+    "city": "Paris & Réseau"
+  },
+  {
+    "company": "Crystal Finance Pacifique",
+    "name": "Direction Crystal Pacifique",
+    "email": "polynesie@groupe-crystal.com",
+    "website": "https://www.laplace-groupe.com",
+    "source": "Site officiel groupe-crystal.com",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "La Patrimoniale NC",
+    "name": "Direction La Patrimoniale",
+    "email": "contact@lapatrimoniale.nc",
+    "website": "https://www.lapatrimoniale.nc",
+    "source": "Site officiel lapatrimoniale.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "AGEFIMO Gestion Privée",
+    "name": "Olivier Louis",
+    "email": "contact@agefimo.nc",
+    "website": "https://www.agefimo.nc",
+    "source": "Site officiel agefimo.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "IFP Patrimoine NC",
+    "name": "Direction IFP",
+    "email": "contact@ifp.nc",
+    "website": "https://www.ifp.nc",
+    "source": "Site officiel ifp.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "CAPLIF Patrimoine",
+    "name": "Direction CAPLIF",
+    "email": "caplif@caplif.nc",
+    "website": "https://www.caplif.nc",
+    "source": "Site officiel caplif.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "CAC Pacifique Finance",
+    "name": "Direction CAC Pacifique",
+    "email": "info@cacpacifique.com",
+    "website": "https://www.cacpacifique.com",
+    "source": "Site officiel cacpacifique.com",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "Xelis Family Office",
+    "name": "Direction Xelis",
+    "email": "contact@xelisfamily.com",
+    "website": "https://www.xelisfamilyoffice.com",
+    "source": "Site officiel xelisfamilyoffice.com",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "GP Family Office",
+    "name": "Direction GP Family Office",
+    "email": "contact@gp-familyoffice.fr",
+    "website": "https://www.gp-familyoffice.fr",
+    "source": "Site officiel gp-familyoffice.fr",
+    "territory": "France & Diaspora",
+    "city": "Paris"
+  },
+  {
+    "company": "Beelong Family Office",
+    "name": "Direction Beelong",
+    "email": "contact@beelongfamily.com",
+    "website": "https://www.beelongfamily.com",
+    "source": "Site officiel beelongfamily.com",
+    "territory": "France & International",
+    "city": "Paris"
+  },
+  {
+    "company": "WSI Conseil Patrimonial",
+    "name": "Direction WSI Conseil",
+    "email": "contact@wsi-conseil.com",
+    "website": "https://www.wsi-conseil.com",
+    "source": "Site officiel wsi-conseil.com",
+    "territory": "France & International",
+    "city": "Paris"
+  }
+]

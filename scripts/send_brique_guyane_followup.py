@@ -45,7 +45,7 @@ def main():
     SMTP_SERVER = "smtp.gmail.com"
     SMTP_PORT = 465
     SENDER_EMAIL = "domtomconnect@gmail.com"
-    APP_PASSWORD = "esbmvnvpvxdqphci"
+    APP_PASSWORD = "geqpuqluimxdjxeo"
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT, context=context) as server:

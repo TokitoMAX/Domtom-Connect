@@ -1,0 +1,120 @@
+import json
+import sys
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+data = [
+  {
+    "company": "Kata Mambo",
+    "name": "Direction des excursions",
+    "email": "contact@kata-mambo.com",
+    "domain": "kata-mambo.com",
+    "zone": "Martinique (Trois-Îlets)",
+    "subject": "Navigation en catamaran et réservations directes lagon / Kata Mambo",
+    "body": "Bonjour,\n\nKata Mambo offre l'une des plus belles expériences maritimes de Martinique depuis Les Trois-Îlets, avec vos sorties cétacés et navigations le long de la côte caraïbe.\n\nFaire tourner une flotte de catamarans face aux aléas météo, remplir les ponts en direct et contourner les commissions souvent abusives des plateformes de réservation en ligne demande une vraie vigilance commerciale.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires direct entre acteurs de nos îles, articulé autour d'un réseau privé WhatsApp et de notre future application DTC Pulse, conçue pour mettre en avant vos sorties en vidéo immersive et déclencher la réservation directe sans intermédiaire coûteux. Vous pouvez découvrir notre démarche sur www.domtomconnect.com\n\nDans votre exploitation au quotidien, quel est le principal casse-tête entre l'optimisation des départs en basse saison et la dépendance aux intermédiaires de billetterie ?\n\nSeriez-vous partants pour un court échange téléphonique informel de dix minutes afin de partager votre expérience de terrain ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Les Heures Saines",
+    "name": "Direction du centre",
+    "email": "info@heures-saines.gp",
+    "domain": "heures-saines.gp",
+    "zone": "Guadeloupe (Bouillante)",
+    "subject": "Plongée Réserve Cousteau et valorisation des fonds sous-marins / Les Heures Saines",
+    "body": "Bonjour,\n\nLes Heures Saines est une véritable institution de la plongée en Guadeloupe, faisant découvrir la magie des Îlets Pigeon et de la Réserve Cousteau avec un grand professionnalisme depuis Malendure.\n\nAssurer la sécurité de centaines de plongeurs, entretenir le matériel sous climat marin et capter les passionnés sans laisser une part démesurée aux centrales de réservation touristiques est un enjeu de chaque instant.\n\nChez Domtom Connect, nous développons un écosystème d'affaires pour les entrepreneurs de nos territoires, connecté à notre réseau privé WhatsApp et à notre solution DTC Pulse, pensée pour booster la visibilité vidéo directe et les réservations spontanées. Notre univers est accessible sur www.domtomconnect.com\n\nSur votre activité de plongée, quelle est aujourd'hui la contrainte logistique ou commerciale qui vous demande le plus d'énergie de gestion ?\n\nAuriez-vous dix minutes ces prochains jours pour un échange téléphonique informel et convivial ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Le Grand Bleu Réunion",
+    "name": "Direction des opérations",
+    "email": "info@grandbleu.re",
+    "domain": "grandbleu.re",
+    "zone": "La Réunion (Saint-Gilles)",
+    "subject": "Sorties cétacés et découverte sous-marine péi / Le Grand Bleu",
+    "body": "Bonjour,\n\nLe Grand Bleu est un repère incontournable au port de Saint-Gilles pour observer les baleines, dauphins et fonds coralliens de La Réunion à bord de vos navires à vision sous-marine.\n\nCaptiver le public touristique et local tout en amortissant les fortes variations d'affluence selon la saison des baleines exige une mécanique commerciale et une visibilité digitale sans faille.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires reliant des créateurs d'activités sur tous nos territoires, adossé à un groupe privé WhatsApp et à notre future application DTC Pulse, idéale pour partager les rencontres marines en vidéo et remplir vos créneaux en direct. Vous pouvez consulter notre univers sur www.domtomconnect.com\n\nDans votre activité maritime, quel est le principal défi pour lisser votre taux de remplissage en dehors des pics d'observation des baleines ?\n\nSeriez-vous partants pour dix minutes d'échange téléphonique informel afin d'en discuter en toute simplicité ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "St Barth Excursions",
+    "name": "Direction des charters",
+    "email": "contact@stbarthexcursions.com",
+    "domain": "stbarthexcursions.com",
+    "zone": "Saint-Barthélemy",
+    "subject": "Charters nautiques de prestige et expérience lagon / St Barth Excursions",
+    "body": "Bonjour,\n\nSt Barth Excursions sublime la découverte des criques secrètes et des lagons de Saint-Barthélemy avec une offre de navigation et charters privés d'un très haut niveau d'exigence.\n\nSur un marché ultra-haut de gamme, répondre instantanément aux attentes d'une clientèle internationale exigeante tout en assurant une coordination maritime sans accroc demande une réactivité absolue.\n\nChez Domtom Connect, nous bâtissons un écosystème d'affaires direct entre dirigeants et prestataires de prestige, articulé autour d'un réseau privé WhatsApp et de notre future application DTC Pulse, conçue pour valoriser les prestations d'exception en vidéo courte. Notre univers est détaillé sur www.domtomconnect.com\n\nÀ votre échelle, quel est l'arbitrage commercial ou logistique qui mobilise le plus votre attention pour fidéliser la clientèle de yachts et de villas ?\n\nSeriez-vous ouverts à un court appel téléphonique informel de dix minutes afin de partager vos perspectives ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Eden Plongée",
+    "name": "Direction du club",
+    "email": "edenplongee@gmail.com",
+    "domain": "gmail.com",
+    "zone": "Guadeloupe (Port-Louis)",
+    "subject": "Plongée éco-responsable et grottes marines du Nord / Eden Plongée",
+    "body": "Bonjour,\n\nEden Plongée valorise magnifiquement les falaises et grottes marines de Port-Louis avec cette approche éco-responsable et pédagogique qui fait la réputation de votre structure.\n\nFaire vivre un club engagé, former les plongeurs tout en assurant une rotation fluide des sorties en mer demande une gestion rigoureuse et une visibilité de proximité constante.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires dédié aux passionnés et entrepreneurs de nos îles, connecté à notre réseau privé WhatsApp et à notre future plateforme DTC Pulse pour faciliter les réservations directes sans commission excessive. Vous pouvez découvrir notre univers sur www.domtomconnect.com\n\nDans votre quotidien associatif et professionnel, quel est le nœud d'organisation qui pèse le plus sur la gestion de vos plannings de plongée ?\n\nAuriez-vous dix minutes disponibles ces prochains jours pour un échange téléphonique informel et convivial ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "All Day In Festival",
+    "name": "Direction de production",
+    "email": "communication@alldayinmusicfestival.com",
+    "domain": "alldayinmusicfestival.com",
+    "zone": "Guadeloupe",
+    "subject": "Grandes scènes caribéennes et innovations d'accueil festivaliers / ADI Festival",
+    "body": "Bonjour,\n\nAll Day In Music Festival est devenu le rendez-vous électro-caribéen incontournable de la Caraïbe, rassemblant des milliers de jeunes et de passionnés de musique autour d'une énergie incroyable.\n\nMonter une telle machine de production, sécuriser les partenariats sponsors et optimiser la billetterie tout en garantissant une expérience festivalier mémorable est une véritable prouesse événementielle.\n\nChez Domtom Connect, nous bâtissons actuellement un réseau d'affaires direct réunissant créateurs et marques partenaires, relié à notre groupe privé WhatsApp et à notre solution DTC Pulse, pensée pour booster la viralité vidéo et les préventes sans intermédiaires prédateurs. Notre démarche est accessible sur www.domtomconnect.com\n\nDans la préparation de vos prochaines éditions, quel est le défi majeur entre la gestion des flux cashless, l'engagement digital des festivaliers et la négociation des partenariats privés ?\n\nSeriez-vous partants pour un court échange téléphonique informel de dix minutes afin de confronter nos perspectives ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Sakifo Musik Festival",
+    "name": "Direction du festival",
+    "email": "contact@sakifo.com",
+    "domain": "sakifo.com",
+    "zone": "La Réunion (Saint-Pierre)",
+    "subject": "Rayonnement musical de l'océan Indien et partenariats culturels / Sakifo",
+    "body": "Bonjour,\n\nLe Sakifo Musik Festival fait vibrer La Réunion depuis plus de deux décennies à La Ravine Blanche avec cette programmation éclectique unique qui connecte l'Afrique, l'Océan Indien et le reste du monde.\n\nFaire tourner un festival de cette envergure sur une île, synchroniser les têtes d'affiche internationales et fidéliser des dizaines de milliers de festivaliers demande une créativité organisationnelle sans relâche.\n\nChez Domtom Connect, nous développons un écosystème d'affaires direct pour les bâtisseurs de valeur sur l'ensemble de nos territoires, adossé à un groupe privé WhatsApp et à notre plateforme DTC Pulse pour amplifier la visibilité vidéo directe et les passerelles économiques. Vous pouvez consulter notre démarche sur www.domtomconnect.com\n\nAu regard de votre expérience, quelle est la priorité logistique ou de commercialisation qui demande le plus de temps utile à votre équipe de direction ?\n\nSeriez-vous ouverts à dix minutes d'échange téléphonique informel afin d'évoquer vos enjeux actuels ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Bizouk",
+    "name": "Direction générale",
+    "email": "contact@bizouk.com",
+    "domain": "bizouk.com",
+    "zone": "France & Caraïbes",
+    "subject": "Billetterie culturelle et dynamiques événementielles afro-caribéennes / Bizouk",
+    "body": "Bonjour,\n\nBizouk s'est imposé comme la plateforme pionnière et le réflexe absolu pour découvrir les soirées, concerts et festivals afro-caribéens à Paris et dans les départements d'Outre-mer.\n\nMaintenir la confiance de milliers d'organisateurs indépendants, garantir une billetterie infaillible lors des pics de ventes et innover face aux géants mondiaux de la billetterie est un sacré challenge quotidien.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires reliant les entrepreneurs et créateurs de nos communautés, articulé autour d'un groupe privé WhatsApp et de notre future marketplace DTC Pulse, combinant découverte vidéo et achat direct sans friction. Notre univers est détaillé sur www.domtomconnect.com\n\nDans l'évolution des usages des organisateurs et du public, quel est aujourd'hui le point de friction majeur que vous cherchez à dépasser ?\n\nSeriez-vous partants pour un court appel téléphonique informel de dix minutes afin de partager nos visions ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Allmol",
+    "name": "Direction des partenariats",
+    "email": "pros@allmol.com",
+    "domain": "allmol.com",
+    "zone": "France & Caraïbes",
+    "subject": "Solutions événementielles et valorisation des organisateurs / Allmol",
+    "body": "Bonjour,\n\nAllmol a développé un écosystème remarquable pour accompagner les organisateurs de soirées, spectacles et conférences à travers des outils de billetterie et de promotion performants.\n\nOffrir une solution tout-en-un aux producteurs tout en assurant une distribution fluide des billets sur mobile demande une exigence technique et un support client très réactif.\n\nChez Domtom Connect, nous bâtissons actuellement un réseau d'affaires direct réunissant dirigeants et acteurs de l'événementiel, connecté à notre réseau privé WhatsApp et à notre future application DTC Pulse pour renforcer la viralité commerciale. Vous pouvez voir notre projet sur www.domtomconnect.com\n\nEn ce moment, quelle est la priorité de croissance ou la fonctionnalité la plus demandée par vos organisateurs partenaires ?\n\nAuriez-vous dix minutes disponibles cette semaine pour un échange téléphonique informel et sans engagement ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "FEMUA",
+    "name": "Direction de production",
+    "email": "info@femua.com",
+    "domain": "femua.com",
+    "zone": "Côte d'Ivoire (Abidjan)",
+    "subject": "Musiques urbaines et impact social en Afrique de l'Ouest / FEMUA",
+    "body": "Bonjour,\n\nLe FEMUA accomplit une œuvre artistique et citoyenne monumentale depuis Anoumabo grâce à la vision de Magic System, en conjuguant festival musical géant et projets sociaux pour la jeunesse ivoirienne.\n\nAccueillir des centaines de milliers de spectateurs, mobiliser les plus grands artistes du continent et coordonner la logistique d'un tel événement gratuit et populaire est une leçon d'organisation pour toute l'Afrique.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires direct entre entrepreneurs engagés sur plusieurs continents, relié à notre réseau privé WhatsApp et à notre future plateforme DTC Pulse pour fluidifier les coopérations directes. Notre univers est présenté sur www.domtomconnect.com\n\nDans votre organisation annuelle, quel est le défi logistique ou partenarial le plus complexe à orchestrer pour chaque nouvelle édition ?\n\nSeriez-vous d'accord pour un court échange téléphonique informel de dix minutes afin de partager vos perspectives ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Excellence Rhum",
+    "name": "Direction commerciale",
+    "email": "boutique@excellencerhum.com",
+    "domain": "excellencerhum.com",
+    "zone": "France & Caraïbes",
+    "subject": "Ambassadeurs des rhums d'exception et distribution e-commerce / Excellence Rhum",
+    "body": "Bonjour,\n\nExcellence Rhum fait un travail d'orfèvre pour faire rayonner les rhums agricoles de nos îles et les sélections rares auprès des collectionneurs et amateurs du monde entier.\n\nSourcer des fûts uniques, gérer le stockage de spiritueux haut de gamme et expédier avec soin dans le monde entier tout en développant une communauté de passionnés est une formidable aventure de caviste moderne.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires direct entre producteurs et distributeurs de valeur, adossé à un groupe privé WhatsApp et à notre solution DTC Pulse, conçue pour mettre en avant les flacons d'exception en vidéo et stimuler l'achat direct. Vous pouvez découvrir notre démarche sur www.domtomconnect.com\n\nSur votre développement e-commerce et boutique, quel est l'irritant majeur qui pèse le plus sur vos expéditions ou sur l'acquisition de nouveaux amateurs de rhum ?\n\nSeriez-vous partants pour dix minutes d'échange téléphonique informel afin d'en discuter en toute simplicité ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  },
+  {
+    "company": "Socoriz",
+    "name": "Direction commerciale",
+    "email": "contact@socoriz.fr",
+    "domain": "socoriz.fr",
+    "zone": "La Réunion (Le Port)",
+    "subject": "Approvisionnement et distribution alimentaire péi / Socoriz",
+    "body": "Bonjour,\n\nSocoriz est un acteur historique et essentiel de la table réunionnaise depuis Le Port, assurant avec régularité l'approvisionnement en riz et produits de grande consommation sur toute l'île.\n\nMaintenir la compétitivité et la disponibilité des denrées de base face aux variations du fret maritime international et aux attentes des familles réunionnaises est un engagement logistique quotidien.\n\nChez Domtom Connect, nous bâtissons actuellement un écosystème d'affaires réunissant des distributeurs et producteurs engagés, connecté à notre réseau privé WhatsApp et à notre future application DTC Pulse pour renforcer les passerelles commerciales locales et régionales. Notre univers est détaillé sur www.domtomconnect.com\n\nDans vos opérations de négoce et distribution, quel est aujourd'hui le principal casse-tête sur la chaîne logistique entre le quai et les points de vente ?\n\nAuriez-vous dix minutes disponibles cette semaine pour un court échange téléphonique informel ?\n\nBien cordialement,\n\nLoïc Villeronce\nFondateur — Domtom Connect"
+  }
+]
+
+with open('batch_30_business_direct.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=2)
+
+print(f"Batch 30 généré avec succès ({len(data)} cibles de business direct) !")

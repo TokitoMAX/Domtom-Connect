@@ -6,7 +6,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 mail = imaplib.IMAP4_SSL('imap.gmail.com')
-mail.login('domtomconnect@gmail.com', 'esbmvnvpvxdqphci')
+mail.login('domtomconnect@gmail.com', 'geqpuqluimxdjxeo')
 mail.select('INBOX')
 
 status, data = mail.search(None, 'ALL')

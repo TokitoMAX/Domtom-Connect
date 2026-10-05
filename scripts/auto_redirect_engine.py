@@ -19,7 +19,7 @@ from dedup_engine import is_domain_or_company_duplicate
 sys.stdout.reconfigure(encoding='utf-8')
 
 EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 

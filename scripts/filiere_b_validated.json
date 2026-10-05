@@ -1,0 +1,98 @@
+[
+  {
+    "company": "Long Cours Métropole",
+    "email": "contact@long-cours.fr",
+    "territory": "France / DOM-TOM",
+    "source": "https://long-cours.com"
+  },
+  {
+    "company": "Colis Outremer",
+    "email": "colis.outremer@gmail.com",
+    "territory": "France / Outre-Mer",
+    "source": "https://colis-outremer.fr"
+  },
+  {
+    "company": "Flydomtom",
+    "email": "flydomtom@gmail.com",
+    "territory": "France / DOM-TOM",
+    "source": "https://flydom-tom.fr"
+  },
+  {
+    "company": "DEPOLOG",
+    "email": "depolog.tls@gmail.com",
+    "territory": "Toulouse / Antilles",
+    "source": "https://depolog.fr"
+  },
+  {
+    "company": "Colisbridge",
+    "email": "contact@colisbridge.fr",
+    "territory": "France / Outre-Mer",
+    "source": "https://colisbridge.fr"
+  },
+  {
+    "company": "Shopiles",
+    "email": "sav@shopiles.fr",
+    "territory": "Pantin / Outre-Mer",
+    "source": "https://shopiles.fr"
+  },
+  {
+    "company": "Outre Mer Box",
+    "email": "contact@outremerbox.com",
+    "territory": "France / Outre-Mer",
+    "source": "https://outremerbox.com"
+  },
+  {
+    "company": "Lucas Outre-mer",
+    "email": "contact@lucas-outre-mer.fr",
+    "territory": "Bondy / Antilles",
+    "source": "https://lucas-outre-mer.fr"
+  },
+  {
+    "company": "TPRM Transports",
+    "email": "teotprm@gmail.com",
+    "territory": "Guadeloupe (Jarry)",
+    "source": "https://jarrybusiness.com"
+  },
+  {
+    "company": "TAF Afrique",
+    "email": "afrique@taftrans.fr",
+    "territory": "France / Afrique",
+    "source": "https://taftrans.fr"
+  },
+  {
+    "company": "Colis Abidjan",
+    "email": "fret@colis-abidjan.com",
+    "territory": "France / Côte d'Ivoire",
+    "source": "https://colis-abidjan.com"
+  },
+  {
+    "company": "Dakar Bagages",
+    "email": "dakarbagages@gmail.com",
+    "territory": "Paris / Dakar",
+    "source": "https://dakarbagages.com"
+  },
+  {
+    "company": "Africolis",
+    "email": "contact.africolis@gmail.com",
+    "territory": "France / Afrique",
+    "source": "https://africolis.fr"
+  },
+  {
+    "company": "PaySika",
+    "email": "support@paysika.co",
+    "territory": "Cameroun / CEMAC",
+    "source": "https://paysika.co"
+  },
+  {
+    "company": "Chargily",
+    "email": "support@chargily.com",
+    "territory": "Algérie / Diaspora",
+    "source": "https://chargily.com"
+  },
+  {
+    "company": "Chari",
+    "email": "support@chari.ma",
+    "territory": "Maroc / Afrique B2B",
+    "source": "https://chari.co"
+  }
+]

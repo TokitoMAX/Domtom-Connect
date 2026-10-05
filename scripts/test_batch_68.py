@@ -1,0 +1,473 @@
+# test_batch_68.py
+import json, os, sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from dedup_engine import is_domain_or_company_duplicate
+from email_validator import verify_email_target
+
+candidates_pool_68 = [
+    # === LA RÉUNION (Agences & PME) ===
+    {
+        "company": "Sunkaz Immobilier",
+        "name": "Direction Sunkaz",
+        "email": "contact@sunkaz.re",
+        "website": "https://www.sunkaz.re",
+        "source": "Site officiel sunkaz.re",
+        "territory": "La Réunion",
+        "city": "Saint-Pierre"
+    },
+    {
+        "company": "Accord Immobilier Réunion",
+        "name": "Direction Accord Immobilier",
+        "email": "info@accord-immobilier.re",
+        "website": "https://www.accord-immobilier.re",
+        "source": "Site officiel accord-immobilier.re",
+        "territory": "La Réunion",
+        "city": "Saint-Pierre"
+    },
+    {
+        "company": "Lemerle Rivière Immobilier",
+        "name": "Direction Lemerle Rivière",
+        "email": "contact@lemerle-riviere.re",
+        "website": "https://www.lemerle-riviere.re",
+        "source": "Site officiel lemerle-riviere.re",
+        "territory": "La Réunion",
+        "city": "Le Tampon"
+    },
+    {
+        "company": "Mon Agence Immobilière Réunion",
+        "name": "Direction Mon Agence",
+        "email": "bonjour@monagenceimmo.re",
+        "website": "https://www.monagenceimmo.re",
+        "source": "Site officiel monagenceimmo.re",
+        "territory": "La Réunion",
+        "city": "Saint-Denis"
+    },
+    {
+        "company": "Univers Immobilier Réunion",
+        "name": "Direction Univers Immobilier",
+        "email": "contact@univers-immobilier.re",
+        "website": "https://www.univers-immobilier.re",
+        "source": "Site officiel univers-immobilier.re",
+        "territory": "La Réunion",
+        "city": "Saint-Denis"
+    },
+    {
+        "company": "Agenceimmo.re",
+        "name": "Direction Agenceimmo",
+        "email": "contact@agenceimmo.re",
+        "website": "https://www.agenceimmo.re",
+        "source": "Site officiel agenceimmo.re",
+        "territory": "La Réunion",
+        "city": "Saint-Paul"
+    },
+    {
+        "company": "Inovista Réunion",
+        "name": "Direction Inovista",
+        "email": "contact@inovista.re",
+        "website": "https://www.inovista.re",
+        "source": "Site officiel inovista.re",
+        "territory": "La Réunion",
+        "city": "Saint-Denis"
+    },
+
+    # === GUADELOUPE (Agences, Conciergeries & PME) ===
+    {
+        "company": "Agence Molinard Immobilier",
+        "name": "Direction Agence Molinard",
+        "email": "agencemolinard@gmail.com",
+        "website": "https://www.agencemolinard.com",
+        "source": "Site officiel agencemolinard.com",
+        "territory": "Guadeloupe",
+        "city": "Baie-Mahault"
+    },
+    {
+        "company": "Immovital Guadeloupe",
+        "name": "Direction Immovital",
+        "email": "contact@immovital.fr",
+        "website": "https://www.immovital.fr",
+        "source": "Site officiel immovital.fr",
+        "territory": "Guadeloupe",
+        "city": "Baie-Mahault"
+    },
+    {
+        "company": "Alias Immobilier Guadeloupe",
+        "name": "Direction Alias Immobilier",
+        "email": "contact@aliasimmobilier.fr",
+        "website": "https://www.aliasimmobilier.fr",
+        "source": "Site officiel aliasimmobilier.fr",
+        "territory": "Guadeloupe",
+        "city": "Baie-Mahault"
+    },
+    {
+        "company": "Conciergerie Tropikal Services",
+        "name": "Direction Tropikal Services",
+        "email": "conciergerietropikal@gmail.com",
+        "website": "https://tropikalconciergerie.fr",
+        "source": "Site officiel tropikalconciergerie.fr",
+        "territory": "Guadeloupe",
+        "city": "Sainte-Anne"
+    },
+    {
+        "company": "Clef à Kaz Guadeloupe",
+        "name": "Direction Clef à Kaz",
+        "email": "clefakaz@gmail.com",
+        "website": "https://clefakaz.com",
+        "source": "Annuaire professionnel Le Gosier",
+        "territory": "Guadeloupe",
+        "city": "Le Gosier"
+    },
+
+    # === MARTINIQUE (Agences, Conciergeries & PME) ===
+    {
+        "company": "L'Immobilier Pass'Avant",
+        "name": "Direction Pass'Avant",
+        "email": "contact@limmobilierpassavant.com",
+        "website": "https://www.limmobilierpassavant.com",
+        "source": "Site officiel limmobilierpassavant.com",
+        "territory": "Martinique",
+        "city": "Fort-de-France"
+    },
+    {
+        "company": "Accent Immo Martinique",
+        "name": "Direction Accent Immo",
+        "email": "contact@accentimmo.fr",
+        "website": "https://www.accentimmo.fr",
+        "source": "Site officiel accentimmo.fr",
+        "territory": "Martinique",
+        "city": "Fort-de-France"
+    },
+    {
+        "company": "Agence Larcher Martinique",
+        "name": "Direction Agence Larcher",
+        "email": "acharlery.agencelarcher@gmail.com",
+        "website": "https://www.agencelarcher.fr",
+        "source": "Site officiel agencelarcher.fr",
+        "territory": "Martinique",
+        "city": "Fort-de-France"
+    },
+    {
+        "company": "Guy Hoquet Didier Martinique",
+        "name": "Direction Guy Hoquet Didier",
+        "email": "didier@gha.immo",
+        "website": "https://www.guyhoquet-antilles.com",
+        "source": "Site officiel guyhoquet-antilles.com",
+        "territory": "Martinique",
+        "city": "Fort-de-France"
+    },
+    {
+        "company": "NEYO Conciergerie Martinique",
+        "name": "Direction NEYO Group",
+        "email": "contact@neyo-group.com",
+        "website": "https://neyoconciergerie.com",
+        "source": "Site officiel neyoconciergerie.com",
+        "territory": "Martinique",
+        "city": "Le Lamentin"
+    },
+    {
+        "company": "Conciergerie Le Colibri",
+        "name": "Direction Le Colibri",
+        "email": "c.lecolibri972@gmail.com",
+        "website": "https://conciergerielecolibri.com",
+        "source": "Site officiel conciergerielecolibri.com",
+        "territory": "Martinique",
+        "city": "Sainte-Luce"
+    },
+    {
+        "company": "KAZLY Conciergerie",
+        "name": "Direction KAZLY",
+        "email": "contact@kazly-immo.com",
+        "website": "https://kazly-immo.com",
+        "source": "Site officiel kazly-immo.com",
+        "territory": "Martinique",
+        "city": "Fort-de-France"
+    },
+
+    # === GUYANE (Agences & PME) ===
+    {
+        "company": "APS Immobilier Guyane",
+        "name": "Direction APS Immo",
+        "email": "contact@aps-immo.com",
+        "website": "https://www.aps-immo.fr",
+        "source": "Site officiel aps-immo.fr",
+        "territory": "Guyane",
+        "city": "Cayenne"
+    },
+    {
+        "company": "Milton Immobilier Guyane",
+        "name": "Direction Milton Immobilier",
+        "email": "contact@miltonimmobilier.fr",
+        "website": "https://www.miltonimmobilier.fr",
+        "source": "Site officiel miltonimmobilier.fr",
+        "territory": "Guyane",
+        "city": "Cayenne"
+    },
+    {
+        "company": "Guyane Services Immobiliers",
+        "name": "Direction GSI",
+        "email": "guyane.services.immobiliers7@gmail.com",
+        "website": "https://gsi-guyane.com",
+        "source": "Annuaire professionnel Guyane",
+        "territory": "Guyane",
+        "city": "Cayenne"
+    },
+
+    # === SAINT-BARTHÉLEMY & SAINT-MARTIN ===
+    {
+        "company": "Unique Villas St Barth",
+        "name": "Direction Unique Villas",
+        "email": "info@uniquevillastbarth.com",
+        "website": "https://www.uniquevillastbarth.com",
+        "source": "Site officiel uniquevillastbarth.com",
+        "territory": "Saint-Barthélemy",
+        "city": "Gustavia"
+    },
+    {
+        "company": "SXM Conciergerie",
+        "name": "Direction SXM Conciergerie",
+        "email": "contact@bysxmconciergerie.com",
+        "website": "https://bysxmconciergerie.com",
+        "source": "Site officiel bysxmconciergerie.com",
+        "territory": "Saint-Martin",
+        "city": "Baie Orientale"
+    },
+
+    # === NOUVELLE-CALÉDONIE & POLYNÉSIE ===
+    {
+        "company": "Conciergerie By Mademoiselle",
+        "name": "Direction Conciergerie By Mademoiselle",
+        "email": "contact@conciergerie.nc",
+        "website": "https://www.conciergerie.nc",
+        "source": "Site officiel conciergerie.nc",
+        "territory": "Nouvelle-Calédonie",
+        "city": "Nouméa"
+    },
+    {
+        "company": "My Room Conciergerie Nouméa",
+        "name": "Urielle",
+        "email": "urielle@myroomconciergerie.nc",
+        "website": "https://www.myroomconciergerie.nc",
+        "source": "Site officiel myroomconciergerie.nc",
+        "territory": "Nouvelle-Calédonie",
+        "city": "Nouméa"
+    },
+    {
+        "company": "L'Agence Immo Nouméa",
+        "name": "Direction L'Agence Immo",
+        "email": "info@lagenceimmo.nc",
+        "website": "https://www.lagenceimmo.nc",
+        "source": "Site officiel lagenceimmo.nc",
+        "territory": "Nouvelle-Calédonie",
+        "city": "Nouméa"
+    },
+    {
+        "company": "Agence Immobilière Soleil Nouméa",
+        "name": "Direction Agence Soleil",
+        "email": "agence@soleil.nc",
+        "website": "https://www.soleil.nc",
+        "source": "Site officiel soleil.nc",
+        "territory": "Nouvelle-Calédonie",
+        "city": "Nouméa"
+    },
+
+    # === ILE MAURICE ===
+    {
+        "company": "Michaël Zingraf Mauritius",
+        "name": "Direction Michaël Zingraf",
+        "email": "ilemaurice@michaelzingraf.com",
+        "website": "https://www.michaelzingraf.mu",
+        "source": "Site officiel michaelzingraf.mu",
+        "territory": "Maurice",
+        "city": "Grand Baie"
+    },
+    {
+        "company": "Fine & Country Mauritius",
+        "name": "Direction Fine & Country",
+        "email": "mauritius@fineandcountry.com",
+        "website": "https://www.fineandcountry.mu",
+        "source": "Site officiel fineandcountry.mu",
+        "territory": "Maurice",
+        "city": "Grand Baie"
+    },
+    {
+        "company": "The Concreate Agency",
+        "name": "Direction TCA",
+        "email": "theAteam@tca.mu",
+        "website": "https://tca.mu",
+        "source": "Site officiel tca.mu",
+        "territory": "Maurice",
+        "city": "Ebène"
+    },
+
+    # === CÔTE D'IVOIRE (Abidjan) ===
+    {
+        "company": "Carré Premium Abidjan",
+        "name": "Direction Carré Premium",
+        "email": "infos@carrepremium.com",
+        "website": "https://carrepremium.com",
+        "source": "Site officiel carrepremium.com",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "Wadi Conciergerie Abidjan",
+        "name": "Direction Wadi Conciergerie",
+        "email": "contact@wadi-ci.com",
+        "website": "https://wadi-ci.com",
+        "source": "Site officiel wadi-ci.com",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "Destiny Conciergerie",
+        "name": "Direction Destiny Conciergerie",
+        "email": "contact@destiny-conciergerie.net",
+        "website": "https://destiny-conciergerie.net",
+        "source": "Site officiel destiny-conciergerie.net",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "Africa Guest Services",
+        "name": "Direction AGS",
+        "email": "contact@africaguestservices.com",
+        "website": "https://africaguestservices.com",
+        "source": "Site officiel africaguestservices.com",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "Gestilok Abidjan",
+        "name": "Direction Gestilok",
+        "email": "contact@gestilok.com",
+        "website": "https://gestilok.com",
+        "source": "Site officiel gestilok.com",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "KODANN Immobilier",
+        "name": "Direction KODANN",
+        "email": "info@kodann.ci",
+        "website": "https://kodann.ci",
+        "source": "Site officiel kodann.ci",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "AICI Abidjan",
+        "name": "Direction AICI",
+        "email": "contact@aici.ci",
+        "website": "https://aici.ci",
+        "source": "Site officiel aici.ci",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+    {
+        "company": "TRABAD Immobilier",
+        "name": "Direction TRABAD",
+        "email": "info@trabad.com",
+        "website": "https://trabad.com",
+        "source": "Site officiel trabad.com",
+        "territory": "Côte d'Ivoire",
+        "city": "Abidjan"
+    },
+
+    # === SÉNÉGAL (Dakar) ===
+    {
+        "company": "Demba Conciergerie Dakar",
+        "name": "Direction Demba Conciergerie",
+        "email": "contact@dembaconciergerie.com",
+        "website": "https://dembaconciergerie.com",
+        "source": "Site officiel dembaconciergerie.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "La Majoré Conciergerie",
+        "name": "Direction La Majoré",
+        "email": "contact@lamajore.com",
+        "website": "https://lamajore-conciergerie.com",
+        "source": "Site officiel lamajore-conciergerie.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "Agape Immo Dakar",
+        "name": "Direction Agape Immo",
+        "email": "contact@agapeimmo.sn",
+        "website": "https://agapeimmo.sn",
+        "source": "Site officiel agapeimmo.sn",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "Bassafriq Dakar",
+        "name": "Direction Bassafriq",
+        "email": "contact@bassafriq.com",
+        "website": "https://bassafriq.com",
+        "source": "Site officiel bassafriq.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "Impulsion Construction & Gestion",
+        "name": "Direction Impulsion",
+        "email": "contact@impulsionconstruction.com",
+        "website": "https://impulsionconstruction.com",
+        "source": "Site officiel impulsionconstruction.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "Africaine d'Immobilier (A2I)",
+        "name": "Direction A2I",
+        "email": "contact@africaine2immo.com",
+        "website": "https://africaine2immo.com",
+        "source": "Site officiel africaine2immo.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "Agipco Immobilier Dakar",
+        "name": "Direction Agipco",
+        "email": "contact@agipco-immobilier.com",
+        "website": "https://agipco-immobilier.com",
+        "source": "Site officiel agipco-immobilier.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    },
+    {
+        "company": "EMD Immo Sénégal",
+        "name": "Direction EMD Immo",
+        "email": "contact@emdimmo.com",
+        "website": "https://emdimmo.com",
+        "source": "Site officiel emdimmo.com",
+        "territory": "Sénégal",
+        "city": "Dakar"
+    }
+]
+
+print(f"Testing {len(candidates_pool_68)} candidates...")
+validated = []
+seen = set()
+
+for c in candidates_pool_68:
+    em = c["email"].lower().strip()
+    co = c["company"].strip()
+    if em in seen:
+        continue
+    is_dup, reason = is_domain_or_company_duplicate(em, co, db_file="contacts_deja_contactes.json")
+    if is_dup:
+        print(f"[-] Dup/Excluded: {em} ({reason})")
+        continue
+    is_v, msg = verify_email_target(em)
+    if not is_v:
+        print(f"[-] DNS/MX fail: {em} -> {msg}")
+        continue
+    seen.add(em)
+    validated.append(c)
+    print(f"[+] VALIDATED: {co} <{em}> ({c.get('territory')})")
+
+print(f"\nTOTAL VALIDATED: {len(validated)}")
+with open("scripts/validated_candidates_batch_68.json", "w", encoding="utf-8") as f:
+    json.dump(validated, f, indent=2, ensure_ascii=False)

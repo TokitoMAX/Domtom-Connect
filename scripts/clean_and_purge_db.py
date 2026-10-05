@@ -17,7 +17,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 # 1. Récupération des bounces récents depuis Gmail
 print("Récupération des bounces récents sur Gmail...")
 mail = imaplib.IMAP4_SSL('imap.gmail.com')
-mail.login('domtomconnect@gmail.com', 'esbmvnvpvxdqphci')
+mail.login('domtomconnect@gmail.com', 'geqpuqluimxdjxeo')
 mail.select('INBOX')
 
 status, data = mail.search(None, 'ALL')

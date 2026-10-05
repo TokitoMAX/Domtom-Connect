@@ -12,7 +12,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 SENDER_EMAIL = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTACTS_DB_FILE = os.path.join(BASE_DIR, "contacts_deja_contactes.json")

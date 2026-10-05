@@ -10,7 +10,7 @@ import os
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL_USER = "domtomconnect@gmail.com"
-EMAIL_PASS = "esbmvnvpvxdqphci"
+EMAIL_PASS = "geqpuqluimxdjxeo"
 
 CANDIDATES_FILE = "verified_candidates.json"
 EXCLUSION_FILE = "contacts_deja_contactes.json"

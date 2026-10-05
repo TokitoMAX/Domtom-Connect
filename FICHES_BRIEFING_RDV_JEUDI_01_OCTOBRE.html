@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefing Stratégique - 3 Rendez-vous du Jeudi 1er Octobre 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030504;
+      --card-bg: #090E0B;
+      --card-inner: #111814;
+      --border: #19241E;
+      --border-accent: #283C31;
+      --green: #10B981;
+      --green-glow: rgba(16, 185, 129, 0.15);
+      --amber: #F59E0B;
+      --blue: #0A84FF;
+      --text: #F3F4F6;
+      --muted: #9CA3AF;
+      --white: #FFFFFF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1 { font-size: 28px; font-weight: 900; color: var(--white); margin-bottom: 8px; }
+    p.lead { color: var(--muted); font-size: 15px; }
+    
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 768px) {
+      .timeline { grid-template-columns: 1fr; }
+    }
+    .time-slot {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+    .time-slot.active {
+      border-color: var(--green);
+      box-shadow: 0 0 20px var(--green-glow);
+    }
+    .time-slot .time {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+    .time-slot .name { font-size: 14px; font-weight: 700; color: var(--white); }
+    .time-slot .company { font-size: 12px; color: var(--muted); }
+
+    .prospect-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .prospect-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .prospect-title h2 { font-size: 22px; font-weight: 800; color: var(--white); }
+    .prospect-title .sub { color: var(--green); font-size: 14px; font-weight: 700; margin-top: 4px; }
+    .meet-btn {
+      background: var(--green);
+      color: #030504;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+    }
+    .meet-btn:hover { background: #1FE19F; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .info-box {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .info-box h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+    .info-list { list-style: none; }
+    .info-list li {
+      font-size: 13.5px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding-bottom: 6px;
+    }
+    .info-list li span.label { color: var(--muted); }
+    .info-list li span.val { font-weight: 700; color: var(--white); text-align: right; }
+    .info-list li a { color: var(--green); text-decoration: none; font-weight: 700; }
+    .info-list li a:hover { text-decoration: underline; }
+
+    .pitch-section {
+      background: var(--card-inner);
+      border-left: 4px solid var(--green);
+      padding: 20px;
+      border-radius: 0 14px 14px 0;
+      margin-bottom: 20px;
+    }
+    .pitch-section h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .pitch-section p, .pitch-section ul {
+      font-size: 14px;
+      color: #D1D5DB;
+    }
+    .pitch-section ul { padding-left: 20px; margin-top: 8px; }
+    .pitch-section li { margin-bottom: 6px; }
+
+    .action-box {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 13.5px;
+    }
+    .action-box strong { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Briefing Opérationnel &bull; Domtom Connect</div>
+      <h1>Fiches Stratégiques des 3 Rendez-vous</h1>
+      <p class="lead">Jeudi 1er octobre 2026 &bull; Profils détaillés, coordonnées, liens officiels et trame de négociation.</p>
+    </header>
+
+    <div class="timeline">
+      <div class="time-slot active">
+        <div class="time">06h30 (Paris)</div>
+        <div class="name">Nissi Pierre</div>
+        <div class="company">Master Grill Bar Resto &bull; Haïti</div>
+      </div>
+      <div class="time-slot active">
+        <div class="time">08h30 (Paris)</div>
+        <div class="name">Binnur Alkan</div>
+        <div class="company">Boussole Patrimoine &bull; La Réunion</div>
+      </div>
+      <div class="time-slot active">
+        <div class="time">15h30 (Paris)</div>
+        <div class="name">Cynthia Zèbre</div>
+        <div class="company">Univers Du Déménagement &bull; Guadeloupe</div>
+      </div>
+    </div>
+
+    <!-- RDV 1 -->
+    <div class="prospect-card">
+      <div class="prospect-header">
+        <div class="prospect-title">
+          <h2>1. Nissi Georges Pierre &mdash; Master Grill Bar Resto</h2>
+          <div class="sub">06h30 Heure de Paris (00h30 Heure Haïti) &bull; 30 Minutes</div>
+        </div>
+        <a href="https://calendly.com/events/1f6719e6-654f-4548-bf5e-c37b7bb5366d/google_meet" target="_blank" class="meet-btn">
+          Rejoindre le Google Meet &rarr;
+        </a>
+      </div>
+
+      <div class="grid-2">
+        <div class="info-box">
+          <h3>Fiche d'Identité & Contact</h3>
+          <ul class="info-list">
+            <li><span class="label">Dirigeante :</span> <span class="val">Nissi Georges Pierre</span></li>
+            <li><span class="label">Établissement :</span> <span class="val">Master Grill Bar Resto</span></li>
+            <li><span class="label">Localisation :</span> <span class="val">Rue 29 A, Carénage, Cap-Haïtien (Haïti)</span></li>
+            <li><span class="label">Téléphone :</span> <span class="val">+509 47 20 77 59</span></li>
+            <li><span class="label">Email réservation :</span> <span class="val">emmanuellanissi90@gmail.com</span></li>
+            <li><span class="label">Email officiel :</span> <span class="val">mastergrill.barresto@gmail.com</span></li>
+            <li><span class="label">Activité :</span> <span class="val">Bar-Restaurant Grillades, Événements, Livraison</span></li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h3>Liens & Contexte de Contact</h3>
+          <ul class="info-list">
+            <li><span class="label">Page Facebook :</span> <span class="val"><a href="https://www.facebook.com/p/Master-Grill-Bar-Resto-100083281729015/" target="_blank">Page Officielle Facebook</a></span></li>
+            <li><span class="label">Origine :</span> <span class="val">Email prospection restauration caribéenne</span></li>
+            <li><span class="label">Son retour exact :</span> <span class="val">« Très intéressée pour réduire l'impact des commissions sur nos marges en Haïti. »</span></li>
+            <li><span class="label">Sujet central :</span> <span class="val">DTC Pulse & Visibilité directe sans intermédiaire</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <h4>Trame de Discussion & Pitch</h4>
+        <p><strong>1. Accroche bienveillante (2 min) :</strong> Remercie-la pour son engagement et salue la résilience des entrepreneurs au Cap-Haïtien. Mentionne l'horaire pour vérifier si l'heure lui convient bien.</p>
+        <p><strong>2. Question de découverte (5 min) :</strong> « Nissi, comment fonctionne votre modèle aujourd'hui entre la salle et la livraison ? Quel est le poids des commissions ou des intermédiaires sur vos commandes ? »</p>
+        <p><strong>3. Présentation DTC Pulse (10 min) :</strong></p>
+        <ul>
+          <li>Explique que DTC Pulse a été conçu pour donner aux restaurateurs de la Caraïbe une vitrine directe, sans commissions abusives.</li>
+          <li>Mise en avant des plats, des événements et commande directe entre clients et le restaurant.</li>
+          <li>Visibilité auprès de la diaspora haïtienne connectée (USA, Canada, France, Antilles).</li>
+        </ul>
+        <p><strong>4. Proposition concrète :</strong> Propose-lui de référencer <strong>Master Grill</strong> comme restaurant pilote pionnier sur DTC Pulse lors du déploiement public.</p>
+      </div>
+
+      <div class="action-box">
+        <strong>Objectif de fin d'appel :</strong> Valider son accord pour lui créer sa fiche établissement sur DTC Pulse et récupérer ses 3 plats signatures + photos pour préparer sa vitrine.
+      </div>
+    </div>
+
+    <!-- RDV 2 -->
+    <div class="prospect-card">
+      <div class="prospect-header">
+        <div class="prospect-title">
+          <h2>2. Binnur Alkan &mdash; Boussole Patrimoine</h2>
+          <div class="sub">08h30 Heure de Paris (10h30 Heure Réunion) &bull; 30 Minutes</div>
+        </div>
+        <a href="https://meet.google.com/mce-fomd-qye" target="_blank" class="meet-btn">
+          Rejoindre le Google Meet &rarr;
+        </a>
+      </div>
+
+      <div class="grid-2">
+        <div class="info-box">
+          <h3>Fiche d'Identité & Contact</h3>
+          <ul class="info-list">
+            <li><span class="label">Conseillère / Dirigeante :</span> <span class="val">Binnur Alkan</span></li>
+            <li><span class="label">Cabinet :</span> <span class="val">Boussole Patrimoine</span></li>
+            <li><span class="label">Agrément :</span> <span class="val">Conseillère en Investissements (ORIAS 20003057)</span></li>
+            <li><span class="label">Siège :</span> <span class="val">La Saline-les-Bains (La Réunion, 97434)</span></li>
+            <li><span class="label">Zone couverte :</span> <span class="val">La Réunion, Océan Indien, DROM-COM & Hexagone</span></li>
+            <li><span class="label">Email :</span> <span class="val">binnur.alkan@boussolepatrimoine.fr</span></li>
+            <li><span class="label">Site Officiel :</span> <span class="val"><a href="https://boussolepatrimoine.fr" target="_blank">boussolepatrimoine.fr</a></span></li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h3>Expertises du Cabinet & Enjeux</h3>
+          <ul class="info-list">
+            <li><span class="label">Spécialités :</span> <span class="val">Défiscalisation Outre-Mer (Girardin, Pinel OM), PER, Assurance-Vie</span></li>
+            <li><span class="label">Clientèle cible :</span> <span class="val">Cadres, Chefs d'entreprise, Investisseurs diaspora</span></li>
+            <li><span class="label">Motif de réservation :</span> <span class="val">« Partenariat/Collaboration suite au mail »</span></li>
+            <li><span class="label">Opportunité DTC :</span> <span class="val">Apport d'affaires & référencement expert certifié</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <h4>Trame de Discussion & Pitch</h4>
+        <p><strong>1. Valorisation & Positionnement (3 min) :</strong> Souligne la complémentarité géographique entre son ancrage à La Réunion et l'écosystème global Domtom Connect (Caraïbes, Réunion, Diaspora).</p>
+        <p><strong>2. Question de découverte (5 min) :</strong> « Binnur, quels sont vos axes prioritaires d'expansion aujourd'hui ? Cherchez-vous à toucher davantage de chefs d'entreprise et de cadres ultramarins ou métropolitains en quête d'optimisation fiscale ? »</p>
+        <p><strong>3. Proposition de Valeur Domtom Connect (10 min) :</strong></p>
+        <ul>
+          <li>Domtom Connect accompagne et fédère des centaines d'entrepreneurs, porteurs de projets et investisseurs de la diaspora.</li>
+          <li>Beaucoup de nos membres génèrent des revenus importants ou réalisent des opérations qui nécessitent un accompagnement fiscal et patrimonial pointu (Girardin, immobilier ultramarin, transmission).</li>
+          <li>Création d'un <strong>partenariat de recommandation</strong> : flécher les demandes qualifiées vers Boussole Patrimoine.</li>
+          <li>Possibilité de co-rédiger un article d'autorité ou d'animer un webinaire thématique exclusif dans la communauté Domtom Connect sur la défiscalisation outre-mer.</li>
+        </ul>
+      </div>
+
+      <div class="action-box">
+        <strong>Objectif de fin d'appel :</strong> Conclure sur un principe de partenariat d'apport d'affaires et convenir d'une première mise en avant de son expertise auprès des membres du réseau.
+      </div>
+    </div>
+
+    <!-- RDV 3 -->
+    <div class="prospect-card">
+      <div class="prospect-header">
+        <div class="prospect-title">
+          <h2>3. Cynthia Zèbre &mdash; Univers Du Déménagement (UDD)</h2>
+          <div class="sub">15h30 Heure de Paris (09h30 Heure Guadeloupe) &bull; 30 Minutes</div>
+        </div>
+        <a href="https://meet.google.com/xpy-xevy-srk" target="_blank" class="meet-btn">
+          Rejoindre le Google Meet &rarr;
+        </a>
+      </div>
+
+      <div class="grid-2">
+        <div class="info-box">
+          <h3>Fiche d'Identité & Contact</h3>
+          <ul class="info-list">
+            <li><span class="label">Interlocutrice :</span> <span class="val">Cynthia Zèbre (Responsable Commerciale)</span></li>
+            <li><span class="label">Société :</span> <span class="val">Univers Du Déménagement (UDD SAS)</span></li>
+            <li><span class="label">SIREN :</span> <span class="val">952 484 780</span></li>
+            <li><span class="label">Adresse :</span> <span class="val">45 Rue Alfred Lumière, 97122 Baie-Mahault (Guadeloupe)</span></li>
+            <li><span class="label">Téléphone :</span> <span class="val">0690 92 34 92</span></li>
+            <li><span class="label">Email :</span> <span class="val">commerciale.udd@gmail.com</span></li>
+            <li><span class="label">Facebook :</span> <span class="val"><a href="https://www.facebook.com/universdudemenagement/" target="_blank">Page Facebook UDD</a></span></li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h3>Activité & Synergies Diaspora</h3>
+          <ul class="info-list">
+            <li><span class="label">Métier :</span> <span class="val">Déménagement particuliers/pros, fret maritime & aérien</span></li>
+            <li><span class="label">Flux principaux :</span> <span class="val">Métropole &harr; Guadeloupe, Martinique, Guyane</span></li>
+            <li><span class="label">Origine :</span> <span class="val">Email du 27/09 « Opportunité logistique et visibilité diaspora »</span></li>
+            <li><span class="label">Besoin UDD :</span> <span class="val">Capter des flux constants de conteneurs et de déménagements diaspora</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pitch-section">
+        <h4>Trame de Discussion & Pitch</h4>
+        <p><strong>1. Cadrage direct (3 min) :</strong> Félicite Cynthia pour l'ancrage d'UDD à Baie-Mahault au cœur de la zone d'activité de Jarry.</p>
+        <p><strong>2. Question de découverte (5 min) :</strong> « Cynthia, quel est votre volume actuel sur les déménagements en provenance de l'Hexagone ? Quels sont vos canaux pour toucher les Antillais qui préparent leur retour au pays ou expédient du fret ? »</p>
+        <p><strong>3. Solution Domtom Connect (10 min) :</strong></p>
+        <ul>
+          <li>La communauté Domtom Connect compte des milliers de membres ultramarins en métropole (retours au pays, créateurs d'entreprise expédiant du stock ou du matériel pro).</li>
+          <li>La logistique et le fret sont la préoccupation n°1 de notre audience (délais, confiance, tarifs).</li>
+          <li>Proposer à UDD de devenir le <strong>partenaire logistique officiel recommandé</strong> par Domtom Connect pour les liaisons Caraïbes.</li>
+          <li>Mise en place d'un canal direct de devis pour les membres et retours au pays.</li>
+        </ul>
+      </div>
+
+      <div class="action-box">
+        <strong>Objectif de fin d'appel :</strong> Obtenir leur grille tarifaire ou offre privilège pour la diaspora Domtom Connect, et programmer une communication conjointe.
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

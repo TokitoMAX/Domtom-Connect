@@ -11,7 +11,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL_USER = "domtomconnect@gmail.com"
-EMAIL_PASS = "esbmvnvpvxdqphci"
+EMAIL_PASS = "geqpuqluimxdjxeo"
 
 LEADS_FILE = "batch_100_restaurants_wave2.json"
 EXCLUSION_FILE = "contacts_deja_contactes.json"

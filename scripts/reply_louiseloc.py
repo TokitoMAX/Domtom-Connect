@@ -7,7 +7,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 SENDER_EMAIL = "domtomconnect@gmail.com"
-APP_PASSWORD = "esbmvnvpvxdqphci"
+APP_PASSWORD = "geqpuqluimxdjxeo"
 
 RECIPIENT = "louiseloc972@gmail.com"
 ORIGINAL_MSG_ID = "<CAFO_rZ2p5ipibk1Kxqx7PeC_qWzEJSuasf5nAtb1r7VJXWmMYQ@mail.gmail.com>"

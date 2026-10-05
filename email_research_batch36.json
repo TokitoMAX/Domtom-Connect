@@ -1,0 +1,74 @@
+[
+  {
+    "company": "Karambole Restaurant (La Réunion)",
+    "url": "https://www.karambole.re",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Mafate Pizza (La Réunion)",
+    "url": "https://www.mafatepizza.re",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Le Reflet des Îles (Paris - Restaurant créole)",
+    "url": "https://www.refletdesiles.com",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "La Biguine (Martinique - SPA & bien-être)",
+    "url": "https://www.labiguine.com",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Guanabana (Guadeloupe - Restaurant)",
+    "url": "https://www.guanabana.fr",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Le Phare Bleu Marina (Grenade - Caraïbes)",
+    "url": "https://www.pharebleu.com",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Savane des Pétrifications (Martinique - excursions)",
+    "url": "https://www.savanedespetifications.fr",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Zarlor Vacances (Martinique - locations)",
+    "url": "https://www.zarlor.com",
+    "found_email": "info@brandbucket.com",
+    "status": "OK"
+  },
+  {
+    "company": "Ti'Punch Bar (Martinique - cocktails)",
+    "url": "https://www.tipunchbar.com",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Boutique Caret (La Réunion - artisanat)",
+    "url": "https://www.boutique-caret.re",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "Chocolaterie Yves Thuriès (La Réunion)",
+    "url": "https://www.thuriesreunion.com",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  },
+  {
+    "company": "La Cayenne (Guyane - restaurant)",
+    "url": "https://www.lacayenne.fr",
+    "found_email": null,
+    "status": "NOT_FOUND"
+  }
+]

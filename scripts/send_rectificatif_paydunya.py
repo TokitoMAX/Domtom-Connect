@@ -8,7 +8,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL_USER = "domtomconnect@gmail.com"
-EMAIL_PASS = "esbmvnvpvxdqphci"
+EMAIL_PASS = "geqpuqluimxdjxeo"
 
 TO_EMAIL = "paydunya@paydunya.com"
 IN_REPLY_TO = "<CAHkGEX+3LHvRhBHDm+Jqe3rKqG1+-z2619aR9oTR5vr2diWTcA@mail.gmail.com>"

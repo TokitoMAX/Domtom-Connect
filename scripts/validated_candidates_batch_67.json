@@ -1,0 +1,317 @@
+[
+  {
+    "company": "Soregor TGS France Antilles",
+    "name": "Direction TGS France",
+    "email": "contact@tgs-france.fr",
+    "website": "https://www.tgs-france.fr",
+    "source": "Site officiel tgs-france.fr",
+    "territory": "Guadeloupe",
+    "city": "Baie-Mahault"
+  },
+  {
+    "company": "KPMG Guadeloupe",
+    "name": "Direction KPMG Antilles",
+    "email": "fr-contactkpmg@kpmg.fr",
+    "website": "https://kpmg.com/fr",
+    "source": "Site officiel kpmg.com/fr",
+    "territory": "Guadeloupe",
+    "city": "Baie-Mahault"
+  },
+  {
+    "company": "PwC Antilles-Guyane",
+    "name": "Direction PwC Antilles",
+    "email": "contact@pwc.fr",
+    "website": "https://www.pwc.fr",
+    "source": "Site officiel pwc.fr",
+    "territory": "Guadeloupe & Martinique",
+    "city": "Baie-Mahault"
+  },
+  {
+    "company": "Cabinet Fidag Antilles",
+    "name": "Direction Fidag",
+    "email": "contact@fidag.fr",
+    "website": "https://www.fidag.fr",
+    "source": "Site officiel fidag.fr",
+    "territory": "Martinique",
+    "city": "Fort-de-France"
+  },
+  {
+    "company": "Cabinet Crowe Réunion",
+    "name": "Direction Crowe Réunion",
+    "email": "contact@crowe.re",
+    "website": "https://www.crowe.re",
+    "source": "Site officiel crowe.re",
+    "territory": "La Réunion",
+    "city": "Saint-Denis"
+  },
+  {
+    "company": "Cabinet BDO Réunion",
+    "name": "Direction BDO Réunion",
+    "email": "contact@bdo.re",
+    "website": "https://www.bdo.re",
+    "source": "Site officiel bdo.re",
+    "territory": "La Réunion",
+    "city": "Sainte-Marie"
+  },
+  {
+    "company": "Cabinet Baker Tilly Réunion",
+    "name": "Direction Baker Tilly",
+    "email": "contact@bakertilly.re",
+    "website": "https://www.bakertilly.re",
+    "source": "Site officiel bakertilly.re",
+    "territory": "La Réunion",
+    "city": "Saint-Paul"
+  },
+  {
+    "company": "Cabinet KPMG Tahiti",
+    "name": "Direction KPMG Tahiti",
+    "email": "contact@kpmg.pf",
+    "website": "https://kpmg.pf",
+    "source": "Site officiel kpmg.pf",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Cabinet KPMG Nouméa",
+    "name": "Direction KPMG Nouméa",
+    "email": "contact@kpmg.nc",
+    "website": "https://kpmg.nc",
+    "source": "Site officiel kpmg.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "Cabinet BDO Nouméa",
+    "name": "Direction BDO Nouméa",
+    "email": "contact@bdo.nc",
+    "website": "https://www.bdo.nc",
+    "source": "Site officiel bdo.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "BDO Mauritius",
+    "name": "Direction BDO Mauritius",
+    "email": "bdo@bdo.mu",
+    "website": "https://www.bdo.mu",
+    "source": "Site officiel bdo.mu",
+    "territory": "Maurice / Océan Indien",
+    "city": "Port-Louis"
+  },
+  {
+    "company": "KPMG Mauritius",
+    "name": "Direction KPMG Mauritius",
+    "email": "kpmg@kpmg.mu",
+    "website": "https://kpmg.mu",
+    "source": "Site officiel kpmg.mu",
+    "territory": "Maurice / Océan Indien",
+    "city": "Ebène"
+  },
+  {
+    "company": "Baker Tilly Mauritius",
+    "name": "Direction Baker Tilly Mauritius",
+    "email": "info@bakertilly.mu",
+    "website": "https://www.bakertilly.mu",
+    "source": "Site officiel bakertilly.mu",
+    "territory": "Maurice / Océan Indien",
+    "city": "Port-Louis"
+  },
+  {
+    "company": "Grant Thornton Mauritius",
+    "name": "Direction Grant Thornton Mauritius",
+    "email": "info@gtmu.com",
+    "website": "https://www.grantthornton.mu",
+    "source": "Site officiel grantthornton.mu",
+    "territory": "Maurice / Océan Indien",
+    "city": "Ebène"
+  },
+  {
+    "company": "DJ Expertise Martinique",
+    "name": "Direction DJ Expertise",
+    "email": "contact@djexpertise.fr",
+    "website": "https://www.djexpertise.fr",
+    "source": "Site officiel djexpertise.fr",
+    "territory": "Martinique",
+    "city": "Fort-de-France"
+  },
+  {
+    "company": "Natexpert Martinique",
+    "name": "Direction Natexpert",
+    "email": "contact@natexpert.fr",
+    "website": "https://www.natexpert.fr",
+    "source": "Site officiel natexpert.fr",
+    "territory": "Martinique",
+    "city": "Le Lamentin"
+  },
+  {
+    "company": "ACECOR Réunion",
+    "name": "Direction ACECOR",
+    "email": "contact@acecor.re",
+    "website": "https://www.acecor.re",
+    "source": "Site officiel acecor.re",
+    "territory": "La Réunion",
+    "city": "Sainte-Clotilde"
+  },
+  {
+    "company": "Conseil C2L Réunion",
+    "name": "Direction Conseil C2L",
+    "email": "lleclerc@conseil-c2l.re",
+    "website": "https://www.conseil-c2l.re",
+    "source": "Site officiel conseil-c2l.re",
+    "territory": "La Réunion",
+    "city": "Saint-Denis"
+  },
+  {
+    "company": "HJL Expertise et Conseils Réunion",
+    "name": "Direction HJL",
+    "email": "contact@hjl-expert-comptable.re",
+    "website": "https://www.hjl-expert-comptable.re",
+    "source": "Site officiel hjl-expert-comptable.re",
+    "territory": "La Réunion",
+    "city": "Saint-Louis"
+  },
+  {
+    "company": "Alfa Comptabilité Réunion",
+    "name": "Direction Alfa Comptabilité",
+    "email": "tampon@alfacomptabilite.com",
+    "website": "https://www.alfacomptabilite.com",
+    "source": "Site officiel alfacomptabilite.com",
+    "territory": "La Réunion",
+    "city": "Le Tampon"
+  },
+  {
+    "company": "Expert Avenir Réunion",
+    "name": "Direction Expert Avenir",
+    "email": "expertavenir974@gmail.com",
+    "website": "https://www.expert-avenir.fr",
+    "source": "Site officiel expert-avenir.fr",
+    "territory": "La Réunion",
+    "city": "Saint-Louis"
+  },
+  {
+    "company": "Keaexperts Guadeloupe",
+    "name": "Direction Keaexperts",
+    "email": "contact@keaexperts.fr",
+    "website": "https://www.keaexperts.fr",
+    "source": "Site officiel keaexperts.fr",
+    "territory": "Guadeloupe",
+    "city": "Baie-Mahault"
+  },
+  {
+    "company": "Antilles Experts Guadeloupe",
+    "name": "Direction Antilles Experts",
+    "email": "contact@antillesexperts.com",
+    "website": "https://www.antillesexperts.com",
+    "source": "Site officiel antillesexperts.com",
+    "territory": "Guadeloupe",
+    "city": "Baie-Mahault"
+  },
+  {
+    "company": "CRHEA Guadeloupe",
+    "name": "Direction CRHEA",
+    "email": "contact@crhea-gp.fr",
+    "website": "https://www.crhea-gp.fr",
+    "source": "Site officiel crhea-gp.fr",
+    "territory": "Guadeloupe",
+    "city": "Pointe-à-Pitre"
+  },
+  {
+    "company": "Les Experts du Sud Réunion",
+    "name": "Direction Les Experts du Sud",
+    "email": "momarjee@xpr2.re",
+    "website": "https://www.comptable-lesexpertsdusud.re",
+    "source": "Site officiel comptable-lesexpertsdusud.re",
+    "territory": "La Réunion",
+    "city": "Saint-Pierre"
+  },
+  {
+    "company": "RYDGE Conseil Réunion",
+    "name": "Direction RYDGE",
+    "email": "contact@rydge.fr",
+    "website": "https://www.rydge.fr",
+    "source": "Site officiel rydge.fr",
+    "territory": "La Réunion",
+    "city": "Saint-Denis"
+  },
+  {
+    "company": "Cabinet STH Guadeloupe",
+    "name": "Direction Cabinet STH",
+    "email": "contact@cabinet-sth.com",
+    "website": "https://www.cabinet-sth.com",
+    "source": "Site officiel cabinet-sth.com",
+    "territory": "Guadeloupe",
+    "city": "Pointe-à-Pitre"
+  },
+  {
+    "company": "MCA Comptabilité Nouméa",
+    "name": "Bernard Forgues",
+    "email": "bernard.forgues@mca.nc",
+    "website": "https://www.mca.nc",
+    "source": "Site officiel mca.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "AEC Nouméa",
+    "name": "Direction AEC",
+    "email": "contact@aec.nc",
+    "website": "https://www.aec.nc",
+    "source": "Site officiel aec.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "Nautilae Expertise Nouméa",
+    "name": "Direction Nautilae",
+    "email": "contact@nautilae-expertise.nc",
+    "website": "https://www.nautilae-expertise.nc",
+    "source": "Site officiel nautilae-expertise.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "Lagarde Expertise & Conseil Nouméa",
+    "name": "Direction Lagarde Expertise",
+    "email": "contact@lagarde.nc",
+    "website": "https://www.lagarde.nc",
+    "source": "Site officiel lagarde.nc",
+    "territory": "Nouvelle-Calédonie",
+    "city": "Nouméa"
+  },
+  {
+    "company": "Audifi Tahiti",
+    "name": "Direction Audifi",
+    "email": "contact@audifi.pf",
+    "website": "https://www.audifi.pf",
+    "source": "Site officiel audifi.pf",
+    "territory": "Polynésie française",
+    "city": "Papeete"
+  },
+  {
+    "company": "Chapel Avocat",
+    "name": "Maître Chapel",
+    "email": "contact@chapel-avocat.fr",
+    "website": "https://www.chapel-avocat.fr",
+    "source": "Barreau de la Guadeloupe / chapel-avocat.fr",
+    "territory": "Guadeloupe",
+    "city": "Pointe-à-Pitre"
+  },
+  {
+    "company": "Les Avocats Réunis Martinique",
+    "name": "Direction Cabinet",
+    "email": "contact@lesavocatsreunis.com",
+    "website": "https://www.lesavocatsreunis.com",
+    "source": "Barreau de la Martinique / lesavocatsreunis.com",
+    "territory": "Martinique",
+    "city": "Fort-de-France"
+  },
+  {
+    "company": "Ordre des Avocats Saint-Denis",
+    "name": "Secrétariat de l'Ordre",
+    "email": "contact@odasd.re",
+    "website": "https://www.barreau-saint-denis.re",
+    "source": "Site officiel barreau-saint-denis.re",
+    "territory": "La Réunion",
+    "city": "Sainte-Clotilde"
+  }
+]
