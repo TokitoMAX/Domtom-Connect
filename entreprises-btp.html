@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTP, Construction &amp; Travaux Publics Outre-Mer (Caraïbes, Guyane, Réunion) | Domtom Connect</title>
+    <meta name="description" content="Accompagnement opérationnel et copilotage pour dirigeants de PME BTP, artisans et négoce de matériaux aux Antilles, Guyane, Réunion et Afrique. Sécurisez vos marges et vos chantiers.">
+    <meta name="keywords" content="BTP Guadeloupe, BTP Martinique, BTP Guyane, BTP Réunion, gestion chantier outre-mer, copilotage PME bâtiment, marges BTP insulaire, Domtom Connect">
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BTP &amp; Construction Outre-Mer | Domtom Connect">
+    <meta property="og:description" content="Sortez de la solitude des chantiers. Domtom Connect pilote votre intendance et assainit vos marges dans le bâtiment en milieu insulaire.">
+    <meta property="og:url" content="https://www.domtomconnect.com/entreprises-btp.html">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
+
+    <style>
+        :root {
+            --premium-bg: #020617;
+            --premium-surface: #0b1329;
+            --premium-card: #0f172a;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-hover: #059669;
+            --text-primary: #f8fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(16, 185, 129, 0.35);
+            --btp-tag: #f59e0b;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            max-width: 100vw;
+            width: 100%;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            max-width: 100vw;
+            width: 100%;
+            position: relative;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1000px, 100vw);
+            max-width: 100%;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* FIL D'ARIANE */
+        .breadcrumb-container {
+            max-width: 1140px;
+            margin: 15px auto 0;
+            padding: 0 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-container a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-container a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* HERO DIRECT BTP */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px 45px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .badge-sector {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-sector .dot {
+            width: 8px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 4.2vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            max-width: 960px;
+            color: #ffffff;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.65;
+            margin: 0 auto 32px auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #020617;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #34d399, #10b981);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .section-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 70px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-tag {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 900;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 720px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* PAIN GRID BTP */
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 20px;
+        }
+
+        .pain-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: 18px;
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pain-metric {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f87171;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pain-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .pain-body {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+
+        /* FUNNEL EN 3 ÉTAPES */
+        .funnel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 24px;
+        }
+
+        .funnel-card {
+            background: linear-gradient(145deg, #0b152d 0%, #060e20 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: 20px;
+            padding: 32px 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .funnel-card:hover {
+            transform: translateY(-3px);
+            border-color: #34d399;
+        }
+
+        .step-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: rgba(16, 185, 129, 0.2);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.05em;
+        }
+
+        .funnel-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .funnel-text {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .funnel-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.12);
+            padding: 5px 12px;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+
+        /* FILTRES QUALIFICATION */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: 24px;
+        }
+
+        .filter-card {
+            border-radius: 20px;
+            padding: 34px 28px;
+            background: rgba(11, 19, 41, 0.7);
+        }
+
+        .filter-card.yes {
+            border: 1px solid rgba(16, 185, 129, 0.35);
+        }
+
+        .filter-card.no {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .filter-card h3 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-card.yes h3 { color: #34d399; }
+        .filter-card.no h3 { color: #f87171; }
+
+        .filter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .filter-list li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .filter-list li i {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .filter-card.yes li i { color: #10b981; }
+        .filter-card.no li i { color: #ef4444; }
+
+        /* GEO FOCUS */
+        .geo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .geo-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .geo-card h4 {
+            font-size: 1.05rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .geo-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* BOTTOM CTA */
+        .bottom-cta {
+            background: linear-gradient(180deg, #0b1329 0%, #020617 100%);
+            border-top: 1px solid var(--border-subtle);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .bottom-cta h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .bottom-cta p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0 auto 35px auto;
+        }
+
+        /* SECTORS NAV BAR */
+        .sectors-nav {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+        }
+
+        .sectors-nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sectors-nav-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .sector-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .sector-link:hover {
+            color: #ffffff;
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .sector-link.active {
+            color: #ffffff;
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+        }
+    </style>
+
+    <!-- Schema.org Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Copilotage Opérationnel BTP & Construction Outre-Mer",
+      "provider": {
+        "@type": "Organization",
+        "name": "Domtom Connect",
+        "url": "https://www.domtomconnect.com",
+        "founder": {
+          "@type": "Person",
+          "name": "Loïc Villeronce"
+        }
+      },
+      "areaServed": [
+        "Guadeloupe",
+        "Martinique",
+        "Guyane",
+        "La Réunion",
+        "Mayotte",
+        "Sénégal",
+        "Côte d'Ivoire"
+      ],
+      "description": "Accompagnement opérationnel, optimisation des marges et copilotage de chantiers pour entreprises du bâtiment et BTP en milieu insulaire et en Afrique.",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.domtomconnect.com/anamnese.html",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="ambient-glow-top"></div>
+
+    <!-- HEADER NAVIGATION OFFICIEL -->
+    <header class="site-header">
+        <div class="nav-container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="brand-logo" aria-label="Domtom Connect">
+                    <img src="assets/images/logo-domtom-connect.png" alt="Logo Domtom Connect" class="logo-img">
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="entreprises.html" class="nav-link active">Entreprises</a></li>
+                    <li><a href="marques.html" class="nav-link">Marques</a></li>
+                    <li class="nav-item-dropdown">
+                        <button class="nav-link dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                            <span>Nos Accompagnements</span>
+                            <i class="fas fa-chevron-down nav-dropdown-arrow"></i>
+                        </button>
+                        <div class="dropdown-panel">
+                            <a href="tremplin.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Programme Tremplin</span>
+                                    <span class="dropdown-desc">Accompagnement 360, individuel &amp; copilotage</span>
+                                </div>
+                            </a>
+                            <a href="anamnese.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-stethoscope"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">L'Anamnèse clinique</span>
+                                    <span class="dropdown-desc">Diagnostic gratuit de vos problématiques</span>
+                                </div>
+                            </a>
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-compass"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Copilotage opérationnel</span>
+                                    <span class="dropdown-desc">Délégation de l'intendance &amp; focus CA</span>
+                                </div>
+                            </a>
+                            <a href="boutique.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">La Librairie &amp; Guides</span>
+                                    <span class="dropdown-desc">Tome 1, simulateur interactif &amp; outils</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
+                    <li><a href="rejoindre.html" class="nav-link">La communauté</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Échange 20 min</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRE DE NAVIGATION SECTORIELLE -->
+    <div class="sectors-nav">
+        <div class="sectors-nav-inner">
+            <span class="sectors-nav-label"><i class="fas fa-layer-group"></i> Secteurs :</span>
+            <a href="entreprises-btp.html" class="sector-link active"><i class="fas fa-helmet-safety"></i> BTP &amp; Construction</a>
+            <a href="entreprises-tourisme.html" class="sector-link"><i class="fas fa-umbrella-beach"></i> Tourisme &amp; Hébergement</a>
+            <a href="entreprises-logistique.html" class="sector-link"><i class="fas fa-truck-ramp-box"></i> Logistique &amp; Fret</a>
+            <a href="entreprises-ingenierie.html" class="sector-link"><i class="fas fa-compass-drafting"></i> Bureaux d'Études &amp; Conseil</a>
+            <a href="marques-agroalimentaire.html" class="sector-link"><i class="fas fa-bottle-droplet"></i> Agro &amp; Terroirs</a>
+            <a href="marques-cosmetique.html" class="sector-link"><i class="fas fa-spa"></i> Cosmétique &amp; Bien-être</a>
+        </div>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-container">
+        <a href="index.html">Accueil</a>
+        <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem;"></i></span>
+        <a href="entreprises.html">Entreprises</a>
+        <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem;"></i></span>
+        <span style="color:#ffffff;">BTP, Construction &amp; Second Œuvre</span>
+    </div>
+
+    <!-- HERO SECTION BTP -->
+    <section class="hero">
+        <div class="badge-sector">
+            <span class="dot"></span>
+            <span>BTP, Travaux Publics &amp; Second Œuvre Insulaire</span>
+        </div>
+
+        <h1>
+            Chantiers rentables, marges protégées : <span>sortez de la surchauffe opérationnelle.</span>
+        </h1>
+
+        <p class="subtitle">
+            Aux Antilles, en Guyane, à La Réunion et en Afrique de l'Ouest, piloter une PME du bâtiment exige un sang-froid permanent. Domtom Connect intervient en <b>Copilotage opérationnel</b> et via le <b>Programme Tremplin</b> pour assainir vos marges, accélérer l'encaissement des situations de travaux et décharger la direction des relances chronophages.
+        </p>
+
+        <div class="cta-group">
+            <a href="anamnese.html" class="cta-primary">
+                <i class="fas fa-stethoscope"></i>
+                <span>Passer l'Anamnèse BTP (10 min · Gratuit)</span>
+            </a>
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
+                <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                <span>Réserver un échange direct de 20 min</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 1 : LES DOULEURS RÉELLES DU BTP EN MILIEU INSULAIRE ET TROPICAL -->
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Ce qui vous coûte cher chaque mois sur les chantiers</span>
+            <h2 class="section-title">Les 3 bombes à retardement des PME du bâtiment</h2>
+            <p class="section-desc">
+                Pourquoi réaliser des centaines de milliers d'euros de chiffre d'affaires si la trésorerie reste constamment sur la corde raide ?
+            </p>
+        </div>
+
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-hourglass-half"></i> 90 jours</div>
+                <h3 class="pain-title">Retards d'encaissement et situations de travaux bloquées</h3>
+                <p class="pain-body">
+                    Entre les délais de paiement publics ou promoteurs, les réserves mineures non levées et le manque de relances administratives régulières, vous avancez les salaires et les fournitures pendant que votre trésorerie fond.
+                </p>
+            </div>
+
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-ship"></i> +35 %</div>
+                <h3 class="pain-title">Aléas d'approvisionnement maritime et surcoûts matières</h3>
+                <p class="pain-body">
+                    Un conteneur bloqué au port de Jarry, Dégrad des Cannes ou au Grand Port Maritime de La Réunion, c'est un chantier à l'arrêt, des équipes immobilisées et des pénalités de retard qui grignotent immédiatement votre marge nette.
+                </p>
+            </div>
+
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-fire-extinguisher"></i> 100 %</div>
+                <h3 class="pain-title">Patron pompier sur le terrain, zéro temps pour les marchés rentables</h3>
+                <p class="pain-body">
+                    Vous passez vos journées à courir d'un chantier à l'autre pour régler les urgences de matériel, gérer les absences et négocier avec les sous-traitants. Les devis stratégiques et la prospection sont repoussés au week-end.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 : L'ENTONNOIR DE STRUCTURATION DOMTOM CONNECT -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Notre méthode opérationnelle de terrain</span>
+            <h2 class="section-title">Comment nous assainissons votre PME en 3 étapes nettes</h2>
+            <p class="section-desc">
+                Zéro blabla théorique. Nous intervenons directement sur vos points de friction pour transformer votre activité en machine rentable et structurée.
+            </p>
+        </div>
+
+        <div class="funnel-grid">
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">01</div>
+                    <h3 class="funnel-title">Le Diagnostic Anamnèse BTP</h3>
+                    <p class="funnel-text">
+                        En 10 minutes chrono, nous passons vos chiffres au crible : marge réelle par lot, volume des encours clients, délais de facturation et goulets d'étranglement sur vos chantiers. Vous repartez avec un état des lieux sans filtre.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-check-circle"></i> État des lieux immédiat</div>
+            </div>
+
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">02</div>
+                    <h3 class="funnel-title">Copilotage &amp; Décharge Opérationnelle</h3>
+                    <p class="funnel-text">
+                        Nous intégrons le Programme Tremplin à vos côtés. Nous mettons en place le suivi rigoureux des situations de travaux, la relance systématique des devis et la rationalisation des commandes fournisseurs pour sécuriser vos trésoreries.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-gears"></i> Processus verrouillés</div>
+            </div>
+
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">03</div>
+                    <h3 class="funnel-title">Marges Sécurisées &amp; Temps Récupéré</h3>
+                    <p class="funnel-text">
+                        Votre trésorerie respire, les encaissements rentrent à date, et vos équipes ont des fiches d'intervention claires. Vous récupérez 15h par semaine pour sélectionner les chantiers les plus rémunérateurs.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-chart-line"></i> Rentabilité pérenne</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3 : ANCRAGE GÉOGRAPHIQUE SPÉCIFIQUE -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Réalités territoriales</span>
+            <h2 class="section-title">Une expertise forgée pour les spécificités de nos bassins</h2>
+            <p class="section-desc">
+                On ne pilote pas un chantier à Cayenne comme à Paris. Nous intégrons les contraintes locales dès le premier jour.
+            </p>
+        </div>
+
+        <div class="geo-grid">
+            <div class="geo-card">
+                <h4><i class="fas fa-location-dot" style="color:var(--accent);"></i> Guadeloupe &amp; Martinique</h4>
+                <p>Gestion des rotations maritimes depuis Le Havre ou Anvers, anticyclones, octroi de mer sur les aciers et granulats, chantiers d'altitude ou côtiers.</p>
+            </div>
+            <div class="geo-card">
+                <h4><i class="fas fa-location-dot" style="color:var(--accent);"></i> Guyane (Cayenne, Kourou, Ouest)</h4>
+                <p>Distances fluviales et terrestres extrêmes, délais d'acheminement sur la RN1/RN2, climat équatorial et gestion des chantiers isolés.</p>
+            </div>
+            <div class="geo-card">
+                <h4><i class="fas fa-location-dot" style="color:var(--accent);"></i> La Réunion &amp; Mayotte</h4>
+                <p>Dépendance aux corridors de l'océan Indien, gestion des risques cycloniques, tension sur la main-d'œuvre qualifiée et marchés d'infrastructures.</p>
+            </div>
+            <div class="geo-card">
+                <h4><i class="fas fa-location-dot" style="color:var(--accent);"></i> Afrique de l'Ouest &amp; Centrale</h4>
+                <p>PME en pleine expansion à Abidjan, Dakar ou Douala, sécurisation des chaînes logistiques locales, gestion rigoureuse de la trésorerie et sous-traitance.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 : FILTRE DE QUALIFICATION -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Qualification stricte</span>
+            <h2 class="section-title">Pour qui cet accompagnement est-il conçu ?</h2>
+            <p class="section-desc">
+                Nous travaillons avec des dirigeants déterminés qui veulent des résultats mesurables, pas des promesses en l'air.
+            </p>
+        </div>
+
+        <div class="filter-grid">
+            <div class="filter-card yes">
+                <h3><i class="fas fa-circle-check"></i> C'est fait pour vous si :</h3>
+                <ul class="filter-list">
+                    <li><i class="fas fa-check"></i> Vous dirigez une entreprise de BTP, gros œuvre, second œuvre ou négoce réalisant déjà du chiffre d'affaires régulier.</li>
+                    <li><i class="fas fa-check"></i> Vous en avez assez de voir vos marges absorbées par le désordre administratif et les retards d'encaissement.</li>
+                    <li><i class="fas fa-check"></i> Vous êtes prêt à mettre en place des process de suivi stricts pour que votre entreprise tourne sans votre présence constante.</li>
+                    <li><i class="fas fa-check"></i> Vous souhaitez vous concentrer sur la négociation des gros marchés et laisser l'intendance à un copilote rigoureux.</li>
+                </ul>
+            </div>
+
+            <div class="filter-card no">
+                <h3><i class="fas fa-circle-xmark"></i> Ce n'est PAS pour vous si :</h3>
+                <ul class="filter-list">
+                    <li><i class="fas fa-xmark"></i> Vous cherchez une baguette magique pour effacer des dettes sans revoir l'organisation de vos chantiers.</li>
+                    <li><i class="fas fa-xmark"></i> Vous refusez d'ouvrir vos tableaux de marge et d'analyser vos coûts réels en toute transparence.</li>
+                    <li><i class="fas fa-xmark"></i> Vous attendez un cabinet d'audit qui vous laisse un rapport PDF de 80 pages sans jamais toucher au terrain.</li>
+                    <li><i class="fas fa-xmark"></i> Vous considérez que la gestion de trésorerie n'est pas une priorité vitale dans le bâtiment.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <section class="bottom-cta">
+        <h2>Prêt à reprendre le contrôle total de vos chantiers ?</h2>
+        <p>
+            Commencez par un diagnostic clair de 10 minutes ou réservez directement un échange de cadrage avec Loïc Villeronce.
+        </p>
+        <div class="cta-group">
+            <a href="anamnese.html" class="cta-primary">
+                <i class="fas fa-stethoscope"></i>
+                <span>Passer l'Anamnèse BTP (Gratuit)</span>
+            </a>
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
+                <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                <span>Planifier un échange de 20 min</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER OFFICIEL STANDARDISÉ -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="assets/images/logo-domtom-connect.png" alt="Domtom Connect" class="footer-logo">
+                    <p class="footer-bio">
+                        L'écosystème d'accompagnement et de copilotage opérationnel dédié aux entreprises et marques de la Caraïbe, d'Afrique et de la diaspora.
+                    </p>
+                    <div class="footer-contact-info" style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">
+                        <p><i class="fas fa-phone" style="color: #10b981; margin-right: 8px;"></i> +33 6 20 78 33 77</p>
+                        <p style="margin-top: 6px;"><i class="fas fa-envelope" style="color: #10b981; margin-right: 8px;"></i> domtomconnect@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="footer-links-grid">
+                    <div class="footer-col">
+                        <span class="footer-heading">Solutions</span>
+                        <ul>
+                            <li><a href="entreprises.html">Entreprises &amp; PME</a></li>
+                            <li><a href="marques.html">Marques &amp; Produits</a></li>
+                            <li><a href="entreprises-btp.html">Pôle BTP &amp; Construction</a></li>
+                            <li><a href="tremplin.html">Programme Tremplin</a></li>
+                            <li><a href="pilotage.html">Copilotage Opérationnel</a></li>
+                            <li><a href="anamnese.html">Diagnostic Anamnèse</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <span class="footer-heading">Écosystème</span>
+                        <ul>
+                            <li><a href="beta-test.html">Application DTC Pulse</a></li>
+                            <li><a href="boutique.html">Librairie &amp; Guides</a></li>
+                            <li><a href="rejoindre.html">Communauté WhatsApp</a></li>
+                            <li><a href="co-fondateurs.html">Cercle Co-fondateurs</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <span class="footer-heading">Accès direct</span>
+                        <ul>
+                            <li><a href="https://calendly.com/domtomconnect/30min" target="_blank">Prendre rendez-vous</a></li>
+                            <li><a href="login.html">Espace membre</a></li>
+                            <li><a href="privacy.html">Politique de confidentialité</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Domtom Connect. Tous droits réservés. Fondé par Loïc Villeronce.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

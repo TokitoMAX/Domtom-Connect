@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marques Agroalimentaires, Rhums &amp; Terroirs d'Outre-Mer et d'Afrique | Domtom Connect</title>
+    <meta name="description" content="Vendez vos produits de terroir, spiritueux et spécialités agroalimentaires en direct à la diaspora sans sacrifier vos marges auprès des distributeurs. Accompagnement et canal DTC Pulse.">
+    <meta name="keywords" content="rhum agricole Guadeloupe, épicerie fine Martinique, terroir Guyane, vanille Réunion, chocolat Caraïbes, vente directe diaspora, DTC Pulse, Domtom Connect">
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Agroalimentaire &amp; Terroirs d'Exception | Domtom Connect">
+    <meta property="og:description" content="Arrêtez de céder 50 % de vos marges aux centrales d'achat. Vendez vos produits d'exception en direct à la diaspora grâce à Domtom Connect.">
+    <meta property="og:url" content="https://www.domtomconnect.com/marques-agroalimentaire.html">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
+
+    <style>
+        :root {
+            --premium-bg: #020617;
+            --premium-surface: #0b1329;
+            --premium-card: #0f172a;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-hover: #059669;
+            --text-primary: #f8fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --border-accent: rgba(16, 185, 129, 0.35);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            max-width: 100vw;
+            width: 100%;
+        }
+
+        body {
+            background-color: var(--premium-bg);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            max-width: 100vw;
+            width: 100%;
+            position: relative;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1000px, 100vw);
+            max-width: 100%;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .breadcrumb-container {
+            max-width: 1140px;
+            margin: 15px auto 0;
+            padding: 0 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-container a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb-container a:hover {
+            color: var(--accent);
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px 45px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .badge-sector {
+            background: rgba(234, 179, 8, 0.12);
+            color: #facc15;
+            border: 1px solid rgba(234, 179, 8, 0.35);
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-sector .dot {
+            width: 8px;
+            height: 8px;
+            background: #facc15;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #facc15;
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 4.2vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            max-width: 960px;
+            color: #ffffff;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            line-height: 1.65;
+            margin: 0 auto 32px auto;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #020617;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #34d399, #10b981);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.45);
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .section-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 70px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-tag {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 900;
+            letter-spacing: -0.025em;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            max-width: 720px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 20px;
+        }
+
+        .pain-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            border-radius: 18px;
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pain-metric {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #f87171;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pain-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        .pain-body {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+            line-height: 1.6;
+        }
+
+        .funnel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 24px;
+        }
+
+        .funnel-card {
+            background: linear-gradient(145deg, #0b152d 0%, #060e20 100%);
+            border: 1px solid var(--border-accent);
+            border-radius: 20px;
+            padding: 32px 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .funnel-card:hover {
+            transform: translateY(-3px);
+            border-color: #34d399;
+        }
+
+        .step-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: rgba(16, 185, 129, 0.2);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.05em;
+        }
+
+        .funnel-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .funnel-text {
+            color: var(--text-secondary);
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .funnel-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.12);
+            padding: 5px 12px;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+            gap: 24px;
+        }
+
+        .filter-card {
+            border-radius: 20px;
+            padding: 34px 28px;
+            background: rgba(11, 19, 41, 0.7);
+        }
+
+        .filter-card.yes { border: 1px solid rgba(16, 185, 129, 0.35); }
+        .filter-card.no { border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .filter-card h3 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-card.yes h3 { color: #34d399; }
+        .filter-card.no h3 { color: #f87171; }
+
+        .filter-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .filter-list li {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .filter-card.yes li i { color: #10b981; }
+        .filter-card.no li i { color: #ef4444; }
+
+        .bottom-cta {
+            background: linear-gradient(180deg, #0b1329 0%, #020617 100%);
+            border-top: 1px solid var(--border-subtle);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .bottom-cta h2 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .bottom-cta p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0 auto 35px auto;
+        }
+
+        .sectors-nav {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 20px;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+        }
+
+        .sectors-nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sectors-nav-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .sector-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .sector-link:hover {
+            color: #ffffff;
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .sector-link.active {
+            color: #ffffff;
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Accompagnement et Vente Directe Terroirs Caraïbes & Afrique",
+      "provider": {
+        "@type": "Organization",
+        "name": "Domtom Connect",
+        "url": "https://www.domtomconnect.com"
+      },
+      "areaServed": ["Guadeloupe", "Martinique", "Guyane", "La Réunion", "Afrique de l'Ouest", "France Métropolitaine"],
+      "description": "Plateforme et accompagnement pour marques agroalimentaires, rhums et produits de terroir afin de vendre en direct à la diaspora."
+    }
+    </script>
+</head>
+<body>
+    <div class="ambient-glow-top"></div>
+
+    <header class="site-header">
+        <div class="nav-container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="brand-logo" aria-label="Domtom Connect">
+                    <img src="assets/images/logo-domtom-connect.png" alt="Logo Domtom Connect" class="logo-img">
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
+                    <li><a href="marques.html" class="nav-link active">Marques</a></li>
+                    <li class="nav-item-dropdown">
+                        <button class="nav-link dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+                            <span>Nos Accompagnements</span>
+                            <i class="fas fa-chevron-down nav-dropdown-arrow"></i>
+                        </button>
+                        <div class="dropdown-panel">
+                            <a href="tremplin.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Programme Tremplin</span>
+                                    <span class="dropdown-desc">Accompagnement 360, individuel &amp; copilotage</span>
+                                </div>
+                            </a>
+                            <a href="anamnese.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-stethoscope"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">L'Anamnèse clinique</span>
+                                    <span class="dropdown-desc">Diagnostic gratuit de vos problématiques</span>
+                                </div>
+                            </a>
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-compass"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Copilotage opérationnel</span>
+                                    <span class="dropdown-desc">Délégation de l'intendance &amp; focus CA</span>
+                                </div>
+                            </a>
+                            <a href="boutique.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">La Librairie &amp; Guides</span>
+                                    <span class="dropdown-desc">Tome 1, simulateur interactif &amp; outils</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
+                    <li><a href="rejoindre.html" class="nav-link">La communauté</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
+                        <span>Échange 20 min</span>
+                        <i class="fas fa-calendar-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sectors-nav">
+        <div class="sectors-nav-inner">
+            <span class="sectors-nav-label"><i class="fas fa-layer-group"></i> Filières :</span>
+            <a href="marques-agroalimentaire.html" class="sector-link active"><i class="fas fa-bottle-droplet"></i> Agro &amp; Terroirs</a>
+            <a href="marques-cosmetique.html" class="sector-link"><i class="fas fa-spa"></i> Cosmétique &amp; Bien-être</a>
+            <a href="entreprises-btp.html" class="sector-link"><i class="fas fa-helmet-safety"></i> BTP &amp; Construction</a>
+            <a href="entreprises-tourisme.html" class="sector-link"><i class="fas fa-umbrella-beach"></i> Tourisme &amp; Hébergement</a>
+            <a href="entreprises-logistique.html" class="sector-link"><i class="fas fa-truck-ramp-box"></i> Logistique &amp; Fret</a>
+            <a href="entreprises-ingenierie.html" class="sector-link"><i class="fas fa-compass-drafting"></i> Bureaux d'Études &amp; Conseil</a>
+        </div>
+    </div>
+
+    <div class="breadcrumb-container">
+        <a href="index.html">Accueil</a>
+        <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem;"></i></span>
+        <a href="marques.html">Marques</a>
+        <span class="breadcrumb-separator"><i class="fas fa-chevron-right" style="font-size:0.7rem;"></i></span>
+        <span style="color:#ffffff;">Agroalimentaire, Spiritueux &amp; Terroirs</span>
+    </div>
+
+    <section class="hero">
+        <div class="badge-sector">
+            <span class="dot"></span>
+            <span>Rhums, Épicerie Fine, Chocolats &amp; Terroirs Afro-Caribéens</span>
+        </div>
+
+        <h1>
+            Arrêtez de céder vos marges à la distribution : <span>vendez en direct à la diaspora.</span>
+        </h1>
+
+        <p class="subtitle">
+            Vos produits d'exception méritent mieux que d'être bradés auprès de centrales d'achat passives. Domtom Connect vous donne un canal direct via l'application <b>DTC Pulse</b> et optimise votre logistique pour livrer les clients passionnés de l'Hexagone et d'ailleurs avec une rentabilité préservée.
+        </p>
+
+        <div class="cta-group">
+            <a href="anamnese.html" class="cta-primary">
+                <i class="fas fa-stethoscope"></i>
+                <span>Passer l'Anamnèse Terroir (10 min · Gratuit)</span>
+            </a>
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
+                <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                <span>Réserver un call de 20 min</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LES DOULEURS DES MARQUES DE TERROIR -->
+    <div class="section-container">
+        <div class="section-header">
+            <span class="section-tag">Ce qui étouffe vos produits locaux</span>
+            <h2 class="section-title">Les 3 freins qui bloquent les marques du terroir</h2>
+            <p class="section-desc">
+                Un savoir-faire exceptionnel, des recettes primées, mais un modèle de distribution hérité du siècle dernier.
+            </p>
+        </div>
+
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-percent"></i> -45 %</div>
+                <h3 class="pain-title">Marges écrasées par les centrales d'achat et grossistes</h3>
+                <p class="pain-body">
+                    Pour être référencé dans les rayons locaux ou les boutiques spécialisées, vous devez consentir des remises massives et supporter des délais de règlement à 60 ou 90 jours.
+                </p>
+            </div>
+
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-box-open"></i> 18 € / colis</div>
+                <h3 class="pain-title">Frais d'expédition et octroi de mer intenables à l'unité</h3>
+                <p class="pain-body">
+                    Vendre un bocal ou une bouteille en métropole avec des frais postaux unitaires exorbitants dissuade les acheteurs et transforme chaque commande e-commerce en calvaire logistique.
+                </p>
+            </div>
+
+            <div class="pain-card">
+                <div class="pain-metric"><i class="fas fa-bullhorn"></i> x3 CAC</div>
+                <h3 class="pain-title">Publicité Meta et Google trop chère pour rentabiliser</h3>
+                <p class="pain-body">
+                    Les campagnes publicitaires sur les réseaux sociaux coûtent une fortune et convertissent mal si vous n'avez pas un ancrage communautaire direct et un storytelling authentique.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENTONNOIR EN 3 ETAPES -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Notre approche opérationnelle</span>
+            <h2 class="section-title">Comment nous accélérons votre marque de terroir</h2>
+            <p class="section-desc">
+                De l'audit de vos coûts jusqu'à l'accès direct aux consommateurs de la diaspora.
+            </p>
+        </div>
+
+        <div class="funnel-grid">
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">01</div>
+                    <h3 class="funnel-title">L'Anamnèse Marque &amp; Terroir</h3>
+                    <p class="funnel-text">
+                        En 10 minutes, nous analysons votre coût de revient, votre packaging, votre marge nette par canal et les verrous qui empêchent votre expansion au-delà de votre marché insulaire.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-check-circle"></i> Diagnostic précis</div>
+            </div>
+
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">02</div>
+                    <h3 class="funnel-title">Vitrine Vidéo DTC Pulse &amp; Synergies</h3>
+                    <p class="funnel-text">
+                        Mise en lumière de vos produits et de votre savoir-faire en vidéo courte auprès de notre communauté qualifiée, avec prise de commande directe sans commission abusive.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-mobile-screen"></i> Canal direct propriétaire</div>
+            </div>
+
+            <div class="funnel-card">
+                <div>
+                    <div class="step-number">03</div>
+                    <h3 class="funnel-title">Copilotage Logistique &amp; Volumes</h3>
+                    <p class="funnel-text">
+                        Optimisation des expéditions groupées, mise en place d'offres bundles à fort panier moyen (45 € à 90 €) et réachat régulier de vos clients satisfaits.
+                    </p>
+                </div>
+                <div class="funnel-pill"><i class="fas fa-arrow-trend-up"></i> Marges conservées</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUALIFICATION -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Sélection</span>
+            <h2 class="section-title">Pour quelles marques cette solution est-elle idéale ?</h2>
+        </div>
+
+        <div class="filter-grid">
+            <div class="filter-card yes">
+                <h3><i class="fas fa-circle-check"></i> C'est fait pour vous si :</h3>
+                <ul class="filter-list">
+                    <li><i class="fas fa-check"></i> Vous fabriquez ou transformez un produit authentique : rhum, punch, confitures, chocolat, épices, miel ou sauces d'exception.</li>
+                    <li><i class="fas fa-check"></i> Votre produit est déjà prêt, aux normes sanitaires et apprécié par une première clientèle locale.</li>
+                    <li><i class="fas fa-check"></i> Vous voulez construire une relation directe avec la diaspora sans dépendre uniquement des supermarchés.</li>
+                </ul>
+            </div>
+
+            <div class="filter-card no">
+                <h3><i class="fas fa-circle-xmark"></i> Ce n'est PAS pour vous si :</h3>
+                <ul class="filter-list">
+                    <li><i class="fas fa-xmark"></i> Vous faites du reconditionnement bas de gamme sans valeur ajoutée de terroir.</li>
+                    <li><i class="fas fa-xmark"></i> Vous n'avez pas de stock disponible pour honorer des commandes directes régulières.</li>
+                    <li><i class="fas fa-xmark"></i> Vous cherchez un distributeur qui rachète tout votre stock à perte sans bâtir votre marque.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM CTA -->
+    <section class="bottom-cta">
+        <h2>Prêt à faire rayonner votre terroir en direct ?</h2>
+        <p>
+            Démarrez votre diagnostic gratuit en 10 minutes ou convenez d'un échange direct avec Loïc Villeronce.
+        </p>
+        <div class="cta-group">
+            <a href="anamnese.html" class="cta-primary">
+                <i class="fas fa-stethoscope"></i>
+                <span>Passer l'Anamnèse Terroir (Gratuit)</span>
+            </a>
+            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary">
+                <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                <span>Planifier un échange de 20 min</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER OFFICIEL -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <img src="assets/images/logo-domtom-connect.png" alt="Domtom Connect" class="footer-logo">
+                    <p class="footer-bio">
+                        L'écosystème d'accompagnement et de copilotage opérationnel dédié aux entreprises et marques de la Caraïbe, d'Afrique et de la diaspora.
+                    </p>
+                    <div class="footer-contact-info" style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">
+                        <p><i class="fas fa-phone" style="color: #10b981; margin-right: 8px;"></i> +33 6 20 78 33 77</p>
+                        <p style="margin-top: 6px;"><i class="fas fa-envelope" style="color: #10b981; margin-right: 8px;"></i> domtomconnect@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="footer-links-grid">
+                    <div class="footer-col">
+                        <span class="footer-heading">Solutions</span>
+                        <ul>
+                            <li><a href="entreprises.html">Entreprises &amp; PME</a></li>
+                            <li><a href="marques.html">Marques &amp; Produits</a></li>
+                            <li><a href="marques-agroalimentaire.html">Pôle Agro &amp; Terroirs</a></li>
+                            <li><a href="entreprises-btp.html">Pôle BTP &amp; Construction</a></li>
+                            <li><a href="entreprises-tourisme.html">Pôle Tourisme &amp; Hébergement</a></li>
+                            <li><a href="tremplin.html">Programme Tremplin</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <span class="footer-heading">Écosystème</span>
+                        <ul>
+                            <li><a href="beta-test.html">Application DTC Pulse</a></li>
+                            <li><a href="boutique.html">Librairie &amp; Guides</a></li>
+                            <li><a href="rejoindre.html">Communauté WhatsApp</a></li>
+                            <li><a href="co-fondateurs.html">Cercle Co-fondateurs</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <span class="footer-heading">Accès direct</span>
+                        <ul>
+                            <li><a href="https://calendly.com/domtomconnect/30min" target="_blank">Prendre rendez-vous</a></li>
+                            <li><a href="login.html">Espace membre</a></li>
+                            <li><a href="privacy.html">Politique de confidentialité</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Domtom Connect. Tous droits réservés. Fondé par Loïc Villeronce.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

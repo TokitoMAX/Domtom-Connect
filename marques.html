@@ -424,6 +424,64 @@
             line-height: 1.6;
         }
 
+        /* SECTOR HUBS */
+        .sector-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: 20px;
+        }
+
+        .sector-hub-card {
+            background: linear-gradient(145deg, #0b152d 0%, #060e20 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .sector-hub-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .sector-hub-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .sector-hub-content h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .sector-hub-content p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .sector-hub-link {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         @media (max-width: 768px) {
             .hero {
                 padding: 55px 16px 40px;
@@ -655,6 +713,52 @@
         </div>
     </div>
 
+    <!-- SECTIONS FILIÈRES CIBLÉES (SEO & GÉO) -->
+    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
+        <div class="section-header">
+            <span class="section-tag">Filières Produits &amp; Terroirs d'Exception</span>
+            <h2 class="section-title">Des solutions dédiées à votre univers de marque</h2>
+            <p class="section-desc">
+                Que vous élaboriez des nectars de terroir ou des rituels de beauté afro-caribéens, découvrez nos parcours de vente directe :
+            </p>
+        </div>
+
+        <div class="sector-cards-grid">
+            <a href="marques-agroalimentaire.html" class="sector-hub-card">
+                <div class="sector-hub-icon" style="color: #facc15; background: rgba(234, 179, 8, 0.12);"><i class="fas fa-bottle-droplet"></i></div>
+                <div class="sector-hub-content">
+                    <h3>Agroalimentaire &amp; Terroirs</h3>
+                    <p>Rhums, chocolats, épicerie fine et confitures : vendez en direct à la diaspora et conservez 100 % de vos marges.</p>
+                    <span class="sector-hub-link">Voir le pôle Terroirs <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            <a href="marques-cosmetique.html" class="sector-hub-card">
+                <div class="sector-hub-icon" style="color: #f472b6; background: rgba(236, 72, 153, 0.12);"><i class="fas fa-spa"></i></div>
+                <div class="sector-hub-content">
+                    <h3>Cosmétique &amp; Bien-être</h3>
+                    <p>Soins capillaires texturés et pharmacopée afro-caribéenne : fédérez votre communauté sans dépendre de la pub Meta.</p>
+                    <span class="sector-hub-link">Voir le pôle Cosmétique <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            <a href="entreprises-tourisme.html" class="sector-hub-card">
+                <div class="sector-hub-icon" style="color: #38bdf8; background: rgba(14, 165, 233, 0.12);"><i class="fas fa-umbrella-beach"></i></div>
+                <div class="sector-hub-content">
+                    <h3>Tourisme &amp; Écolodges</h3>
+                    <p>Désintermédiation des OTA (Booking/Airbnb), réservations directes diaspora et intendance.</p>
+                    <span class="sector-hub-link">Voir le pôle Tourisme <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+            <a href="entreprises-btp.html" class="sector-hub-card">
+                <div class="sector-hub-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.12);"><i class="fas fa-helmet-safety"></i></div>
+                <div class="sector-hub-content">
+                    <h3>Pôle Entreprises &amp; BTP</h3>
+                    <p>Accompagnement opérationnel, sécurisation des chantiers et trésorerie pour PME du bâtiment.</p>
+                    <span class="sector-hub-link">Voir le pôle Entreprises <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
+    </div>
+
     <!-- ÉTAPE 3 DU FUNNEL : LE FILTRE SANS BULLSHIT -->
     <div class="section-container">
         <div class="section-header">
@@ -772,16 +876,17 @@
                     </div>
                 </div>
 
-                <!-- Col 2 : Programmes -->
+                <!-- Col 2 : Programmes & Pôles -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Programmes</h4>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Programmes &amp; Pôles</h4>
                     <ul class="footer-links">
+                        <li><a href="marques.html"><i class="fas fa-angle-right"></i> Marques &amp; Produits</a></li>
                         <li><a href="entreprises.html"><i class="fas fa-angle-right"></i> Entreprises &amp; PME</a></li>
-                        <li><a href="marques.html"><i class="fas fa-angle-right"></i> Marques</a></li>
+                        <li><a href="marques-agroalimentaire.html"><i class="fas fa-angle-right"></i> Pôle Terroirs &amp; Agro</a></li>
+                        <li><a href="marques-cosmetique.html"><i class="fas fa-angle-right"></i> Pôle Cosmétique &amp; Beauté</a></li>
+                        <li><a href="entreprises-tourisme.html"><i class="fas fa-angle-right"></i> Pôle Tourisme &amp; Écolodges</a></li>
+                        <li><a href="entreprises-btp.html"><i class="fas fa-angle-right"></i> Pôle BTP &amp; Construction</a></li>
                         <li><a href="tremplin.html"><i class="fas fa-angle-right"></i> Programme Tremplin</a></li>
-                        <li><a href="pilotage.html"><i class="fas fa-angle-right"></i> Offre de Copilotage</a></li>
-                        <li><a href="co-fondateurs.html"><i class="fas fa-angle-right"></i> Trouver un Associé</a></li>
-                        <li><a href="incubateur.html"><i class="fas fa-angle-right"></i> L'Incubateur &amp; Hub</a></li>
                     </ul>
                 </div>
 
