@@ -277,6 +277,11 @@
             gap: 8px;
         }
 
+        .pain-metric i {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
         .pain-title {
             font-size: 1.2rem;
             font-weight: 800;
@@ -494,42 +499,71 @@
 <body>
     <div class="ambient-glow-top"></div>
 
-    <header class="site-header">
-        <div class="nav-container">
-            <div class="nav-wrapper">
-                <a href="index.html" class="brand-logo" aria-label="Domtom Connect">
-                    <img src="assets/images/logo-domtom-connect.png" alt="Logo Domtom Connect" class="logo-img">
+        <!-- UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
                 </a>
 
                 <ul class="nav-menu">
                     <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
-                    <li><a href="marques.html" class="nav-link active">Marques</a></li>
-                    <li class="nav-item-dropdown">
-                        <button class="nav-link dropdown-trigger" aria-haspopup="true" aria-expanded="false">
-                            <span>Nos Accompagnements</span>
-                            <i class="fas fa-chevron-down nav-dropdown-arrow"></i>
-                        </button>
-                        <div class="dropdown-panel">
+                    <li><a href="anamnese.html" class="nav-link nav-link-highlight"><i class="fas fa-stethoscope"></i> Anamnèse <span class="nav-badge-pill">10 Actes</span></a></li>
+                    <li class="has-dropdown">
+                        <a href="index.html#solutions" class="nav-link dropdown-toggle active" id="nav-programmes-btn">
+                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="anamnese.html" class="dropdown-item" style="background: rgba(16, 185, 129, 0.08); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+                                <div class="dropdown-icon" style="background: rgba(16, 185, 129, 0.2); color: #10b981;"><i class="fas fa-stethoscope"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title" style="color: #10b981; font-weight: 700;">Anamnèse Clinique (10 Actes) <span class="edition-badge" style="font-size: 0.65rem; background: #10b981; color: #000; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">Gratuit</span></span>
+                                    <span class="dropdown-desc">Examen clinique sans concession de votre entreprise</span>
+                                </div>
+                            </a>
+                            <a href="entreprises.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-building"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Entreprises &amp; PME</span>
+                                    <span class="dropdown-desc">Copilotage opérationnel &amp; croissance</span>
+                                </div>
+                            </a>
+                            <a href="marques.html" class="dropdown-item" style="background: rgba(16, 185, 129, 0.05);">
+                                <div class="dropdown-icon"><i class="fas fa-tag"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Marques</span>
+                                    <span class="dropdown-desc">Vente directe diaspora &amp; DTC Pulse</span>
+                                </div>
+                            </a>
+                            <a href="pilotage.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
+                                <div class="dropdown-info">
+                                    <span class="dropdown-title">Accompagnement &amp; Copilotage</span>
+                                    <span class="dropdown-desc">Pilotage externe &amp; rentabilité d'entreprise</span>
+                                </div>
+                            </a>
                             <a href="tremplin.html" class="dropdown-item">
                                 <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
                                 <div class="dropdown-info">
                                     <span class="dropdown-title">Programme Tremplin</span>
-                                    <span class="dropdown-desc">Accompagnement 360, individuel &amp; copilotage</span>
+                                    <span class="dropdown-desc">Accompagnement à 360° pour entreprises et porteurs</span>
                                 </div>
                             </a>
-                            <a href="anamnese.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-stethoscope"></i></div>
+                            <a href="co-fondateurs.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
                                 <div class="dropdown-info">
-                                    <span class="dropdown-title">L'Anamnèse clinique</span>
-                                    <span class="dropdown-desc">Diagnostic gratuit de vos problématiques</span>
+                                    <span class="dropdown-title">Trouver un Associé</span>
+                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
                                 </div>
                             </a>
-                            <a href="pilotage.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-compass"></i></div>
+                            <a href="incubateur.html" class="dropdown-item">
+                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
                                 <div class="dropdown-info">
-                                    <span class="dropdown-title">Copilotage opérationnel</span>
-                                    <span class="dropdown-desc">Délégation de l'intendance &amp; focus CA</span>
+                                    <span class="dropdown-title">Incubateur &amp; Hub</span>
+                                    <span class="dropdown-desc">Écosystème &amp; ressources collectives</span>
                                 </div>
                             </a>
                             <a href="boutique.html" class="dropdown-item">
@@ -539,6 +573,12 @@
                                     <span class="dropdown-desc">Tome 1, simulateur interactif &amp; outils</span>
                                 </div>
                             </a>
+                            <div class="dropdown-footer">
+                                <a href="index.html#solutions" class="dropdown-overview-link">
+                                    <span>Voir la vue d'ensemble des piliers</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </li>
                     <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
@@ -551,20 +591,24 @@
                         <span>Échange 20 min</span>
                         <i class="fas fa-calendar-alt"></i>
                     </a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
+        <!-- BARRE DE NAVIGATION SECTORIELLE -->
     <div class="sectors-nav">
         <div class="sectors-nav-inner">
-            <span class="sectors-nav-label"><i class="fas fa-layer-group"></i> Filières :</span>
-            <a href="marques-cosmetique.html" class="sector-link active"><i class="fas fa-spa"></i> Cosmétique &amp; Bien-être</a>
-            <a href="marques-agroalimentaire.html" class="sector-link"><i class="fas fa-bottle-droplet"></i> Agro &amp; Terroirs</a>
+            <span class="sectors-nav-label"><i class="fas fa-layer-group"></i> Pôles Métiers :</span>
             <a href="entreprises-btp.html" class="sector-link"><i class="fas fa-helmet-safety"></i> BTP &amp; Construction</a>
             <a href="entreprises-tourisme.html" class="sector-link"><i class="fas fa-umbrella-beach"></i> Tourisme &amp; Hébergement</a>
             <a href="entreprises-logistique.html" class="sector-link"><i class="fas fa-truck-ramp-box"></i> Logistique &amp; Fret</a>
             <a href="entreprises-ingenierie.html" class="sector-link"><i class="fas fa-compass-drafting"></i> Bureaux d'Études &amp; Conseil</a>
+            <a href="marques-agroalimentaire.html" class="sector-link"><i class="fas fa-bottle-droplet"></i> Agro &amp; Terroirs</a>
+            <a href="marques-cosmetique.html" class="sector-link active"><i class="fas fa-spa"></i> Cosmétique &amp; Soins</a>
         </div>
     </div>
 
@@ -614,7 +658,7 @@
 
         <div class="pain-grid">
             <div class="pain-card">
-                <div class="pain-metric"><i class="fas fa-sack-dollar"></i> CAC x3</div>
+                <div class="pain-metric"><i class="fas fa-arrow-trend-up"></i> CAC x3</div>
                 <h3 class="pain-title">Coût d'acquisition client insoutenable sur les réseaux</h3>
                 <p class="pain-body">
                     Payer 25 € à Meta ou TikTok pour vendre un sérum capillaire ou une huile à 30 € ne laisse strictement aucune marge nette pour réinvestir dans vos productions et stocks.
@@ -622,7 +666,7 @@
             </div>
 
             <div class="pain-card">
-                <div class="pain-metric"><i class="fas fa-boxes-packing"></i> 1 produit</div>
+                <div class="pain-metric"><i class="fas fa-box-archive"></i> 1 produit</div>
                 <h3 class="pain-title">Panier moyen trop faible pour absorber les envois</h3>
                 <p class="pain-body">
                     Lorsque vos clientes commandent un seul produit à la fois, les frais de livraison et de packaging gâchent l'expérience d'achat et freinent les commandes répétées.
@@ -728,59 +772,110 @@
         </div>
     </section>
 
-    <!-- FOOTER OFFICIEL -->
+        <!-- FOOTER COMPLET -->
     <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-top">
+        <div class="footer-ambient-glow"></div>
+        <div class="container footer-container">
+            <div class="footer-grid">
+                <!-- Col 1 : Marque -->
                 <div class="footer-brand">
-                    <img src="assets/images/logo-domtom-connect.png" alt="Domtom Connect" class="footer-logo">
-                    <p class="footer-bio">
-                        L'écosystème d'accompagnement et de copilotage opérationnel dédié aux entreprises et marques de la Caraïbe, d'Afrique et de la diaspora.
+                    <a href="index.html" class="footer-brand-logo">
+                        <img src="assets/images/logo-emblem-dark-clean.png" alt="Logo Domtom Connect" width="40" height="40" />
+                        <div class="footer-brand-title-wrap">
+                            <span class="footer-brand-title">Domtom Connect</span>
+                            <span class="footer-brand-badge">Conseil &amp; Réseau</span>
+                        </div>
+                    </a>
+                    <p class="footer-brand-desc">
+                        Cabinet de conseil stratégique et réseau d'affaires pour les entrepreneurs et projets des Caraïbes, de l'Afrique et de la diaspora.
                     </p>
-                    <div class="footer-contact-info" style="margin-top: 15px; font-size: 0.9rem; color: #94a3b8;">
-                        <p><i class="fas fa-phone" style="color: #10b981; margin-right: 8px;"></i> +33 6 20 78 33 77</p>
-                        <p style="margin-top: 6px;"><i class="fas fa-envelope" style="color: #10b981; margin-right: 8px;"></i> domtomconnect@gmail.com</p>
+                    <div class="footer-territories-wrap">
+                        <span class="footer-territory-tag"><i class="fas fa-map-marker-alt"></i> Caraïbes</span>
+                        <span class="footer-territory-tag">Océan Indien</span>
+                        <span class="footer-territory-tag">Afrique</span>
+                        <span class="footer-territory-tag">Diaspora</span>
+                    </div>
+                    <div class="footer-social-wrap">
+                        <a href="https://www.linkedin.com/company/domtomconnect" target="_blank" rel="noopener" aria-label="LinkedIn" class="footer-social-btn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/domtomconnect" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@domtomconnect" target="_blank" rel="noopener" aria-label="YouTube" class="footer-social-btn"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@domtomconnect" target="_blank" rel="noopener" aria-label="TikTok" class="footer-social-btn"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
 
-                <div class="footer-links-grid">
-                    <div class="footer-col">
-                        <span class="footer-heading">Solutions</span>
-                        <ul>
-                            <li><a href="entreprises.html">Entreprises &amp; PME</a></li>
-                            <li><a href="marques.html">Marques &amp; Produits</a></li>
-                            <li><a href="marques-cosmetique.html">Pôle Cosmétique &amp; Bien-être</a></li>
-                            <li><a href="marques-agroalimentaire.html">Pôle Agro &amp; Terroirs</a></li>
-                            <li><a href="entreprises-btp.html">Pôle BTP &amp; Construction</a></li>
-                            <li><a href="tremplin.html">Programme Tremplin</a></li>
-                        </ul>
-                    </div>
+                <!-- Col 2 : Programmes & Pôles -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Programmes &amp; Pôles</h4>
+                    <ul class="footer-links">
+                        <li><a href="entreprises.html"><i class="fas fa-angle-right"></i> Entreprises &amp; PME</a></li>
+                        <li><a href="marques.html"><i class="fas fa-angle-right"></i> Marques &amp; Produits</a></li>
+                        <li><a href="entreprises-btp.html"><i class="fas fa-angle-right"></i> Pôle BTP &amp; Construction</a></li>
+                        <li><a href="entreprises-tourisme.html"><i class="fas fa-angle-right"></i> Pôle Tourisme &amp; Écolodges</a></li>
+                        <li><a href="entreprises-logistique.html"><i class="fas fa-angle-right"></i> Pôle Logistique &amp; Fret</a></li>
+                        <li><a href="entreprises-ingenierie.html"><i class="fas fa-angle-right"></i> Pôle Ingénierie &amp; Conseil</a></li>
+                        <li><a href="marques-agroalimentaire.html"><i class="fas fa-angle-right"></i> Pôle Agro &amp; Terroirs</a></li>
+                        <li><a href="marques-cosmetique.html"><i class="fas fa-angle-right"></i> Pôle Cosmétique &amp; Soins</a></li>
+                        <li><a href="tremplin.html"><i class="fas fa-angle-right"></i> Programme Tremplin</a></li>
+                    </ul>
+                </div>
 
-                    <div class="footer-col">
-                        <span class="footer-heading">Écosystème</span>
-                        <ul>
-                            <li><a href="beta-test.html">Application DTC Pulse</a></li>
-                            <li><a href="boutique.html">Librairie &amp; Guides</a></li>
-                            <li><a href="rejoindre.html">Communauté WhatsApp</a></li>
-                            <li><a href="co-fondateurs.html">Cercle Co-fondateurs</a></li>
-                        </ul>
-                    </div>
+                <!-- Col 3 : Outils & Plateforme -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Outils &amp; Réseau</h4>
+                    <ul class="footer-links">
+                        <li><a href="anamnese.html" style="color: #10b981; font-weight: 700;"><i class="fas fa-stethoscope"></i> Anamnèse Clinique (10 Actes) <span class="nav-badge-pill" style="font-size: 0.62rem; padding: 1px 6px; margin-left: 4px;">Nouveau</span></a></li>
+                        <li><a href="guide-entrepreneur.html"><i class="fas fa-angle-right"></i> Guide Tome 1 (5 € &amp; 27 €)</a></li>
+                        <li><a href="beta-test.html"><i class="fas fa-angle-right"></i> Application DTC Pulse</a></li>
+                        <li><a href="marketplace/directory.html"><i class="fas fa-angle-right"></i> Annuaire des talents</a></li>
+                        <li><a href="marketplace/companies.html"><i class="fas fa-angle-right"></i> Réseau entreprises</a></li>
+                        <li><a href="rejoindre.html"><i class="fas fa-angle-right"></i> Groupes WhatsApp</a></li>
+                    </ul>
+                </div>
 
-                    <div class="footer-col">
-                        <span class="footer-heading">Accès direct</span>
-                        <ul>
-                            <li><a href="https://calendly.com/domtomconnect/30min" target="_blank">Prendre rendez-vous</a></li>
-                            <li><a href="login.html">Espace membre</a></li>
-                            <li><a href="privacy.html">Politique de confidentialité</a></li>
-                        </ul>
-                    </div>
+                <!-- Col 4 : À propos & Support -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Ressources &amp; Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="a-propos.html"><i class="fas fa-angle-right"></i> À propos de nous</a></li>
+                        <li><a href="blog/index.html"><i class="fas fa-angle-right"></i> Le Blog</a></li>
+                        <li><a href="support.html"><i class="fas fa-angle-right"></i> Contact &amp; Assistance</a></li>
+                        <li><a href="login.html"><i class="fas fa-angle-right"></i> Espace membre</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-trust-bar">
+                <div class="footer-trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Sans engagement long terme</span>
+                </div>
+                <div class="footer-trust-item">
+                    <i class="fas fa-lock"></i>
+                    <span>Confidentialité totale (accord NDA)</span>
+                </div>
+                <div class="footer-trust-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Méthodologie terrain éprouvée</span>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 Domtom Connect. Tous droits réservés. Fondé par Loïc Villeronce.</p>
+                <div class="footer-bottom-copy">
+                    © 2026 Domtom Connect. Tous droits réservés. L'expertise stratégique au service des territoires ultramarins et de la diaspora.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="legal/terms.html">Conditions générales</a>
+                    <span class="footer-sep">•</span>
+                    <a href="legal/privacy.html">Politique de confidentialité</a>
+                    <span class="footer-sep">•</span>
+                    <a href="#" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+                        Haut de page <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
+
+    <script src="assets/js/site-nav.js" defer></script>
 </body>
 </html>
