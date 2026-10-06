@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
-Sitemap: https://domtomconnect.com/sitemap.xml
+Disallow: /admin/
+Disallow: /api/
+Disallow: /mon-espace
+Disallow: /login
+Disallow: /messages
+Disallow: /profile
 
+Sitemap: https://domtomconnect.com/sitemap.xml
