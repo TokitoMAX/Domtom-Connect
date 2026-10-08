@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vesteris Pro | Entretien Professionnel de Bureaux, Cabinets & Commerces</title>
+    <meta name="description" content="Entretien régulier et nettoyage premium de bureaux d'affaires, cabinets d'avocats, cabinets médicaux et commerces en Martinique. Horaires sur-mesure, devis sous 2h.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://domtomconnect.com/vesteris-pro">
+    <meta property="og:url" content="https://domtomconnect.com/vesteris-pro">
+    <meta property="og:title" content="Vesteris Pro | Entretien Professionnel Bureaux & Cabinets">
+    <meta property="og:description" content="Nettoyage et hygiène sur-mesure pour professionnels. Protocoles stricts, discrétion totale, devis garanti sous 2h.">
+    <meta name="keywords" content="nettoyage bureau Fort-de-France, entretien cabinet avocat Martinique, hygiène cabinet médical, propreté locaux commerciaux, Vesteris Pro">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
+
+    <style>
+        :root {
+            --vesteris-bg: #030712;
+            --vesteris-surface: #0b1120;
+            --vesteris-card: #0f172a;
+            --accent-cyan: #06b6d4;
+            --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+            --accent-gold: #f59e0b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-cyan: rgba(6, 182, 212, 0.35);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--vesteris-bg);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1100px, 100vw);
+            height: 520px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.14) 0%, rgba(3, 7, 18, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .vesteris-poles-bar {
+            background: rgba(11, 17, 32, 0.92);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 20px;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            backdrop-filter: blur(14px);
+        }
+
+        .vesteris-poles-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .vesteris-brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-monogram {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            color: #030712;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .poles-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .pole-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 7px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .pole-tab:hover {
+            color: #ffffff;
+            border-color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .pole-tab.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.25) 0%, rgba(2, 132, 199, 0.2) 100%);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 55vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 20px 45px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .badge-sector {
+            background: rgba(6, 182, 212, 0.12);
+            color: #22d3ee;
+            border: 1px solid var(--border-cyan);
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 4.8vw, 3.6rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            max-width: 950px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .hero h1 .highlight-cyan {
+            background: linear-gradient(135deg, #06b6d4 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            color: #030712;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+        }
+
+        .btn-cyan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 26px rgba(6, 182, 212, 0.5);
+            background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+        }
+
+        /* GRILLE SERVICES */
+        .content-section {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 55px;
+        }
+
+        .section-tag {
+            color: #22d3ee;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-card) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 35px 28px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: var(--border-cyan);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.93rem;
+            line-height: 1.6;
+        }
+
+        /* POURQUOI VESTERIS */
+        .benefits-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .benefit-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .benefit-item i {
+            font-size: 2rem;
+            color: #22d3ee;
+            margin-bottom: 14px;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .benefit-item p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow-top"></div>
+
+    <!-- UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Écosystème</span>
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
+                    <li><a href="entreprises-tourisme.html" class="nav-link">Tourisme</a></li>
+                    <li><a href="vesteris.html" class="nav-link active" style="color: #22d3ee;"><i class="fas fa-briefcase"></i> Vesteris Pro</a></li>
+                    <li><a href="support.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #06b6d4, #0284c7); color: #030712; font-weight: 800; border: none;">
+                        <i class="fab fa-whatsapp"></i> Devis WhatsApp Express
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SOUS-NAVIGATION DÉDIÉE PÔLES VESTERIS -->
+    <div class="vesteris-poles-bar">
+        <div class="vesteris-poles-inner">
+            <a href="vesteris.html" class="vesteris-brand-badge">
+                <div class="brand-monogram">V</div>
+                <div class="brand-text">
+                    <span class="brand-title">VESTERIS PRO</span>
+                    <span class="brand-subtitle">Entretien Professionnel</span>
+                </div>
+            </a>
+            <div class="poles-links">
+                <a href="vesteris.html" class="pole-tab"><i class="fas fa-home"></i> Vue Générale</a>
+                <a href="vesteris-pro.html" class="pole-tab active"><i class="fas fa-briefcase"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a>
+                <a href="vesteris-host.html" class="pole-tab"><i class="fas fa-door-open"></i> Vesteris Host (Airbnb &amp; 15%)</a>
+                <a href="vesteris-home.html" class="pole-tab"><i class="fas fa-broom"></i> Vesteris Home (Résidentiel &amp; Caution)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="badge-sector">
+            <i class="fas fa-building"></i> Pôle Propreté &amp; Espaces de Travail
+        </div>
+        <h1>
+            Entretien Haut de Gamme pour vos <br><span class="highlight-cyan">Bureaux, Cabinets &amp; Locaux Commerciaux</span>
+        </h1>
+        <p class="hero-desc">
+            Ne laissez aucun détail au hasard. Assurez un cadre irréprochable pour vos clients, patients et collaborateurs grâce à nos contrats d'entretien réguliers adaptés à vos cadences professionnelles.
+        </p>
+        <div class="hero-cta-group">
+            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-cyan">
+                <i class="fab fa-whatsapp"></i> Devis Express sous 2h (WhatsApp)
+            </a>
+            <a href="https://vesteris-conciergerie.vercel.app/#pro" target="_blank" rel="noopener" class="btn-outline-gold" style="border-color: rgba(6, 182, 212, 0.4); color: #22d3ee;">
+                <i class="fas fa-arrow-up-right-from-square"></i> Portail Vesteris Pro
+            </a>
+        </div>
+    </section>
+
+    <!-- LES SERVICES DU PÔLE PRO -->
+    <section class="content-section">
+        <div class="section-header">
+            <span class="section-tag">Prestations sur-mesure</span>
+            <h2 class="section-title">Ce que nous prenons en charge</h2>
+            <p class="section-subtitle">
+                Chaque espace professionnel exige une rigueur spécifique. Nos protocoles s'ajustent à votre métier.
+            </p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-scale-balanced"></i></div>
+                <h3>Cabinets Juridiques &amp; Conseils</h3>
+                <p>
+                    Nettoyage soigné des bureaux d'associés, dépoussiérage méticuleux des bibliothèques juridiques, désinfection des salles de réunion et confidentialité absolue garantie.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
+                <h3>Cabinets Médicaux &amp; Paramédicaux</h3>
+                <p>
+                    Désinfection rigoureuse aux normes sanitaires, nettoyage des salles d'attente à fort passage, sanitaires impeccables et gestion des poubelles spécifiques.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+                <h3>Bureaux d'Entreprises &amp; Sièges</h3>
+                <p>
+                    Entretien des open-spaces, postes de travail, espaces de détente, réfectoires, avec gestion continue du réapprovisionnement en papier, savon et consommables.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-store"></i></div>
+                <h3>Commerces &amp; Boutiques</h3>
+                <p>
+                    Vitrerie sans traces, sols brillants, nettoyage des caisses et réserves pour offrir une expérience d'accueil irréprochable dès l'ouverture des portes.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-clock"></i></div>
+                <h3>Horaires Décalés Flexibles</h3>
+                <p>
+                    Interventions programmées avant l'ouverture (tôt le matin) ou après la fermeture (en soirée) pour ne jamais impacter la productivité de vos équipes.
+                </p>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                <h3>Contrats Réguliers Sans Piège</h3>
+                <p>
+                    Passages hebdomadaires, bi-hebdomadaires ou quotidiens avec facturation claire, interlocuteur unique dédié et réactivité immédiate en cas d'urgence.
+                </p>
+            </div>
+        </div>
+
+        <div class="benefits-row">
+            <div class="benefit-item">
+                <i class="fas fa-bolt"></i>
+                <h4>Devis sous 2h</h4>
+                <p>Réponse chiffrée rapide sans attente interminable.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-user-shield"></i>
+                <h4>Discrétion Totale</h4>
+                <p>Personnel qualifié et engagement de confidentialité.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-calendar-check"></i>
+                <h4>Zéro Rupture</h4>
+                <p>Continuité de service assurée toute l'année sans interruption.</p>
+            </div>
+            <div class="benefit-item">
+                <i class="fas fa-phone-volume"></i>
+                <h4>Ligne Directe 7j/7</h4>
+                <p>Un responsable joignable en direct au 06 20 78 33 77.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER OFFICIEL -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-wrap">
+                        <div class="brand-monogram" style="display: inline-flex; margin-bottom: 10px;">V</div>
+                        <h3 class="footer-brand-title" style="color: #ffffff;">VESTERIS PRO</h3>
+                        <p class="footer-brand-tagline">
+                            Entretien professionnel de bureaux, cabinets et locaux commerciaux. La garantie d'une image de marque impeccable.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #06b6d4;"></span>Les Pôles Vesteris</h4>
+                    <ul class="footer-links">
+                        <li><a href="vesteris.html"><i class="fas fa-angle-right"></i> Accueil Vesteris</a></li>
+                        <li><a href="vesteris-pro.html"><i class="fas fa-angle-right"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a></li>
+                        <li><a href="vesteris-host.html"><i class="fas fa-angle-right"></i> Vesteris Host (Conciergerie Airbnb)</a></li>
+                        <li><a href="vesteris-home.html"><i class="fas fa-angle-right"></i> Vesteris Home (Résidentiel &amp; Caution)</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Écosystème Connecté</h4>
+                    <ul class="footer-links">
+                        <li><a href="entreprises.html"><i class="fas fa-angle-right"></i> Domtom Connect Entreprises</a></li>
+                        <li><a href="entreprises-juridique.html"><i class="fas fa-angle-right"></i> Pôle Juridique &amp; Cabinets</a></li>
+                        <li><a href="entreprises-tourisme.html"><i class="fas fa-angle-right"></i> Pôle Tourisme &amp; Hébergements</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #06b6d4;"></span>Devis Express</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+33620783377"><i class="fas fa-phone"></i> +33 6 20 78 33 77</a></li>
+                        <li><a href="mailto:vesteris@gmail.com"><i class="fas fa-envelope"></i> vesteris@gmail.com</a></li>
+                        <li><a href="https://wa.me/33620783377" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> WhatsApp Direct 7j/7</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-copy">
+                    © 2026 Vesteris Pro · Affilié à l'écosystème Domtom Connect. Tous droits réservés.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener">Portail Vesteris Vercel</a>
+                    <span class="footer-sep">•</span>
+                    <a href="vesteris.html">Vue d'ensemble</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

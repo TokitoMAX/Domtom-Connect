@@ -56,3 +56,11 @@ Cette règle est PERMANENTE et doit être respectée à chaque échange, dans ch
    - **Plateforme web :** `www.domtomconnect.com`
    - **Lien Calendly officiel :** `calendly.com/domtomconnect/30min`
 
+10. **STRUCTURE STRICTE DES EMAILS DE PROSPECTION (ZÉRO FAUSSE PROMESSE D'AFFAIRES / PROPOSITION D'ACCOMPAGNEMENT SINCÈRE) :**
+   - **INTERDICTION FORMELLE D'INVENTER DES CLIENTS TIERS :** Interdiction absolue d'écrire que "nos membres recherchent vos services", "nous avons des réservations / mandats / clients pour vous", ou de se faire passer pour un apporteur d'affaires fictif.
+   - **DÉMARCHE SINCÈRE ET DIRECTE DE DIRIGEANT À DIRIGEANT :**
+     1. Reconnaissance factuelle de leur activité et des réalités d'exploitation (charge mentale, intendance, contraintes insulaires, rentabilité).
+     2. Présentation claire de Loïc Villeronce et de Domtom Connect (accompagnement et copilotage opérationnel pour aider le patron à structurer son organisation et déléguer le chronophage).
+     3. Proposition d'un échange téléphonique direct de **30 minutes** (aligné sur l'agenda Calendly `calendly.com/domtomconnect/30min`) pour faire connaissance, échanger sur leur situation et voir en toute franchise **si ça a du sens de travailler ensemble ou pas**.
+
+

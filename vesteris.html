@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vesteris | Services Professionnels d'Entretien & Intendance Immobilière</title>
+    <meta name="description" content="Vesteris : Entretien professionnel de bureaux et cabinets (Pro), conciergerie Airbnb et gestion locative (Host), et intendance résidentielle (Home). Interventions 7j/7, devis sous 2h.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://domtomconnect.com/vesteris">
+    <meta property="og:url" content="https://domtomconnect.com/vesteris">
+    <meta property="og:title" content="Vesteris | Services Professionnels & Intendance Immobilière">
+    <meta property="og:description" content="Entretien régulier de bureaux, conciergerie Airbnb à 15% et intendance résidentielle. Devis garanti sous 2h.">
+    <meta name="keywords" content="conciergerie Martinique, entretien bureaux Fort-de-France, conciergerie Airbnb Caraïbes, gestion locative Martinique, nettoyage cabinet avocat, ménage état des lieux, Vesteris">
+    
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vesteris">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/site-nav.css">
+
+    <style>
+        :root {
+            --vesteris-bg: #030712;
+            --vesteris-surface: #0b1120;
+            --vesteris-card: #0f172a;
+            --accent-gold: #f59e0b;
+            --accent-gold-glow: rgba(245, 158, 11, 0.25);
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(245, 158, 11, 0.35);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--vesteris-bg);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-glow-top {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1100px, 100vw);
+            height: 520px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(6, 182, 212, 0.06) 45%, rgba(3, 7, 18, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* SOUS-NAVIGATION DES POLES VESTERIS */
+        .vesteris-poles-bar {
+            background: rgba(11, 17, 32, 0.92);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 20px;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            backdrop-filter: blur(14px);
+        }
+
+        .vesteris-poles-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .vesteris-brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand-monogram {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #030712;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #ffffff;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-subtitle {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .poles-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .pole-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 7px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .pole-tab:hover {
+            color: #ffffff;
+            border-color: var(--accent-gold);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .pole-tab.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.2) 100%);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 70px 20px 50px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .badge-sector {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            border: 1px solid var(--border-gold);
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 4.8vw, 3.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            max-width: 950px;
+            margin-bottom: 22px;
+            color: #ffffff;
+        }
+
+        .hero h1 .highlight-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 760px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #030712;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 26px rgba(245, 158, 11, 0.5);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .btn-outline-gold {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 14px 26px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-outline-gold:hover {
+            border-color: var(--accent-gold);
+            background: rgba(245, 158, 11, 0.1);
+            color: #fbbf24;
+        }
+
+        .hero-guarantees {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .hero-guarantees span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-guarantees i {
+            color: #f59e0b;
+        }
+
+        /* SECTION POLES CARDS */
+        .section-poles {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto 55px;
+        }
+
+        .section-tag {
+            color: #f59e0b;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+        }
+
+        .poles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .pole-card {
+            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-card) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 38px 30px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pole-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-gold);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .pole-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .pole-icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .pole-pro .pole-icon-box {
+            background: rgba(6, 182, 212, 0.15);
+            color: #06b6d4;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .pole-host .pole-icon-box {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .pole-home .pole-icon-box {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .pole-badge {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pole-pro .pole-badge {
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .pole-host .pole-badge {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .pole-home .pole-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .pole-card h3 {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .pole-card-target {
+            font-size: 0.88rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .pole-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .pole-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .pole-features li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .pole-features li i {
+            color: #f59e0b;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .pole-btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 0.92rem;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+        }
+
+        .pole-btn-link:hover {
+            border-color: var(--accent-gold);
+            color: #fbbf24;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        /* BANNIERE PROTOTYPE / APPEL */
+        .callout-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            padding: 45px 35px;
+            margin: 60px auto 0;
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .callout-text h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .callout-text p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            max-width: 620px;
+        }
+
+        .callout-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* BOTTOM CTA */
+        .bottom-cta {
+            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-bg) 100%);
+            border-top: 1px solid var(--border-subtle);
+            padding: 85px 20px;
+            text-align: center;
+        }
+
+        .bottom-cta h2 {
+            font-size: clamp(2rem, 3.8vw, 2.9rem);
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .bottom-cta p {
+            color: var(--text-secondary);
+            font-size: 1.08rem;
+            max-width: 680px;
+            margin: 0 auto 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow-top"></div>
+
+    <!-- UNIVERSAL RESPONSIVE NAVIGATION -->
+    <header class="site-nav">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-brand">
+                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                    <span class="nav-brand-title">Domtom Connect</span>
+                    <span class="nav-brand-tag">Écosystème</span>
+                </a>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
+                    <li><a href="entreprises-tourisme.html" class="nav-link">Tourisme</a></li>
+                    <li><a href="vesteris.html" class="nav-link active" style="color: #f59e0b;"><i class="fas fa-key"></i> Vesteris Services</a></li>
+                    <li><a href="support.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #030712; font-weight: 800; border: none;">
+                        <i class="fab fa-whatsapp"></i> Échanger sur WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SOUS-NAVIGATION DÉDIÉE PÔLES VESTERIS -->
+    <div class="vesteris-poles-bar">
+        <div class="vesteris-poles-inner">
+            <a href="vesteris.html" class="vesteris-brand-badge">
+                <div class="brand-monogram">V</div>
+                <div class="brand-text">
+                    <span class="brand-title">VESTERIS</span>
+                    <span class="brand-subtitle">Services &amp; Intendance</span>
+                </div>
+            </a>
+            <div class="poles-links">
+                <a href="vesteris.html" class="pole-tab active"><i class="fas fa-home"></i> Vue Générale</a>
+                <a href="vesteris-pro.html" class="pole-tab"><i class="fas fa-briefcase"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a>
+                <a href="vesteris-host.html" class="pole-tab"><i class="fas fa-door-open"></i> Vesteris Host (Airbnb &amp; 15%)</a>
+                <a href="vesteris-home.html" class="pole-tab"><i class="fas fa-broom"></i> Vesteris Home (Résidentiel &amp; Caution)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="badge-sector">
+            <i class="fas fa-gem"></i> Branche Opérationnelle Vesteris · Martinique &amp; Outre-Mer
+        </div>
+        <h1>
+            L'Excellence Opérationnelle en <br><span class="highlight-gold">Propreté, Conciergerie &amp; Intendance</span>
+        </h1>
+        <p class="hero-desc">
+            Interlocuteur unique pour l'entretien régulier de vos espaces de travail, la gestion locative Airbnb clé en main et la préservation de vos résidences. Devis garanti sous 2 heures, réactivité 7j/7.
+        </p>
+        <div class="hero-cta-group">
+            <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-gold">
+                <i class="fas fa-arrow-up-right-from-square"></i> Accéder au Portail Vesteris
+            </a>
+            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-outline-gold">
+                <i class="fab fa-whatsapp"></i> Devis WhatsApp Express (06 20 78 33 77)
+            </a>
+        </div>
+        <div class="hero-guarantees">
+            <span><i class="fas fa-check-circle"></i> Réponse garantie sous 2h</span>
+            <span><i class="fas fa-clock"></i> Disponibilité 7j/7</span>
+            <span><i class="fas fa-shield-halved"></i> Assurance professionnelle &amp; rigueur</span>
+        </div>
+    </section>
+
+    <!-- LES 3 PÔLES SPÉCIALISÉS -->
+    <section class="section-poles">
+        <div class="section-header">
+            <span class="section-tag">Architecture de nos Services</span>
+            <h2 class="section-title">3 Pôles d'Intervention Concrets</h2>
+            <p class="section-subtitle">
+                Des prestations calibrées selon votre statut, avec un niveau d'exigence sans compromis.
+            </p>
+        </div>
+
+        <div class="poles-grid">
+            <!-- PÔLE PRO -->
+            <div class="pole-card pole-pro">
+                <div class="pole-card-top">
+                    <div class="pole-icon-box">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <span class="pole-badge">Professionnels</span>
+                </div>
+                <h3>Vesteris Pro</h3>
+                <div class="pole-card-target">Cabinets, Bureaux, Espaces Médicaux &amp; Commerces</div>
+                <p>
+                    L'image de marque de votre établissement commence par une propreté irréprochable. Entretien régulier sans jamais perturber votre activité.
+                </p>
+                <ul class="pole-features">
+                    <li><i class="fas fa-check"></i> Entretien quotidien ou hebdomadaire des locaux</li>
+                    <li><i class="fas fa-check"></i> Nettoyage des salles de réunion et d'attente</li>
+                    <li><i class="fas fa-check"></i> Vitrerie, sanitaires et réassort consommables</li>
+                    <li><i class="fas fa-check"></i> Interventions en horaires décalés (matin / soir)</li>
+                </ul>
+                <a href="vesteris-pro.html" class="pole-btn-link">
+                    Découvrir Vesteris Pro <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- PÔLE HOST -->
+            <div class="pole-card pole-host">
+                <div class="pole-card-top">
+                    <div class="pole-icon-box">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <span class="pole-badge">Location Courte Durée</span>
+                </div>
+                <h3>Vesteris Host</h3>
+                <div class="pole-card-target">Propriétaires Airbnb, Villas &amp; Meublés Touristiques</div>
+                <p>
+                    Déléguez l'intégralité de l'intendance sur place. Vos voyageurs profitent d'un accueil soigné et vous encaissez vos loyers l'esprit tranquille.
+                </p>
+                <ul class="pole-features">
+                    <li><i class="fas fa-check"></i> Check-in &amp; accueil personnalisé des voyageurs</li>
+                    <li><i class="fas fa-check"></i> Ménage professionnel et rotation du linge hôtelier</li>
+                    <li><i class="fas fa-check"></i> Check-out et vérification complète du bien</li>
+                    <li><i class="fas fa-check"></i> Formule claire à 15% de commission</li>
+                </ul>
+                <a href="vesteris-host.html" class="pole-btn-link">
+                    Découvrir Vesteris Host <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- PÔLE HOME -->
+            <div class="pole-card pole-home">
+                <div class="pole-card-top">
+                    <div class="pole-icon-box">
+                        <i class="fas fa-house-chimney-user"></i>
+                    </div>
+                    <span class="pole-badge">Résidentiel</span>
+                </div>
+                <h3>Vesteris Home</h3>
+                <div class="pole-card-target">Particuliers, Locataires &amp; Résidences Secondaires</div>
+                <p>
+                    Ménage approfondi de départ avec garantie de restitution de caution, remises en état après travaux et intendance de résidences secondaires.
+                </p>
+                <ul class="pole-features">
+                    <li><i class="fas fa-check"></i> Ménage complet état des lieux (100% garanti)</li>
+                    <li><i class="fas fa-check"></i> Nettoyage de fin de chantier et remise à neuf</li>
+                    <li><i class="fas fa-check"></i> Surveillance et aération de résidence secondaire</li>
+                    <li><i class="fas fa-check"></i> Gestion des interventions techniques urgentes</li>
+                </ul>
+                <a href="vesteris-home.html" class="pole-btn-link">
+                    Découvrir Vesteris Home <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- BANNIÈRE DE CONNEXION DIRECTE -->
+        <div class="callout-box">
+            <div class="callout-text">
+                <h3>Une demande urgente ou un besoin sur-mesure ?</h3>
+                <p>
+                    Nos équipes se déplacent rapidement sur le terrain. Bénéficiez d'un devis immédiat et d'une prise en charge sans délai d'attente.
+                </p>
+            </div>
+            <div class="callout-actions">
+                <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-gold">
+                    <i class="fas fa-laptop"></i> Visiter le site Vesteris
+                </a>
+                <a href="tel:+33620783377" class="btn-outline-gold">
+                    <i class="fas fa-phone"></i> 06 20 78 33 77
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER OFFICIEL -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Col 1 -->
+                <div class="footer-col footer-col-brand">
+                    <div class="footer-brand-wrap">
+                        <div class="brand-monogram" style="display: inline-flex; margin-bottom: 10px;">V</div>
+                        <h3 class="footer-brand-title" style="color: #ffffff;">VESTERIS</h3>
+                        <p class="footer-brand-tagline">
+                            Services professionnels de propreté, conciergerie et intendance immobilière. L'exigence opérationnelle au service des professionnels et propriétaires.
+                        </p>
+                    </div>
+                    <div class="footer-territory-badges">
+                        <span class="footer-territory-tag"><i class="fas fa-map-marker-alt"></i> Martinique</span>
+                        <span class="footer-territory-tag">Antilles</span>
+                        <span class="footer-territory-tag">Outre-Mer</span>
+                    </div>
+                </div>
+
+                <!-- Col 2 -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Les Pôles Vesteris</h4>
+                    <ul class="footer-links">
+                        <li><a href="vesteris-pro.html"><i class="fas fa-angle-right"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a></li>
+                        <li><a href="vesteris-host.html"><i class="fas fa-angle-right"></i> Vesteris Host (Conciergerie Airbnb)</a></li>
+                        <li><a href="vesteris-home.html"><i class="fas fa-angle-right"></i> Vesteris Home (Ménage &amp; Caution)</a></li>
+                        <li><a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener"><i class="fas fa-angle-right"></i> Portail Vesteris Vercel</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Écosystème Connecté</h4>
+                    <ul class="footer-links">
+                        <li><a href="entreprises.html"><i class="fas fa-angle-right"></i> Domtom Connect Entreprises</a></li>
+                        <li><a href="entreprises-tourisme.html"><i class="fas fa-angle-right"></i> Pôle Tourisme &amp; Hébergements</a></li>
+                        <li><a href="entreprises-juridique.html"><i class="fas fa-angle-right"></i> Pôle Juridique &amp; Cabinets</a></li>
+                        <li><a href="anamnese.html"><i class="fas fa-angle-right"></i> Diagnostic Anamnèse Clinique</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div class="footer-col">
+                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Contact &amp; Devis</h4>
+                    <ul class="footer-links">
+                        <li><a href="tel:+33620783377"><i class="fas fa-phone"></i> +33 6 20 78 33 77</a></li>
+                        <li><a href="mailto:vesteris@gmail.com"><i class="fas fa-envelope"></i> vesteris@gmail.com</a></li>
+                        <li><a href="https://wa.me/33620783377" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Assistance WhatsApp 7j/7</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-copy">
+                    © 2026 Vesteris Services &amp; Intendance · Affilié à l'écosystème Domtom Connect. Tous droits réservés.
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener">Plateforme Vesteris</a>
+                    <span class="footer-sep">•</span>
+                    <a href="index.html">Domtom Connect</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
