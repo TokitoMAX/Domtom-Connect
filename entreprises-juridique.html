@@ -290,6 +290,14 @@
             top: 70px;
             z-index: 99;
             backdrop-filter: blur(10px);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sectors-nav::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         .sectors-nav-inner {
@@ -544,9 +552,15 @@
 
         .geo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             margin-top: 35px;
+        }
+
+        @media (max-width: 640px) {
+            .geo-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .geo-card {
@@ -715,48 +729,123 @@
         </div>
     </div>
 
-    <!-- SOUTIEN DOMTOM CONNECT -->
-    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
-        <div class="section-header">
-            <span class="section-tag">Notre soutien concret</span>
-            <h2 class="section-title">Comment nous vous aidons à pérenniser et alléger votre cabinet</h2>
-            <p class="section-desc">
-                Nous n'intervenons pas sur votre science juridique, vous la maîtrisez parfaitement. Nous intervenons en alliés opérationnels sur votre organisation :
-            </p>
-        </div>
-
-        <div class="funnel-grid">
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">01</div>
-                    <h3 class="funnel-title">L'Anamnèse Juridique &amp; Chiffre : le bilan sans détour</h3>
-                    <p class="funnel-text">
-                        Un diagnostic gratuit et confidentiel en 10 minutes pour identifier vos fuites de temps, évaluer la rentabilité réelle de vos dossiers et repérer les tâches chronophages à déléguer immédiatement.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-check-circle"></i> Diagnostic sans filtre</div>
+    <!-- LA TRANSFORMATION JURIDIQUE : VOTRE QUOTIDIEN AVANT vs APRÈS DOMTOM CONNECT -->
+    <div class="transformation-section">
+        <div class="section-container" style="padding: 0;">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-bolt"></i> La Transformation Cabinet Concrète</span>
+                <h2 class="section-title">Ce qui change dans votre cabinet dès que nous travaillons ensemble</h2>
+                <p class="section-desc">
+                    Zéro compromis sur votre déontologie : vous sécurisez vos honoraires et vous sortez de l'épuisement administratif pour vous recentrer sur le conseil.
+                </p>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Copilotage opérationnel &amp; Décharge administrative</h3>
-                    <p class="funnel-text">
-                        Nous vous aidons à rationaliser vos process de cabinet, clarifier les conventions d'honoraires et structurer votre intendance pour que vous puissiez vous concentrer à 100% sur le conseil à haute valeur et le plaidoyer.
-                    </p>
+            <div class="transformation-grid">
+                <!-- CARTE 1 : TEMPS D'AVOCAT vs INTENDANCE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-scale-balanced"></i></div>
+                        <div class="transformation-card-title">Votre Temps &amp; Vos Audiences</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>70h par semaine. Audiences et rendez-vous le jour, paperasse et compta le soir jusqu'à 22h. Vos week-ends sont dévorés par la gestion.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Décharge administrative &amp; process de cabinet carrés
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vous vous concentrez sur le droit et le plaidoyer</span>. L'intendance tourne de façon rigoureuse sans vous vampiriser.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-handshake"></i> Organisation pérenne</div>
+
+                <!-- CARTE 2 : HONORAIRES EN RETARD vs PROVISIONS SÉCURISÉES -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="transformation-card-title">Vos Honoraires &amp; Votre Cash</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Des provisions qui tardent à être versées, la gêne de relancer les clients pour les soldes, et des décalages de trésorerie anxiogènes.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Suivi systématique &amp; conventions d'honoraires cadrées
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Les provisions sont encaissées avant diligence</span>. Vos honoraires rentrent à date, sans friction ni gêne.</p>
+                    </div>
+                </div>
+
+                <!-- CARTE 3 : ISOLEMENT vs RÉSEAU D'AFFAIRES QUALIFIÉ -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-briefcase"></i></div>
+                        <div class="transformation-card-title">Votre Réseau &amp; Vos Synergies</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Isolé dans votre cabinet, dépendant uniquement du bouche-à-oreille local et des aléas économiques de votre juridiction.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Accès à l'écosystème de dirigeants d'Outre-Mer et d'Afrique
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Des synergies régulières avec des patrons et investisseurs</span> qui ont besoin d'experts de confiance pour leurs opérations.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Réseau d'Affaires &amp; Apporteurs d'affaires qualifiés</h3>
-                    <p class="funnel-text">
-                        Intégrez l'écosystème d'entraide Domtom Connect sur WhatsApp et accédez à notre tech propriétaire DTC Pulse pour échanger avec des chefs d'entreprise et dirigeants qui recherchent des conseils de confiance pour leurs opérations.
-                    </p>
+            <!-- ENTONNOIR DE PASSAGE À L'ACTION MASSIVE JURIDIQUE -->
+            <div class="action-funnel-banner">
+                <span class="section-tag" style="background: rgba(16, 185, 129, 0.2);"><i class="fas fa-filter"></i> L'Entonnoir Vers Votre Transformation Cabinet</span>
+                <h3 class="action-funnel-title">Comment faire respirer votre cabinet d'avocat ou d'expertise ?</h3>
+                <p class="action-funnel-desc">
+                    Une démarche confidentielle et pragmatique, adaptée aux exigences de nos professions :
+                </p>
+
+                <div class="action-funnel-steps">
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-stethoscope"></i> Étape 1 · 10 min (Gratuit)</div>
+                        <div class="action-step-name">L'Anamnèse Juridique</div>
+                        <p class="action-step-text">Bilan confidentiel de votre organisation, des honoraires en attente et de votre charge mentale hebdomadaire.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-phone"></i> Étape 2 · 20 min</div>
+                        <div class="action-step-name">L'Échange Direct &amp; Confidentiel</div>
+                        <p class="action-step-text">Un appel pour poser un plan de simplification de votre intendance et vérifier l'alignement mutuel.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-balance-scale"></i> Étape 3 · Action</div>
+                        <div class="action-step-name">Copilotage Tremplin Cabinet</div>
+                        <p class="action-step-text">Nous allégeons votre gestion quotidienne, sécurisons vos rentrées et vous intégrons au réseau d'affaires.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-users"></i> Synergies d'affaires</div>
+
+                <div class="cta-group" style="margin-top: 10px;">
+                    <a href="anamnese.html" class="cta-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Passer l'Anamnèse Juridique Gratuite (10 min)</span>
+                    </a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary" style="font-size: 1.05rem;">
+                        <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                        <span>Réserver un échange de 20 min</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -289,6 +289,14 @@
             top: 70px;
             z-index: 99;
             backdrop-filter: blur(10px);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sectors-nav::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         .sectors-nav-inner {
@@ -543,9 +551,15 @@
 
         .geo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             margin-top: 35px;
+        }
+
+        @media (max-width: 640px) {
+            .geo-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .geo-card {
@@ -714,48 +728,123 @@
         </div>
     </div>
 
-    <!-- SECTION 2 : SOUTIEN DOMTOM CONNECT -->
-    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
-        <div class="section-header">
-            <span class="section-tag">Notre accompagnement</span>
-            <h2 class="section-title">Comment nous accélérons votre marque de beauté</h2>
-            <p class="section-desc">
-                Des solutions concrètes pour transformer des acheteurs occasionnels en ambassadeurs fidèles :
-            </p>
-        </div>
-
-        <div class="funnel-grid">
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">01</div>
-                    <h3 class="funnel-title">L'Anamnèse Cosmétique : diagnostic de gamme &amp; marges</h3>
-                    <p class="funnel-text">
-                        Analyse lucide de votre rentabilité par référence, identification des best-sellers et restructuration de vos offres en rituels complets (cures 90 jours).
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-check-circle"></i> Clarté financière &amp; gamme</div>
+    <!-- LA TRANSFORMATION COSMÉTIQUE : VOTRE QUOTIDIEN AVANT vs APRÈS DOMTOM CONNECT -->
+    <div class="transformation-section">
+        <div class="section-container" style="padding: 0;">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-bolt"></i> La Transformation Cosmétique Concrète</span>
+                <h2 class="section-title">Ce qui change pour votre marque de beauté dès que nous travaillons ensemble</h2>
+                <p class="section-desc">
+                    Zéro flacon vendu à perte : vous passez du produit isolé bradé à des rituels complets vendus directement à des clientes fidèles.
+                </p>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Vente Directe Vidéo sur DTC Pulse</h3>
-                    <p class="funnel-text">
-                        Mise en avant de vos routines en vidéo courte auprès de notre communauté qualifiée, avec prise de commande directe sans commission abusive ni algorithme bloquant.
-                    </p>
+            <div class="transformation-grid">
+                <!-- CARTE 1 : FLACONS ISOLÉS vs RITUELS COMPLETS -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-spa"></i></div>
+                        <div class="transformation-card-title">Vos Soins &amp; Vos Paniers</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Vendre un pot ou une huile à 25 € avec 10 € de frais de port. Les clientes hésitent et votre marge nette est presque nulle.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Rituels capillaires, cures 90 jours &amp; coffrets
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Paniers moyens doublés (70 à 100 €)</span>. Les frais de port deviennent invisibles pour la cliente et vos marges explosent.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-mobile-screen"></i> Canal direct propriétaire</div>
+
+                <!-- CARTE 2 : BUDGET PUB vs VENTE DIRECTE DTC PULSE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-mobile-screen"></i></div>
+                        <div class="transformation-card-title">Votre Acquisition Cliente</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Brûler son argent en publicités Instagram et TikTok. Dès que la pub s'arrête, votre boutique en ligne n'a plus aucune visite.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Vente directe vidéo sur l'application DTC Pulse
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Une audience captive de la diaspora</span> qui recherche activement vos ingrédients naturels (carapate, coco, karité pur).</p>
+                    </div>
+                </div>
+
+                <!-- CARTE 3 : BOUTIQUES PASSIVES vs MARGE 100% GARDÉE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                        <div class="transformation-card-title">Votre Marge &amp; Vos Revendeurs</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Les concept-stores et grossistes prennent la moitié du prix et ne savent pas expliquer la valeur de vos soins texturés.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Canal direct propriétaire &amp; réachat programmé
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vous gardez 100 % de votre prix de vente</span>. Les clientes commandent à nouveau tous les 2 mois de façon automatique.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Paniers Cures &amp; Fidélisation Récurrente</h3>
-                    <p class="funnel-text">
-                        Transformation de vos produits isolés en routines complètes (cures de 3 mois, coffrets cadeaux, réachat programmé) portant le panier moyen de 30 € à 75 €.
-                    </p>
+            <!-- ENTONNOIR DE PASSAGE À L'ACTION MASSIVE COSMÉTIQUE -->
+            <div class="action-funnel-banner">
+                <span class="section-tag" style="background: rgba(16, 185, 129, 0.2);"><i class="fas fa-filter"></i> L'Entonnoir Vers Votre Transformation Beauté</span>
+                <h3 class="action-funnel-title">Comment rentabiliser votre marque de cosmétique ?</h3>
+                <p class="action-funnel-desc">
+                    Un chemin simple en 3 étapes pour développer votre gamme sans vous ruiner :
+                </p>
+
+                <div class="action-funnel-steps">
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-stethoscope"></i> Étape 1 · 10 min (Gratuit)</div>
+                        <div class="action-step-name">L'Anamnèse Cosmétique</div>
+                        <p class="action-step-text">On décortique vos coûts de formulation, vos marges par référence et on identifie vos futurs best-sellers.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-phone"></i> Étape 2 · 20 min</div>
+                        <div class="action-step-name">L'Échange Direct</div>
+                        <p class="action-step-text">Un appel pour structurer vos routines complètes et cadrer vos prix de vente directe.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-mobile-screen"></i> Étape 3 · Action</div>
+                        <div class="action-step-name">Déploiement DTC Pulse &amp; Tremplin</div>
+                        <p class="action-step-text">Vos soins sont mis en avant auprès de la communauté et vous encaissez vos commandes en direct.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-arrow-trend-up"></i> Panier moyen doublé</div>
+
+                <div class="cta-group" style="margin-top: 10px;">
+                    <a href="anamnese.html" class="cta-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Passer l'Anamnèse Cosmétique Gratuite (10 min)</span>
+                    </a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary" style="font-size: 1.05rem;">
+                        <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                        <span>Réserver un échange de 20 min</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

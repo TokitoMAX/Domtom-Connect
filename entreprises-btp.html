@@ -425,9 +425,15 @@
         /* GEO FOCUS */
         .geo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
             margin-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            .geo-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .geo-card {
@@ -488,6 +494,14 @@
             z-index: 99;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sectors-nav::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         @media (max-width: 768px) {
@@ -765,99 +779,124 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
 
-    <!-- SECTION 2 : SOUTIEN DOMTOM CONNECT -->
-    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
-        <div class="section-header">
-            <span class="section-tag">Notre soutien concret</span>
-            <h2 class="section-title">Comment Domtom Connect agit comme votre bras droit</h2>
-            <p class="section-desc">
-                Zéro blabla théorique. Nous intervenons directement sur vos points de friction pour faire respirer votre entreprise :
-            </p>
-        </div>
-
-        <div class="funnel-grid">
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">01</div>
-                    <h3 class="funnel-title">L'Anamnèse BTP : poser le diagnostic en 10 minutes</h3>
-                    <p class="funnel-text">
-                        Un examen lucide et gratuit de vos encaissements, de vos marges réelles par chantier et de votre trésorerie. On met le doigt sur ce qui bloque vos rentrées d'argent, sans jugement.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-check-circle"></i> Clarté immédiate &amp; gratuit</div>
+    <!-- LA TRANSFORMATION BTP : VOTRE QUOTIDIEN AVANT vs APRÈS DOMTOM CONNECT -->
+    <div class="transformation-section">
+        <div class="section-container" style="padding: 0;">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-bolt"></i> La Transformation BTP Concrète</span>
+                <h2 class="section-title">Ce qui change sur vos chantiers dès que nous travaillons ensemble</h2>
+                <p class="section-desc">
+                    Zéro jargon de bureau : vous arrêtez de trimer la nuit, vos acomptes sont encaissés avant de poser la première brique, et l'argent rentre.
+                </p>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Copilotage &amp; Intendance : un allié qui verrouille vos arrières</h3>
-                    <p class="funnel-text">
-                        Via le Programme Tremplin, nous prenons en charge la rigueur administrative : suivi strict des situations de travaux, relance systématique des impayés et cadrage des devis pour vous libérer 15h par semaine.
-                    </p>
+            <div class="transformation-grid">
+                <!-- CARTE 1 : CHANTIER LE JOUR vs DEVIS LA NUIT -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-moon"></i></div>
+                        <div class="transformation-card-title">Vos Soirées &amp; Vos Devis</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Sous le soleil toute la journée, puis des heures passées le soir jusqu'à minuit à taper des devis et relancer les clients. Épuisement total.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Assistance devis &amp; administratif opérationnel
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vos soirées sont libres pour votre famille</span>. Les devis partent en 24h, chiffrés avec les bonnes marges pour ne jamais travailler à perte.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-handshake"></i> Bras droit opérationnel</div>
+
+                <!-- CARTE 2 : IMPAYÉS & SITUATIONS DE TRAVAUX -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="transformation-card-title">Votre Trésorerie de Chantier</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Vous avancez le béton, le ferraillage et les salaires des ouvriers. Les clients tardent à régler les situations. Trésorerie dans le rouge.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Cadrage strict des acomptes &amp; relances fermes
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Acomptes systématiquement encaissés avant travaux</span>. Relances régulières sans gêne : les situations sont payées à date.</p>
+                    </div>
+                </div>
+
+                <!-- CARTE 3 : POMPIER PERMANENT vs CHANTIERS HUILÉS -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-helmet-safety"></i></div>
+                        <div class="transformation-card-title">L'Organisation de vos Équipes</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Vous courez partout en pompier permanent. Un ouvrier absent ou un camion bloqué, et tout s'arrête. Vous portez tous les risques seul.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Fiches d'intervention &amp; process de chantier carrés
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vos chefs d'équipe savent exactement quoi faire</span>. Vous récupérez 15h par semaine pour choisir les chantiers les plus rentables.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">La Communauté &amp; le Réseau : ne plus porter le fardeau seul</h3>
-                    <p class="funnel-text">
-                        Rejoignez notre cercle d'entrepreneurs pour échanger sur vos réalités, trouver des sous-traitants fiables, mutualiser des opportunités et faire partie de la famille DTC Pulse.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-users"></i> Force du collectif</div>
-            </div>
-        </div>
-    </div>
+            <!-- ENTONNOIR DE PASSAGE À L'ACTION MASSIVE BTP -->
+            <div class="action-funnel-banner">
+                <span class="section-tag" style="background: rgba(16, 185, 129, 0.2);"><i class="fas fa-filter"></i> L'Entonnoir Vers Votre Transformation BTP</span>
+                <h3 class="action-funnel-title">Comment faire respirer votre entreprise de bâtiment ?</h3>
+                <p class="action-funnel-desc">
+                    Zéro théorie, du concret de professionnel à professionnel. Voici les 3 étapes :
+                </p>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Copilotage &amp; Décharge Opérationnelle</h3>
-                    <p class="funnel-text">
-                        Vous épauler sur l'organisation, le suivi rigoureux et la gestion courante pour libérer du temps précieux pour votre cœur de métier.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-handshake"></i> Soutien opérationnel</div>
-            </div>
+                <div class="action-funnel-steps">
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-stethoscope"></i> Étape 1 · 10 min (Gratuit)</div>
+                        <div class="action-step-name">L'Anamnèse BTP</div>
+                        <p class="action-step-text">On radiographie vos impayés, vos marges réelles par chantier et les fuites de trésorerie qui vous asphyxient.</p>
+                    </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Réseau &amp; Écosystème Partagé</h3>
-                    <p class="funnel-text">
-                        Vous connecter à d'autres entrepreneurs de la Caraïbe et de la diaspora via notre communauté WhatsApp et l'application DTC Pulse.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-users"></i> Force du collectif</div>
-            </div>
-        </div>
-    </div>
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-phone"></i> Étape 2 · 20 min</div>
+                        <div class="action-step-name">L'Échange Téléphonique Direct</div>
+                        <p class="action-step-text">Un appel direct de patron à patron pour voir si on peut assainir vos finances et vous faire gagner 15h par semaine.</p>
+                    </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Copilotage &amp; Décharge Opérationnelle</h3>
-                    <p class="funnel-text">
-                        Nous intégrons le Programme Tremplin à vos côtés. Nous mettons en place le suivi rigoureux des situations de travaux, la relance systématique des devis et la rationalisation des commandes fournisseurs pour sécuriser vos trésoreries.
-                    </p>
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-trowel-bricks"></i> Étape 3 · Action</div>
+                        <div class="action-step-name">Le Copilotage Tremplin BTP</div>
+                        <p class="action-step-text">On verrouille vos acomptes, on relance vos factures et on vous connecte aux sous-traitants fiables du réseau.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-gears"></i> Processus verrouillés</div>
-            </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Marges Sécurisées &amp; Temps Récupéré</h3>
-                    <p class="funnel-text">
-                        Votre trésorerie respire, les encaissements rentrent à date, et vos équipes ont des fiches d'intervention claires. Vous récupérez 15h par semaine pour sélectionner les chantiers les plus rémunérateurs.
-                    </p>
+                <div class="cta-group" style="margin-top: 10px;">
+                    <a href="anamnese.html" class="cta-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Passer l'Anamnèse BTP Gratuite (10 min)</span>
+                    </a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary" style="font-size: 1.05rem;">
+                        <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                        <span>Réserver un échange de 20 min</span>
+                    </a>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-chart-line"></i> Rentabilité pérenne</div>
             </div>
         </div>
     </div>

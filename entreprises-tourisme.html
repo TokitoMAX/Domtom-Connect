@@ -437,6 +437,14 @@
             top: 70px;
             z-index: 99;
             backdrop-filter: blur(10px);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sectors-nav::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         .sectors-nav-inner {
@@ -687,96 +695,123 @@
         </div>
     </div>
 
-    <!-- SECTION 2 : SOUTIEN DOMTOM CONNECT -->
-    <div class="section-container" style="border-top: 1px solid var(--border-subtle);">
-        <div class="section-header">
-            <span class="section-tag">Notre soutien concret</span>
-            <h2 class="section-title">Comment Domtom Connect vous aide à reprendre le contrôle</h2>
-            <p class="section-desc">
-                Nous bâtissons avec vous un modèle plus indépendant, plus serein et plus rentable :
-            </p>
-        </div>
-
-        <div class="funnel-grid">
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">01</div>
-                    <h3 class="funnel-title">L'Anamnèse Tourisme : radiographier vos marges</h3>
-                    <p class="funnel-text">
-                        Un diagnostic gratuit en 10 minutes pour mesurer votre dépendance réelle aux OTA, vos coûts d'intendance et vos leviers immédiats pour vendre en direct.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-check-circle"></i> Clarté financière immédiate</div>
+    <!-- LA TRANSFORMATION TOURISME : VOTRE QUOTIDIEN AVANT vs APRÈS DOMTOM CONNECT -->
+    <div class="transformation-section">
+        <div class="section-container" style="padding: 0;">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-bolt"></i> La Transformation Hébergements Concrète</span>
+                <h2 class="section-title">Ce qui change pour vos locations dès que nous travaillons ensemble</h2>
+                <p class="section-desc">
+                    Zéro commission jetée par les fenêtres : vos hébergements se remplissent en direct et vous arrêtez d'être l'esclave de votre intendance.
+                </p>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Désintermédiation &amp; Diaspora : capter les clients en direct</h3>
-                    <p class="funnel-text">
-                        Nous vous aidons à valoriser votre lieu auprès de la diaspora et des voyageurs réguliers en direct pour conserver 100% du prix de votre nuitée dans votre poche.
-                    </p>
+            <div class="transformation-grid">
+                <!-- CARTE 1 : COMMISSIONS OTA vs VENTE DIRECTE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                        <div class="transformation-card-title">Vos Nuitées &amp; Vos Marges</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>18 à 22 % de commission versée à Booking ou Airbnb sur chaque séjour. Vous assumez tous les frais d'entretien pour enrichir les plateformes.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Canal direct auprès de la diaspora &amp; réseau
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vous gardez 100 % du tarif de votre nuitée</span>. L'argent rentre en direct sur votre compte bancaire.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-handshake"></i> Marges directes protégées</div>
+
+                <!-- CARTE 2 : ESCLAVE DE L'INTENDANCE vs TEMPS LIBRE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-key"></i></div>
+                        <div class="transformation-card-title">Votre Temps &amp; Vos Week-ends</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Attendre des voyageurs jusqu'à 23h suite à un retard d'avion, gérer les imprévus le dimanche, être joignable 7j/7 sans pouvoir souffler.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Intendance cadrée avec Vesteris &amp; process fluides
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Votre hébergement tourne de façon autonome</span>. Ménage, maintenance et accueil sont verrouillés par des pros fiables.</p>
+                    </div>
+                </div>
+
+                <!-- CARTE 3 : MOIS CREUX vs REMPLISSAGE TOUTE L'ANNÉE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-calendar-check"></i></div>
+                        <div class="transformation-card-title">Votre Calendrier &amp; Vos Revenus</div>
+                    </div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Des mois creux angoissants en basse saison où les logements restent vides, alors que les crédits et les charges continuent de tomber.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Séjours professionnels &amp; voyageurs diaspora
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Taux d'occupation lissé sur toute l'année</span> grâce aux professionnels en déplacement et compatriotes de passage.</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Copilotage &amp; Réseau : retrouver du temps pour soi</h3>
-                    <p class="funnel-text">
-                        Déléguer les process répétitifs, échanger avec d'autres hébergeurs de la communauté WhatsApp et préparer votre diffusion sur DTC Pulse pour remplir vos mois creux.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-users"></i> Sérénité retrouvée</div>
-            </div>
-        </div>
-    </div>
+            <!-- ENTONNOIR DE PASSAGE À L'ACTION MASSIVE TOURISME -->
+            <div class="action-funnel-banner">
+                <span class="section-tag" style="background: rgba(16, 185, 129, 0.2);"><i class="fas fa-filter"></i> L'Entonnoir Vers Votre Transformation Tourisme</span>
+                <h3 class="action-funnel-title">Comment rentabiliser et libérer votre hébergement ?</h3>
+                <p class="action-funnel-desc">
+                    3 étapes simples pour reprendre le contrôle de votre structure :
+                </p>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Copilotage &amp; Réservations Directes</h3>
-                    <p class="funnel-text">
-                        Structurer vos canaux directs, valoriser votre identité auprès de la diaspora et simplifier vos process d'intendance au quotidien.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-handshake"></i> Soutien opérationnel</div>
-            </div>
+                <div class="action-funnel-steps">
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-stethoscope"></i> Étape 1 · 10 min (Gratuit)</div>
+                        <div class="action-step-name">L'Anamnèse Tourisme</div>
+                        <p class="action-step-text">Mesurez votre dépendance réelle aux OTA, vos coûts de ménage et votre manque à gagner en direct.</p>
+                    </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Réseau &amp; Visibilité Collective</h3>
-                    <p class="funnel-text">
-                        Créer des synergies avec d'autres acteurs du territoire et bénéficier de la communauté d'entraide Domtom Connect.
-                    </p>
-                </div>
-                <div class="funnel-pill"><i class="fas fa-users"></i> Force du collectif</div>
-            </div>
-        </div>
-    </div>
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-phone"></i> Étape 2 · 20 min</div>
+                        <div class="action-step-name">L'Échange Téléphonique Direct</div>
+                        <p class="action-step-text">Un appel pour poser votre stratégie de réservation directe et l'organisation de votre intendance.</p>
+                    </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">02</div>
-                    <h3 class="funnel-title">Canal Direct Diaspora &amp; Structuration</h3>
-                    <p class="funnel-text">
-                        Mise en avant ciblée auprès de la diaspora en quête d'expériences authentiques lors de leurs retours au pays, packages séjours immersifs et process d'accueil automatisés.
-                    </p>
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-umbrella-beach"></i> Étape 3 · Action</div>
+                        <div class="action-step-name">Déploiement Vesteris &amp; Tremplin</div>
+                        <p class="action-step-text">Vos plannings se remplissent en direct, votre intendance tourne seule et vous retrouvez votre sérénité.</p>
+                    </div>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-bullseye"></i> Réservation directe</div>
-            </div>
 
-            <div class="funnel-card">
-                <div>
-                    <div class="step-number">03</div>
-                    <h3 class="funnel-title">Marges Récupérées &amp; Sérénité</h3>
-                    <p class="funnel-text">
-                        Vous conservez l'intégralité de vos tarifs nuitées, vos plannings de basse saison sont comblés, et votre intendance tourne avec des prestataires fiables et cadrés.
-                    </p>
+                <div class="cta-group" style="margin-top: 10px;">
+                    <a href="anamnese.html" class="cta-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Passer l'Anamnèse Tourisme Gratuite (10 min)</span>
+                    </a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary" style="font-size: 1.05rem;">
+                        <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                        <span>Réserver un échange de 20 min</span>
+                    </a>
                 </div>
-                <div class="funnel-pill"><i class="fas fa-coins"></i> +20 % de marge nette</div>
             </div>
         </div>
     </div>

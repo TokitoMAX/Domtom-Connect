@@ -170,6 +170,14 @@
             gap: 15px;
             overflow-x: auto;
             white-space: nowrap;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .marques-nav-inner::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
         .marques-nav-label {
@@ -545,9 +553,15 @@
 
         .geo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             margin-top: 35px;
+        }
+
+        @media (max-width: 640px) {
+            .geo-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .geo-card {
@@ -669,10 +683,10 @@
             <span>Écosystème Marques, Terroirs &amp; Produits d'Excellence</span>
         </div>
         <h1>
-            Créer une marque d'exception est une fierté. <br><span>La développer ne doit pas vous ruiner.</span>
+            Vous fabriquez de superbes produits au pays. <br><span>Ne laissez plus les intermédiaires voler votre marge.</span>
         </h1>
         <p class="subtitle">
-            Vous élaborez des nectars de terroirs, des soins capillaires texturés ou des créations identitaires en Outre-Mer et en Afrique. Pourquoi devriez-vous brader 50 % de vos marges à des distributeurs indifférents ? Domtom Connect vous ouvre la vente directe vers la diaspora et optimise vos coûts réels.
+            Rhums, confitures, soins capillaires, épices, mode ou artisanat, fabriquer aux Antilles, à La Réunion ou en Afrique demande un travail colossal. Pourtant, les supermarchés prennent 50 % de marge et paient à 90 jours, pendant que la pub en ligne coûte une fortune. Domtom Connect vous connecte directement aux millions d'acheteurs de la diaspora en métropole via notre application DTC Pulse. Vous vendez en direct, vous gardez vos marges et votre argent rentre tout de suite.
         </p>
         <div class="cta-group">
             <a href="anamnese.html" class="cta-primary">
@@ -689,83 +703,156 @@
     <!-- LES 3 PROBLÈMES MAJEURS DES MARQUES INSULAIRES & AFRICAINES -->
     <div class="section-container">
         <div class="section-header">
-            <span class="section-tag">La Réalité Économique du Terrain</span>
-            <h2 class="section-title">Ce qui étouffe la rentabilité des créateurs indépendants</h2>
+            <span class="section-tag">La Réalité du Terrain</span>
+            <h2 class="section-title">Ce qui bloque la rentabilité de vos produits</h2>
             <p class="section-desc">
-                Concevoir des produits d'exception demande du courage. Mais la distribution classique réserve trois pièges mortels :
+                Vous avez un produit exceptionnel, mais le système traditionnel vous prend tout votre bénéfice :
             </p>
         </div>
 
         <div class="pain-grid">
             <div class="pain-card">
-                <div class="pain-metric"><i class="fas fa-percent"></i> 40 à 50% de Marge Perdue</div>
-                <h3 class="pain-title">Le diktat des centrales et revendeurs passifs</h3>
+                <div class="pain-metric"><i class="fas fa-percent"></i> 50 % de Marge Perdue</div>
+                <h3 class="pain-title">Les grandes surfaces s'enrichissent sur votre dos</h3>
                 <p class="pain-text">
-                    Les centrales d'achat empilent vos flacons ou bocaux sans raconter votre histoire. Vous supportez l'intégralité du coût des matières premières et du fret, ils s'approprient la majorité du bénéfice net.
+                    Elles empilent vos bouteilles ou vos bocaux sur une étagère sans raconter votre histoire. Vous payez les matières premières, vous payez le fret, et ce sont elles qui empochent la marge tout en vous payant 3 mois plus tard.
                 </p>
             </div>
 
             <div class="pain-card">
-                <div class="pain-metric"><i class="fas fa-money-bill-transfer"></i> Le Mirage Publicitaire</div>
-                <h3 class="pain-title">Tout brûler en pubs Meta sans rien capitaliser</h3>
+                <div class="pain-metric"><i class="fas fa-money-bill-transfer"></i> La Pub Facebook Coûte Trop Cher</div>
+                <h3 class="pain-title">Dépenser tout votre argent en pub sans rien garder</h3>
                 <p class="pain-text">
-                    Payer 25 € d'acquisition publicitaire pour vendre un produit à 30 € ne construit aucun avenir. Dès que vous coupez le budget sponsorisé, vos commandes s'effondrent immédiatement.
+                    Dépenser 25 € de pub sur les réseaux pour vendre un produit à 30 €, ce n'est pas rentable. Dès que vous coupez la publicité sponsorisée, vous n'avez plus aucune commande.
                 </p>
             </div>
 
             <div class="pain-card">
-                <div class="pain-metric"><i class="fas fa-boxes-packing"></i> Le Casse-Tête Logistique</div>
-                <h3 class="pain-title">Le gouffre du fret et l'emballage solitaire</h3>
+                <div class="pain-metric"><i class="fas fa-boxes-packing"></i> Le Casse-Tête des Colis</div>
+                <h3 class="pain-title">Passer ses soirées à faire des colis au lieu de produire</h3>
                 <p class="pain-text">
-                    Gérer les transporteurs, subir le coût du fret maritime ou aérien, expédier des colis à minuit... Vous devenez l'employé corvéable de votre propre marque au détriment de votre stratégie de croissance.
+                    Envoyer un colis depuis les îles coûte une fortune à vos acheteurs. Vous passez vos soirées à scotcher des cartons et à faire la queue à La Poste au lieu de développer votre marque.
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- LE FUNNEL EN 3 ÉTAPES -->
-    <div style="background: rgba(11, 19, 41, 0.45); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
-        <div class="section-container">
+    <!-- LA TRANSFORMATION MARQUES : VOTRE QUOTIDIEN AVANT vs APRÈS DOMTOM CONNECT -->
+    <div class="transformation-section">
+        <div class="section-container" style="padding: 0;">
             <div class="section-header">
-                <span class="section-tag">Méthodologie Opérationnelle</span>
-                <h2 class="section-title">Comment Domtom Connect sécurise votre essor</h2>
+                <span class="section-tag"><i class="fas fa-bolt"></i> La Transformation Concrète</span>
+                <h2 class="section-title">Ce qui change pour votre marque dès que nous travaillons ensemble</h2>
                 <p class="section-desc">
-                    Pas de discours théorique. Une démarche directe de dirigeant à dirigeant pour protéger votre valeur ajoutée.
+                    Zéro théorie : vous arrêtez de donner 50 % de votre travail aux intermédiaires, et vous vendez directement aux acheteurs qui aiment vos produits.
                 </p>
             </div>
 
-            <div class="funnel-grid">
-                <div class="funnel-card">
-                    <div>
-                        <div class="step-number">01</div>
-                        <h3 class="funnel-title">Diagnostic Clinique &amp; Marges Réelles</h3>
-                        <p class="funnel-text">
-                            À travers l'Anamnèse Marque, nous analysons vos coûts de revient, le coût du fret, votre panier moyen et votre marge nette par unité pour éliminer les produits gouffres.
-                        </p>
+            <div class="transformation-grid">
+                <!-- CARTE 1 : MARGES & GRANDES SURFACES -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-percent"></i></div>
+                        <div class="transformation-card-title">Vos Marges &amp; Vos Prix</div>
                     </div>
-                    <div class="funnel-pill"><i class="fas fa-bolt"></i> Bilan lucide &amp; sans complaisance</div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Les supermarchés prennent 50 % de marge et vous paient 3 mois plus tard. Vous travaillez dur pour enrichir les intermédiaires.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Vente directe diaspora &amp; application DTC Pulse
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Vous gardez 100 % de votre marge nette</span>. L'argent arrive directement sur votre compte à chaque commande.</p>
+                    </div>
                 </div>
 
-                <div class="funnel-card">
-                    <div>
-                        <div class="step-number">02</div>
-                        <h3 class="funnel-title">Vente Directe Diaspora &amp; DTC Pulse</h3>
-                        <p class="funnel-text">
-                            Nous valorisons votre savoir-faire auprès de notre communauté et de la diaspora (Île-de-France, Europe, métropoles) via notre écosystème mobile propriétaire DTC Pulse sans commissions abusives.
-                        </p>
+                <!-- CARTE 2 : CLIENTS & PUB EN LIGNE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="transformation-card-title">Vos Ventes &amp; Votre Pub</div>
                     </div>
-                    <div class="funnel-pill"><i class="fas fa-mobile-screen"></i> Canal direct &amp; e-commerce</div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Dépenser 25 € de pub Facebook pour vendre un flacon à 30 €. Dès que vous coupez la pub, vous ne faites plus aucune vente.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Accès direct aux millions d'acheteurs de la diaspora
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Des clients fidèles et passionnés</span> en France hexagonale et en Europe qui recherchent activement les vrais produits du pays.</p>
+                    </div>
                 </div>
 
-                <div class="funnel-card">
-                    <div>
-                        <div class="step-number">03</div>
-                        <h3 class="funnel-title">Copilotage Opérationnel &amp; Réseau</h3>
-                        <p class="funnel-text">
-                            Bénéficiez du Programme Tremplin pour structurer votre chaîne d'approvisionnement, mutualiser des leviers logistiques et échanger au quotidien avec d'autres fondateurs de marques.
-                        </p>
+                <!-- CARTE 3 : COLIS & LOGISTIQUE SOLITAIRE -->
+                <div class="transformation-card">
+                    <div class="transformation-card-header">
+                        <div class="transformation-card-icon"><i class="fas fa-box-open"></i></div>
+                        <div class="transformation-card-title">Vos Colis &amp; Votre Logistique</div>
                     </div>
-                    <div class="funnel-pill"><i class="fas fa-handshake"></i> Force du collectif &amp; sérénité</div>
+                    
+                    <div class="transformation-before">
+                        <div class="transformation-before-label"><i class="fas fa-xmark"></i> Avant Domtom Connect</div>
+                        <p>Scotcher des cartons seul dans son atelier à 22h, subir le coût exorbitant du fret et faire la queue à La Poste.</p>
+                    </div>
+
+                    <div class="transformation-arrow">
+                        <i class="fas fa-arrow-down"></i> Offres packagées, bundles rentables &amp; réseau partagé
+                    </div>
+
+                    <div class="transformation-after">
+                        <div class="transformation-after-label"><i class="fas fa-check"></i> Après avec nous</div>
+                        <p><span class="transformation-highlight">Des paniers moyens élevés (60-120 €)</span> qui absorbent les frais de port, et un réseau d'entraide pour ne plus être isolé.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENTONNOIR DE PASSAGE À L'ACTION MASSIVE MARQUES -->
+            <div class="action-funnel-banner">
+                <span class="section-tag" style="background: rgba(16, 185, 129, 0.2);"><i class="fas fa-filter"></i> L'Entonnoir Vers Votre Transformation Marque</span>
+                <h3 class="action-funnel-title">Comment commencer à vendre en direct dès ce mois-ci ?</h3>
+                <p class="action-funnel-desc">
+                    Un parcours clair, accessible à tous les créateurs de produits physiques :
+                </p>
+
+                <div class="action-funnel-steps">
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-stethoscope"></i> Étape 1 · 10 min (Gratuit)</div>
+                        <div class="action-step-name">L'Anamnèse Marque</div>
+                        <p class="action-step-text">On recalcule vos coûts de fabrication réels, vos marges et votre prix de vente pour éliminer les produits déficitaires.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-phone"></i> Étape 2 · 20 min</div>
+                        <div class="action-step-name">L'Échange Direct</div>
+                        <p class="action-step-text">Un appel pour évaluer votre catalogue et valider ensemble votre potentiel de vente auprès de la diaspora.</p>
+                    </div>
+
+                    <div class="action-step-item">
+                        <div class="action-step-num"><i class="fas fa-mobile-screen"></i> Étape 3 · Action</div>
+                        <div class="action-step-name">Vente Directe DTC Pulse &amp; Tremplin</div>
+                        <p class="action-step-text">Vos produits rejoignent notre application mobile, vous vendez en direct et notre collectif vous épaule au quotidien.</p>
+                    </div>
+                </div>
+
+                <div class="cta-group" style="margin-top: 10px;">
+                    <a href="anamnese.html" class="cta-primary" style="font-size: 1.05rem; padding: 18px 36px;">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Passer l'Anamnèse Marque Gratuite (10 min)</span>
+                    </a>
+                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-secondary" style="font-size: 1.05rem;">
+                        <i class="fas fa-calendar-alt" style="color: var(--accent);"></i>
+                        <span>Réserver un échange de 20 min</span>
+                    </a>
                 </div>
             </div>
         </div>
