@@ -1,4 +1,4 @@
-﻿/**
+/**
  * DOMTOM CONNECT — MOTEUR D'ANAMNÈSE CLINIQUE TRILINGUE (FR · EN · ES)
  * 10 Actes d'auscultation chirurgicale, adaptation par stade (idee/lancement/installe),
  * syntaxe territoriale grammaticalement correcte, intégration WhatsApp.
@@ -201,14 +201,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Options du sélecteur de business (traduites)
+    // Options du sélecteur de business (traduites avec regroupements sectoriels)
     const BUSINESS_OPTIONS = {
         fr: {
             types: [
-                { value: "service", label: "Prestation de service, Conseil & Artisanat (B2B / B2C, vente de compétences, devis)" },
-                { value: "physique", label: "Commerce physique, Atelier & Restauration (local, bail, stock, passage)" },
-                { value: "digital", label: "E-commerce, Digital & Vente en ligne (boutique web, formation, infoproduit)" },
-                { value: "agro", label: "Production locale & Agro-transformation (transformation de matières, distribution)" }
+                { group: "Pôles Entreprises, Métiers & B2B", value: "btp", label: "BTP, Gros Œuvre, Second Œuvre & Artisans du Bâtiment" },
+                { group: "Pôles Entreprises, Métiers & B2B", value: "ingenierie", label: "Ingénierie, Bureaux d'Études & Conseil Technique" },
+                { group: "Pôles Entreprises, Métiers & B2B", value: "juridique", label: "Cabinets Juridiques, Avocats, Notaires & Experts-Comptables" },
+                { group: "Pôles Entreprises, Métiers & B2B", value: "tourisme", label: "Tourisme, Conciergeries, Gîtes, Lodges & Hébergements" },
+                { group: "Pôles Entreprises, Métiers & B2B", value: "services_b2b", label: "Prestations de Services B2B, Conseil, IT & Recrutement" },
+                { group: "Pôles Entreprises, Métiers & B2B", value: "service", label: "Prestation de service générale & Artisanat de proximité" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "terroirs", label: "Agroalimentaire, Terroirs, Rhums, Boissons & Épicerie Fine" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "cosmetique", label: "Cosmétique Naturelle, Soins Capillaires & Pharmacopée" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "mode", label: "Mode, Textile, Accessoires & Créateurs Afro-Caribéens" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "artisanat", label: "Artisanat d'Art, Senteurs, Bougies & Décoration" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "ecommerce", label: "E-commerce, D2C & Vente en Ligne Multicanale" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "physique", label: "Commerce Physique, Boutique & Restauration" },
+                { group: "Pôles Marques, Terroirs, Commerce & Digital", value: "agro", label: "Production Agricole, Maraîchage & Transformation" }
             ],
             stages: [
                 { value: "idee", label: "Porteur d'idée (projet non lancé, 0 € de chiffre d'affaires encaissé)" },
@@ -218,10 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         en: {
             types: [
-                { value: "service", label: "Professional Services, Consulting & Trades (B2B / B2C, skills billing, proposals)" },
-                { value: "physique", label: "Brick-and-Mortar, Retail & Food Service (physical store, lease, inventory, footfall)" },
-                { value: "digital", label: "E-commerce, Digital Products & Online Services (online store, coaching, digital goods)" },
-                { value: "agro", label: "Local Production & Processing (raw materials transformation, physical distribution)" }
+                { group: "Corporate, Trades & B2B Hubs", value: "btp", label: "Construction, Civil Engineering, Trades & Building Contractors" },
+                { group: "Corporate, Trades & B2B Hubs", value: "ingenierie", label: "Engineering Consulting, Design Offices & Technical Advisory" },
+                { group: "Corporate, Trades & B2B Hubs", value: "juridique", label: "Legal Firms, Attorneys, Notaries & Chartered Accountants" },
+                { group: "Corporate, Trades & B2B Hubs", value: "tourisme", label: "Tourism, Concierge Services, Lodges, Villas & Hospitality" },
+                { group: "Corporate, Trades & B2B Hubs", value: "services_b2b", label: "B2B Professional Services, IT, Corporate Consulting & Recruitment" },
+                { group: "Corporate, Trades & B2B Hubs", value: "service", label: "General Professional Services & Local Trades" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "terroirs", label: "Agri-Food, Local Specialties, Spirits, Rum & Fine Groceries" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "cosmetique", label: "Natural Cosmetics, Hair Care & Tropical Pharmacopoeia" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "mode", label: "Fashion, Apparel, Accessories & Afro-Caribbean Designers" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "artisanat", label: "Fine Crafts, Home Decor, Scented Candles & Art" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "ecommerce", label: "E-commerce, Direct-to-Consumer & Online Retail" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "physique", label: "Brick-and-Mortar Retail, Local Shops & Food Service" },
+                { group: "Brands, Specialties, Retail & Digital Hubs", value: "agro", label: "Agricultural Production, Farming & Processing" }
             ],
             stages: [
                 { value: "idee", label: "Idea Stage (unlaunched venture, €0 / $0 in revenue collected)" },
@@ -231,10 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         es: {
             types: [
-                { value: "service", label: "Servicios Profesionales, Consultoría y Oficios (B2B / B2C, venta de horas, presupuestos)" },
-                { value: "physique", label: "Comercio Físico, Taller y Restauración (local comercial, alquiler, inventario)" },
-                { value: "digital", label: "Comercio Electrónico y Productos Digitales (tienda online, cursos, servicios remotos)" },
-                { value: "agro", label: "Producción Local y Agrotransformación (transformación de materias primas, distribución)" }
+                { group: "Polos Empresariales, Oficios y B2B", value: "btp", label: "Construcción, Obra Civil, Reformas y Gremios del Edificio" },
+                { group: "Polos Empresariales, Oficios y B2B", value: "ingenierie", label: "Ingeniería, Oficinas Técnicas y Consultoría Especializada" },
+                { group: "Polos Empresariales, Oficios y B2B", value: "juridique", label: "Despachos Jurídicos, Abogados, Notarías y Asesorías Fiscales" },
+                { group: "Polos Empresariales, Oficios y B2B", value: "tourisme", label: "Turismo, Conserjerías, Lodges, Hoteles y Alojamientos" },
+                { group: "Polos Empresariales, Oficios y B2B", value: "services_b2b", label: "Servicios Profesionales B2B, Consultoría, TI y Selección" },
+                { group: "Polos Empresariales, Oficios y B2B", value: "service", label: "Servicios Profesionales Generales y Artesanía Local" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "terroirs", label: "Agroalimentación, Productos Típicos, Licores, Ron y Gourmet" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "cosmetique", label: "Cosmética Natural, Cuidado Capilar y Farmacopea Tradicional" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "mode", label: "Moda, Textil, Complementos y Creadores Afrocaribeños" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "artisanat", label: "Artesanía de Autor, Decoración y Velas Perfumadas" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "ecommerce", label: "Comercio Electrónico, Venta Online D2C y Marcas Digitales" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "physique", label: "Comercio Físico de Proximidad, Tiendas y Restauración" },
+                { group: "Marcas, Productos Locales, Comercio y Digital", value: "agro", label: "Producción Agrícola, Cultivos y Transformación" }
             ],
             stages: [
                 { value: "idee", label: "Fase de Idea (proyecto no lanzado, 0 € / $0 en facturación real)" },
@@ -1040,7 +1067,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentStepIndex = 0;
     let answers = [];
-    let leadData = { prenom: "", nom: "", email: "", phone: "" };
+    let answersHistory = [];
+    let leadData = {
+        prenom: "",
+        nom: "",
+        company: "",
+        website: "",
+        email: "",
+        phone: "",
+        revenue: "",
+        problem: "",
+        need: ""
+    };
 
     // DOM Elements
     const progressWrap = document.getElementById('anam-progress-wrap');
@@ -1157,12 +1195,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const curStage = selectBusinessStage.value;
 
         selectBusinessType.innerHTML = `<option value="">${UI_TRANSLATIONS[lang].lblBusinessType}...</option>`;
-        BUSINESS_OPTIONS[lang].types.forEach(opt => {
+        
+        const bTypes = BUSINESS_OPTIONS[lang].types;
+        let currentGroupEl = null;
+        let lastGroup = null;
+
+        bTypes.forEach(opt => {
+            if (opt.group && opt.group !== lastGroup) {
+                lastGroup = opt.group;
+                currentGroupEl = document.createElement('optgroup');
+                currentGroupEl.label = opt.group;
+                selectBusinessType.appendChild(currentGroupEl);
+            }
             const o = document.createElement('option');
             o.value = opt.value;
             o.textContent = opt.label;
             if (opt.value === curType) o.selected = true;
-            selectBusinessType.appendChild(o);
+            if (currentGroupEl) {
+                currentGroupEl.appendChild(o);
+            } else {
+                selectBusinessType.appendChild(o);
+            }
         });
 
         selectBusinessStage.innerHTML = `<option value="">${UI_TRANSLATIONS[lang].lblBusinessStage}...</option>`;
@@ -1229,9 +1282,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Libellé court pour insertion naturelle en milieu de phrase
         const SHORT_LABELS = {
-            fr: { service: 'votre activité de service', physique: 'votre commerce', digital: 'votre activité digitale', agro: 'votre production locale' },
-            en: { service: 'your service business', physique: 'your retail business', digital: 'your digital venture', agro: 'your local production' },
-            es: { service: 'su actividad de servicios', physique: 'su comercio', digital: 'su negocio digital', agro: 'su producción local' }
+            fr: {
+                btp: "votre entreprise du BTP",
+                ingenierie: "votre bureau d'études ou ingénierie",
+                juridique: "votre cabinet",
+                tourisme: "votre structure touristique ou conciergerie",
+                services_b2b: "votre entreprise de services B2B",
+                service: "votre activité de prestation de services",
+                terroirs: "votre marque de terroir ou agroalimentaire",
+                cosmetique: "votre marque de cosmétique ou soins",
+                mode: "votre marque de mode ou accessoires",
+                artisanat: "votre atelier d'artisanat",
+                ecommerce: "votre boutique en ligne",
+                physique: "votre commerce de proximité ou restaurant",
+                agro: "votre exploitation agricole"
+            },
+            en: {
+                btp: "your construction or trade business",
+                ingenierie: "your engineering consulting firm",
+                juridique: "your legal or accounting firm",
+                tourisme: "your hospitality or rental business",
+                services_b2b: "your B2B services business",
+                service: "your professional services firm",
+                terroirs: "your agri-food & specialty brand",
+                cosmetique: "your cosmetics & skincare brand",
+                mode: "your fashion & design brand",
+                artisanat: "your crafts & design workshop",
+                ecommerce: "your e-commerce brand",
+                physique: "your retail store or restaurant",
+                agro: "your agricultural venture"
+            },
+            es: {
+                btp: "su empresa de construcción",
+                ingenierie: "su consultoría o despacho de ingeniería",
+                juridique: "su despacho legal o contable",
+                tourisme: "su negocio turístico o alojamiento",
+                services_b2b: "su actividad de servicios B2B",
+                service: "su actividad de servicios profesionales",
+                terroirs: "su marca agroalimentaria o de licores",
+                cosmetique: "su marca de cosmética y cuidado",
+                mode: "su marca de moda o accesorios",
+                artisanat: "su taller artesanal",
+                ecommerce: "su tienda online",
+                physique: "su comercio local o restaurante",
+                agro: "su explotación agropecuaria"
+            }
         };
         sessionContext.businessShortLabel = (SHORT_LABELS[currentLang] || SHORT_LABELS.fr)[bTypeVal] || 'votre activité';
 
@@ -1288,6 +1383,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.classList.add('selected');
 
                 answers[index - 1] = opt.archetype;
+                answersHistory[index - 1] = {
+                    step: index,
+                    label: actData.label,
+                    questionText: stageContent.question(sessionContext),
+                    letter: opt.letter,
+                    choiceText: opt.text,
+                    mirror: opt.mirror,
+                    archetype: opt.archetype
+                };
 
                 document.getElementById('act-mirror-title').textContent = t.mirrorTitle;
                 document.getElementById('act-mirror-text').textContent = opt.mirror;
@@ -1332,7 +1436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (confirmTerrEl) confirmTerrEl.textContent = `${sessionContext.territoryDetail} — ${sessionContext.businessLabel}`;
     }
 
-    // Soumission du formulaire
+    // Soumission du formulaire avec transmission exhaustive de l'intelligence business
     captureForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -1340,28 +1444,78 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = true;
         submitBtn.textContent = UI_TRANSLATIONS[currentLang].btnSubmitting;
 
-        leadData.prenom = document.getElementById('lead-prenom').value.trim();
-        leadData.nom = document.getElementById('lead-nom').value.trim();
-        leadData.email = document.getElementById('lead-email').value.trim();
-        const phoneEl = document.getElementById('lead-phone');
-        leadData.phone = phoneEl ? phoneEl.value.trim() : '';
+        leadData.prenom = (document.getElementById('lead-prenom')?.value || '').trim();
+        leadData.nom = (document.getElementById('lead-nom')?.value || '').trim();
+        leadData.company = (document.getElementById('lead-company')?.value || '').trim();
+        leadData.website = (document.getElementById('lead-website')?.value || '').trim();
+        leadData.email = (document.getElementById('lead-email')?.value || '').trim();
+        leadData.phone = (document.getElementById('lead-phone')?.value || '').trim();
+        leadData.revenue = (document.getElementById('lead-revenue')?.value || '').trim();
+        leadData.problem = (document.getElementById('lead-problem')?.value || '').trim();
+        leadData.need = (document.getElementById('lead-need')?.value || '').trim();
 
         const calculatedArchetype = computeDominantArchetype(answers);
 
-        // Transmission Formspree
+        // Transmission Formspree exhaustive
         const payload = new FormData();
         payload.append('_to', 'domtomconnect@gmail.com');
-        payload.append('_subject', `[Anamnèse ${currentLang.toUpperCase()}] : ${leadData.prenom} ${leadData.nom} · ${sessionContext.territoryDetail}`);
+        const subjectCompany = leadData.company ? `[${leadData.company}] ` : '';
+        payload.append('_subject', `[Anamnèse ${currentLang.toUpperCase()}] ${subjectCompany}${leadData.prenom} ${leadData.nom} · ${sessionContext.territoryDetail}`);
         payload.append('_replyto', leadData.email);
+
+        // Données d'identité & Contact
+        payload.append('Dirigeant', `${leadData.prenom} ${leadData.nom}`.trim());
         payload.append('Prénom', leadData.prenom);
         payload.append('Nom', leadData.nom);
+        payload.append('Entreprise ou Marque', leadData.company || 'Non renseigné');
+        payload.append('Site web ou Réseaux', leadData.website || 'Non renseigné');
         payload.append('Email', leadData.email);
-        if (leadData.phone) payload.append('Téléphone / WhatsApp', leadData.phone);
+        payload.append('Téléphone WhatsApp', leadData.phone || 'Non renseigné');
+
+        // Cadrage territorial et financier
         payload.append('Langue', currentLang.toUpperCase());
-        payload.append('Territoire', sessionContext.territoryDetail);
+        payload.append('Territoire d\'ancrage', sessionContext.territoryDetail);
         payload.append('Secteur d\'activité', sessionContext.businessLabel);
         payload.append('Stade d\'avancement', sessionContext.businessStage);
-        payload.append('Profil diagnostiqué', `${calculatedArchetype.title} (${calculatedArchetype.code})`);
+        payload.append('Tranche de Chiffre d\'Affaires', leadData.revenue || 'Non renseigné');
+        payload.append('Blocage majeur n°1', leadData.problem || 'Non renseigné');
+        payload.append('Attente prioritaire Domtom Connect', leadData.need || 'Non renseigné');
+        payload.append('Profil diagnostiqué', `${calculatedArchetype.title} (Code : ${calculatedArchetype.code})`);
+
+        // Formatage du dossier complet de diagnostic (les 10 questions détaillées)
+        let auditReportText = `========================================================\n`;
+        auditReportText += `DOSSIER CLINIQUE DE L'ENTREPRENEUR · DOMTOM CONNECT\n`;
+        auditReportText += `========================================================\n\n`;
+        auditReportText += `DIRIGEANT : ${leadData.prenom} ${leadData.nom}\n`;
+        auditReportText += `ENTREPRISE / MARQUE : ${leadData.company || 'N/A'}\n`;
+        auditReportText += `SITE / SOCIAL : ${leadData.website || 'N/A'}\n`;
+        auditReportText += `CONTACT : ${leadData.phone || 'N/A'} | ${leadData.email}\n`;
+        auditReportText += `TERRITOIRE : ${sessionContext.territoryDetail}\n`;
+        auditReportText += `SECTEUR : ${sessionContext.businessLabel}\n`;
+        auditReportText += `STADE : ${sessionContext.businessStage}\n`;
+        auditReportText += `CA MENSUEL : ${leadData.revenue || 'N/A'}\n`;
+        auditReportText += `BLOCAGE N°1 : ${leadData.problem || 'N/A'}\n`;
+        auditReportText += `ATTENTE DTC : ${leadData.need || 'N/A'}\n`;
+        auditReportText += `ARCHÉTYPE DIAGNOSTIQUÉ : ${calculatedArchetype.title} (${calculatedArchetype.code})\n\n`;
+        auditReportText += `--------------------------------------------------------\n`;
+        auditReportText += `DÉTAIL DES 10 RÉPONSES AU DIAGNOSTIC\n`;
+        auditReportText += `--------------------------------------------------------\n\n`;
+
+        answersHistory.forEach((item, idx) => {
+            const qNum = idx + 1;
+            const qKey = `Q${qNum < 10 ? '0' : ''}${qNum}`;
+            const reponseStr = `[Option ${item.letter}] ${item.choiceText}`;
+            payload.append(`${qKey} - ${item.label}`, reponseStr);
+            payload.append(`${qKey} - Diagnostic miroir`, item.mirror);
+
+            auditReportText += `[QUESTION ${qNum}] ${item.label}\n`;
+            auditReportText += `Énoncé : ${item.questionText}\n`;
+            auditReportText += `Choix du dirigeant : (${item.letter}) ${item.choiceText}\n`;
+            auditReportText += `Miroir clinique : ${item.mirror}\n\n`;
+        });
+
+        auditReportText += `========================================================\n`;
+        payload.append('DOSSIER_AUDIT_COMPLET', auditReportText);
 
         if (window.trackLead) {
             window.trackLead({
@@ -1371,6 +1525,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 type: calculatedArchetype.code,
                 territory: sessionContext.territoryDetail,
                 businessType: sessionContext.businessType,
+                company: leadData.company,
+                revenue: leadData.revenue,
+                problem: leadData.problem,
+                need: leadData.need,
                 email: leadData.email
             });
         }
@@ -1479,6 +1637,95 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Fonction de pré-remplissage et d'adaptation via paramètres URL (?sector=... ou ?filiere=...)
+    function applyUrlPreset(params) {
+        const rawSector = (params.get('sector') || params.get('filiere') || params.get('pole') || '').toLowerCase().trim();
+        if (!rawSector) return;
+
+        const SECTOR_ALIASES = {
+            'btp': 'btp',
+            'batiment': 'btp',
+            'construction': 'btp',
+            'artisan-batiment': 'btp',
+            'ingenierie': 'ingenierie',
+            'bureau-etudes': 'ingenierie',
+            'etudes': 'ingenierie',
+            'conseil-technique': 'ingenierie',
+            'juridique': 'juridique',
+            'avocat': 'juridique',
+            'notaire': 'juridique',
+            'comptable': 'juridique',
+            'expert-comptable': 'juridique',
+            'tourisme': 'tourisme',
+            'conciergerie': 'tourisme',
+            'gite': 'tourisme',
+            'lodge': 'tourisme',
+            'hebergement': 'tourisme',
+            'services_b2b': 'services_b2b',
+            'services': 'services_b2b',
+            'b2b': 'services_b2b',
+            'terroirs': 'terroirs',
+            'agroalimentaire': 'terroirs',
+            'rhum': 'terroirs',
+            'epicerie': 'terroirs',
+            'cosmetique': 'cosmetique',
+            'beaute': 'cosmetique',
+            'soins': 'cosmetique',
+            'capillaire': 'cosmetique',
+            'mode': 'mode',
+            'textile': 'mode',
+            'createur': 'mode',
+            'artisanat': 'artisanat',
+            'artisanat-art': 'artisanat',
+            'ecommerce': 'ecommerce',
+            'e-commerce': 'ecommerce',
+            'digital': 'ecommerce',
+            'd2c': 'ecommerce',
+            'physique': 'physique',
+            'commerce': 'physique',
+            'restauration': 'physique',
+            'agro': 'agro',
+            'agriculture': 'agro',
+            'marques': 'terroirs'
+        };
+
+        const targetSector = SECTOR_ALIASES[rawSector] || rawSector;
+        
+        // Sélectionner dans le dropdown
+        const selectBType = document.getElementById('select-business-type');
+        if (selectBType) {
+            const hasOption = Array.from(selectBType.options).some(o => o.value === targetSector);
+            if (hasOption) {
+                selectBType.value = targetSector;
+            }
+        }
+
+        // Pré-sélectionner le stade "Entreprise installée" par défaut pour les pôles pro B2B
+        const selectBStage = document.getElementById('select-business-stage');
+        const stageParam = (params.get('stage') || '').toLowerCase().trim();
+        if (stageParam && selectBStage) {
+            selectBStage.value = stageParam;
+        } else if (['btp', 'ingenierie', 'juridique', 'tourisme', 'services_b2b'].includes(targetSector) && selectBStage && !selectBStage.value) {
+            selectBStage.value = 'installe';
+        }
+
+        // Pré-sélectionner le territoire si présent dans l'URL (?territory=martinique, etc.)
+        const terrParam = (params.get('territory') || params.get('terr') || '').toLowerCase().trim();
+        if (terrParam && selectTerritory) {
+            const terrOpt = Array.from(selectTerritory.options).find(o => o.value.toLowerCase().includes(terrParam) || o.text.toLowerCase().includes(terrParam));
+            if (terrOpt) selectTerritory.value = terrOpt.value;
+        }
+
+        // Afficher la bannière de calibrage sectoriel dans l'intro
+        const bannerEl = document.getElementById('anam-sector-banner');
+        const bannerNameEl = document.getElementById('anam-sector-banner-name');
+        if (bannerEl && bannerNameEl && selectBType && selectBType.selectedIndex >= 0) {
+            const chosenText = selectBType.options[selectBType.selectedIndex]?.text || targetSector.toUpperCase();
+            bannerNameEl.textContent = chosenText;
+            bannerEl.style.display = 'inline-flex';
+        }
+    }
+
     // Initialisation (Détection du paramètre URL ?lang=en/es/fr ou hash #en)
     const urlParams = new URLSearchParams(window.location.search);
     const initialLang = urlParams.get('lang') || window.location.hash.replace('#', '').toLowerCase();
@@ -1487,5 +1734,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         setLanguage('fr');
     }
+
+    // Détection et pré-sélection automatique du secteur via URL
+    applyUrlPreset(urlParams);
 });
 

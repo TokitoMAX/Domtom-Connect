@@ -72,6 +72,10 @@
         <!-- 1. Écran d'accueil / Préambule & Calibrage territorial -->
         <section class="anam-step active" id="step-intro">
             <article class="anam-intro-card">
+                <div id="anam-sector-banner" class="anam-sector-banner" style="display: none;">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Diagnostic calibré pour : <strong id="anam-sector-banner-name">Pôle Entreprise</strong></span>
+                </div>
                 <span class="anam-lead-tag">Édition spéciale · Première séance</span>
                 <h1 class="anam-title">Votre bilan entrepreneur.</h1>
                 
@@ -179,13 +183,26 @@
                         </select>
 
                         <!-- Nature du Business -->
-                        <label class="anam-form-label" for="select-business-type" style="margin-top: 10px;">2. Nature de votre activité</label>
+                        <label class="anam-form-label" for="select-business-type" style="margin-top: 10px;">2. Nature de votre activité ou secteur</label>
                         <select id="select-business-type" class="anam-select" required>
-                            <option value="">Sélectionnez votre modèle économique...</option>
-                            <option value="service">Prestation de service, Conseil & Artisanat (B2B / B2C, vente de compétences, devis)</option>
-                            <option value="physique">Commerce physique, Atelier & Restauration (local, bail, stock, passage)</option>
-                            <option value="digital">E-commerce, Digital & Vente en ligne (boutique web, formation, infoproduit)</option>
-                            <option value="agro">Production locale & Agro-transformation (transformation de matières, distribution)</option>
+                            <option value="">Sélectionnez votre secteur ou modèle...</option>
+                            <optgroup label="Pôles Entreprises, Métiers & B2B">
+                                <option value="btp">BTP, Gros Œuvre, Second Œuvre & Artisans du Bâtiment</option>
+                                <option value="ingenierie">Ingénierie, Bureaux d'Études & Conseil Technique</option>
+                                <option value="juridique">Cabinets Juridiques, Avocats, Notaires & Experts-Comptables</option>
+                                <option value="tourisme">Tourisme, Conciergeries, Gîtes, Lodges & Hébergements</option>
+                                <option value="services_b2b">Prestations de Services B2B, Conseil, IT & Recrutement</option>
+                                <option value="service">Prestation de service générale & Artisanat de proximité</option>
+                            </optgroup>
+                            <optgroup label="Pôles Marques, Terroirs, Commerce & Digital">
+                                <option value="terroirs">Agroalimentaire, Terroirs, Rhums, Boissons & Épicerie Fine</option>
+                                <option value="cosmetique">Cosmétique Naturelle, Soins Capillaires & Pharmacopée</option>
+                                <option value="mode">Mode, Textile, Accessoires & Créateurs Afro-Caribéens</option>
+                                <option value="artisanat">Artisanat d'Art, Senteurs, Bougies & Décoration</option>
+                                <option value="ecommerce">E-commerce, D2C & Vente en Ligne Multicanale</option>
+                                <option value="physique">Commerce Physique, Boutique & Restauration</option>
+                                <option value="agro">Production Agricole, Maraîchage & Transformation</option>
+                            </optgroup>
                         </select>
 
                         <!-- Stade d'avancement -->
@@ -251,28 +268,78 @@
                 </p>
 
                 <form id="anam-lead-form">
-                    <div class="anam-form-group">
-                        <label class="anam-form-label" for="lead-prenom">Prénom</label>
-                        <input type="text" id="lead-prenom" class="anam-input" placeholder="Votre prénom" required autocomplete="given-name">
+                    <div class="anam-form-row">
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-prenom">Prénom *</label>
+                            <input type="text" id="lead-prenom" class="anam-input" placeholder="Votre prénom" required autocomplete="given-name">
+                        </div>
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-nom">Nom *</label>
+                            <input type="text" id="lead-nom" class="anam-input" placeholder="Votre nom" required autocomplete="family-name">
+                        </div>
+                    </div>
+
+                    <div class="anam-form-row">
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-company">Entreprise, Cabinet ou Marque *</label>
+                            <input type="text" id="lead-company" class="anam-input" placeholder="Ex : Bati Caraïbes, Cabinet XYZ..." required>
+                        </div>
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-website">Site web ou Compte Instagram / LinkedIn</label>
+                            <input type="text" id="lead-website" class="anam-input" placeholder="https://... ou @votrepage">
+                        </div>
+                    </div>
+
+                    <div class="anam-form-row">
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-email">Adresse e-mail professionnelle *</label>
+                            <input type="email" id="lead-email" class="anam-input" placeholder="contact@votre-entreprise.com" required autocomplete="email">
+                        </div>
+                        <div class="anam-form-group">
+                            <label class="anam-form-label" for="lead-phone">Téléphone direct / WhatsApp *</label>
+                            <input type="tel" id="lead-phone" class="anam-input" placeholder="Ex : 0696 00 00 00 ou +596 696 00 00 00" required autocomplete="tel">
+                        </div>
                     </div>
 
                     <div class="anam-form-group">
-                        <label class="anam-form-label" for="lead-nom">Nom (optionnel)</label>
-                        <input type="text" id="lead-nom" class="anam-input" placeholder="Votre nom" autocomplete="family-name">
+                        <label class="anam-form-label" for="lead-revenue">Chiffre d'affaires mensuel actuel estimé *</label>
+                        <select id="lead-revenue" class="anam-select" required>
+                            <option value="">Sélectionnez votre niveau de chiffre d'affaires...</option>
+                            <option value="Moins de 2 000 € / mois (Démarrage, phase d'amorce ou zéro vente)">Moins de 2 000 € / mois (Démarrage, phase d'amorce ou zéro vente)</option>
+                            <option value="2 000 € à 10 000 € / mois (Première traction, ventes irrégulières)">2 000 € à 10 000 € / mois (Première traction, ventes irrégulières)</option>
+                            <option value="10 000 € à 30 000 € / mois (Plafond de verre opérationnel, dirigeant débordé)">10 000 € à 30 000 € / mois (Plafond de verre opérationnel, dirigeant débordé)</option>
+                            <option value="30 000 € à 100 000 € / mois (PME établie, tension trésorerie & encadrement)">30 000 € à 100 000 € / mois (PME établie, tension trésorerie & encadrement)</option>
+                            <option value="Plus de 100 000 € / mois (Structure d'envergure, multi-chantiers ou multi-sites)">Plus de 100 000 € / mois (Structure d'envergure, multi-chantiers ou multi-sites)</option>
+                        </select>
                     </div>
 
                     <div class="anam-form-group">
-                        <label class="anam-form-label" for="lead-email">Adresse e-mail</label>
-                        <input type="email" id="lead-email" class="anam-input" placeholder="nom@exemple.com" required autocomplete="email">
+                        <label class="anam-form-label" for="lead-problem">Votre goulot d'étranglement ou blocage n°1 *</label>
+                        <select id="lead-problem" class="anam-select" required>
+                            <option value="">Quel est le problème majeur qui freine votre rentabilité ?</option>
+                            <option value="Trésorerie tendue, délais de paiement clients & retards d'encaissement">Trésorerie tendue, délais de paiement clients & retards d'encaissement</option>
+                            <option value="Surcharge mentale, journées de 60h+, devis la nuit & incapacité à déléguer">Surcharge mentale, journées de 60h+, devis la nuit & incapacité à déléguer</option>
+                            <option value="Marges grignotées par le fret, la douane (octroi de mer) & l'inflation matières">Marges grignotées par le fret, l'octroi de mer & l'inflation matières</option>
+                            <option value="Ventes en dents de scie, acquisition client instable ou dépendance aux plateformes">Ventes en dents de scie, acquisition client instable ou dépendance aux plateformes</option>
+                            <option value="Isolement insulaire du dirigeant, manque de partenaires fiables & réseau restreint">Isolement insulaire du dirigeant, manque de partenaires fiables & réseau restreint</option>
+                            <option value="Offre floue, manque de méthode commerciale & difficulté à fixer le juste prix">Offre floue, manque de méthode commerciale & difficulté à fixer le juste prix</option>
+                        </select>
                     </div>
 
                     <div class="anam-form-group">
-                        <label class="anam-form-label" for="lead-phone">Téléphone / WhatsApp (optionnel)</label>
-                        <input type="tel" id="lead-phone" class="anam-input" placeholder="Ex : 0696 00 00 00 ou +596 000 000" autocomplete="tel">
+                        <label class="anam-form-label" for="lead-need">Votre attente prioritaire auprès de Domtom Connect *</label>
+                        <select id="lead-need" class="anam-select" required>
+                            <option value="">Que recherchez-vous en priorité ?</option>
+                            <option value="Copilotage opérationnel & structuration pour déléguer l'intendance chronophage">Copilotage opérationnel & structuration pour déléguer l'intendance chronophage</option>
+                            <option value="Accompagnement stratégique One-to-One / Programme Tremplin (redressement & rentabilité)">Accompagnement stratégique One-to-One / Programme Tremplin</option>
+                            <option value="Distribution, accès au marché diaspora & vente via DTC Pulse">Distribution, accès au marché diaspora & vente via DTC Pulse</option>
+                            <option value="Entrer dans le réseau d'affaires de dirigeants (WhatsApp VIP & opportunités)">Entrer dans le réseau d'affaires de dirigeants (WhatsApp VIP & opportunités)</option>
+                            <option value="Échange direct de 30 min avec Loïc Villeronce pour diagnostic franc">Échange direct de 30 min avec Loïc Villeronce pour diagnostic franc</option>
+                        </select>
                     </div>
 
                     <button type="submit" class="anam-btn-start" style="margin-top: 24px;">
-                        <span>Recevoir mon plan d'action</span>
+                        <span>Débloquer mon plan d'action & mon bilan</span>
                         <i class="fas fa-lock-open"></i>
                     </button>
 
