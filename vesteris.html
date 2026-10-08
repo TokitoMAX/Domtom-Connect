@@ -26,18 +26,17 @@
 
     <style>
         :root {
-            --vesteris-bg: #030712;
-            --vesteris-surface: #0b1120;
-            --vesteris-card: #0f172a;
-            --accent-gold: #f59e0b;
-            --accent-gold-glow: rgba(245, 158, 11, 0.25);
-            --accent-cyan: #06b6d4;
-            --accent-emerald: #10b981;
+            --premium-bg: #020617;
+            --premium-surface: #0b1329;
+            --premium-card: #0f172a;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-hover: #059669;
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-gold: rgba(245, 158, 11, 0.35);
+            --border-accent: rgba(16, 185, 129, 0.35);
         }
 
         *, *::before, *::after {
@@ -47,7 +46,7 @@
         }
 
         body {
-            background-color: var(--vesteris-bg);
+            background-color: var(--premium-bg);
             color: var(--text-primary);
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
@@ -63,15 +62,15 @@
             left: 50%;
             transform: translateX(-50%);
             width: min(1100px, 100vw);
-            height: 520px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, rgba(6, 182, 212, 0.06) 45%, rgba(3, 7, 18, 0) 70%);
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* SOUS-NAVIGATION DES POLES VESTERIS */
+        /* SOUS-NAVIGATION DES PÔLES VESTERIS */
         .vesteris-poles-bar {
-            background: rgba(11, 17, 32, 0.92);
+            background: rgba(11, 19, 41, 0.95);
             border-bottom: 1px solid var(--border-subtle);
             padding: 12px 20px;
             position: sticky;
@@ -100,8 +99,8 @@
         .brand-monogram {
             width: 34px;
             height: 34px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #030712;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -109,7 +108,7 @@
             font-weight: 900;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .brand-text {
@@ -157,15 +156,15 @@
 
         .pole-tab:hover {
             color: #ffffff;
-            border-color: var(--accent-gold);
-            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
         }
 
         .pole-tab.active {
             color: #ffffff;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.2) 100%);
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
         }
 
         /* HERO */
@@ -183,9 +182,9 @@
         }
 
         .badge-sector {
-            background: rgba(245, 158, 11, 0.12);
-            color: #fbbf24;
-            border: 1px solid var(--border-gold);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
             padding: 6px 18px;
             border-radius: 999px;
             font-size: 0.8rem;
@@ -208,8 +207,8 @@
             color: #ffffff;
         }
 
-        .hero h1 .highlight-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        .hero h1 .highlight-accent {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -230,9 +229,9 @@
             margin-bottom: 25px;
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #030712;
+        .btn-accent {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
             font-weight: 800;
             padding: 14px 28px;
             border-radius: 12px;
@@ -241,16 +240,16 @@
             align-items: center;
             gap: 10px;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-gold:hover {
+        .btn-accent:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 26px rgba(245, 158, 11, 0.5);
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 6px 26px rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
         }
 
-        .btn-outline-gold {
+        .btn-outline-accent {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-subtle);
             color: #ffffff;
@@ -264,10 +263,10 @@
             transition: all 0.25s ease;
         }
 
-        .btn-outline-gold:hover {
-            border-color: var(--accent-gold);
-            background: rgba(245, 158, 11, 0.1);
-            color: #fbbf24;
+        .btn-outline-accent:hover {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
         }
 
         .hero-guarantees {
@@ -286,10 +285,10 @@
         }
 
         .hero-guarantees i {
-            color: #f59e0b;
+            color: var(--accent);
         }
 
-        /* SECTION POLES CARDS */
+        /* SECTION PÔLES CARDS */
         .section-poles {
             max-width: 1140px;
             margin: 0 auto;
@@ -303,7 +302,7 @@
         }
 
         .section-tag {
-            color: #f59e0b;
+            color: var(--accent);
             font-weight: 800;
             font-size: 0.82rem;
             text-transform: uppercase;
@@ -332,7 +331,7 @@
         }
 
         .pole-card {
-            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-card) 100%);
+            background: linear-gradient(180deg, var(--premium-surface) 0%, var(--premium-card) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
             padding: 38px 30px;
@@ -345,7 +344,7 @@
 
         .pole-card:hover {
             transform: translateY(-5px);
-            border-color: var(--border-gold);
+            border-color: var(--border-accent);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
         }
 
@@ -364,24 +363,9 @@
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
-        }
-
-        .pole-pro .pole-icon-box {
-            background: rgba(6, 182, 212, 0.15);
-            color: #06b6d4;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-        }
-
-        .pole-host .pole-icon-box {
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .pole-home .pole-icon-box {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
         }
 
         .pole-badge {
@@ -391,24 +375,9 @@
             border-radius: 999px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-        }
-
-        .pole-pro .pole-badge {
-            background: rgba(6, 182, 212, 0.15);
-            color: #22d3ee;
-            border: 1px solid rgba(6, 182, 212, 0.3);
-        }
-
-        .pole-host .pole-badge {
-            background: rgba(245, 158, 11, 0.15);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .pole-home .pole-badge {
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
         }
 
         .pole-card h3 {
@@ -420,7 +389,7 @@
 
         .pole-card-target {
             font-size: 0.88rem;
-            color: var(--accent-gold);
+            color: var(--accent);
             font-weight: 700;
             margin-bottom: 16px;
         }
@@ -450,7 +419,7 @@
         }
 
         .pole-features li i {
-            color: #f59e0b;
+            color: var(--accent);
             margin-top: 3px;
             flex-shrink: 0;
         }
@@ -472,15 +441,15 @@
         }
 
         .pole-btn-link:hover {
-            border-color: var(--accent-gold);
-            color: #fbbf24;
-            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
         }
 
-        /* BANNIERE PROTOTYPE / APPEL */
+        /* BANNIÈRE DE CONNEXION DIRECTE */
         .callout-box {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
-            border: 1px solid var(--border-gold);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid var(--border-accent);
             border-radius: 20px;
             padding: 45px 35px;
             margin: 60px auto 0;
@@ -510,28 +479,6 @@
             gap: 14px;
             flex-wrap: wrap;
         }
-
-        /* BOTTOM CTA */
-        .bottom-cta {
-            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-bg) 100%);
-            border-top: 1px solid var(--border-subtle);
-            padding: 85px 20px;
-            text-align: center;
-        }
-
-        .bottom-cta h2 {
-            font-size: clamp(2rem, 3.8vw, 2.9rem);
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 15px;
-        }
-
-        .bottom-cta p {
-            color: var(--text-secondary);
-            font-size: 1.08rem;
-            max-width: 680px;
-            margin: 0 auto 35px;
-        }
     </style>
 </head>
 <body>
@@ -551,12 +498,12 @@
                     <li><a href="index.html" class="nav-link">Accueil</a></li>
                     <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
                     <li><a href="entreprises-tourisme.html" class="nav-link">Tourisme</a></li>
-                    <li><a href="vesteris.html" class="nav-link active" style="color: #f59e0b;"><i class="fas fa-key"></i> Vesteris Services</a></li>
+                    <li><a href="vesteris.html" class="nav-link active"><i class="fas fa-key"></i> Vesteris Services</a></li>
                     <li><a href="support.html" class="nav-link">Contact</a></li>
                 </ul>
 
                 <div class="nav-actions">
-                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #030712; font-weight: 800; border: none;">
+                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; font-weight: 800; border: none;">
                         <i class="fab fa-whatsapp"></i> Échanger sur WhatsApp
                     </a>
                 </div>
@@ -586,19 +533,19 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="badge-sector">
-            <i class="fas fa-gem"></i> Branche Opérationnelle Vesteris · Martinique &amp; Outre-Mer
+            <i class="fas fa-shield-halved"></i> Branche Opérationnelle Vesteris · Martinique &amp; Outre-Mer
         </div>
         <h1>
-            L'Excellence Opérationnelle en <br><span class="highlight-gold">Propreté, Conciergerie &amp; Intendance</span>
+            L'Excellence Opérationnelle en <br><span class="highlight-accent">Propreté, Conciergerie &amp; Intendance</span>
         </h1>
         <p class="hero-desc">
             Interlocuteur unique pour l'entretien régulier de vos espaces de travail, la gestion locative Airbnb clé en main et la préservation de vos résidences. Devis garanti sous 2 heures, réactivité 7j/7.
         </p>
         <div class="hero-cta-group">
-            <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-gold">
+            <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-accent">
                 <i class="fas fa-arrow-up-right-from-square"></i> Accéder au Portail Vesteris
             </a>
-            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-outline-gold">
+            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-outline-accent">
                 <i class="fab fa-whatsapp"></i> Devis WhatsApp Express (06 20 78 33 77)
             </a>
         </div>
@@ -621,7 +568,7 @@
 
         <div class="poles-grid">
             <!-- PÔLE PRO -->
-            <div class="pole-card pole-pro">
+            <div class="pole-card">
                 <div class="pole-card-top">
                     <div class="pole-icon-box">
                         <i class="fas fa-building"></i>
@@ -645,7 +592,7 @@
             </div>
 
             <!-- PÔLE HOST -->
-            <div class="pole-card pole-host">
+            <div class="pole-card">
                 <div class="pole-card-top">
                     <div class="pole-icon-box">
                         <i class="fas fa-key"></i>
@@ -669,7 +616,7 @@
             </div>
 
             <!-- PÔLE HOME -->
-            <div class="pole-card pole-home">
+            <div class="pole-card">
                 <div class="pole-card-top">
                     <div class="pole-icon-box">
                         <i class="fas fa-house-chimney-user"></i>
@@ -702,10 +649,10 @@
                 </p>
             </div>
             <div class="callout-actions">
-                <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-gold">
+                <a href="https://vesteris-conciergerie.vercel.app/" target="_blank" rel="noopener" class="btn-accent">
                     <i class="fas fa-laptop"></i> Visiter le site Vesteris
                 </a>
-                <a href="tel:+33620783377" class="btn-outline-gold">
+                <a href="tel:+33620783377" class="btn-outline-accent">
                     <i class="fas fa-phone"></i> 06 20 78 33 77
                 </a>
             </div>
@@ -716,7 +663,6 @@
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
-                <!-- Col 1 -->
                 <div class="footer-col footer-col-brand">
                     <div class="footer-brand-wrap">
                         <div class="brand-monogram" style="display: inline-flex; margin-bottom: 10px;">V</div>
@@ -732,9 +678,8 @@
                     </div>
                 </div>
 
-                <!-- Col 2 -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Les Pôles Vesteris</h4>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Les Pôles Vesteris</h4>
                     <ul class="footer-links">
                         <li><a href="vesteris-pro.html"><i class="fas fa-angle-right"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a></li>
                         <li><a href="vesteris-host.html"><i class="fas fa-angle-right"></i> Vesteris Host (Conciergerie Airbnb)</a></li>
@@ -743,7 +688,6 @@
                     </ul>
                 </div>
 
-                <!-- Col 3 -->
                 <div class="footer-col">
                     <h4 class="footer-col-title"><span class="footer-col-bar"></span>Écosystème Connecté</h4>
                     <ul class="footer-links">
@@ -754,9 +698,8 @@
                     </ul>
                 </div>
 
-                <!-- Col 4 -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Contact &amp; Devis</h4>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Contact &amp; Devis</h4>
                     <ul class="footer-links">
                         <li><a href="tel:+33620783377"><i class="fas fa-phone"></i> +33 6 20 78 33 77</a></li>
                         <li><a href="mailto:vesteris@gmail.com"><i class="fas fa-envelope"></i> vesteris@gmail.com</a></li>

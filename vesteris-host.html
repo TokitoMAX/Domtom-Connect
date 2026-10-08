@@ -22,16 +22,17 @@
 
     <style>
         :root {
-            --vesteris-bg: #030712;
-            --vesteris-surface: #0b1120;
-            --vesteris-card: #0f172a;
-            --accent-gold: #f59e0b;
-            --accent-gold-glow: rgba(245, 158, 11, 0.25);
+            --premium-bg: #020617;
+            --premium-surface: #0b1329;
+            --premium-card: #0f172a;
+            --accent: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --accent-hover: #059669;
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-gold: rgba(245, 158, 11, 0.35);
+            --border-accent: rgba(16, 185, 129, 0.35);
         }
 
         *, *::before, *::after {
@@ -41,7 +42,7 @@
         }
 
         body {
-            background-color: var(--vesteris-bg);
+            background-color: var(--premium-bg);
             color: var(--text-primary);
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
@@ -57,14 +58,14 @@
             left: 50%;
             transform: translateX(-50%);
             width: min(1100px, 100vw);
-            height: 520px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
             pointer-events: none;
             z-index: 0;
         }
 
         .vesteris-poles-bar {
-            background: rgba(11, 17, 32, 0.92);
+            background: rgba(11, 19, 41, 0.95);
             border-bottom: 1px solid var(--border-subtle);
             padding: 12px 20px;
             position: sticky;
@@ -93,8 +94,8 @@
         .brand-monogram {
             width: 34px;
             height: 34px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #030712;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -102,7 +103,7 @@
             font-weight: 900;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .brand-text {
@@ -150,15 +151,15 @@
 
         .pole-tab:hover {
             color: #ffffff;
-            border-color: var(--accent-gold);
-            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
         }
 
         .pole-tab.active {
             color: #ffffff;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.2) 100%);
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
         }
 
         /* HERO */
@@ -176,9 +177,9 @@
         }
 
         .badge-sector {
-            background: rgba(245, 158, 11, 0.12);
-            color: #fbbf24;
-            border: 1px solid var(--border-gold);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
+            border: 1px solid var(--border-accent);
             padding: 6px 18px;
             border-radius: 999px;
             font-size: 0.8rem;
@@ -201,8 +202,8 @@
             color: #ffffff;
         }
 
-        .hero h1 .highlight-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        .hero h1 .highlight-accent {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -223,9 +224,9 @@
             margin-bottom: 25px;
         }
 
-        .btn-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #030712;
+        .btn-accent {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
             font-weight: 800;
             padding: 14px 28px;
             border-radius: 12px;
@@ -234,13 +235,33 @@
             align-items: center;
             gap: 10px;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-gold:hover {
+        .btn-accent:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 26px rgba(245, 158, 11, 0.5);
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 6px 26px rgba(16, 185, 129, 0.45);
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        }
+
+        .btn-outline-accent {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 14px 26px;
+            border-radius: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-outline-accent:hover {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent);
         }
 
         /* SECTION SERVICES */
@@ -257,7 +278,7 @@
         }
 
         .section-tag {
-            color: #fbbf24;
+            color: var(--accent);
             font-weight: 800;
             font-size: 0.82rem;
             text-transform: uppercase;
@@ -280,7 +301,7 @@
         }
 
         .service-card {
-            background: linear-gradient(180deg, var(--vesteris-surface) 0%, var(--vesteris-card) 100%);
+            background: linear-gradient(180deg, var(--premium-surface) 0%, var(--premium-card) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
             padding: 35px 28px;
@@ -288,7 +309,7 @@
         }
 
         .service-card:hover {
-            border-color: var(--border-gold);
+            border-color: var(--border-accent);
             transform: translateY(-4px);
         }
 
@@ -296,13 +317,14 @@
             width: 50px;
             height: 50px;
             border-radius: 12px;
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
             margin-bottom: 20px;
+            border: 1px solid var(--border-accent);
         }
 
         .service-card h3 {
@@ -320,8 +342,8 @@
 
         /* TARIF COMMISSION 15% */
         .pricing-box {
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
-            border: 1px solid var(--border-gold);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid var(--border-accent);
             border-radius: 22px;
             padding: 45px 35px;
             margin-top: 60px;
@@ -346,12 +368,12 @@
         }
 
         .pricing-badge {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #030712;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
             padding: 20px 30px;
             border-radius: 16px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.35);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
         }
 
         .pricing-num {
@@ -386,12 +408,12 @@
                     <li><a href="index.html" class="nav-link">Accueil</a></li>
                     <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
                     <li><a href="entreprises-tourisme.html" class="nav-link">Tourisme</a></li>
-                    <li><a href="vesteris.html" class="nav-link active" style="color: #f59e0b;"><i class="fas fa-door-open"></i> Vesteris Host</a></li>
+                    <li><a href="vesteris.html" class="nav-link active"><i class="fas fa-door-open"></i> Vesteris Host</a></li>
                     <li><a href="support.html" class="nav-link">Contact</a></li>
                 </ul>
 
                 <div class="nav-actions">
-                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #030712; font-weight: 800; border: none;">
+                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; font-weight: 800; border: none;">
                         <i class="fab fa-whatsapp"></i> Échanger sur WhatsApp
                     </a>
                 </div>
@@ -424,16 +446,16 @@
             <i class="fas fa-key"></i> Gestion Locative &amp; Conciergerie Airbnb
         </div>
         <h1>
-            Maximisez vos Revenus Locatifs, <br><span class="highlight-gold">Oubliez la Charge Mentale du Terrain</span>
+            Maximisez vos Revenus Locatifs, <br><span class="highlight-accent">Oubliez la Charge Mentale du Terrain</span>
         </h1>
         <p class="hero-desc">
             Vous possédez une villa, un appartement ou un meublé touristique en Martinique ? Confiez l'accueil, le ménage hôtelier, le linge et l'intendance 7j/7 à une équipe dédiée sur place. Formule transparente à 15 %.
         </p>
         <div class="hero-cta-group">
-            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-gold">
+            <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn-accent">
                 <i class="fab fa-whatsapp"></i> Confier mon bien (WhatsApp Direct)
             </a>
-            <a href="https://vesteris-conciergerie.vercel.app/#host" target="_blank" rel="noopener" class="btn-outline-gold" style="border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">
+            <a href="https://vesteris-conciergerie.vercel.app/#host" target="_blank" rel="noopener" class="btn-outline-accent">
                 <i class="fas fa-arrow-up-right-from-square"></i> Portail Vesteris Host
             </a>
         </div>
@@ -529,7 +551,7 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Les Pôles Vesteris</h4>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Les Pôles Vesteris</h4>
                     <ul class="footer-links">
                         <li><a href="vesteris.html"><i class="fas fa-angle-right"></i> Accueil Vesteris</a></li>
                         <li><a href="vesteris-pro.html"><i class="fas fa-angle-right"></i> Vesteris Pro (Bureaux &amp; Cabinets)</a></li>
@@ -548,7 +570,7 @@
                 </div>
 
                 <div class="footer-col">
-                    <h4 class="footer-col-title"><span class="footer-col-bar" style="background: #f59e0b;"></span>Contact Direct</h4>
+                    <h4 class="footer-col-title"><span class="footer-col-bar"></span>Contact Direct</h4>
                     <ul class="footer-links">
                         <li><a href="tel:+33620783377"><i class="fas fa-phone"></i> +33 6 20 78 33 77</a></li>
                         <li><a href="mailto:vesteris@gmail.com"><i class="fas fa-envelope"></i> vesteris@gmail.com</a></li>
