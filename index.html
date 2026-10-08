@@ -28,10 +28,15 @@
     <meta name="description" content="Validez votre modèle économique, sécurisez vos investissements et développez votre chiffre d'affaires entre les Caraïbes, l'Afrique et la diaspora avec une méthode réaliste et un accompagnement sur-mesure."/>
     <meta name="keywords" content="domtom connect, caraibes, afrique, diaspora, conseil strategique, business plan, martinique, guadeloupe, guyane, reunion, senegal, cote d'ivoire"/>
     <meta name="author" content="Domtom Connect"/>
-    <meta name="robots" content="index, follow"/>
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>
     <link rel="canonical" href="https://domtomconnect.com/"/>
     <link rel="sitemap" type="application/xml" href="sitemap.xml"/>
     <link rel="icon" type="image/png" href="assets/images/logo-domtomconnect.png"/>
+
+    <!-- GEO Targeting Meta Tags (Ultramarin, Caraïbes, Océan Indien, Diaspora) -->
+    <meta name="geo.region" content="FR-GP, FR-MQ, FR-GF, FR-RE, FR-YT, FR-PF, FR"/>
+    <meta name="geo.placename" content="Guadeloupe, Martinique, Guyane, La Réunion, Mayotte, Polynésie française, Paris"/>
+    <meta name="target" content="entrepreneurs, dirigeants, porteurs de projets, outre-mer, caraïbes, afrique, diaspora"/>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website"/>
@@ -64,20 +69,142 @@
     }
     </script>
 
-    <!-- Structured Data -->
+    <!-- Structured Data (SEO & GEO - AI / Generative Search Optimization) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Domtom Connect",
-      "description": "Cabinet de conseil stratégique et réseau d'affaires reliant les Caraïbes, le continent africain, l'océan Indien et la diaspora.",
-      "url": "https://domtomconnect.com",
-      "logo": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "domtomconnect@gmail.com",
-        "contactType": "Support"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://domtomconnect.com/#organization",
+          "name": "Domtom Connect",
+          "url": "https://domtomconnect.com",
+          "logo": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
+          "description": "Écosystème d'accompagnement opérationnel, de structuration et réseau d'affaires reliant les Caraïbes, l'Afrique et la diaspora.",
+          "founder": {
+            "@type": "Person",
+            "name": "Loïc Villeronce",
+            "jobTitle": "Fondateur de Domtom Connect",
+            "telephone": "+33620783377",
+            "url": "https://domtomconnect.com"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+33620783377",
+              "contactType": "Direction",
+              "email": "domtomconnect@gmail.com",
+              "availableLanguage": ["French", "English"]
+            }
+          ],
+          "areaServed": [
+            { "@type": "AdministrativeArea", "name": "Guadeloupe" },
+            { "@type": "AdministrativeArea", "name": "Martinique" },
+            { "@type": "AdministrativeArea", "name": "Guyane" },
+            { "@type": "AdministrativeArea", "name": "La Réunion" },
+            { "@type": "AdministrativeArea", "name": "Mayotte" },
+            { "@type": "AdministrativeArea", "name": "Polynésie française" },
+            { "@type": "Country", "name": "France" },
+            { "@type": "Country", "name": "Sénégal" },
+            { "@type": "Country", "name": "Côte d'Ivoire" }
+          ],
+          "knowsAbout": [
+            "Accompagnement d'entreprises",
+            "Conseil stratégique Outre-Mer",
+            "Copilotage opérationnel",
+            "Diagnostic d'entreprise insulaire",
+            "Développement commercial Caraïbes et Afrique",
+            "Réseau d'affaires diaspora"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Solutions d'Accompagnement Domtom Connect",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Diagnostic Anamnèse Clinique",
+                  "description": "Évaluation opérationnelle gratuite en 10 actes pour porteurs de projets et dirigeants ultramarins.",
+                  "url": "https://domtomconnect.com/anamnese"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Programme Tremplin",
+                  "description": "Accompagnement opérationnel à 360 degrés en one-to-one et groupe pour structurer et développer son entreprise.",
+                  "url": "https://domtomconnect.com/tremplin"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Copilotage Opérationnel",
+                  "description": "Bras droit externe pour déléguer l'intendance chronophage et sécuriser la trésorerie en contexte insulaire.",
+                  "url": "https://domtomconnect.com/pilotage"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://domtomconnect.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Qu'est-ce que Domtom Connect et à qui s'adresse cet écosystème ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Domtom Connect est un écosystème d'accompagnement fondé par Loïc Villeronce, conçu pour aider les dirigeants de TPE, PME et les porteurs de projets (Caraïbes, Afrique, diaspora) à franchir leurs paliers de croissance, sécuriser leur modèle économique et déléguer les tâches chronophages."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment réaliser un diagnostic gratuit de son entreprise ou de son projet ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Domtom Connect propose l'Anamnèse clinique en 10 actes, un diagnostic opérationnel accessible gratuitement en ligne sur domtomconnect.com/anamnese, permettant d'identifier sans complaisance les freins, les forces et les priorités d'action de votre activité."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Qu'est-ce que le copilotage opérationnel proposé par Domtom Connect ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Le copilotage opérationnel agit comme un bras droit externe pour les chefs d'entreprise en milieu insulaire. Il permet de déléguer l'intendance administrative, l'organisation et les relances afin de libérer le dirigeant pour qu'il se concentre sur son chiffre d'affaires et sa rentabilité (accessible sur domtomconnect.com/pilotage)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "En quoi consiste le Programme Tremplin ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Le Programme Tremplin est un accompagnement à 360 degrés en one-to-one (et en groupe), combinant passage à l'action massive, restructuration stratégique et possibilité de copilotage direct du business (accessible sur domtomconnect.com/tremplin)."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Quels sont les territoires accompagnés par Domtom Connect ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "L'écosystème intervient prioritairement en Guadeloupe, Martinique, Guyane, à La Réunion, Mayotte, en Polynésie française, ainsi qu'auprès de la diaspora entrepreneuriale en France hexagonale, en Amérique du Nord et sur les hubs économiques en Afrique francophone."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Comment échanger directement avec Loïc Villeronce ?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Vous pouvez réserver un échange téléphonique direct de 30 minutes via le calendrier officiel sur calendly.com/domtomconnect/30min ou par contact direct au +33 6 20 78 33 77."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 
@@ -2234,44 +2361,66 @@
                 <!-- Question 1 -->
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Comment se déroule le diagnostic offert de 30 minutes ?</span>
+                        <span>Qu'est-ce que Domtom Connect et à qui s'adresse cet écosystème ?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        C'est un échange individuel en visio avec un conseiller de notre équipe. Nous faisons le point sur votre projet, vos objectifs, vos éventuels blocages (modèle économique, rentabilité, calcul des prix, logistique) et nous vous orientons honnêtement vers la solution la plus adaptée, sans engagement de votre part.
+                        Domtom Connect est un écosystème d'accompagnement fondé par Loïc Villeronce, conçu pour aider les dirigeants de TPE, PME et les porteurs de projets reliant les Caraïbes, l'Afrique et la diaspora. Nous apportons une méthode concrète pour franchir vos paliers de croissance, sécuriser votre rentabilité et déléguer l'intendance chronophage.
                     </div>
                 </div>
 
                 <!-- Question 2 -->
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Puis-je être accompagné si je n'ai pas encore immatriculé mon entreprise ?</span>
+                        <span>Comment réaliser un diagnostic gratuit de son entreprise ou de son projet ?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Oui, absolument. C'est même le moment idéal pour éviter les erreurs coûteuses : valider la demande du marché, bien structurer vos prix et votre marge, et choisir les bons partenaires avant d'engager des frais juridiques ou d'acheter du stock.
+                        Vous pouvez réaliser l'<strong>Anamnèse clinique en 10 actes</strong>, un outil de diagnostic interactif gratuit disponible sur notre site. En 10 minutes, ce parcours sans concession analyse votre maturité commerciale, vos marges réelles, votre organisation opérationnelle et votre charge mentale pour identifier vos priorités absolues (<a href="anamnese.html" style="color: var(--accent); font-weight: 700;">Démarrer l'Anamnèse clinique</a>).
                     </div>
                 </div>
 
                 <!-- Question 3 -->
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Quelle est la différence entre le livre à 5 € et l'ebook interactif à 27 € ?</span>
+                        <span>Qu'est-ce que le copilotage opérationnel pour une entreprise insulaire ?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Les deux formats sont conçus pour être complémentaires. Le livre à 5 € (format PDF &amp; EPUB liseuse) pose les fondamentaux, la vision stratégique et la posture de chef d'entreprise face aux réalités des îles. L'ebook interactif à 27 € est une application de travail numérique avec simulateur financier de rentabilité, checklists d'action sauvegardées et export PDF personnalisé de votre plan d'action.
+                        Le copilotage opérationnel agit comme un véritable bras droit externe pour le dirigeant. Face aux spécificités insulaires (coût du fret, délais d'approvisionnement, trésorerie et intendance), nous prenons en charge les tâches énergivores et organisationnelles afin que vous puissiez vous concentrer à 100 % sur votre cœur de métier et le développement commercial (<a href="pilotage.html" style="color: var(--accent); font-weight: 700;">Découvrir l'offre de copilotage</a>).
                     </div>
                 </div>
 
                 <!-- Question 4 -->
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Comment fonctionne la recherche de co-fondateur gratuite ?</span>
+                        <span>En quoi consiste le Programme Tremplin ?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Vous remplissez le formulaire avec votre projet ou vos compétences (commercial, technique, gestion). Nous analysons la complémentarité des profils et organisons les mises en relation. Le modèle est 100 % gratuit pour les fondateurs : l'association repose sur le partage de valeur et de capital de l'entreprise co-créée.
+                        Le Programme Tremplin est un accompagnement opérationnel à 360 degrés en one-to-one, complété par une dynamique collective. Il combine restructuration stratégique, passage à l'action massive sur le terrain et possibilité de copilotage direct du business (<a href="tremplin.html" style="color: var(--accent); font-weight: 700;">En savoir plus sur Tremplin</a>).
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Quels territoires et secteurs sont accompagnés ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Nous intervenons en Guadeloupe, Martinique, Guyane, à La Réunion, Mayotte, en Polynésie française, ainsi qu'auprès de la diaspora en France métropolitaine et sur les hubs économiques en Afrique francophone. Nous accompagnons aussi bien les métiers de services, le BTP, le tourisme que les marques de terroir et l'agroalimentaire.
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Comment se déroule le premier échange avec Loïc Villeronce ?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Il s'agit d'un échange téléphonique direct de 30 minutes de dirigeant à dirigeant. Nous analysons factuellement votre situation, vos blocages et vos objectifs, pour voir en toute franchise si une collaboration a du sens (<a href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" style="color: var(--accent); font-weight: 700;">Réserver votre créneau de 30 min sur Calendly</a>).
                     </div>
                 </div>
             </div>

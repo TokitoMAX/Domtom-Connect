@@ -7,4 +7,33 @@ Disallow: /login
 Disallow: /messages
 Disallow: /profile
 
+# AI Crawlers & LLM Indexing (Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+# Sitemap & LLM Knowledge File
 Sitemap: https://domtomconnect.com/sitemap.xml
+# LLM Reference: https://domtomconnect.com/llms.txt
