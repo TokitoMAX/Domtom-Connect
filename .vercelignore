@@ -1,4 +1,11 @@
 node_modules
+*.apk
 assets/apk/*.apk
 .env*
 .git
+scratch/
+assets/video/
+assets/audio/
+*.webm
+*.mp3
+*.mp4
