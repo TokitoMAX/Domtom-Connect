@@ -47,7 +47,7 @@ Cette règle est PERMANENTE et doit être respectée à chaque échange, dans ch
      3. **Copilotage opérationnel** : permettre aux entreprises de se focaliser sur leur zone de génie pour générer du chiffre d'affaires et déléguer les tâches énergivores/chronophages.
      4. **L'Anamnèse clinique** : outil lead magnet gratuit de diagnostic des problématiques pour porteurs de projets et entreprises.
      5. **La Librairie / Guides** (ex: Tome 1 à 5€ et bundle à 27€) : orienté pour les porteurs de projets qui travaillent sur leur lancement.
-     6. **Réseau et Tech** : communauté d'entraide active sur groupe WhatsApp + réseau social business propriétaire **DTC Pulse** (application mobile actuellement en bêta fermée avant sortie App Store / Play Store Android).
+     6. **Réseau et Tech (Réseau Business, interdiction de dire 'communauté d'entraide')** : groupe WhatsApp actif regroupant entrepreneurs, entreprises et porteurs de projets + réseau social business propriétaire **DTC Pulse** (application mobile actuellement en bêta fermée), qui fusionne à la fois les logiques d'Uber Eats, TikTok et Amazon afin de faire du business entre nous, autrement et plus efficacement.
 
 9. **COORDONNÉES OFFICIELLES ET STRICTES DE LOÏC VILLERONCE :**
    - **Nom et Titre :** Loïc Villeronce, Fondateur de Domtom Connect

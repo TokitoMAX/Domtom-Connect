@@ -69,7 +69,9 @@ if os.path.exists(blog_dir):
         if os.path.isdir(entry_path):
             index_path = os.path.join(entry_path, "index.html")
             if os.path.exists(index_path):
-                urls.append((f"https://domtomconnect.com/blog/{entry}", "0.80", "monthly"))
+                # Priorité renforcée pour les ponts Afrique, Caraïbe et Diaspora
+                prio = "0.85" if any(k in entry for k in ["africa", "caraib", "caribbean", "diaspora", "senegal", "ivoire", "cameroun", "gabon", "rdc", "haiti", "paris", "montreal", "miami", "new-york", "london", "bridge", "expansion"]) else "0.80"
+                urls.append((f"https://domtomconnect.com/blog/{entry}", prio, "monthly"))
 
 # Legal pages
 legal_pages = ["legal/terms", "legal/privacy"]

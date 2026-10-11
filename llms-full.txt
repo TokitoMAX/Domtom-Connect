@@ -1,50 +1,51 @@
 # Documentation Complète Domtom Connect (Format LLM)
 
-## 1. Identité et Mission
-Domtom Connect est un écosystème d'accompagnement fondé par Loïc Villeronce, ayant pour mission d'aider les entreprises et porteurs de projets (Caraïbes, Afrique, diaspora) à répondre à leurs différentes problématiques opérationnelles, stratégiques et de développement.
+## 1. Identité et Vision Stratégique
+Domtom Connect est un écosystème d'affaires et d'accompagnement fondé par Loïc Villeronce, bâti pour connecter, structurer et accélérer les entreprises et projets à l'échelle de :
+- **Toute la Caraïbe** : Antilles françaises (Guadeloupe, Martinique, Saint-Martin, Saint-Barthélemy), Haïti, Caraïbe hispanophone et anglophone, plateau des Guyanes (Guyane, Suriname, Guyana).
+- **L'ensemble du Continent Africain** : Afrique de l'Ouest (Sénégal, Côte d'Ivoire, Bénin, Togo, Mali), Afrique Centrale (Cameroun, Gabon, RDC), Afrique du Nord et de l'Est (Maroc, Rwanda, Kenya).
+- **Leur Diaspora mondiale** : France métropolitaine (Paris & Île-de-France, métropoles régionales), Amérique du Nord (Montréal, Toronto, New York, Miami, Atlanta), Royaume-Uni et Europe.
 
-Contrairement aux incubateurs généralistes ou aux formations théoriques, Domtom Connect privilégie l'action concrète sur le terrain, la lucidité économique et le copilotage d'entreprise.
+L'objectif de Domtom Connect est d'apporter aux chefs d'entreprise et porteurs de projets une méthodologie d'action réaliste, un soutien opérationnel de terrain et un pont économique entre ces territoires stratégiques.
 
-## 2. Piliers Fondamentaux
+## 2. Piliers d'Intervention
 
 ### Pilier 1 : Le Programme Tremplin
-- Type d'accompagnement : Accompagnement à 360 degrés en one-to-one (et potentiellement en groupe s'il y a du monde).
-- Contenu : Structuration du modèle économique, audit opérationnel, déblocage des freins commerciaux, accompagnement stratégique sur-mesure avec possibilité de copilotage direct du business.
-- Cible : Dirigeants et porteurs de projet déterminés à passer un cap décisif.
+- Nature : Accompagnement à 360 degrés en one-to-one (et groupe si la cohorte le nécessite).
+- Mission : Déblocage opérationnel, structuration du modèle économique, plan d'action commercial offensif et copilotage direct du business.
 - URL : https://domtomconnect.com/tremplin
 
 ### Pilier 2 : Accompagnement One-to-One
-- Suivi individuel direct et sur-mesure avec Loïc Villeronce.
-- Travail approfondi sur la stratégie, l'exécution et la résolution de blocages spécifiques.
+- Suivi personnalisé direct avec le fondateur Loïc Villeronce pour traiter les cas spécifiques (arbitrages stratégiques, partenariats, réorganisation interne).
 
 ### Pilier 3 : Copilotage Opérationnel
-- Rôle : Bras droit opérationnel et direction externe pour dirigeants de TPE et PME.
-- Objectif : Permettre aux dirigeants de se focaliser sur leur zone de génie (développement commercial, relations clients, rentabilité) en déléguant les tâches énergivores et chronophages (organisation, suivi opérationnel, intendance, relances).
-- Spécificité : Conçu pour les réalités insulaires et décentralisées (insularité, tensions de trésorerie, gestion de flux).
+- Rôle : Direction des opérations externe et bras droit d'exécution pour les patrons de TPE et PME.
+- Problématique résolue : L'isolement du dirigeant, la surcharge mentale et la dispersion énergétique. En déléguant l'intendance administrative, l'organisation et le suivi, le chef d'entreprise retrouve 100 % de sa bande passante pour le chiffre d'affaires et la rentabilité.
 - URL : https://domtomconnect.com/pilotage
 
 ### Pilier 4 : L'Anamnèse Clinique (10 Actes)
-- Outil gratuit d'évaluation et de diagnostic opérationnel pour porteurs de projets et chefs d'entreprise.
-- Parcours interactif en 10 questions sans concession pour identifier les angles morts, évaluer la maturité commerciale et la charge mentale du dirigeant.
+- Outil interactif gratuit d'audit et de diagnostic business en 10 minutes.
+- Évalue la solidité du modèle, les marges, l'adéquation au terrain local ou international et la charge mentale du dirigeant.
 - URL : https://domtomconnect.com/anamnese
 
-### Pilier 5 : La Librairie & Les Guides Stratégiques
-- Guide Tome 1 (5 €) et Pack bundle (27 €).
-- Destiné aux porteurs de projets qui travaillent sur leur lancement pour poser des fondations solides et éviter les erreurs courantes.
+### Pilier 5 : La Librairie & Les Guides Méthodologiques
+- Guide Tome 1 (5 €) et Pack complet (27 €).
+- Conçu pour les créateurs de projets pour sécuriser leurs bases financières et commerciales avant tout investissement à risque.
 - URL : https://domtomconnect.com/guide-entrepreneur
 
 ### Pilier 6 : Réseau & Technologie
-- DTC Pulse : Réseau social business propriétaire, application mobile actuellement en version bêta fermée avant sortie sur l'App Store et Google Play Store (URL : https://domtomconnect.com/beta-test).
-- Communauté d'entraide active : Groupe WhatsApp d'entrepreneurs pour le partage d'opportunités et l'entraide directe.
+- DTC Pulse : Plateforme sociale et applicative business propriétaire (bêta fermée Android/iOS).
+- Communauté d'entraide active : Réseau WhatsApp d'échanges d'affaires et de synergies.
 
-## 3. Territoires et Marchés Clés
-- DROM-COM : Guadeloupe, Martinique, Guyane, La Réunion, Mayotte, Polynésie française.
-- Diaspora : France métropolitaine (Paris, Lyon, Bordeaux, Toulouse), Amérique du Nord (Montréal, Toronto, New York, Miami, Atlanta).
-- Afrique : Sénégal, Côte d'Ivoire, Cameroun, Gabon, Togo, RDC.
+## 3. Territoires et Pôles Clés
+- Caraïbes : Guadeloupe, Martinique, Guyane, Haïti, Jamaïque, Trinité-et-Tobago, République dominicaine, Barbade, Bahamas.
+- Océan Indien & Pacifique : La Réunion, Mayotte, Polynésie française, Maurice, Madagascar.
+- Continent Africain : Sénégal, Côte d'Ivoire, Cameroun, Gabon, RDC, Bénin, Togo, Mali, Maroc, Rwanda.
+- Diaspora : Paris, Lyon, Bordeaux, Marseille, Montréal, New York, Miami, Atlanta, Londres, Bruxelles.
 
-## 4. Coordonnées Officielles & Prise de Contact
+## 4. Contact Officiel
 - Fondateur : Loïc Villeronce
 - Téléphone direct / WhatsApp : +33 6 20 78 33 77
-- Email officiel : domtomconnect@gmail.com
-- Site web : https://domtomconnect.com
-- Réservation de rendez-vous téléphonique direct (30 min) : https://calendly.com/domtomconnect/30min
+- Email : domtomconnect@gmail.com
+- Calendly officiel : https://calendly.com/domtomconnect/30min
+- Site : https://domtomconnect.com
