@@ -1,28 +1,34 @@
 import imaplib, email, sys
+from email.header import decode_header
+
 sys.stdout.reconfigure(encoding='utf-8')
 
-mail = imaplib.IMAP4_SSL("imap.gmail.com")
-mail.login("domtomconnect@gmail.com", "geqpuqluimxdjxeo")
+def decode_str(s):
+    if not s: return ''
+    decoded = decode_header(s)
+    res = []
+    for text, enc in decoded:
+        if isinstance(text, bytes): res.append(text.decode(enc or 'utf-8', errors='ignore'))
+        else: res.append(str(text))
+    return ''.join(res)
+
+mail = imaplib.IMAP4_SSL('imap.gmail.com')
+mail.login('domtomconnect@gmail.com', 'geqpuqluimxdjxeo')
 mail.select('"[Gmail]/Tous les messages"')
 
-target_ids = ["4892", "4883", "4886", "4887", "4888", "4891", "4879"]
-
-for mid in target_ids:
-    status, data = mail.fetch(mid, "(RFC822)")
-    if data and data[0]:
-        msg = email.message_from_bytes(data[0][1])
-        print("="*60)
-        print(f"MESSAGE ID: {mid}")
-        print("FROM:", msg.get("From"))
-        print("DATE:", msg.get("Date"))
-        print("SUBJECT:", msg.get("Subject"))
-        print("MESSAGE-ID HEADER:", msg.get("Message-ID"))
+for target in ['ckconsultingfwi@gmail.com', 'info@easyivoire.com']:
+    status, data = mail.search(None, f'(FROM "{target}")')
+    print(f'=== INCOMING FROM {target} ===')
+    for mid in data[0].split():
+        s, d = mail.fetch(mid, '(RFC822)')
+        msg = email.message_from_bytes(d[0][1])
+        print('Date:', msg.get('Date'))
+        print('Subject:', decode_str(msg.get('Subject')))
+        print('Message-ID:', msg.get('Message-ID'))
         for part in msg.walk():
-            if part.get_content_type() == "text/plain":
-                p = part.get_payload(decode=True)
-                if p:
-                    print("--- BODY ---")
-                    print(p.decode("utf-8", errors="ignore"))
+            if part.get_content_type() == 'text/plain':
+                print('Body:\n', part.get_payload(decode=True).decode('utf-8', errors='ignore'))
+                break
 
 mail.close()
 mail.logout()

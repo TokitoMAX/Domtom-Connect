@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMTOM CONNECT - Pure Video Render</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #000000;
+            --emerald: #00BFA6;
+            --emerald-bright: #10B981;
+            --white: #FFFFFF;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000000;
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Pure Full-Screen Stage */
+        .render-canvas {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 48px;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #070d0b 0%, #000000 100%);
+        }
+
+        /* Ambient Orbs */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.28;
+            pointer-events: none;
+        }
+
+        .ambient-orb-1 {
+            width: 450px;
+            height: 450px;
+            background: var(--emerald);
+            top: -150px;
+            left: -150px;
+        }
+
+        .ambient-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: #059669;
+            bottom: -150px;
+            right: -150px;
+        }
+
+        /* Brand Watermark */
+        .brand-watermark {
+            position: absolute;
+            top: 40px;
+            left: 48px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 30;
+            opacity: 0.8;
+        }
+
+        .brand-watermark-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--emerald);
+            box-shadow: 0 0 14px var(--emerald);
+        }
+
+        .brand-watermark-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        /* Subtle Progress Bar */
+        .scene-progress-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 40;
+        }
+
+        .scene-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--emerald);
+            box-shadow: 0 0 10px var(--emerald);
+        }
+
+        /* Story Scenes */
+        .story-scene {
+            display: none;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 90%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-scene.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scene-topic {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--emerald);
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .scene-quote {
+            font-family: 'Cabinet Grotesk', 'Plus Jakarta Sans', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -1.5px;
+            color: var(--white);
+            max-width: 950px;
+            text-wrap: balance;
+        }
+
+        /* Vertical 9:16 specific sizing */
+        .format-9-16 .scene-quote {
+            font-size: 42px;
+            line-height: 1.22;
+            max-width: 85%;
+        }
+
+        .format-9-16 .scene-topic {
+            font-size: 13px;
+        }
+
+        .scene-quote span.em {
+            color: var(--emerald);
+            text-shadow: 0 0 35px rgba(0, 191, 166, 0.4);
+        }
+
+        .scene-subquote {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--gray-400);
+            line-height: 1.55;
+            max-width: 800px;
+            margin-top: 24px;
+        }
+
+        .format-9-16 .scene-subquote {
+            font-size: 20px;
+            max-width: 85%;
+        }
+
+        /* Task Tags */
+        .task-tags-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .task-tag-pill {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 100px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-300);
+        }
+
+        /* Final Stay Co */
+        .stayco-mark {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 110px;
+            font-weight: 900;
+            letter-spacing: 12px;
+            color: var(--white);
+            margin-bottom: 12px;
+            text-shadow: 0 0 60px rgba(0, 191, 166, 0.5);
+        }
+
+        .stayco-mark span {
+            color: var(--emerald);
+        }
+
+        .format-9-16 .stayco-mark {
+            font-size: 78px;
+            letter-spacing: 8px;
+        }
+
+        .stayco-sub {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 6px;
+            color: var(--emerald);
+            text-transform: uppercase;
+            margin-bottom: 36px;
+        }
+
+        .stayco-link {
+            font-size: 24px;
+            font-weight: 800;
+            padding: 16px 40px;
+            border-radius: 100px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 2px solid var(--emerald);
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 40px rgba(0, 191, 166, 0.25);
+        }
+
+        /* Subtitles Overlay (bottom of video) */
+        .caption-layer {
+            position: absolute;
+            bottom: 50px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: center;
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        .caption-text {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            max-width: 85%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            line-height: 1.4;
+        }
+
+        .format-9-16 .caption-text {
+            font-size: 17px;
+            bottom: 70px;
+        }
+    </style>
+</head>
+<body id="render-body">
+
+    <div class="render-canvas">
+        <div class="scene-progress-line"><div class="scene-progress-fill" id="scene-fill"></div></div>
+
+        <div class="brand-watermark">
+            <div class="brand-watermark-dot"></div>
+            <div class="brand-watermark-title">DOMTOM CONNECT</div>
+        </div>
+
+        <div class="ambient-orb ambient-orb-1"></div>
+        <div class="ambient-orb ambient-orb-2"></div>
+
+        <!-- Scene 1: 0.1s - 4.0s -->
+        <div class="story-scene active" id="scene-1">
+            <span class="scene-topic">UNE RÉALITÉ PARTAGÉE</span>
+            <h1 class="scene-quote">Il y a une grande illusion chez nous... <br><span class="em">dans les îles et dans la diaspora.</span></h1>
+        </div>
+
+        <!-- Scene 2: 4.0s - 8.6s -->
+        <div class="story-scene" id="scene-2">
+            <span class="scene-topic">LE PIÈGE DU DIRIGEANT</span>
+            <h1 class="scene-quote">C'est de croire qu'un vrai chef d'entreprise... <br><span class="em">doit tout porter tout seul sur ses épaules.</span></h1>
+        </div>
+
+        <!-- Scene 3: 8.6s - 14.2s -->
+        <div class="story-scene" id="scene-3">
+            <span class="scene-topic">LE QUOTIDIEN QUI SUBMERGE</span>
+            <h1 class="scene-quote">Faire le commercial, la gestion, les livraisons... <br><span class="em">éteindre chaque incendie.</span></h1>
+            <div class="task-tags-row">
+                <div class="task-tag-pill">Commercial</div>
+                <div class="task-tag-pill">Gestion & Compta</div>
+                <div class="task-tag-pill">Imprévus</div>
+                <div class="task-tag-pill">Urgences</div>
+            </div>
+        </div>
+
+        <!-- Scene 4: 14.2s - 21.3s -->
+        <div class="story-scene" id="scene-4">
+            <span class="scene-topic">LA PRISE DE CONSCIENCE</span>
+            <h1 class="scene-quote">Un dirigeant qui passe ses journées la tête sous l'eau... <br><span class="em">empêche sa propre entreprise de grandir.</span></h1>
+            <p class="scene-subquote">Être débordé n'est pas un signe de réussite, c'est un signal d'alarme.</p>
+        </div>
+
+        <!-- Scene 5: 21.3s - 26.0s -->
+        <div class="story-scene" id="scene-5">
+            <span class="scene-topic">RECENTRER LES PRIORITÉS</span>
+            <h1 class="scene-quote">Ta vraie valeur n'est pas dans les tâches chronophages... <br><span class="em">qui te vident de ton énergie.</span></h1>
+        </div>
+
+        <!-- Scene 6: 26.0s - 29.6s -->
+        <div class="story-scene" id="scene-6">
+            <span class="scene-topic">TA ZONE DE GÉNIE</span>
+            <h1 class="scene-quote">Ta vraie valeur est dans <span class="em">ta vision</span>... <br>et dans <span class="em">tes décisions</span>.</h1>
+        </div>
+
+        <!-- Scene 7: 29.6s - 33.1s -->
+        <div class="story-scene" id="scene-7">
+            <span class="scene-topic">S'AUTORISER À RESPIRER</span>
+            <h1 class="scene-quote">Arrête de vouloir être un super-héros... <br><span class="em">tout seul dans ton coin.</span></h1>
+        </div>
+
+        <!-- Scene 8: 33.1s - 36.2s -->
+        <div class="story-scene" id="scene-8">
+            <span class="scene-topic">LA SOLUTION SIMPLE</span>
+            <h1 class="scene-quote">Apprends à <span class="em">t'entourer</span>... <br>pour respirer et avancer.</h1>
+        </div>
+
+        <!-- Scene 9: 36.2s - Fin -->
+        <div class="story-scene" id="scene-9">
+            <div class="stayco-mark">STAY <span>CO.</span></div>
+            <div class="stayco-sub">DOMTOM CONNECT</div>
+            <div class="stayco-link">domtomconnect.com</div>
+        </div>
+
+        <!-- Captions -->
+        <div class="caption-layer">
+            <div class="caption-text" id="caption-text">
+                Il y a une grande illusion chez nous, dans les îles et dans la diaspora.
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio" src="assets/audio/test_b_audio.mp3" preload="auto"></audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const sceneFill = document.getElementById('scene-fill');
+        const captionText = document.getElementById('caption-text');
+        const body = document.getElementById('render-body');
+
+        // Check format parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('format') === '9-16') {
+            body.classList.add('format-9-16');
+        }
+
+        const scenes = [
+            { id: 'scene-1', start: 0.1, end: 4.02, caption: 'Il y a une grande illusion chez nous, dans les îles et dans la diaspora.' },
+            { id: 'scene-2', start: 4.02, end: 8.65, caption: 'C\'est de croire qu\'un vrai chef d\'entreprise doit tout porter tout seul.' },
+            { id: 'scene-3', start: 8.65, end: 14.18, caption: 'Faire le commercial, la gestion, régler les livraisons, éteindre chaque incendie.' },
+            { id: 'scene-4', start: 14.18, end: 21.32, caption: 'Un dirigeant la tête sous l\'eau empêche sa propre entreprise de grandir.' },
+            { id: 'scene-5', start: 21.32, end: 25.97, caption: 'Ta vraie valeur n\'est pas dans les tâches chronophages qui te vident.' },
+            { id: 'scene-6', start: 25.97, end: 29.65, caption: 'Ta vraie valeur, elle est dans ta vision et dans tes décisions.' },
+            { id: 'scene-7', start: 29.65, end: 33.14, caption: 'Arrête de vouloir être un super-héros tout seul dans ton coin.' },
+            { id: 'scene-8', start: 33.14, end: 36.23, caption: 'Apprends à t\'entourer pour respirer et avancer.' },
+            { id: 'scene-9', start: 36.23, end: 40.00, caption: 'DOMTOM CONNECT — STAY CO.' }
+        ];
+
+        let activeSceneIdx = -1;
+
+        // Auto-play when ready
+        window.addEventListener('DOMContentLoaded', () => {
+            audio.play().catch(() => {
+                // If browser needs click, listen on window click
+                window.addEventListener('click', () => audio.play(), { once: true });
+            });
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const cur = audio.currentTime;
+            const dur = audio.duration || 37.7;
+            const pct = (cur / dur) * 100;
+            sceneFill.style.width = pct + '%';
+
+            let idx = 0;
+            for (let i = 0; i < scenes.length; i++) {
+                if (cur >= scenes[i].start && cur < scenes[i].end) {
+                    idx = i;
+                    break;
+                }
+            }
+
+            if (idx !== activeSceneIdx) {
+                activeSceneIdx = idx;
+                scenes.forEach((s, i) => {
+                    const el = document.getElementById(s.id);
+                    if (el) el.classList.toggle('active', i === idx);
+                });
+                captionText.innerHTML = scenes[idx].caption;
+            }
+        });
+    </script>
+</body>
+</html>

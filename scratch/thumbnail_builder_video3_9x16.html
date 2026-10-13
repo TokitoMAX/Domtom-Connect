@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Couverture Verticale 9:16 • Domtom Connect Vidéo 3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 720px;
+            height: 1280px;
+            overflow: hidden;
+            background: #030605;
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 80px 48px;
+            text-align: center;
+            background-image: 
+                radial-gradient(circle at 50% 30%, rgba(0, 191, 166, 0.18) 0%, transparent 60%),
+                radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 1.5px solid #00BFA6;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        .brand-logo-img {
+            height: 20px;
+            width: auto;
+        }
+
+        .brand-text {
+            font-size: 13px;
+            font-weight: 800;
+            color: #00BFA6;
+        }
+
+        .headline {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1.12;
+            letter-spacing: -1px;
+            color: #FFFFFF;
+            text-wrap: balance;
+            margin-bottom: 16px;
+        }
+
+        .headline span.em {
+            color: #00BFA6;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: #9CA3AF;
+            line-height: 1.45;
+            max-width: 580px;
+        }
+
+        .card-visual {
+            width: 100%;
+            max-width: 580px;
+            background: rgba(10, 16, 14, 0.9);
+            border: 1px solid rgba(0, 191, 166, 0.4);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 191, 166, 0.2);
+            margin: 32px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mockup-preview {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chips-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag-chip {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #D1D5DB;
+        }
+
+        .tag-chip.accent {
+            background: rgba(0, 191, 166, 0.15);
+            border-color: rgba(0, 191, 166, 0.4);
+            color: #10B981;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="brand-pill">
+            <img src="../assets/images/logo-domtomconnect-white.png" class="brand-logo-img" alt="Domtom Connect">
+            <span class="brand-text">Domtom Connect</span>
+        </div>
+
+        <h1 class="headline">
+            Comment restructurer sa boîte et <span class="em">libérer du cash&nbsp;?</span>
+        </h1>
+
+        <p class="subtitle">
+            La méthode de terrain en 4 étapes pour sortir du mode pompier.
+        </p>
+    </div>
+
+    <div class="card-visual">
+        <img src="../assets/images/business-suite-mockup.png" class="mockup-preview" alt="Domtom Connect">
+    </div>
+
+    <div class="chips-row">
+        <span class="tag-chip accent">Caraïbes</span>
+        <span class="tag-chip accent">Afrique</span>
+        <span class="tag-chip accent">Diaspora</span>
+        <span class="tag-chip">Méthode de terrain</span>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+# -*- coding: utf-8 -*-
+import json
+
+beats_data = [
+    {
+        "id": "beat-1",
+        "start": 0.0,
+        "end": 20.97,
+        "caption": "Quatre-vingts pour cent des porteurs de projets s'épuisent pendant des mois sans jamais encaisser le moindre euro.",
+        "avatar": "shocked",
+        "badge": "L'ERREUR CLASSIQUE",
+        "showShorts": False,
+        "tag": "L'erreur classique",
+        "title": "Quatre-vingts pour cent s'épuisent <span class=\"danger\">dans le vide.</span>",
+        "desc": "Des semaines passées sur un logo ou des plans théoriques sans encaisser le moindre euro.",
+        "cards": [
+            {"title": "⚠️ Épuisement stérile", "text": "Courir partout pendant des mois sans jamais confronter son idée au marché.", "type": "danger"},
+            {"title": "🎨 Logo retouché 10 fois", "text": "Se réfugier dans les détails esthétiques pour repousser la confrontation commerciale.", "type": "amber"}
+        ]
+    },
+    {
+        "id": "beat-2",
+        "start": 21.22,
+        "end": 51.26,
+        "caption": "Bonjour, moi c'est Loïc Villeronce, fondateur de Domtom Connect. Pourquoi utiliser un avatar et une IA ?",
+        "avatar": "boss",
+        "badge": "FONDATEUR • LOÏC VILLERONCE",
+        "showShorts": False,
+        "tag": "Présentation officielle",
+        "title": "Loïc Villeronce, <span class=\"em\">fondateur de Domtom Connect.</span>",
+        "desc": "Un choix totalement assumé de s'exprimer via un avatar animé propulsé par une IA.",
+        "cards": [
+            {"title": "⚡ Efficacité chirurgicale", "text": "Condenser mon savoir et aller droit à l'essentiel sans perte de temps.", "type": "highlight"},
+            {"title": "🤝 Écosystème d'accompagnement", "text": "Aider les entreprises et porteurs de projets en Caraïbes, Afrique et diaspora.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-3",
+        "start": 51.51,
+        "end": 69.42,
+        "caption": "Retrouve-moi en direct avec mon micro face caméra sur mes Shorts YouTube, TikTok et Instagram.",
+        "avatar": "boss",
+        "badge": "100% RÉEL SUR SHORTS",
+        "showShorts": True,
+        "tag": "100% Réel sans filtre",
+        "title": "Retrouve-moi en direct <span class=\"em\">sur Shorts, TikTok & Insta.</span>",
+        "desc": "Prises de parole réelles avec mon micro face caméra pour échanger sans artifice.",
+        "cards": [
+            {"title": "🎙️ Prise de parole réelle", "text": "Vidéos quotidiennes face caméra pour voir mon vrai visage et mes retours d'expérience.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-4",
+        "start": 69.67,
+        "end": 97.98,
+        "caption": "La loi du 80/20, quatre-vingts pour cent d'action et vingt pour cent de réflexion. L'action imparfaite bat la théorie.",
+        "avatar": "boss",
+        "badge": "80% ACTION / 20% RÉFLEXION",
+        "showShorts": False,
+        "tag": "La loi du 80/20",
+        "title": "<span class=\"em\">80% d'action massive,</span> 20% de réflexion.",
+        "desc": "L'action imparfaite bat toujours la théorie parfaite, créer du mouvement immédiat.",
+        "cards": [
+            {"title": "⚡ 80% Action terrain", "text": "Confronter son offre directement au marché et créer du mouvement.", "type": "highlight"},
+            {"title": "🧠 20% Réflexion stratégique", "text": "Ajuster sa trajectoire sans jamais s'enfermer dans le doute.", "type": "amber"}
+        ]
+    },
+    {
+        "id": "beat-5",
+        "start": 98.23,
+        "end": 125.67,
+        "caption": "En Martinique, l'erreur classique est de commander cinq cents t-shirts en Chine ou de bloquer trois mille euros en stock.",
+        "avatar": "shocked",
+        "badge": "RÉALITÉS DE MARTINIQUE",
+        "showShorts": False,
+        "tag": "Cas concret en Martinique",
+        "title": "Lancer son projet <span class=\"amber\">sans bloquer son cash.</span>",
+        "desc": "Marque de vêtements locale ou prestation de service, attention au piège du stock.",
+        "cards": [
+            {"title": "📦 Le piège des cartons", "text": "Commander 500 pièces ou imprimer 1 000 flyers sans avoir un seul client payant.", "type": "danger"},
+            {"title": "🚢 Fret & octroi de mer", "text": "Délais d'approvisionnement et trésorerie bloquée, le risque fatal aux Antilles.", "type": "amber"}
+        ]
+    },
+    {
+        "id": "beat-6",
+        "start": 125.92,
+        "end": 133.53,
+        "caption": "Voici le plan d'action chirurgical sur deux semaines pour appliquer le 80/20 et sécuriser ton lancement.",
+        "avatar": "boss",
+        "badge": "PLAN D'ACTION 14 JOURS",
+        "showShorts": False,
+        "tag": "Méthode d'accélération",
+        "title": "Le plan d'action chirurgical <span class=\"em\">sur deux semaines.</span>",
+        "desc": "Quatorze jours chrono pour appliquer le 80/20 et sécuriser son lancement sans risque.",
+        "cards": [
+            {"title": "🗓️ Deux semaines chrono", "text": "Une feuille de route limpide, structurée et immédiatement applicable.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-7",
+        "start": 133.78,
+        "end": 152.16,
+        "caption": "Semaine 1, jours 1 à 3, oublie le catalogue de 15 produits. Définis une seule pièce forte ou une seule offre irrésistible.",
+        "avatar": "thinking",
+        "badge": "SEMAINE 1 • FONDATIONS",
+        "showShorts": False,
+        "tag": "Semaine 1 • Jours 1 à 3",
+        "title": "Une seule pièce forte, <span class=\"em\">une seule offre irrésistible.</span>",
+        "desc": "Oublier le catalogue de quinze produits, cibler un besoin précis et urgent.",
+        "cards": [
+            {"title": "🎯 Une seule offre clé", "text": "Un produit phare ou une prestation de service à forte valeur ajoutée.", "type": "highlight"},
+            {"title": "✂️ Zéro éparpillement", "text": "Concentrer 100% de sa force de frappe sur une proposition unique.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-8",
+        "start": 152.41,
+        "end": 174.75,
+        "caption": "Semaine 1, jours 4 à 7, va sur le terrain en Martinique. Contacte 20 personnes cibles via WhatsApp et valide l'intérêt avant tout stock.",
+        "avatar": "boss",
+        "badge": "SEMAINE 1 • TERRAIN DIRECT",
+        "showShorts": False,
+        "tag": "Semaine 1 • Jours 4 à 7",
+        "title": "Terrain en Martinique, <span class=\"em\">confronter 20 personnes cibles.</span>",
+        "desc": "Via WhatsApp, le réseau local ou en direct, valider l'intérêt avant de dépenser 1 centime.",
+        "cards": [
+            {"title": "📱 20 contacts qualifiés", "text": "Présenter son prototype ou son offre test directement à des prospects réels.", "type": "highlight"},
+            {"title": "🛡️ Zéro centime en stock", "text": "Écouter les retours et valider la demande avant toute commande fournisseur.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-9",
+        "start": 175.0,
+        "end": 190.91,
+        "caption": "Semaine 2, jours 8 à 10, lance les précommandes fermes avec une offre de lancement. Encaisse les règlements avant de produire.",
+        "avatar": "boss",
+        "badge": "SEMAINE 2 • PRÉCOMMANDES",
+        "showShorts": False,
+        "tag": "Semaine 2 • Jours 8 à 10",
+        "title": "Précommandes fermes, <span class=\"em\">encaisser avant de produire.</span>",
+        "desc": "Lancer une offre de lancement exclusive et sécuriser les premiers règlements.",
+        "cards": [
+            {"title": "💳 Encaissement immédiat", "text": "Faire financer la production par les précommandes des premiers clients.", "type": "highlight"},
+            {"title": "💎 Offre de lancement exclusive", "text": "Créer l'urgence avec un avantage privilégié pour les premiers acheteurs.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-10",
+        "start": 191.16,
+        "end": 201.43,
+        "caption": "Semaine 2, jours 11 à 14, documente les retours des premiers acheteurs avec des vidéos courtes pour créer la preuve sociale locale.",
+        "avatar": "boss",
+        "badge": "SEMAINE 2 • PREUVE SOCIALE",
+        "showShorts": False,
+        "tag": "Semaine 2 • Jours 11 à 14",
+        "title": "Documenter les retours, <span class=\"em\">preuve sociale locale.</span>",
+        "desc": "Des vidéos courtes sur les réseaux sociaux pour montrer les premiers clients satisfaits.",
+        "cards": [
+            {"title": "🎥 Preuve sociale locale", "text": "Partager les avis et réactions réelles pour déclencher un bouche-à-oreille puissant.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-11",
+        "start": 201.68,
+        "end": 212.07,
+        "caption": "En quatorze jours chrono, ton marché est validé, tes premiers fonds sont encaissés et tu sais où concentrer ton énergie.",
+        "avatar": "boss",
+        "badge": "14 JOURS CHRONO",
+        "showShorts": False,
+        "tag": "Bilan 14 jours chrono",
+        "title": "Marché validé, <span class=\"em\">trésorerie en sécurité.</span>",
+        "desc": "En 14 jours, tes fonds sont encaissés et tu sais sur quels 20% concentrer ton énergie.",
+        "cards": [
+            {"title": "🏆 Validation réussie", "text": "Des clients réels ont payé sans que tu n'aies pris le moindre risque financier.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-12",
+        "start": 212.32,
+        "end": 232.13,
+        "caption": "Pour avancer en toute autonomie, fais ton diagnostic gratuit avec l'Anamnèse clinique sur www.domtomconnect.com.",
+        "avatar": "boss",
+        "badge": "ANAMNÈSE CLINIQUE",
+        "showShorts": False,
+        "tag": "Accompagnement Domtom Connect",
+        "title": "Diagnostic gratuit, <span class=\"em\">l'Anamnèse clinique.</span>",
+        "desc": "Identifie gratuitement tes freins et tes leviers de croissance sur www.domtomconnect.com.",
+        "cards": [
+            {"title": "🩺 L'Anamnèse clinique", "text": "Un outil lead magnet gratuit de diagnostic des problématiques d'entreprise.", "type": "highlight"},
+            {"title": "🌐 Diagnostic gratuit", "text": "Disponible en ligne à tout moment sur www.domtomconnect.com.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-13",
+        "start": 232.38,
+        "end": 241.86,
+        "caption": "Nous avons aussi conçu un ebook interactif complet qui te guide pas à pas dans toutes les étapes opérationnelles.",
+        "avatar": "thinking",
+        "badge": "EBOOK INTERACTIF",
+        "showShorts": False,
+        "tag": "Pour avancer en autonomie",
+        "title": "L'Ebook interactif, <span class=\"em\">ton guide opérationnel.</span>",
+        "desc": "Un guide complet pour les porteurs de projets qui travaillent sur leur lancement.",
+        "cards": [
+            {"title": "📖 Ebook pas à pas", "text": "Toutes les étapes opérationnelles et stratégiques pour réussir son démarrage.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-14",
+        "start": 242.11,
+        "end": 260.27,
+        "caption": "Si tu veux un accompagnement direct sur le terrain, le Programme Tremplin propose suivi One-to-One et copilotage opérationnel direct.",
+        "avatar": "boss",
+        "badge": "PROGRAMME TREMPLIN 360°",
+        "showShorts": False,
+        "tag": "Accompagnement intensif",
+        "title": "Le Programme Tremplin, <span class=\"em\">copilotage opérationnel direct.</span>",
+        "desc": "Suivi One-to-One pour déléguer les tâches chronophages et te concentrer sur ta zone de génie.",
+        "cards": [
+            {"title": "🎯 Suivi One-to-One", "text": "Accompagnement individuel à 360 degrés adapté à tes réalités d'exploitation.", "type": "highlight"},
+            {"title": "🚀 Copilotage business", "text": "Structurer ton organisation pour générer du chiffre d'affaires sereinement.", "type": "highlight"}
+        ]
+    },
+    {
+        "id": "beat-15",
+        "start": 260.52,
+        "end": 274.82,
+        "caption": "Rejoins notre réseau business actif sur WhatsApp et notre application propriétaire DTC Pulse, actuellement en bêta fermée.",
+        "avatar": "boss",
+        "badge": "TECH & RÉSEAU D'AFFAIRES",
+        "showShorts": False,
+        "tag": "Réseau et Tech",
+        "title": "Groupe WhatsApp actif <span class=\"em\">& DTC Pulse.</span>",
+        "desc": "Réseau business propriétaire fusionnant Uber Eats, TikTok et Amazon, en bêta fermée.",
+        "cards": [],
+        "isPulse": True
+    },
+    {
+        "id": "beat-16",
+        "start": 275.07,
+        "end": 300.72,
+        "caption": "Réserve ton échange direct de 30 minutes sur Calendly. Rendez-vous sur www.domtomconnect.com. Stay co.",
+        "avatar": "boss",
+        "badge": "CALENDLY & STAY CO.",
+        "showShorts": False,
+        "tag": "Passage à l'action",
+        "title": "Échange direct de <span class=\"em\">30 minutes sur Calendly.</span>",
+        "desc": "On analyse ta situation sans filtre et on voit si ça a du sens de collaborer ensemble.",
+        "cards": [
+            {"title": "📅 Lien Calendly officiel", "text": "calendly.com/domtomconnect/30min", "type": "highlight"},
+            {"title": "🌐 Plateforme officielle", "text": "www.domtomconnect.com", "type": "highlight"}
+        ],
+        "isFinal": True
+    }
+]
+
+print("Total beats:", len(beats_data))
+with open("scratch/beats_data_v4_8020.json", "w", encoding="utf-8") as f:
+    json.dump(beats_data, f, ensure_ascii=False, indent=2)
+print("Saved beats data.")

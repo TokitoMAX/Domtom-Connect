@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Miniature YouTube 16:9 • Domtom Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            background: #030605;
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 80px;
+            background-image: 
+                radial-gradient(circle at 75% 40%, rgba(0, 191, 166, 0.18) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        /* Ambient Glow */
+        .glow-orb {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: rgba(0, 191, 166, 0.16);
+            filter: blur(140px);
+            right: -100px;
+            top: 60px;
+            pointer-events: none;
+        }
+
+        /* Left Content Column */
+        .left-col {
+            max-width: 680px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 1.5px solid #00BFA6;
+            border-radius: 100px;
+            width: fit-content;
+        }
+
+        .brand-logo-img {
+            height: 20px;
+            width: auto;
+        }
+
+        .brand-text {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #00BFA6;
+        }
+
+        .headline {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 58px;
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.5px;
+            color: #FFFFFF;
+            text-wrap: balance;
+        }
+
+        .headline span.em {
+            color: #00BFA6;
+        }
+
+        .subtitle {
+            font-size: 21px;
+            font-weight: 600;
+            color: #9CA3AF;
+            line-height: 1.45;
+            max-width: 600px;
+        }
+
+        .chips-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .tag-chip {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #D1D5DB;
+        }
+
+        .tag-chip.accent {
+            background: rgba(0, 191, 166, 0.15);
+            border-color: rgba(0, 191, 166, 0.4);
+            color: #10B981;
+        }
+
+        /* Right Graphic Card */
+        .right-col {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-visual {
+            width: 420px;
+            background: rgba(10, 16, 14, 0.85);
+            border: 1px solid rgba(0, 191, 166, 0.4);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 191, 166, 0.2);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 12px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .card-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(0, 191, 166, 0.2);
+            border-radius: 6px;
+            color: #00BFA6;
+        }
+
+        .mockup-preview {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-grid {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stat-box {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 16px;
+            font-weight: 900;
+            color: #10B981;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: #9CA3AF;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-orb"></div>
+
+    <div class="left-col">
+        <div class="brand-pill">
+            <img src="../assets/images/logo-domtomconnect-white.png" class="brand-logo-img" alt="Domtom Connect">
+            <span class="brand-text">Domtom Connect</span>
+        </div>
+
+        <h1 class="headline">
+            Pourquoi doubler tes heures ne te rendra <span class="em">pas plus riche&nbsp;?</span>
+        </h1>
+
+        <p class="subtitle">
+            Les 3 croyances qui maintiennent les dirigeants de nos territoires sous l'eau.
+        </p>
+
+        <div class="chips-row">
+            <span class="tag-chip accent">Caraïbes</span>
+            <span class="tag-chip accent">Afrique</span>
+            <span class="tag-chip accent">Diaspora</span>
+            <span class="tag-chip">Terrain & Rentabilité</span>
+        </div>
+    </div>
+
+    <div class="right-col">
+        <div class="card-visual">
+            <div class="card-header">
+                <span class="card-title">Programme Tremplin 360°</span>
+                <span class="card-badge">Copilotage</span>
+            </div>
+            <img src="../assets/images/business-suite-mockup.png" class="mockup-preview" alt="Domtom Connect">
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-val">+ Marges</div>
+                    <div class="stat-lbl">Offres clarifiées</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">- 80%</div>
+                    <div class="stat-lbl">Chronophage délégué</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

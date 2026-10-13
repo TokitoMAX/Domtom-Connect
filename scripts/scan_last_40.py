@@ -1,72 +1,41 @@
-import imaplib
-import email
+import imaplib, email, sys
 from email.header import decode_header
-import sys
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-EMAIL_ACCOUNT = "domtomconnect@gmail.com"
-APP_PASSWORD = "geqpuqluimxdjxeo"
+def decode_str(s):
+    if not s: return ''
+    decoded = decode_header(s)
+    res = []
+    for text, enc in decoded:
+        if isinstance(text, bytes): res.append(text.decode(enc or 'utf-8', errors='ignore'))
+        else: res.append(str(text))
+    return ''.join(res)
 
-def decode_mime(header_val):
-    if not header_val:
-        return ""
-    decoded_parts = decode_header(header_val)
-    res = ""
-    for part, enc in decoded_parts:
-        if isinstance(part, bytes):
-            res += part.decode(enc or 'utf-8', errors='ignore')
-        else:
-            res += str(part)
-    return res
+mail = imaplib.IMAP4_SSL('imap.gmail.com')
+mail.login('domtomconnect@gmail.com', 'geqpuqluimxdjxeo')
+mail.select('INBOX')
 
-def get_body(msg):
-    text = ""
-    if msg.is_multipart():
-        for part in msg.walk():
-            ctype = part.get_content_type()
-            cdispo = str(part.get('Content-Disposition'))
-            if ctype == 'text/plain' and 'attachment' not in cdispo:
-                payload = part.get_payload(decode=True)
-                if payload:
-                    text += payload.decode('utf-8', errors='ignore')
-            elif ctype == 'text/html' and not text and 'attachment' not in cdispo:
-                payload = part.get_payload(decode=True)
-                if payload:
-                    text += payload.decode('utf-8', errors='ignore')
-    else:
-        payload = msg.get_payload(decode=True)
-        if payload:
-            text = payload.decode('utf-8', errors='ignore')
-    return text
+status, data = mail.search(None, 'ALL')
+ids = data[0].split()
 
-def main():
-    mail = imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(EMAIL_ACCOUNT, APP_PASSWORD)
-    mail.select("INBOX")
+print(f"Total messages in INBOX: {len(ids)}")
+# Inspect last 60
+recent_ids = ids[-60:]
 
-    status, search_data = mail.search(None, 'ALL')
-    msg_ids = search_data[0].split()
+print("=== SCAN DES 60 DERNIERS MESSAGES ===")
+for mid in reversed(recent_ids):
+    s, d = mail.fetch(mid, '(BODY.PEEK[HEADER.FIELDS (FROM TO SUBJECT DATE MESSAGE-ID)])')
+    msg = email.message_from_bytes(d[0][1])
+    sender = decode_str(msg.get('From', ''))
+    subj = decode_str(msg.get('Subject', ''))
+    date = msg.get('Date', '')
     
-    # Check the last 40 messages headers
-    last_ids = msg_ids[-40:]
-    print(f"Scanning {len(last_ids)} latest messages...")
+    sender_l = sender.lower()
+    # Filter out obvious newsletters
+    if any(k in sender_l for k in ['skool', 'instagram', 'tiktok', 'openai', 'zapier', 'womanbusinesspassion', 'libertywebi', 'entrepreneurs.com', 'supabase', 'barnes', 'paypal', 'natiye.fr', 'google.com']):
+        continue
+    print(f"[{mid.decode()}] {date} | DE: {sender} | SUJET: {subj}")
 
-    for m_id in reversed(last_ids):
-        status, fetch_data = mail.fetch(m_id, '(BODY.PEEK[HEADER.FIELDS (FROM SUBJECT DATE)])')
-        raw_header = fetch_data[0][1]
-        msg = email.message_from_bytes(raw_header)
-        sender = decode_mime(msg.get("From", ""))
-        subject = decode_mime(msg.get("Subject", ""))
-        date_str = msg.get("Date", "")
-        
-        # Is it a reply or from a human lead?
-        is_lead_reply = ("Re:" in subject or "RE:" in subject or "re:" in subject) and "mailer-daemon" not in sender.lower() and "google" not in sender.lower() and "corentincailleau" not in sender.lower()
-        
-        tag = "[LEAD REPLY!]" if is_lead_reply else ""
-        print(f"ID: {m_id.decode('ascii')} | {date_str} | {sender} | {subject} {tag}")
-
-    mail.logout()
-
-if __name__ == "__main__":
-    main()
+mail.close()
+mail.logout()

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domtom Connect • Cours de Marketing #1 • L'Offre Irrésistible</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #030705;
+            --emerald: #00BFA6;
+            --emerald-bright: #10B981;
+            --emerald-glow: rgba(0, 191, 166, 0.45);
+            --red: #EF4444;
+            --red-glow: rgba(239, 68, 68, 0.5);
+            --amber: #F59E0B;
+            --yellow: #FACC15;
+            --blue: #3B82F6;
+            --white: #FFFFFF;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000000;
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #020403;
+            position: relative;
+        }
+
+        .screen-canvas {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 36px 24px 28px;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 25%, #071711 0%, #030605 70%, #000000 100%);
+            transition: background 0.4s ease;
+        }
+
+        body.mode-9-16 .screen-canvas {
+            max-width: 540px;
+            height: 960px;
+            border-radius: 20px;
+            box-shadow: 0 0 80px rgba(0, 191, 166, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .ambient-light {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(130px);
+            z-index: 1;
+            transition: all 0.5s ease;
+        }
+
+        .ambient-light-1 {
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 520px;
+            height: 520px;
+            background: var(--emerald-glow);
+        }
+
+        .ambient-light-2 {
+            bottom: -90px;
+            right: -90px;
+            width: 440px;
+            height: 440px;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
+            background-size: 32px 32px;
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--emerald), var(--emerald-bright));
+            box-shadow: 0 0 12px var(--emerald-bright);
+            transition: width 0.08s linear;
+        }
+
+        .header-bar {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 8px 16px;
+            border-radius: 100px;
+        }
+
+        .brand-badge img {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+        }
+
+        .brand-badge span {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            color: var(--white);
+            text-transform: uppercase;
+        }
+
+        .live-tag {
+            padding: 6px 14px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 1px solid var(--emerald);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            color: var(--emerald);
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .live-tag.danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .avatar-stage {
+            position: relative;
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 6px;
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 165px;
+            height: 165px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, var(--emerald), #059669);
+            box-shadow: 0 0 35px var(--emerald-glow);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: floatBob 3.2s ease-in-out infinite;
+        }
+
+        @keyframes floatBob {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.02); }
+        }
+
+        .avatar-frame.shocked {
+            background: linear-gradient(135deg, #EF4444, #F59E0B);
+            box-shadow: 0 0 45px var(--red-glow);
+            animation: shockJitter 0.25s ease infinite alternate;
+        }
+
+        @keyframes shockJitter {
+            0% { transform: translate(-2px, -1px) scale(1.02); }
+            100% { transform: translate(2px, 1px) scale(1.03); }
+        }
+
+        .avatar-frame.boss {
+            background: linear-gradient(135deg, #00BFA6, #3B82F6, #10B981);
+            box-shadow: 0 0 50px rgba(0, 191, 166, 0.6);
+            animation: floatBob 3s ease-in-out infinite;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #000;
+            border: 3px solid #000;
+            display: block;
+        }
+
+        .avatar-tag {
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 100px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            backdrop-filter: blur(8px);
+        }
+
+        .kinetic-stage {
+            flex: 1;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 50;
+            padding: 8px 10px;
+            min-height: 250px;
+        }
+
+        .kinetic-words {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            line-height: 1.14;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 12px;
+            text-wrap: balance;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+            transform: scale(1);
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .kinetic-words .hl-yellow {
+            color: var(--yellow);
+            text-shadow: 0 0 20px rgba(250, 204, 21, 0.65);
+        }
+
+        .kinetic-words .hl-green {
+            color: var(--emerald-bright);
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.65);
+        }
+
+        .kinetic-words .hl-red {
+            color: var(--red);
+            text-shadow: 0 0 25px rgba(239, 68, 68, 0.85);
+        }
+
+        .kinetic-sub {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--gray-300);
+            line-height: 1.4;
+            max-width: 420px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 14px;
+        }
+
+        .prop-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+            margin-top: 4px;
+        }
+
+        .badge-pill-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .badge-pill {
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .badge-pill.danger {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--red);
+            color: #FCA5A5;
+        }
+
+        .badge-pill.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--emerald-bright);
+            color: #6EE7B7;
+        }
+
+        .badge-pill.warning {
+            background: rgba(245, 158, 11, 0.2);
+            border: 2px solid var(--amber);
+            color: #FCD34D;
+        }
+
+        .badge-pill.blue {
+            background: rgba(59, 130, 246, 0.2);
+            border: 2px solid var(--blue);
+            color: #93C5FD;
+        }
+
+        .stamp-box {
+            border: 3px solid var(--red);
+            padding: 10px 22px;
+            border-radius: 12px;
+            color: var(--red);
+            font-size: 21px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background: rgba(239, 68, 68, 0.15);
+            transform: rotate(-2deg);
+            box-shadow: 0 0 30px var(--red-glow);
+            animation: stampSmash 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        @keyframes stampSmash {
+            0% { transform: scale(1.8) rotate(10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(-2deg); opacity: 1; }
+        }
+
+        .footer-bar {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-action {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--emerald);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-url {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        .controls-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(14px);
+            padding: 8px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .ctrl-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            padding: 7px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: var(--emerald);
+            color: #000;
+        }
+
+        .ctrl-btn.active {
+            background: var(--emerald);
+            color: #000;
+        }
+
+        body.recording .controls-panel {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="mode-9-16">
+
+<div class="video-wrapper">
+    <div class="screen-canvas" id="canvas">
+        <div class="progress-bar-container" id="timelineBar">
+            <div class="progress-bar-fill" id="timelineFill"></div>
+        </div>
+
+        <div class="ambient-light ambient-light-1" id="ambientLight"></div>
+        <div class="ambient-light ambient-light-2"></div>
+        <div class="bg-grid"></div>
+
+        <!-- Top Header -->
+        <div class="header-bar">
+            <div class="brand-badge">
+                <img src="assets/images/logo-domtomconnect-white.png" alt="Logo DTC">
+                <span>DOMTOM CONNECT</span>
+            </div>
+            <div class="live-tag" id="beatTag">
+                <span>COURS DE MARKETING #1</span>
+            </div>
+        </div>
+
+        <!-- Avatar Stage -->
+        <div class="avatar-stage">
+            <div class="avatar-frame" id="avatarFrame">
+                <img src="assets/images/loic_avatar_boss.jpg" alt="Loïc Cartoon Avatar" class="avatar-img" id="avatarImg">
+            </div>
+            <div class="avatar-tag" id="avatarTag">LOÏC VILLERONCE</div>
+        </div>
+
+        <!-- Kinetic Typography Stage -->
+        <div class="kinetic-stage">
+            <div class="kinetic-words" id="kineticWords">
+                ARRÊTE DE TE FAIRE <span class="hl-red">NÉGOCIER TES PRIX</span>
+            </div>
+            <div class="kinetic-sub" id="kineticSub">
+                Le secret marketing pour vendre la valeur, pas tes heures
+            </div>
+
+            <!-- Dynamic Minimalist Props -->
+            <div class="prop-container" id="propContainer">
+                <div class="badge-pill danger">STOP AUX RABAIS</div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer -->
+        <div class="footer-bar">
+            <div class="footer-action">
+                <span>L'OFFRE IRRÉSISTIBLE</span>
+            </div>
+            <div class="footer-url" id="footerCta">
+                www.domtomconnect.com
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Controls -->
+<div class="controls-panel">
+    <button class="ctrl-btn active" id="playBtn">▶ Lancer</button>
+    <button class="ctrl-btn" id="formatBtn">📱 Mode 9:16</button>
+    <button class="ctrl-btn" id="restartBtn">↺ Recommencer</button>
+    <span style="display:flex; align-items:center; font-size:12px; color:var(--gray-400); margin-left:6px;" id="timeDisplay">0:00 / 1:26</span>
+</div>
+
+<!-- Real Voice Audio of Loïc -->
+<audio id="masterAudio" src="assets/audio/cours_marketing_01_master.mp3" preload="auto"></audio>
+
+<script>
+// --- MASTER TIMELINE FOR COURS MARKETING #1 (86.6s) ---
+const BEATS = [
+  // 1. Accroche directe (0.0s - 3.8s)
+  {
+    start: 0.0,
+    end: 3.8,
+    avatar: 'boss',
+    tag: 'COURS DE MARKETING #1',
+    avatarTag: 'CONSEIL DIRIGEANT',
+    words: 'ARRÊTE DE TE FAIRE <span class="hl-red">NÉGOCIER TES PRIX</span>',
+    sub: 'Le premier blocage de quatre-vingt-dix pour cent des entrepreneurs',
+    props: `<div class="stamp-box">STOP AUX RABAIS</div>`,
+    color: '#EF4444'
+  },
+  // 2. Le constat devis (3.8s - 8.5s)
+  {
+    start: 3.8,
+    end: 8.5,
+    avatar: 'thinking',
+    tag: 'RÉALITÉ DU MARCHÉ',
+    avatarTag: 'ANALYSE DU PROBLÈME',
+    words: 'SI TES CLIENTS DISCUTENT <span class="hl-yellow">CHAQUE EURO</span> SUR TES DEVIS',
+    sub: 'Le problème ne vient pas de tes tarifs, il vient de ton offre',
+    props: `<div class="badge-pill warning">LE PROBLÈME : TON OFFRE</div>`,
+    color: '#F59E0B'
+  },
+  // 3. L'erreur des 90% (8.5s - 15.5s)
+  {
+    start: 8.5,
+    end: 15.5,
+    avatar: 'shocked',
+    tag: 'ERREUR FATALE',
+    avatarTag: 'L\'ERREUR CLASSIQUE',
+    words: 'QUATRE-VINGT-DIX POUR CENT <span class="hl-red">VENDENT DES HEURES</span>',
+    sub: 'Ou de la compétence technique brute',
+    props: `<div class="badge-pill danger">VENDRE DU TEMPS = PIÈGE</div>`,
+    color: '#EF4444'
+  },
+  // 4. L'explication (15.5s - 24.5s)
+  {
+    start: 15.5,
+    end: 24.5,
+    avatar: 'thinking',
+    tag: 'CE QUE DIT LE CLIENT',
+    avatarTag: 'VENTE DE TECHNIQUE',
+    words: 'JE FAIS DU CONSEIL, DES SITES WEB, <span class="hl-yellow">DES JOURS DE PRESTATION</span>',
+    sub: 'Résultat, le client compare immédiatement ton prix avec le voisin',
+    props: `<div class="badge-pill warning">PRESTATION BANALE</div>`,
+    color: '#F59E0B'
+  },
+  // 5. Le STOP (24.5s - 32.5s)
+  {
+    start: 24.5,
+    end: 32.5,
+    avatar: 'boss',
+    tag: 'RUPTURE MARKETING',
+    avatarTag: 'VÉRITÉ FONDAMENTALE',
+    words: '<span class="hl-red">STOP.</span> PERSONNE NE VEUT ACHETER DES HEURES',
+    sub: 'Ce que ton client veut acheter, c\'est un résultat concret',
+    props: `<div class="badge-pill success">ACHETER UN RÉSULTAT</div>`,
+    color: '#10B981'
+  },
+  // 6. Les 3 leviers intro (32.5s - 39.5s)
+  {
+    start: 32.5,
+    end: 39.5,
+    avatar: 'boss',
+    tag: 'LA FORMULE',
+    avatarTag: 'L\'OFFRE IRRÉSISTIBLE',
+    words: 'TRANSFORMER TA PRESTATION EN <span class="hl-green">OFFRE IRRÉSISTIBLE</span>',
+    sub: 'Tu dois réunir trois leviers précis',
+    props: `
+      <div class="badge-pill-row">
+        <div class="badge-pill success">LEVIER 1</div>
+        <div class="badge-pill success">LEVIER 2</div>
+        <div class="badge-pill success">LEVIER 3</div>
+      </div>
+    `,
+    color: '#00BFA6'
+  },
+  // 7. Levier 1 : Résultat mesurable (39.5s - 49.0s)
+  {
+    start: 39.5,
+    end: 49.0,
+    avatar: 'boss',
+    tag: 'LEVIER N°1',
+    avatarTag: 'PROMESSE PRÉCISE',
+    words: 'PREMIER LEVIER : <span class="hl-green">RÉSULTAT MESURABLE</span>',
+    sub: 'Ne vends pas de la gestion de réseaux, vends dix demandes de devis par mois',
+    props: `<div class="badge-pill success">RÉSULTAT CHIFFRÉ & CLAIR</div>`,
+    color: '#10B981'
+  },
+  // 8. Levier 2 : Délai ferme (49.0s - 55.0s)
+  {
+    start: 49.0,
+    end: 55.0,
+    avatar: 'boss',
+    tag: 'LEVIER N°2',
+    avatarTag: 'ENGAGEMENT DANS LE TEMPS',
+    words: 'DEUXIÈME LEVIER : <span class="hl-yellow">UN DÉLAI FERME</span>',
+    sub: 'Ton client doit savoir exactement quand son problème sera réglé',
+    props: `<div class="badge-pill warning">DÉLAI DE LIVRAISON FIXE</div>`,
+    color: '#F59E0B'
+  },
+  // 9. Levier 3 : Zéro risque (55.0s - 63.5s)
+  {
+    start: 55.0,
+    end: 63.5,
+    avatar: 'boss',
+    tag: 'LEVIER N°3',
+    avatarTag: 'ÉLIMINER LE DOUTE',
+    words: 'TROISIÈME LEVIER : <span class="hl-green">ZÉRO RISQUE</span>',
+    sub: 'Mets une garantie claire qui prouve la valeur de ton engagement',
+    props: `<div class="badge-pill success">GARANTIE DE RÉSULTAT</div>`,
+    color: '#00BFA6'
+  },
+  // 10. La conclusion du principe (63.5s - 70.0s)
+  {
+    start: 63.5,
+    end: 70.0,
+    avatar: 'boss',
+    tag: 'RÉSULTAT FINAL',
+    avatarTag: 'FIN DE LA NÉGOCIATION',
+    words: 'LE CLIENT NE COMPARE PLUS, <span class="hl-green">IL ACHÈTE LA SOLUTION</span>',
+    sub: 'Et c\'est tout.',
+    props: `<div class="badge-pill success">VALEUR PERÇUE MAXIMALE</div>`,
+    color: '#10B981'
+  },
+  // 11. CTA Domtom Connect (70.0s - 79.5s)
+  {
+    start: 70.0,
+    end: 79.5,
+    avatar: 'boss',
+    tag: 'ACCOMPAGNEMENT',
+    avatarTag: 'PASSER À L\'ACTION',
+    words: 'STRUCTURE TES OFFRES AVEC <span class="hl-green">L\'ANAMNÈSE CLINIQUE</span>',
+    sub: 'Diagnostic gratuit en libre accès sur notre site officiel',
+    props: `<div class="badge-pill success">WWW.DOMTOMCONNECT.COM</div>`,
+    color: '#00BFA6'
+  },
+  // 12. Calendly + Stay co (79.5s - 86.6s)
+  {
+    start: 79.5,
+    end: 86.6,
+    avatar: 'boss',
+    tag: 'SIGNATURE OFFICIELLE',
+    avatarTag: 'STAY CO.',
+    words: 'RÉSERVE TON APPEL DE 30 MINUTES. <span class="hl-green">STAY CO.</span>',
+    sub: 'Loïc Villeronce • Domtom Connect',
+    props: `<div class="stamp-box" style="border-color:var(--emerald); color:var(--emerald); box-shadow:0 0 35px var(--emerald-glow);">STAY CO.</div>`,
+    color: '#00BFA6'
+  }
+];
+
+const audio = document.getElementById('masterAudio');
+const playBtn = document.getElementById('playBtn');
+const formatBtn = document.getElementById('formatBtn');
+const restartBtn = document.getElementById('restartBtn');
+const timeDisplay = document.getElementById('timeDisplay');
+const timelineFill = document.getElementById('timelineFill');
+const timelineBar = document.getElementById('timelineBar');
+
+const avatarImg = document.getElementById('avatarImg');
+const avatarFrame = document.getElementById('avatarFrame');
+const avatarTag = document.getElementById('avatarTag');
+const beatTag = document.getElementById('beatTag');
+const kineticWords = document.getElementById('kineticWords');
+const kineticSub = document.getElementById('kineticSub');
+const propContainer = document.getElementById('propContainer');
+const ambientLight = document.getElementById('ambientLight');
+const footerCta = document.getElementById('footerCta');
+
+const avatarImages = {
+  thinking: 'assets/images/loic_avatar_thinking.jpg',
+  shocked: 'assets/images/loic_avatar_shocked.jpg',
+  boss: 'assets/images/loic_avatar_boss.jpg'
+};
+
+let currentBeatIndex = -1;
+const currentTotal = 86.6;
+
+function updateBeat(time) {
+  const beatIndex = BEATS.findIndex(b => time >= b.start && time < b.end);
+  const activeBeat = beatIndex !== -1 ? BEATS[beatIndex] : BEATS[BEATS.length - 1];
+
+  const pct = Math.min(100, (time / currentTotal) * 100);
+  timelineFill.style.width = pct + '%';
+
+  const curM = Math.floor(time / 60);
+  const curS = Math.floor(time % 60).toString().padStart(2, '0');
+  const totM = Math.floor(currentTotal / 60);
+  const totS = Math.floor(currentTotal % 60).toString().padStart(2, '0');
+  timeDisplay.innerText = `${curM}:${curS} / ${totM}:${totS}`;
+
+  if (beatIndex !== currentBeatIndex && activeBeat) {
+    currentBeatIndex = beatIndex;
+
+    avatarImg.src = avatarImages[activeBeat.avatar] || avatarImages.boss;
+    avatarFrame.className = 'avatar-frame ' + activeBeat.avatar;
+    avatarTag.innerText = activeBeat.avatarTag;
+
+    beatTag.innerHTML = `<span>${activeBeat.tag}</span>`;
+    beatTag.className = 'live-tag ' + (activeBeat.color === '#EF4444' || activeBeat.color === '#DC2626' ? 'danger' : '');
+
+    kineticWords.style.transform = 'scale(0.93)';
+    kineticWords.style.opacity = '0.7';
+    setTimeout(() => {
+      kineticWords.innerHTML = activeBeat.words;
+      kineticWords.style.transform = 'scale(1)';
+      kineticWords.style.opacity = '1';
+    }, 40);
+
+    kineticSub.innerText = activeBeat.sub;
+    propContainer.innerHTML = activeBeat.props;
+
+    ambientLight.style.background = activeBeat.color === '#EF4444' || activeBeat.color === '#DC2626' 
+      ? 'rgba(239, 68, 68, 0.45)' 
+      : (activeBeat.color === '#3B82F6' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(0, 191, 166, 0.4)');
+
+    if (time >= 70.0 && time < 79.5) {
+      footerCta.innerText = 'www.domtomconnect.com';
+    } else if (time >= 79.5) {
+      footerCta.innerText = 'calendly.com/domtomconnect/30min';
+    } else {
+      footerCta.innerText = 'Domtom Connect • Marketing Stratégique';
+    }
+  }
+}
+
+audio.addEventListener('timeupdate', () => {
+  updateBeat(audio.currentTime);
+});
+
+playBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    playBtn.innerText = '⏸ Pause';
+  } else {
+    audio.pause();
+    playBtn.innerText = '▶ Lancer';
+  }
+});
+
+restartBtn.addEventListener('click', () => {
+  audio.currentTime = 0;
+  audio.play();
+  playBtn.innerText = '⏸ Pause';
+  updateBeat(0);
+});
+
+formatBtn.addEventListener('click', () => {
+  if (document.body.classList.contains('mode-9-16')) {
+    document.body.classList.remove('mode-9-16');
+    formatBtn.innerText = '🖥️ Mode 16:9';
+  } else {
+    document.body.classList.add('mode-9-16');
+    formatBtn.innerText = '📱 Mode 9:16';
+  }
+});
+
+timelineBar.addEventListener('click', (e) => {
+  const rect = timelineBar.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+  audio.currentTime = ratio * currentTotal;
+  updateBeat(audio.currentTime);
+});
+
+if (new URLSearchParams(window.location.search).has('record')) {
+  document.body.classList.add('recording');
+}
+
+updateBeat(0);
+</script>
+</body>
+</html>

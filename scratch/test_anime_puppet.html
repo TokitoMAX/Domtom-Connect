@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Anime Character Rig - Loïc Villeronce</title>
+    <style>
+        body {
+            margin: 0;
+            background: #060e12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        .stage {
+            position: relative;
+            width: 1000px;
+            height: 600px;
+            background: radial-gradient(circle at 50% 30%, #0e222a 0%, #050d11 60%, #020507 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 191, 166, 0.3);
+        }
+
+        /* Anime Speedlines background */
+        .speedlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-conic-gradient(from 0deg, transparent 0deg 8deg, rgba(0, 191, 166, 0.03) 8deg 10deg);
+            pointer-events: none;
+            animation: spinLines 30s linear infinite;
+        }
+        @keyframes spinLines {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 3D Floor Grid */
+        .floor-grid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background-image: 
+                linear-gradient(rgba(0, 191, 166, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 191, 166, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(600px) rotateX(60deg);
+            transform-origin: bottom center;
+            -webkit-mask-image: linear-gradient(to top, black 0%, transparent 85%);
+        }
+
+        /* Character Anchor */
+        .anime-character {
+            position: absolute;
+            bottom: 40px;
+            left: 200px;
+            width: 220px;
+            height: 480px;
+            z-index: 10;
+            transition: left 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Hologram Floor Podium */
+        .podium-glow {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 191, 166, 0.6);
+            background: radial-gradient(ellipse, rgba(0, 191, 166, 0.4) 0%, transparent 75%);
+            box-shadow: 0 0 25px rgba(0, 191, 166, 0.5);
+            animation: pulsePodium 2.5s infinite alternate ease-in-out;
+        }
+        @keyframes pulsePodium {
+            0% { transform: translateX(-50%) scale(0.95); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+        }
+
+        /* SKELETAL RIGGED ANIME PUPPET */
+        .rig-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Torso */
+        .rig-torso {
+            position: absolute;
+            top: 140px;
+            left: 70px;
+            width: 80px;
+            height: 130px;
+            transform-origin: center bottom;
+            animation: torsoBreathe 3s ease-in-out infinite;
+        }
+        @keyframes torsoBreathe {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.02); }
+        }
+
+        /* Head */
+        .rig-head {
+            position: absolute;
+            top: -100px;
+            left: 5px;
+            width: 70px;
+            height: 95px;
+            transform-origin: center bottom;
+            animation: headIdle 4s ease-in-out infinite;
+        }
+        @keyframes headIdle {
+            0%, 100% { transform: rotate(0deg); }
+            35% { transform: rotate(2deg); }
+            70% { transform: rotate(-1.5deg); }
+        }
+
+        /* Face details: Eyes & Mouth */
+        .eye {
+            position: absolute;
+            top: 42px;
+            width: 12px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 50%;
+            border: 2px solid #1a1a1a;
+            overflow: hidden;
+        }
+        .eye::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 7px;
+            height: 9px;
+            background: #2b1810;
+            border-radius: 50%;
+        }
+        .eye.eye-left { left: 16px; }
+        .eye.eye-right { right: 16px; }
+
+        /* Anime Blinking */
+        .eyelid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4986a;
+            transform-origin: top center;
+            transform: scaleY(0);
+            animation: animeBlink 3.8s infinite;
+        }
+        @keyframes animeBlink {
+            0%, 93%, 100% { transform: scaleY(0); }
+            95%, 97% { transform: scaleY(1); }
+        }
+
+        /* Anime Mouth (Talking) */
+        .mouth {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 4px;
+            background: #802b2b;
+            border-radius: 2px 2px 8px 8px;
+            border: 1px solid #331111;
+            animation: mouthTalk 0.4s ease-in-out infinite alternate;
+        }
+        @keyframes mouthTalk {
+            0% { height: 3px; transform: translateX(-50%) scaleX(0.8); }
+            100% { height: 12px; transform: translateX(-50%) scaleX(1.1); }
+        }
+
+        /* Arms: Right Arm (Pointing / Presenting) */
+        .rig-arm-right {
+            position: absolute;
+            top: 10px;
+            right: -15px;
+            width: 25px;
+            height: 70px;
+            transform-origin: 12px 10px;
+            animation: armRightGesture 3s ease-in-out infinite;
+        }
+        .rig-forearm-right {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 24px;
+            height: 70px;
+            transform-origin: 12px 5px;
+            animation: forearmRightGesture 3s ease-in-out infinite;
+        }
+        .rig-hand-right {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 26px;
+            height: 30px;
+            transform-origin: 12px 5px;
+        }
+
+        @keyframes armRightGesture {
+            0%, 100% { transform: rotate(-25deg); }
+            50% { transform: rotate(-65deg); }
+        }
+        @keyframes forearmRightGesture {
+            0%, 100% { transform: rotate(20deg); }
+            50% { transform: rotate(45deg); }
+        }
+
+        /* Arms: Left Arm */
+        .rig-arm-left {
+            position: absolute;
+            top: 10px;
+            left: -15px;
+            width: 25px;
+            height: 70px;
+            transform-origin: 12px 10px;
+            animation: armLeftIdle 4s ease-in-out infinite;
+        }
+        .rig-forearm-left {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 24px;
+            height: 65px;
+            transform-origin: 12px 5px;
+            animation: forearmLeftIdle 4s ease-in-out infinite;
+        }
+        @keyframes armLeftIdle {
+            0%, 100% { transform: rotate(15deg); }
+            50% { transform: rotate(35deg); }
+        }
+        @keyframes forearmLeftIdle {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(-30deg); }
+        }
+
+        /* Legs & Walk Cycle */
+        .rig-pelvis {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 60px;
+            height: 25px;
+        }
+        .rig-leg-left {
+            position: absolute;
+            top: 25px;
+            left: 5px;
+            width: 24px;
+            height: 90px;
+            transform-origin: 12px 5px;
+        }
+        .rig-shin-left {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 22px;
+            height: 90px;
+            transform-origin: 11px 5px;
+        }
+        .rig-foot-left {
+            position: absolute;
+            top: 85px;
+            left: -4px;
+            width: 32px;
+            height: 20px;
+        }
+
+        .rig-leg-right {
+            position: absolute;
+            top: 25px;
+            right: 5px;
+            width: 24px;
+            height: 90px;
+            transform-origin: 12px 5px;
+        }
+        .rig-shin-right {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 22px;
+            height: 90px;
+            transform-origin: 11px 5px;
+        }
+        .rig-foot-right {
+            position: absolute;
+            top: 85px;
+            left: -4px;
+            width: 32px;
+            height: 20px;
+        }
+
+        /* SVG shapes coloring */
+        .skin { fill: #c68958; }
+        .skin-shadow { fill: #a86c3e; }
+        .hair { fill: #1c1512; }
+        .jacket { fill: #d4a373; stroke: #99683b; stroke-width: 2; }
+        .shirt { fill: #1f2421; }
+        .pants { fill: #181d20; stroke: #101315; stroke-width: 2; }
+        .sneakers { fill: #ffffff; stroke: #00bfa6; stroke-width: 2; }
+
+        /* Laser Pointer shooting from hand */
+        .laser-beam {
+            position: absolute;
+            top: 210px;
+            left: 280px;
+            width: 280px;
+            height: 4px;
+            background: linear-gradient(90deg, #00bfa6, rgba(0, 191, 166, 0.2));
+            box-shadow: 0 0 15px #00bfa6;
+            border-radius: 4px;
+            transform-origin: left center;
+            animation: laserPulse 1.5s infinite alternate;
+        }
+        @keyframes laserPulse {
+            0% { transform: scaleY(0.8) rotate(-4deg); opacity: 0.8; }
+            100% { transform: scaleY(1.3) rotate(-1deg); opacity: 1; }
+        }
+
+        /* Holographic Interactive Display on the right */
+        .holo-card {
+            position: absolute;
+            top: 120px;
+            right: 80px;
+            width: 380px;
+            background: rgba(10, 20, 24, 0.85);
+            border: 2px solid #00bfa6;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 0 35px rgba(0, 191, 166, 0.35);
+            animation: cardFloat 3s ease-in-out infinite alternate;
+        }
+        @keyframes cardFloat {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        .touch-ripple {
+            position: absolute;
+            top: 200px;
+            left: 560px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #00bfa6;
+            background: rgba(0, 191, 166, 0.4);
+            animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        @keyframes ping {
+            0% { transform: scale(0.6); opacity: 1; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+
+        .holo-title {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .holo-pct {
+            font-size: 54px;
+            font-weight: 900;
+            color: #00bfa6;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .holo-sub {
+            color: #9ca3af;
+            font-size: 13px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="stage">
+        <div class="speedlines"></div>
+        <div class="floor-grid"></div>
+
+        <!-- The Anime Rigged Character -->
+        <div class="anime-character" id="actor">
+            <div class="podium-glow"></div>
+
+            <div class="rig-container">
+                <!-- Torso -->
+                <div class="rig-torso">
+                    <svg viewBox="0 0 80 130" width="80" height="130">
+                        <!-- Jacket & Inner Shirt -->
+                        <path class="jacket" d="M15,10 L65,10 L75,120 L5,120 Z" />
+                        <path class="shirt" d="M30,10 L50,10 L45,60 L35,60 Z" />
+                        <!-- Collar -->
+                        <path fill="#b57a46" d="M15,10 L30,25 L35,10 Z" />
+                        <path fill="#b57a46" d="M65,10 L50,25 L45,10 Z" />
+                    </svg>
+
+                    <!-- Head attached to Torso -->
+                    <div class="rig-head">
+                        <svg viewBox="0 0 70 95" width="70" height="95">
+                            <!-- Neck -->
+                            <path class="skin-shadow" d="M25,75 L45,75 L42,95 L28,95 Z" />
+                            <!-- Face Base -->
+                            <path class="skin" d="M12,25 C12,10 58,10 58,25 C58,60 48,78 35,82 C22,78 12,60 12,25 Z" />
+                            <!-- Beard -->
+                            <path class="hair" d="M14,48 C14,75 22,83 35,85 C48,83 56,75 56,48 C52,56 46,62 35,62 C24,62 18,56 14,48 Z" />
+                            <!-- Ears -->
+                            <circle class="skin" cx="10" cy="40" r="6" />
+                            <circle class="skin" cx="60" cy="40" r="6" />
+                            <!-- Hair -->
+                            <path class="hair" d="M8,26 C8,5 62,5 62,26 C62,18 52,10 35,10 C18,10 8,18 8,26 Z" />
+                            <!-- Eyebrows -->
+                            <path stroke="#1c1512" stroke-width="3" stroke-linecap="round" d="M16,34 Q22,30 28,34" fill="none" />
+                            <path stroke="#1c1512" stroke-width="3" stroke-linecap="round" d="M42,34 Q48,30 54,34" fill="none" />
+                            <!-- Nose -->
+                            <path stroke="#a86c3e" stroke-width="2" stroke-linecap="round" d="M35,46 L33,54 L37,54" fill="none" />
+                        </svg>
+
+                        <!-- Anime Animated Eyes -->
+                        <div class="eye eye-left"><div class="eyelid"></div></div>
+                        <div class="eye eye-right"><div class="eyelid"></div></div>
+
+                        <!-- Animated Talking Mouth -->
+                        <div class="mouth"></div>
+                    </div>
+
+                    <!-- Right Arm (Pointing / Presenting) -->
+                    <div class="rig-arm-right">
+                        <svg viewBox="0 0 25 70" width="25" height="70">
+                            <rect class="jacket" x="2" y="2" width="20" height="65" rx="8" />
+                        </svg>
+                        <div class="rig-forearm-right">
+                            <svg viewBox="0 0 24 70" width="24" height="70">
+                                <rect class="jacket" x="2" y="2" width="19" height="60" rx="7" />
+                            </svg>
+                            <div class="rig-hand-right">
+                                <svg viewBox="0 0 26 30" width="26" height="30">
+                                    <!-- Pointing Hand -->
+                                    <path class="skin" d="M5,5 Q12,2 18,8 L24,20 Q20,28 10,25 Z" />
+                                    <!-- Extended Index Finger pointing right -->
+                                    <rect class="skin" x="14" y="6" width="10" height="5" rx="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Arm (Gesturing) -->
+                    <div class="rig-arm-left">
+                        <svg viewBox="0 0 25 70" width="25" height="70">
+                            <rect class="jacket" x="2" y="2" width="20" height="65" rx="8" />
+                        </svg>
+                        <div class="rig-forearm-left">
+                            <svg viewBox="0 0 24 65" width="24" height="65">
+                                <rect class="jacket" x="2" y="2" width="19" height="55" rx="7" />
+                            </svg>
+                            <div class="rig-hand-left">
+                                <svg viewBox="0 0 24 25" width="24" height="25">
+                                    <circle class="skin" cx="12" cy="12" r="9" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pelvis and Legs -->
+                    <div class="rig-pelvis">
+                        <svg viewBox="0 0 60 25" width="60" height="25">
+                            <rect class="pants" x="0" y="0" width="60" height="25" rx="4" />
+                        </svg>
+                        <!-- Left Leg -->
+                        <div class="rig-leg-left">
+                            <svg viewBox="0 0 24 90" width="24" height="90">
+                                <rect class="pants" x="2" y="0" width="20" height="85" rx="6" />
+                            </svg>
+                            <div class="rig-shin-left">
+                                <svg viewBox="0 0 22 90" width="22" height="90">
+                                    <rect class="pants" x="2" y="0" width="18" height="80" rx="5" />
+                                </svg>
+                                <div class="rig-foot-left">
+                                    <svg viewBox="0 0 32 20" width="32" height="20">
+                                        <rect class="sneakers" x="0" y="4" width="30" height="14" rx="5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Leg -->
+                        <div class="rig-leg-right">
+                            <svg viewBox="0 0 24 90" width="24" height="90">
+                                <rect class="pants" x="2" y="0" width="20" height="85" rx="6" />
+                            </svg>
+                            <div class="rig-shin-right">
+                                <svg viewBox="0 0 22 90" width="22" height="90">
+                                    <rect class="pants" x="2" y="0" width="18" height="80" rx="5" />
+                                </svg>
+                                <div class="rig-foot-right">
+                                    <svg viewBox="0 0 32 20" width="32" height="20">
+                                        <rect class="sneakers" x="0" y="4" width="30" height="14" rx="5" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laser Pointer shooting from Loïc's hand -->
+        <div class="laser-beam"></div>
+        <div class="touch-ripple"></div>
+
+        <!-- Holographic Interactive Screen -->
+        <div class="holo-card">
+            <div class="holo-title">LOI DU 80/20 EN MARTINIQUE</div>
+            <div class="holo-pct">80%</div>
+            <div class="holo-sub">ACTION MASSIVE SUR LE TERRAIN : VENDRE • LIVRER • VALIDER</div>
+        </div>
+    </div>
+</body>
+</html>

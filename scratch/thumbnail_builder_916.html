@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Thumbnail 9:16 Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            background: #000;
+            position: relative;
+            font-family: 'Cabinet Grotesk', sans-serif;
+        }
+
+        .bg-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            filter: contrast(1.1) brightness(0.85);
+        }
+
+        .scrim-bottom {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(3, 6, 5, 0.4) 0%, rgba(3, 6, 5, 0.7) 40%, rgba(3, 6, 5, 0.98) 85%);
+            z-index: 2;
+        }
+
+        .ambient-emerald {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: rgba(0, 191, 166, 0.25);
+            filter: blur(150px);
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .content {
+            position: absolute;
+            bottom: 160px;
+            left: 60px;
+            right: 60px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 28px;
+            background: rgba(0, 191, 166, 0.15);
+            border: 2px solid #00BFA6;
+            border-radius: 100px;
+            margin-bottom: 32px;
+            box-shadow: 0 0 35px rgba(0, 191, 166, 0.35);
+        }
+
+        .brand-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00BFA6;
+            box-shadow: 0 0 14px #00BFA6;
+        }
+
+        .brand-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+
+        .headline {
+            font-size: 88px;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            text-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            margin-bottom: 24px;
+        }
+
+        .headline .highlight {
+            color: #00BFA6;
+            display: block;
+            text-shadow: 0 0 50px rgba(0, 191, 166, 0.6);
+        }
+
+        .subline {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: #E5E7EB;
+            line-height: 1.35;
+            margin-bottom: 40px;
+            max-width: 820px;
+        }
+
+        .tag-badge {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            padding: 16px 44px;
+            background: #00BFA6;
+            color: #000;
+            border-radius: 100px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 30px rgba(0, 191, 166, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <img src="../assets/images/thumbnail_base.jpg" class="bg-img" alt="Background">
+    <div class="scrim-bottom"></div>
+    <div class="ambient-emerald"></div>
+
+    <div class="content">
+        <div class="brand-pill">
+            <div class="brand-dot"></div>
+            <div class="brand-text">DOMTOM CONNECT</div>
+        </div>
+        <h1 class="headline">
+            LE PIÈGE
+            <span class="highlight">DU DIRIGEANT</span>
+        </h1>
+        <p class="subline">Arrête de vouloir être un super-héros tout seul dans ton coin.</p>
+        <div class="tag-badge">STAY CO.</div>
+    </div>
+</body>
+</html>

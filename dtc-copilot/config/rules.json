@@ -1,0 +1,67 @@
+{
+  "founder": {
+    "name": "Loïc Villeronce",
+    "role": "Fondateur de Domtom Connect",
+    "phone": "+33 6 20 78 33 77",
+    "email": "domtomconnect@gmail.com",
+    "website": "www.domtomconnect.com",
+    "calendly_30min": "https://calendly.com/domtomconnect/30min"
+  },
+  "brand_identity": {
+    "organization": "Domtom Connect",
+    "definition": "Écosystème d'accompagnement ayant pour but d'aider les entreprises et porteurs de projets (Caraïbe, Afrique, diaspora) à structurer et développer leurs activités.",
+    "forbidden_terms": [
+      "communauté d'entraide",
+      "réseau de plus de 800 entreprises",
+      "nous avons des clients pour vous",
+      "nos membres recherchent vos services"
+    ],
+    "pillars": [
+      "Programme Tremplin : accompagnement 360 et copilotage opérationnel",
+      "Accompagnement One-to-One : suivi individuel direct",
+      "Copilotage opérationnel : structuration, délégation du chronophage pour se concentrer sur sa zone de génie",
+      "Anamnèse clinique : diagnostic gratuit des problématiques des dirigeants",
+      "Librairie et Guides : pour porteurs de projets",
+      "Réseau Business & Tech : groupe WhatsApp actif et réseau social propriétaire DTC Pulse (actuellement en bêta fermée)"
+    ]
+  },
+  "strict_rules": {
+    "zero_colons": {
+      "active": true,
+      "description": "Aucun deux-points (:) dans le corps des emails sortants ou des réponses générées. Utiliser des virgules ou reformuler naturellement."
+    },
+    "zero_mid_sentence_dashes": {
+      "active": true,
+      "description": "Aucun tiret d'incise ou cadratin au milieu des phrases."
+    },
+    "authentic_approach": {
+      "active": true,
+      "description": "Démarche sincère de dirigeant à dirigeant. Reconnaissance de la charge mentale, intendance et contraintes insulaires. Proposition d'un échange téléphonique direct de 30 minutes (Calendly) pour voir si cela a du sens de collaborer."
+    },
+    "email_threading": {
+      "active": true,
+      "description": "Toujours répondre en conservant le Message-ID d'origine (In-Reply-To et References), sujet préfixé par Re, sans deux-points."
+    }
+  },
+  "modules": {
+    "gmail": {
+      "enabled": true,
+      "sync_interval_seconds": 60,
+      "auto_filter_spam": true,
+      "require_human_validation": true
+    },
+    "linkedin": {
+      "enabled": true,
+      "format_support": ["post_text", "carousel_slides"],
+      "default_tone": "Direct, stratégique, sans jargon creux"
+    },
+    "whatsapp": {
+      "enabled": true,
+      "authorized_groups_only": true,
+      "whitelist_groups": [
+        "Domtom Connect - Réseau Business",
+        "DTC Pulse VIP"
+      ]
+    }
+  }
+}

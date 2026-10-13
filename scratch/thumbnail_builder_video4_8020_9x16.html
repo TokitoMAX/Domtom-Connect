@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Couverture 9:16 Shorts • Domtom Connect Vidéo 4 (Loi 80/20 & Marketing)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 720px;
+            height: 1280px;
+            overflow: hidden;
+            background: #030605;
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 48px;
+            text-align: center;
+            background-image: 
+                radial-gradient(circle at 50% 25%, rgba(0, 191, 166, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 55%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .glow-top {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(0, 191, 166, 0.2);
+            filter: blur(140px);
+            top: -100px;
+            pointer-events: none;
+        }
+
+        .header-box {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 1.5px solid #00BFA6;
+            border-radius: 100px;
+        }
+
+        .brand-logo-img {
+            height: 22px;
+            width: auto;
+        }
+
+        .brand-text {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #00BFA6;
+        }
+
+        .main-title {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -1.2px;
+            color: #FFFFFF;
+        }
+
+        .main-title span.em {
+            color: #00BFA6;
+            text-shadow: 0 0 35px rgba(0, 191, 166, 0.5);
+        }
+
+        .main-title span.amber {
+            color: #F59E0B;
+            text-shadow: 0 0 35px rgba(245, 158, 11, 0.4);
+        }
+
+        .sub-tag-line {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #E5E7EB;
+        }
+
+        /* Avatar Stage in center */
+        .avatar-stage-box {
+            position: relative;
+            z-index: 10;
+            width: 360px;
+            height: 440px;
+            border-radius: 32px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(0, 191, 166, 0.12) 100%);
+            border: 2px solid rgba(0, 191, 166, 0.45);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 191, 166, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 20px 0;
+        }
+
+        .avatar-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .avatar-footer {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(3, 6, 5, 0.95) 40%, #030605 100%);
+            text-align: center;
+        }
+
+        .avatar-name {
+            font-size: 19px;
+            font-weight: 900;
+            color: #FFFFFF;
+        }
+
+        .avatar-role {
+            font-size: 13px;
+            font-weight: 700;
+            color: #00BFA6;
+            margin-top: 2px;
+        }
+
+        /* Badge Loïc Réel */
+        .real-person-badge {
+            position: absolute;
+            bottom: -15px;
+            right: -20px;
+            z-index: 15;
+            background: rgba(10, 18, 15, 0.96);
+            border: 2px solid #00BFA6;
+            border-radius: 16px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 191, 166, 0.35);
+        }
+
+        .real-person-thumb {
+            width: 44px;
+            height: 58px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1.5px solid #00BFA6;
+        }
+
+        .real-person-text {
+            text-align: left;
+        }
+
+        .real-person-title {
+            font-size: 13px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .real-person-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #10B981;
+        }
+
+        /* Bottom features */
+        .bottom-features {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .feature-chip {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .feature-chip.em {
+            background: rgba(0, 191, 166, 0.12);
+            border-color: rgba(0, 191, 166, 0.4);
+            color: #00BFA6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-top"></div>
+
+    <div class="header-box">
+        <div class="brand-pill">
+            <img src="../assets/images/logo-domtomconnect-white.png" class="brand-logo-img" alt="Logo Domtom Connect">
+            <span class="brand-text">DOMTOM CONNECT</span>
+        </div>
+
+        <h1 class="main-title">
+            LA LOI DU <span class="em">80/20</span> EN <span class="amber">MARTINIQUE</span>
+        </h1>
+
+        <div class="sub-tag-line">
+            Plan d'action chirurgical sur 14 jours
+        </div>
+    </div>
+
+    <div class="avatar-stage-box">
+        <img src="../assets/images/loic_avatar_boss.jpg" class="avatar-img" alt="Loïc Cartoon Avatar">
+        <div class="avatar-footer">
+            <div class="avatar-name">LOÏC VILLERONCE</div>
+            <div class="avatar-role">Fondateur de Domtom Connect</div>
+        </div>
+
+        <div class="real-person-badge">
+            <img src="short_frame_8s.png" class="real-person-thumb" alt="Loïc Réel">
+            <div class="real-person-text">
+                <div class="real-person-title">Loïc Villeronce</div>
+                <div class="real-person-sub">✓ Shorts & TikTok</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-features">
+        <div class="feature-chip em">
+            <span>⚡ Semaine 1, 20 contacts WhatsApp</span>
+        </div>
+        <div class="feature-chip">
+            <span>💳 Semaine 2, Précommandes fermes</span>
+        </div>
+        <div class="feature-chip">
+            <span>🤝 Accompagnement Programme Tremplin</span>
+        </div>
+    </div>
+
+</body>
+</html>

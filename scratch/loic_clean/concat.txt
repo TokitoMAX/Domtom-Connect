@@ -1,0 +1,7 @@
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c1.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c2_a.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c2_b.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c3_a.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c3_b.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c3_c.wav'
+file 'C:/Users/Silen/.gemini/antigravity-ide/scratch/Domtom-Connect/scratch/loic_clean/c4.wav'

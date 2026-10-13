@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domtom Connect • Rendu pur Vidéo 3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #030605;
+            --emerald: #00BFA6;
+            --emerald-bright: #10B981;
+            --white: #FFFFFF;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-emerald: rgba(0, 191, 166, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000000;
+            color: var(--white);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .viewport-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #060c0a 0%, #000000 100%);
+        }
+
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(0, 191, 166, 0.14);
+            filter: blur(140px);
+            pointer-events: none;
+        }
+
+        .screen-watermark {
+            position: absolute;
+            top: 36px;
+            left: 44px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 30;
+            opacity: 0.8;
+        }
+
+        .screen-watermark img {
+            height: 22px;
+            width: auto;
+        }
+
+        .screen-timeline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            z-index: 40;
+        }
+
+        .screen-timeline-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--emerald);
+            box-shadow: 0 0 10px var(--emerald);
+        }
+
+        .beat-scene {
+            display: none;
+            opacity: 0;
+            transform: translateY(14px) scale(0.98);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 20;
+            width: 100%;
+            max-width: 900px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .beat-scene.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        body.mode-9-16 .beat-scene {
+            max-width: 620px;
+        }
+
+        body.mode-9-16 .b-title {
+            font-size: 34px;
+            line-height: 1.25;
+        }
+
+        body.mode-9-16 .b-desc {
+            font-size: 19px;
+            max-width: 480px;
+        }
+
+        body.mode-9-16 .mockup-img {
+            max-height: 280px;
+        }
+
+        body.mode-9-16 .phone-img {
+            max-height: 240px;
+        }
+
+        body.mode-9-16 .cards-row {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .b-tag {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--emerald);
+            background: rgba(0, 191, 166, 0.08);
+            border: 1px solid var(--border-emerald);
+            padding: 7px 18px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .b-title {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 44px;
+            font-weight: 900;
+            line-height: 1.18;
+            letter-spacing: -0.5px;
+            color: var(--white);
+            margin-bottom: 14px;
+            text-wrap: balance;
+        }
+
+        .b-title span.em {
+            color: var(--emerald);
+        }
+
+        .b-desc {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--gray-400);
+            line-height: 1.5;
+            max-width: 760px;
+        }
+
+        .grid-chips {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .chip-item {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            color: var(--gray-300);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chip-item.emerald {
+            background: rgba(0, 191, 166, 0.12);
+            border-color: var(--border-emerald);
+            color: var(--white);
+        }
+
+        .chip-item.danger {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 820px;
+        }
+
+        .info-card {
+            flex: 1;
+            padding: 18px 22px;
+            border-radius: 14px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .info-card.highlight {
+            background: rgba(0, 191, 166, 0.08);
+            border-color: var(--border-emerald);
+        }
+
+        .info-card.danger {
+            background: rgba(239, 68, 68, 0.08);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .info-card-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .info-card-text {
+            font-size: 14px;
+            color: var(--gray-400);
+            line-height: 1.45;
+        }
+
+        .sop-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 620px;
+            margin-top: 18px;
+            text-align: left;
+        }
+
+        .sop-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            color: var(--gray-300);
+        }
+
+        .sop-item.done {
+            border-color: var(--border-emerald);
+            background: rgba(0, 191, 166, 0.08);
+            color: var(--white);
+        }
+
+        .sop-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--emerald);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .mockup-img {
+            max-height: 260px;
+            width: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-emerald);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 191, 166, 0.15);
+            margin-top: 16px;
+        }
+
+        .phones-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .phone-img {
+            max-height: 220px;
+            width: auto;
+            border-radius: 14px;
+            border: 1px solid var(--border-emerald);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .pulse-center-logo {
+            height: 64px;
+            width: auto;
+        }
+
+        /* Cadre de rappel de la vidéo précédente */
+        .prev-video-box {
+            position: relative;
+            max-width: 520px;
+            margin: 16px auto 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-emerald);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 191, 166, 0.15);
+        }
+
+        .mode-9-16 .prev-video-box {
+            max-width: 380px;
+        }
+
+        .prev-video-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .prev-video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.94) 0%, transparent 100%);
+            padding: 12px 18px;
+            font-size: 14px;
+            color: #fff;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        /* Tableau BFR simulation de trésorerie */
+        .bfr-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            max-width: 680px;
+            margin-top: 18px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 20px;
+        }
+
+        .bfr-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .bfr-date {
+            color: var(--gray-400);
+            font-size: 13px;
+            min-width: 75px;
+        }
+
+        .bfr-desc {
+            color: var(--white);
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .bfr-amount.danger {
+            color: #f87171;
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 15px;
+        }
+
+        .bfr-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .bfr-badge-delay {
+            background: rgba(239, 68, 68, 0.15);
+            color: #fca5a5;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Mockup WhatsApp réaliste */
+        .client-comparison-box {
+            display: flex;
+            gap: 18px;
+            width: 100%;
+            max-width: 780px;
+            margin-top: 16px;
+            text-align: left;
+        }
+
+        .mode-9-16 .client-comparison-box {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wa-mockup {
+            flex: 1;
+            background: #0b141a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wa-header {
+            background: #1f2c34;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .wa-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #374151;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .wa-name {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #e9edef;
+        }
+
+        .wa-status {
+            font-size: 11px;
+            color: #8696a0;
+        }
+
+        .wa-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #0b141a;
+        }
+
+        .wa-bubble {
+            background: #202c33;
+            color: #e9edef;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .wa-bubble.voice {
+            background: #005c4b;
+        }
+
+        .wa-time {
+            font-size: 10px;
+            color: #8696a0;
+        }
+
+        .wa-footer-alert {
+            padding: 10px 12px;
+            background: rgba(239, 68, 68, 0.12);
+            border-top: 1px solid rgba(239, 68, 68, 0.2);
+            text-align: center;
+        }
+
+        .danger-pill {
+            color: #fca5a5;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .good-client-card {
+            flex: 1;
+            background: rgba(0, 191, 166, 0.06);
+            border: 1px solid var(--border-emerald);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gc-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+
+        .gc-item {
+            font-size: 13px;
+            color: var(--gray-300);
+        }
+
+        .gc-badge {
+            margin-top: 8px;
+            background: rgba(0, 191, 166, 0.15);
+            color: var(--emerald);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Fiche de procédure SOP */
+        .sop-sheet {
+            width: 100%;
+            max-width: 680px;
+            margin-top: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 16px 22px;
+            text-align: left;
+        }
+
+        .sop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .sop-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .sop-subtitle {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .sop-id-badge {
+            background: rgba(0, 191, 166, 0.15);
+            color: var(--emerald);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+        }
+
+        .sop-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sop-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 13.5px;
+            color: var(--gray-300);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .sop-step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--emerald);
+            color: #000;
+            font-weight: 900;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .sop-result {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 13px;
+            color: var(--emerald);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .caption-bar {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            justify-content: center;
+            z-index: 35;
+            pointer-events: none;
+        }
+
+        .caption-pill {
+            background: rgba(0, 0, 0, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 10px 26px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            max-width: 85%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen-timeline"><div class="screen-timeline-fill" id="screen-fill"></div></div>
+
+    <div class="screen-watermark">
+        <img src="assets/images/logo-domtomconnect-white.png" alt="Domtom Connect">
+    </div>
+
+    <div class="viewport-inner">
+        <div class="ambient-glow" id="ambient-glow"></div>
+
+        <!-- Beat 1a: 0.0s - 7.5s (Rappel de la vidéo précédente) -->
+        <div class="beat-scene active" id="beat-1a">
+            <span class="b-tag">Vidéo précédente</span>
+            <h1 class="b-title">Pourquoi travailler 80h et courir après la pub maintient sous l'eau ?</h1>
+            <div class="prev-video-box">
+                <img src="assets/images/miniature_longue_16x9.png" class="prev-video-img" alt="Vidéo précédente Domtom Connect">
+                <div class="prev-video-overlay">Le piège du volume et le mythe de la publicité</div>
+            </div>
+        </div>
+
+        <!-- Beat 1b: 7.5s - 19.1s (La vraie question) -->
+        <div class="beat-scene" id="beat-1b">
+            <span class="b-tag">La vraie question</span>
+            <h1 class="b-title">Par quoi commence-t-on demain matin ?</h1>
+            <p class="b-desc">Une fois qu'on a compris que le problème vient du modèle et de l'organisation, comment assainir sa boîte et retrouver du cash ?</p>
+        </div>
+
+        <!-- Beat 2: 19.1s - 29.2s (La méthode en 4 étapes) -->
+        <div class="beat-scene" id="beat-2">
+            <span class="b-tag">Plan d'action de terrain</span>
+            <h1 class="b-title">La méthode chirurgicale en quatre étapes.</h1>
+            <p class="b-desc">Pour les entreprises de Martinique, Guadeloupe, Guyane, La Réunion, d'Afrique et de la diaspora.</p>
+            <div class="grid-chips">
+                <span class="chip-item">1. État des lieux BFR</span>
+                <span class="chip-item">2. Tri des offres et clients</span>
+                <span class="chip-item">3. Procédures avant embauche</span>
+                <span class="chip-item emerald">4. Copilotage Tremplin</span>
+            </div>
+        </div>
+
+        <!-- Beat 3: 29.2s - 42.3s (Étape 1 : Le piège du chiffre d'affaires) -->
+        <div class="beat-scene" id="beat-3">
+            <span class="b-tag">Première étape</span>
+            <h1 class="b-title">Le chiffre d'affaires ne veut rien dire tout seul.</h1>
+            <p class="b-desc">Regarder uniquement le chiffre bancaire à la fin du mois est la pire erreur de gestion.</p>
+            <div class="cards-row">
+                <div class="info-card danger">
+                    <div class="info-card-title" style="color: #fca5a5;">L'illusion du volume</div>
+                    <div class="info-card-text">Gros chiffre d'affaires affiché sur le compte, mais zéro liquidité disponible pour payer les charges.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 4: 42.3s - 62.2s (Étape 1 : Fret, octroi de mer et trésorerie) -->
+        <div class="beat-scene" id="beat-4">
+            <span class="b-tag">Réalité territoriale</span>
+            <h1 class="b-title">Fret, octroi de mer et délais de 90 jours.</h1>
+            <p class="b-desc">Avancer les achats pendant que les règlements clients s'étirent sur trois mois.</p>
+            <div class="bfr-timeline">
+                <div class="bfr-row">
+                    <span class="bfr-date">Jour 1</span>
+                    <span class="bfr-desc">Achat stock fournisseur métropole</span>
+                    <span class="bfr-amount danger">-5 000 €</span>
+                </div>
+                <div class="bfr-row">
+                    <span class="bfr-date">Jour 12</span>
+                    <span class="bfr-desc">Fret maritime & transitaire</span>
+                    <span class="bfr-amount danger">-2 400 €</span>
+                </div>
+                <div class="bfr-row">
+                    <span class="bfr-date">Jour 25</span>
+                    <span class="bfr-desc">Octroi de mer & taxes de douane</span>
+                    <span class="bfr-amount danger">-1 600 €</span>
+                </div>
+                <div class="bfr-row">
+                    <span class="bfr-date">Jour 30</span>
+                    <span class="bfr-desc">Salaires & charges fixes de l'équipe</span>
+                    <span class="bfr-amount danger">-4 200 €</span>
+                </div>
+                <div class="bfr-summary">
+                    <span>Trésorerie nette décaissée, <strong style="color: #f87171;">-13 200 €</strong></span>
+                    <span class="bfr-badge-delay">Règlement client à 90 jours • Compte à découvert</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 5: 62.2s - 75.2s (Étape 1 : Calculer la marge nette réelle) -->
+        <div class="beat-scene" id="beat-5">
+            <span class="b-tag">Rentabilité réelle</span>
+            <h1 class="b-title">Calculer la marge nette contrat par contrat.</h1>
+            <p class="b-desc">Combien te rapporte réellement chaque chantier une fois toutes les contraintes intégrées ?</p>
+            <div class="grid-chips">
+                <span class="chip-item danger">Temps réel passé</span>
+                <span class="chip-item danger">Coûts de livraison</span>
+                <span class="chip-item danger">Service après-vente</span>
+                <span class="chip-item danger">Retards de règlement</span>
+            </div>
+        </div>
+
+        <!-- Beat 6: 75.2s - 87.9s (Étape 1 : Scanner la boîte avec l'Anamnèse) -->
+        <div class="beat-scene" id="beat-6">
+            <span class="b-tag">Outil de diagnostic</span>
+            <h1 class="b-title">Scanner sa structure avec l'anamnèse clinique.</h1>
+            <p class="b-desc">Identifier précisément où ton énergie et tes marges sont en train de fuiter.</p>
+            <div class="cards-row">
+                <div class="info-card highlight">
+                    <div class="info-card-title">Anamnèse clinique gratuite</div>
+                    <div class="info-card-text">Accès libre sans engagement sur www.domtomconnect.com pour poser un diagnostic clair.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 7: 87.9s - 100.5s (Étape 2 : Le grand nettoyage des offres) -->
+        <div class="beat-scene" id="beat-7">
+            <span class="b-tag">Deuxième étape</span>
+            <h1 class="b-title">Le grand nettoyage des offres et des prestations.</h1>
+            <p class="b-desc">Arrêter de faire du sur-mesure épuisant pour des personnes qui négocient le moindre euro.</p>
+            <div class="cards-row">
+                <div class="info-card danger">
+                    <div class="info-card-title" style="color: #fca5a5;">Le catalogue confus</div>
+                    <div class="info-card-text">Dix prestations dispersées, pas de grille tarifaire ferme et du temps perdu à deviser dans le vide.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 8: 100.5s - 114.8s (Étape 2 : Mockup WhatsApp dimanche soir) -->
+        <div class="beat-scene" id="beat-8">
+            <span class="b-tag">Tri de clientèle</span>
+            <h1 class="b-title">Éliminer les clients toxiques chronophages.</h1>
+            <div class="client-comparison-box">
+                <div class="wa-mockup">
+                    <div class="wa-header">
+                        <div class="wa-avatar">C</div>
+                        <div>
+                            <div class="wa-name">Client devis 150 €</div>
+                            <div class="wa-status">En ligne • Dimanche 22:47</div>
+                        </div>
+                    </div>
+                    <div class="wa-body">
+                        <div class="wa-bubble voice">
+                            <span>▶ •••••••••••• 0:42</span>
+                            <span class="wa-time">22:45</span>
+                        </div>
+                        <div class="wa-bubble">
+                            <span>15 messages vocaux reçus</span>
+                            <span class="wa-time">22:46</span>
+                        </div>
+                        <div class="wa-bubble">
+                            <span>Tu me fais 30% de remise ?</span>
+                            <span class="wa-time">22:47</span>
+                        </div>
+                    </div>
+                    <div class="wa-footer-alert">
+                        <span class="danger-pill">Charge mentale maximale • Marge nette négative</span>
+                    </div>
+                </div>
+                <div class="good-client-card">
+                    <div class="gc-title">Le client professionnel</div>
+                    <div class="gc-item">✓ Comprend la valeur de ton savoir-faire</div>
+                    <div class="gc-item">✓ Accepte des conditions fermes</div>
+                    <div class="gc-item">✓ Règle en temps voulu sans négocier</div>
+                    <div class="gc-badge">Relation saine • Sérénité opérationnelle</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 9: 114.8s - 134.6s (Étape 2 : 2 ou 3 offres phares et acomptes) -->
+        <div class="beat-scene" id="beat-9">
+            <span class="b-tag">Simplicité et marge</span>
+            <h1 class="b-title">Deux à trois offres phares et des acomptes stricts.</h1>
+            <p class="b-desc">Revaloriser ses prix pour refléter les réalités territoriales et exiger des acomptes au démarrage.</p>
+            <div class="grid-chips">
+                <span class="chip-item emerald">2 à 3 offres rentables</span>
+                <span class="chip-item emerald">Acomptes systématiques</span>
+                <span class="chip-item emerald">Moins de charge mentale</span>
+            </div>
+        </div>
+
+        <!-- Beat 10: 134.6s - 155.1s (Étape 3 : Structurer la délégation avant de recruter) -->
+        <div class="beat-scene" id="beat-10">
+            <span class="b-tag">Troisième étape</span>
+            <h1 class="b-title">Structurer la délégation avant de recruter.</h1>
+            <p class="b-desc">Embaucher dans la panique sans fiche claire crée un salarié à charge de plus.</p>
+            <div class="cards-row">
+                <div class="info-card danger">
+                    <div class="info-card-title" style="color: #fca5a5;">Le piège du recrutement hâtif</div>
+                    <div class="info-card-text">Le collaborateur hésite, le patron repasse derrière et finit par tout refaire lui-même.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 11: 155.1s - 177.3s (Étape 3 : Fiches de procédures simples) -->
+        <div class="beat-scene" id="beat-11">
+            <span class="b-tag">Méthode de travail</span>
+            <h1 class="b-title">Une méthode écrite et un résultat attendu clair.</h1>
+            <p class="b-desc">Un bon collaborateur a besoin d'une méthode précise, pas de deviner tes pensées.</p>
+            <div class="sop-sheet">
+                <div class="sop-header">
+                    <div>
+                        <div class="sop-title">Fiche de procédure • Exécution des opérations</div>
+                        <div class="sop-subtitle">Format 1 page • Tâches récurrentes</div>
+                    </div>
+                    <span class="sop-id-badge">SOP-01</span>
+                </div>
+                <div class="sop-grid">
+                    <div class="sop-step">
+                        <span class="sop-step-num">1</span>
+                        <div><strong>Contrôle initial</strong> — Vérification du dossier et acompte encaissé</div>
+                    </div>
+                    <div class="sop-step">
+                        <span class="sop-step-num">2</span>
+                        <div><strong>Exécution autonome</strong> — Réalisation selon la grille de critères validée</div>
+                    </div>
+                    <div class="sop-step">
+                        <span class="sop-step-num">3</span>
+                        <div><strong>Livraison & facturation</strong> — Clôture sans solliciter le dirigeant</div>
+                    </div>
+                </div>
+                <div class="sop-result">
+                    Autonomie réelle de l'équipe, le dirigeant ne repasse plus derrière
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 12: 177.3s - 198.5s (Étape 4 : Le Programme Tremplin en immersion) -->
+        <div class="beat-scene" id="beat-12">
+            <span class="b-tag">Quatrième étape</span>
+            <h1 class="b-title">Le programme Tremplin à 360 degrés.</h1>
+            <img src="assets/images/business-suite-mockup.png" class="mockup-img" alt="Programme Tremplin Domtom Connect">
+            <p class="b-desc" style="margin-top: 10px;">Nous venons concrètement nous asseoir à tes côtés dans ton entreprise.</p>
+        </div>
+
+        <!-- Beat 13: 198.5s - 221.0s (Étape 4 : Copilotage direct et zone de génie) -->
+        <div class="beat-scene" id="beat-13">
+            <span class="b-tag">Copilotage opérationnel</span>
+            <h1 class="b-title">Te libérer pour ta véritable zone de génie.</h1>
+            <p class="b-desc">Poser des bases saines pour que ton organisation tourne et que tu te concentres sur la croissance.</p>
+            <div class="cards-row">
+                <div class="info-card">
+                    <div class="info-card-title">Copilotage avec Domtom Connect</div>
+                    <div class="info-card-text">Diagnostic de ton modèle, structuration des process et accompagnement de terrain.</div>
+                </div>
+                <div class="info-card highlight">
+                    <div class="info-card-title">Ta zone de génie</div>
+                    <div class="info-card-text">Négociation commerciale, partenariats stratégiques et développement du chiffre d'affaires.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 14: 221.0s - 242.9s (Étape 5 : Réseau business WhatsApp) -->
+        <div class="beat-scene" id="beat-14">
+            <span class="b-tag">Réseau d'affaires territorial</span>
+            <h1 class="b-title">Briser l'isolement du dirigeant ultramarin.</h1>
+            <p class="b-desc">La solitude est le premier facteur d'épuisement, un groupe business actif pour faire des affaires entre nous.</p>
+            <div class="cards-row">
+                <div class="info-card highlight">
+                    <div class="info-card-title">Groupe WhatsApp d'affaires actif</div>
+                    <div class="info-card-text">Entrepreneurs, entreprises et porteurs de projets qui partagent des opportunités concrètes et génèrent du business.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 15: 242.9s - 265.7s (Étape 5 : DTC Pulse) -->
+        <div class="beat-scene" id="beat-15">
+            <span class="b-tag">Technologie propriétaire</span>
+            <h1 class="b-title">Faire du business autrement avec DTC Pulse.</h1>
+            <div class="phones-container">
+                <img src="assets/images/screenshots/screen1.png" class="phone-img" alt="DTC Pulse Écran 1">
+                <img src="assets/images/logo-pulse.png" class="pulse-center-logo" alt="Logo DTC Pulse">
+                <img src="assets/images/screenshots/screen2.png" class="phone-img" alt="DTC Pulse Écran 2">
+            </div>
+            <p class="b-desc" style="margin-top: 10px;">Fusion d'Uber Eats (commande locale), TikTok (visibilité vidéo) et Amazon (place de marché).</p>
+        </div>
+
+        <!-- Beat 16: 265.7s - 280.5s (Passage à l'action : Anamnèse clinique) -->
+        <div class="beat-scene" id="beat-16">
+            <span class="b-tag">Première action</span>
+            <h1 class="b-title">Faire son diagnostic avec l'anamnèse clinique.</h1>
+            <p class="b-desc">Outil gratuit en libre accès pour identifier immédiatement les failles de ton business.</p>
+            <div class="cards-row">
+                <div class="info-card highlight">
+                    <div class="info-card-title">Anamnèse clinique en accès libre</div>
+                    <div class="info-card-text">Rends-toi sur www.domtomconnect.com pour poser ton diagnostic dès aujourd'hui.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 17: 280.5s - 299.8s (Passage à l'action : Échange direct Calendly) -->
+        <div class="beat-scene" id="beat-17">
+            <span class="b-tag">Deuxième action</span>
+            <h1 class="b-title">Réserver son échange direct de 30 minutes.</h1>
+            <p class="b-desc">Échanger sans filtre sur ta situation avec Loïc Villeronce pour voir si l'accompagnement a du sens pour toi.</p>
+            <div class="cards-row">
+                <div class="info-card highlight">
+                    <div class="info-card-title">Lien Calendly officiel en bio</div>
+                    <div class="info-card-text">Accède au calendrier direct sur calendly.com/domtomconnect/30min.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Beat 18: 299.8s - 301.3s (Signature Stay Co) -->
+        <div class="beat-scene" id="beat-18">
+            <span class="b-tag">Domtom Connect</span>
+            <div style="font-family: 'Cabinet Grotesk', sans-serif; font-size: 58px; font-weight: 900; letter-spacing: 3px; color: #fff; margin: 12px 0;">
+                Stay <span style="color: var(--emerald);">co.</span>
+            </div>
+            <p class="b-desc">Écosystème d'accompagnement pour nos territoires.</p>
+        </div>
+
+    </div>
+
+    <div class="caption-bar">
+        <div class="caption-pill" id="caption-pill">
+            Domtom Connect
+        </div>
+    </div>
+
+    <audio id="audio" src="assets/audio/video3_complete.mp3" preload="auto"></audio>
+
+    <script>
+        const audio = document.getElementById('audio');
+        const screenFill = document.getElementById('screen-fill');
+        const captionPill = document.getElementById('caption-pill');
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('format') === '9-16') {
+            document.body.className = 'mode-9-16';
+        }
+
+        const beats = [
+            { id: 'beat-1a', start: 0.0, end: 7.5, caption: 'On a vu dans la vidéo précédente pourquoi courir après la pub maintient les dirigeants sous l\'eau.' },
+            { id: 'beat-1b', start: 7.5, end: 19.1, caption: 'Par quoi commence-t-on concrètement demain matin pour assainir sa boîte et retrouver du cash ?' },
+            { id: 'beat-2', start: 19.1, end: 29.2, caption: 'Voici la méthode chirurgicale en quatre étapes appliquée sur le terrain.' },
+            { id: 'beat-3', start: 29.2, end: 42.3, caption: 'Regarder uniquement le chiffre d\'affaires global est la pire erreur de gestion.' },
+            { id: 'beat-4', start: 42.3, end: 62.2, caption: 'Fret maritime, octroi de mer et délais de règlement qui s\'étirent à 60 ou 90 jours.' },
+            { id: 'beat-5', start: 62.2, end: 75.2, caption: 'Calculer la marge nette réelle contrat par contrat en intégrant tous les coûts.' },
+            { id: 'beat-6', start: 75.2, end: 87.9, caption: 'L\'anamnèse clinique gratuite permet de voir noir sur blanc là où fuite ton énergie.' },
+            { id: 'beat-7', start: 87.9, end: 100.5, caption: 'Le grand nettoyage de tes offres, supprimer le sur-mesure chronophage.' },
+            { id: 'beat-8', start: 100.5, end: 114.8, caption: 'Éliminer le client aux 15 vocaux du dimanche pour se concentrer sur les clients pros.' },
+            { id: 'beat-9', start: 114.8, end: 134.6, caption: 'Clarifier 2 à 3 offres phares, revaloriser ses prix et exiger des acomptes stricts.' },
+            { id: 'beat-10', start: 134.6, end: 155.1, caption: 'Structurer la délégation avant de recruter dans la panique.' },
+            { id: 'beat-11', start: 155.1, end: 177.3, caption: 'Une méthode écrite simple et un résultat attendu mesurable pour chaque tâche.' },
+            { id: 'beat-12', start: 177.3, end: 198.5, caption: 'Avec le programme Tremplin, nous venons nous asseoir à tes côtés dans ton entreprise.' },
+            { id: 'beat-13', start: 198.5, end: 221.0, caption: 'Copilotage opérationnel direct pour te libérer pour ta véritable zone de génie.' },
+            { id: 'beat-14', start: 221.0, end: 242.9, caption: 'Briser l\'isolement avec notre groupe WhatsApp actif entre entrepreneurs ultramarins.' },
+            { id: 'beat-15', start: 242.9, end: 265.7, caption: 'DTC Pulse, notre technologie propriétaire fusionnant Uber Eats, TikTok et Amazon.' },
+            { id: 'beat-16', start: 265.7, end: 280.5, caption: 'Première action, diagnostic gratuit avec l\'anamnèse clinique sur www.domtomconnect.com.' },
+            { id: 'beat-17', start: 280.5, end: 299.8, caption: 'Deuxième action, réserver son échange de 30 minutes sans fausse promesse sur Calendly.' },
+            { id: 'beat-18', start: 299.8, end: 302.0, caption: 'Stay co.' }
+        ];
+
+        let activeBeatIdx = -1;
+
+        function updateTime(cur) {
+            const dur = audio.duration || 301.32;
+            const pct = Math.min(100, (cur / dur) * 100);
+            if (screenFill) screenFill.style.width = pct + '%';
+
+            let idx = 0;
+            for (let i = 0; i < beats.length; i++) {
+                if (cur >= beats[i].start && cur < beats[i].end) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (cur >= beats[beats.length - 1].end) {
+                idx = beats.length - 1;
+            }
+
+            if (idx !== activeBeatIdx) {
+                activeBeatIdx = idx;
+                beats.forEach((b, i) => {
+                    const el = document.getElementById(b.id);
+                    if (el) el.classList.toggle('active', i === idx);
+                });
+                if (captionPill) captionPill.textContent = beats[idx].caption;
+            }
+        }
+
+        window.updateTime = updateTime;
+
+        audio.addEventListener('timeupdate', () => {
+            updateTime(audio.currentTime);
+        });
+
+        document.body.addEventListener('click', () => {
+            if (audio.paused) audio.play();
+        });
+    </script>
+</body>
+</html>

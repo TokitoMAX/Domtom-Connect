@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Miniature YouTube 16:9 • Domtom Connect Vidéo 4 (Loi 80/20 & Marketing)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            background: #030605;
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 75px;
+            background-image: 
+                radial-gradient(circle at 75% 45%, rgba(0, 191, 166, 0.22) 0%, transparent 60%),
+                radial-gradient(circle at 20% 75%, rgba(16, 185, 129, 0.15) 0%, transparent 55%),
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            background: rgba(0, 191, 166, 0.18);
+            filter: blur(140px);
+            right: -80px;
+            top: 40px;
+            pointer-events: none;
+        }
+
+        .left-col {
+            max-width: 690px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(0, 191, 166, 0.12);
+            border: 1.5px solid #00BFA6;
+            border-radius: 100px;
+            width: fit-content;
+        }
+
+        .brand-logo-img {
+            height: 20px;
+            width: auto;
+        }
+
+        .brand-text {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #00BFA6;
+        }
+
+        .headline {
+            font-family: 'Cabinet Grotesk', sans-serif;
+            font-size: 60px;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            color: #FFFFFF;
+        }
+
+        .headline span.em {
+            color: #00BFA6;
+            text-shadow: 0 0 40px rgba(0, 191, 166, 0.5);
+        }
+
+        .headline span.amber {
+            color: #F59E0B;
+            text-shadow: 0 0 35px rgba(245, 158, 11, 0.4);
+        }
+
+        .sub-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 19px;
+            font-weight: 700;
+            color: #D1D5DB;
+        }
+
+        .sub-tag {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .badges-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .badge-chip {
+            padding: 8px 16px;
+            background: rgba(0, 191, 166, 0.1);
+            border: 1px solid rgba(0, 191, 166, 0.3);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #E6FFFA;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Right column: Avatar & Real Photo badge */
+        .right-col {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-card {
+            position: relative;
+            width: 380px;
+            height: 480px;
+            border-radius: 28px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(0, 191, 166, 0.1) 100%);
+            border: 2px solid rgba(0, 191, 166, 0.4);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(0, 191, 166, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .avatar-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .avatar-footer {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(3, 6, 5, 0.95) 40%, #030605 100%);
+            text-align: center;
+        }
+
+        .avatar-name {
+            font-size: 18px;
+            font-weight: 900;
+            color: #FFFFFF;
+            letter-spacing: 0.5px;
+        }
+
+        .avatar-role {
+            font-size: 13px;
+            font-weight: 700;
+            color: #00BFA6;
+            margin-top: 2px;
+        }
+
+        /* Floating Badge for Real Loïc from YouTube Shorts */
+        .real-person-badge {
+            position: absolute;
+            bottom: -15px;
+            left: -40px;
+            z-index: 12;
+            background: rgba(10, 18, 15, 0.95);
+            border: 2px solid #00BFA6;
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 191, 166, 0.3);
+        }
+
+        .real-person-thumb {
+            width: 48px;
+            height: 64px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1.5px solid #00BFA6;
+        }
+
+        .real-person-text {
+            text-align: left;
+        }
+
+        .real-person-title {
+            font-size: 13px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .real-person-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: #10B981;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-orb"></div>
+
+    <div class="left-col">
+        <div class="brand-pill">
+            <img src="../assets/images/logo-domtomconnect-white.png" class="brand-logo-img" alt="Logo Domtom Connect">
+            <span class="brand-text">DOMTOM CONNECT • COURS DIRIGEANT</span>
+        </div>
+
+        <h1 class="headline">
+            LA LOI DU <span class="em">80/20</span> EN <span class="amber">MARTINIQUE</span>
+        </h1>
+
+        <div class="sub-bar">
+            <span>Plan d'action chirurgical sur 14 jours</span>
+            <span class="sub-tag">ZÉRO STOCK INUTILE</span>
+        </div>
+
+        <div class="badges-row">
+            <div class="badge-chip">
+                <span>⚡ Semaine 1, 20 contacts WhatsApp</span>
+            </div>
+            <div class="badge-chip">
+                <span>💳 Semaine 2, Précommandes fermes</span>
+            </div>
+            <div class="badge-chip">
+                <span>🤝 Copilotage Tremplin</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-col">
+        <div class="avatar-card">
+            <img src="../assets/images/loic_avatar_boss.jpg" class="avatar-img" alt="Loïc Cartoon Avatar">
+            <div class="avatar-footer">
+                <div class="avatar-name">LOÏC VILLERONCE</div>
+                <div class="avatar-role">Fondateur de Domtom Connect</div>
+            </div>
+        </div>
+
+        <div class="real-person-badge">
+            <img src="short_frame_8s.png" class="real-person-thumb" alt="Loïc Villeronce Short Réel">
+            <div class="real-person-text">
+                <div class="real-person-title">Loïc Villeronce</div>
+                <div class="real-person-sub">✓ En direct sur Shorts & TikTok</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

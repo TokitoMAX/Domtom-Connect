@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>DTC Copilot — Assistant Exécutif</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0f19">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Top Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="avatar-ring">
+          <span class="avatar-initials">LV</span>
+          <span class="status-dot"></span>
+        </div>
+        <div class="header-titles">
+          <h1 class="brand-title">DTC Copilot</h1>
+          <p class="brand-sub">Loïc Villeronce • 24/7 Connecté</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="badge-online">
+          <span class="pulse-indicator"></span>
+          <span>IA Active</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Viewport -->
+    <main class="app-content">
+
+        <!-- Mobile WiFi Connect Banner -->
+        <div class="mobile-wifi-tip">
+          <span class="wifi-icon">📲</span>
+          <div>
+            <strong>Tester sur ton smartphone en direct :</strong>
+            <span>Connecte ton téléphone au même Wi-Fi et ouvre <code class="ip-code">http://192.168.1.91:3080</code></span>
+          </div>
+        </div>
+
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2>Boîte de Réception Réelle</h2>
+            <p>Connectée à domtomconnect@gmail.com</p>
+          </div>
+          <button id="btn-sync-emails" class="btn-primary" style="padding: 8px 14px; font-size: 11px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+            Synchroniser
+          </button>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="filter-chips">
+          <button class="chip active" data-filter="pending">À valider <span class="chip-count" id="count-pending">2</span></button>
+          <button class="chip" data-filter="processed">Traités (<span id="count-processed">14</span>)</button>
+          <button class="chip" data-filter="filtered">Spams bloqués (<span id="count-blocked">48</span>)</button>
+        </div>
+
+        <!-- Email Cards List -->
+        <div id="email-list" class="cards-list">
+          <!-- Dynamic Items inserted by app.js -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 2: LINKEDIN STUDIO ================= -->
+      <section id="view-linkedin" class="tab-view">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2>LinkedIn Studio</h2>
+            <p>Création de posts & carrousels de dirigeant</p>
+          </div>
+        </div>
+
+        <div class="linkedin-generator-card">
+          <label class="input-label" for="linkedin-topic">Idée de sujet ou problématique</label>
+          <div class="quick-prompts">
+            <button class="prompt-chip" data-prompt="La solitude du dirigeant ultramarin et l'importance de déléguer l'opérationnel">Solitude du dirigeant</button>
+            <button class="prompt-chip" data-prompt="Pourquoi un chef d'entreprise ne devrait jamais passer 4h par jour sur son intendance">Déléguer l'intendance</button>
+            <button class="prompt-chip" data-prompt="Les 3 erreurs courantes avant de lancer une franchise ou une marque aux Antilles">Erreurs de lancement</button>
+          </div>
+          <textarea id="linkedin-topic" class="modern-textarea" placeholder="Ex: Pourquoi courir après 50 lièvres tue la rentabilité d'une entreprise..." rows="3"></textarea>
+
+          <div class="format-selector">
+            <label class="radio-label">
+              <input type="radio" name="post-format" value="post" checked>
+              <span>Post Direct (Texte fort)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="post-format" value="carousel">
+              <span>Carrousel Pédagogique (5 Slides)</span>
+            </label>
+          </div>
+
+          <button id="btn-generate-linkedin" class="btn-primary full-width">
+            <span class="btn-sparkle">✨</span> Générer avec le ton Domtom Connect
+          </button>
+        </div>
+
+        <!-- Post Preview Area -->
+        <div id="linkedin-result" class="linkedin-preview-container hidden">
+          <div class="preview-header">
+            <span class="preview-tag">Rendu prêt à valider</span>
+            <div class="rules-badge">
+              <span class="check-icon">✓</span> Zéro deux-points
+            </div>
+          </div>
+
+          <div class="linkedin-post-preview" id="linkedin-post-content">
+            <!-- Dynamic Post Content -->
+          </div>
+
+          <div class="actions-group">
+            <button id="btn-copy-linkedin" class="btn-secondary">
+              📋 Copier le texte
+            </button>
+            <button id="btn-publish-linkedin" class="btn-primary">
+              🚀 Planifier la publication
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 3: WHATSAPP MONITOR ================= -->
+      <section id="view-whatsapp" class="tab-view">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2>WhatsApp Business Monitor</h2>
+            <p>Veille ciblée sur tes groupes autorisés</p>
+          </div>
+        </div>
+
+        <div class="security-banner">
+          <div class="shield-icon">🛡️</div>
+          <div>
+            <strong>Périmètre sécurisé</strong>
+            <p>L'IA n'écoute que les 2 groupes officiels. Les discussions privées restent 100% hors d'atteinte.</p>
+          </div>
+        </div>
+
+        <div class="groups-whitelist">
+          <div class="group-item active">
+            <div class="group-avatar">DTC</div>
+            <div class="group-info">
+              <h4>Domtom Connect — Réseau Business</h4>
+              <span>Actif • 1 question détectée en attente</span>
+            </div>
+            <span class="badge-status">Surveillé</span>
+          </div>
+          <div class="group-item">
+            <div class="group-avatar">PULSE</div>
+            <div class="group-info">
+              <h4>Bêta Testeurs DTC Pulse</h4>
+              <span>Actif • Calme</span>
+            </div>
+            <span class="badge-status">Surveillé</span>
+          </div>
+        </div>
+
+        <div class="whatsapp-alerts-list" id="whatsapp-alerts">
+          <!-- Dynamic Alerts -->
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: CERVEAU & RÈGLES ================= -->
+      <section id="view-brain" class="tab-view">
+        <div class="view-header">
+          <div class="view-header-title">
+            <h2>Cerveau & Directives</h2>
+            <p>Mémoire permanente & règles non négociables</p>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-num">3h 40m</span>
+            <span class="metric-label">Temps économisé cette semaine</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num">18</span>
+            <span class="metric-label">Brouillons validés</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num">0</span>
+            <span class="metric-label">Erreurs ou rebonds</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-num">100%</span>
+            <span class="metric-label">Conformité règles DTC</span>
+          </div>
+        </div>
+
+        <!-- Directives Checklist -->
+        <div class="rules-card">
+          <h3>Règles strictes actives</h3>
+          <ul class="rules-list">
+            <li>
+              <span class="rule-icon check">✓</span>
+              <div>
+                <strong>Zéro caractère deux-points (:)</strong>
+                <p>Remplacés automatiquement par des virgules ou retours à la ligne.</p>
+              </div>
+            </li>
+            <li>
+              <span class="rule-icon check">✓</span>
+              <div>
+                <strong>Zéro promesse fictive ou mensonge</strong>
+                <p>Interdiction de prétexter de faux clients ou des chiffres exagérés.</p>
+              </div>
+            </li>
+            <li>
+              <span class="rule-icon check">✓</span>
+              <div>
+                <strong>Lien d'agenda officiel unique</strong>
+                <p>calendly.com/domtomconnect/30min pour les propositions d'échanges.</p>
+              </div>
+            </li>
+            <li>
+              <span class="rule-icon check">✓</span>
+              <div>
+                <strong>Threading parfait des emails</strong>
+                <p>Conservation du Message-ID (In-Reply-To) pour ne jamais casser le fil.</p>
+              </div>
+            </li>
+            <li>
+              <span class="rule-icon check">✓</span>
+              <div>
+                <strong>Validation Humaine Obligatoire (Human-in-the-Loop)</strong>
+                <p>Aucun email ni message n'est expédié sans ton clic de confirmation.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (Mobile Native Style) -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="view-emails">
+        <div class="nav-icon-container">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span class="nav-badge" id="nav-email-badge">2</span>
+        </div>
+        <span>Emails</span>
+      </button>
+
+      <button class="nav-item" data-tab="view-linkedin">
+        <div class="nav-icon-container">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <span>LinkedIn</span>
+      </button>
+
+      <button class="nav-item" data-tab="view-whatsapp">
+        <div class="nav-icon-container">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="nav-badge alert" id="nav-wa-badge">1</span>
+        </div>
+        <span>WhatsApp</span>
+      </button>
+
+      <button class="nav-item" data-tab="view-brain">
+        <div class="nav-icon-container">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </div>
+        <span>Cerveau</span>
+      </button>
+    </nav>
+
+    <!-- Toast Notification Overlay -->
+    <div id="toast" class="toast hidden">
+      <span id="toast-message">Action effectuée</span>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
