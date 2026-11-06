@@ -5,11 +5,13 @@ Appelé par tools/site_builder.py, ou seul : python tools/boutique_builder.py
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from site_builder import SITE, e, crumbs, section, cards, faq, page, write, CAL
-from contenu_boutique import PRODUITS, PARTIES, FAQ_COMMUNE
+from contenu_boutique import PRODUITS, PARTIES, FAQ_COMMUNE, EXTRAIT
 
 ORG = {"@type": "Organization", "@id": SITE + "/#organization", "name": "Domtom Connect", "url": SITE}
 AUTEUR = {"@type": "Person", "name": "Loïc Villeronce", "url": SITE + "/a-propos"}
 SECURITE = '<ul class="pf-trust"><li><i class="fas fa-lock"></i>Paiement sécurisé par Stripe</li><li><i class="fas fa-bolt"></i>Accès immédiat</li><li><i class="fas fa-mobile-alt"></i>Téléphone, tablette, ordinateur</li></ul>'
+PAIEMENT = '<div class="pf-pay" aria-label="Paiement par carte"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><span>Paiement par carte via Stripe</span></div>'
+GARANTIES = '<div class="pf-guarantees"><div><i class="fas fa-bolt"></i><strong>Accès immédiat</strong><span>dès le paiement validé</span></div><div><i class="fas fa-lock"></i><strong>Paiement sécurisé</strong><span>vos données bancaires restent chez Stripe</span></div><div><i class="fas fa-infinity"></i><strong>Paiement unique</strong><span>pas d\'abonnement</span></div><div><i class="fab fa-whatsapp"></i><strong>Support humain</strong><span>une question, un message WhatsApp</span></div></div>'
 
 
 def offre_ld(p):
@@ -35,7 +37,10 @@ def fiche(p):
     return f"""<section class="pf-hero pf-product">
         <div class="pf-container">
             <div class="pf-product-grid">
-                <div class="pf-product-media"><img src="{p['image']}" alt="{e(p['image_alt'])}" width="896" height="1200" loading="eager"/></div>
+                <div class="pf-product-media" data-gallery>
+                    <div class="pf-gal-main">{f'<span class="pf-badge">{e(p["badge"])}</span>' if p.get("badge") else ""}<img src="{p['galerie'][0][0]}" alt="{e(p['image_alt'])}" loading="eager" data-main/></div>
+                    <div class="pf-gal-thumbs">{''.join(f'<button type="button" class="pf-thumb{" on" if i == 0 else ""}" data-src="{src}" aria-label="{e(alt)}"><img src="{src}" alt="" loading="lazy"/></button>' for i, (src, alt) in enumerate(p["galerie"]))}</div>
+                </div>
                 <div>
                     <p class="pf-eyebrow">{e(p['eyebrow'])}</p>
                     <h1 class="pf-h1 pf-product-title">{e(p['nom'])}</h1>
@@ -44,13 +49,21 @@ def fiche(p):
                         <div class="pf-price">{p['prix']} € <small>paiement unique</small></div>
                         <div class="pf-ctas" style="margin-bottom:14px;">{bouton(p)}</div>
                         {SECURITE}
+                        {PAIEMENT}
+                        <p class="pf-form-note" style="margin-top:8px;">TVA non applicable, article 293 B du CGI. <a href="/legal/conditions-generales">Conditions de vente</a></p>
                     </div>
                     <ul class="pf-list pf-product-points">{pts}</ul>
                     <p class="pf-text"><a href="/chapitre1-lecture" class="pf-more">Lire le chapitre 1 gratuitement →</a></p>
                 </div>
             </div>
         </div>
-    </section>"""
+    </section>
+    <div class="pf-sticky-buy" aria-hidden="true"><div><strong>{e(p['court'])}</strong><span>{p['prix']} € · accès immédiat</span></div>{bouton(p, "Acheter")}</div>"""
+
+
+def extrait():
+    paras = "".join(f'<p class="pf-text">{e(x)}</p>' for x in EXTRAIT)
+    return f'<div class="pf-extrait"><p class="pf-eyebrow">Chapitre 1 · Le mirage de l\'entrepreneuriat</p>{paras}<div class="pf-extrait-fade"></div><a href="/chapitre1-lecture" class="pf-btn-ghost"><span>Lire tout le chapitre 1 gratuitement</span></a></div>'
 
 
 def sommaire():
@@ -93,12 +106,15 @@ def build_produits():
                          {"@type": "ListItem", "position": 3, "name": p["nom"], "item": SITE + path}]},
                      {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_items]}]}
         blocs = [crumbs([("/", "Accueil"), ("/boutique", "Boutique"), (None, p["nom"])]), fiche(p),
+                 f'<section class="pf-section" style="padding-top:0;"><div class="pf-container">{GARANTIES}</div></section>',
                  section("01", "En deux mots", "Ce que tu vas en retirer", p["pitch"], cards(p["pour_qui"], 3), alt=True, sid="pour-qui"),
                  section("02", "Le sommaire", "28 chapitres en 4 parties", "Le contenu réel du Tome 1, du premier blocage à ta feuille de route des 30 premiers jours.", sommaire(), sid="sommaire"),
-                 section("03", "Comparer", "Choisis le format qui te correspond", "", comparatif(p["slug"]), alt=True, sid="comparer"),
-                 section("04", "Questions fréquentes", "Tout ce que tu dois savoir avant d'acheter", "", faq(faq_items), sid="faq"),
-                 section("05", "Aller plus loin", "Besoin d'un regard humain sur ton projet ?", "Le livre et le guide te donnent la méthode. Si tu veux qu'on regarde ton projet ensemble, il y a aussi ces options.", suite_humaine(), alt=True)]
-        write(f"boutique/{p['slug']}.html", page(pg, "\n".join(blocs), "boutique"))
+                 section("03", "Extrait gratuit", "Lis le début avant d'acheter", "", extrait(), alt=True, sid="extrait"),
+                 section("04", "Comparer", "Choisis le format qui te correspond", "", comparatif(p["slug"]), sid="comparer"),
+                 section("05", "Questions fréquentes", "Tout ce que tu dois savoir avant d'acheter", "", faq(faq_items), alt=True, sid="faq"),
+                 section("06", "Aller plus loin", "Besoin d'un regard humain sur ton projet ?", "Le livre et le guide te donnent la méthode. Si tu veux qu'on regarde ton projet ensemble, il y a aussi ces options.", suite_humaine())]
+        html_page = page(pg, "\n".join(blocs), "boutique").replace('<script src="/assets/js/assistant.js" defer></script>', '<script src="/assets/js/assistant.js" defer></script>\n    <script src="/assets/js/boutique.js" defer></script>')
+        write(f"boutique/{p['slug']}.html", html_page)
         print("OK", path)
 
 
@@ -110,7 +126,7 @@ def build_catalogue():
     for p in PRODUITS:
         pts = "".join(f"<li>{e(x)}</li>" for x in p["points"][:4])
         items.append(f"""<article class="pf-card pf-shop-card{' accent' if p['slug'] == 'guide-interactif' else ''}">
-                <a href="/boutique/{p['slug']}" class="pf-shop-img"><img src="{p['image']}" alt="{e(p['image_alt'])}" loading="lazy"/></a>
+                <a href="/boutique/{p['slug']}" class="pf-shop-img">{f'<span class="pf-badge">{e(p["badge"])}</span>' if p.get("badge") else ""}<img src="{p['image']}" alt="{e(p['image_alt'])}" loading="lazy"/></a>
                 <p class="pf-eyebrow" style="margin:0 0 6px;">{e(p['eyebrow'])}</p>
                 <h3 class="pf-h3"><a href="/boutique/{p['slug']}">{e(p['nom'])}</a></h3>
                 <p class="pf-text">{e(p['accroche'])}</p>
@@ -138,7 +154,7 @@ def build_catalogue():
         </div>
     </section>"""
     main = "\n".join([crumbs([("/", "Accueil"), (None, "Boutique")]), hero,
-                      section("01", "Les produits", "Choisis ton format", "", grille, alt=True, sid="produits"),
+                      section("01", "Les produits", "Choisis ton format", "", grille + GARANTIES, alt=True, sid="produits"),
                       section("02", "Par où commencer", "Quel produit pour toi ?", "", choix, sid="choisir"),
                       section("03", "Comparer", "Ce que contient chaque format", "", comparatif(), alt=True, sid="comparer"),
                       section("04", "Le sommaire", "28 chapitres en 4 parties", "Le contenu réel du Tome 1. Le chapitre 1 est en lecture libre.", sommaire(), sid="sommaire"),

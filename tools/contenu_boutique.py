@@ -26,7 +26,8 @@ FAQ_COMMUNE = [
 PRODUITS = [
  {
   "slug": "les-fondamentaux-de-l-entrepreneur", "nom": "Les Fondamentaux de l'Entrepreneur", "court": "Le livre",
-  "prix": 5, "stripe": STRIPE_LIVRE, "image": "/assets/images/mockup-couverture-guide-tome1-3d.jpg", "image_alt": "Couverture du livre Les Fondamentaux de l'Entrepreneur, Tome 1",
+  "prix": 5, "stripe": STRIPE_LIVRE, "image": "/assets/images/mockup-couverture-guide-tome1-3d.jpg", "image_alt": "Couverture du livre Les Fondamentaux de l'Entrepreneur, Tome 1", "badge": "Idéal pour commencer",
+  "galerie": [("/assets/images/mockup-couverture-guide-tome1-3d.jpg", "Le livre en 3D"), ("/assets/images/couverture-guide-tome1.jpg", "Couverture"), ("/assets/images/quatrieme-couverture-guide-tome1.jpg", "Quatrième de couverture")],
   "type": "Book", "format": "Livre numérique PDF et EPUB",
   "title": "Livre pour lancer son entreprise, Les Fondamentaux de l'Entrepreneur (5 €) | Domtom Connect",
   "description": "Le livre de Loïc Villeronce pour passer de l'idée aux premiers clients, pensé pour la Caraïbe, l'Afrique et la diaspora. 41 pages, 28 chapitres, PDF et EPUB, 5 €.",
@@ -46,7 +47,8 @@ PRODUITS = [
  },
  {
   "slug": "guide-interactif", "nom": "Le Guide Interactif de l'Entrepreneur", "court": "Le guide interactif",
-  "prix": 27, "stripe": STRIPE_GUIDE, "image": "/assets/images/bundle-mockup-tome1.jpg", "image_alt": "Le guide interactif Domtom Connect sur ordinateur et téléphone",
+  "prix": 27, "stripe": STRIPE_GUIDE, "image": "/assets/images/bundle-mockup-tome1.jpg", "image_alt": "Le guide interactif Domtom Connect sur ordinateur et téléphone", "badge": "Le plus pratique",
+  "galerie": [("/assets/images/bundle-mockup-tome1.jpg", "Le guide sur ordinateur et téléphone"), ("/assets/images/couverture-guide-tome1.jpg", "Couverture du Tome 1")],
   "type": "Product", "format": "Application web, accès à vie",
   "title": "Guide interactif pour créer son entreprise, simulateur et plan 30 jours (27 €) | Domtom Connect",
   "description": "La méthode des Fondamentaux de l'Entrepreneur en atelier en ligne. 27 étapes d'action, carnet de bord, simulateur de rentabilité et plan d'action 30 jours en PDF. 27 €.",
@@ -66,7 +68,8 @@ PRODUITS = [
  },
  {
   "slug": "pack-fondateur", "nom": "Le Pack Fondateur", "court": "Le pack fondateur",
-  "prix": 47, "stripe": STRIPE_PACK, "image": "/assets/images/bundle-mockup-tome1.jpg", "image_alt": "Le pack fondateur Domtom Connect",
+  "prix": 47, "stripe": STRIPE_PACK, "image": "/assets/images/bundle-mockup-tome1.jpg", "image_alt": "Le pack fondateur Domtom Connect", "badge": "Le plus complet",
+  "galerie": [("/assets/images/bundle-mockup-tome1.jpg", "Le guide interactif"), ("/assets/images/mockup-couverture-guide-tome1-3d.jpg", "Le Tome 1")],
   "type": "Product", "format": "Guide interactif et avantages membre fondateur",
   "title": "Pack Fondateur, guide interactif et avantages membre (47 €) | Domtom Connect",
   "description": "Le guide interactif complet, plus l'accès prioritaire à l'application DTC Pulse, la visibilité dans l'incubateur Domtom Connect et le badge membre fondateur. 47 €.",
@@ -84,3 +87,7 @@ PRODUITS = [
   ],
  },
 ]
+
+EXTRAIT = ["Assieds-toi. Pose ton téléphone sur la table, écran retourné. Prends une grande inspiration, relâche les épaules et écoute ce que le silence a à te dire.",
+           "Si tu as ouvert ce livre aujourd'hui, ce n'est pas par hasard. Ce n'est pas pour collectionner une méthode de plus, ni pour ajouter une couche de théorie à toutes celles qui encombrent déjà ton esprit.",
+           "Tu es là parce qu'au fond de toi, une certitude silencieuse te travaille depuis des mois, peut-être des années. Tu sais que tu es capable de bâtir quelque chose de tes propres mains, mais quelque chose t'arrête net au bord du vide."]

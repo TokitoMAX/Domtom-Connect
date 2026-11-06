@@ -280,6 +280,7 @@ def page(p, main, active=""):
     {footer()}
     <script src="/assets/js/site-nav.js" defer></script>
     <script src="/assets/js/lead-audit.js" defer></script>
+    <script src="/assets/js/assistant.js" defer></script>
 </body>
 </html>
 """
