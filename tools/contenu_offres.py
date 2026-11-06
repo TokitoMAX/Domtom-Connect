@@ -105,3 +105,7 @@ OFFRES = [
   "cta_text": "Déposez votre candidature ou réservez un échange offert de 30 minutes pour parler de votre projet avec Loïc Villeronce.",
  },
 ]
+
+# Page création de site web (contenu dans contenu_site_web.py)
+from contenu_site_web import OFFRE_SITE
+OFFRES.append(OFFRE_SITE)

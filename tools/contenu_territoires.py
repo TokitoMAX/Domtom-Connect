@@ -6,7 +6,7 @@ COMMUN_SERVICES = lambda nom: [
     {"tag": "Développement commercial", "title": "Trouver plus de clients", "text": "Nous construisons avec vous une démarche commerciale adaptée à votre marché local et, si c'est pertinent, au-delà.",
      "list": ["Offre et prix clarifiés", "Prospection et relances organisées", "Partenariats ciblés"]},
     {"tag": "Présence en ligne", "title": "Être trouvé sur internet", "text": "Nous créons ou reprenons votre site pour qu'il explique clairement ce que vous faites et qu'il génère des demandes.",
-     "list": ["Site vitrine ou boutique en ligne", "Référencement local", "Fiche Google et réseaux sociaux"]},
+     "list": ["Site vitrine ou boutique en ligne", "Référencement local", "Fiche Google et réseaux sociaux"], "href": "/creation-site-web", "more": "La création de site web"},
 ]
 
 TERRITOIRES = [
