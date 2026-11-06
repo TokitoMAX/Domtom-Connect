@@ -36,6 +36,16 @@
     ],
     "redirects": [
         {
+            "source": "/guide-entrepreneur",
+            "destination": "/boutique",
+            "permanent": true
+        },
+        {
+            "source": "/guide-entrepreneur.html",
+            "destination": "/boutique",
+            "permanent": true
+        },
+        {
             "source": "/connexion",
             "destination": "/login",
             "permanent": true

@@ -21,7 +21,7 @@ def e(t):
 # ---------------------------------------------------------------- menu
 NAV_ITEMS = [("/entreprises", "Entreprises", "entreprises"), ("/seance-strategique", "Séance stratégique", "seance"),
              ("/tremplin", "Porteurs de projet", "tremplin"), ("/anamnese", "Diagnostic gratuit", "anamnese"),
-             ("/rejoindre", "Réseau et DTC Pulse", "reseau")]
+             ("/boutique", "Boutique", "boutique"), ("/rejoindre", "Réseau et DTC Pulse", "reseau")]
 
 def nav(active):
     items = "\n".join(f'                    <li><a href="{h}" class="nav-link{" nav-link-active" if k == active else ""}">{l}</a></li>' for h, l, k in NAV_ITEMS)
@@ -70,7 +70,7 @@ def footer():
                     <a href="/pilotage">Copilotage opérationnel</a>
                     <a href="/tremplin">Programme Tremplin</a>
                     <a href="/anamnese">Diagnostic gratuit</a>
-                    <a href="/guide-entrepreneur">Guide de l'entrepreneur</a>
+                    <a href="/boutique">Boutique (livre et guide)</a>
                 </div>
                 <div>
                     <h3>Secteurs</h3>
@@ -497,6 +497,8 @@ def build_cgv():
     print("OK", path, "(brouillon, noindex)" if brouillon else "")
 
 if __name__ == "__main__":
+    from boutique_builder import build_boutique
+    build_boutique()
     build_cgv()
     build_secteurs()
     build_offres()

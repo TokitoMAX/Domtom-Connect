@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /assets/ebooks/
+Disallow: /merci-tome1
 Disallow: /api/
 Disallow: /mon-espace
 Disallow: /login
@@ -10,29 +12,37 @@ Disallow: /profile
 # AI Crawlers & LLM Indexing (Generative Engine Optimization)
 User-agent: GPTBot
 Allow: /
+Disallow: /assets/ebooks/
 Disallow: /admin/
 Disallow: /api/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /assets/ebooks/
 
 User-agent: Amazonbot
 Allow: /
+Disallow: /assets/ebooks/
 
 # Sitemap & LLM Knowledge File
 Sitemap: https://domtomconnect.com/sitemap.xml
