@@ -203,3 +203,4 @@ section{border-color:var(--pf-line);}
   .pf-chips .pf-container{flex-direction:column;gap:14px;}
   .pf-chip{padding:7px 12px;font-size:.82rem;}
 }
+.pf-prose{max-width:760px;}.pf-prose .pf-text{font-size:1.05rem;margin:0 0 18px;}

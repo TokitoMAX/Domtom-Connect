@@ -342,6 +342,88 @@ def build_offres():
         write(o["file"], page(p, "\n".join(blocks), o.get("active", "")))
         print("OK", o["file"])
 
+# ---------------------------------------------------------------- pages territoires
+def prose(paragraphs):
+    return '<div class="pf-prose">' + "".join(f'<p class="pf-text">{e(x)}</p>' for x in paragraphs) + "</div>"
+
+AREA = {"guadeloupe": "Guadeloupe", "martinique": "Martinique", "guyane": "Guyane", "reunion": "La Réunion", "mayotte": "Mayotte", "polynesie": "Polynésie française"}
+
+def build_territoires():
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from contenu_territoires import TERRITOIRES, COMMUN_SERVICES
+    common_faq = [
+        ("Combien coûte un accompagnement Domtom Connect ?", "Le premier échange de 30 minutes est offert. La séance stratégique d'une heure coûte 100 €, avec un plan d'action écrit, et ce montant est déduit si vous poursuivez. L'accompagnement est ensuite proposé sur devis."),
+        ("Faut-il se déplacer ?", "Non. Tout se fait à distance, en visio, au téléphone et sur WhatsApp."),
+    ]
+    terr_chips = [("Territoires", [("/territoires", "Tous")] + [("/territoires/" + t["slug"], t["nom"]) for t in TERRITOIRES] + [("/diaspora", "Diaspora")])]
+    for t in TERRITOIRES:
+        path = "/territoires/" + t["slug"]
+        faq_items = t["faq"] + common_faq
+        p = {
+            "path": path, "title": t["title"], "description": t["description"],
+            "eyebrow": f"Conseil et copilotage d'entreprise · {t['nom']}",
+            "h1": ("Accompagnement des entreprises", t["en"] + "."), "lead": t["lead"], "facts": t["faits"],
+            "steps": [("Un échange de 30 minutes", "Offert. Vous présentez votre activité, nous vous disons franchement si nous pouvons vous aider."),
+                      ("Une séance stratégique", "Une heure sur votre entreprise, avec un plan d'action écrit. 100 €, déduits si vous continuez."),
+                      ("Un accompagnement sur mesure", "Copilotage, développement commercial ou site web, sur devis.")],
+            "ld": [
+                {"@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": t["title"], "description": t["description"], "inLanguage": "fr-FR"},
+                {"@type": "Service", "@id": SITE + path + "#service", "name": "Accompagnement d'entreprise " + t["en"],
+                 "serviceType": ["Copilotage d'entreprise", "Développement commercial", "Création de site web"],
+                 "provider": {"@type": "Organization", "@id": SITE + "/#organization", "name": "Domtom Connect", "url": SITE},
+                 "areaServed": {"@type": "AdministrativeArea", "name": AREA[t["slug"]]},
+                 "offers": [{"@type": "Offer", "name": "Échange de 30 minutes", "price": "0", "priceCurrency": "EUR"},
+                            {"@type": "Offer", "name": "Séance stratégique", "price": "100", "priceCurrency": "EUR", "url": SITE + "/seance-strategique"}]},
+                {"@type": "BreadcrumbList", "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"},
+                    {"@type": "ListItem", "position": 2, "name": "Territoires", "item": SITE + "/territoires"},
+                    {"@type": "ListItem", "position": 3, "name": t["nom"], "item": SITE + path}]},
+                {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_items]},
+            ],
+        }
+        others = [x for x in TERRITOIRES if x["slug"] != t["slug"]]
+        main = "\n".join([
+            chips(terr_chips, path),
+            crumbs([("/", "Accueil"), ("/territoires", "Territoires"), (None, t["nom"])]),
+            hero(p),
+            section("01", "Le contexte local", f"Entreprendre {t['en']}, ce qui change vraiment", "", prose(t["contexte"]), sid="contexte"),
+            section("02", "Ce que vivent les dirigeants", f"Les situations que nous rencontrons {t['en']}", "", cards(t["pains"], 3), alt=True, sid="realite"),
+            section("03", "Ce que nous faisons pour vous", "Trois façons de vous aider", "", cards(COMMUN_SERVICES(t["nom"]), 3), sid="services"),
+            section("04", "Ce qui change", "Avant et après l'accompagnement", "", before_after(t["ba"]), alt=True, sid="resultats"),
+            section("05", "Comment démarrer", "Une première marche claire, puis du sur mesure", "", pricing(), sid="tarifs"),
+            section("06", "Questions fréquentes", f"Les questions des entrepreneurs {t['de']}", "", faq(faq_items), alt=True, sid="faq"),
+            section("07", "Par secteur", "Des pages dédiées à votre métier", "", cards([
+                {"title": "BTP et bâtiment", "text": "Chantiers, devis, trésorerie et équipes.", "href": "/entreprises-btp", "more": "Voir la page"},
+                {"title": "Tourisme et hébergement", "text": "Saisonnalité, réservations directes, organisation.", "href": "/entreprises-tourisme", "more": "Voir la page"},
+                {"title": "Marques et produits locaux", "text": "Cosmétique, agroalimentaire, vente en ligne.", "href": "/marques", "more": "Voir la page"}], 3)),
+            section("08", "Autres territoires", "Nous accompagnons aussi", "", cards([{"title": o["nom"], "text": o["description"].split(". ")[0] + ".", "href": "/territoires/" + o["slug"], "more": "Voir la page"} for o in others], 3), alt=True),
+            final_cta(f"Parlons de votre entreprise {t['en']}", "Trente minutes offertes avec Loïc Villeronce pour regarder votre situation et voir franchement si nous pouvons vous aider."),
+        ])
+        os.makedirs(os.path.join(ROOT, "territoires", t["slug"]), exist_ok=True)
+        write(f"territoires/{t['slug']}/index.html", page(p, main, ""))
+        print("OK", path)
+    # page de regroupement /territoires
+    path = "/territoires"
+    title = "Accompagnement d'entreprise en Outre-mer par territoire | Domtom Connect"
+    desc = "Guadeloupe, Martinique, Guyane, La Réunion, Mayotte, Polynésie française et diaspora. Copilotage et développement commercial pour les entreprises ultramarines."
+    p = {"path": path, "title": title, "description": desc, "eyebrow": "Territoires",
+         "h1": ("Un accompagnement d'entreprise", "pensé pour chaque territoire."),
+         "lead": "Chaque territoire a ses contraintes, son marché et son rythme. Choisissez le vôtre pour voir comment nous accompagnons les dirigeants et porteurs de projet sur place, entièrement à distance.",
+         "facts": [("6", "territoires ultramarins"), ("+ diaspora", "Hexagone, Canada, États-Unis"), ("100 % à distance", "visio, téléphone, WhatsApp")],
+         "steps": [("Un échange de 30 minutes", "Offert, pour faire le point sur votre situation."), ("Une séance stratégique", "Une heure et un plan d'action écrit, 100 €."), ("Un accompagnement sur mesure", "Sur devis, selon vos priorités.")],
+         "ld": [{"@type": "CollectionPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": title, "description": desc, "inLanguage": "fr-FR"},
+                {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"}, {"@type": "ListItem", "position": 2, "name": "Territoires", "item": SITE + path}]}]}
+    items = [{"title": t["nom"], "text": t["lead"].split(". ")[0] + ".", "href": "/territoires/" + t["slug"], "more": "Voir la page"} for t in TERRITOIRES]
+    items.append({"title": "Diaspora", "text": "Vous vivez dans l'Hexagone, au Canada ou aux États-Unis et vous développez une activité liée à la Caraïbe ou à l'Afrique.", "href": "/diaspora", "more": "Voir la page"})
+    main = "\n".join([crumbs([("/", "Accueil"), (None, "Territoires")]), hero(p),
+                      section("01", "Choisir son territoire", "Où êtes-vous installé ?", "", cards(items, 3), sid="territoires"),
+                      section("02", "Comment démarrer", "Une première marche claire, puis du sur mesure", "", pricing(), alt=True, sid="tarifs"),
+                      final_cta("Parlons de votre entreprise", "Trente minutes offertes avec Loïc Villeronce, où que vous soyez.")])
+    os.makedirs(os.path.join(ROOT, "territoires"), exist_ok=True)
+    write("territoires/index.html", page(p, main, ""))
+    print("OK", path)
+
 if __name__ == "__main__":
     build_secteurs()
     build_offres()
+    build_territoires()

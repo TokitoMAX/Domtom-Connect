@@ -184,37 +184,37 @@
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/guadeloupe</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/martinique</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/guyane</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/reunion</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/mayotte</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://domtomconnect.com/territoires/polynesie</loc>
-    <lastmod>2026-10-08</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
@@ -754,6 +754,12 @@
   </url>
   <url>
     <loc>https://domtomconnect.com/seance-strategique</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://domtomconnect.com/territoires</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
