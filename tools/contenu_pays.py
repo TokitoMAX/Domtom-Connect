@@ -139,6 +139,7 @@ SITES_LOCAUX = [
 
 
 # vague 2 : océan Indien et Pacifique, Afrique, villes de la diaspora
-from contenu_pays_vague2 import PAYS2, REGIONS2
+from contenu_pays_vague2 import PAYS2, REGIONS2, SITES_LOCAUX2
 PAYS += PAYS2
 REGIONS.update(REGIONS2)
+SITES_LOCAUX += SITES_LOCAUX2

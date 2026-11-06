@@ -188,3 +188,19 @@ PAYS2 = [
   "faq": [("Do you work with businesses in the United States?", "Yes, remotely, in English or French."),
           ("Can you help us sell to the Caribbean diaspora?", "Yes, with an online shop and our DTC Pulse network.")]},
 ]
+
+# ------------------------------------------------ sous-pages « création de site », vague 2
+SITES_LOCAUX2 = [
+ {"slug": "saint-martin", "nom": "Saint-Martin", "en": "à Saint-Martin",
+  "local": ["À Saint-Martin, une grande partie des clients sont des visiteurs nord-américains qui cherchent en anglais, souvent depuis leur téléphone, parfois avant même d'avoir réservé leur vol. Un site uniquement en français, ou lent sur mobile, laisse filer ces clients vers les entreprises du côté néerlandais.",
+            "Les recherches mélangent aussi les deux côtés de l'île, Marigot, Grand Case, Orient Bay, Philipsburg, Simpson Bay. Un site bilingue, bien référencé sur ces lieux et relié à WhatsApp, permet de capter ces demandes et de réserver en direct plutôt que de tout laisser aux plateformes."]},
+ {"slug": "senegal", "nom": "Sénégal", "en": "au Sénégal",
+  "local": ["Au Sénégal, l'immense majorité des internautes passent par leur téléphone, et la conversation commerciale se fait très souvent sur WhatsApp. Un site efficace doit donc être léger, rapide même avec une connexion moyenne, et mener directement vers une discussion WhatsApp ou une prise de contact simple.",
+            "Pour les entreprises qui vendent aussi à la diaspora en France, en Europe ou en Amérique du Nord, le site devient la vitrine qui rassure ces clients à distance. Présenter clairement l'offre, les prix et les modalités de livraison ou de service fait souvent toute la différence."]},
+ {"slug": "cote-d-ivoire", "nom": "Côte d'Ivoire", "en": "en Côte d'Ivoire",
+  "local": ["En Côte d'Ivoire, et à Abidjan en particulier, la concurrence est forte et les clients comparent beaucoup en ligne, sur Google comme sur les réseaux sociaux. Une entreprise qui a un site clair, rapide sur téléphone et bien référencé sur sa commune, Cocody, Plateau, Marcory ou Yopougon, inspire immédiatement plus confiance.",
+            "Pour les entreprises qui visent des clients professionnels, la sous-région ou la diaspora, le site joue aussi le rôle de carte de visite internationale. Il doit expliquer en quelques secondes ce que vous faites, pour qui, et comment vous contacter."]},
+ {"slug": "paris", "nom": "Paris et Île-de-France", "en": "à Paris et en Île-de-France",
+  "local": ["À Paris et en Île-de-France, de nombreux entrepreneurs de la diaspora antillaise, guyanaise, réunionnaise et africaine vendent des produits et des services à une clientèle fidèle mais dispersée dans toute la région. Sans site qui vend ou qui prend des réservations, une grande partie de ces clients ne passe jamais à l'acte.",
+            "Sur un marché parisien très concurrentiel, le site doit aussi raconter votre histoire et votre lien avec le territoire, ce qui fait votre différence. Boutique en ligne, réservation, commande à emporter ou demande de devis, chaque page doit mener à une action claire."]},
+]
