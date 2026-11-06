@@ -92,7 +92,7 @@ def footer():
             </div>
             <div class="pf-footer-bottom">
                 <span>© 2026 Domtom Connect · Loïc Villeronce</span>
-                <span><a href="/legal/mentions-legales">Mentions légales</a> · <a href="/legal/conditions-generales">Conditions générales</a> · <a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
+                <span><a href="/en" hreflang="en">English</a> · <a href="/legal/mentions-legales">Mentions légales</a> · <a href="/legal/conditions-generales">Conditions générales</a> · <a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
                 <span class="pf-social"><a href="https://www.linkedin.com/company/domtomconnect" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="https://www.instagram.com/domtomconnect" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.youtube.com/@domtomconnect" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="https://www.tiktok.com/@domtomconnect" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></span>
             </div>
         </div>
@@ -107,7 +107,7 @@ HEAD_TRACKING = """    <script src="https://t.contentsquare.net/uxa/86bd8964d6ff
 def head(p, ld):
     url = SITE + p["path"]
     return f"""<!DOCTYPE html>
-<html lang="fr">
+<html lang="{p.get('lang', 'fr')}">
 <head>
     <meta charset="utf-8"/>
 {HEAD_TRACKING}
@@ -122,7 +122,7 @@ def head(p, ld):
     <meta property="og:title" content="{e(p['title'])}"/>
     <meta property="og:description" content="{e(p['description'])}"/>
     <meta property="og:image" content="{SITE}/assets/images/logo-domtomconnect.png"/>
-    <meta property="og:locale" content="fr_FR"/>
+    <meta property="og:locale" content="{'en_US' if p.get('lang') == 'en' else 'fr_FR'}"/>
     <meta property="og:site_name" content="Domtom Connect"/>
     <meta name="twitter:card" content="summary_large_image"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -221,6 +221,37 @@ def pricing():
 def faq(items):
     return '<div class="pf-faq">' + "".join(f"<details><summary>{e(q)}</summary><p>{e(a)}</p></details>" for q, a in items) + "</div>"
 
+TERRITOIRES_FORM = ["Guadeloupe", "Martinique", "Guyane", "Saint-Martin", "La Réunion", "Mayotte", "Polynésie française", "Caraïbe anglophone ou hispanophone", "Afrique", "Hexagone ou diaspora"]
+
+def lead_audit(source, territoire=""):
+    opts = "".join(f'<option{" selected" if t == territoire else ""}>{e(t)}</option>' for t in TERRITOIRES_FORM)
+    return f"""<section class="pf-section" id="audit">
+        <div class="pf-container">
+            <div class="pf-audit">
+                <div>
+                    <p class="pf-eyebrow">Offert, sans engagement</p>
+                    <h2 class="pf-h2">Recevez un audit de votre présence en ligne</h2>
+                    <p class="pf-text">Loïc Villeronce regarde votre site, ou votre page Facebook si vous n'avez pas de site, ainsi que votre fiche Google, et vous répond personnellement avec trois pistes concrètes pour attirer plus de clients.</p>
+                    <ul class="pf-list"><li>Ce qui vous fait perdre des clients aujourd'hui</li><li>Ce qui vous ferait gagner en visibilité dans votre zone</li><li>Par quoi commencer, même avec un petit budget</li></ul>
+                </div>
+                <form class="pf-form" action="https://formspree.io/f/myzbqepy" method="POST" data-lead-audit>
+                    <input type="hidden" name="_subject" value="Demande d'audit de présence en ligne"/>
+                    <input type="hidden" name="source" value="{e(source)}"/>
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="pf-hp" aria-hidden="true"/>
+                    <label>Votre prénom<input type="text" name="prenom" required autocomplete="given-name"/></label>
+                    <label>Votre entreprise<input type="text" name="entreprise" required autocomplete="organization"/></label>
+                    <label>Votre site ou votre page Facebook<input type="text" name="site" placeholder="www.votre-entreprise.com"/></label>
+                    <label>Votre e-mail<input type="email" name="email" required autocomplete="email"/></label>
+                    <label>Votre WhatsApp (facultatif)<input type="tel" name="whatsapp" autocomplete="tel"/></label>
+                    <label>Votre territoire<select name="territoire">{opts}</select></label>
+                    <button type="submit" class="pf-btn"><span>Recevoir mon audit offert</span></button>
+                    <p class="pf-form-msg" role="status" aria-live="polite"></p>
+                    <p class="pf-form-note">Vos informations servent uniquement à vous répondre. <a href="/legal/privacy">Confidentialité</a></p>
+                </form>
+            </div>
+        </div>
+    </section>"""
+
 def final_cta(title, text):
     return f"""<section class="pf-section alt">
         <div class="pf-container">
@@ -247,6 +278,7 @@ def page(p, main, active=""):
     </main>
     {footer()}
     <script src="/assets/js/site-nav.js" defer></script>
+    <script src="/assets/js/lead-audit.js" defer></script>
 </body>
 </html>
 """
@@ -334,6 +366,9 @@ def build_offres():
                 inner = before_after(sec["items"])
             elif t == "pricing":
                 inner = pricing()
+            elif t == "audit":
+                blocks.append(lead_audit(o["file"][:-5]))
+                continue
             elif t == "faq":
                 inner = faq(faq_items)
             else:
@@ -392,6 +427,7 @@ def build_territoires():
             section("03", "Ce que nous faisons pour vous", "Trois façons de vous aider", "", cards(COMMUN_SERVICES(t["nom"]), 3), sid="services"),
             section("04", "Ce qui change", "Avant et après l'accompagnement", "", before_after(t["ba"]), alt=True, sid="resultats"),
             section("05", "Comment démarrer", "Une première marche claire, puis du sur mesure", "", pricing(), sid="tarifs"),
+            lead_audit("territoire-" + t["slug"], AREA[t["slug"]]),
             section("06", "Questions fréquentes", f"Les questions des entrepreneurs {t['de']}", "", faq(faq_items), alt=True, sid="faq"),
             section("07", "Par secteur", "Des pages dédiées à votre métier", "", cards([
                 {"title": "BTP et bâtiment", "text": "Chantiers, devis, trésorerie et équipes.", "href": "/entreprises-btp", "more": "Voir la page"},
@@ -518,6 +554,8 @@ def build_mentions():
 
 if __name__ == "__main__":
     from boutique_builder import build_boutique
+    from page_en import build_en
+    build_en()
     build_boutique()
     build_cgv()
     build_mentions()

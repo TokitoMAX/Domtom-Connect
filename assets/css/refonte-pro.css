@@ -233,3 +233,17 @@ section{border-color:var(--pf-line);}
 .pf-compare tr.buy .pf-btn,.pf-compare tr.buy .pf-btn-ghost{padding:10px 14px;font-size:.9rem;}
 @media (max-width:860px){.pf-product-grid{grid-template-columns:1fr;gap:22px;}.pf-product-media{max-width:230px;margin:0 auto;}.pf-grid-2{grid-template-columns:1fr;}}
 @media (max-width:600px){.pf-compare{min-width:0;font-size:.8rem;}.pf-compare th,.pf-compare td{padding:9px 4px;}.pf-compare tbody th{width:44%;}.pf-compare tr.buy .pf-btn,.pf-compare tr.buy .pf-btn-ghost{padding:8px 6px;font-size:.78rem;width:100%;justify-content:center;}.pf-compare tr.buy i{display:none;}}
+/* Formulaire audit offert */
+.pf-audit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;border:1px solid var(--pf-green);border-radius:16px;padding:34px;background:rgba(16,185,129,.04);}
+.pf-form{display:flex;flex-direction:column;gap:12px;}
+.pf-form label{display:flex;flex-direction:column;gap:6px;color:var(--pf-white);font-size:.9rem;font-weight:600;}
+.pf-form input,.pf-form select{background:#0b0f0d;border:1px solid var(--pf-line);border-radius:10px;padding:12px 14px;color:var(--pf-white);font:inherit;font-weight:400;font-size:1rem;}
+.pf-form input:focus,.pf-form select:focus{outline:2px solid var(--pf-green);border-color:transparent;}
+.pf-form .pf-btn{justify-content:center;margin-top:6px;}
+.pf-form-msg{color:var(--pf-text);font-size:.92rem;margin:0;min-height:1.2em;}
+.pf-form-msg.ok{color:var(--pf-green);font-weight:600;}
+.pf-form-note{color:var(--pf-muted);font-size:.8rem;margin:0;}
+.pf-form-note a{color:var(--pf-text);}
+.pf-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+@media (max-width:860px){.pf-audit{grid-template-columns:1fr;padding:22px;gap:24px;}}
+.pf-audit>*{min-width:0;}.pf-form input,.pf-form select{width:100%;box-sizing:border-box;min-width:0;}.pf-audit .pf-h2{overflow-wrap:anywhere;}

@@ -43,6 +43,7 @@ OFFRE_SITE = {
     {"title": "On écrit pour être trouvé", "text": "Titres, textes et pages pensés pour Google et pour les assistants d'intelligence artificielle, avec votre commune, votre métier et vos services."},
     {"title": "On mesure et on ajuste", "text": "Après la mise en ligne, on regarde d'où viennent les visiteurs et ce qu'ils font, et on améliore ce qui doit l'être."},
    ]},
+  {"type": "audit"},
   {"type": "pricing", "id": "tarifs", "eyebrow": "Comment démarrer", "h2": "Un échange offert, puis un devis clair"},
   {"type": "faq", "id": "faq", "eyebrow": "Questions fréquentes", "h2": "Ce que nous demandent les entrepreneurs avant de se lancer"},
  ],
