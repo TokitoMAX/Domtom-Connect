@@ -136,3 +136,9 @@ SITES_LOCAUX = [
   "local": ["À La Réunion, la concurrence est forte dans de nombreux secteurs, et les clients comparent beaucoup en ligne. Entre Saint-Denis, Saint-Pierre et Saint-Paul, se démarquer passe par une offre claire et une présence locale soignée sur Google.",
             "Le décalage horaire avec l'Hexagone fait aussi que beaucoup de clients et de partenaires vous contactent en dehors de vos heures. Un site qui répond aux questions et permet de réserver ou de demander un devis à toute heure travaille pour vous pendant que vous dormez."]},
 ]
+
+
+# vague 2 : océan Indien et Pacifique, Afrique, villes de la diaspora
+from contenu_pays_vague2 import PAYS2, REGIONS2
+PAYS += PAYS2
+REGIONS.update(REGIONS2)

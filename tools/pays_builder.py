@@ -76,9 +76,9 @@ def toutes_terr():
     return base + [("/territoires/" + p["slug"], p["nom"]) for p in PAYS]
 
 def build_pays():
-    groupes = [("Territoires", [("/territoires", "Tous")] + toutes_terr() + [("/diaspora", "Diaspora")])]
     for p in PAYS:
         L = T[p["lang"]]; path = "/territoires/" + p["slug"]
+        groupes = [(REGIONS[p["region"]], [("/territoires", "Tous")] + [("/territoires/" + x["slug"], x["nom"]) for x in PAYS if x["region"] == p["region"]] + ([("/diaspora", "Diaspora")] if p["region"] == "diaspora" else []))]
         faq_items = p["faq"] + L["common"]
         pg = {"path": path, "lang": p["lang"],
               "title": {"fr": f"Accompagnement et création de site internet {p['en']} | Domtom Connect", "en": f"Business support and websites {p['en']} | Domtom Connect", "es": f"Acompañamiento y sitios web {p['en']} | Domtom Connect"}[p["lang"]],
@@ -94,7 +94,7 @@ def build_pays():
                     {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_items]}]
         srv = cards([dict({"tag": a, "title": b, "text": c}, **({"href": h, "more": L["more"]} if h else {})) for a, b, c, h in L["srv"]], 3)
         voisins = [x for x in PAYS if x["region"] == p["region"] and x["slug"] != p["slug"]]
-        oth = cards([{"title": x["nom"], "text": REGIONS[x["region"]], "href": "/territoires/" + x["slug"], "more": L["more"]} for x in voisins] + [{"title": L["terr"], "text": "Caraïbe, Afrique, diaspora", "href": "/territoires", "more": L["more"]}], 3)
+        oth = cards([{"title": x["nom"], "text": REGIONS[x["region"]], "href": "/territoires/" + x["slug"], "more": L["more"]} for x in voisins] + [{"title": L["terr"], "text": "Caraïbe, océan Indien, Afrique, diaspora", "href": "/territoires", "more": L["more"]}], 3)
         blocs = [chips(groupes, path), crumbs([("/", L["home"]), ("/territoires", L["terr"]), (None, p["nom"])]), hero(pg),
                  section("01", L["s_ctx"][0], L["s_ctx"][1].format(en=p["en"]), "", prose(p["contexte"]), sid="contexte"),
                  section("02", L["s_def"][0], L["s_def"][1].format(en=p["en"], de=p["de"]), "", cards([{"title": a, "text": b} for a, b in p["defis"]], 3), alt=True, sid="defis"),
