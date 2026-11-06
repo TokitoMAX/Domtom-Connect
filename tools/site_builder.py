@@ -568,3 +568,5 @@ if __name__ == "__main__":
     build_tout()
     from guides_builder import build_tout_guides
     build_tout_guides()
+    from guides_intl_builder import build_tout_intl
+    build_tout_intl()
