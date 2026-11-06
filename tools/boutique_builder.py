@@ -78,7 +78,7 @@ def comparatif(courant=None):
     lignes = [("Les 28 chapitres de la méthode", ["oui", "oui", "oui"]), ("Livre PDF et EPUB à télécharger", ["oui", "", ""]),
               ("Exercices sur ton projet, étape par étape", ["", "oui", "oui"]), ("Carnet de bord sauvegardé", ["", "oui", "oui"]),
               ("Simulateur de rentabilité et de prix", ["", "oui", "oui"]), ("Plan d'action 30 jours en PDF", ["", "oui", "oui"]),
-              ("Accès prioritaire à DTC Pulse et badge fondateur", ["", "", "oui"]), ("Visibilité dans l'incubateur Domtom Connect", ["", "", "oui"])]
+              ("Séance stratégique à 75 € au lieu de 100 €", ["", "", "oui"])]
     head = "".join(f'<th scope="col"{" class=cur" if p["slug"] == courant else ""}><a href="/boutique/{p["slug"]}">{e(p["court"])}</a><span>{p["prix"]} €</span></th>' for p in PRODUITS)
     rows = "".join("<tr><th scope=\"row\">" + e(l) + "</th>" + "".join(f'<td>{"<i class=\"fas fa-check\" aria-label=\"inclus\"></i>" if v else "<span aria-label=\"non inclus\">·</span>"}</td>' for v in vals) + "</tr>" for l, vals in lignes)
     buy = "".join(f'<td>{bouton(p, "%s €" % p["prix"], ghost=p["slug"] != "guide-interactif")}</td>' for p in PRODUITS)
@@ -138,7 +138,7 @@ def build_catalogue():
     choix = cards([
         {"title": "Tu veux d'abord comprendre et te remettre en question", "text": "Commence par le livre. Il est court, direct, et ne coûte que 5 €.", "href": "/boutique/les-fondamentaux-de-l-entrepreneur", "more": "Le livre"},
         {"title": "Tu veux avancer concrètement sur ton projet", "text": "Prends le guide interactif. Tu fais les exercices, tu calcules tes prix, tu repars avec ton plan 30 jours.", "href": "/boutique/guide-interactif", "more": "Le guide interactif"},
-        {"title": "Tu veux la méthode et le réseau", "text": "Le pack fondateur ajoute l'accès prioritaire à DTC Pulse et la visibilité dans l'incubateur.", "href": "/boutique/pack-fondateur", "more": "Le pack fondateur"},
+        {"title": "Tu veux la méthode et un regard humain", "text": "Le pack fondateur ajoute une séance stratégique avec Loïc à 75 € au lieu de 100 €.", "href": "/boutique/pack-fondateur", "more": "Le pack fondateur"},
     ], 3)
     ld = [{"@type": "CollectionPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": title, "description": desc, "inLanguage": "fr-FR",
            "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": f"{SITE}/boutique/{p['slug']}", "name": p["nom"]} for i, p in enumerate(PRODUITS)]}},

@@ -17,7 +17,7 @@ def build_en():
     path = "/en"
     title = "Business support and websites for Caribbean companies | Domtom Connect"
     desc = "Operational support, direct booking websites and diaspora reach for businesses in St Lucia, Grenada, Sint Maarten and across the Caribbean. Free 30 minute call."
-    p = {"path": path, "title": title, "description": desc, "lang": "en",
+    p = {"path": path, "title": title, "description": desc, "lang": "en", "alternates": [("en", "/en"), ("fr", "/"), ("x-default", "/")],
          "ld": [{"@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": title, "description": desc, "inLanguage": "en"},
                 {"@type": "Service", "@id": SITE + path + "#service", "name": "Business support and website creation for Caribbean companies",
                  "serviceType": ["Business coaching", "Operational support", "Website creation", "Direct booking website"],

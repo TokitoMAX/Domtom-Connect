@@ -116,7 +116,7 @@ def head(p, ld):
     <title>{e(p['title'])}</title>
     <meta name="description" content="{e(p['description'])}"/>
     <meta name="robots" content="{p.get('robots', 'index, follow, max-image-preview:large')}"/>
-    <link rel="canonical" href="{url}"/>
+    <link rel="canonical" href="{url}"/>{"".join(chr(10) + "    " + chr(60) + f'link rel="alternate" hreflang="{h}" href="{SITE}{u}"/' + chr(62) for h, u in p.get("alternates", []))}
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{url}"/>
