@@ -149,3 +149,35 @@ TERRITOIRES = [
           ("Pouvez-vous m'aider à vendre aux touristes avant leur arrivée ?", "Oui. Un site clair, une réservation ou une boutique en ligne et une présence sur les bons canaux permettent d'être choisi avant le voyage.")],
  },
 ]
+
+DIASPORA = {
+  "title": "Entrepreneurs de la diaspora caribéenne et africaine | Domtom Connect",
+  "description": "Vous vivez dans l'Hexagone, au Canada, aux États-Unis ou au Royaume-Uni et vous entreprenez en lien avec la Caraïbe ou l'Afrique. Copilotage et développement commercial.",
+  "lead": "Vous vivez loin de votre territoire d'origine et vous voulez y entreprendre, y vendre, ou faire grandir une activité tournée vers la Caraïbe ou l'Afrique. Nous vous aidons à structurer le projet, à trouver vos clients et à avancer malgré la distance.",
+  "faits": [("Hexagone", "Paris, Lyon, Bordeaux et ailleurs"), ("Amérique du Nord", "Canada et États-Unis"), ("100 % à distance", "visio, téléphone, WhatsApp")],
+  "contexte": [
+    "Les diasporas antillaise, guyanaise, réunionnaise, haïtienne et africaine sont présentes dans l'Hexagone, au Canada, aux États-Unis et au Royaume-Uni. Beaucoup de ces personnes gardent un lien fort avec leur territoire d'origine, et beaucoup ont un projet d'entreprise qui s'y rattache.",
+    "Ces projets prennent des formes différentes. Créer une activité au pays tout en vivant ailleurs. Vendre aux communautés de la diaspora des produits venus de la Caraïbe ou d'Afrique. Préparer un retour et y lancer son entreprise. Ou développer une activité de services qui travaille avec les deux rives.",
+    "Dans tous les cas, la distance complique tout. Il faut trouver des partenaires fiables sur place, comprendre un marché que l'on ne vit plus au quotidien et organiser le travail à plusieurs fuseaux horaires. C'est exactement là qu'un regard extérieur et une méthode font la différence.",
+  ],
+  "profils": [
+    {"tag": "Créer au pays", "title": "Lancer une activité à distance", "text": "Vous vivez ailleurs et vous voulez créer ou reprendre une entreprise en Guadeloupe, en Martinique, en Guyane, à La Réunion ou en Afrique.",
+     "list": ["Étude de faisabilité honnête", "Plan de lancement écrit", "Organisation du travail à distance"]},
+    {"tag": "Vendre à la diaspora", "title": "Toucher votre communauté", "text": "Vous vendez des produits ou des services pensés pour la diaspora, ici ou depuis le territoire d'origine.",
+     "list": ["Offre et prix clarifiés", "Boutique ou site en ligne", "Canaux pour atteindre la communauté"]},
+    {"tag": "Préparer un retour", "title": "Rentrer avec un projet solide", "text": "Vous préparez votre retour et vous voulez arriver avec une activité réfléchie plutôt qu'improvisée.",
+     "list": ["Analyse du marché local", "Étapes et budget réalistes", "Premiers clients avant le départ"]},
+  ],
+  "pains": [
+    {"tag": "Distance", "title": "Piloter de loin", "text": "Vous ne pouvez pas être sur place pour tout vérifier. Sans organisation claire, les décisions traînent et les erreurs coûtent cher."},
+    {"tag": "Marché", "title": "Un marché qui a changé", "text": "Le territoire que vous connaissez n'est plus tout à fait celui d'aujourd'hui. Les prix, les habitudes et la concurrence ont évolué."},
+    {"tag": "Réseau", "title": "Trouver les bons contacts", "text": "Partenaires, fournisseurs, prestataires. Savoir à qui faire confiance sur place est souvent le plus difficile."},
+  ],
+  "ba": [("Le projet reste une idée depuis des années.", "Un plan écrit, avec des étapes, un budget et une première action concrète."),
+         ("Vous pilotez à distance au jour le jour.", "Une organisation claire et des points réguliers pour garder le contrôle."),
+         ("Votre communauté ne sait pas que vous existez.", "Une offre lisible en ligne et des canaux pour atteindre la diaspora.")],
+  "faq": [("J'habite à Paris, au Canada ou aux États-Unis, pouvez-vous m'accompagner ?", "Oui. Tout se fait à distance, en visio, au téléphone et sur WhatsApp, avec des rendez-vous calés sur votre fuseau horaire."),
+          ("Mon projet n'est encore qu'une idée, est-ce trop tôt ?", "Non. La séance stratégique est justement faite pour transformer une idée en plan concret, et le programme Tremplin accompagne les porteurs de projet dans leur lancement."),
+          ("Pouvez-vous m'aider à vendre mes produits à la diaspora ?", "Oui. Nous travaillons avec vous l'offre, la boutique en ligne et les canaux qui permettent d'atteindre votre communauté."),
+          ("Qu'est-ce que DTC Pulse ?", "DTC Pulse est l'application de réseau de Domtom Connect pour les entrepreneurs et les communautés de la Caraïbe, de l'Afrique et de la diaspora. Vous y créez et gérez vous-même votre compte.")],
+}

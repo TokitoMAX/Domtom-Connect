@@ -423,7 +423,55 @@ def build_territoires():
     write("territoires/index.html", page(p, main, ""))
     print("OK", path)
 
+def build_diaspora():
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from contenu_territoires import TERRITOIRES, DIASPORA as d
+    path = "/diaspora"
+    faq_items = d["faq"] + [("Combien coûte un accompagnement Domtom Connect ?", "Le premier échange de 30 minutes est offert. La séance stratégique d'une heure coûte 100 €, avec un plan d'action écrit, et ce montant est déduit si vous poursuivez. L'accompagnement est ensuite proposé sur devis.")]
+    p = {
+        "path": path, "title": d["title"], "description": d["description"],
+        "eyebrow": "Diaspora caribéenne, ultramarine et africaine",
+        "h1": ("Entreprendre avec la Caraïbe et l'Afrique", "depuis la diaspora."), "lead": d["lead"], "facts": d["faits"],
+        "steps": [("Un échange de 30 minutes", "Offert. Vous présentez votre projet, nous vous disons franchement si nous pouvons vous aider."),
+                  ("Une séance stratégique", "Une heure sur votre projet, avec un plan d'action écrit. 100 €, déduits si vous continuez."),
+                  ("Un accompagnement sur mesure", "Copilotage, développement commercial ou site web, sur devis.")],
+        "ld": [
+            {"@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": d["title"], "description": d["description"], "inLanguage": "fr-FR"},
+            {"@type": "Service", "@id": SITE + path + "#service", "name": "Accompagnement des entrepreneurs de la diaspora",
+             "serviceType": ["Copilotage d'entreprise", "Développement commercial", "Création de site web"],
+             "audience": {"@type": "BusinessAudience", "name": "Entrepreneurs de la diaspora caribéenne, ultramarine et africaine"},
+             "provider": {"@type": "Organization", "@id": SITE + "/#organization", "name": "Domtom Connect", "url": SITE},
+             "areaServed": ["France hexagonale", "Canada", "États-Unis", "Royaume-Uni", "Guadeloupe", "Martinique", "Guyane", "La Réunion", "Afrique de l'Ouest", "Afrique centrale"],
+             "offers": [{"@type": "Offer", "name": "Échange de 30 minutes", "price": "0", "priceCurrency": "EUR"},
+                        {"@type": "Offer", "name": "Séance stratégique", "price": "100", "priceCurrency": "EUR", "url": SITE + "/seance-strategique"}]},
+            {"@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Territoires", "item": SITE + "/territoires"},
+                {"@type": "ListItem", "position": 3, "name": "Diaspora", "item": SITE + path}]},
+            {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_items]},
+        ],
+    }
+    terr_chips = [("Territoires", [("/territoires", "Tous")] + [("/territoires/" + t["slug"], t["nom"]) for t in TERRITOIRES] + [("/diaspora", "Diaspora")])]
+    main = "\n".join([
+        chips(terr_chips, path),
+        crumbs([("/", "Accueil"), ("/territoires", "Territoires"), (None, "Diaspora")]),
+        hero(p),
+        section("01", "Le contexte", "Entreprendre depuis la diaspora, ce qui change vraiment", "", prose(d["contexte"]), sid="contexte"),
+        section("02", "Votre projet", "Trois projets que nous accompagnons", "", cards(d["profils"], 3), alt=True, sid="projets"),
+        section("03", "Ce qui bloque", "Les difficultés que nous retrouvons le plus souvent", "", cards(d["pains"], 3), sid="realite"),
+        section("04", "Ce qui change", "Avant et après l'accompagnement", "", before_after(d["ba"]), alt=True, sid="resultats"),
+        section("05", "Comment démarrer", "Une première marche claire, puis du sur mesure", "", pricing(), sid="tarifs"),
+        section("06", "Questions fréquentes", "Les questions des entrepreneurs de la diaspora", "", faq(faq_items), alt=True, sid="faq"),
+        section("07", "Territoires", "Le territoire de votre projet", "", cards([{"title": t["nom"], "text": t["description"].split(". ")[0] + ".", "href": "/territoires/" + t["slug"], "more": "Voir la page"} for t in TERRITOIRES], 3)),
+        section("08", "Le réseau", "Rejoindre la communauté Domtom Connect", "DTC Pulse est l'application de réseau de Domtom Connect pour les entrepreneurs et les communautés de la Caraïbe, de l'Afrique et de la diaspora. Vous y créez et gérez vous-même votre compte.",
+                f'<div class="pf-ctas"><a href="/rejoindre" class="pf-btn-ghost"><span>Découvrir le réseau et DTC Pulse</span></a></div>', alt=True, sid="reseau"),
+        final_cta("Parlons de votre projet", "Trente minutes offertes avec Loïc Villeronce, où que vous viviez, pour regarder votre projet et voir franchement si nous pouvons vous aider."),
+    ])
+    write("diaspora/index.html", page(p, main, ""))
+    print("OK", path)
+
 if __name__ == "__main__":
     build_secteurs()
     build_offres()
     build_territoires()
+    build_diaspora()
