@@ -1,0 +1,20 @@
+name: Synchroniser main avec master
+
+# Vercel met en production la branche main. Le travail se fait sur master.
+# A chaque push sur master, main avance jusqu'au même commit (avance simple, jamais d'écrasement).
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Avancer main jusqu'à master
+        run: git push origin HEAD:refs/heads/main
