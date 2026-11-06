@@ -85,6 +85,7 @@ def footer():
                     <h3>Domtom Connect</h3>
                     <a href="/a-propos">À propos</a>
                     <a href="/rejoindre">Réseau et DTC Pulse</a>
+                    <a href="/guides">Guides et outils gratuits</a>
                     <a href="/blog">Blog</a>
                     <a href="/support">Contact</a>
                     <a href="/login">Espace membre</a>
@@ -565,3 +566,5 @@ if __name__ == "__main__":
     build_diaspora()
     from pays_builder import build_tout
     build_tout()
+    from guides_builder import build_tout_guides
+    build_tout_guides()
