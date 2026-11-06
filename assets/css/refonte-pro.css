@@ -204,3 +204,4 @@ section{border-color:var(--pf-line);}
   .pf-chip{padding:7px 12px;font-size:.82rem;}
 }
 .pf-prose{max-width:760px;}.pf-prose .pf-text{font-size:1.05rem;margin:0 0 18px;}
+.pf-todo{background:#10b981;color:#070908;padding:0 4px;border-radius:3px;font-weight:600;}

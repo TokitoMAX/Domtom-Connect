@@ -7,7 +7,7 @@ de secteur et de territoire. Le contenu vit dans tools/contenu_*.py, le rendu es
 Utilisation
     python tools/site_builder.py            -> régénère toutes les pages déclarées
 """
-import html, json, os, sys
+import html, json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://domtomconnect.com"
@@ -91,7 +91,7 @@ def footer():
             </div>
             <div class="pf-footer-bottom">
                 <span>© 2026 Domtom Connect · Loïc Villeronce</span>
-                <span><a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
+                <span><a href="/legal/conditions-generales">Conditions générales</a> · <a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
                 <span class="pf-social"><a href="https://www.linkedin.com/company/domtomconnect" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="https://www.instagram.com/domtomconnect" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.youtube.com/@domtomconnect" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="https://www.tiktok.com/@domtomconnect" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></span>
             </div>
         </div>
@@ -113,7 +113,7 @@ def head(p, ld):
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{e(p['title'])}</title>
     <meta name="description" content="{e(p['description'])}"/>
-    <meta name="robots" content="index, follow, max-image-preview:large"/>
+    <meta name="robots" content="{p.get('robots', 'index, follow, max-image-preview:large')}"/>
     <link rel="canonical" href="{url}"/>
     <link rel="icon" type="image/png" href="/assets/images/logo-domtomconnect.png"/>
     <meta property="og:type" content="website"/>
@@ -470,7 +470,34 @@ def build_diaspora():
     write("diaspora/index.html", page(p, main, ""))
     print("OK", path)
 
+def build_cgv():
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from contenu_cgv import ARTICLES, MAJ
+    path = "/legal/conditions-generales"
+    brouillon = any("[À COMPLÉTER" in x for _, ps in ARTICLES for x in ps)
+    title = "Conditions générales de vente | Domtom Connect"
+    desc = "Conditions générales de vente de Domtom Connect. Séance stratégique, accompagnement sur devis et produits numériques."
+    p = {"path": path, "title": title, "description": desc,
+         "robots": "noindex, nofollow" if brouillon else "index, follow",
+         "ld": [{"@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": title, "description": desc, "inLanguage": "fr-FR"}]}
+    def para(x):
+        t = e(x)
+        return re.sub(r"\[À COMPLÉTER([^\]]*)\]", r'<mark class="pf-todo">[À COMPLÉTER\1]</mark>', t)
+    arts = "".join(f'<h2 class="pf-h3" style="margin:34px 0 10px;">{e(h)}</h2>' + "".join(f'<p class="pf-text">{para(x)}</p>' for x in ps) for h, ps in ARTICLES)
+    banner = '<p class="pf-text" style="border:1px solid #10b981;padding:12px 16px;border-radius:8px;">Brouillon à valider. Les passages surlignés sont à compléter avant publication.</p>' if brouillon else ""
+    main = "\n".join([crumbs([("/", "Accueil"), (None, "Conditions générales de vente")]),
+                      f"""<section class="pf-section"><div class="pf-container"><div class="pf-prose">
+            <p class="pf-eyebrow">Informations légales</p>
+            <h1 class="pf-h2">Conditions générales de vente</h1>
+            <p class="pf-text">Dernière mise à jour le {e(MAJ)}.</p>
+            {banner}
+            {arts}
+        </div></div></section>"""])
+    write("legal/conditions-generales.html", page(p, main, ""))
+    print("OK", path, "(brouillon, noindex)" if brouillon else "")
+
 if __name__ == "__main__":
+    build_cgv()
     build_secteurs()
     build_offres()
     build_territoires()

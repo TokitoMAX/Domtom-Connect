@@ -26,6 +26,7 @@ REMAP = {
     "/tarifs": "/#solutions",
     "/mon-projet": "/mon-espace",
     "/landing/porteurs-projets/index.html": "/tremplin",
+    "/legal/terms.html": "/legal/conditions-generales",
 }
 
 def exists(url):
