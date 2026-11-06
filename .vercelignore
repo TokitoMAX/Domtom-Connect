@@ -50,3 +50,6 @@ replace_*.js
 bust_cache.js
 validate_json.js
 old_showcase.js
+
+# Documents privés
+FICHES_BRIEFING*.html

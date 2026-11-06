@@ -9,6 +9,11 @@ function stripHtmlTags(str) {
     return str.replace(/<[^>]*>?/gm, '').replace(/&nbsp;/g, ' ').trim();
 }
 
+function notFound(res) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.status(404).send(`<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Page introuvable | Domtom Connect</title><style>body{margin:0;background:#070908;color:#f4f6f5;font-family:system-ui,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:24px}a{color:#10b981;font-weight:700}</style></head><body><main><h1>Cette page n'existe pas</h1><p>Elle a peut-être été déplacée.</p><p><a href="/">Retour à l'accueil</a> · <a href="/boutique">Boutique</a> · <a href="/creation-site-web">Création de site web</a></p></main></body></html>`);
+}
+
 module.exports = async (req, res) => {
     const { slug } = req.query;
 
@@ -105,10 +110,10 @@ module.exports = async (req, res) => {
             res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=3600');
             return res.status(200).send(htmlContent);
         } else {
-            return res.redirect('/');
+            return notFound(res);
         }
     } catch (err) {
         console.error("Slug resolution error:", err);
-        return res.redirect('/');
+        return notFound(res);
     }
 };

@@ -72,183 +72,289 @@
 
     <!-- Structured Data (SEO & GEO - AI / Generative Search Optimization) -->
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@graph": [
+      "@type": "Organization",
+      "@id": "https://domtomconnect.com/#organization",
+      "name": "Domtom Connect",
+      "url": "https://domtomconnect.com",
+      "logo": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
+      "description": "Écosystème d'accompagnement opérationnel, de structuration et réseau d'affaires reliant les Caraïbes, l'Afrique et la diaspora.",
+      "founder": {
+        "@type": "Person",
+        "name": "Loïc Villeronce",
+        "jobTitle": "Fondateur de Domtom Connect",
+        "telephone": "+33620783377",
+        "url": "https://domtomconnect.com"
+      },
+      "contactPoint": [
         {
-          "@type": "Organization",
-          "@id": "https://domtomconnect.com/#organization",
-          "name": "Domtom Connect",
-          "url": "https://domtomconnect.com",
-          "logo": "https://domtomconnect.com/assets/images/logo-domtomconnect.png",
-          "description": "Écosystème d'accompagnement opérationnel, de structuration et réseau d'affaires reliant les Caraïbes, l'Afrique et la diaspora.",
-          "founder": {
-            "@type": "Person",
-            "name": "Loïc Villeronce",
-            "jobTitle": "Fondateur de Domtom Connect",
-            "telephone": "+33620783377",
-            "url": "https://domtomconnect.com"
+          "@type": "ContactPoint",
+          "telephone": "+33620783377",
+          "contactType": "Direction",
+          "email": "domtomconnect@gmail.com",
+          "availableLanguage": [
+            "French",
+            "English"
+          ]
+        }
+      ],
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Caraïbes"
+        },
+        {
+          "@type": "Place",
+          "name": "Bassin Caribéen"
+        },
+        {
+          "@type": "Place",
+          "name": "Continent Africain"
+        },
+        {
+          "@type": "Place",
+          "name": "Diaspora Africaine et Caribéenne"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Guadeloupe"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Martinique"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Guyane"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "La Réunion"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Mayotte"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Polynésie française"
+        },
+        {
+          "@type": "Country",
+          "name": "Haïti"
+        },
+        {
+          "@type": "Country",
+          "name": "France"
+        },
+        {
+          "@type": "Country",
+          "name": "Canada"
+        },
+        {
+          "@type": "Country",
+          "name": "États-Unis"
+        },
+        {
+          "@type": "Country",
+          "name": "Sénégal"
+        },
+        {
+          "@type": "Country",
+          "name": "Côte d'Ivoire"
+        },
+        {
+          "@type": "Country",
+          "name": "Cameroun"
+        },
+        {
+          "@type": "Country",
+          "name": "République Démocratique du Congo"
+        },
+        {
+          "@type": "Country",
+          "name": "Gabon"
+        },
+        {
+          "@type": "Country",
+          "name": "Bénin"
+        },
+        {
+          "@type": "Country",
+          "name": "Togo"
+        }
+      ],
+      "knowsAbout": [
+        "Accompagnement d'entreprises",
+        "Conseil stratégique Outre-Mer",
+        "Copilotage opérationnel",
+        "Diagnostic d'entreprise insulaire",
+        "Développement commercial Caraïbes et Afrique",
+        "Réseau d'affaires diaspora"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Solutions d'Accompagnement Domtom Connect",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Séance stratégique",
+              "description": "Séance d'une heure à 100 € pour faire le point sur son entreprise et repartir avec un plan d'action écrit, déduite du devis en cas d'accompagnement.",
+              "url": "https://domtomconnect.com/seance-strategique"
+            },
+            "price": "100",
+            "priceCurrency": "EUR"
           },
-          "contactPoint": [
-            {
-              "@type": "ContactPoint",
-              "telephone": "+33620783377",
-              "contactType": "Direction",
-              "email": "domtomconnect@gmail.com",
-              "availableLanguage": ["French", "English"]
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Création de site web et e-commerce",
+              "description": "Conception de sites web et de boutiques en ligne pensés pour vendre, pour les entreprises de la Caraïbe, d'Afrique et de la diaspora.",
+              "url": "https://domtomconnect.com/"
             }
-          ],
-          "areaServed": [
-            { "@type": "Place", "name": "Caraïbes" },
-            { "@type": "Place", "name": "Bassin Caribéen" },
-            { "@type": "Place", "name": "Continent Africain" },
-            { "@type": "Place", "name": "Diaspora Africaine et Caribéenne" },
-            { "@type": "AdministrativeArea", "name": "Guadeloupe" },
-            { "@type": "AdministrativeArea", "name": "Martinique" },
-            { "@type": "AdministrativeArea", "name": "Guyane" },
-            { "@type": "AdministrativeArea", "name": "La Réunion" },
-            { "@type": "AdministrativeArea", "name": "Mayotte" },
-            { "@type": "AdministrativeArea", "name": "Polynésie française" },
-            { "@type": "Country", "name": "Haïti" },
-            { "@type": "Country", "name": "France" },
-            { "@type": "Country", "name": "Canada" },
-            { "@type": "Country", "name": "États-Unis" },
-            { "@type": "Country", "name": "Sénégal" },
-            { "@type": "Country", "name": "Côte d'Ivoire" },
-            { "@type": "Country", "name": "Cameroun" },
-            { "@type": "Country", "name": "République Démocratique du Congo" },
-            { "@type": "Country", "name": "Gabon" },
-            { "@type": "Country", "name": "Bénin" },
-            { "@type": "Country", "name": "Togo" }
-          ],
-          "knowsAbout": [
-            "Accompagnement d'entreprises",
-            "Conseil stratégique Outre-Mer",
-            "Copilotage opérationnel",
-            "Diagnostic d'entreprise insulaire",
-            "Développement commercial Caraïbes et Afrique",
-            "Réseau d'affaires diaspora"
-          ],
-          "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Solutions d'Accompagnement Domtom Connect",
-            "itemListElement": [
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Séance stratégique",
-                  "description": "Séance d'une heure à 100 € pour faire le point sur son entreprise et repartir avec un plan d'action écrit, déduite du devis en cas d'accompagnement.",
-                  "url": "https://domtomconnect.com/seance-strategique"
-                },
-                "price": "100",
-                "priceCurrency": "EUR"
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Création de site web et e-commerce",
-                  "description": "Conception de sites web et de boutiques en ligne pensés pour vendre, pour les entreprises de la Caraïbe, d'Afrique et de la diaspora.",
-                  "url": "https://domtomconnect.com/"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Diagnostic Anamnèse Clinique",
-                  "description": "Évaluation opérationnelle gratuite en 10 actes pour porteurs de projets et dirigeants ultramarins.",
-                  "url": "https://domtomconnect.com/anamnese"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Programme Tremplin",
-                  "description": "Accompagnement opérationnel à 360 degrés en one-to-one et groupe pour structurer et développer son entreprise.",
-                  "url": "https://domtomconnect.com/tremplin"
-                }
-              },
-              {
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": "Copilotage Opérationnel",
-                  "description": "Bras droit externe pour déléguer l'intendance chronophage et sécuriser la trésorerie en contexte insulaire.",
-                  "url": "https://domtomconnect.com/pilotage"
-                }
-              }
-            ]
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Diagnostic Anamnèse Clinique",
+              "description": "Évaluation opérationnelle gratuite en 10 actes pour porteurs de projets et dirigeants ultramarins.",
+              "url": "https://domtomconnect.com/anamnese"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Programme Tremplin",
+              "description": "Accompagnement opérationnel à 360 degrés en one-to-one et groupe pour structurer et développer son entreprise.",
+              "url": "https://domtomconnect.com/tremplin"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Copilotage Opérationnel",
+              "description": "Bras droit externe pour déléguer l'intendance chronophage et sécuriser la trésorerie en contexte insulaire.",
+              "url": "https://domtomconnect.com/pilotage"
+            }
+          }
+        ]
+      },
+      "alternateName": [
+        "DomTom Connect",
+        "Dom Tom Connect",
+        "Domtomconnect",
+        "DTC"
+      ],
+      "sameAs": [
+        "https://www.youtube.com/@domtomconnect",
+        "https://www.linkedin.com/company/domtomconnect",
+        "https://www.instagram.com/domtomconnect",
+        "https://www.tiktok.com/@domtomconnect"
+      ],
+      "email": "domtomconnect@gmail.com",
+      "telephone": "+33620783377",
+      "legalName": "Loïc Villeronce, entrepreneur individuel",
+      "taxID": "934 629 536 00012",
+      "slogan": "Conseil, copilotage et réseau d'affaires pour la Caraïbe, l'Afrique et la diaspora"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://domtomconnect.com/#website",
+      "url": "https://domtomconnect.com/",
+      "name": "Domtom Connect",
+      "alternateName": [
+        "DomTom Connect",
+        "Dom Tom Connect"
+      ],
+      "inLanguage": [
+        "fr-FR",
+        "en"
+      ],
+      "publisher": {
+        "@id": "https://domtomconnect.com/#organization"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://domtomconnect.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Combien coûte un accompagnement Domtom Connect ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le premier échange de 30 minutes est offert. La séance stratégique d'une heure coûte 100 €, avec un plan d'action écrit, et ce montant est déduit si vous poursuivez. Le copilotage, le programme Tremplin et la création de site web sont ensuite proposés sur devis."
           }
         },
         {
-          "@type": "FAQPage",
-          "@id": "https://domtomconnect.com/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Combien coûte un accompagnement Domtom Connect ?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Le premier échange de 30 minutes est offert. La séance stratégique d'une heure coûte 100 €, avec un plan d'action écrit, et ce montant est déduit si vous poursuivez. Le copilotage, le programme Tremplin et la création de site web sont ensuite proposés sur devis."}
-            },
-            {
-              "@type": "Question",
-              "name": "Domtom Connect peut-il créer mon site web ou ma boutique en ligne ?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Oui. Domtom Connect conçoit des sites web et des boutiques en ligne pensés pour vendre, pour les entreprises de la Caraïbe, d'Afrique et de la diaspora. Le devis est établi après un premier échange."}
-            },
-            {
-              "@type": "Question",
-              "name": "Qu'est-ce que Domtom Connect et à qui s'adresse cet écosystème ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Domtom Connect est un écosystème d'accompagnement fondé par Loïc Villeronce, conçu pour aider les dirigeants de TPE, PME et les porteurs de projets (Caraïbes, Afrique, diaspora) à franchir leurs paliers de croissance, sécuriser leur modèle économique et déléguer les tâches chronophages."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Comment réaliser un diagnostic gratuit de son entreprise ou de son projet ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Domtom Connect propose l'Anamnèse clinique en 10 actes, un diagnostic opérationnel accessible gratuitement en ligne sur domtomconnect.com/anamnese, permettant d'identifier sans complaisance les freins, les forces et les priorités d'action de votre activité."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Qu'est-ce que le copilotage opérationnel proposé par Domtom Connect ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Le copilotage opérationnel agit comme un bras droit externe pour les chefs d'entreprise en milieu insulaire. Il permet de déléguer l'intendance administrative, l'organisation et les relances afin de libérer le dirigeant pour qu'il se concentre sur son chiffre d'affaires et sa rentabilité (accessible sur domtomconnect.com/pilotage)."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "En quoi consiste le Programme Tremplin ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Le Programme Tremplin est un accompagnement à 360 degrés en one-to-one (et en groupe), combinant passage à l'action massive, restructuration stratégique et possibilité de copilotage direct du business (accessible sur domtomconnect.com/tremplin)."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Quels sont les territoires accompagnés par Domtom Connect ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "L'écosystème intervient prioritairement en Guadeloupe, Martinique, Guyane, à La Réunion, Mayotte, en Polynésie française, ainsi qu'auprès de la diaspora entrepreneuriale en France hexagonale, en Amérique du Nord et sur les hubs économiques en Afrique francophone."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Comment échanger directement avec Loïc Villeronce ?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Vous pouvez réserver un échange téléphonique direct de 30 minutes via le calendrier officiel sur calendly.com/domtomconnect/30min ou par contact direct au +33 6 20 78 33 77."
-              }
-            }
-          ]
+          "@type": "Question",
+          "name": "Domtom Connect peut-il créer mon site web ou ma boutique en ligne ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Domtom Connect conçoit des sites web et des boutiques en ligne pensés pour vendre, pour les entreprises de la Caraïbe, d'Afrique et de la diaspora. Le devis est établi après un premier échange."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que Domtom Connect et à qui s'adresse cet écosystème ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Domtom Connect est un écosystème d'accompagnement fondé par Loïc Villeronce, conçu pour aider les dirigeants de TPE, PME et les porteurs de projets (Caraïbes, Afrique, diaspora) à franchir leurs paliers de croissance, sécuriser leur modèle économique et déléguer les tâches chronophages."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment réaliser un diagnostic gratuit de son entreprise ou de son projet ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Domtom Connect propose l'Anamnèse clinique en 10 actes, un diagnostic opérationnel accessible gratuitement en ligne sur domtomconnect.com/anamnese, permettant d'identifier sans complaisance les freins, les forces et les priorités d'action de votre activité."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que le copilotage opérationnel proposé par Domtom Connect ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le copilotage opérationnel agit comme un bras droit externe pour les chefs d'entreprise en milieu insulaire. Il permet de déléguer l'intendance administrative, l'organisation et les relances afin de libérer le dirigeant pour qu'il se concentre sur son chiffre d'affaires et sa rentabilité (accessible sur domtomconnect.com/pilotage)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "En quoi consiste le Programme Tremplin ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le Programme Tremplin est un accompagnement à 360 degrés en one-to-one (et en groupe), combinant passage à l'action massive, restructuration stratégique et possibilité de copilotage direct du business (accessible sur domtomconnect.com/tremplin)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quels sont les territoires accompagnés par Domtom Connect ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "L'écosystème intervient prioritairement en Guadeloupe, Martinique, Guyane, à La Réunion, Mayotte, en Polynésie française, ainsi qu'auprès de la diaspora entrepreneuriale en France hexagonale, en Amérique du Nord et sur les hubs économiques en Afrique francophone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment échanger directement avec Loïc Villeronce ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vous pouvez réserver un échange téléphonique direct de 30 minutes via le calendrier officiel sur calendly.com/domtomconnect/30min ou par contact direct au +33 6 20 78 33 77."
+          }
         }
       ]
     }
+  ]
+}
     </script>
 
     <style>
