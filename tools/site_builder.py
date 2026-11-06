@@ -91,7 +91,7 @@ def footer():
             </div>
             <div class="pf-footer-bottom">
                 <span>© 2026 Domtom Connect · Loïc Villeronce</span>
-                <span><a href="/legal/conditions-generales">Conditions générales</a> · <a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
+                <span><a href="/legal/mentions-legales">Mentions légales</a> · <a href="/legal/conditions-generales">Conditions générales</a> · <a href="/legal/privacy">Confidentialité</a> · <a href="/child-safety">Sécurité des mineurs</a></span>
                 <span class="pf-social"><a href="https://www.linkedin.com/company/domtomconnect" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a><a href="https://www.instagram.com/domtomconnect" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="https://www.youtube.com/@domtomconnect" aria-label="YouTube"><i class="fab fa-youtube"></i></a><a href="https://www.tiktok.com/@domtomconnect" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></span>
             </div>
         </div>
@@ -496,10 +496,30 @@ def build_cgv():
     write("legal/conditions-generales.html", page(p, main, ""))
     print("OK", path, "(brouillon, noindex)" if brouillon else "")
 
+def build_mentions():
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from contenu_cgv import MENTIONS, MAJ
+    path = "/legal/mentions-legales"
+    title = "Mentions légales | Domtom Connect"
+    desc = "Mentions légales du site Domtom Connect, éditeur, hébergeur et contact."
+    p = {"path": path, "title": title, "description": desc,
+         "ld": [{"@type": "WebPage", "@id": SITE + path + "#webpage", "url": SITE + path, "name": title, "description": desc, "inLanguage": "fr-FR"}]}
+    arts = "".join(f'<h2 class="pf-h3" style="margin:34px 0 10px;">{e(h)}</h2>' + "".join(f'<p class="pf-text">{e(x)}</p>' for x in ps) for h, ps in MENTIONS)
+    main = "\n".join([crumbs([("/", "Accueil"), (None, "Mentions légales")]),
+                      f"""<section class="pf-section"><div class="pf-container"><div class="pf-prose">
+            <p class="pf-eyebrow">Informations légales</p>
+            <h1 class="pf-h2">Mentions légales</h1>
+            <p class="pf-text">Dernière mise à jour le {e(MAJ)}.</p>
+            {arts}
+        </div></div></section>"""])
+    write("legal/mentions-legales.html", page(p, main, ""))
+    print("OK", path)
+
 if __name__ == "__main__":
     from boutique_builder import build_boutique
     build_boutique()
     build_cgv()
+    build_mentions()
     build_secteurs()
     build_offres()
     build_territoires()

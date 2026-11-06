@@ -34,3 +34,23 @@ ARTICLES = [
   "Vos données servent uniquement à traiter votre commande et à échanger avec vous (voir notre politique de confidentialité sur www.domtomconnect.com/legal/privacy). En cas de souci, écrivez-nous d'abord, nous cherchons toujours une solution à l'amiable. Le droit français s'applique.",
  ]),
 ]
+
+MENTIONS = [
+ ("Éditeur du site", [
+  "Le site www.domtomconnect.com est édité par Loïc Villeronce, entrepreneur individuel, SIRET 934 629 536 00012, 4 chemin Le Bouleur, 77177 Brou-sur-Chantereine.",
+  "Contact domtomconnect@gmail.com ou WhatsApp au +33 6 20 78 33 77.",
+  "Directeur de la publication Loïc Villeronce.",
+ ]),
+ ("Hébergement", [
+  "Le site est hébergé par Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis, www.vercel.com.",
+ ]),
+ ("Propriété intellectuelle", [
+  "Les textes, visuels, logos, livres et outils présents sur ce site appartiennent à Domtom Connect. Toute reproduction sans autorisation écrite est interdite.",
+ ]),
+ ("Données personnelles", [
+  "Les données collectées sur ce site sont traitées selon notre politique de confidentialité, accessible à l'adresse www.domtomconnect.com/legal/privacy. Pour toute demande, écris à domtomconnect@gmail.com.",
+ ]),
+ ("Ventes", [
+  "Les conditions de vente des séances et des produits numériques sont détaillées dans nos conditions générales de vente, accessibles à l'adresse www.domtomconnect.com/legal/conditions-generales.",
+ ]),
+]
