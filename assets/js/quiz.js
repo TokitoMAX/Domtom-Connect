@@ -757,7 +757,7 @@ function showQuestion(index) {
     // Ajouter la clarification si elle existe
     if (question.clarification) {
         questionHTML += `
-            <div class="quiz-clarification" style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(96, 165, 250, 0.05)); border-left: 4px solid #3B82F6; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; color: #475569;">
+            <div class="quiz-clarification" style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(52, 211, 153, 0.05)); border-left: 4px solid #10b981; border-radius: 12px; font-size: 0.9rem; line-height: 1.6; color: #56615c;">
                 ${question.clarification}
             </div>
         `;
@@ -818,7 +818,7 @@ function showQuestion(index) {
         quizContent.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
             <p>Erreur lors du chargement de la question. Veuillez rafraîchir la page.</p>
             <p style="font-size: 0.9rem; margin-top: 0.5rem;">${error.message}</p>
-            <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">Vérifiez la console pour plus de détails.</p>
+            <p style="font-size: 0.75rem; margin-top: 0.5rem; color: #717c77;">Vérifiez la console pour plus de détails.</p>
         </div>`;
         return;
     }
@@ -1204,10 +1204,10 @@ function showResults() {
                             <li>✓ Suivi de base</li>
                         </ul>
                     </div>
-                    <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; margin-top: 1rem; border-left: 4px solid #3B82F6;">
-                        <h4 style="color: #1e293b; margin-bottom: 0.75rem;">💎 Pack Premium également disponible</h4>
-                        <div style="font-size: 1.5rem; font-weight: 700; color: #3B82F6; margin-bottom: 0.5rem;">1 900€ TTC</div>
-                        <p style="color: #64748b; font-size: 0.95rem;">Accompagnement complet du début à la fin avec gestion totale des prestataires</p>
+                    <div style="background: #f6f8f7; padding: 1.5rem; border-radius: 12px; margin-top: 1rem; border-left: 4px solid #10b981;">
+                        <h4 style="color: #1b2420; margin-bottom: 0.75rem;">💎 Pack Premium également disponible</h4>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: #10b981; margin-bottom: 0.5rem;">1 900€ TTC</div>
+                        <p style="color: #717c77; font-size: 0.95rem;">Accompagnement complet du début à la fin avec gestion totale des prestataires</p>
                     </div>
                 `;
             } else if (budgetValue === '1000-3000' || budgetValue === 'plus-3000' ||
@@ -1217,7 +1217,7 @@ function showResults() {
                 packRecommandé = 'premium';
                 eligible = true;
                 packInfo = `
-                    <div style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+                    <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
                         <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💎 Pack Premium Recommandé</h3>
                         <div style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">1 900€ TTC</div>
                         <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Vous êtes éligible au Pack Premium !</p>
@@ -1238,17 +1238,17 @@ function showResults() {
                         <h3 style="color: #92400e; margin-bottom: 1rem; font-size: 1.5rem;">⚠️ Budget d'accompagnement insuffisant</h3>
                         <p style="color: #78350f; margin-bottom: 1rem;">Votre budget d'accompagnement (moins de 300€) est en dessous de nos packs disponibles.</p>
                         <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-top: 1rem;">
-                            <h4 style="color: #1e293b; margin-bottom: 1rem;">Nos packs d'accompagnement :</h4>
+                            <h4 style="color: #1b2420; margin-bottom: 1rem;">Nos packs d'accompagnement :</h4>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
                                 <div style="border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem;">
                                     <h5 style="color: #10b981; margin-bottom: 0.5rem;">Pack Starter</h5>
-                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">500€ TTC</div>
-                                    <p style="color: #64748b; font-size: 0.9rem;">Budget requis : 300-1 000€</p>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1b2420; margin-bottom: 0.5rem;">500€ TTC</div>
+                                    <p style="color: #717c77; font-size: 0.9rem;">Budget requis : 300-1 000€</p>
                                 </div>
-                                <div style="border: 2px solid #3B82F6; border-radius: 12px; padding: 1.5rem;">
-                                    <h5 style="color: #3B82F6; margin-bottom: 0.5rem;">Pack Premium</h5>
-                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">1 900€ TTC</div>
-                                    <p style="color: #64748b; font-size: 0.9rem;">Budget requis : 1 000€+</p>
+                                <div style="border: 2px solid #10b981; border-radius: 12px; padding: 1.5rem;">
+                                    <h5 style="color: #10b981; margin-bottom: 0.5rem;">Pack Premium</h5>
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #1b2420; margin-bottom: 0.5rem;">1 900€ TTC</div>
+                                    <p style="color: #717c77; font-size: 0.9rem;">Budget requis : 1 000€+</p>
                                 </div>
                             </div>
                         </div>
@@ -1259,7 +1259,7 @@ function showResults() {
     } else if (selectedProfile === 'prestataire') {
         // Pour les prestataires : contribution au contenu et partage de compétences
         engagementInfo = `
-            <div style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 2rem; border-radius: 16px; margin: 2rem 0; color: white;">
                 <h3 style="color: white; margin-bottom: 1rem; font-size: 1.5rem;">💼 Votre Engagement dans l'Écosystème</h3>
                 <p style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem;">
                     Pour rejoindre le réseau Domtom Connect, nous vous invitons à <strong>contribuer au contenu</strong> et à <strong>partager vos compétences</strong> pour le bien de l'écosystème entrepreneurial ultramarin.
@@ -1425,7 +1425,7 @@ function showResults() {
             ${(selectedProfile === 'prestataire' || selectedProfile === 'investisseur') && engagementInfo ? engagementInfo : ''}
             
             ${(selectedProfile === 'porteur-projet' || selectedProfile === 'entreprise') && budgetAccompagnement ? `
-            <div style="background: #f8fafc; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e2e8f0;">
+            <div style="background: #f6f8f7; padding: 2rem; border-radius: 16px; margin: 2rem 0; border: 2px solid #e6eae8;">
                 <h3 style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.25rem;">📊 Récapitulatif de votre profil</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
                     <div>
@@ -1455,7 +1455,7 @@ function showResults() {
                 </ul>
             </div>
             
-            <div class="quiz-contact-form-container" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 3px solid #3B82F6; margin-top: 3rem;">
+            <div class="quiz-contact-form-container" style="background: linear-gradient(135deg, #f0f9ff 0%, #eff2f0 100%); border: 3px solid #10b981; margin-top: 3rem;">
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">📞 Contactez-nous pour démarrer</h3>
                     <p style="color: var(--text-primary); margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600;">
@@ -1468,12 +1468,12 @@ function showResults() {
                 
                 <form class="quiz-contact-form" id="quiz-contact-form" onsubmit="handleQuizContactSubmit(event)" style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                     <div class="form-row">
-                        <input type="text" name="prenom" placeholder="Prénom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
-                        <input type="text" name="nom" placeholder="Nom *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                        <input type="text" name="prenom" placeholder="Prénom *" required style="padding: 1rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem;">
+                        <input type="text" name="nom" placeholder="Nom *" required style="padding: 1rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem;">
                     </div>
-                    <input type="email" name="email" id="quiz-contact-email" placeholder="Email *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
-                    <input type="tel" name="telephone" placeholder="Téléphone *" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
-                    <select name="ile" required style="padding: 1rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; background: white;">
+                    <input type="email" name="email" id="quiz-contact-email" placeholder="Email *" required style="padding: 1rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem;">
+                    <input type="tel" name="telephone" placeholder="Téléphone *" required style="padding: 1rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem;">
+                    <select name="ile" required style="padding: 1rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem; background: white;">
                         <option value="">Votre territoire *</option>
                         <option value="martinique">Martinique</option>
                         <option value="guadeloupe">Guadeloupe</option>
@@ -1498,7 +1498,7 @@ function showResults() {
                 
                 <div style="text-align: center; margin-top: 2rem;">
                     <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem;">Ou</p>
-                    <a href="${landingPageUrl}" class="cta-button" style="text-decoration: none; display: inline-block; padding: 0.875rem 1.75rem; background: white; color: #3B82F6; border: 2px solid #3B82F6; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
+                    <a href="${landingPageUrl}" class="cta-button" style="text-decoration: none; display: inline-block; padding: 0.875rem 1.75rem; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 8px; font-weight: 600; transition: all 0.3s;">
                         Continuer vers la page ${profileLabels[selectedProfile]} →
                     </a>
                 </div>

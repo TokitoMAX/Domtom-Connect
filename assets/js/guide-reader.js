@@ -240,7 +240,7 @@
             if (!isGuideUnlocked() && idx >= 3) {
                 const lockIcon = document.createElement('i');
                 lockIcon.className = 'fa-solid fa-lock';
-                lockIcon.style.cssText = 'font-size:0.75rem; color:#64748b; margin-left:auto; margin-right:8px; opacity:0.8;';
+                lockIcon.style.cssText = 'font-size:0.75rem; color:#717c77; margin-left:auto; margin-right:8px; opacity:0.8;';
                 lockIcon.title = 'Chapitre réservé aux membres';
                 a.appendChild(lockIcon);
             }
@@ -513,19 +513,19 @@
                                     <div class="logo-mockups-grid">
                                         <div class="mockup-item-box">
                                             <div class="mockup-avatar-circle" id="preview-avatar-${field.id}">
-                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-image" style="color:#64748b;"></i>`}
+                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-image" style="color:#717c77;"></i>`}
                                             </div>
                                             <span class="mockup-item-label">Avatar Profil</span>
                                         </div>
                                         <div class="mockup-item-box">
                                             <div class="mockup-card-surface" id="preview-card-${field.id}">
-                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-id-card" style="color:#64748b;"></i>`}
+                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-id-card" style="color:#717c77;"></i>`}
                                             </div>
                                             <span class="mockup-item-label">Carte de Visite</span>
                                         </div>
                                         <div class="mockup-item-box">
-                                            <div class="mockup-avatar-circle" style="border-radius: 8px; background: #0f172a;" id="preview-fav-${field.id}">
-                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-tag" style="color:#64748b;"></i>`}
+                                            <div class="mockup-avatar-circle" style="border-radius: 8px; background: #0c100e;" id="preview-fav-${field.id}">
+                                                ${savedVal ? `<img src="${savedVal}" alt="Logo" style="max-width:85%; max-height:85%; object-fit:contain;">` : `<i class="fa-solid fa-tag" style="color:#717c77;"></i>`}
                                             </div>
                                             <span class="mockup-item-label">Favicon & Étiquette</span>
                                         </div>

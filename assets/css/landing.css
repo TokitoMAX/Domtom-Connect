@@ -66,17 +66,17 @@
 }
 
 .landing-form {
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #f6f8f7 0%, #ffffff 100%);
     padding: 2.5rem;
     border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(59, 130, 246, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.2);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(59, 130, 246, 0.15);
+    border: 2px solid rgba(16, 185, 129, 0.15);
 }
 
 .landing-form::before {
@@ -86,10 +86,10 @@
     left: 0;
     width: 100%;
     height: 4px;
-    background: linear-gradient(90deg, #3B82F6, #60A5FA, #3B82F6, #3B82F6);
+    background: linear-gradient(90deg, #10b981, #34d399, #10b981, #10b981);
     background-size: 300% 100%;
     animation: gradientShift 3s ease infinite;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
 }
 
 .landing-form::after {
@@ -99,7 +99,7 @@
     right: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.03) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.03) 0%, transparent 70%);
     animation: rotate 20s linear infinite;
     pointer-events: none;
 }
@@ -116,11 +116,11 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
     border-radius: 50px;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #3B82F6;
+    color: #10b981;
     margin-bottom: 1rem;
     animation: pulse 2s ease-in-out infinite;
 }
@@ -157,9 +157,9 @@
 /* Blocs de formulaire */
 .form-block {
     padding: 1.5rem;
-    background: rgba(59, 130, 246, 0.03);
+    background: rgba(16, 185, 129, 0.03);
     border-radius: var(--border-radius);
-    border-left: 3px solid #3B82F6;
+    border-left: 3px solid #10b981;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -198,7 +198,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1.125rem 1.25rem;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #e6eae8;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -208,7 +208,7 @@
 }
 
 .radio-label span {
-    color: #1e293b;
+    color: #1b2420;
 }
 
 .radio-label::before {
@@ -218,10 +218,10 @@
     top: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, #3B82F6, #60A5FA);
+    background: linear-gradient(180deg, #10b981, #34d399);
     transform: scaleY(0);
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
 .radio-label::after {
@@ -231,16 +231,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(96, 165, 250, 0.05));
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(52, 211, 153, 0.05));
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
 .radio-label:hover {
-    border-color: #3B82F6;
-    background: #f1f5f9;
+    border-color: #10b981;
+    background: #f1f4f2;
     transform: translateX(6px) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.1);
 }
 
 .radio-label:hover::after {
@@ -260,7 +260,7 @@
     height: 22px;
     margin: 0;
     cursor: pointer;
-    accent-color: #3B82F6;
+    accent-color: #10b981;
     position: relative;
     z-index: 1;
     flex-shrink: 0;
@@ -273,15 +273,15 @@
 
 .radio-label input[type="radio"]:checked + span {
     font-weight: 700;
-    color: #60A5FA;
+    color: #34d399;
     transform: translateX(4px);
     transition: all 0.3s ease;
 }
 
 .radio-label:has(input[type="radio"]:checked) {
-    border-color: #3B82F6;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(96, 165, 250, 0.1));
-    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+    border-color: #10b981;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(52, 211, 153, 0.1));
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15);
     transform: translateX(4px);
 }
 
@@ -303,7 +303,7 @@
 
 .conditional-field:focus {
     outline: none;
-    border-color: #3B82F6;
+    border-color: #10b981;
 }
 
 .form-disclaimer {
@@ -312,7 +312,7 @@
     text-align: center;
     margin: 1rem 0;
     padding: 1rem;
-    background: rgba(59, 130, 246, 0.05);
+    background: rgba(16, 185, 129, 0.05);
     border-radius: var(--border-radius);
 }
 
@@ -327,12 +327,12 @@
 .landing-form textarea {
     width: 100%;
     padding: 1rem;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #e6eae8;
     border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: #ffffff;
-    color: #1e293b;
+    color: #1b2420;
     position: relative;
     font-family: inherit;
     /* Amélioration tactile */
@@ -356,18 +356,18 @@
 
 .landing-form input::placeholder,
 .landing-form textarea::placeholder {
-    color: #94a3b8;
+    color: #a7b0ac;
 }
 
 .landing-form select {
-    color: #1e293b;
+    color: #1b2420;
     background: #ffffff;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #e6eae8;
 }
 
 .landing-form select option {
     background: #ffffff;
-    color: #1e293b;
+    color: #1b2420;
     padding: 0.5rem;
 }
 
@@ -393,9 +393,9 @@
 .landing-form select:focus,
 .landing-form textarea:focus {
     outline: none;
-    border-color: #3B82F6;
+    border-color: #10b981;
     background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), 0 4px 12px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(16, 185, 129, 0.15);
     transform: translateY(-2px);
 }
 
@@ -437,7 +437,7 @@
 .field-icon svg {
     width: 100%;
     height: 100%;
-    stroke: #64748b;
+    stroke: #717c77;
     transition: all 0.3s ease;
 }
 
@@ -448,8 +448,8 @@
 
 .landing-form input:focus ~ .field-icon svg,
 .landing-form select:focus ~ .field-icon svg {
-    stroke: #60A5FA;
-    filter: drop-shadow(0 2px 4px rgba(96, 165, 250, 0.5));
+    stroke: #34d399;
+    filter: drop-shadow(0 2px 4px rgba(52, 211, 153, 0.5));
 }
 
 .landing-form input:valid:not(:placeholder-shown) ~ .field-icon svg,
@@ -580,7 +580,7 @@
 
 .premium-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(59, 130, 246, 0.5) !important;
+    box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5) !important;
 }
 
 .premium-button:active {
@@ -629,7 +629,7 @@
 .form-privacy {
     text-align: center;
     font-size: 0.875rem;
-    color: #64748b;
+    color: #717c77;
     margin-top: 0.5rem;
     font-weight: 500;
 }
@@ -638,14 +638,14 @@
 .form-explanation {
     margin: 2rem 0;
     padding: 1.5rem;
-    background: rgba(59, 130, 246, 0.08);
+    background: rgba(16, 185, 129, 0.08);
     border-radius: 16px;
-    border-left: 4px solid #3B82F6;
+    border-left: 4px solid #10b981;
 }
 
 .form-explanation p {
     font-size: 0.95rem;
-    color: #1e293b;
+    color: #1b2420;
     margin: 0;
     line-height: 1.7;
     font-weight: 500;
@@ -689,14 +689,14 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #1e293b;
+    color: #1b2420;
 }
 
 /* Amélioration du focus visible pour accessibilité */
 .landing-form input:focus-visible,
 .landing-form select:focus-visible,
 .landing-form textarea:focus-visible {
-    outline: 2px solid #3B82F6;
+    outline: 2px solid #10b981;
     outline-offset: 2px;
 }
 
@@ -892,7 +892,7 @@
     }
 
     /* Messages d'aide et tips */
-    p[style*="font-size: 0.8rem"][style*="color: #64748b"] {
+    p[style*="font-size: 0.8rem"][style*="color: #717c77"] {
         font-size: 0.85rem !important;
         margin-top: 0.5rem !important;
         margin-bottom: 1rem !important;
@@ -1125,7 +1125,7 @@
     }
 
     /* Messages d'aide compacts */
-    p[style*="font-size: 0.8rem"][style*="color: #64748b"] {
+    p[style*="font-size: 0.8rem"][style*="color: #717c77"] {
         font-size: 0.8rem !important;
         margin-top: 0.375rem !important;
         margin-bottom: 0.875rem !important;

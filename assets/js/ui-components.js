@@ -85,7 +85,7 @@ const UIComponents = {
         sidebarHtml += this.renderSidebarLink(adjust('mon-espace.html#blog'), 'Blog & Actualités', 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z');
         
         // 2. Section Espaces Ciblés par Écosystème
-        sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Vos Espaces</div>`;
+        sidebarHtml += `<div style="margin: 24px 20px 8px; font-size: 0.75rem; font-weight: 800; color: #a7b0ac; text-transform: uppercase; letter-spacing: 0.05em;">Vos Espaces</div>`;
         
         if (isOwner) {
             sidebarHtml += this.renderSidebarLink(adjust('pilotage.html'), 'Mon Épopée', 'M13 10V3L4 14h7v7l9-11h-7z');
@@ -206,8 +206,8 @@ const UIComponents = {
                     <h3>Devenir Porteur</h3>
                     <p>Lancez votre projet et trouvez des financements / co-fondateurs.</p>
                 </a>
-                <a href="${adjust('profile.html')}" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); text-decoration: none;">
-                    <div class="dash-card-icon" style="background: white; color: #3b82f6;"><i class="fas fa-building"></i></div>
+                <a href="${adjust('profile.html')}" class="dash-card dash-card-pro" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); text-decoration: none;">
+                    <div class="dash-card-icon" style="background: white; color: #10b981;"><i class="fas fa-building"></i></div>
                     <h3>Devenir Expert</h3>
                     <p>Proposez vos services, répondez à des missions, et gagnez en visibilité.</p>
                 </a>
@@ -252,26 +252,26 @@ const UIComponents = {
             <style>
                 .dash-unified { font-family: 'Plus Jakarta Sans', sans-serif; padding: clamp(20px, 4vw, 40px); max-width: 1200px; margin: 0 auto; padding-bottom: 80px; }
                 .dash-welcome { text-align: center; margin-bottom: 40px; }
-                .dash-welcome h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; color: #0f172a; margin: 0 0 10px 0; letter-spacing: -0.04em; }
-                .dash-welcome p { font-size: 1.1rem; color: #64748b; margin: 0; font-weight: 500; }
+                .dash-welcome h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 950; color: #0c100e; margin: 0 0 10px 0; letter-spacing: -0.04em; }
+                .dash-welcome p { font-size: 1.1rem; color: #717c77; margin: 0; font-weight: 500; }
                 
                 .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
                 
-                .dash-card { background: white; border-radius: 24px; padding: clamp(20px, 4vw, 32px); border: 1.5px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.02); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; text-align: left; text-decoration: none; }
+                .dash-card { background: white; border-radius: 24px; padding: clamp(20px, 4vw, 32px); border: 1.5px solid #e6eae8; box-shadow: 0 4px 20px rgba(0,0,0,0.02); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; text-align: left; text-decoration: none; }
                 .dash-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-color: #10b981; }
                 
                 .dash-card-icon { width: 56px; height: 56px; background: #f0fdf4; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 24px; color: #10b981; transition: all 0.3s; }
                 .dash-card:hover .dash-card-icon { background: #10b981; color: white; }
                 
-                .dash-card h3 { font-size: 1.3rem; font-weight: 900; color: #0f172a; margin: 0 0 10px 0; }
-                .dash-card p { font-size: 0.95rem; color: #64748b; line-height: 1.6; margin: 0; }
+                .dash-card h3 { font-size: 1.3rem; font-weight: 900; color: #0c100e; margin: 0 0 10px 0; }
+                .dash-card p { font-size: 0.95rem; color: #717c77; line-height: 1.6; margin: 0; }
                 
-                .dash-card-pro { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border: none; color: white; }
+                .dash-card-pro { background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%); border: none; color: white; }
                 .dash-card-pro h3 { color: white; }
                 .dash-card-pro p { color: rgba(255,255,255,0.7); }
                 .dash-card-pro .dash-card-icon { background: rgba(255,255,255,0.1); color: white; }
-                .dash-card-pro:hover { box-shadow: 0 20px 40px rgba(15,23,42,0.3); border-color: transparent; }
-                .dash-card-pro:hover .dash-card-icon { background: white; color: #0f172a; }
+                .dash-card-pro:hover { box-shadow: 0 20px 40px rgba(14, 19, 17,0.3); border-color: transparent; }
+                .dash-card-pro:hover .dash-card-icon { background: white; color: #0c100e; }
             </style>
             
             <div class="dash-unified">
@@ -283,7 +283,7 @@ const UIComponents = {
                     <p>Que souhaitez-vous faire aujourd'hui ?</p>
                 </div>
                 
-                <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">1. Vos Outils & Réseau</h2>
+                <h2 style="font-size: 1.5rem; color: #0c100e; margin-bottom: 20px; font-weight: 800; border-bottom: 2px solid #e6eae8; padding-bottom: 10px;">1. Vos Outils & Réseau</h2>
                 <div class="dash-grid" style="margin-bottom: 40px;">
                     ${calendlyCard}
                     ${roleActions}
@@ -375,26 +375,26 @@ const UIComponents = {
                 <div class="nav-links">
                     ${Object.values(config).map(item => {
                         const active = window.location.pathname.includes(item.path.split('/').pop()) ? 'class="active"' : '';
-                        const linkStyle = isDarkPage ? 'style="color: #cbd5e1;"' : '';
+                        const linkStyle = isDarkPage ? 'style="color: #d4dad7;"' : '';
                         return `<a href="${adjust(item.path)}" ${active} ${linkStyle}>${item.label}</a>`;
                     }).join('')}
                 </div>
                 
                 <div class="nav-actions" id="nav-auth-actions" style="display: flex; align-items: center; gap: 14px;">
-                    <a href="${adjust('login.html')}" style="${isDarkPage ? 'color: #cbd5e1;' : 'color: #0f172a;'} font-weight: 600; text-decoration: none; font-size: 0.92rem;">Se connecter</a>
+                    <a href="${adjust('login.html')}" style="${isDarkPage ? 'color: #d4dad7;' : 'color: #0c100e;'} font-weight: 600; text-decoration: none; font-size: 0.92rem;">Se connecter</a>
                     <a href="https://calendly.com/domtomconnect/30min" onclick="return openCalendlyDiagnostic(event);" class="cta-button primary" style="background:#10b981; color: white !important; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.92rem; text-decoration: none;">Diagnostic offert</a>
                 </div>
             </div>
         `;
 
         if (isDarkPage) {
-            nav.style.backgroundColor = 'rgba(3, 7, 18, 0.92)';
+            nav.style.backgroundColor = 'rgba(7, 9, 8, 0.92)';
             nav.style.backdropFilter = 'blur(16px)';
             nav.style.webkitBackdropFilter = 'blur(16px)';
             nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.08)';
         } else {
             nav.style.backgroundColor = 'white';
-            nav.style.borderBottom = '1px solid #e2e8f0';
+            nav.style.borderBottom = '1px solid #e6eae8';
         }
         nav.style.display = 'flex';
 
@@ -434,10 +434,10 @@ const UIComponents = {
         containerElement.style.position = 'relative';
         
         const isDark = document.body.style.background.includes('var(--bg-main)') || window.location.pathname.includes('projects');
-        const boxBg = isDark ? '#131B2F' : 'white';
-        const textColor = isDark ? 'white' : '#0f172a';
-        const textMuted = isDark ? '#9CA3AF' : '#64748b';
-        const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#e2e8f0';
+        const boxBg = isDark ? '#1e211f' : 'white';
+        const textColor = isDark ? 'white' : '#0c100e';
+        const textMuted = isDark ? '#a7b0ac' : '#717c77';
+        const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#e6eae8';
         const prefix = this.getPathPrefix();
 
         let overlay = containerElement.querySelector('.auth-wall-overlay');

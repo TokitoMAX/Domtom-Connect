@@ -90,15 +90,15 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                     <div id="project-list-view" style="animation: fadeIn 0.4s ease-out; width:100%; max-width:1400px; margin:0 auto; padding:20px;">
                         <div class="dash-pilotage-header" style="margin-bottom:48px; display:flex; justify-content:space-between; align-items:flex-end;">
                             <div>
-                                <h1 style="font-size: 3.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.06em;">L'ÉPOPÉE</h1>
-                                <p style="color: #64748b; font-size: 1.2rem; font-weight: 500; margin-top: 12px; max-width:600px;">Gérez vos projets à impact territorial et pilotez vos ambitions stratégiques pas à pas.</p>
+                                <h1 style="font-size: 3.5rem; font-weight: 950; color: #0c100e; margin: 0; letter-spacing: -0.06em;">L'ÉPOPÉE</h1>
+                                <p style="color: #717c77; font-size: 1.2rem; font-weight: 500; margin-top: 12px; max-width:600px;">Gérez vos projets à impact territorial et pilotez vos ambitions stratégiques pas à pas.</p>
                             </div>
-                            <div style="background: white; padding: 16px 32px; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                                <button onclick="window.open('https://calendly.com/ton-lien-domtomconnect', '_blank')" style="background: #0f172a; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <div style="background: white; padding: 16px 32px; border-radius: 20px; border: 1px solid #e6eae8; display: flex; align-items: center; gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                                <button onclick="window.open('https://calendly.com/ton-lien-domtomconnect', '_blank')" style="background: #0c100e; color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 8px;">
                                     <i class="far fa-calendar-alt"></i> Prendre RDV
                                 </button>
-                                <div style="text-align:right; border-left: 1px solid #e2e8f0; padding-left: 16px;">
-                                    <span style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; display:block;">Total Épopées</span>
+                                <div style="text-align:right; border-left: 1px solid #e6eae8; padding-left: 16px;">
+                                    <span style="font-size: 0.75rem; font-weight: 900; color: #a7b0ac; text-transform: uppercase; display:block;">Total Épopées</span>
                                     <span style="font-size: 1.8rem; font-weight: 950; color: #10b981;">${projects.length}</span>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
 
                         <div class="ecosystem-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px;">
                             <!-- Card : Nouvelle Épopée -->
-                            <div class="dash-card-premium" style="background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:48px; border:none; position:relative; overflow:hidden; border-radius: 40px; min-height: 420px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 70px rgba(0,0,0,0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.15)';" onclick="startNewProjectWizard()">
+                            <div class="dash-card-premium" style="background: linear-gradient(135deg, #070908 0%, #0c100e 100%); color: white; display:flex; flex-direction:column; justify-content:space-between; padding:48px; border:none; position:relative; overflow:hidden; border-radius: 40px; min-height: 420px; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 20px 40px rgba(0,0,0,0.15);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 70px rgba(0,0,0,0.25)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.15)';" onclick="startNewProjectWizard()">
                                 <div style="position:relative; z-index:2;">
                                     <div style="background:#10b981; width:70px; height:70px; border-radius:24px; display:flex; align-items:center; justify-content:center; margin-bottom:40px; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">
                                          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5"><path d="M12 5v14M5 12h14"/></svg>
@@ -123,35 +123,35 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                             ${projects.length > 0 ? projects.map(p => {
                                 const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                                 return `
-                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:48px; border-radius:40px; background: white; border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 80px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.03)';" onclick="openProjectCockpit('${p.id}')">
-                                    <button onclick="event.stopPropagation(); deleteSREProject('${p.id}')" style="position:absolute; top:32px; right:32px; background:#f8fafc; border:1px solid #e2e8f0; color:#94a3b8; width:40px; height:40px; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" title="Supprimer ce projet">×</button>
+                                <div class="cockpit-card-premium" style="position:relative; display:flex; flex-direction:column; padding:48px; border-radius:40px; background: white; border: 1px solid #e6eae8; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 15px 35px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 40px 80px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.03)';" onclick="openProjectCockpit('${p.id}')">
+                                    <button onclick="event.stopPropagation(); deleteSREProject('${p.id}')" style="position:absolute; top:32px; right:32px; background:#f6f8f7; border:1px solid #e6eae8; color:#a7b0ac; width:40px; height:40px; border-radius:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:800; transition:0.2s;" title="Supprimer ce projet">×</button>
                                     
                                     <div style="display:flex; align-items:center; gap:16px; margin-bottom:32px;">
-                                        <div style="background:${p.status === 'approved' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(148, 163, 184, 0.1)'}; color:${p.status === 'approved' ? '#10b981' : '#64748b'}; padding:10px 20px; border-radius:100px; font-size:0.7rem; font-weight:950; letter-spacing:0.08em; text-transform:uppercase; border:1px solid ${p.status === 'approved' ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.05)'}">${p.status === 'approved' ? 'Épopée Validée' : 'Mode Brouillon'}</div>
+                                        <div style="background:${p.status === 'approved' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(167, 176, 172, 0.1)'}; color:${p.status === 'approved' ? '#10b981' : '#717c77'}; padding:10px 20px; border-radius:100px; font-size:0.7rem; font-weight:950; letter-spacing:0.08em; text-transform:uppercase; border:1px solid ${p.status === 'approved' ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.05)'}">${p.status === 'approved' ? 'Épopée Validée' : 'Mode Brouillon'}</div>
                                     </div>
 
-                                    <h2 style="font-size: 2.2rem; font-weight:950; color:#0f172a; margin:0 0 16px 0; letter-spacing:-0.05em; line-height:1.2;">${p.title || p.name || 'Sans titre'}</h2>
-                                    <div style="font-size:1.1rem; color:#64748b; margin-bottom:48px; font-weight:600; display:flex; align-items:center; gap:10px;">
+                                    <h2 style="font-size: 2.2rem; font-weight:950; color:#0c100e; margin:0 0 16px 0; letter-spacing:-0.05em; line-height:1.2;">${p.title || p.name || 'Sans titre'}</h2>
+                                    <div style="font-size:1.1rem; color:#717c77; margin-bottom:48px; font-weight:600; display:flex; align-items:center; gap:10px;">
                                         <span style="opacity:0.6;"></span> ${p.territory || 'Territoire à définir'}
                                     </div>
                                     
-                                    <div style="margin-top:auto; padding-top:40px; border-top:1.5px solid #f8fafc;">
+                                    <div style="margin-top:auto; padding-top:40px; border-top:1.5px solid #f6f8f7;">
                                         <div style="display: flex; justify-content: space-between; align-items:flex-end; margin-bottom: 24px;">
                                             <div>
-                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Maturité Stratégique</span>
-                                                <span style="font-size:3rem; font-weight:950; color: #0f172a; letter-spacing:-0.06em;">${score}%</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#a7b0ac; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Maturité Stratégique</span>
+                                                <span style="font-size:3rem; font-weight:950; color: #0c100e; letter-spacing:-0.06em;">${score}%</span>
                                             </div>
                                             <div style="text-align:right;">
-                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#94a3b8; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Collecté</span>
+                                                <span style="display:block; font-size:0.75rem; font-weight:900; color:#a7b0ac; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px;">Collecté</span>
                                                 <span style="font-size:1.5rem; font-weight:950; color: #10b981; background:rgba(16, 185, 129, 0.05); padding:10px 20px; border-radius:16px; border:1px solid rgba(16,185,129,0.1);">${(p.total_raised || 0).toLocaleString()} €</span>
                                             </div>
                                         </div>
 
-                                        <div class="dash-progress-container" style="height:18px; margin-bottom:40px; background:#f1f5f9; border-radius:100px; overflow:hidden; border: 1px solid #f1f5f9; padding:2px;">
+                                        <div class="dash-progress-container" style="height:18px; margin-bottom:40px; background:#f1f4f2; border-radius:100px; overflow:hidden; border: 1px solid #f1f4f2; padding:2px;">
                                             <div class="dash-progress-bar" style="width: ${score}%; height:100%; border-radius:100px; background:linear-gradient(90deg, #10b981 0%, #34d399 100%); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);"></div>
                                         </div>
 
-                                        <button class="cta-button primary" style="width:100%; justify-content:center; font-weight:950; background:#0f172a; border-radius:24px; font-size:1.15rem; padding:22px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 20px 40px rgba(15, 23, 42, 0.15);">PILOTER L'ÉPOPÉE →</button>
+                                        <button class="cta-button primary" style="width:100%; justify-content:center; font-weight:950; background:#0c100e; border-radius:24px; font-size:1.15rem; padding:22px; border:none; color:white; cursor:pointer; transition:0.3s; box-shadow:0 20px 40px rgba(14, 19, 17, 0.15);">PILOTER L'ÉPOPÉE →</button>
                                     </div>
                                 </div>
                                 `;
@@ -186,8 +186,8 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
         if (sidebarContainer) {
             if (!projects || projects.length === 0) {
                 sidebarContainer.innerHTML = `
-                    <div style="text-align: center; border: 2px dashed #f1f5f9; padding: 24px; border-radius: 20px;">
-                        <p style="color: #94a3b8; font-weight: 600; font-size: 0.85rem;">Aucune épopée active.</p>
+                    <div style="text-align: center; border: 2px dashed #f1f4f2; padding: 24px; border-radius: 20px;">
+                        <p style="color: #a7b0ac; font-weight: 600; font-size: 0.85rem;">Aucune épopée active.</p>
                     </div>
                 `;
             } else {
@@ -196,12 +196,12 @@ async function loadMyProjects(userId, forceRenderList = false, inspectId = null)
                         ${projects.map(p => {
                             const score = typeof calculateProjectMaturity === 'function' ? calculateProjectMaturity(p) : 0;
                             return `
-                                <div onclick="openProjectCockpit('${p.id}')" style="cursor:pointer; padding:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; transition:0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#e2e8f0'">
-                                    <div style="font-size:0.85rem; font-weight:800; color:#0f172a; margin-bottom:4px;">${p.title || 'Sans titre'}</div>
-                                    <div class="dash-progress-container" style="height:4px; background:#e2e8f0; margin-bottom:4px;">
+                                <div onclick="openProjectCockpit('${p.id}')" style="cursor:pointer; padding:16px; background:#f6f8f7; border:1px solid #e6eae8; border-radius:16px; transition:0.2s;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#e6eae8'">
+                                    <div style="font-size:0.85rem; font-weight:800; color:#0c100e; margin-bottom:4px;">${p.title || 'Sans titre'}</div>
+                                    <div class="dash-progress-container" style="height:4px; background:#e6eae8; margin-bottom:4px;">
                                         <div class="dash-progress-bar" style="width:${score}%; background:#10b981;"></div>
                                     </div>
-                                    <div style="display:flex; justify-content:space-between; font-size:0.65rem; font-weight:700; color:#64748b;">
+                                    <div style="display:flex; justify-content:space-between; font-size:0.65rem; font-weight:700; color:#717c77;">
                                         <span>${score}%</span>
                                         <span>${(p.total_raised || 0).toLocaleString()} €</span>
                                     </div>
@@ -267,28 +267,28 @@ function renderCockpitWithStep(p, step, score) {
             <div class="cockpit-header" style="margin-bottom: 48px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
                     <a href="#success-engine" onclick="event.preventDefault(); window.Router.navigate('#success-engine');" 
-                       class="cta-button secondary" style="border-radius: 100px; padding: 12px 24px; font-weight: 800; font-size: 0.85rem; border: 1px solid #e2e8f0; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+                       class="cta-button secondary" style="border-radius: 100px; padding: 12px 24px; font-weight: 800; font-size: 0.85rem; border: 1px solid #e6eae8; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
                         &larr; Retour aux Projets
                     </a>
                     <div style="display: flex; align-items: center; gap: 16px;">
-                        <span style="font-size: 0.75rem; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Progression</span>
-                        <div style="width: 150px; height: 8px; background: #f1f5f9; border-radius: 100px; overflow: hidden; border: 1px solid #f1f5f9;">
+                        <span style="font-size: 0.75rem; font-weight: 900; color: #a7b0ac; text-transform: uppercase; letter-spacing: 0.05em;">Progression</span>
+                        <div style="width: 150px; height: 8px; background: #f1f4f2; border-radius: 100px; overflow: hidden; border: 1px solid #f1f4f2;">
                             <div style="width: ${Math.round((step/6)*100)}%; height: 100%; background: #10b981; border-radius: 100px;"></div>
                         </div>
-                        <span style="font-size: 1rem; font-weight: 900; color: #0f172a;">${step}/6</span>
+                        <span style="font-size: 1rem; font-weight: 900; color: #0c100e;">${step}/6</span>
                     </div>
                 </div>
 
                 <div style="text-align: center; margin-bottom: 48px;">
                     <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 8px 16px; border-radius: 100px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 16px;">PILOTAGE : ${p.title || 'SANS TITRE'}</span>
-                    <h1 style="font-size: 3.5rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em; line-height: 1;">${current.title}</h1>
-                    <p style="color: #64748b; font-size: 1.25rem; font-weight: 500; margin-top: 12px;">${current.subtitle}</p>
+                    <h1 style="font-size: 3.5rem; font-weight: 950; color: #0c100e; margin: 0; letter-spacing: -0.05em; line-height: 1;">${current.title}</h1>
+                    <p style="color: #717c77; font-size: 1.25rem; font-weight: 500; margin-top: 12px;">${current.subtitle}</p>
                 </div>
 
-                <div class="cockpit-stepper" style="display: flex; gap: 8px; background: white; padding: 8px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 48px;">
+                <div class="cockpit-stepper" style="display: flex; gap: 8px; background: white; padding: 8px; border-radius: 24px; border: 1px solid #e6eae8; box-shadow: 0 10px 30px rgba(0,0,0,0.03); margin-bottom: 48px;">
                     ${stepsInfo.map(s => `
                         <div onclick="renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${s.num})" 
-                             style="flex: 1; padding: 16px 8px; border-radius: 18px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); ${s.num === step ? 'background: #0f172a; color: white;' : 'color: #94a3b8;'}">
+                             style="flex: 1; padding: 16px 8px; border-radius: 18px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); ${s.num === step ? 'background: #0c100e; color: white;' : 'color: #a7b0ac;'}">
                             <div style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; opacity: ${s.num === step ? '0.7' : '1'}">ÉTAPE ${s.num}</div>
                             <div style="font-size: 0.9rem; font-weight: 900; letter-spacing: -0.02em;">${s.title.split('. ')[1]}</div>
                         </div>
@@ -296,12 +296,12 @@ function renderCockpitWithStep(p, step, score) {
                 </div>
             </div>
 
-            <div class="cockpit-card-premium" style="background: white; border-radius: 40px; border: 1px solid #e2e8f0; box-shadow: 0 20px 50px rgba(0,0,0,0.04); animation: slideUp 0.5s ease-out; padding: 56px;">
+            <div class="cockpit-card-premium" style="background: white; border-radius: 40px; border: 1px solid #e6eae8; box-shadow: 0 20px 50px rgba(0,0,0,0.04); animation: slideUp 0.5s ease-out; padding: 56px;">
                 ${renderStepFields(step, p)}
                 
-                <div class="cockpit-footer-buttons" style="margin-top: 64px; padding-top: 48px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; gap: 24px;">
+                <div class="cockpit-footer-buttons" style="margin-top: 64px; padding-top: 48px; border-top: 1px solid #f1f4f2; display: flex; justify-content: space-between; gap: 24px;">
                     <button onclick="${step > 1 ? `renderCockpitWithStep(${JSON.stringify(p).replace(/"/g, '&quot;')}, ${step-1})` : 'closeProjectCockpit()'}" 
-                            class="cta-button secondary" style="flex: 1; justify-content: center; padding: 20px; border-radius: 18px; font-weight: 800; font-size: 1rem; border: 1px solid #e2e8f0; cursor: pointer;">
+                            class="cta-button secondary" style="flex: 1; justify-content: center; padding: 20px; border-radius: 18px; font-weight: 800; font-size: 1rem; border: 1px solid #e6eae8; cursor: pointer;">
                          ${step > 1 ? '← Étape Précédente' : 'Quitter le Pilote'}
                     </button>
                     
@@ -339,11 +339,11 @@ function renderStepFields(step, p) {
                 <div style="display:flex; flex-direction:column; gap:24px;">
                     <div class="cockpit-field">
                         <label class="cockpit-field-label">IMAGE DE COUVERTURE</label>
-                        <div class="cover-upload-container" style="border-radius:20px; overflow:hidden; border:1px solid #e2e8f0; background:#f8fafc; padding:12px;">
+                        <div class="cover-upload-container" style="border-radius:20px; overflow:hidden; border:1px solid #e6eae8; background:#f6f8f7; padding:12px;">
                             <input type="file" id="cover-upload" style="display:none;" onchange="handleCoverUpload(this, '${p.id}')">
                             <div id="cover-preview" class="cover-preview ${p.cover_url ? 'has-image' : ''}" 
-                                 style="height:180px; border-radius:14px; background-color:#e2e8f0; ${p.cover_url ? `background-image: url('${p.cover_url}')` : ''} background-position:center; background-size:cover; margin-bottom:12px; display:flex; align-items:center; justify-content:center;">
-                                ${!p.cover_url ? '<span style="color:#94a3b8; font-weight:800; font-size:0.85rem;">AUCUNE IMAGE</span>' : ''}
+                                 style="height:180px; border-radius:14px; background-color:#e6eae8; ${p.cover_url ? `background-image: url('${p.cover_url}')` : ''} background-position:center; background-size:cover; margin-bottom:12px; display:flex; align-items:center; justify-content:center;">
+                                ${!p.cover_url ? '<span style="color:#a7b0ac; font-weight:800; font-size:0.85rem;">AUCUNE IMAGE</span>' : ''}
                             </div>
                             <button onclick="document.getElementById('cover-upload').click()" class="cta-button secondary" style="width:100%; justify-content:center; border-radius:12px; font-weight:800; font-size:0.75rem;">${p.cover_url ? 'CHANGER L\'IMAGE' : 'TÉLÉVERSER UN VISUEL'}</button>
                             <input type="hidden" id="cover_url" value="${p.cover_url || ''}">
@@ -409,7 +409,7 @@ function renderStepFields(step, p) {
                     <div class="cockpit-field">
                         <label class="cockpit-field-label">L'ACCROCHE (SHORT PITCH)</label>
                         <input type="text" id="short_description" class="cockpit-input-premium" value="${p.short_description || ''}" placeholder="Votre projet en une phrase choc" style="padding:18px; font-weight:700;">
-                        <span style="font-size:0.7rem; color:#94a3b8; font-weight:700; text-transform:uppercase; margin-top:6px; display:block;">Visible sur la marketplace</span>
+                        <span style="font-size:0.7rem; color:#a7b0ac; font-weight:700; text-transform:uppercase; margin-top:6px; display:block;">Visible sur la marketplace</span>
                     </div>
 
                     <div class="cockpit-field">
@@ -506,7 +506,7 @@ function renderStepFields(step, p) {
                         ${list.map(skill => {
                             const isChecked = needs.toLowerCase().includes(skill.toLowerCase().split(' ')[0]);
                             return `
-                                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#334155; font-weight:600; cursor:pointer;">
+                                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#2b3632; font-weight:600; cursor:pointer;">
                                     <input type="checkbox" value="${skill}" class="need-skill-checkbox" ${isChecked ? 'checked' : ''} onchange="updateMatchingTalentsPreview('${p.id}')" style="width:18px; height:18px; accent-color:#10b981;">
                                     <span>${skill}</span>
                                 </label>
@@ -518,7 +518,7 @@ function renderStepFields(step, p) {
                 <div class="cockpit-field" style="margin-top:16px;">
                     <label class="cockpit-field-label" style="margin-bottom:12px;">Experts suggérés pour votre projet</label>
                     <div id="matching-talents-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
-                        <p style="color:#94a3b8; font-size:0.85rem; font-style:italic;">Cochez des compétences pour voir nos suggestions.</p>
+                        <p style="color:#a7b0ac; font-size:0.85rem; font-style:italic;">Cochez des compétences pour voir nos suggestions.</p>
                     </div>
                 </div>
             </div>
@@ -552,7 +552,7 @@ async function handleCoverUpload(input, projectId) {
         
         const preview = document.getElementById('cover-preview');
         if (preview) {
-            preview.innerHTML = '<p style="color:#64748b; font-size:0.9rem; font-weight:800;">Upload en cours...</p>';
+            preview.innerHTML = '<p style="color:#717c77; font-size:0.9rem; font-weight:800;">Upload en cours...</p>';
         }
 
         const fileExt = file.name.split('.').pop();
@@ -649,20 +649,20 @@ async function saveProjectStep(projectId, step) {
                 content.innerHTML = `
                     <div class="cockpit-container" style="max-width: 800px; margin: 0 auto; text-align: center; padding: 60px 20px; animation: slideUp 0.5s ease-out;">
                         <div style="font-size: 5rem; margin-bottom: 24px;"></div>
-                        <h1 style="font-size: 2.8rem; font-weight: 950; color: #0f172a; margin-bottom: 16px; letter-spacing: -0.05em;">Félicitations, votre dossier est soumis !</h1>
-                        <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 40px; font-weight: 500; line-height: 1.6;">
+                        <h1 style="font-size: 2.8rem; font-weight: 950; color: #0c100e; margin-bottom: 16px; letter-spacing: -0.05em;">Félicitations, votre dossier est soumis !</h1>
+                        <p style="font-size: 1.2rem; color: #717c77; margin-bottom: 40px; font-weight: 500; line-height: 1.6;">
                             Vos informations ont été transmises à notre équipe de validation.<br>
                             <strong>Étape finale obligatoire pour l'activation :</strong> Planifiez votre appel stratégique de validation avec le comité.
                         </p>
                         
                         <div style="background: white; padding: 40px; border-radius: 32px; border: 2.5px dashed #10b981; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(16,185,129,0.1);">
-                            <h3 style="font-size: 1.5rem; font-weight: 900; color: #0f172a; margin-bottom: 24px;">Prendre rendez-vous (30 min)</h3>
+                            <h3 style="font-size: 1.5rem; font-weight: 900; color: #0c100e; margin-bottom: 24px;">Prendre rendez-vous (30 min)</h3>
                             <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="background: #10b981; color: white; padding: 24px 48px; border-radius: 20px; font-weight: 950; font-size: 1.2rem; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 15px 35px rgba(16,185,129,0.3); transition: transform 0.2s;">
                                  Bloquer mon créneau de validation
                             </a>
                         </div>
 
-                        <button onclick="window.location.reload()" style="background: transparent; color: #94a3b8; border: none; font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 1rem;">
+                        <button onclick="window.location.reload()" style="background: transparent; color: #a7b0ac; border: none; font-weight: 800; cursor: pointer; text-decoration: underline; font-size: 1rem;">
                             Retourner à mon tableau de bord
                         </button>
                     </div>
@@ -752,7 +752,7 @@ async function loadMatchmaking(userId, projectId) {
                     <div class="gateway-teaser-overlay" style="border-radius:12px; height:auto; padding:20px; background:rgba(255,255,255,0.4); backdrop-filter:blur(1px);">
                         <div class="teaser-card" style="padding:24px; max-width:400px; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
                             <h4 style="font-weight:900; margin:0 0 10px 0;">Pépites Détectées </h4>
-                            <p style="font-size:0.85rem; color:#64748b; margin-bottom:16px;">
+                            <p style="font-size:0.85rem; color:#717c77; margin-bottom:16px;">
                                 Notre algorithme a identifié ${experts.length} experts pour votre projet. 
                                 **Activez votre collaboration** pour débloquer ces recommandations.
                             </p>
@@ -787,7 +787,7 @@ function renderMatchCard(expert, isTeaser = false) {
                     <span>${expert.title || 'Expert Stratégique'}</span>
                 </div>
             </div>
-            <p style="font-size:0.85rem; color:#64748b; margin-bottom:12px; line-height:1.4;">
+            <p style="font-size:0.85rem; color:#717c77; margin-bottom:12px; line-height:1.4;">
                 ${isTeaser ? 'Expertise territoriale de haut niveau en attente de déblocage.' : `Expert en ${expert.sector || 'Expertise'}.`}
             </p>
             ${isTeaser ? '' : `<a href="messages.html?to=${expert.id}" class="cta-button primary" style="width:100%; justify-content:center; padding:10px; font-size:0.8rem;">Contacter</a>`}
@@ -1005,8 +1005,8 @@ async function loadDashboardRewards(projectId) {
 
         if (!rewards || rewards.length === 0) {
             list.innerHTML = `
-                <div style="grid-column: 1 / -1; background:#f8fafc; border:1px dashed #e2e8f0; border-radius:16px; padding:24px; text-align:center;">
-                    <p style="color:#64748b; font-size:0.85rem; margin:0;">Aucune récompense créée.<br>Offrez des contreparties pour attirer des contributeurs.</p>
+                <div style="grid-column: 1 / -1; background:#f6f8f7; border:1px dashed #e6eae8; border-radius:16px; padding:24px; text-align:center;">
+                    <p style="color:#717c77; font-size:0.85rem; margin:0;">Aucune récompense créée.<br>Offrez des contreparties pour attirer des contributeurs.</p>
                 </div>
             `;
             return;
@@ -1037,8 +1037,8 @@ async function loadDashboardMilestones(projectId) {
 
         if (!milestones || milestones.length === 0) {
             list.innerHTML = `
-                <div style="background:#f8fafc; border:1px dashed #e2e8f0; border-radius:16px; padding:16px; text-align:center;">
-                    <p style="color:#64748b; font-size:0.8rem; margin:0;">Définissez vos paliers de financement.</p>
+                <div style="background:#f6f8f7; border:1px dashed #e6eae8; border-radius:16px; padding:16px; text-align:center;">
+                    <p style="color:#717c77; font-size:0.8rem; margin:0;">Définissez vos paliers de financement.</p>
                 </div>
             `;
             return;
@@ -1164,7 +1164,7 @@ async function handleIDUpload(input) {
     if (btn) btn.style.display = 'none';
     if (progContainer) {
         progContainer.style.display = 'block';
-        progContainer.innerHTML = `<div style="font-size:0.75rem; color:#64748b; font-weight:700;"> Upload en cours...</div>`;
+        progContainer.innerHTML = `<div style="font-size:0.75rem; color:#717c77; font-weight:700;"> Upload en cours...</div>`;
     }
 
     try {
@@ -1268,28 +1268,28 @@ window.viewProjectContributions = async (projectId) => {
                     </div>
 
                     <div id="contributions-stats-row" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:32px;">
-                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
-                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Total Récolté</div>
+                        <div style="background:#f6f8f7; padding:20px; border-radius:16px; border:1px solid #e6eae8;">
+                            <div style="font-size:0.7rem; color:#717c77; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Total Récolté</div>
                             <div id="contrib-total-amount" style="font-size:1.5rem; font-weight:900; color:#10b981;">0 €</div>
                         </div>
-                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
-                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Contributeurs</div>
-                            <div id="contrib-total-count" style="font-size:1.5rem; font-weight:900; color:#0f172a;">0</div>
+                        <div style="background:#f6f8f7; padding:20px; border-radius:16px; border:1px solid #e6eae8;">
+                            <div style="font-size:0.7rem; color:#717c77; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Contributeurs</div>
+                            <div id="contrib-total-count" style="font-size:1.5rem; font-weight:900; color:#0c100e;">0</div>
                         </div>
-                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
-                            <div style="font-size:0.7rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Moyenne / Don</div>
-                            <div id="contrib-avg-amount" style="font-size:1.5rem; font-weight:900; color:#3b82f6;">0 €</div>
+                        <div style="background:#f6f8f7; padding:20px; border-radius:16px; border:1px solid #e6eae8;">
+                            <div style="font-size:0.7rem; color:#717c77; font-weight:800; text-transform:uppercase; margin-bottom:4px;">Moyenne / Don</div>
+                            <div id="contrib-avg-amount" style="font-size:1.5rem; font-weight:900; color:#10b981;">0 €</div>
                         </div>
                     </div>
 
-                    <div style="max-height: 400px; overflow-y: auto; background:#ffffff; border:1px solid #e2e8f0; border-radius:16px;">
+                    <div style="max-height: 400px; overflow-y: auto; background:#ffffff; border:1px solid #e6eae8; border-radius:16px;">
                         <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-                            <thead style="background:#f8fafc; position:sticky; top:0; z-index:1;">
-                                <tr style="border-bottom: 2px solid #e2e8f0; text-align: left;">
-                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Donateur</th>
-                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Montant</th>
-                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Contrepartie</th>
-                                    <th style="padding: 16px; color: #64748b; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Date</th>
+                            <thead style="background:#f6f8f7; position:sticky; top:0; z-index:1;">
+                                <tr style="border-bottom: 2px solid #e6eae8; text-align: left;">
+                                    <th style="padding: 16px; color: #717c77; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Donateur</th>
+                                    <th style="padding: 16px; color: #717c77; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Montant</th>
+                                    <th style="padding: 16px; color: #717c77; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Contrepartie</th>
+                                    <th style="padding: 16px; color: #717c77; font-weight: 800; text-transform: uppercase; font-size: 0.7rem;">Date</th>
                                 </tr>
                             </thead>
                             <tbody id="contributions-tbody">
@@ -1305,7 +1305,7 @@ window.viewProjectContributions = async (projectId) => {
     }
 
     const tbody = document.getElementById('contributions-tbody');
-    if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#64748b;">Analyse des données en cours...</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#717c77;">Analyse des données en cours...</td></tr>';
     modal.style.display = 'flex';
 
     try {
@@ -1319,7 +1319,7 @@ window.viewProjectContributions = async (projectId) => {
         if (error) throw error;
 
         if (!contribs || contribs.length === 0) {
-            if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#94a3b8; font-weight:500;">Aucune contribution enregistrée pour le moment.</td></tr>';
+            if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:32px; color:#a7b0ac; font-weight:500;">Aucune contribution enregistrée pour le moment.</td></tr>';
             document.getElementById('contrib-total-amount').innerText = "0 €";
             document.getElementById('contrib-total-count').innerText = "0";
             document.getElementById('contrib-avg-amount').innerText = "0 €";
@@ -1340,11 +1340,11 @@ window.viewProjectContributions = async (projectId) => {
                 const name = c.donor_name || c.profiles?.full_name || 'Contributeur Anonyme';
                 const date = new Date(c.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
                 return `
-                    <tr style="border-bottom: 1px solid #f1f5f9;">
-                        <td style="padding: 16px; font-weight: 700; color:#0f172a;">${name}</td>
+                    <tr style="border-bottom: 1px solid #f1f4f2;">
+                        <td style="padding: 16px; font-weight: 700; color:#0c100e;">${name}</td>
                         <td style="padding: 16px; font-weight: 800; color:#10b981;">${c.amount.toLocaleString()} €</td>
-                        <td style="padding: 16px; font-size:0.8rem; color:#64748b;">${c.project_rewards?.title || 'Don libre'}</td>
-                        <td style="padding: 16px; font-size:0.8rem; color:#94a3b8;">${date}</td>
+                        <td style="padding: 16px; font-size:0.8rem; color:#717c77;">${c.project_rewards?.title || 'Don libre'}</td>
+                        <td style="padding: 16px; font-size:0.8rem; color:#a7b0ac;">${date}</td>
                     </tr>
                 `;
             }).join('');
@@ -1373,14 +1373,14 @@ async function loadMatchingTalents(project) {
     const container = document.getElementById('matching-talents-container');
     if (!container) return;
     
-    container.innerHTML = `<p style="color:#94a3b8; font-size:0.85rem; font-style:italic;">Recherche d'experts compatibles en cours...</p>`;
+    container.innerHTML = `<p style="color:#a7b0ac; font-size:0.85rem; font-style:italic;">Recherche d'experts compatibles en cours...</p>`;
     
     try {
         const needsStr = project.needs || '';
         const needsList = needsStr.split(',').map(s => s.trim()).filter(Boolean);
         
         if (needsList.length === 0) {
-            container.innerHTML = `<p style="color:#64748b; font-size:0.85rem; font-style:italic; grid-column: 1 / -1;">Cochez des besoins ci-dessus pour afficher des suggestions d'experts.</p>`;
+            container.innerHTML = `<p style="color:#717c77; font-size:0.85rem; font-style:italic; grid-column: 1 / -1;">Cochez des besoins ci-dessus pour afficher des suggestions d'experts.</p>`;
             return;
         }
 
@@ -1392,7 +1392,7 @@ async function loadMatchingTalents(project) {
         if (error) throw error;
         
         if (!experts || experts.length === 0) {
-            container.innerHTML = `<p style="color:#94a3b8; font-size:0.85rem; grid-column: 1 / -1;">Aucun expert disponible dans l'annuaire pour le moment.</p>`;
+            container.innerHTML = `<p style="color:#a7b0ac; font-size:0.85rem; grid-column: 1 / -1;">Aucun expert disponible dans l'annuaire pour le moment.</p>`;
             return;
         }
 
@@ -1415,17 +1415,17 @@ async function loadMatchingTalents(project) {
             const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
             const avatar = exp.avatar_url 
                 ? `<img src="${exp.avatar_url}" style="width:40px; height:40px; border-radius:50%; object-fit:cover;">`
-                : `<div style="width:40px; height:40px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0f172a;">${initials}</div>`;
+                : `<div style="width:40px; height:40px; border-radius:50%; background:#e6eae8; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0c100e;">${initials}</div>`;
                 
             const prefillMsg = encodeURIComponent(`Bonjour ${name}, j'ai vu votre profil d'expert et je souhaite collaborer avec vous sur mon projet "${project.title}" !`);
             
             return `
-                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:16px; display:flex; align-items:center; gap:12px; justify-content:space-between;">
+                <div style="background:#f6f8f7; border:1px solid #e6eae8; border-radius:16px; padding:16px; display:flex; align-items:center; gap:12px; justify-content:space-between;">
                     <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
                         ${avatar}
                         <div style="min-width:0;">
-                            <h4 style="margin:0; font-size:0.9rem; font-weight:800; color:#0f172a; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</h4>
-                            <p style="margin:2px 0 0 0; font-size:0.75rem; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${exp.title || exp.skills || 'Expert'}</p>
+                            <h4 style="margin:0; font-size:0.9rem; font-weight:800; color:#0c100e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${name}</h4>
+                            <p style="margin:2px 0 0 0; font-size:0.75rem; color:#717c77; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${exp.title || exp.skills || 'Expert'}</p>
                         </div>
                     </div>
                     <button onclick="window.Router.navigate('#messages?to=${exp.id}&prefill=${prefillMsg}')" style="background:#10b981; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:800; font-size:0.75rem; cursor:pointer; font-family:inherit; flex-shrink:0;">

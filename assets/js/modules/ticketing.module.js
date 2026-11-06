@@ -48,21 +48,21 @@ const TicketingModule = {
             container.innerHTML = `
                 <div style="padding:clamp(20px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;background:#fafafa;min-height:100vh;">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;flex-wrap:wrap;gap:16px;">
-                        <h1 style="font-size:2.2rem;font-weight:950;color:#0f172a;letter-spacing:-0.05em;margin:0;">Mes Événements</h1>
-                        <button onclick="window.Router.navigate('#billetterie?action=create')" style="background:#0f172a;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;">+ Créer un Événement</button>
+                        <h1 style="font-size:2.2rem;font-weight:950;color:#0c100e;letter-spacing:-0.05em;margin:0;">Mes Événements</h1>
+                        <button onclick="window.Router.navigate('#billetterie?action=create')" style="background:#0c100e;color:white;border:none;padding:14px 28px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;">+ Créer un Événement</button>
                     </div>
                     ${events && events.length ? `
                         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;">
                             ${events.map(ev => `
-                                <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
-                                    ${ev.image_url ? `<img src="${ev.image_url}" style="width:100%;height:160px;object-fit:cover;">` : `<div style="width:100%;height:160px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:2rem;">🎟️</div>`}
+                                <div style="background:white;border-radius:20px;border:1px solid #e6eae8;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+                                    ${ev.image_url ? `<img src="${ev.image_url}" style="width:100%;height:160px;object-fit:cover;">` : `<div style="width:100%;height:160px;background:#f1f4f2;display:flex;align-items:center;justify-content:center;font-size:2rem;">🎟️</div>`}
                                     <div style="padding:20px;">
-                                        <div style="font-size:0.7rem;font-weight:900;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;">${ev.event_date}</div>
-                                        <h3 style="margin:0 0 6px;font-weight:950;font-size:1.1rem;color:#0f172a;">${ev.title}</h3>
-                                        <p style="font-size:0.85rem;color:#64748b;margin:0 0 20px;">${ev.location}</p>
+                                        <div style="font-size:0.7rem;font-weight:900;color:#a7b0ac;text-transform:uppercase;margin-bottom:6px;">${ev.event_date}</div>
+                                        <h3 style="margin:0 0 6px;font-weight:950;font-size:1.1rem;color:#0c100e;">${ev.title}</h3>
+                                        <p style="font-size:0.85rem;color:#717c77;margin:0 0 20px;">${ev.location}</p>
                                         <div style="display:flex;gap:10px;">
-                                            <button onclick="window.Router.navigate('#billetterie?action=manage&id=${ev.id}')" style="flex:2;background:#0f172a;color:white;border:none;padding:12px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;font-size:0.85rem;">PILOTER</button>
-                                            <button onclick="const btn=this; navigator.clipboard.writeText(window.location.origin + '/api/share?type=event&id=${ev.id}').then(() => { const old = btn.innerText; btn.innerText='✅'; setTimeout(()=>btn.innerText=old, 2000); })" style="flex:1;background:#f8fafc;color:#0f172a;border:1px solid #cbd5e1;padding:12px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1.1rem;display:flex;align-items:center;justify-content:center;" title="Copier le lien pour WhatsApp/LinkedIn">🔗</button>
+                                            <button onclick="window.Router.navigate('#billetterie?action=manage&id=${ev.id}')" style="flex:2;background:#0c100e;color:white;border:none;padding:12px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;font-size:0.85rem;">PILOTER</button>
+                                            <button onclick="const btn=this; navigator.clipboard.writeText(window.location.origin + '/api/share?type=event&id=${ev.id}').then(() => { const old = btn.innerText; btn.innerText='✅'; setTimeout(()=>btn.innerText=old, 2000); })" style="flex:1;background:#f6f8f7;color:#0c100e;border:1px solid #d4dad7;padding:12px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;font-size:1.1rem;display:flex;align-items:center;justify-content:center;" title="Copier le lien pour WhatsApp/LinkedIn">🔗</button>
                                             <button onclick="TicketingModule.deleteEvent('${ev.id}')" style="flex:1;background:#fee2e2;color:#dc2626;border:none;padding:12px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;font-size:0.85rem;">Suppr.</button>
                                         </div>
                                     </div>
@@ -70,9 +70,9 @@ const TicketingModule = {
                             `).join('')}
                         </div>
                     ` : `
-                        <div style="text-align:center;padding:80px;border:2px dashed #e2e8f0;border-radius:24px;">
+                        <div style="text-align:center;padding:80px;border:2px dashed #e6eae8;border-radius:24px;">
                             <div style="font-size:3rem;margin-bottom:16px;">🎟️</div>
-                            <p style="font-weight:800;color:#64748b;">Aucun événement. Créez le vôtre !</p>
+                            <p style="font-weight:800;color:#717c77;">Aucun événement. Créez le vôtre !</p>
                         </div>
                     `}
                 </div>`;
@@ -105,73 +105,73 @@ const TicketingModule = {
             view.innerHTML = `
                 <div style="padding:clamp(20px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;background:#fafafa;min-height:100vh;">
                     <!-- Breadcrumb -->
-                    <button onclick="window.Router.navigate('#billetterie')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:8px;font-family:inherit;">← Retour à la liste</button>
+                    <button onclick="window.Router.navigate('#billetterie')" style="background:none;border:none;font-weight:800;color:#717c77;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:8px;font-family:inherit;">← Retour à la liste</button>
 
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:40px;flex-wrap:wrap;gap:20px;">
                         <div>
-                            <h1 style="font-size:1.8rem;font-weight:950;color:#0f172a;margin:0;">${ev.title}</h1>
-                            <p style="color:#64748b;font-weight:600;margin-top:6px;">📍 ${ev.location} · 📅 ${ev.event_date}</p>
+                            <h1 style="font-size:1.8rem;font-weight:950;color:#0c100e;margin:0;">${ev.title}</h1>
+                            <p style="color:#717c77;font-weight:600;margin-top:6px;">📍 ${ev.location} · 📅 ${ev.event_date}</p>
                         </div>
                         <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                            <button onclick="const btn=this; navigator.clipboard.writeText(window.location.origin + '/api/share?type=event&id=${ev.id}').then(() => { const old = btn.innerText; btn.innerText='Lien Copié ✅'; setTimeout(()=>btn.innerText=old, 2000); })" style="background:#f8fafc;color:#0f172a;border:1.5px dashed #cbd5e1;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;" title="Partager sur LinkedIn/WhatsApp">Partager 📤</button>
-                            <button onclick="TicketingModule.renderPromoCodesHub('${ev.id}')" style="border:1.5px solid #0f172a;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Codes Promos 🏷️</button>
-                            <button onclick="TicketingModule.editEventModal('${ev.id}', ${ev.total_tickets || 0}, ${ev.price || 0})" style="border:1.5px solid #e2e8f0;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Modifier Prix/Quota</button>
+                            <button onclick="const btn=this; navigator.clipboard.writeText(window.location.origin + '/api/share?type=event&id=${ev.id}').then(() => { const old = btn.innerText; btn.innerText='Lien Copié ✅'; setTimeout(()=>btn.innerText=old, 2000); })" style="background:#f6f8f7;color:#0c100e;border:1.5px dashed #d4dad7;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;" title="Partager sur LinkedIn/WhatsApp">Partager 📤</button>
+                            <button onclick="TicketingModule.renderPromoCodesHub('${ev.id}')" style="border:1.5px solid #0c100e;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Codes Promos 🏷️</button>
+                            <button onclick="TicketingModule.editEventModal('${ev.id}', ${ev.total_tickets || 0}, ${ev.price || 0})" style="border:1.5px solid #e6eae8;background:white;padding:12px 20px;border-radius:10px;font-weight:900;cursor:pointer;font-family:inherit;">Modifier Prix/Quota</button>
                             <button onclick="TicketingModule.renderScanView('${ev.id}')" style="background:#10b981;color:white;border:none;padding:12px 24px;border-radius:10px;font-weight:950;cursor:pointer;font-family:inherit;">Scanner Live 📷</button>
                         </div>
                     </div>
 
                     <!-- KPIs -->
                     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:40px;">
-                        <div style="background:white;padding:clamp(16px, 4vw, 28px);border-radius:20px;border:1px solid #e2e8f0;">
-                            <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Remplissage</div>
-                            <div style="font-size:2rem;font-weight:950;color:#0f172a;">${sold}${capacity > 0 ? ' / ' + capacity : ''}</div>
+                        <div style="background:white;padding:clamp(16px, 4vw, 28px);border-radius:20px;border:1px solid #e6eae8;">
+                            <div style="font-size:0.7rem;font-weight:950;color:#a7b0ac;text-transform:uppercase;margin-bottom:12px;">Remplissage</div>
+                            <div style="font-size:2rem;font-weight:950;color:#0c100e;">${sold}${capacity > 0 ? ' / ' + capacity : ''}</div>
                             ${capacity > 0 ? `
-                            <div style="margin-top:14px;height:8px;background:#f1f5f9;border-radius:8px;overflow:hidden;">
+                            <div style="margin-top:14px;height:8px;background:#f1f4f2;border-radius:8px;overflow:hidden;">
                                 <div style="height:100%;width:${fillPct}%;background:#10b981;border-radius:8px;transition:width 1s;"></div>
                             </div>
                             <div style="font-size:0.75rem;font-weight:800;color:#10b981;margin-top:8px;">${fillPct.toFixed(0)}% vendu</div>` : ''}
                         </div>
-                        <div style="background:#0f172a;padding:clamp(16px, 4vw, 28px);border-radius:20px;color:white;">
+                        <div style="background:#0c100e;padding:clamp(16px, 4vw, 28px);border-radius:20px;color:white;">
                             <div style="font-size:0.7rem;font-weight:950;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:12px;">Reversement Net</div>
                             <div style="font-size:2rem;font-weight:950;color:#10b981;">${netEarnings.toFixed(2)} €</div>
                             <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-top:8px;">CA Brut: ${grossCA.toFixed(2)} € · Com. DTC 10%: ${(grossCA - netEarnings).toFixed(2)} €</div>
                         </div>
-                        <div style="background:white;padding:clamp(16px, 4vw, 28px);border-radius:20px;border:1px solid #e2e8f0;">
-                            <div style="font-size:0.7rem;font-weight:950;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Check-in Terrain</div>
-                            <div style="font-size:2rem;font-weight:950;color:#0f172a;">${scanned} <span style="font-size:1rem;color:#94a3b8;">scannés</span></div>
-                            <div style="font-size:0.75rem;color:#64748b;margin-top:8px;">${sold - scanned} en attente de scan</div>
+                        <div style="background:white;padding:clamp(16px, 4vw, 28px);border-radius:20px;border:1px solid #e6eae8;">
+                            <div style="font-size:0.7rem;font-weight:950;color:#a7b0ac;text-transform:uppercase;margin-bottom:12px;">Check-in Terrain</div>
+                            <div style="font-size:2rem;font-weight:950;color:#0c100e;">${scanned} <span style="font-size:1rem;color:#a7b0ac;">scannés</span></div>
+                            <div style="font-size:0.75rem;color:#717c77;margin-top:8px;">${sold - scanned} en attente de scan</div>
                         </div>
                     </div>
 
                     <!-- Liste participants -->
-                    <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;padding:clamp(16px, 4vw, 32px);">
+                    <div style="background:white;border-radius:20px;border:1px solid #e6eae8;padding:clamp(16px, 4vw, 32px);">
                         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
                             <h3 style="margin:0;font-weight:950;">Participants (${sold})</h3>
-                            <input type="text" id="search-att" placeholder="Rechercher par email..." oninput="TicketingModule.filterSearch()" style="padding:10px 16px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:600;width:240px;">
+                            <input type="text" id="search-att" placeholder="Rechercher par email..." oninput="TicketingModule.filterSearch()" style="padding:10px 16px;border-radius:10px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:600;width:240px;">
                         </div>
-                        ${allTickets.length === 0 ? `<p style="text-align:center;color:#94a3b8;padding:40px;">Aucun billet vendu pour cet événement.</p>` : `
+                        ${allTickets.length === 0 ? `<p style="text-align:center;color:#a7b0ac;padding:40px;">Aucun billet vendu pour cet événement.</p>` : `
                         <div style="overflow-x:auto;">
                             <table style="width:100%;border-collapse:collapse;" id="att-table">
                                 <thead>
-                                    <tr style="border-bottom:1px solid #f1f5f9;">
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Email Acheteur</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Montant Payé</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:left;">Statut</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;">Action</th>
+                                    <tr style="border-bottom:1px solid #f1f4f2;">
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;text-align:left;">Email Acheteur</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;text-align:left;">Montant Payé</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;text-align:left;">Statut</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;text-align:right;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     ${allTickets.map(t => `
-                                    <tr class="att-row" data-email="${(t.buyer_email || '').toLowerCase()}" style="border-bottom:1px solid #f8fafc;">
-                                        <td style="padding:14px 12px;font-weight:700;color:#0f172a;">${t.buyer_email || '—'}<br><span style="font-size:0.75rem;color:#64748b;font-weight:600;">${t.tier_name || 'Standard'}</span></td>
+                                    <tr class="att-row" data-email="${(t.buyer_email || '').toLowerCase()}" style="border-bottom:1px solid #f6f8f7;">
+                                        <td style="padding:14px 12px;font-weight:700;color:#0c100e;">${t.buyer_email || '—'}<br><span style="font-size:0.75rem;color:#717c77;font-weight:600;">${t.tier_name || 'Standard'}</span></td>
                                         <td style="padding:14px 12px;font-weight:800;color:#059669;">${(t.amount_paid || 0).toFixed(2)} €</td>
                                         <td style="padding:14px 12px;">
                                             ${t.status === 'scanne'
                     ? '<span style="background:#dcfce7;color:#059669;font-size:0.65rem;font-weight:950;text-transform:uppercase;padding:4px 10px;border-radius:100px;">Scanné ✓</span>'
-                    : '<span style="background:#f1f5f9;color:#64748b;font-size:0.65rem;font-weight:950;text-transform:uppercase;padding:4px 10px;border-radius:100px;">Valide</span>'}
+                    : '<span style="background:#f1f4f2;color:#717c77;font-size:0.65rem;font-weight:950;text-transform:uppercase;padding:4px 10px;border-radius:100px;">Valide</span>'}
                                         </td>
                                         <td style="padding:14px 12px;text-align:right;">
-                                            ${t.status !== 'scanne' ? `<button onclick="TicketingModule.checkIn('${t.id}', '${eventId}')" style="background:#0f172a;color:white;border:none;padding:6px 14px;border-radius:8px;font-weight:900;cursor:pointer;font-size:0.75rem;font-family:inherit;">Valider</button>` : ''}
+                                            ${t.status !== 'scanne' ? `<button onclick="TicketingModule.checkIn('${t.id}', '${eventId}')" style="background:#0c100e;color:white;border:none;padding:6px 14px;border-radius:8px;font-weight:900;cursor:pointer;font-size:0.75rem;font-family:inherit;">Valider</button>` : ''}
                                         </td>
                                     </tr>`).join('')}
                                 </tbody>
@@ -197,57 +197,57 @@ const TicketingModule = {
 
             view.innerHTML = `
                 <div style="padding:clamp(20px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;">
-                    <button onclick="TicketingModule.renderOrganizerHub('${eventId}')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:8px;font-family:inherit;">← Retour au pilotage</button>
+                    <button onclick="TicketingModule.renderOrganizerHub('${eventId}')" style="background:none;border:none;font-weight:800;color:#717c77;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:8px;font-family:inherit;">← Retour au pilotage</button>
                     
                     <div style="display:grid;grid-template-columns: 1fr 1.5fr; gap:40px; align-items:start;">
                         <!-- Formulaire -->
-                        <div style="background:white; padding:clamp(16px, 4vw, 32px); border-radius:24px; border:1px solid #e2e8f0;">
+                        <div style="background:white; padding:clamp(16px, 4vw, 32px); border-radius:24px; border:1px solid #e6eae8;">
                             <h3 style="margin:0 0 24px; font-weight:950;">Nouveau Code Promo</h3>
                             <div style="display:flex; flex-direction:column; gap:16px;">
                                 <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Code (ex: DTC20)</label>
-                                    <input id="promo-code" type="text" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Code (ex: DTC20)</label>
+                                    <input id="promo-code" type="text" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                 </div>
                                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
                                     <div>
-                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Type</label>
-                                        <select id="promo-type" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;">
+                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Type</label>
+                                        <select id="promo-type" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;">
                                             <option value="percent">Pourcentage (%)</option>
                                             <option value="amount">Montant fixe (€)</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Valeur</label>
-                                        <input id="promo-value" type="number" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                        <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Valeur</label>
+                                        <input id="promo-value" type="number" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                     </div>
                                 </div>
                                 <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Utilisations max (0 = illimité)</label>
-                                    <input id="promo-max" type="number" value="0" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Utilisations max (0 = illimité)</label>
+                                    <input id="promo-max" type="number" value="0" style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                 </div>
-                                <button onclick="TicketingModule.addPromoCode('${eventId}')" style="background:#0f172a;color:white;border:none;padding:14px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;margin-top:8px;">CRÉER LE CODE</button>
+                                <button onclick="TicketingModule.addPromoCode('${eventId}')" style="background:#0c100e;color:white;border:none;padding:14px;border-radius:12px;font-weight:950;cursor:pointer;font-family:inherit;margin-top:8px;">CRÉER LE CODE</button>
                             </div>
                         </div>
 
                         <!-- Liste -->
-                        <div style="background:white; padding:clamp(16px, 4vw, 32px); border-radius:24px; border:1px solid #e2e8f0;">
+                        <div style="background:white; padding:clamp(16px, 4vw, 32px); border-radius:24px; border:1px solid #e6eae8;">
                             <h3 style="margin:0 0 24px; font-weight:950;">Codes Actifs (${codes.length})</h3>
-                            ${codes.length === 0 ? '<p style="color:#94a3b8;font-weight:600;">Aucun code promo créé.</p>' : `
+                            ${codes.length === 0 ? '<p style="color:#a7b0ac;font-weight:600;">Aucun code promo créé.</p>' : `
                             <table style="width:100%; border-collapse:collapse;">
                                 <thead>
-                                    <tr style="border-bottom:1px solid #f1f5f9; text-align:left;">
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Code</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Réduction</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;">Usages</th>
-                                        <th style="padding:12px;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;font-weight:900;text-align:right;">Action</th>
+                                    <tr style="border-bottom:1px solid #f1f4f2; text-align:left;">
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;">Code</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;">Réduction</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;">Usages</th>
+                                        <th style="padding:12px;font-size:0.7rem;color:#a7b0ac;text-transform:uppercase;font-weight:900;text-align:right;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     ${codes.map(c => `
-                                    <tr style="border-bottom:1px solid #f8fafc;">
-                                        <td style="padding:14px 12px;font-weight:900;color:#0f172a;">${c.code}</td>
+                                    <tr style="border-bottom:1px solid #f6f8f7;">
+                                        <td style="padding:14px 12px;font-weight:900;color:#0c100e;">${c.code}</td>
                                         <td style="padding:14px 12px;font-weight:800;color:#10b981;">${c.discount_value}${c.discount_type === 'percent' ? '%' : '€'}</td>
-                                        <td style="padding:14px 12px;font-weight:700;color:#64748b;">${c.used_count}${c.max_uses > 0 ? ' / ' + c.max_uses : ''}</td>
+                                        <td style="padding:14px 12px;font-weight:700;color:#717c77;">${c.used_count}${c.max_uses > 0 ? ' / ' + c.max_uses : ''}</td>
                                         <td style="padding:14px 12px;text-align:right;">
                                             <button onclick="TicketingModule.deletePromoCode('${c.id}', '${eventId}')" style="background:none;border:none;color:#ef4444;font-weight:900;cursor:pointer;">×</button>
                                         </td>
@@ -314,7 +314,7 @@ const TicketingModule = {
     renderScanView(eventId) {
         const view = document.getElementById('billetterie-view');
         view.innerHTML = `
-            <div style="position:fixed;inset:0;background:#020617;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:'Plus Jakarta Sans',sans-serif;">
+            <div style="position:fixed;inset:0;background:#070908;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;font-family:'Plus Jakarta Sans',sans-serif;">
                 <button onclick="TicketingModule.renderOrganizerHub('${eventId}')" style="position:absolute;top:24px;left:24px;background:rgba(255,255,255,0.1);border:none;color:white;padding:10px 20px;border-radius:10px;font-weight:800;cursor:pointer;">← Quitter</button>
 
                 <h2 style="color:white;font-weight:950;margin-bottom:8px;">Scanner Billets</h2>
@@ -388,52 +388,52 @@ const TicketingModule = {
 
             view.innerHTML = `
                 <div style="padding:clamp(16px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;">
-                    <button onclick="window.Router.navigate('#billetterie?action=manage&id=${eventId}')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;font-family:inherit;">← Annuler</button>
-                    <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;padding:clamp(16px, 5vw, 40px);max-width:700px;margin:0 auto;box-sizing:border-box;">
+                    <button onclick="window.Router.navigate('#billetterie?action=manage&id=${eventId}')" style="background:none;border:none;font-weight:800;color:#717c77;cursor:pointer;margin-bottom:24px;font-family:inherit;">← Annuler</button>
+                    <div style="background:white;border-radius:20px;border:1px solid #e6eae8;padding:clamp(16px, 5vw, 40px);max-width:700px;margin:0 auto;box-sizing:border-box;">
                         <h2 style="font-weight:950;margin-bottom:32px;font-size:1.8rem;">Modifier l'Événement</h2>
                         <div style="display:flex;flex-direction:column;gap:20px;">
                             <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Titre *</label>
-                                <input id="ev-title" type="text" value="${ev.title || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Titre *</label>
+                                <input id="ev-title" type="text" value="${ev.title || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                             </div>
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                                 <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Date *</label>
-                                    <input id="ev-date" type="date" value="${ev.event_date || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Date *</label>
+                                    <input id="ev-date" type="date" value="${ev.event_date || ''}" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                 </div>
                                 <div>
-                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Lieu ou Lien Visio *</label>
-                                    <input id="ev-location" type="text" value="${(ev.ticket_url && ev.ticket_url.startsWith('http') && ev.location === 'En ligne') ? ev.ticket_url : (ev.location || '')}" placeholder="Paris / https://meet.google.com/..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                    <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Lieu ou Lien Visio *</label>
+                                    <input id="ev-location" type="text" value="${(ev.ticket_url && ev.ticket_url.startsWith('http') && ev.location === 'En ligne') ? ev.ticket_url : (ev.location || '')}" placeholder="Paris / https://meet.google.com/..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                                 </div>
                             </div>
                             
-                            <div id="agenda-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
-                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
+                            <div id="agenda-builder" style="background:#f6f8f7; border:1.5px solid #e6eae8; border-radius:16px; padding:24px; margin-bottom:20px;">
+                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0c100e; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
                                 <div id="agenda-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
                                     <!-- Agenda dynamically injected -->
                                 </div>
-                                <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter une étape</button>
+                                <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e6eae8; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#717c77;">+ Ajouter une étape</button>
                             </div>
 
-                            <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
-                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
+                            <div id="tiers-builder" style="background:#f6f8f7; border:1.5px solid #e6eae8; border-radius:16px; padding:24px; margin-bottom:20px;">
+                                <label style="display:block; font-size:0.75rem; font-weight:950; color:#0c100e; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
                                 <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
                                     <!-- Tiers dynamically injected -->
                                 </div>
-                                <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter un type de billet</button>
+                                <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e6eae8; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#717c77;">+ Ajouter un type de billet</button>
                             </div>
 
                             <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
-                                <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:12px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onclick="document.getElementById('ev-image-file').click()">
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
+                                <div id="ev-upload-zone" style="border:2px dashed #e6eae8;border-radius:16px;padding:12px;text-align:center;cursor:pointer;background:#f6f8f7;transition:0.3s;" onclick="document.getElementById('ev-image-file').click()">
                                     <input id="ev-image-file" type="file" accept="image/*" style="display:none;" onchange="TicketingModule.handleUpload(this)">
                                     <div id="ev-preview-container">
                                         <div id="ev-preview-img" style="width:100%;height:200px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:12px;background-image:url('${ev.image_url || ''}')"></div>
-                                        <span style="font-size:0.75rem;font-weight:800;color:#0f172a;">Cliquer pour changer l'image</span>
+                                        <span style="font-size:0.75rem;font-weight:800;color:#0c100e;">Cliquer pour changer l'image</span>
                                     </div>
                                     <div id="ev-upload-prompt" style="display:none;">
                                         <div style="font-size:2.5rem;margin-bottom:12px;">🖼️</div>
-                                        <p style="margin:0;font-weight:800;color:#0f172a;">Sélectionnez une affiche</p>
+                                        <p style="margin:0;font-weight:800;color:#0c100e;">Sélectionnez une affiche</p>
                                     </div>
                                     <input type="hidden" id="ev-image-url" value="${ev.image_url || ''}">
                                 </div>
@@ -471,52 +471,52 @@ const TicketingModule = {
     async renderCreateForm(container) {
         container.innerHTML = `
             <div style="padding:clamp(16px,4vw,40px);font-family:'Plus Jakarta Sans',sans-serif;">
-                <button onclick="window.Router.navigate('#billetterie')" style="background:none;border:none;font-weight:800;color:#64748b;cursor:pointer;margin-bottom:24px;font-family:inherit;">← Annuler</button>
-                <div style="background:white;border-radius:20px;border:1px solid #e2e8f0;padding:clamp(16px, 5vw, 40px);max-width:700px;margin:0 auto;box-sizing:border-box;">
+                <button onclick="window.Router.navigate('#billetterie')" style="background:none;border:none;font-weight:800;color:#717c77;cursor:pointer;margin-bottom:24px;font-family:inherit;">← Annuler</button>
+                <div style="background:white;border-radius:20px;border:1px solid #e6eae8;padding:clamp(16px, 5vw, 40px);max-width:700px;margin:0 auto;box-sizing:border-box;">
                     <h2 style="font-weight:950;margin-bottom:32px;font-size:1.8rem;">Nouvel Événement</h2>
                     <div style="display:flex;flex-direction:column;gap:20px;">
                         <div>
-                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Titre *</label>
-                            <input id="ev-title" type="text" placeholder="Ex: Pop-up Store Mode, Masterclass..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Titre *</label>
+                            <input id="ev-title" type="text" placeholder="Ex: Pop-up Store Mode, Masterclass..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                         </div>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                             <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Date *</label>
-                                <input id="ev-date" type="date" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Date *</label>
+                                <input id="ev-date" type="date" style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                             </div>
                             <div>
-                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Lieu ou Lien Visio *</label>
-                                <input id="ev-location" type="text" placeholder="Paris / https://meet.google.com/..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e2e8f0;font-family:inherit;font-weight:700;box-sizing:border-box;">
+                                <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Lieu ou Lien Visio *</label>
+                                <input id="ev-location" type="text" placeholder="Paris / https://meet.google.com/..." style="width:100%;padding:14px;border-radius:12px;border:1.5px solid #e6eae8;font-family:inherit;font-weight:700;box-sizing:border-box;">
                             </div>
                         </div>
-                        <div id="agenda-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
-                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
+                        <div id="agenda-builder" style="background:#f6f8f7; border:1.5px solid #e6eae8; border-radius:16px; padding:24px; margin-bottom:20px;">
+                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0c100e; text-transform:uppercase; margin-bottom:16px;">Programme (Agenda)</label>
                             <div id="agenda-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
                                 <!-- Agenda dynamically injected -->
                             </div>
-                            <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter une étape au programme</button>
+                            <button type="button" onclick="TicketingModule.addAgendaLine()" style="background:#fff; border:1px solid #e6eae8; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#717c77;">+ Ajouter une étape au programme</button>
                         </div>
 
-                        <div id="tiers-builder" style="background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:16px; padding:24px; margin-bottom:20px;">
-                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0f172a; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
+                        <div id="tiers-builder" style="background:#f6f8f7; border:1.5px solid #e6eae8; border-radius:16px; padding:24px; margin-bottom:20px;">
+                            <label style="display:block; font-size:0.75rem; font-weight:950; color:#0c100e; text-transform:uppercase; margin-bottom:16px;">Configurations des Billets</label>
                             <div id="tiers-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
                                 <!-- Tiers dynamically injected -->
                             </div>
-                            <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#64748b;">+ Ajouter un type de billet (ex: VIP)</button>
+                            <button type="button" onclick="TicketingModule.addTierLine()" style="background:#fff; border:1px solid #e6eae8; padding:10px 16px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; color:#717c77;">+ Ajouter un type de billet (ex: VIP)</button>
                         </div>
 
                         <div>
-                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#64748b;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
-                            <div id="ev-upload-zone" style="border:2px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f8fafc;transition:0.3s;" onmouseover="this.style.borderColor='#10b981';this.style.background='#fff';" onmouseout="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';" onclick="document.getElementById('ev-image-file').click()">
+                            <label style="display:block;font-size:0.7rem;font-weight:950;color:#717c77;text-transform:uppercase;margin-bottom:8px;">Image de l'affiche</label>
+                            <div id="ev-upload-zone" style="border:2px dashed #e6eae8;border-radius:16px;padding:32px;text-align:center;cursor:pointer;background:#f6f8f7;transition:0.3s;" onmouseover="this.style.borderColor='#10b981';this.style.background='#fff';" onmouseout="this.style.borderColor='#e6eae8';this.style.background='#f6f8f7';" onclick="document.getElementById('ev-image-file').click()">
                                 <input id="ev-image-file" type="file" accept="image/*" style="display:none;" onchange="TicketingModule.handleUpload(this)">
                                 <div id="ev-preview-container" style="display:none;">
                                     <div id="ev-preview-img" style="width:100%;height:200px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:12px;"></div>
-                                    <span style="font-size:0.75rem;font-weight:800;color:#0f172a;">Cliquer pour changer l'image</span>
+                                    <span style="font-size:0.75rem;font-weight:800;color:#0c100e;">Cliquer pour changer l'image</span>
                                 </div>
                                 <div id="ev-upload-prompt">
                                     <div style="font-size:2.5rem;margin-bottom:12px;">🖼️</div>
-                                    <p style="margin:0;font-weight:800;color:#0f172a;">Sélectionnez une affiche</p>
-                                    <p style="margin:4px 0 0;font-size:0.8rem;color:#64748b;font-weight:600;">PNG, JPG jusqu'à 5Mo</p>
+                                    <p style="margin:0;font-weight:800;color:#0c100e;">Sélectionnez une affiche</p>
+                                    <p style="margin:4px 0 0;font-size:0.8rem;color:#717c77;font-weight:600;">PNG, JPG jusqu'à 5Mo</p>
                                 </div>
                                 <input type="hidden" id="ev-image-url">
                             </div>
@@ -550,9 +550,9 @@ const TicketingModule = {
         if (!list) return;
         list.innerHTML = this._currentTiers.map((t, i) => `
             <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
-                <input type="text" value="${t.name}" placeholder="Nom (ex: Place VIP)" onchange="TicketingModule._currentTiers[${i}].name=this.value" style="flex: 2 1 140px; padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700; box-sizing:border-box;">
-                <input type="number" value="${t.price}" placeholder="Prix €" onchange="TicketingModule._currentTiers[${i}].price=parseFloat(this.value)" style="flex: 1 1 80px; padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700; box-sizing:border-box;">
-                <input type="number" value="${t.capacity}" placeholder="Quota" onchange="TicketingModule._currentTiers[${i}].capacity=parseInt(this.value)" style="flex: 1 1 80px; padding:10px; border-radius:8px; border:1.5px solid #e2e8f0; font-weight:700; box-sizing:border-box;">
+                <input type="text" value="${t.name}" placeholder="Nom (ex: Place VIP)" onchange="TicketingModule._currentTiers[${i}].name=this.value" style="flex: 2 1 140px; padding:10px; border-radius:8px; border:1.5px solid #e6eae8; font-weight:700; box-sizing:border-box;">
+                <input type="number" value="${t.price}" placeholder="Prix €" onchange="TicketingModule._currentTiers[${i}].price=parseFloat(this.value)" style="flex: 1 1 80px; padding:10px; border-radius:8px; border:1.5px solid #e6eae8; font-weight:700; box-sizing:border-box;">
+                <input type="number" value="${t.capacity}" placeholder="Quota" onchange="TicketingModule._currentTiers[${i}].capacity=parseInt(this.value)" style="flex: 1 1 80px; padding:10px; border-radius:8px; border:1.5px solid #e6eae8; font-weight:700; box-sizing:border-box;">
                 <button type="button" onclick="TicketingModule.removeTierLine(${i})" style="width:40px; border:none; background:none; color:#ef4444; font-weight:900; cursor:pointer;">×</button>
             </div>
         `).join('');
@@ -591,17 +591,17 @@ const TicketingModule = {
         list.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:12px;">
                 ${this._currentAgenda.map((a, i) => `
-                    <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; background:white; padding:16px; border-radius:16px; border:1px solid #e2e8f0; position:relative;">
-                        <div style="width:2px; height:20px; background:#e2e8f0; position:absolute; left:75px; top:-16px; display:${i === 0 ? 'none' : 'block'};"></div>
+                    <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; background:white; padding:16px; border-radius:16px; border:1px solid #e6eae8; position:relative;">
+                        <div style="width:2px; height:20px; background:#e6eae8; position:absolute; left:75px; top:-16px; display:${i === 0 ? 'none' : 'block'};"></div>
                         <div style="flex: 1 1 100px; max-width: 120px;">
                             <input type="time" value="${a.time || '18:00'}" 
                                 onchange="TicketingModule._currentAgenda[${i}].time=this.value" 
-                                style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #f1f5f9; font-weight:800; font-family:inherit; cursor:pointer; background:#f8fafc; color:#0f172a; text-align:center; box-sizing:border-box;">
+                                style="width:100%; padding:10px; border-radius:10px; border:1.5px solid #f1f4f2; font-weight:800; font-family:inherit; cursor:pointer; background:#f6f8f7; color:#0c100e; text-align:center; box-sizing:border-box;">
                         </div>
                         <div style="flex: 2 1 160px;">
                             <input type="text" value="${a.label}" placeholder="Titre de l'étape (ex: Accueil des invités)" 
                                 oninput="TicketingModule._currentAgenda[${i}].label=this.value" 
-                                style="width:100%; padding:12px; border:none; font-weight:700; font-family:inherit; outline:none; font-size:1rem; color:#1e293b; box-sizing:border-box;">
+                                style="width:100%; padding:12px; border:none; font-weight:700; font-family:inherit; outline:none; font-size:1rem; color:#1b2420; box-sizing:border-box;">
                         </div>
                         <button type="button" onclick="TicketingModule.removeAgendaLine(${i})" 
                             style="border:none; background:#fee2e2; color:#dc2626; width:36px; height:36px; border-radius:10px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.2s; flex-shrink: 0;"
@@ -628,13 +628,13 @@ const TicketingModule = {
         });
 
         zone.addEventListener('dragover', () => {
-            zone.style.borderColor = '#0f172a';
+            zone.style.borderColor = '#0c100e';
             zone.style.background = '#fff';
         });
 
         zone.addEventListener('dragleave', () => {
-            zone.style.borderColor = '#e2e8f0';
-            zone.style.background = '#f8fafc';
+            zone.style.borderColor = '#e6eae8';
+            zone.style.background = '#f6f8f7';
         });
 
         zone.addEventListener('drop', e => {
@@ -710,7 +710,7 @@ const TicketingModule = {
             prompt.innerHTML = `
                 <div style="font-size:2.5rem;margin-bottom:12px;">❌</div>
                 <p style="margin:0;font-weight:800;color:#dc2626;">Échec de l'envoi</p>
-                <p style="margin:4px 0 0;font-size:0.8rem;color:#64748b;font-weight:600;">Réessayez</p>`;
+                <p style="margin:4px 0 0;font-size:0.8rem;color:#717c77;font-weight:600;">Réessayez</p>`;
         }
     },
 

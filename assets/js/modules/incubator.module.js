@@ -19,7 +19,7 @@ window.IncubatorModule = {
                     width: clamp(90%, 95vw, 100%);
                     margin: 20px auto;
                     color: #fff;
-                    background: #0f172a;
+                    background: #0c100e;
                     border-radius: 32px;
                     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
                     position: relative;
@@ -56,7 +56,7 @@ window.IncubatorModule = {
                 }
                 .hero-subtitle {
                     font-size: 1.15rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     max-width: 650px;
                     margin: 0 auto 40px auto;
                     line-height: 1.6;
@@ -110,7 +110,7 @@ window.IncubatorModule = {
                     color: #ffffff;
                 }
                 .feature-text {
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     line-height: 1.6;
                     font-size: 0.95rem;
                 }
@@ -127,7 +127,7 @@ window.IncubatorModule = {
                     <!-- Lien vers le formulaire d'inscription / landing page externe -->
                     <a href="/candidature-incubateur.html" class="cta-button">Soumettre ma candidature</a>
                     
-                    <p style="margin-top: 20px; font-size: 0.9rem; color: #64748b; font-weight: 500;">
+                    <p style="margin-top: 20px; font-size: 0.9rem; color: #717c77; font-weight: 500;">
                         Sélection sur dossier. Places limitées par cohorte.
                     </p>
                 </div>

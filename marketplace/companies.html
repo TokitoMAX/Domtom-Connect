@@ -32,8 +32,8 @@
     <style>
         /* Bandeau client (visible uniquement si connecté en tant qu'entreprise) */
         .client-cta-banner {
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-            border: 1px solid #7dd3fc;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            border: 1px solid #6ee7b7;
             border-radius: 12px;
             padding: 24px 32px;
             display: flex;
@@ -73,12 +73,12 @@
         .company-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border-color: #0369a1;
+            border-color: #10b981;
         }
 
         /* Card Featured */
         .company-card.featured {
-            border: 2px solid #0369a1;
+            border: 2px solid #10b981;
             background: linear-gradient(135deg, white 0%, #f0f9ff 100%);
         }
 
@@ -86,7 +86,7 @@
             position: absolute;
             top: 16px;
             right: 16px;
-            background: #0369a1;
+            background: #10b981;
             color: white;
             font-size: 0.65rem;
             font-weight: 800;
@@ -94,7 +94,7 @@
             border-radius: 100px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            box-shadow: 0 4px 12px rgba(3, 105, 161, 0.2);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         /* Social Icons */
@@ -111,21 +111,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f1f5f9;
-            color: #64748b;
+            background: #f1f4f2;
+            color: #717c77;
             transition: all 0.2s;
             text-decoration: none;
         }
 
         .social-icon-btn:hover {
-            background: #e2e8f0;
-            color: #0f172a;
+            background: #e6eae8;
+            color: #0c100e;
             transform: translateY(-2px);
         }
 
-        .social-icon-btn.linkedin:hover { background: #0077b5 !important; color: white !important; }
-        .social-icon-btn.facebook:hover { background: #1877f2 !important; color: white !important; }
-        .social-icon-btn.instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important; color: white !important; }
+        .social-icon-btn.linkedin:hover { background: #10b981 !important; color: white !important; }
+        .social-icon-btn.facebook:hover { background: #10b981 !important; color: white !important; }
+        .social-icon-btn.instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #10b981 50%, #10b981 75%, #10b981 100%) !important; color: white !important; }
 
         .company-header {
             display: flex;
@@ -146,7 +146,7 @@
             justify-content: center;
             font-size: 1.5rem;
             font-weight: 800;
-            color: #0369a1;
+            color: #10b981;
             border: 2px solid white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
@@ -154,7 +154,7 @@
         .company-info h3 {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #0c100e;
             margin: 0 0 6px 0;
             display: flex;
             align-items: center;
@@ -168,9 +168,9 @@
             gap: 16px;
             margin-top: 24px;
             padding: 20px;
-            background: #f8fafc;
+            background: #f6f8f7;
             border-radius: 16px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e6eae8;
         }
 
         .modal-header-v2 {
@@ -200,7 +200,7 @@
         .company-sector {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #0369a1;
+            color: #10b981;
             margin: 0;
         }
 
@@ -216,7 +216,7 @@
 
         .company-desc {
             font-size: 0.95rem;
-            color: #475569;
+            color: #56615c;
             line-height: 1.6;
             margin: 0 0 24px 0;
             flex-grow: 1;
@@ -239,27 +239,27 @@
             font-weight: 700;
             padding: 6px 12px;
             border-radius: 8px;
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #e2e8f0;
+            background: #f1f4f2;
+            color: #56615c;
+            border: 1px solid #e6eae8;
         }
 
         .tag.tag-premium {
-            background: rgba(2, 132, 199, 0.1);
-            color: #0284c7;
-            border-color: rgba(2, 132, 199, 0.2);
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-color: rgba(16, 185, 129, 0.2);
         }
 
         .company-actions {
             display: flex;
             gap: 12px;
             margin-top: auto;
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid #f1f4f2;
             padding-top: 24px;
         }
 
         .btn-contact {
-            background: #0f172a;
+            background: #0c100e;
             color: white;
             border: none;
             border-radius: 10px;
@@ -274,15 +274,15 @@
         }
 
         .btn-contact:hover {
-            background: #1e293b;
+            background: #1b2420;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+            box-shadow: 0 4px 12px rgba(14, 19, 17, 0.15);
         }
 
         .btn-web {
             background: white;
-            color: #475569;
-            border: 1.5px solid #e2e8f0;
+            color: #56615c;
+            border: 1.5px solid #e6eae8;
             border-radius: 10px;
             padding: 12px 0;
             font-size: 0.9rem;
@@ -295,9 +295,9 @@
         }
 
         .btn-web:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            color: #0f172a;
+            background: #f6f8f7;
+            border-color: #d4dad7;
+            color: #0c100e;
         }
 
         /* Alphabet Filter - Sticky & Premium */
@@ -310,7 +310,7 @@
             padding: 12px 16px;
             margin: 24px 0;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e6eae8;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
@@ -330,7 +330,7 @@
             border-radius: 6px;
             font-size: 0.85rem;
             font-weight: 700;
-            color: #64748b;
+            color: #717c77;
             cursor: pointer;
             transition: all 0.2s;
             border: 1px solid transparent;
@@ -338,14 +338,14 @@
         }
 
         .letter-btn:hover {
-            background: #e2e8f0;
-            color: #0f172a;
+            background: #e6eae8;
+            color: #0c100e;
         }
 
         .letter-btn.active {
-            background: #0f172a;
+            background: #0c100e;
             color: white;
-            border-color: #0f172a;
+            border-color: #0c100e;
         }
 
         /* Verified Badge */
@@ -353,10 +353,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: #0369a1; /* Business blue */
+            color: #10b981; /* Business blue */
             margin-left: 6px;
             vertical-align: middle;
-            background: rgba(3, 105, 161, 0.1);
+            background: rgba(16, 185, 129, 0.1);
             padding: 2px;
             border-radius: 50%;
             cursor: help;
@@ -370,7 +370,7 @@
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(14, 19, 17, 0.4);
             backdrop-filter: blur(8px);
             z-index: 1000;
             display: none;
@@ -513,7 +513,7 @@
                         </optgroup>
                     </select>
                 </div>
-                <button class="cta-button primary" style="background: #0369a1;" onclick="loadCompanies()">Filtrer</button>
+                <button class="cta-button primary" style="background: #10b981;" onclick="loadCompanies()">Filtrer</button>
             </div>
         </div>
     </header>
@@ -521,7 +521,7 @@
     <main class="container" style="padding-top: 32px;">
         <div class="client-cta-banner" id="company-banner" style="display:none;">
             <p><strong>Votre entreprise sur Domtom Connect.</strong> Faites-vous connaître et attirez les meilleurs talents.</p>
-            <button class="cta-button primary" style="background:white; color:#0369a1; border:none;" onclick="openCompanyModal()">Inscrire ma société</button>
+            <button class="cta-button primary" style="background:white; color:#10b981; border:none;" onclick="openCompanyModal()">Inscrire ma société</button>
         </div>
 
         <div class="directory-grid" id="companies-container"></div>
@@ -601,7 +601,7 @@
             if (!container) return;
 
             // Loading state
-            container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:100px;"><i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:#0369a1;"></i><p style="margin-top:20px; font-weight:700; color:#64748b;">Chargement des entreprises...</p></div>';
+            container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding:100px;"><i class="fas fa-circle-notch fa-spin" style="font-size:3rem; color:#10b981;"></i><p style="margin-top:20px; font-weight:700; color:#717c77;">Chargement des entreprises...</p></div>';
             
             try {
                 const db = window._supabase || initSupabase();
@@ -685,7 +685,7 @@
                     
                     ${!isLoggedIn ? `
                     <div style="position: absolute; top: 12px; right: 12px; z-index: 10;">
-                        <span style="background: rgba(15, 23, 42, 0.9); color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">🔒 Privé</span>
+                        <span style="background: rgba(14, 19, 17, 0.9); color: white; padding: 4px 10px; border-radius: 100px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">🔒 Privé</span>
                     </div>` : ''}
 
                     ${isFeatured ? '<div class="featured-badge">Partenaire Authority</div>' : ''}
@@ -693,7 +693,7 @@
                         ${avatar}
                         <div class="company-info">
                             <h3>
-                                <span style="${!isLoggedIn ? 'font-style: italic; color: #64748b; font-size: 1.1rem;' : ''}">${displayName}</span>
+                                <span style="${!isLoggedIn ? 'font-style: italic; color: #717c77; font-size: 1.1rem;' : ''}">${displayName}</span>
                                 ${isLoggedIn && company.siret ? `
                                 <span class="verified-badge-inline" title="Professionnel Vérifié (SIRET)">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -702,11 +702,11 @@
                                 </span>` : ''}
                             </h3>
                             <div class="company-sector">${isLoggedIn && company.forme_juridique ? company.forme_juridique + ' • ' : ''}${company.sector || 'Expertise'}</div>
-                            <div class="company-territory" style="color: #64748b; font-weight: 700;">
+                            <div class="company-territory" style="color: #717c77; font-weight: 700;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color: #ef4444;">
                                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
                                 </svg>
-                                <span style="color: #334155;">${company.territory || 'International'}</span> ${company.zone ? `<span style="margin: 0 4px; opacity: 0.5;">|</span> <span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">${company.zone}</span>` : ''}
+                                <span style="color: #2b3632;">${company.territory || 'International'}</span> ${company.zone ? `<span style="margin: 0 4px; opacity: 0.5;">|</span> <span style="background: #f1f4f2; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem;">${company.zone}</span>` : ''}
                             </div>
                         </div>
                     </div>
@@ -730,7 +730,7 @@
             overlay.innerHTML = `
                 <div class="modal">
                     <div class="modal-header-v2">
-                        ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:80px; height:80px; border-radius:16px; object-fit:cover;">` : `<div style="width:80px; height:80px; border-radius:16px; background:#f0f9ff; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#0369a1;">${name.slice(0,2).toUpperCase()}</div>`}
+                        ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:80px; height:80px; border-radius:16px; object-fit:cover;">` : `<div style="width:80px; height:80px; border-radius:16px; background:#f0f9ff; display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:#10b981;">${name.slice(0,2).toUpperCase()}</div>`}
                         <div>
                             <h2 style="margin:0; display: flex; align-items: center; gap: 8px;">
                                 ${name}
@@ -741,11 +741,11 @@
                                     </svg>
                                 </span>` : ''}
                             </h2>
-                            <p style="color:#0369a1; font-weight:700; margin:4px 0 0 0;">${company.sector || 'Entreprise'}</p>
+                            <p style="color:#10b981; font-weight:700; margin:4px 0 0 0;">${company.sector || 'Entreprise'}</p>
                         </div>
                     </div>
 
-                    <p style="margin-top:20px; line-height:1.6; color:#475569;">${(company.written_presentation || company.bio || 'Non renseigné').slice(0, 150)}...</p>
+                    <p style="margin-top:20px; line-height:1.6; color:#56615c;">${(company.written_presentation || company.bio || 'Non renseigné').slice(0, 150)}...</p>
                     
                     <div class="modal-info-grid">
                         <span><strong>📍 Territoire:</strong> ${company.territory || '—'}</span>
@@ -753,10 +753,10 @@
                     </div>
 
                     <div style="margin-top:24px; display:flex; flex-direction: column; gap:12px;" class="modal-actions-v2">
-                        <a href="../marketplace/profile-detail-company.html?id=${company.id}" class="btn-web" style="text-align:center; background:#0369a1; color:white;">Consulter la page entreprise complète</a>
+                        <a href="../marketplace/profile-detail-company.html?id=${company.id}" class="btn-web" style="text-align:center; background:#10b981; color:white;">Consulter la page entreprise complète</a>
                         <div style="display:flex; gap:12px;">
                             <button onclick="closeModal()" class="btn-web btn-action-mobile" style="flex:1;">Fermer</button>
-                            <a href="../messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#0369a1; flex:1;">Contacter</a>
+                            <a href="../messages?to=${company.id}" class="btn-contact btn-action-mobile" style="background:#10b981; flex:1;">Contacter</a>
                         </div>
                     </div>
                 </div>
@@ -776,7 +776,7 @@
                 </div>
                 <div style="display: flex; gap: 32px;">
 
-                    <a href="../support.html" style="color: #64748b; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0f172a'" onmouseout="this.style.color='#64748b'">Support & Aide</a>
+                    <a href="../support.html" style="color: #717c77; text-decoration: none; font-size: 0.85rem; font-weight: 700; transition: 0.3s;" onmouseover="this.style.color='#0c100e'" onmouseout="this.style.color='#717c77'">Support & Aide</a>
                 </div>
             </div>
         </div>

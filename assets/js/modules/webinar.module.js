@@ -85,7 +85,7 @@ const WebinarModule = {
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-                    <h2 style="font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0;">Programme des Masterclasses</h2>
+                    <h2 style="font-size: 1.5rem; font-weight: 800; color: #0c100e; margin: 0;">Programme des Masterclasses</h2>
                 </div>
 
                 <div id="webinars-list" class="premium-grid-webinar">
@@ -137,7 +137,7 @@ const WebinarModule = {
                 <div class="card-image-box">
                     <div class="image-overlay"></div>
                     <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&q=80&w=600" alt="Webinar">
-                    ${isLive ? `<div class="live-tag-v2"><span class="dot"></span> DIRECT</div>` : isFinished ? `<div class="date-tag-v2" style="background:#64748b;">REPLAY</div>` : `<div class="date-tag-v2">${formattedDate}</div>`}
+                    ${isLive ? `<div class="live-tag-v2"><span class="dot"></span> DIRECT</div>` : isFinished ? `<div class="date-tag-v2" style="background:#717c77;">REPLAY</div>` : `<div class="date-tag-v2">${formattedDate}</div>`}
                 </div>
                 <div class="card-content-v2">
                     <div class="card-time-v2">${formattedTime} • ${isLive ? 'Session en cours' : isFinished ? 'Session terminée' : 'Prochaine session'}</div>
@@ -217,7 +217,7 @@ const WebinarModule = {
                                         ${webinar.status === 'scheduled' ? `
                                             <button onclick="WebinarModule.updateStatus('${webinarId}', 'live')" class="btn-host-tool" style="background:#ef4444; color:white; border:none; padding:10px 24px; font-weight:900;">LANCER LE DIRECT</button>
                                         ` : `
-                                            <button onclick="WebinarModule.finishWebinar('${webinarId}')" class="btn-host-tool" style="background:#64748b; color:white; border:none;">TERMINER LE LIVE</button>
+                                            <button onclick="WebinarModule.finishWebinar('${webinarId}')" class="btn-host-tool" style="background:#717c77; color:white; border:none;">TERMINER LE LIVE</button>
                                         `}
                                     </div>
                                     <button onclick="WebinarModule.showHostInsights('${webinarId}')" class="btn-host-tool" style="background:rgba(255,255,255,0.05); color:white; border:1px solid var(--webinar-border);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.21 15.89A10 10 0 1 1 8 2.83M22 12A10 10 0 0 0 12 2v10z"/></svg> Analyses</button>
@@ -285,7 +285,7 @@ const WebinarModule = {
                         <button onclick="window.Router.navigate('#webinars')" class="btn-circle-back"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
                         <div class="header-info">
                             <h1>[REPLAY] ${webinar.title}</h1>
-                            <div class="header-meta"><span class="live-indicator" style="background:#64748b;">TERMINÉ</span></div>
+                            <div class="header-meta"><span class="live-indicator" style="background:#717c77;">TERMINÉ</span></div>
                         </div>
                     </div>
                 </div>
@@ -294,7 +294,7 @@ const WebinarModule = {
                         ${webinar.replay_url ? `
                             <iframe width="100%" height="100%" src="${webinar.replay_url}" frameborder="0" allowfullscreen></iframe>
                         ` : `
-                            <div class="video-loader-v2" style="background:#0f172a; color:white; flex-direction:column; gap:20px;">
+                            <div class="video-loader-v2" style="background:#0c100e; color:white; flex-direction:column; gap:20px;">
                                 <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
                                 <span>Le replay sera disponible très prochainement.</span>
                             </div>
@@ -461,7 +461,7 @@ const WebinarModule = {
             container.innerHTML = questions.map(q => `
                 <div class="qa-card-v2" style="background:rgba(255,255,255,0.03); padding:16px; border-radius:16px; border:1px solid ${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-border)'}; margin-bottom:12px; transition:0.3s;">
                     <div class="qa-card-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><span style="font-size:0.75rem; font-weight:800; color:${q.is_highlighted ? 'var(--webinar-accent)' : 'var(--webinar-text-muted)'};">${q.profiles?.full_name}</span><div style="display:flex; gap:8px;">${isHost ? `<button onclick="WebinarModule.toggleHighlight('${q.id}', ${!q.is_highlighted})" style="background:${q.is_highlighted ? 'var(--webinar-accent)' : 'rgba(255,255,255,0.1)'}; border:none; color:white; padding:4px 8px; border-radius:6px; font-size:0.65rem; font-weight:800; cursor:pointer;">${q.is_highlighted ? 'EN VEDETTE' : 'METTRE EN VEDETTE'}</button>` : ''}<button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background:transparent; border:none; color:white; cursor:pointer; font-weight:800;">👍 ${q.upvotes || 0}</button></div></div>
-                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#cbd5e1'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
+                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#d4dad7'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
                 </div>
             `).join('');
         }
@@ -472,7 +472,7 @@ const WebinarModule = {
         const { count: attendees } = await db.from('webinar_attendees').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
         const { count: questions } = await db.from('webinar_questions').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
         const { count: messages } = await db.from('webinar_messages').select('*', { count: 'exact', head: true }).eq('webinar_id', webinarId);
-        Swal.fire({ title: 'Analyses en Direct', background: '#0f172a', color: '#f8fafc', html: `<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;"><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#10b981;">${attendees}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Participants</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#3b82f6;">${questions}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Questions</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#f59e0b;">${messages}</div><div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Messages</div></div></div>`, showConfirmButton: false, showCloseButton: true });
+        Swal.fire({ title: 'Analyses en Direct', background: '#0c100e', color: '#f6f8f7', html: `<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;"><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#10b981;">${attendees}</div><div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Participants</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#10b981;">${questions}</div><div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Questions</div></div><div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);"><div style="font-size:2rem; font-weight:900; color:#f59e0b;">${messages}</div><div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Messages</div></div></div>`, showConfirmButton: false, showCloseButton: true });
     },
 
     loadResources: async (webinarId) => {
@@ -489,17 +489,17 @@ const WebinarModule = {
                 <div class="waiting-card">
                     <div style="font-size: 0.85rem; font-weight: 900; color: #10b981; letter-spacing: 3px; margin-bottom: 24px;">PRÉPARATION DU DIRECT</div>
                     <h1 style="font-size: 3.5rem; font-weight: 950; margin-bottom: 24px; letter-spacing: -2px; color:white;">${webinar.title}</h1>
-                    <p style="color: #94a3b8; font-size: 1.2rem; line-height: 1.6; margin-bottom: 48px;">Nous nous installons... La session débutera précisément à <span style="color: white; font-weight: 800;">${timeStr}</span>.</p>
+                    <p style="color: #a7b0ac; font-size: 1.2rem; line-height: 1.6; margin-bottom: 48px;">Nous nous installons... La session débutera précisément à <span style="color: white; font-weight: 800;">${timeStr}</span>.</p>
                     
                     <div style="display: flex; align-items: center; justify-content: center; gap: 24px; background: rgba(255,255,255,0.03); padding: 24px; border-radius: 32px; border: 1px solid rgba(255,255,255,0.05);">
                         <img src="${webinar.profiles?.avatar_url || './assets/images/default-avatar.png'}" style="width: 80px; height: 80px; border-radius: 24px; border: 4px solid var(--webinar-accent);">
                         <div style="text-align: left;">
                             <div style="font-weight: 800; font-size: 1.2rem; color:white;">${webinar.profiles?.full_name}</div>
-                            <div style="color: #64748b; font-size: 0.9rem;">Organisateur de la Masterclass</div>
+                            <div style="color: #717c77; font-size: 0.9rem;">Organisateur de la Masterclass</div>
                         </div>
                     </div>
                     
-                    <button onclick="window.Router.navigate('#webinars')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 16px 32px; border-radius: 16px; margin-top: 60px; cursor: pointer; font-weight:700;">Retour au programme</button>
+                    <button onclick="window.Router.navigate('#webinars')" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #a7b0ac; padding: 16px 32px; border-radius: 16px; margin-top: 60px; cursor: pointer; font-weight:700;">Retour au programme</button>
                 </div>
             </div>
         `;
@@ -715,7 +715,7 @@ const WebinarModule = {
                             <button onclick="WebinarModule.upvoteQuestion('${q.id}', '${webinarId}')" style="background:transparent; border:none; color:white; cursor:pointer; font-weight:800;">👍 ${q.upvotes || 0}</button>
                         </div>
                     </div>
-                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#cbd5e1'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
+                    <p style="font-size:0.9rem; margin:0; line-height:1.4; color:${q.is_highlighted ? 'white' : '#d4dad7'}; font-weight:${q.is_highlighted ? '700' : '400'};">${q.question}</p>
                 </div>
             `).join('');
         }
@@ -729,26 +729,26 @@ const WebinarModule = {
 
         Swal.fire({
             title: 'Analyses en Direct',
-            background: '#0f172a',
-            color: '#f8fafc',
+            background: '#0c100e',
+            color: '#f6f8f7',
             html: `
                 <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:24px;">
                     <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
                         <div style="font-size:2rem; font-weight:900; color:#10b981;">${attendees}</div>
-                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Participants</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Participants</div>
                     </div>
                     <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
-                        <div style="font-size:2rem; font-weight:900; color:#3b82f6;">${questions}</div>
-                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Questions</div>
+                        <div style="font-size:2rem; font-weight:900; color:#10b981;">${questions}</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Questions</div>
                     </div>
                     <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
                         <div style="font-size:2rem; font-weight:900; color:#f59e0b;">${messages}</div>
-                        <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Messages</div>
+                        <div style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Messages</div>
                     </div>
                 </div>
                 <div style="margin-top:24px; text-align:left; padding:20px; background:rgba(16,185,129,0.05); border-radius:16px; border:1px solid rgba(16,185,129,0.2);">
                     <div style="font-weight:900; color:#10b981; font-size:0.9rem; margin-bottom:8px;">CONSEIL STRATÉGIQUE</div>
-                    <p style="font-size:0.85rem; color:#94a3b8; margin:0;">${attendees > 5 ? 'L\'engagement est bon. Pensez à lancer un sondage pour dynamiser la session.' : 'Invitez vos participants à poser des questions pour briser la glace.'}</p>
+                    <p style="font-size:0.85rem; color:#a7b0ac; margin:0;">${attendees > 5 ? 'L\'engagement est bon. Pensez à lancer un sondage pour dynamiser la session.' : 'Invitez vos participants à poser des questions pour briser la glace.'}</p>
                 </div>
             `,
             showConfirmButton: false,

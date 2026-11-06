@@ -13,9 +13,9 @@ window.MastermindSalonModule = {
         console.log("[MastermindSalonModule] Mounting UI...");
         
         container.innerHTML = `
-            <div style="width: 100%; max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #e2e8f0; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 120px); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+            <div style="width: 100%; max-width: 900px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #e6eae8; overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 120px); box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
                 <!-- Header -->
-                <div style="padding: 20px 24px; border-bottom: 1px solid #e2e8f0; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; display: flex; align-items: center; gap: 16px;">
+                <div style="padding: 20px 24px; border-bottom: 1px solid #e6eae8; background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%); color: white; display: flex; align-items: center; gap: 16px;">
                     <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;"><i class="fas fa-crown" style="color: #fbbf24;"></i></div>
                     <div>
                         <h2 style="margin: 0 0 4px 0; font-size: 1.25rem; font-weight: 900; letter-spacing: -0.02em;">Salon Mastermind DTC</h2>
@@ -24,13 +24,13 @@ window.MastermindSalonModule = {
                 </div>
 
                 <!-- Chat Thread -->
-                <div id="mastermind-chat-thread" style="flex: 1; padding: 24px; overflow-y: auto; background: #f8fafc; display: flex; flex-direction: column;">
+                <div id="mastermind-chat-thread" style="flex: 1; padding: 24px; overflow-y: auto; background: #f6f8f7; display: flex; flex-direction: column;">
                     <!-- Messages will be injected here -->
                 </div>
 
                 <!-- Input Area -->
-                <div style="padding: 16px 24px; background: white; border-top: 1px solid #e2e8f0; display: flex; gap: 12px; align-items: flex-end;">
-                    <textarea id="mastermind-chat-input" placeholder="Écrivez votre message..." style="flex: 1; min-height: 48px; max-height: 150px; padding: 14px 20px; border-radius: 24px; border: 1px solid #cbd5e1; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; resize: none; outline: none; background: #f8fafc;" rows="1"></textarea>
+                <div style="padding: 16px 24px; background: white; border-top: 1px solid #e6eae8; display: flex; gap: 12px; align-items: flex-end;">
+                    <textarea id="mastermind-chat-input" placeholder="Écrivez votre message..." style="flex: 1; min-height: 48px; max-height: 150px; padding: 14px 20px; border-radius: 24px; border: 1px solid #d4dad7; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; resize: none; outline: none; background: #f6f8f7;" rows="1"></textarea>
                     <button id="mastermind-send-btn" style="width: 48px; height: 48px; border-radius: 50%; background: #10b981; color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; transition: transform 0.2s, background 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -129,7 +129,7 @@ window.MastermindSalonModule = {
             <div style="text-align:center; margin-bottom:16px;">
                 <span style="background:#ffeecd; padding:8px 16px; border-radius:8px; font-size:0.75rem; font-weight:600; color:#54656f; box-shadow:0 1px 1px rgba(11,20,26,0.1); display:inline-block;">🔒 Ce salon est privé. Les échanges sont sécurisés et réservés aux membres validés du Club.</span>
             </div>
-            <div style="text-align:center; padding: 20px; color: #64748b; font-weight: 600;" id="mastermind-loading">Chargement des messages...</div>
+            <div style="text-align:center; padding: 20px; color: #717c77; font-weight: 600;" id="mastermind-loading">Chargement des messages...</div>
         `;
 
         const { data: messages, error } = await db
@@ -180,7 +180,7 @@ window.MastermindSalonModule = {
         }
         
         const bgColor = isMe ? '#d9fdd3' : '#fff'; // WhatsApp light green for "me", white for others
-        const colorTitle = isMe ? '#10b981' : '#0284c7';
+        const colorTitle = isMe ? '#10b981' : '#059669';
         
         // Use a generic placeholder if deleted (though if actually deleted from DB it'll trigger DELETE)
         // If they use soft deletes (e.g. content = 'Ce message a été supprimé'), it will just show that.
@@ -191,7 +191,7 @@ window.MastermindSalonModule = {
                     <span>${isMe ? 'Vous' : profile.full_name} ${profile.territory ? '('+profile.territory+')' : ''}</span>
                     ${isMe ? `
                     <div style="display:flex; gap:8px;">
-                        <span style="cursor:pointer; color:#64748b; font-size:0.8rem;" onclick="window.MastermindSalonModule.editMessage('${msg.id}', '${msg.content.replace(/'/g, "\\'")}')"><i class="fas fa-edit"></i></span>
+                        <span style="cursor:pointer; color:#717c77; font-size:0.8rem;" onclick="window.MastermindSalonModule.editMessage('${msg.id}', '${msg.content.replace(/'/g, "\\'")}')"><i class="fas fa-edit"></i></span>
                         <span style="cursor:pointer; color:#ef4444; font-size:0.8rem;" onclick="window.MastermindSalonModule.deleteMessage('${msg.id}')"><i class="fas fa-trash"></i></span>
                     </div>
                     ` : ''}
@@ -233,7 +233,7 @@ window.MastermindSalonModule = {
         modal.style.left = '0';
         modal.style.width = '100vw';
         modal.style.height = '100vh';
-        modal.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
+        modal.style.backgroundColor = 'rgba(14, 19, 17, 0.6)';
         modal.style.backdropFilter = 'blur(4px)';
         modal.style.zIndex = '9999';
         modal.style.display = 'flex';
@@ -243,10 +243,10 @@ window.MastermindSalonModule = {
 
         modal.innerHTML = `
             <div style="background: white; width: 90%; max-width: 400px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); animation: modalFadeIn 0.2s ease-out;">
-                <h3 style="margin: 0 0 16px 0; font-size: 1.25rem; font-weight: 700; color: #0f172a;">Modifier le message</h3>
-                <textarea id="mastermind-edit-input" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.95rem; min-height: 100px; resize: vertical; margin-bottom: 20px; outline: none;"></textarea>
+                <h3 style="margin: 0 0 16px 0; font-size: 1.25rem; font-weight: 700; color: #0c100e;">Modifier le message</h3>
+                <textarea id="mastermind-edit-input" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #d4dad7; border-radius: 8px; font-family: inherit; font-size: 0.95rem; min-height: 100px; resize: vertical; margin-bottom: 20px; outline: none;"></textarea>
                 <div style="display: flex; justify-content: flex-end; gap: 12px;">
-                    <button id="mastermind-edit-cancel" style="padding: 8px 16px; border: none; background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
+                    <button id="mastermind-edit-cancel" style="padding: 8px 16px; border: none; background: #f1f4f2; color: #56615c; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
                     <button id="mastermind-edit-save" style="padding: 8px 16px; border: none; background: #10b981; color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Enregistrer</button>
                 </div>
             </div>
@@ -256,7 +256,7 @@ window.MastermindSalonModule = {
                     to { opacity: 1; transform: scale(1); }
                 }
                 #mastermind-edit-input:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1); }
-                #mastermind-edit-cancel:hover { background: #e2e8f0; }
+                #mastermind-edit-cancel:hover { background: #e6eae8; }
                 #mastermind-edit-save:hover { background: #059669; }
             </style>
         `;
@@ -296,7 +296,7 @@ window.MastermindSalonModule = {
         modal.style.left = '0';
         modal.style.width = '100vw';
         modal.style.height = '100vh';
-        modal.style.backgroundColor = 'rgba(15, 23, 42, 0.6)';
+        modal.style.backgroundColor = 'rgba(14, 19, 17, 0.6)';
         modal.style.backdropFilter = 'blur(4px)';
         modal.style.zIndex = '9999';
         modal.style.display = 'flex';
@@ -309,10 +309,10 @@ window.MastermindSalonModule = {
                 <div style="width: 56px; height: 56px; border-radius: 50%; background: #fee2e2; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px auto;">
                     <i class="fas fa-trash-alt"></i>
                 </div>
-                <h3 style="margin: 0 0 12px 0; font-size: 1.25rem; font-weight: 700; color: #0f172a;">Supprimer le message ?</h3>
-                <p style="margin: 0 0 24px 0; color: #64748b; font-size: 0.95rem;">Cette action est irréversible. Le message sera définitivement supprimé pour tous les membres du salon.</p>
+                <h3 style="margin: 0 0 12px 0; font-size: 1.25rem; font-weight: 700; color: #0c100e;">Supprimer le message ?</h3>
+                <p style="margin: 0 0 24px 0; color: #717c77; font-size: 0.95rem;">Cette action est irréversible. Le message sera définitivement supprimé pour tous les membres du salon.</p>
                 <div style="display: flex; justify-content: center; gap: 12px;">
-                    <button id="mastermind-delete-cancel" style="flex: 1; padding: 10px; border: none; background: #f1f5f9; color: #475569; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
+                    <button id="mastermind-delete-cancel" style="flex: 1; padding: 10px; border: none; background: #f1f4f2; color: #56615c; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Annuler</button>
                     <button id="mastermind-delete-confirm" style="flex: 1; padding: 10px; border: none; background: #ef4444; color: white; font-weight: 600; border-radius: 8px; cursor: pointer; transition: background 0.2s;">Supprimer</button>
                 </div>
             </div>

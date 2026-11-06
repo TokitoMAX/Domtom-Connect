@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         let formattedContent = safeContent.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" onclick="event.stopPropagation();" style="color: #3b82f6; text-decoration: underline; word-break: break-all;">${url}</a>`;
+            return `<a href="${url}" target="_blank" onclick="event.stopPropagation();" style="color: #10b981; text-decoration: underline; word-break: break-all;">${url}</a>`;
         });
-        formattedContent = formattedContent.replace(/#(\w+)/g, (match, tag) => `<span style="color: #3b82f6; font-weight: 800; cursor: pointer; text-decoration: underline dotted;">#${tag}</span>`);
+        formattedContent = formattedContent.replace(/#(\w+)/g, (match, tag) => `<span style="color: #10b981; font-weight: 800; cursor: pointer; text-decoration: underline dotted;">#${tag}</span>`);
 
         let finalContentHtml = `
             <div class="dtc-text-content-wrapper" style="position: relative;">
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${formattedContent}
                 </div>
                 ${(safeContent.length > 250 || safeContent.split('\\n').length > 4) ? `
-                <span class="dtc-read-more" onclick="const body = this.previousElementSibling; const isTrunc = body.style.webkitLineClamp === '4'; body.style.webkitLineClamp = isTrunc ? 'unset' : '4'; this.innerText = isTrunc ? 'Voir moins' : 'Voir plus';" style="color: #64748b; font-weight: 800; cursor: pointer; display: inline-block; margin-top: 6px; font-size: 0.9rem; background: #f1f5f9; padding: 4px 10px; border-radius: 8px;">Voir plus</span>
+                <span class="dtc-read-more" onclick="const body = this.previousElementSibling; const isTrunc = body.style.webkitLineClamp === '4'; body.style.webkitLineClamp = isTrunc ? 'unset' : '4'; this.innerText = isTrunc ? 'Voir moins' : 'Voir plus';" style="color: #717c77; font-weight: 800; cursor: pointer; display: inline-block; margin-top: 6px; font-size: 0.9rem; background: #f1f4f2; padding: 4px 10px; border-radius: 8px;">Voir plus</span>
                 ` : ''}
             </div>
         `;
@@ -80,16 +80,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     `;
                 } else if (isPdf) {
                     mediaHtml = `
-                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; background: #f8fafc; padding: 24px; display: flex; justify-content: center;">
-                            <a href="${url}" target="_blank" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; background: white; padding: 24px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; max-width: 300px; box-sizing: border-box;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; background: #f6f8f7; padding: 24px; display: flex; justify-content: center;">
+                            <a href="${url}" target="_blank" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; background: white; padding: 24px; border-radius: 16px; border: 1px solid rgba(14, 19, 17, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; max-width: 300px; box-sizing: border-box;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                                 <i class="fas fa-file-pdf fa-3x" style="color: #ef4444;"></i>
-                                <span style="font-weight: 800; color: #0f172a; text-align: center;">Ouvrir le document PDF</span>
+                                <span style="font-weight: 800; color: #0c100e; text-align: center;">Ouvrir le document PDF</span>
                             </a>
                         </div>
                     `;
                 } else {
                     mediaHtml = `
-                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; max-height: 450px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
+                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; max-height: 450px; display: flex; justify-content: center; background: #f6f8f7; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
                             <img src="${url}" style="max-height: 450px; width: 100%; object-fit: cover; display: block;">
                         </div>
                     `;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let gridHtml = '';
                 if (urls.length === 2) {
                     gridHtml = urls.map(url => `
-                        <div style="width: 100%; height: 100%; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
+                        <div style="width: 100%; height: 100%; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
                             <img src="${url}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         </div>
                     `).join('');
@@ -110,13 +110,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else if (urls.length === 3) {
                     mediaHtml = `
                         <div class="dtc-media-wrapper" style="display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; height: 350px; background: white; margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
-                            <div style="grid-row: span 2; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${urls[0]}', '_blank')">
+                            <div style="grid-row: span 2; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${urls[0]}', '_blank')">
                                 <img src="${urls[0]}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
-                            <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${urls[1]}', '_blank')">
+                            <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${urls[1]}', '_blank')">
                                 <img src="${urls[1]}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
-                            <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${urls[2]}', '_blank')">
+                            <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${urls[2]}', '_blank')">
                                 <img src="${urls[2]}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
                         </div>
@@ -126,11 +126,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     mediaHtml = `
                         <div class="dtc-media-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; height: 350px; background: white; margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
                             ${urls.slice(0, 3).map(url => `
-                                <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
+                                <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${url}', '_blank')">
                                     <img src="${url}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 </div>
                             `).join('')}
-                            <div style="position: relative; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="window.open('${urls[3]}', '_blank')">
+                            <div style="position: relative; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="window.open('${urls[3]}', '_blank')">
                                 <img src="${urls[3]}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 ${extraCount > 0 ? `
                                 <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; backdrop-filter: blur(2px);">
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>
                 </div>
                 
-                ${post.title && post.item_type !== 'status' ? `<h2 style="margin-top:0; color: #0f172a;">${post.title}</h2>` : ''}
+                ${post.title && post.item_type !== 'status' ? `<h2 style="margin-top:0; color: #0c100e;">${post.title}</h2>` : ''}
                 
                 <div class="dtc-post-content">
                     ${finalContentHtml}
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <p>Rejoignez gratuitement le réseau social Domtom Connect pour échanger avec ${authorName} et découvrir l'écosystème ultramarin.</p>
                 <a href="register-choice.html" class="btn-join" style="display: inline-block; padding: 14px 32px; font-size: 1.1rem;">Créer mon compte gratuit</a>
                 <div style="margin-top: 16px;">
-                    <a href="login.html" style="color: #94a3b8; font-size: 0.9rem; text-decoration: none;">Déjà membre ? Connectez-vous</a>
+                    <a href="login.html" style="color: #a7b0ac; font-size: 0.9rem; text-decoration: none;">Déjà membre ? Connectez-vous</a>
                 </div>
             </div>
         `;

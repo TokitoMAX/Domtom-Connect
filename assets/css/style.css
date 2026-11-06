@@ -158,7 +158,7 @@ body {
 /* Variables CSS */
 :root {
     /* Palette Premium B2B - High Contrast Emerald & Obsidian */
-    --primary-color: #111827;
+    --primary-color: #0e1311;
     /* Obsidian Dark */
     --primary-dark: #000000;
     --emerald-color: #10b981;
@@ -170,21 +170,21 @@ body {
     /* Gris Techniques */
     --gray-50: #f9fafb;
     --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
+    --gray-200: #e6eae8;
+    --gray-300: #d4dad7;
+    --gray-400: #a7b0ac;
+    --gray-500: #717c77;
     /* Texte secondaire plus sombre */
-    --gray-600: #4b5563;
-    --gray-700: #374151;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
+    --gray-600: #56615c;
+    --gray-700: #2b3632;
+    --gray-800: #1b2420;
+    --gray-900: #0e1311;
 
-    --text-primary: #111827;
-    --text-secondary: #374151;
-    /* Darkened from #4b5563 for better contrast */
-    --text-muted: #4b5563;
-    /* Darkened from #6b7280 for better contrast */
+    --text-primary: #0e1311;
+    --text-secondary: #2b3632;
+    /* Darkened from #56615c for better contrast */
+    --text-muted: #56615c;
+    /* Darkened from #717c77 for better contrast */
 
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -685,7 +685,7 @@ p {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.98); /* Deep Obsidian */
+    background: rgba(14, 19, 17, 0.98); /* Deep Obsidian */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     z-index: 10005;
@@ -3468,7 +3468,7 @@ p {
    ========================================= */
 .home-scope-bar {
     padding: 18px 0;
-    background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
+    background: linear-gradient(135deg, #070908 0%, #0c100e 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -3484,7 +3484,7 @@ p {
 .scope-item {
     font-size: 0.85rem;
     font-weight: 700;
-    color: #cbd5e1;
+    color: #d4dad7;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     display: flex;
@@ -3647,7 +3647,7 @@ html {
         left: 0 !important;
         right: 0 !important;
         height: 64px !important;
-        background: rgba(15, 23, 42, 0.96) !important;
+        background: rgba(14, 19, 17, 0.96) !important;
         backdrop-filter: blur(12px) !important;
         -webkit-backdrop-filter: blur(12px) !important;
         border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -3663,7 +3663,7 @@ html {
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        color: #94a3b8 !important;
+        color: #a7b0ac !important;
         text-decoration: none !important;
         font-size: 0.72rem !important;
         font-weight: 700 !important;
@@ -3694,7 +3694,7 @@ html {
 
 /* --- Thème sombre pour la barre de navigation (.navbar.navbar-dark) --- */
 .navbar.navbar-dark {
-    background: rgba(3, 7, 18, 0.92) !important;
+    background: rgba(7, 9, 8, 0.92) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -3705,13 +3705,13 @@ html {
 }
 
 .navbar.navbar-dark .nav-links {
-    background: rgba(15, 23, 42, 0.8) !important;
+    background: rgba(14, 19, 17, 0.8) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     box-shadow: none !important;
 }
 
 .navbar.navbar-dark .nav-links a {
-    color: #cbd5e1 !important;
+    color: #d4dad7 !important;
     font-weight: 500 !important;
 }
 
@@ -3734,7 +3734,7 @@ html {
 
 @media (max-width: 991px) {
     .navbar.navbar-dark .nav-content {
-        background: #0b1329 !important;
+        background: #171a18 !important;
         border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
     .navbar.navbar-dark .nav-content .nav-links {
@@ -3747,7 +3747,7 @@ html {
    MATRICE DE TRANSFORMATION AVANT / APRÈS (ULTRA-CONCRÈTE)
    ======================================================== */
 .transformation-section {
-    background: linear-gradient(180deg, rgba(11, 19, 41, 0.75) 0%, rgba(2, 6, 23, 0.98) 100%);
+    background: linear-gradient(180deg, rgba(23, 26, 24, 0.75) 0%, rgba(7, 9, 8, 0.98) 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 85px 20px;
@@ -3768,7 +3768,7 @@ html {
 }
 
 .transformation-card {
-    background: rgba(15, 23, 42, 0.75);
+    background: rgba(14, 19, 17, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
     padding: 28px;
@@ -3837,7 +3837,7 @@ html {
 }
 
 .transformation-before p {
-    color: #cbd5e1;
+    color: #d4dad7;
     font-size: 0.92rem;
     line-height: 1.55;
     margin: 0;
@@ -3896,7 +3896,7 @@ html {
 
 /* BANDEAU ENTONNOIR ACTION MASSIVE */
 .action-funnel-banner {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(14, 19, 17, 0.95) 100%);
     border: 1px solid rgba(16, 185, 129, 0.35);
     border-radius: 22px;
     padding: 44px 32px;
@@ -3914,7 +3914,7 @@ html {
 }
 
 .action-funnel-desc {
-    color: #cbd5e1;
+    color: #d4dad7;
     font-size: 1rem;
     max-width: 760px;
     margin: 0 auto 32px auto;
@@ -3937,7 +3937,7 @@ html {
 }
 
 .action-step-item {
-    background: rgba(2, 6, 23, 0.75);
+    background: rgba(7, 9, 8, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
     padding: 20px;
@@ -3969,7 +3969,7 @@ html {
 }
 
 .action-step-text {
-    color: #94a3b8;
+    color: #a7b0ac;
     font-size: 0.88rem;
     line-height: 1.5;
     margin: 0;

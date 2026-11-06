@@ -58,17 +58,17 @@ const QuizDailyModule = {
         }
 
         container.innerHTML = `
-            <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(15,23,42,0.15); border: 1px solid rgba(255,255,255,0.05); font-family: 'Plus Jakarta Sans', sans-serif;">
+            <div style="background: linear-gradient(135deg, #0c100e, #1b2420); color: white; border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(14, 19, 17,0.15); border: 1px solid rgba(255,255,255,0.05); font-family: 'Plus Jakarta Sans', sans-serif;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                     <span style="background:rgba(16, 185, 129, 0.15); color:#10b981; padding:6px 12px; border-radius:100px; font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em;">🧠 Défi Éducatif DTC</span>
-                    <span style="font-size:0.8rem; color:#94a3b8; font-weight:600;">+50 XP</span>
+                    <span style="font-size:0.8rem; color:#a7b0ac; font-weight:600;">+50 XP</span>
                 </div>
-                <h3 style="font-size:1.1rem; font-weight:800; line-height:1.4; margin:0 0 16px 0; color:#f8fafc;">${question.q}</h3>
+                <h3 style="font-size:1.1rem; font-weight:800; line-height:1.4; margin:0 0 16px 0; color:#f6f8f7;">${question.q}</h3>
                 <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
                     ${question.options.map((opt, idx) => `
                         <label style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:14px; border-radius:12px; cursor:pointer; transition:all 0.2s;">
                             <input type="radio" name="dtc-daily-opt" value="${idx}" style="accent-color:#10b981; width:18px; height:18px;">
-                            <span style="font-size:0.85rem; font-weight:600; color:#cbd5e1;">${opt.text}</span>
+                            <span style="font-size:0.85rem; font-weight:600; color:#d4dad7;">${opt.text}</span>
                         </label>
                     `).join('')}
                 </div>
@@ -103,24 +103,24 @@ const QuizDailyModule = {
 
     renderFeedbackHTML: function(question, isCorrect) {
         return `
-            <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 24px; padding: 24px; border: 1px solid rgba(255,255,255,0.05); font-family: 'Plus Jakarta Sans', sans-serif; animation: fadeIn 0.4s ease-out;">
+            <div style="background: linear-gradient(135deg, #0c100e, #1b2420); color: white; border-radius: 24px; padding: 24px; border: 1px solid rgba(255,255,255,0.05); font-family: 'Plus Jakarta Sans', sans-serif; animation: fadeIn 0.4s ease-out;">
                 <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                     <div style="width:40px; height:40px; border-radius:50%; background:${isCorrect ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
                         ${isCorrect ? '🎉' : '❌'}
                     </div>
                     <div>
-                        <h4 style="margin:0; font-size:0.95rem; font-weight:800; color:#f8fafc;">
+                        <h4 style="margin:0; font-size:0.95rem; font-weight:800; color:#f6f8f7;">
                             ${isCorrect ? 'Bonne réponse !' : 'Incorrect...'}
                         </h4>
-                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#94a3b8; font-weight:600;">Défi du jour complété</p>
+                        <p style="margin:2px 0 0 0; font-size:0.75rem; color:#a7b0ac; font-weight:600;">Défi du jour complété</p>
                     </div>
                 </div>
                 
-                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:16px; border-radius:16px; font-size:0.85rem; line-height:1.5; color:#cbd5e1;">
+                <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); padding:16px; border-radius:16px; font-size:0.85rem; line-height:1.5; color:#d4dad7;">
                     ${question.tip.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
                 </div>
 
-                <div style="margin-top:16px; text-align:center; font-size:0.75rem; color:#64748b; font-weight:600;">
+                <div style="margin-top:16px; text-align:center; font-size:0.75rem; color:#717c77; font-weight:600;">
                     Revenez demain pour un nouveau défi local ! 🚀
                 </div>
             </div>

@@ -7,24 +7,24 @@
 /* HERO SECTION */
 .directory-hero {
     background: radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(17, 24, 39, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(14, 19, 17, 0.05) 0px, transparent 50%),
                 #ffffff;
     padding: 120px 0 80px;
     text-align: center;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f4f2;
 }
 
 .hero-title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 900;
     letter-spacing: -0.04em;
-    color: #111827;
+    color: #0e1311;
     margin-bottom: 16px;
 }
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: #4b5563;
+    color: #56615c;
     max-width: 650px;
     margin: 0 auto 48px;
     line-height: 1.6;
@@ -33,7 +33,7 @@
 /* SEARCH & FILTER BAR */
 .search-filter-bar {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e6eae8;
     border-radius: 20px;
     padding: 10px;
     display: flex;
@@ -56,13 +56,13 @@
     outline: none;
     font-size: 0.95rem;
     font-weight: 500;
-    color: #111827;
+    color: #0e1311;
     padding: 8px 0;
 }
 
 .filter-group {
     flex: 1;
-    border-left: 1px solid #f1f5f9;
+    border-left: 1px solid #f1f4f2;
     padding: 0 16px;
 }
 
@@ -72,7 +72,7 @@
     outline: none;
     background: transparent;
     font-weight: 600;
-    color: #4b5563;
+    color: #56615c;
     font-size: 0.9rem;
     cursor: pointer;
 }
@@ -88,7 +88,7 @@
 /* PROFILE CARDS */
 .profile-card {
     background: #ffffff;
-    border: 1px solid #f1f5f9;
+    border: 1px solid #f1f4f2;
     border-radius: 24px;
     padding: 32px;
     text-align: center;
@@ -106,7 +106,7 @@
 .profile-avatar {
     width: 80px;
     height: 80px;
-    background: #f1f5f9;
+    background: #f1f4f2;
     color: #10b981;
     border-radius: 20px;
     display: flex;
@@ -122,7 +122,7 @@
 .profile-name {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #111827;
+    color: #0e1311;
     margin-bottom: 8px;
     letter-spacing: -0.01em;
 }
@@ -138,7 +138,7 @@
 
 .profile-territory {
     font-size: 0.85rem;
-    color: #6b7280;
+    color: #717c77;
     margin-bottom: 24px;
     display: flex;
     align-items: center;
@@ -152,7 +152,7 @@
 
 .profile-stats {
     padding-top: 20px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid #f1f4f2;
     display: flex;
     justify-content: center;
     gap: 16px;
@@ -161,8 +161,8 @@
 .profile-stats span {
     font-size: 0.9rem;
     font-weight: 800;
-    color: #111827;
-    background: #f8fafc;
+    color: #0e1311;
+    background: #f6f8f7;
     padding: 6px 14px;
     border-radius: 100px;
 }
@@ -176,7 +176,7 @@
     
     .filter-group {
         border-left: none;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid #f1f4f2;
         padding: 16px 0 0;
         margin-top: 8px;
     }

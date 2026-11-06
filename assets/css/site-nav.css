@@ -4,12 +4,12 @@
    ========================================================================== */
 
 :root {
-    --dtc-nav-bg: rgba(2, 6, 23, 0.94);
+    --dtc-nav-bg: rgba(7, 9, 8, 0.94);
     --dtc-nav-border: rgba(255, 255, 255, 0.08);
     --dtc-nav-accent: #10b981;
     --dtc-nav-accent-hover: #059669;
-    --dtc-nav-text: #f8fafc;
-    --dtc-nav-muted: #94a3b8;
+    --dtc-nav-text: #f6f8f7;
+    --dtc-nav-muted: #a7b0ac;
     --dtc-nav-h: 76px;
     --dtc-nav-h-mobile: 66px;
 }
@@ -154,7 +154,7 @@
     top: calc(100% + 10px);
     left: 0;
     min-width: 320px;
-    background: rgba(8, 14, 30, 0.98);
+    background: rgba(8, 11, 10, 0.98);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -222,7 +222,7 @@
 
 .site-nav .dropdown-item:hover .dropdown-icon {
     background: var(--dtc-nav-accent);
-    color: #020617;
+    color: #070908;
 }
 
 .site-nav .dropdown-info {
@@ -293,7 +293,7 @@
 
 .site-nav .nav-btn-cta {
     background: var(--dtc-nav-accent);
-    color: #020617 !important;
+    color: #070908 !important;
     font-weight: 800;
     font-size: 0.86rem;
     padding: 10px 18px;
@@ -345,7 +345,7 @@
     width: 100%;
     max-height: calc(100vh - var(--dtc-nav-h));
     overflow-y: auto;
-    background: rgba(2, 6, 23, 0.98);
+    background: rgba(7, 9, 8, 0.98);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-bottom: 1px solid var(--dtc-nav-border);
@@ -377,7 +377,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 13px 16px;
-    color: #e2e8f0;
+    color: #e6eae8;
     text-decoration: none;
     font-size: 1rem;
     font-weight: 600;
@@ -462,7 +462,7 @@
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
-    color: #cbd5e1;
+    color: #d4dad7;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
@@ -507,7 +507,7 @@
 
 .mobile-nav-actions .mobile-nav-cta {
     background: var(--dtc-nav-accent);
-    color: #020617 !important;
+    color: #070908 !important;
     text-align: center;
     padding: 14px 20px;
     border-radius: 14px;
@@ -525,7 +525,7 @@
 .mobile-nav-actions .mobile-nav-login {
     text-align: center;
     padding: 12px 20px;
-    color: #cbd5e1;
+    color: #d4dad7;
     text-decoration: none;
     font-weight: 700;
     font-size: 0.92rem;
@@ -600,10 +600,10 @@
    ========================================================================== */
 .site-footer {
     position: relative;
-    background: linear-gradient(180deg, #020617 0%, #01040f 100%);
+    background: linear-gradient(180deg, #070908 0%, #01040f 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 70px 0 35px;
-    color: #94a3b8;
+    color: #a7b0ac;
     font-size: 0.9rem;
     overflow: hidden;
     width: 100%;
@@ -683,7 +683,7 @@
 }
 
 .footer-brand-desc {
-    color: #94a3b8;
+    color: #a7b0ac;
     font-size: 0.88rem;
     line-height: 1.6;
     margin: 0 0 16px;
@@ -707,7 +707,7 @@
     border-radius: 100px;
     font-size: 0.72rem;
     font-weight: 600;
-    color: #cbd5e1;
+    color: #d4dad7;
 }
 
 .footer-territory-tag i {
@@ -730,7 +730,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #94a3b8;
+    color: #a7b0ac;
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.2s ease;
@@ -774,7 +774,7 @@
 }
 
 .footer-links a {
-    color: #94a3b8;
+    color: #a7b0ac;
     text-decoration: none;
     font-size: 0.88rem;
     display: inline-flex;
@@ -786,7 +786,7 @@
 
 .footer-links a i {
     font-size: 0.72rem;
-    color: #64748b;
+    color: #717c77;
     transition: transform 0.2s ease, color 0.2s ease;
 }
 
@@ -805,7 +805,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     padding: 16px 20px;
-    background: rgba(15, 23, 42, 0.6);
+    background: rgba(14, 19, 17, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 14px;
     margin-bottom: 28px;
@@ -816,7 +816,7 @@
     align-items: center;
     justify-content: center;
     gap: 9px;
-    color: #cbd5e1;
+    color: #d4dad7;
     font-size: 0.82rem;
     font-weight: 600;
     text-align: center;
@@ -838,7 +838,7 @@
     flex-wrap: wrap;
     gap: 16px;
     font-size: 0.82rem;
-    color: #64748b;
+    color: #717c77;
 }
 
 .footer-bottom-copy {
@@ -854,7 +854,7 @@
 }
 
 .footer-bottom-links a {
-    color: #94a3b8;
+    color: #a7b0ac;
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -872,7 +872,7 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    color: #cbd5e1 !important;
+    color: #d4dad7 !important;
     font-weight: 600;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -888,7 +888,7 @@
 
 /* Cross-Program Navigation Section */
 .cross-nav-section {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(14, 19, 17, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: clamp(32px, 5vw, 44px) 20px;
@@ -896,7 +896,7 @@
 }
 
 .cross-nav-title {
-    color: #94a3b8;
+    color: #a7b0ac;
     font-size: 0.82rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -945,7 +945,7 @@
 
 .cross-nav-pill.neutral {
     background: rgba(255, 255, 255, 0.04);
-    color: #f8fafc;
+    color: #f6f8f7;
     border-color: rgba(255, 255, 255, 0.12);
 }
 
@@ -1008,7 +1008,7 @@
         justify-content: center !important;
     }
     .footer-col {
-        background: rgba(15, 23, 42, 0.55) !important;
+        background: rgba(14, 19, 17, 0.55) !important;
         border: 1px solid rgba(255, 255, 255, 0.07) !important;
         border-radius: 14px !important;
         padding: 18px 18px 16px !important;
@@ -1032,7 +1032,7 @@
     }
     .footer-trust-bar {
         padding: 14px 16px !important;
-        background: rgba(15, 23, 42, 0.4) !important;
+        background: rgba(14, 19, 17, 0.4) !important;
         border-radius: 12px !important;
         margin-bottom: 22px !important;
     }
@@ -1100,7 +1100,7 @@
     font-size: 0.65rem;
     font-weight: 800;
     background: linear-gradient(135deg, #10b981, #059669);
-    color: #020617;
+    color: #070908;
     padding: 2px 7px;
     border-radius: 999px;
     letter-spacing: 0.02em;

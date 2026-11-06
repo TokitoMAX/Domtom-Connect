@@ -17,11 +17,11 @@
     <style>
         /* Surcharge pour le thème Dark / Emerald du funnel */
         :root {
-            --funnel-bg: var(--gray-900); /* #111827 Obsidian Dark */
-            --funnel-surface: #1f2937;
+            --funnel-bg: var(--gray-900); /* #0e1311 Obsidian Dark */
+            --funnel-surface: #1b2420;
             --funnel-accent: var(--emerald-color); /* #10b981 */
             --funnel-text: #ffffff;
-            --funnel-muted: #9ca3af;
+            --funnel-muted: #a7b0ac;
         }
 
         *, *::before, *::after {
@@ -52,7 +52,7 @@
             padding: 30px 20px;
             text-align: center;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            background: rgba(17, 24, 39, 0.95);
+            background: rgba(14, 19, 17, 0.95);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -140,7 +140,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            background: linear-gradient(135deg, #1b2420 0%, #0e1311 100%);
             color: #ffffff;
             font-weight: 600;
             font-size: 1.2rem;
@@ -221,7 +221,7 @@
         }
 
         .pain-card {
-            background: rgba(17, 24, 39, 0.5);
+            background: rgba(14, 19, 17, 0.5);
             padding: 40px 30px;
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.05);
@@ -321,7 +321,7 @@
         .incubator-highlight {
             max-width: 800px;
             margin: 80px auto 0;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(17, 24, 39, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(14, 19, 17, 0.8) 100%);
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 24px;
             padding: 50px 40px;
@@ -355,74 +355,56 @@
             background: var(--funnel-surface);
         }
     </style>
+    <style id="nav-std">.nav-link-active{color:#fff !important;box-shadow:inset 0 -2px 0 #10b981;}.nav-brand-tag{display:none !important;}.nav-menu{gap:2px !important;}.nav-menu .nav-link{padding:8px 11px !important;font-size:.9rem !important;white-space:nowrap;}.nav-actions{gap:10px !important;}.nav-btn-cta{white-space:nowrap;}@media (max-width:1380px){.nav-btn-login{display:none !important;}}@media (max-width:1180px){.nav-menu{display:none !important;}.mobile-toggle{display:inline-flex !important;}}</style>
+    <link rel="stylesheet" href="/assets/css/refonte-pro.css"/>
 </head>
 <body>
     <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
     <header class="site-nav">
         <div class="container">
             <div class="nav-inner">
-                <a href="index.html" class="nav-brand">
-                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                <a href="/" class="nav-brand" aria-label="Domtom Connect, accueil">
+                    <img src="/assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect"/>
                     <span class="nav-brand-title">Domtom Connect</span>
-                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
                 </a>
-
-                <nav class="nav-menu">
-                    <a href="index.html#solutions" class="active">Nos programmes</a>
-                    <a href="guide-entrepreneur.html">Le guide pratique</a>
-                    <a href="co-fondateurs.html">Trouver un associé</a>
-                    <a href="beta-test.html">App DTC Pulse</a>
-                    <a href="rejoindre.html">La communauté</a>
-                </nav>
-
+                <ul class="nav-menu">
+                    <li><a href="/entreprises" class="nav-link">Entreprises</a></li>
+                    <li><a href="/seance-strategique" class="nav-link">Séance stratégique</a></li>
+                    <li><a href="/tremplin" class="nav-link">Porteurs de projet</a></li>
+                    <li><a href="/anamnese" class="nav-link">Diagnostic gratuit</a></li>
+                    <li><a href="/rejoindre" class="nav-link">Réseau et DTC Pulse</a></li>
+                </ul>
                 <div class="nav-actions">
-                    <a href="login.html" class="nav-btn-login">Se connecter</a>
-                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
-                        <span>Diagnostic offert</span>
-                        <i class="fas fa-calendar-alt"></i>
-                    </a>
-                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <a href="/login" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="nav-btn-cta"><span>Réserver un échange</span></a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Universal Responsive Mobile Drawer -->
     <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-        <a href="index.html#solutions" class="mobile-nav-link" style="color: var(--funnel-accent);">
-            <span>Nos programmes</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="guide-entrepreneur.html" class="mobile-nav-link">
-            <span>Le guide pratique (Tome 1)</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="co-fondateurs.html" class="mobile-nav-link">
-            <span>Trouver un associé</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="beta-test.html" class="mobile-nav-link">
-            <span>Application DTC Pulse</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="rejoindre.html" class="mobile-nav-link">
-            <span>La communauté</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
+        <a href="/" class="mobile-nav-link"><span>Accueil</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/entreprises" class="mobile-nav-link"><span>Entreprises</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/seance-strategique" class="mobile-nav-link"><span>Séance stratégique</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/tremplin" class="mobile-nav-link"><span>Porteurs de projet</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/anamnese" class="mobile-nav-link"><span>Diagnostic gratuit</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/rejoindre" class="mobile-nav-link"><span>Réseau et DTC Pulse</span><i class="fas fa-chevron-right"></i></a>
         <div class="mobile-nav-divider"></div>
         <div class="mobile-nav-actions">
-            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Diagnostic offert (30 min)</span>
-            </a>
-            <a href="login.html" class="mobile-nav-login">
-                <i class="fas fa-user-circle"></i>
-                <span>Espace membre / Se connecter</span>
-            </a>
+            <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="mobile-nav-cta"><i class="fas fa-calendar-alt"></i><span>Réserver un échange (30 min)</span></a>
+            <a href="/login" class="mobile-nav-login"><i class="fas fa-user-circle"></i><span>Espace membre</span></a>
         </div>
     </div>
+
+    
+
+    
+
+    
+
+    <!-- Universal Responsive Mobile Drawer -->
+    
 
     <!-- Héro & VSL -->
     <main class="hero-funnel">
@@ -431,28 +413,28 @@
         <p>Pour les entrepreneurs ambitieux de la diaspora (Antilles-Guyane, US, Canada). Vous avez la vision, j'apporte la méthode. Bénéficiez d'un accompagnement sur-mesure pour avancer pas à pas, structurer vos processus et briser votre plafond de verre.</p>
         
         <!-- Explication de l'accompagnement (Remplacement de la vidéo) -->
-        <div class="methodology-wrapper" style="max-width: 850px; margin: 0 auto 50px; text-align: left; background: rgba(31, 41, 55, 0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px;">
+        <div class="methodology-wrapper" style="max-width: 850px; margin: 0 auto 50px; text-align: left; background: rgba(41, 44, 42, 0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px;">
             <h2 style="font-size: 1.8rem; color: #ffffff; margin-bottom: 24px; text-align: center;">En quoi consiste cet accompagnement 1-to-1 ?</h2>
             <p style="color: var(--funnel-muted); font-size: 1.1rem; line-height: 1.7; margin-bottom: 30px; text-align: center; max-width: 700px; margin-left: auto; margin-right: auto;">
                 Je m'implique personnellement dans votre entreprise comme un véritable partenaire de croissance. Voici notre plan d'action pour briser votre plafond de verre :
             </p>
             
             <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(14, 19, 17, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
                     <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">1</div>
                     <div>
                         <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Audit & Roadmap Digitale</h4>
                         <p style="color: var(--funnel-muted); font-size: 1rem; margin: 0; line-height: 1.6;">Nous analysons votre existant pour définir une feuille de route structurée autour de vos objectifs à court, moyen et long terme. Chaque action digitale est millimétrée pour servir votre croissance.</p>
                     </div>
                 </div>
-                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(14, 19, 17, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
                     <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">2</div>
                     <div>
                         <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Conseil & Écosystème Technique</h4>
                         <p style="color: var(--funnel-muted); font-size: 1rem; margin: 0; line-height: 1.6;">Nous concevons ensemble l'architecture de vos outils (plateformes, automatisations, vitrine). Vous gagnez du temps et consolidez votre infrastructure technique.</p>
                     </div>
                 </div>
-                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(17, 24, 39, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
+                <div style="display: flex; gap: 20px; align-items: flex-start; background: rgba(14, 19, 17, 0.6); padding: 24px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02);">
                     <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); color: var(--funnel-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 800; font-size: 1.4rem;">3</div>
                     <div>
                         <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 8px;">Pilotage & Accompagnement jusqu'au Résultat</h4>
@@ -576,9 +558,9 @@
     </section>
 
     <!-- Cross-Program Navigation -->
-    <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center; margin-top: 60px;">
+    <div style="background: rgba(14, 19, 17, 0.9); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 40px 20px; text-align: center; margin-top: 60px;">
         <div style="max-width: 1000px; margin: 0 auto;">
-            <h4 style="color: #94a3b8; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer nos autres accompagnements Domtom Connect</h4>
+            <h4 style="color: #a7b0ac; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;">Explorer nos autres accompagnements Domtom Connect</h4>
             <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
                 <a href="tremplin.html" style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 0.9rem;">Programme Tremplin</a>
                 <a href="premium.html" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);">Accompagnement Premium 1-1</a>
@@ -591,14 +573,14 @@
     </div>
 
     <!-- Pied de page -->
-    <footer style="background: #020617; color: #64748b; text-align: center; padding: 40px 20px; font-size: 0.88rem;">
+    <footer style="background: #070908; color: #717c77; text-align: center; padding: 40px 20px; font-size: 0.88rem;">
         <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; align-items: center;">
             <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
-                <a href="index.html" style="color: #94a3b8; text-decoration: none;">Accueil</a>
-                <a href="marketplace/directory.html" style="color: #94a3b8; text-decoration: none;">Annuaire Talents</a>
-                <a href="marketplace/jobs.html" style="color: #94a3b8; text-decoration: none;">Missions B2B</a>
-                <a href="legal/terms.html" style="color: #94a3b8; text-decoration: none;">Conditions Générales</a>
-                <a href="legal/privacy.html" style="color: #94a3b8; text-decoration: none;">Confidentialité</a>
+                <a href="index.html" style="color: #a7b0ac; text-decoration: none;">Accueil</a>
+                <a href="marketplace/directory.html" style="color: #a7b0ac; text-decoration: none;">Annuaire Talents</a>
+                <a href="marketplace/jobs.html" style="color: #a7b0ac; text-decoration: none;">Missions B2B</a>
+                <a href="legal/terms.html" style="color: #a7b0ac; text-decoration: none;">Conditions Générales</a>
+                <a href="legal/privacy.html" style="color: #a7b0ac; text-decoration: none;">Confidentialité</a>
             </div>
             <p style="margin: 0;">© 2026 Domtom Connect. Tous droits réservés. L'expertise au service des territoires insulaires.</p>
         </div>

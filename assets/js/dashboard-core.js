@@ -170,11 +170,11 @@ async function loadDashboardContent(session) {
 function renderRoleBadge(el, role) {
     const roleColors = {
         'expert': { bg: 'rgba(16, 185, 129, 0.1)', color: '#10b981', text: 'PROFIL EXPERT' },
-        'admin': { bg: '#0f172a', color: 'white', text: 'ADMINISTRATEUR' },
-        'entreprise': { bg: 'rgba(2, 132, 199, 0.1)', color: '#0284c7', text: 'ENTREPRISE' },
-        'owner': { bg: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', text: 'PORTEUR DE PROJET' }
+        'admin': { bg: '#0c100e', color: 'white', text: 'ADMINISTRATEUR' },
+        'entreprise': { bg: 'rgba(16, 185, 129, 0.1)', color: '#059669', text: 'ENTREPRISE' },
+        'owner': { bg: 'rgba(16, 185, 129, 0.1)', color: '#10b981', text: 'PORTEUR DE PROJET' }
     };
-    const config = roleColors[role] || { bg: '#f1f5f9', color: '#64748b', text: 'EXPLORATEUR' };
+    const config = roleColors[role] || { bg: '#f1f4f2', color: '#717c77', text: 'EXPLORATEUR' };
     
     el.style.background = config.bg;
     el.style.color = config.color;

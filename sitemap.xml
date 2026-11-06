@@ -752,4 +752,10 @@
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
   </url>
+  <url>
+    <loc>https://domtomconnect.com/seance-strategique</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>

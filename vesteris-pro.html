@@ -374,6 +374,8 @@
             color: var(--text-secondary);
         }
     </style>
+    <style id="nav-std">.nav-link-active{color:#fff !important;box-shadow:inset 0 -2px 0 #10b981;}.nav-brand-tag{display:none !important;}.nav-menu{gap:2px !important;}.nav-menu .nav-link{padding:8px 11px !important;font-size:.9rem !important;white-space:nowrap;}.nav-actions{gap:10px !important;}.nav-btn-cta{white-space:nowrap;}@media (max-width:1380px){.nav-btn-login{display:none !important;}}@media (max-width:1180px){.nav-menu{display:none !important;}.mobile-toggle{display:inline-flex !important;}}</style>
+    <link rel="stylesheet" href="/assets/css/refonte-pro.css"/>
 </head>
 <body>
     <div class="ambient-glow-top"></div>
@@ -382,28 +384,45 @@
     <header class="site-nav">
         <div class="container">
             <div class="nav-inner">
-                <a href="index.html" class="nav-brand">
-                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                <a href="/" class="nav-brand" aria-label="Domtom Connect, accueil">
+                    <img src="/assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect"/>
                     <span class="nav-brand-title">Domtom Connect</span>
-                    <span class="nav-brand-tag">Écosystème</span>
                 </a>
-
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li><a href="entreprises.html" class="nav-link">Entreprises</a></li>
-                    <li><a href="entreprises-tourisme.html" class="nav-link">Tourisme</a></li>
-                    <li><a href="vesteris.html" class="nav-link active"><i class="fas fa-briefcase"></i> Vesteris Pro</a></li>
-                    <li><a href="support.html" class="nav-link">Contact</a></li>
+                    <li><a href="/entreprises" class="nav-link">Entreprises</a></li>
+                    <li><a href="/seance-strategique" class="nav-link">Séance stratégique</a></li>
+                    <li><a href="/tremplin" class="nav-link">Porteurs de projet</a></li>
+                    <li><a href="/anamnese" class="nav-link">Diagnostic gratuit</a></li>
+                    <li><a href="/rejoindre" class="nav-link">Réseau et DTC Pulse</a></li>
                 </ul>
-
                 <div class="nav-actions">
-                    <a href="https://wa.me/33620783377" target="_blank" rel="noopener" class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; font-weight: 800; border: none;">
-                        <i class="fab fa-whatsapp"></i> Devis WhatsApp Express
-                    </a>
+                    <a href="/login" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="nav-btn-cta"><span>Réserver un échange</span></a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </header>
+
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="/" class="mobile-nav-link"><span>Accueil</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/entreprises" class="mobile-nav-link"><span>Entreprises</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/seance-strategique" class="mobile-nav-link"><span>Séance stratégique</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/tremplin" class="mobile-nav-link"><span>Porteurs de projet</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/anamnese" class="mobile-nav-link"><span>Diagnostic gratuit</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/rejoindre" class="mobile-nav-link"><span>Réseau et DTC Pulse</span><i class="fas fa-chevron-right"></i></a>
+        <div class="mobile-nav-divider"></div>
+        <div class="mobile-nav-actions">
+            <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="mobile-nav-cta"><i class="fas fa-calendar-alt"></i><span>Réserver un échange (30 min)</span></a>
+            <a href="/login" class="mobile-nav-login"><i class="fas fa-user-circle"></i><span>Espace membre</span></a>
+        </div>
+    </div>
+
+    
+
+    
+
+    
 
     <!-- SOUS-NAVIGATION DÉDIÉE PÔLES VESTERIS -->
     <div class="vesteris-poles-bar">

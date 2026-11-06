@@ -56,7 +56,7 @@ const PaymentModule = {
             .payment-modal-overlay {
                 position: fixed;
                 inset: 0;
-                background: rgba(15, 23, 42, 0.8);
+                background: rgba(14, 19, 17, 0.8);
                 backdrop-filter: blur(8px);
                 z-index: 20000;
                 display: none;
@@ -82,7 +82,7 @@ const PaymentModule = {
                 position: absolute;
                 top: 24px;
                 right: 24px;
-                background: #f1f5f9;
+                background: #f1f4f2;
                 border: none;
                 width: 36px;
                 height: 36px;
@@ -92,7 +92,7 @@ const PaymentModule = {
                 align-items: center;
                 justify-content: center;
                 font-size: 1.2rem;
-                color: #64748b;
+                color: #717c77;
             }
             .payment-badge {
                 display: inline-block;
@@ -106,11 +106,11 @@ const PaymentModule = {
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
             }
-            .payment-title { font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 12px; letter-spacing: -0.03em; }
-            .payment-price { font-size: 2.5rem; font-weight: 950; color: #0f172a; margin-bottom: 32px; display:flex; align-items: baseline; gap: 4px; }
-            .payment-price span { font-size: 1rem; color: #94a3b8; font-weight: 600; }
+            .payment-title { font-size: 1.8rem; font-weight: 900; color: #0c100e; margin-bottom: 12px; letter-spacing: -0.03em; }
+            .payment-price { font-size: 2.5rem; font-weight: 950; color: #0c100e; margin-bottom: 32px; display:flex; align-items: baseline; gap: 4px; }
+            .payment-price span { font-size: 1rem; color: #a7b0ac; font-weight: 600; }
             .benefits-list { list-style: none; padding: 0; margin: 0 0 40px 0; display: grid; gap: 16px; }
-            .benefits-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: #475569; line-height: 1.4; }
+            .benefits-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.95rem; color: #56615c; line-height: 1.4; }
             .benefits-list svg { width: 20px; height: 20px; color: #10b981; flex-shrink: 0; margin-top: 2px; }
             #stripe-button-container-dynamic { min-height: 80px; }
         `;
@@ -141,7 +141,7 @@ const PaymentModule = {
                 </ul>
 
                 <div id="stripe-button-container-dynamic"></div>
-                <p style="text-align:center; font-size:0.7rem; color:#94a3b8; margin-top:24px;">Paiement sécurisé via Stripe. Annulation possible à tout moment.</p>
+                <p style="text-align:center; font-size:0.7rem; color:#a7b0ac; margin-top:24px;">Paiement sécurisé via Stripe. Annulation possible à tout moment.</p>
             </div>
         `;
         document.body.appendChild(modal);
@@ -209,7 +209,7 @@ const PaymentModule = {
                 .stripe-pay-button {
                     width: 100%;
                     padding: 16px;
-                    background: #0f172a;
+                    background: #0c100e;
                     color: white;
                     border: none;
                     border-radius: 12px;
@@ -221,12 +221,12 @@ const PaymentModule = {
                     justify-content: center;
                     gap: 10px;
                     transition: all 0.2s;
-                    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+                    box-shadow: 0 4px 12px rgba(14, 19, 17, 0.15);
                 }
                 .stripe-pay-button:hover {
-                    background: #1e293b;
+                    background: #1b2420;
                     transform: translateY(-2px);
-                    box-shadow: 0 6px 15px rgba(15, 23, 42, 0.2);
+                    box-shadow: 0 6px 15px rgba(14, 19, 17, 0.2);
                 }
                 .stripe-pay-button:active { transform: translateY(0); }
                 .stripe-pay-button:disabled { opacity: 0.7; cursor: not-allowed; }

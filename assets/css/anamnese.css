@@ -6,18 +6,18 @@
    ========================================================================== */
 
 :root {
-    --anam-bg: #020617;
-    --anam-surface: #0b1329;
-    --anam-card: #0f172a;
-    --anam-card-hover: #132238;
+    --anam-bg: #070908;
+    --anam-surface: #171a18;
+    --anam-card: #0c100e;
+    --anam-card-hover: #232624;
     --anam-border: rgba(255, 255, 255, 0.09);
     --anam-border-active: rgba(16, 185, 129, 0.45);
     --anam-accent: #10b981;
     --anam-accent-dark: #059669;
     --anam-accent-glow: rgba(16, 185, 129, 0.18);
     --anam-text-main: #ffffff;
-    --anam-text-muted: #94a3b8;
-    --anam-text-dim: #64748b;
+    --anam-text-muted: #a7b0ac;
+    --anam-text-dim: #717c77;
     --anam-serif: 'Lora', Georgia, serif;
     --anam-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --anam-radius: 12px;
@@ -40,13 +40,13 @@ body.anamnese-page {
     position: relative;
     background-image: 
         radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(15, 23, 42, 0.7) 0%, transparent 60%);
+        radial-gradient(circle at 100% 100%, rgba(14, 19, 17, 0.7) 0%, transparent 60%);
 }
 
 /* En-tête coaching minimaliste */
 .anam-header {
     border-bottom: 1px solid var(--anam-border);
-    background: rgba(2, 6, 23, 0.94);
+    background: rgba(7, 9, 8, 0.94);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     padding: 14px 20px;
@@ -105,7 +105,7 @@ body.anamnese-page {
 .anam-lang-toggle {
     display: inline-flex;
     align-items: center;
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(14, 19, 17, 0.9);
     border: 1px solid var(--anam-border);
     border-radius: 999px;
     padding: 3px;
@@ -132,7 +132,7 @@ body.anamnese-page {
 
 .anam-lang-btn.active {
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     font-weight: 800;
     box-shadow: 0 0 10px var(--anam-accent-glow);
 }
@@ -230,7 +230,7 @@ body.anamnese-page {
     font-family: var(--anam-serif);
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #cbd5e1;
+    color: #d4dad7;
     margin-bottom: 20px;
 }
 
@@ -240,7 +240,7 @@ body.anamnese-page {
     background: rgba(16, 185, 129, 0.08);
     margin: 26px 0;
     font-size: 0.95rem;
-    color: #f1f5f9;
+    color: #f1f4f2;
     line-height: 1.65;
 }
 
@@ -278,7 +278,7 @@ body.anamnese-page {
 .anam-select {
     width: 100%;
     padding: 14px 16px;
-    background: #020617;
+    background: #070908;
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     color: #ffffff;
@@ -294,7 +294,7 @@ body.anamnese-page {
 }
 
 .anam-select option, .anam-select optgroup {
-    background: #0b1329;
+    background: #171a18;
     color: #ffffff;
 }
 
@@ -306,7 +306,7 @@ body.anamnese-page {
     width: 100%;
     padding: 18px 28px;
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     font-family: var(--anam-sans);
     font-size: 1rem;
     font-weight: 800;
@@ -377,7 +377,7 @@ body.anamnese-page {
     font-family: var(--anam-serif);
     font-size: 1.15rem;
     font-style: italic;
-    color: #e2e8f0;
+    color: #e6eae8;
     line-height: 1.75;
     margin-bottom: 28px;
     padding-bottom: 22px;
@@ -408,7 +408,7 @@ body.anamnese-page {
     background: var(--anam-card);
     border: 1px solid var(--anam-border);
     border-radius: var(--anam-radius);
-    color: #e2e8f0;
+    color: #e6eae8;
     font-family: var(--anam-sans);
     font-size: 0.96rem;
     line-height: 1.55;
@@ -447,7 +447,7 @@ body.anamnese-page {
 
 .anam-option-btn.selected .anam-option-letter {
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     border-color: var(--anam-accent);
 }
 
@@ -491,7 +491,7 @@ body.anamnese-page {
     gap: 8px;
     padding: 12px 22px;
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     font-family: var(--anam-sans);
     font-size: 0.88rem;
     font-weight: 800;
@@ -564,7 +564,7 @@ body.anamnese-page {
     display: block;
     font-size: 0.84rem;
     font-weight: 700;
-    color: #cbd5e1;
+    color: #d4dad7;
     margin-bottom: 8px;
 }
 
@@ -649,7 +649,7 @@ body.anamnese-page {
     font-family: var(--anam-serif);
     font-size: 1.1rem;
     font-style: italic;
-    color: #cbd5e1;
+    color: #d4dad7;
     line-height: 1.7;
     margin-bottom: 30px;
     padding-left: 20px;
@@ -657,7 +657,7 @@ body.anamnese-page {
 }
 
 .anam-verdict-body {
-    color: #e2e8f0;
+    color: #e6eae8;
     font-size: 1rem;
     line-height: 1.8;
     margin-bottom: 36px;
@@ -703,7 +703,7 @@ body.anamnese-page {
     align-items: flex-start;
     gap: 12px;
     font-size: 0.94rem;
-    color: #cbd5e1;
+    color: #d4dad7;
     line-height: 1.55;
 }
 
@@ -762,7 +762,7 @@ body.anamnese-page {
 
 .anam-offer-card.featured {
     border-color: var(--anam-accent);
-    background: linear-gradient(150deg, #0b1329 0%, #082119 100%);
+    background: linear-gradient(150deg, #171a18 0%, #082119 100%);
     box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
 }
 
@@ -838,7 +838,7 @@ body.anamnese-page {
 
 .anam-btn-order.btn-27 {
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
@@ -849,7 +849,7 @@ body.anamnese-page {
 /* Palier Accompagnement Direct (Noir & Vert) */
 .anam-coaching-box {
     margin-top: 35px;
-    background: rgba(11, 19, 41, 0.95);
+    background: rgba(23, 26, 24, 0.95);
     border: 1px solid var(--anam-border);
     border-left: 4px solid var(--anam-accent);
     border-radius: var(--anam-radius-lg);
@@ -894,7 +894,7 @@ body.anamnese-page {
     gap: 8px;
     padding: 14px 22px;
     background: var(--anam-accent);
-    color: #020617;
+    color: #070908;
     border: none;
     border-radius: 10px;
     font-size: 0.9rem;
@@ -1110,7 +1110,7 @@ body.anamnese-page {
     align-items: center;
     gap: 10px;
     background: #10b981;
-    color: #020617;
+    color: #070908;
     font-family: var(--anam-sans);
     font-size: 0.95rem;
     font-weight: 800;

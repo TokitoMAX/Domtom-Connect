@@ -59,7 +59,7 @@ const MomentsModule = {
                 if (error) throw error;
 
                 if (!data || data.length === 0) {
-                    resultsContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; font-size:0.85rem; padding: 10px; font-weight:600;">Aucun utilisateur trouvé pour "${query}"</div>`;
+                    resultsContainer.innerHTML = `<div style="text-align:center; color:#a7b0ac; font-size:0.85rem; padding: 10px; font-weight:600;">Aucun utilisateur trouvé pour "${query}"</div>`;
                     resultsContainer.style.display = 'flex';
                     return;
                 }
@@ -69,14 +69,14 @@ const MomentsModule = {
                     const avatar = user.channel_avatar_url || user.avatar_url;
                     const role = user.role || 'Citoyen';
                     return `
-                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-radius: 12px; background: #f8fafc;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px; border-radius: 12px; background: #f6f8f7;">
                             <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.Router.navigate('#channel?id=${user.id}')">
-                                <div style="width: 40px; height: 40px; border-radius: 50%; background: #0f172a; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <div style="width: 40px; height: 40px; border-radius: 50%; background: #0c100e; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     ${avatar ? `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; font-size: 0.8rem;"></i>'}
                                 </div>
                                 <div style="min-width: 0;">
-                                    <div style="font-weight: 800; font-size: 0.95rem; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${name}</div>
-                                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: capitalize;">${role}</div>
+                                    <div style="font-weight: 800; font-size: 0.95rem; color: #0c100e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${name}</div>
+                                    <div style="font-size: 0.75rem; color: #717c77; font-weight: 600; text-transform: capitalize;">${role}</div>
                                 </div>
                             </div>
                             <button onclick="window.Router.navigate('#channel?id=${user.id}')" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: none; padding: 6px 12px; border-radius: 100px; font-weight: 800; font-size: 0.75rem; cursor: pointer; transition: background 0.2s; white-space: nowrap;">
@@ -184,46 +184,46 @@ const MomentsModule = {
         return `
             <input type="file" id="post-file-input" style="display: none;" accept="image/*,video/*,application/pdf" multiple onchange="MomentsModule.handlePostFileSelected(this)">
             <input type="file" id="post-story-input" style="display: none;" accept="image/*,video/*" onchange="MomentsModule.handleStoryFileSelected(this)">
-            <div style="background: white; border: 1px solid #e2e8f0; border-radius: clamp(16px, 4vw, 24px); padding: clamp(16px, 4vw, 24px); box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-bottom: 16px; position: relative;">
+            <div style="background: white; border: 1px solid #e6eae8; border-radius: clamp(16px, 4vw, 24px); padding: clamp(16px, 4vw, 24px); box-shadow: 0 10px 40px rgba(0,0,0,0.03); margin-bottom: 16px; position: relative;">
                 <div style="display: flex; gap: 12px; align-items: flex-start;">
-                    <div style="width: 48px; height: 48px; border-radius: 16px; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; overflow: hidden; flex-shrink: 0; border: 2px solid #f8fafc;">
+                    <div style="width: 48px; height: 48px; border-radius: 16px; background: #0c100e; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; overflow: hidden; flex-shrink: 0; border: 2px solid #f6f8f7;">
                         ${avatar ? `<img src="${avatar}" style="width:100%; height:100%; object-fit:cover;">` : name.charAt(0)}
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <!-- Custom Selector -->
                         <div style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;">
                             <label style="cursor: pointer; flex-shrink: 0;">
-                                <input type="radio" name="post_type" value="standard" checked style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(16,185,129,0.1)'; this.nextElementSibling.style.color='#059669'; this.nextElementSibling.style.border='2px solid #10b981';">
+                                <input type="radio" name="post_type" value="standard" checked style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f4f2'; b.style.color='#717c77'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(16,185,129,0.1)'; this.nextElementSibling.style.color='#059669'; this.nextElementSibling.style.border='2px solid #10b981';">
                                 <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: rgba(16,185,129,0.1); color: #059669; font-weight: 800; font-size: 0.82rem; border: 2px solid #10b981; transition: 0.2s; white-space: nowrap;"><i class="fas fa-newspaper" style="margin-right:4px;"></i> Actualité</div>
                             </label>
                             <label style="cursor: pointer; flex-shrink: 0;">
-                                <input type="radio" name="post_type" value="opportunite" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(59,130,246,0.1)'; this.nextElementSibling.style.color='#2563eb'; this.nextElementSibling.style.border='2px solid #3b82f6';">
-                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-rocket" style="margin-right:4px;"></i> Opportunité</div>
+                                <input type="radio" name="post_type" value="opportunite" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f4f2'; b.style.color='#717c77'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(16, 185, 129,0.1)'; this.nextElementSibling.style.color='#059669'; this.nextElementSibling.style.border='2px solid #10b981';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f4f2; color: #717c77; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-rocket" style="margin-right:4px;"></i> Opportunité</div>
                             </label>
                             <label style="cursor: pointer; flex-shrink: 0;">
-                                <input type="radio" name="post_type" value="partenaire" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(139,92,246,0.1)'; this.nextElementSibling.style.color='#7c3aed'; this.nextElementSibling.style.border='2px solid #8b5cf6';">
-                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-handshake" style="margin-right:4px;"></i> Partenariat</div>
+                                <input type="radio" name="post_type" value="partenaire" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f4f2'; b.style.color='#717c77'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(16, 185, 129,0.1)'; this.nextElementSibling.style.color='#059669'; this.nextElementSibling.style.border='2px solid #10b981';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f4f2; color: #717c77; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-handshake" style="margin-right:4px;"></i> Partenariat</div>
                             </label>
                             <label style="cursor: pointer; flex-shrink: 0;">
-                                <input type="radio" name="post_type" value="expertise" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f5f9'; b.style.color='#64748b'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(245,158,11,0.1)'; this.nextElementSibling.style.color='#d97706'; this.nextElementSibling.style.border='2px solid #f59e0b';">
-                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f5f9; color: #64748b; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-lightbulb" style="margin-right:4px;"></i> Expertise</div>
+                                <input type="radio" name="post_type" value="expertise" style="display:none;" onchange="document.querySelectorAll('.post-type-btn').forEach(b => { b.style.background='#f1f4f2'; b.style.color='#717c77'; b.style.border='2px solid transparent'; }); this.nextElementSibling.style.background='rgba(245,158,11,0.1)'; this.nextElementSibling.style.color='#d97706'; this.nextElementSibling.style.border='2px solid #f59e0b';">
+                                <div class="post-type-btn" style="padding: 8px 16px; border-radius: 100px; background: #f1f4f2; color: #717c77; font-weight: 800; font-size: 0.82rem; border: 2px solid transparent; transition: 0.2s; white-space: nowrap;"><i class="fas fa-lightbulb" style="margin-right:4px;"></i> Expertise</div>
                             </label>
                         </div>
                         
-                        <textarea id="feed-status-input" placeholder="Partagez une idée, une annonce ou une opportunité..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0f172a; padding-top: 6px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
+                        <textarea id="feed-status-input" placeholder="Partagez une idée, une annonce ou une opportunité..." rows="2" style="width: 100%; border: none; outline: none; resize: none; font-family: inherit; font-size: 1.1rem; color: #0c100e; padding-top: 6px; line-height: 1.5; font-weight: 500; background: transparent;"></textarea>
                         
-                        <div id="post-cta-container" style="display: none; margin-top: 12px; background: #f8fafc; border-radius: 12px; padding: 12px 16px; border: 1px dashed #cbd5e1; align-items: center; gap: 8px;">
-                            <span><i class="fas fa-link" style="color: #64748b;"></i></span>
-                            <input type="url" id="post-cta-link" placeholder="Lien de redirection (ex: vers votre calendrier, site, article...)" style="width: 100%; border: none; outline: none; background: transparent; font-size: 0.9rem; font-weight: 600; font-family: inherit; color: #3b82f6;">
-                            <button onclick="document.getElementById('post-cta-container').style.display='none'; document.getElementById('post-cta-link').value='';" style="background:transparent; border:none; color:#94a3b8; font-weight:800; cursor:pointer;">✕</button>
+                        <div id="post-cta-container" style="display: none; margin-top: 12px; background: #f6f8f7; border-radius: 12px; padding: 12px 16px; border: 1px dashed #d4dad7; align-items: center; gap: 8px;">
+                            <span><i class="fas fa-link" style="color: #717c77;"></i></span>
+                            <input type="url" id="post-cta-link" placeholder="Lien de redirection (ex: vers votre calendrier, site, article...)" style="width: 100%; border: none; outline: none; background: transparent; font-size: 0.9rem; font-weight: 600; font-family: inherit; color: #10b981;">
+                            <button onclick="document.getElementById('post-cta-container').style.display='none'; document.getElementById('post-cta-link').value='';" style="background:transparent; border:none; color:#a7b0ac; font-weight:800; cursor:pointer;">✕</button>
                         </div>
 
                         <div id="composer-previews" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;"></div>
 
                         <div style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center;">
-                            <button type="button" onclick="document.getElementById('post-file-input').click()" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'"><i class="fas fa-image" style="margin-right:4px;"></i> Média</button>
-                            <button type="button" onclick="window.MomentsModule.openPollModal()" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'"><i class="fas fa-poll" style="margin-right:4px;"></i> Sondage</button>
-                            <button type="button" onclick="document.getElementById('post-cta-container').style.display='flex'" style="border:none; cursor:pointer; background: transparent; color: #64748b; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f5f9'"><i class="fas fa-link" style="margin-right:4px;"></i> Action CTA</button>
+                            <button type="button" onclick="document.getElementById('post-file-input').click()" style="border:none; cursor:pointer; background: transparent; color: #717c77; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f4f2'"><i class="fas fa-image" style="margin-right:4px;"></i> Média</button>
+                            <button type="button" onclick="window.MomentsModule.openPollModal()" style="border:none; cursor:pointer; background: transparent; color: #717c77; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f4f2'"><i class="fas fa-poll" style="margin-right:4px;"></i> Sondage</button>
+                            <button type="button" onclick="document.getElementById('post-cta-container').style.display='flex'" style="border:none; cursor:pointer; background: transparent; color: #717c77; border-radius: 12px; padding: 8px 12px; font-size: 0.85rem; font-weight: 800; transition:0.2s;" onmouseover="this.style.background='#f1f4f2'"><i class="fas fa-link" style="margin-right:4px;"></i> Action CTA</button>
                             
                             <div style="flex: 1;"></div>
                             
@@ -240,11 +240,11 @@ const MomentsModule = {
 
     renderReelsFeed: function (videoItems, currentUser, containerId) {
         if (!videoItems.length) {
-            return `<div style="padding:48px; text-align:center; color:#64748b; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-film" style="font-size:2.5rem; color:#cbd5e1; display:block; margin-bottom:12px;"></i>Aucune vidéo pour le moment.<br><span style="font-size:0.85rem; font-weight:500;">Publiez une vidéo pour alimenter le fil Reels.</span></div>`;
+            return `<div style="padding:48px; text-align:center; color:#717c77; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-film" style="font-size:2.5rem; color:#d4dad7; display:block; margin-bottom:12px;"></i>Aucune vidéo pour le moment.<br><span style="font-size:0.85rem; font-weight:500;">Publiez une vidéo pour alimenter le fil Reels.</span></div>`;
         }
 
         return `
-            <div id="dtc-reels-scroller" style="height: min(85vh, 720px); overflow-y: scroll; scroll-snap-type: y mandatory; border-radius: 24px; background: #0f172a; scrollbar-width: none;">
+            <div id="dtc-reels-scroller" style="height: min(85vh, 720px); overflow-y: scroll; scroll-snap-type: y mandatory; border-radius: 24px; background: #0c100e; scrollbar-width: none;">
                 ${videoItems.map((item, idx) => {
             const videoUrl = this.getVideoUrl(item);
             const postReactions = this.reactions[item.id] || [];
@@ -256,7 +256,7 @@ const MomentsModule = {
                         <video src="${videoUrl}" autoplay muted loop playsinline style="max-width:100%; max-height:100%; object-fit: contain;" onclick="this.muted ? (this.muted=false) : (this.muted=true)"></video>
                         <div style="position:absolute; bottom:0; left:0; right:0; padding: 24px 80px 24px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: white;">
                             <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer;" onclick="window.Router.navigate('#channel?id=${item.userId}')">
-                                <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:2px solid white; background:#334155;">
+                                <div style="width:36px; height:36px; border-radius:50%; overflow:hidden; border:2px solid white; background:#2b3632;">
                                     ${item.authorAvatar ? `<img src="${item.authorAvatar}" style="width:100%;height:100%;object-fit:cover;">` : ''}
                                 </div>
                                 <span style="font-weight:800; font-size:0.95rem;">${item.authorName}</span>
@@ -288,7 +288,7 @@ const MomentsModule = {
 
         // Render skeleton loader
         container.innerHTML = `
-            <div style="padding: 20px; text-align: center; color: #64748b;">
+            <div style="padding: 20px; text-align: center; color: #717c77;">
                 <div class="splash-loader" style="margin: 0 auto 16px;"></div>
                 Chargement de DTC...
             </div>
@@ -466,7 +466,7 @@ const MomentsModule = {
 
             // 9. Build stories bar
             let storiesHtml = '';
-            let myAvatar = '<i class="fas fa-user" style="color:#cbd5e1;"></i>';
+            let myAvatar = '<i class="fas fa-user" style="color:#d4dad7;"></i>';
             if (window.App?.state?.profile) {
                 const p = window.App.state.profile;
                 const url = p.channel_avatar_url || p.avatar_url;
@@ -477,33 +477,33 @@ const MomentsModule = {
 
             const addStoryBtn = `
                 <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="document.getElementById('post-story-input').click()">
-                    <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px dashed #d4dad7; display: flex; align-items: center; justify-content: center; position: relative;">
                         ${myAvatar}
-                        <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #3b82f6; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;"><i class="fas fa-plus"></i></div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 22px; height: 22px; background: #10b981; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid white;"><i class="fas fa-plus"></i></div>
                     </div>
-                    <span style="font-size: 0.7rem; font-weight: 600; color: #334155;">Ma Story</span>
+                    <span style="font-size: 0.7rem; font-weight: 600; color: #2b3632;">Ma Story</span>
                 </div>
             `;
 
             if (this.storyGroups.length > 0) {
                 const storyBubbles = this.storyGroups.map((group, idx) => `
                     <div style="flex-shrink: 0; width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer;" onclick="MomentsModule.openStoryViewer(${idx}, 0)">
-                        <div style="width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #f59e0b, #ef4444, #8b5cf6); display: flex; align-items: center; justify-content: center;">
-                            <div style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; overflow: hidden; background: #0f172a;">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: linear-gradient(45deg, #f59e0b, #ef4444, #10b981); display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; overflow: hidden; background: #0c100e;">
                                 ${group.authorAvatar ? `<img src="${group.authorAvatar}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="color:white; margin-top: 18px;"></i>'}
                             </div>
                         </div>
-                        <span style="font-size: 0.7rem; font-weight: 600; color: #334155; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${group.authorName.split(' ')[0]}</span>
+                        <span style="font-size: 0.7rem; font-weight: 600; color: #2b3632; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${group.authorName.split(' ')[0]}</span>
                     </div>
                 `).join('');
                 storiesHtml = `
-                    <div style="display: flex; gap: 12px; overflow-x: auto; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05); scrollbar-width: none;">
+                    <div style="display: flex; gap: 12px; overflow-x: auto; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(14, 19, 17, 0.05); scrollbar-width: none;">
                         ${addStoryBtn}${storyBubbles}
                     </div>
                     <style>.stories-container::-webkit-scrollbar { display: none; }</style>
                 `;
             } else {
-                storiesHtml = `<div style="display: flex; gap: 12px; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.05);">${addStoryBtn}</div>`;
+                storiesHtml = `<div style="display: flex; gap: 12px; padding: 16px 20px; background: white; margin-bottom: 12px; border-radius: 16px; border: 1px solid rgba(14, 19, 17, 0.05);">${addStoryBtn}</div>`;
             }
 
             // 10. Render first page of feed items
@@ -513,8 +513,8 @@ const MomentsModule = {
                 : `<div id="dtc-feed-list" style="display: flex; flex-direction: column; gap: 20px;">
                     ${firstPageItems.length === 0
                     ? (this.currentFeedMode === 'following'
-                        ? `<div style="padding:40px; text-align:center; color:#64748b; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-user-friends" style="font-size:2rem; color:#cbd5e1; display:block; margin-bottom:12px;"></i>Vous ne suivez personne ou vos abonnements n'ont rien publié.<br><span style="font-size:0.85rem; font-weight:500;">Abonnez-vous à des profils depuis le feed principal.</span></div>`
-                        : `<div style="padding:40px; text-align:center; color:#94a3b8; font-weight:600;">Aucune publication pour le moment.</div>`)
+                        ? `<div style="padding:40px; text-align:center; color:#717c77; font-weight:700; background:white; border-radius:24px;"><i class="fas fa-user-friends" style="font-size:2rem; color:#d4dad7; display:block; margin-bottom:12px;"></i>Vous ne suivez personne ou vos abonnements n'ont rien publié.<br><span style="font-size:0.85rem; font-weight:500;">Abonnez-vous à des profils depuis le feed principal.</span></div>`
+                        : `<div style="padding:40px; text-align:center; color:#a7b0ac; font-weight:600;">Aucune publication pour le moment.</div>`)
                     : firstPageItems.map((item, index) => {
                         let htmlStr = this.renderFeedItemHTML(item, currentUser, containerId);
                         if (index === 1) htmlStr += this.renderMastermindCTA();
@@ -531,7 +531,7 @@ const MomentsModule = {
                 <style>
                     /* Premium Social Feed Custom Classes */
                     .dtc-publish-btn {
-                        background: #0f172a;
+                        background: #0c100e;
                         color: white;
                         border: none;
                         padding: 10px 24px;
@@ -540,7 +540,7 @@ const MomentsModule = {
                         font-size: 0.88rem;
                         cursor: pointer;
                         transition: all 0.2s;
-                        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+                        box-shadow: 0 4px 12px rgba(14, 19, 17, 0.15);
                     }
                     .dtc-publish-btn:hover {
                         background: #10b981;
@@ -548,8 +548,8 @@ const MomentsModule = {
                     }
                     .dtc-follow-btn {
                         background: transparent;
-                        border: 1px solid #cbd5e1;
-                        color: #64748b;
+                        border: 1px solid #d4dad7;
+                        color: #717c77;
                         padding: 4px 12px;
                         border-radius: 100px;
                         font-size: 0.75rem;
@@ -560,14 +560,14 @@ const MomentsModule = {
                         align-items: center;
                     }
                     .dtc-follow-btn:hover {
-                        background: #f8fafc;
-                        border-color: #94a3b8;
-                        color: #0f172a;
+                        background: #f6f8f7;
+                        border-color: #a7b0ac;
+                        color: #0c100e;
                     }
                     .dtc-action-icon {
                         background: transparent;
                         border: none;
-                        color: #64748b;
+                        color: #717c77;
                         font-weight: 800;
                         font-size: 0.85rem;
                         cursor: pointer;
@@ -578,7 +578,7 @@ const MomentsModule = {
                         border-radius: 12px;
                         transition: all 0.2s;
                     }
-.dtc-action-icon:hover { background: #f1f5f9; color: #0f172a; }
+.dtc-action-icon:hover { background: #f1f4f2; color: #0c100e; }
 @media (max-width: 640px) { .dtc-action-text { display: none; } }
 
 
@@ -633,7 +633,7 @@ const MomentsModule = {
                     }
                     .dtc-post-card:hover { box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); }
                     .dtc-create-icon {
-                        color: #64748b;
+                        color: #717c77;
                         padding: 10px;
                         border-radius: 50%;
                         cursor: pointer;
@@ -644,7 +644,7 @@ const MomentsModule = {
                         border: none;
                         background: transparent;
                     }
-                    .dtc-create-icon:hover { background: #f1f5f9; color: #0f172a; }
+                    .dtc-create-icon:hover { background: #f1f4f2; color: #0c100e; }
                     .dtc-follow-btn {
                         background: transparent;
                         border: 1.5px solid #10b981;
@@ -660,7 +660,7 @@ const MomentsModule = {
                         gap: 4px;
                     }
                     .dtc-follow-btn:hover { background: #10b981; color: white; }
-                    .dtc-verified-badge { color: #3b82f6; display: inline-flex; align-items: center; margin-left: 4px; }
+                    .dtc-verified-badge { color: #10b981; display: inline-flex; align-items: center; margin-left: 4px; }
                     .dtc-comment-submit-btn {
                         background: #10b981;
                         color: white;
@@ -674,7 +674,7 @@ const MomentsModule = {
                     .dtc-delete-post-btn {
                         background: transparent;
                         border: none;
-                        color: #94a3b8;
+                        color: #a7b0ac;
                         cursor: pointer;
                         padding: 6px 8px;
                         border-radius: 8px;
@@ -687,7 +687,7 @@ const MomentsModule = {
                     @keyframes dtcPulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
                     .dtc-feed-loader {
                         display: flex; justify-content: center; align-items: center;
-                        padding: 24px; gap: 8px; color: #94a3b8; font-weight: 700; font-size: 0.9rem;
+                        padding: 24px; gap: 8px; color: #a7b0ac; font-weight: 700; font-size: 0.9rem;
                     }
                     .dtc-feed-loader i { animation: dtcSpin 0.8s linear infinite; }
                     @keyframes dtcSpin { to { transform: rotate(360deg); } }
@@ -695,27 +695,27 @@ const MomentsModule = {
                 <div style="font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; gap: 24px;">
 
                     <!-- USER SEARCH BAR -->
-                    <div style="background: white; border-radius: 16px; padding: 12px 20px; border: 1px solid rgba(15, 23, 42, 0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 0px;">
-                        <i class="fas fa-search" style="color: #94a3b8;"></i>
-                        <input type="text" id="dtc-user-search" placeholder="Rechercher un profil, un expert ou une chaîne..." style="border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #0f172a;" onkeyup="window.MomentsModule.searchUsers(this.value)">
+                    <div style="background: white; border-radius: 16px; padding: 12px 20px; border: 1px solid rgba(14, 19, 17, 0.05); display: flex; align-items: center; gap: 12px; margin-bottom: 0px;">
+                        <i class="fas fa-search" style="color: #a7b0ac;"></i>
+                        <input type="text" id="dtc-user-search" placeholder="Rechercher un profil, un expert ou une chaîne..." style="border: none; outline: none; width: 100%; font-family: inherit; font-size: 0.95rem; font-weight: 600; color: #0c100e;" onkeyup="window.MomentsModule.searchUsers(this.value)">
                     </div>
-                    <div id="dtc-search-results" style="display: none; background: white; border-radius: 16px; padding: 16px; border: 1px solid rgba(15, 23, 42, 0.05); margin-top: -12px; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);"></div>
+                    <div id="dtc-search-results" style="display: none; background: white; border-radius: 16px; padding: 16px; border: 1px solid rgba(14, 19, 17, 0.05); margin-top: -12px; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);"></div>
 
                     <!-- FEED MODE TABS -->
-                    <div style="display: flex; gap: 6px; background: #f1f5f9; padding: 4px; border-radius: 14px; overflow-x: auto; scrollbar-width: none;">
-                        <button onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Pour vous</button>
-                        <button onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Abonnements</button>
-                        <button onclick="window.MomentsModule.switchFeedMode('reels', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'reels' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'reels' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'reels' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};"><i class="fas fa-film" style="margin-right:4px;"></i> Reels</button>
-                        <button onclick="window.MomentsModule.switchFeedMode('saved', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'saved' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'saved' ? '#0f172a' : '#64748b'}; box-shadow: ${this.currentFeedMode === 'saved' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};"><i class="fas fa-bookmark" style="margin-right:4px;"></i> Sauvegardés</button>
+                    <div style="display: flex; gap: 6px; background: #f1f4f2; padding: 4px; border-radius: 14px; overflow-x: auto; scrollbar-width: none;">
+                        <button onclick="window.MomentsModule.switchFeedMode('all', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'all' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'all' ? '#0c100e' : '#717c77'}; box-shadow: ${this.currentFeedMode === 'all' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Pour vous</button>
+                        <button onclick="window.MomentsModule.switchFeedMode('following', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'following' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'following' ? '#0c100e' : '#717c77'}; box-shadow: ${this.currentFeedMode === 'following' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};">Abonnements</button>
+                        <button onclick="window.MomentsModule.switchFeedMode('reels', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'reels' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'reels' ? '#0c100e' : '#717c77'}; box-shadow: ${this.currentFeedMode === 'reels' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};"><i class="fas fa-film" style="margin-right:4px;"></i> Reels</button>
+                        <button onclick="window.MomentsModule.switchFeedMode('saved', '${containerId}')" style="flex:1; white-space: nowrap; padding: 8px 12px; border-radius: 10px; border: none; font-weight: 800; font-size: 0.82rem; cursor: pointer; background: ${this.currentFeedMode === 'saved' ? 'white' : 'transparent'}; color: ${this.currentFeedMode === 'saved' ? '#0c100e' : '#717c77'}; box-shadow: ${this.currentFeedMode === 'saved' ? '0 2px 8px rgba(0,0,0,0.08)' : 'none'};"><i class="fas fa-bookmark" style="margin-right:4px;"></i> Sauvegardés</button>
                     </div>
 
                     ${this.currentFeedMode !== 'reels' ? this.renderComposerBar(containerId) : ''}
 
                     ${this.currentFeedMode !== 'reels' && this.currentHashtagFilter ? `
-                    <div style="display:flex; align-items:center; gap:12px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius:14px; padding:12px 16px;">
-                        <i class="fas fa-hashtag" style="color:#3b82f6; font-size:1rem;"></i>
-                        <span style="font-weight:800; color:#1d4ed8; font-size:0.95rem; flex:1;">Filtré par <strong>#${this.currentHashtagFilter}</strong></span>
-                        <button onclick="MomentsModule.clearHashtagFilter('${containerId}')" style="background:#3b82f6; color:white; border:none; padding:6px 14px; border-radius:100px; font-weight:800; font-size:0.8rem; cursor:pointer;">✕ Effacer</button>
+                    <div style="display:flex; align-items:center; gap:12px; background: rgba(16, 185, 129,0.08); border: 1px solid rgba(16, 185, 129,0.2); border-radius:14px; padding:12px 16px;">
+                        <i class="fas fa-hashtag" style="color:#10b981; font-size:1rem;"></i>
+                        <span style="font-weight:800; color:#047857; font-size:0.95rem; flex:1;">Filtré par <strong>#${this.currentHashtagFilter}</strong></span>
+                        <button onclick="MomentsModule.clearHashtagFilter('${containerId}')" style="background:#10b981; color:white; border:none; padding:6px 14px; border-radius:100px; font-weight:800; font-size:0.8rem; cursor:pointer;">✕ Effacer</button>
                     </div>` : ''}
                     ${this.currentFeedMode !== 'reels' ? storiesHtml : ''}
 
@@ -818,7 +818,7 @@ const MomentsModule = {
         // Verified Badge Logic
         const isVerified = ['club', 'premium', 'authority', 'admin', 'expert'].includes((item.authorRole || '').toLowerCase());
         const verifiedSvg = isVerified ? `
-            <svg class="dtc-verified-badge" width="16" height="16" viewBox="0 0 24 24" fill="#3b82f6" stroke="white" stroke-width="2" title="Certifié DTC">
+            <svg class="dtc-verified-badge" width="16" height="16" viewBox="0 0 24 24" fill="#10b981" stroke="white" stroke-width="2" title="Certifié DTC">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 <polyline points="9 12 11 14 15 10" stroke="white" stroke-width="3"/>
             </svg>` : '';
@@ -830,14 +830,14 @@ const MomentsModule = {
         if (item.authorRole === 'prestataire' || item.authorRole === 'expert') {
             roleBadge = `<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle || 'Expert'}</span>`;
         } else if (item.authorRole === 'entreprise') {
-            roleBadge = `<span style="background: rgba(59, 130, 246, 0.06); border: 1px solid rgba(59, 130, 246, 0.2); color: #2563eb; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${item.authorCompanyName || authorTitle || 'Entreprise'}</span>`;
+            roleBadge = `<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${item.authorCompanyName || authorTitle || 'Entreprise'}</span>`;
         } else if (item.authorRole === 'porteur-projet') {
             roleBadge = `<span style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.2); color: #d97706; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle || 'Créateur'}</span>`;
         } else {
             if (authorTitle) {
                 roleBadge = `<span style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">${authorTitle}</span>`;
             } else {
-                roleBadge = '<span style="background: rgba(100, 116, 139, 0.06); border: 1px solid rgba(100, 116, 139, 0.2); color: #475569; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Citoyen</span>';
+                roleBadge = '<span style="background: rgba(113, 124, 119, 0.06); border: 1px solid rgba(113, 124, 119, 0.2); color: #56615c; padding: 2px 10px; border-radius: 100px; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em;">Citoyen</span>';
             }
         }
 
@@ -876,11 +876,11 @@ const MomentsModule = {
         // Auto-link standard URLs
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         let formattedContent = safeContent.replace(urlRegex, (url) => {
-            return `<a href="${url}" target="_blank" onclick="event.stopPropagation();" style="color: #3b82f6; text-decoration: underline; word-break: break-all;">${url}</a>`;
+            return `<a href="${url}" target="_blank" onclick="event.stopPropagation();" style="color: #10b981; text-decoration: underline; word-break: break-all;">${url}</a>`;
         });
 
         // Parse hashtags
-        formattedContent = formattedContent.replace(/#(\w+)/g, (match, tag) => `<span style="color: #3b82f6; font-weight: 800; cursor: pointer; text-decoration: underline dotted;" onclick="event.stopPropagation(); MomentsModule.filterByHashtag('${tag}', '${containerId}')">#${tag}</span>`);
+        formattedContent = formattedContent.replace(/#(\w+)/g, (match, tag) => `<span style="color: #10b981; font-weight: 800; cursor: pointer; text-decoration: underline dotted;" onclick="event.stopPropagation(); MomentsModule.filterByHashtag('${tag}', '${containerId}')">#${tag}</span>`);
         
         // Truncate logic (Voir plus)
         let finalContentHtml = '';
@@ -889,7 +889,7 @@ const MomentsModule = {
             <div class="dtc-text-content-wrapper" style="position: relative;">
                 <div class="dtc-text-body" style="display: -webkit-box; -webkit-line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; transition: all 0.3s ease; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;">${formattedContent}</div>
                 ${(safeContent.length > 180 || safeContent.split(/\r\n|\r|\n/).length > 5) ? `
-                <span class="dtc-read-more" onclick="event.stopPropagation(); const body = this.previousElementSibling; const isTrunc = body.style.webkitLineClamp === '8'; body.style.webkitLineClamp = isTrunc ? 'unset' : '8'; this.innerText = isTrunc ? 'Voir moins' : 'Voir plus';" style="color: #64748b; font-weight: 800; cursor: pointer; display: inline-block; margin-top: 6px; font-size: 0.9rem; background: #f1f5f9; padding: 4px 10px; border-radius: 8px;">Voir plus</span>
+                <span class="dtc-read-more" onclick="event.stopPropagation(); const body = this.previousElementSibling; const isTrunc = body.style.webkitLineClamp === '8'; body.style.webkitLineClamp = isTrunc ? 'unset' : '8'; this.innerText = isTrunc ? 'Voir moins' : 'Voir plus';" style="color: #717c77; font-weight: 800; cursor: pointer; display: inline-block; margin-top: 6px; font-size: 0.9rem; background: #f1f4f2; padding: 4px 10px; border-radius: 8px;">Voir plus</span>
                 ` : ''}
             </div>
             `;
@@ -927,7 +927,7 @@ const MomentsModule = {
                         <div style="position: absolute; top: 16px; left: 16px; background: #ef4444; color: white; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; gap: 6px; z-index: 10; letter-spacing: 0.05em; text-transform: uppercase;">
                             <span style="display: block; width: 6px; height: 6px; background: white; border-radius: 50%; animation: dtcPulse 1.5s infinite;"></span> EN DIRECT
                         </div>
-                        <i class="fas fa-video fa-3x" style="color: #475569; margin-bottom: 16px;"></i>
+                        <i class="fas fa-video fa-3x" style="color: #56615c; margin-bottom: 16px;"></i>
                         <h3 style="margin: 0 0 16px 0; font-weight: 800; text-align: center;">${item.authorName} est en direct !</h3>
                         <button onclick="MomentsModule.joinNativeLive('${roomId}')" style="background: #10b981; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
                             Rejoindre le Live
@@ -975,16 +975,16 @@ const MomentsModule = {
                     `;
                 } else if (isPdf) {
                     mediaHtml = `
-                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; background: #f8fafc; padding: 24px; display: flex; justify-content: center;">
-                            <a href="${url}" target="_blank" onclick="event.stopPropagation();" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; background: white; padding: 24px; border-radius: 16px; border: 1px solid rgba(15, 23, 42, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; max-width: 300px; box-sizing: border-box;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; background: #f6f8f7; padding: 24px; display: flex; justify-content: center;">
+                            <a href="${url}" target="_blank" onclick="event.stopPropagation();" style="display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; background: white; padding: 24px; border-radius: 16px; border: 1px solid rgba(14, 19, 17, 0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.2s; width: 100%; max-width: 300px; box-sizing: border-box;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
                                 <i class="fas fa-file-pdf fa-3x" style="color: #ef4444;"></i>
-                                <span style="font-weight: 800; color: #0f172a; text-align: center;">Ouvrir le document PDF</span>
+                                <span style="font-weight: 800; color: #0c100e; text-align: center;">Ouvrir le document PDF</span>
                             </a>
                         </div>
                     `;
                 } else {
                     mediaHtml = `
-                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; max-height: 450px; display: flex; justify-content: center; background: #f8fafc; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
+                        <div class="dtc-media-wrapper" style="margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; border: 1px solid rgba(0,0,0,0.05); overflow: hidden; max-height: 450px; display: flex; justify-content: center; background: #f6f8f7; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
                             <img src="${url}" loading="lazy" style="max-height: 450px; width: 100%; object-fit: cover; display: block;">
                         </div>
                     `;
@@ -995,7 +995,7 @@ const MomentsModule = {
                 
                 if (urls.length === 2) {
                     gridHtml = urls.map(url => `
-                        <div style="width: 100%; height: 100%; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
+                        <div style="width: 100%; height: 100%; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
                             <img src="${url}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                         </div>
                     `).join('');
@@ -1007,13 +1007,13 @@ const MomentsModule = {
                 } else if (urls.length === 3) {
                     mediaHtml = `
                         <div class="dtc-media-wrapper" style="display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; height: 350px; background: white; margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
-                            <div style="grid-row: span 2; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[0]}', '_blank')">
+                            <div style="grid-row: span 2; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[0]}', '_blank')">
                                 <img src="${urls[0]}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
-                            <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[1]}', '_blank')">
+                            <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[1]}', '_blank')">
                                 <img src="${urls[1]}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
-                            <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[2]}', '_blank')">
+                            <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[2]}', '_blank')">
                                 <img src="${urls[2]}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                             </div>
                         </div>
@@ -1023,11 +1023,11 @@ const MomentsModule = {
                     mediaHtml = `
                         <div class="dtc-media-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; height: 350px; background: white; margin: 12px 0 0 0; width: 100%; max-width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">
                             ${urls.slice(0, 3).map(url => `
-                                <div style="overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
+                                <div style="overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${url}', '_blank')">
                                     <img src="${url}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 </div>
                             `).join('')}
-                            <div style="position: relative; overflow: hidden; background: #0f172a; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[3]}', '_blank')">
+                            <div style="position: relative; overflow: hidden; background: #0c100e; cursor: zoom-in;" onclick="event.stopPropagation(); window.open('${urls[3]}', '_blank')">
                                 <img src="${urls[3]}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 ${extraCount > 0 ? `
                                 <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; backdrop-filter: blur(2px);">
@@ -1057,7 +1057,7 @@ const MomentsModule = {
 
         // Render Comments List
         const commentsListHtml = postComments.length === 0
-            ? `<p style="font-size:0.85rem; color:#94a3b8; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Soyez le premier à réagir !</p>`
+            ? `<p style="font-size:0.85rem; color:#a7b0ac; font-style:italic; margin:0; padding: 8px 0; text-align:center;">Soyez le premier à réagir !</p>`
             : (() => {
                 const rootComments = postComments.filter(c => !c.parent_id);
                 const replies = postComments.filter(c => c.parent_id);
@@ -1069,22 +1069,22 @@ const MomentsModule = {
                     const isMyComment = currentUser && currentUser.id === c.user_id;
 
                     return `
-                    <div style="display: flex; gap: 12px; align-items: flex-start; background: transparent; padding: 8px 0; margin-bottom: 8px; ${isReply ? 'margin-left: 36px; padding-left: 12px; border-left: 2px solid #e2e8f0;' : ''}">
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #f1f5f9; color: #0f172a; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="display: flex; gap: 12px; align-items: flex-start; background: transparent; padding: 8px 0; margin-bottom: 8px; ${isReply ? 'margin-left: 36px; padding-left: 12px; border-left: 2px solid #e6eae8;' : ''}">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #f1f4f2; color: #0c100e; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.05);">
                             ${cProfile.avatar_url ? `<img src="${cProfile.avatar_url}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">` : initials}
                         </div>
                         <div style="flex: 1;">
-                            <div style="background: #f8fafc; padding: 12px 16px; border-radius: 4px 16px 16px 16px; border: 1px solid rgba(0,0,0,0.02); position: relative;">
-                                ${isMyComment ? `<button onclick="MomentsModule.deleteComment('${c.id}', '${item.id}', '${containerId}')" style="position: absolute; right: 8px; top: 8px; background: white; border: 1px solid #e2e8f0; width: 24px; height: 24px; border-radius: 50%; color: #cbd5e1; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" title="Supprimer ce commentaire" onmouseover="this.style.color='#ef4444'; this.style.borderColor='#ef4444';" onmouseout="this.style.color='#cbd5e1'; this.style.borderColor='#e2e8f0';"><i class="fas fa-trash-alt"></i></button>` : ''}
+                            <div style="background: #f6f8f7; padding: 12px 16px; border-radius: 4px 16px 16px 16px; border: 1px solid rgba(0,0,0,0.02); position: relative;">
+                                ${isMyComment ? `<button onclick="MomentsModule.deleteComment('${c.id}', '${item.id}', '${containerId}')" style="position: absolute; right: 8px; top: 8px; background: white; border: 1px solid #e6eae8; width: 24px; height: 24px; border-radius: 50%; color: #d4dad7; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);" title="Supprimer ce commentaire" onmouseover="this.style.color='#ef4444'; this.style.borderColor='#ef4444';" onmouseout="this.style.color='#d4dad7'; this.style.borderColor='#e6eae8';"><i class="fas fa-trash-alt"></i></button>` : ''}
                                 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; padding-right: ${isMyComment ? '24px' : '0'};">
-                                    <span style="font-weight: 800; font-size: 0.88rem; color: #0f172a;">${cProfile.full_name || 'Utilisateur'}</span>
-                                    <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
+                                    <span style="font-weight: 800; font-size: 0.88rem; color: #0c100e;">${cProfile.full_name || 'Utilisateur'}</span>
+                                    <span style="font-size: 0.72rem; color: #a7b0ac; font-weight: 600;">${this.getRelativeTime(new Date(c.created_at))}</span>
                                 </div>
-                                <p style="margin: 0; font-size: 0.9rem; color: #334155; line-height: 1.45; font-weight: 500;">${escapeHTML(c.content)}</p>
+                                <p style="margin: 0; font-size: 0.9rem; color: #2b3632; line-height: 1.45; font-weight: 500;">${escapeHTML(c.content)}</p>
                             </div>
                             ${!isReply ? `
                             <div style="display: flex; gap: 12px; padding: 4px 12px;">
-                                <span onclick="MomentsModule.replyToComment('${item.id}', '${c.id}', '${(cProfile.full_name || 'Utilisateur').replace(/'/g, "\\'")}')" style="font-size: 0.75rem; color: #64748b; font-weight: 700; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#64748b'">Répondre</span>
+                                <span onclick="MomentsModule.replyToComment('${item.id}', '${c.id}', '${(cProfile.full_name || 'Utilisateur').replace(/'/g, "\\'")}')" style="font-size: 0.75rem; color: #717c77; font-weight: 700; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#717c77'">Répondre</span>
                             </div>
                             ` : ''}
                             ${childReplies.map(r => renderComment(r, true)).join('')}
@@ -1099,31 +1099,31 @@ const MomentsModule = {
 
         return `
             <div class="dtc-post-card" data-post-id="${item.id}" ${embedMode ? '' : `ondblclick="MomentsModule.doubleTapLike('${item.id}', '${containerId}', this)" onclick="if(!event.target.closest('button,a,input,textarea,select,video,.dtc-reaction-picker')) MomentsModule.openPostDetail('${item.id}', '${containerId}')"`} style="${cardBorder} position: relative;${embedMode ? '' : ' cursor: pointer;'}">
-                ${isPinned ? `<div style="position: absolute; top: 12px; right: 12px; background: rgba(59,130,246,0.1); color: #3b82f6; padding: 4px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 4px; z-index: 2;"><i class="fas fa-thumbtack" style="font-size: 0.6rem;"></i> Épinglé</div>` : ''}
+                ${isPinned ? `<div style="position: absolute; top: 12px; right: 12px; background: rgba(16, 185, 129,0.1); color: #10b981; padding: 4px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 4px; z-index: 2;"><i class="fas fa-thumbtack" style="font-size: 0.6rem;"></i> Épinglé</div>` : ''}
                 <div class="dtc-heart-burst" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; pointer-events:none; z-index:5;"><svg width="80" height="80" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
 
                 
                 <!-- HEADER -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                     <div style="display: flex; gap: 14px; align-items: center;">
-                        <div onclick="window.location.href='${profileUrl}'" style="width: 48px; height: 48px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; border: 2px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+                        <div onclick="window.location.href='${profileUrl}'" style="width: 48px; height: 48px; border-radius: 50%; background: #0c100e; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; overflow: hidden; border: 2px solid rgba(0,0,0,0.05); flex-shrink:0; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
                             ${item.authorAvatar ? `<img src="${item.authorAvatar}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                         </div>
                         <div>
                             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                                <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 1.05rem; color: #0f172a; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0f172a';">${item.authorName}</span>
+                                <span onclick="window.location.href='${profileUrl}'" style="font-weight: 800; font-size: 1.05rem; color: #0c100e; letter-spacing:-0.01em; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#10b981';" onmouseout="this.style.color='#0c100e';">${item.authorName}</span>
                                 ${verifiedSvg}
                                 ${item.title === 'opportunite' ? '<span style="background: rgba(16, 185, 129, 0.1); color: #059669; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-briefcase"></i> Opportunité</span>' : ''}
-                                ${item.title === 'partenaire' ? '<span style="background: rgba(59, 130, 246, 0.1); color: #2563eb; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-handshake"></i> Partenaire</span>' : ''}
+                                ${item.title === 'partenaire' ? '<span style="background: rgba(16, 185, 129, 0.1); color: #059669; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-handshake"></i> Partenaire</span>' : ''}
                                 ${item.title === 'expertise' ? '<span style="background: rgba(245, 158, 11, 0.1); color: #d97706; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 100px; margin-left: 4px; text-transform: uppercase;"><i class="fas fa-lightbulb"></i> Expertise</span>' : ''}
                                 ${!isSelf ? `
-                                    <span style="color:#cbd5e1; margin: 0 4px;">•</span>
-                                    <button class="dtc-follow-btn" onclick="MomentsModule.toggleFollow('${item.userId}', this, '${item.authorName.replace(/'/g, "\\'")}')" style="${isFollowing ? 'background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0;' : ''}">
+                                    <span style="color:#d4dad7; margin: 0 4px;">•</span>
+                                    <button class="dtc-follow-btn" onclick="MomentsModule.toggleFollow('${item.userId}', this, '${item.authorName.replace(/'/g, "\\'")}')" style="${isFollowing ? 'background: #f1f4f2; color: #717c77; border: 1px solid #e6eae8;' : ''}">
                                         ${isFollowing ? `<i class="fas fa-check" style="margin-right: 4px;"></i> Abonné` : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Suivre`}
                                     </button>
                                 ` : ''}
                             </div>
-                            <div style="font-size: 0.8rem; color: #64748b; font-weight: 500; margin-top: 2px;">
+                            <div style="font-size: 0.8rem; color: #717c77; font-weight: 500; margin-top: 2px;">
                                 ${roleBadge} <span style="margin:0 4px;">•</span> ${relativeTime}
                             </div>
                         </div>
@@ -1131,7 +1131,7 @@ const MomentsModule = {
                     
                     <div style="display: flex; align-items: center; gap: 8px;">
                         ${item.meta && item.type !== 'live' && typeof item.meta === 'string' && !item.meta.startsWith('{') ? `
-                            <div style="background: rgba(59, 130, 246, 0.04); border: 1px solid rgba(59, 130, 246, 0.25); color: #2563eb; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
+                            <div style="background: rgba(16, 185, 129, 0.04); border: 1px solid rgba(16, 185, 129, 0.25); color: #059669; font-weight: 800; font-size: 0.78rem; padding: 6px 14px; border-radius: 100px; letter-spacing: -0.01em;">
                                 ${item.meta}
                             </div>
                         ` : ''}
@@ -1140,11 +1140,11 @@ const MomentsModule = {
                         ${isSelf ? `
                             <div style="display: flex; gap: 4px;">
                                 ${containerId === 'channel-feed-container' ? `
-                                <button onclick="MomentsModule.pinPost('${item.id}', '${item.userId}', '${containerId}')" class="dtc-delete-post-btn" title="${isPinned ? 'Désépingler' : 'Épingler en haut de la chaîne'}" style="${isPinned ? 'color:#3b82f6;' : ''}">
+                                <button onclick="MomentsModule.pinPost('${item.id}', '${item.userId}', '${containerId}')" class="dtc-delete-post-btn" title="${isPinned ? 'Désépingler' : 'Épingler en haut de la chaîne'}" style="${isPinned ? 'color:#10b981;' : ''}">
                                     <i class="fas fa-thumbtack"></i>
                                 </button>
                                 ` : ''}
-                                <button onclick="MomentsModule.openEditPostModal('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Modifier la publication" style="color: #64748b;" onmouseover="this.style.color='#3b82f6'; this.style.background='#eff6ff';" onmouseout="this.style.color='#64748b'; this.style.background='transparent';">
+                                <button onclick="MomentsModule.openEditPostModal('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Modifier la publication" style="color: #717c77;" onmouseover="this.style.color='#10b981'; this.style.background='#eff6ff';" onmouseout="this.style.color='#717c77'; this.style.background='transparent';">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                                 </button>
                                 <button onclick="MomentsModule.deletePost('${item.id}', '${item.type}', '${containerId}')" class="dtc-delete-post-btn" title="Supprimer la publication">
@@ -1153,7 +1153,7 @@ const MomentsModule = {
                             </div>
                         ` : `
                             <div style="display: flex; gap: 4px;">
-                                <button onclick="MomentsModule.reportPost('${item.id}')" class="dtc-delete-post-btn" title="Signaler cette publication" style="color: #94a3b8;" onmouseover="this.style.color='#f59e0b'; this.style.background='#fffbeb';" onmouseout="this.style.color='#94a3b8'; this.style.background='transparent';">
+                                <button onclick="MomentsModule.reportPost('${item.id}')" class="dtc-delete-post-btn" title="Signaler cette publication" style="color: #a7b0ac;" onmouseover="this.style.color='#f59e0b'; this.style.background='#fffbeb';" onmouseout="this.style.color='#a7b0ac'; this.style.background='transparent';">
                                     <i class="fas fa-flag"></i>
                                 </button>
                             </div>
@@ -1162,13 +1162,13 @@ const MomentsModule = {
                 </div>
  
                 <!-- CONTENT -->
-                <div style="color: #0f172a; font-size: 1.05rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
+                <div style="color: #0c100e; font-size: 1.05rem; line-height: 1.6; font-weight: 500; white-space: pre-line; letter-spacing: -0.01em;">
                     ${item.type === 'project' ? `
                         <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fffdf5; border-radius: 16px; border: 1px solid rgba(245,158,11,0.2); margin-bottom: 12px;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #f59e0b; flex-shrink: 0;"><polygon points="12 2 2 22 22 22"/></svg>
                             <div>
                                 <div style="font-size: 0.7rem; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.05em;">Nouveau Projet</div>
-                                <div style="font-size: 0.95rem; font-weight: 850; color: #0f172a;">${item.title}</div>
+                                <div style="font-size: 0.95rem; font-weight: 850; color: #0c100e;">${item.title}</div>
                             </div>
                         </div>
                     ` : ''}
@@ -1178,14 +1178,14 @@ const MomentsModule = {
                     try {
                         const quoteData = JSON.parse(item.meta);
                         return `
-                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f8fafc; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f1f5f9';" onmouseout="this.style.background='#f8fafc';" onclick="window.location.href='#moments?post=${quoteData.id}'">
+                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f6f8f7; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f1f4f2';" onmouseout="this.style.background='#f6f8f7';" onclick="window.location.href='#moments?post=${quoteData.id}'">
                                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                        <div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; background: #cbd5e1;">
+                                        <div style="width: 24px; height: 24px; border-radius: 50%; overflow: hidden; background: #d4dad7;">
                                             ${quoteData.authorAvatar ? `<img src="${quoteData.authorAvatar}" loading="lazy" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user" style="font-size:12px; margin:6px;"></i>'}
                                         </div>
-                                        <div style="font-size: 0.85rem; font-weight: 800; color: #475569;">${quoteData.authorName || 'Inconnu'}</div>
+                                        <div style="font-size: 0.85rem; font-weight: 800; color: #56615c;">${quoteData.authorName || 'Inconnu'}</div>
                                     </div>
-                                    <div style="font-size: 0.95rem; color: #0f172a; font-weight: 500;">
+                                    <div style="font-size: 0.95rem; color: #0c100e; font-weight: 500;">
                                         ${(quoteData.content || '').substring(0, 200)}...
                                     </div>
                                     ${quoteData.imageUrl ? `<img src="${quoteData.imageUrl}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-top: 12px;">` : ''}
@@ -1208,21 +1208,21 @@ const MomentsModule = {
                             const percent = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
                             const isSelected = userVote && userVote.option_id === i;
                             return `
-                                    <div style="margin-bottom: 8px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid ${isSelected ? '#3b82f6' : '#e2e8f0'}; cursor: ${userVote ? 'default' : 'pointer'}; background: white; transition: transform 0.2s;" ${!userVote ? `onclick="MomentsModule.votePoll('${poll.id}', ${i}, '${containerId}')" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';" ` : ''}>
-                                        <div style="position: absolute; top: 0; left: 0; height: 100%; background: ${isSelected ? 'rgba(59, 130, 246, 0.15)' : '#f1f5f9'}; width: ${userVote ? percent : 0}%; transition: width 0.5s ease;"></div>
+                                    <div style="margin-bottom: 8px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid ${isSelected ? '#10b981' : '#e6eae8'}; cursor: ${userVote ? 'default' : 'pointer'}; background: white; transition: transform 0.2s;" ${!userVote ? `onclick="MomentsModule.votePoll('${poll.id}', ${i}, '${containerId}')" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';" ` : ''}>
+                                        <div style="position: absolute; top: 0; left: 0; height: 100%; background: ${isSelected ? 'rgba(16, 185, 129, 0.15)' : '#f1f4f2'}; width: ${userVote ? percent : 0}%; transition: width 0.5s ease;"></div>
                                         <div style="position: relative; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-weight: 700; color: #0f172a;">${escapeHTML(opt.text)}</span>
-                                            ${userVote ? `<span style="font-weight: 800; color: #64748b; font-size: 0.85rem;">${percent}%</span>` : ''}
+                                            <span style="font-weight: 700; color: #0c100e;">${escapeHTML(opt.text)}</span>
+                                            ${userVote ? `<span style="font-weight: 800; color: #717c77; font-size: 0.85rem;">${percent}%</span>` : ''}
                                         </div>
                                     </div>
                                     `;
                         }).join('');
 
                         return `
-                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f8fafc;">
-                                    <div style="font-size: 1.1rem; font-weight: 800; color: #0f172a; margin-bottom: 16px;">${escapeHTML(poll.question || item.content || '')}</div>
+                                <div style="border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; margin-top: 12px; background: #f6f8f7;">
+                                    <div style="font-size: 1.1rem; font-weight: 800; color: #0c100e; margin-bottom: 16px;">${escapeHTML(poll.question || item.content || '')}</div>
                                     ${optionsHtml}
-                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 12px; font-weight: 600;">${totalVotes} vote${totalVotes !== 1 ? 's' : ''}</div>
+                                    <div style="font-size: 0.8rem; color: #a7b0ac; margin-top: 12px; font-weight: 600;">${totalVotes} vote${totalVotes !== 1 ? 's' : ''}</div>
                                 </div>
                                 `;
                     }
@@ -1238,10 +1238,10 @@ const MomentsModule = {
                 <!-- CTA BUTTON -->
                 ${ctaHtml}
 
-                ${reactionSummary ? `<div style="font-size:0.82rem; color:#64748b; font-weight:700; margin-top:8px;">${reactionSummary}</div>` : ''}
+                ${reactionSummary ? `<div style="font-size:0.82rem; color:#717c77; font-weight:700; margin-top:8px;">${reactionSummary}</div>` : ''}
 
                 <!-- ACTIONS & ENGAGEMENT -->
-                <div style="display: flex; gap: 4px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 12px; align-items: center; justify-content: space-between;" onclick="event.stopPropagation()">
+                <div style="display: flex; gap: 4px; border-top: 1px solid #f1f4f2; padding-top: 12px; margin-top: 12px; align-items: center; justify-content: space-between;" onclick="event.stopPropagation()">
                     
                     <div style="display: flex; gap: 4px; flex-wrap: wrap;">
                         <!-- RÉACTIONS -->
@@ -1286,19 +1286,19 @@ const MomentsModule = {
                 </div>
  
                 <!-- COMMENTS PANEL -->
-                <div id="comments-section-${item.id}" style="display: none; border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 6px;">
+                <div id="comments-section-${item.id}" style="display: none; border-top: 1px solid #f1f4f2; padding-top: 16px; margin-top: 6px;">
                     <div id="comments-list-${item.id}" style="max-height: 280px; overflow-y: auto; margin-bottom: 16px; padding-right: 4px;">
                         ${commentsListHtml}
                     </div>
                     ${currentUser ? `
                         <div style="display: flex; gap: 12px; align-items: flex-start;">
-                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; margin-top: 4px;">
+                            <div style="width: 32px; height: 32px; border-radius: 50%; background: #0c100e; color: white; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; margin-top: 4px;">
                                 ${window.App.state.profile?.avatar_url ? `<img src="${window.App.state.profile.avatar_url}" style="width:100%; height:100%; object-fit:cover;">` : '<i class="fas fa-user"></i>'}
                             </div>
                             <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-                                <div id="mention-results-${item.id}" style="display:none; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); max-height:150px; overflow-y:auto;"></div>
+                                <div id="mention-results-${item.id}" style="display:none; background:white; border:1px solid #e6eae8; border-radius:12px; padding:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); max-height:150px; overflow-y:auto;"></div>
                                 <div style="display:flex; gap:8px; align-items:center;">
-                                <input type="text" id="comment-input-${item.id}" placeholder="Ajouter un commentaire... (@pseudo pour mentionner)" style="flex: 1; border: 1px solid #e2e8f0; border-radius: 20px; padding: 12px 16px; font-size: 0.9rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s; background: #f8fafc;" onfocus="this.style.borderColor='#10b981'; this.style.background='white';" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc';" oninput="MomentsModule.handleMentionInput(this, '${item.id}')">
+                                <input type="text" id="comment-input-${item.id}" placeholder="Ajouter un commentaire... (@pseudo pour mentionner)" style="flex: 1; border: 1px solid #e6eae8; border-radius: 20px; padding: 12px 16px; font-size: 0.9rem; outline: none; font-family: inherit; font-weight: 500; transition: border-color 0.2s; background: #f6f8f7;" onfocus="this.style.borderColor='#10b981'; this.style.background='white';" onblur="this.style.borderColor='#e6eae8'; this.style.background='#f6f8f7';" oninput="MomentsModule.handleMentionInput(this, '${item.id}')">
                                 <button onclick="MomentsModule.submitComment('${item.id}', '${containerId}')" class="dtc-comment-submit-btn" style="border-radius: 20px; padding: 12px 20px;">
                                     Envoyer
                                 </button>
@@ -1313,7 +1313,7 @@ const MomentsModule = {
 
     renderMastermindCTA: function () {
         return `
-            <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 24px; padding: 32px; color: white; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 15px 35px rgba(15, 23, 42, 0.2); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); margin: 8px 0;">
+            <div style="background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%); border-radius: 24px; padding: 32px; color: white; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 15px 35px rgba(14, 19, 17, 0.2); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); margin: 8px 0;">
                 <div style="position: absolute; top: -20px; right: -20px; font-size: 8rem; opacity: 0.03; color: white; pointer-events: none;"><i class="fas fa-rocket"></i></div>
                 <div style="width: 56px; height: 56px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;">
                     <i class="fas fa-rocket"></i>
@@ -1501,7 +1501,7 @@ const MomentsModule = {
                         : `<img src="${url}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">`;
                     
                     previewContainer.insertAdjacentHTML('beforeend', `
-                        <div style="position: relative; width: 100px; height: 100px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+                        <div style="position: relative; width: 100px; height: 100px; border-radius: 8px; overflow: hidden; border: 1px solid #e6eae8;">
                             ${previewHtml}
                             <button onclick="
                                 window._pendingPostFiles.splice(${idx}, 1);
@@ -1656,28 +1656,28 @@ const MomentsModule = {
         if (existing) existing.remove();
 
         const html = `
-            <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
+            <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(14, 19, 17, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
                 <div style="background: white; width: 90%; max-width: 500px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h3 style="margin: 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Créer un sondage</h3>
-                        <button onclick="document.getElementById('${modalId}').remove()" style="background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">&times;</button>
+                        <h3 style="margin: 0; font-size: 1.2rem; color: #0c100e; font-weight: 800;">Créer un sondage</h3>
+                        <button onclick="document.getElementById('${modalId}').remove()" style="background: none; border: none; font-size: 1.5rem; color: #a7b0ac; cursor: pointer;">&times;</button>
                     </div>
                     
                     <div style="margin-bottom: 16px;">
-                        <label style="display: block; font-size: 0.9rem; font-weight: 800; color: #475569; margin-bottom: 8px;">Votre question</label>
-                        <textarea id="poll-question" rows="2" placeholder="Que voulez-vous demander ?" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1rem; outline: none; resize: none;"></textarea>
+                        <label style="display: block; font-size: 0.9rem; font-weight: 800; color: #56615c; margin-bottom: 8px;">Votre question</label>
+                        <textarea id="poll-question" rows="2" placeholder="Que voulez-vous demander ?" style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1rem; outline: none; resize: none;"></textarea>
                     </div>
 
                     <div id="poll-options-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px;">
-                        <div><input type="text" class="poll-option-input" placeholder="Option 1" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
-                        <div><input type="text" class="poll-option-input" placeholder="Option 2" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
+                        <div><input type="text" class="poll-option-input" placeholder="Option 1" style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
+                        <div><input type="text" class="poll-option-input" placeholder="Option 2" style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;"></div>
                     </div>
                     
-                    <button id="add-poll-option-btn" onclick="MomentsModule.addPollOption()" style="background: transparent; color: #3b82f6; border: none; font-weight: 800; cursor: pointer; padding: 8px 0; margin-bottom: 24px; display: flex; align-items: center; gap: 6px;">
+                    <button id="add-poll-option-btn" onclick="MomentsModule.addPollOption()" style="background: transparent; color: #10b981; border: none; font-weight: 800; cursor: pointer; padding: 8px 0; margin-bottom: 24px; display: flex; align-items: center; gap: 6px;">
                         <i class="fas fa-plus"></i> Ajouter une option
                     </button>
 
-                    <button onclick="MomentsModule.submitPoll()" style="width: 100%; padding: 14px; border-radius: 16px; border: none; background: #8b5cf6; color: white; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">
+                    <button onclick="MomentsModule.submitPoll()" style="width: 100%; padding: 14px; border-radius: 16px; border: none; background: #10b981; color: white; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">
                         Publier le sondage
                     </button>
                 </div>
@@ -1694,7 +1694,7 @@ const MomentsModule = {
             return;
         }
         const div = document.createElement('div');
-        div.innerHTML = `<input type="text" class="poll-option-input" placeholder="Option ${inputs.length + 1}" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;">`;
+        div.innerHTML = `<input type="text" class="poll-option-input" placeholder="Option ${inputs.length + 1}" style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 0.95rem; outline: none;">`;
         container.appendChild(div);
 
         if (inputs.length + 1 >= 4) {
@@ -1907,7 +1907,7 @@ const MomentsModule = {
         const picker = document.createElement('div');
         picker.id = 'dtc-reaction-picker';
         picker.className = 'dtc-reaction-picker';
-        picker.style.cssText = 'position:fixed; z-index:100001; background:white; border-radius:100px; padding:8px 14px; box-shadow:0 8px 30px rgba(0,0,0,0.18); display:flex; gap:6px; border:1px solid #e2e8f0;';
+        picker.style.cssText = 'position:fixed; z-index:100001; background:white; border-radius:100px; padding:8px 14px; box-shadow:0 8px 30px rgba(0,0,0,0.18); display:flex; gap:6px; border:1px solid #e6eae8;';
         if (evt) {
             picker.style.left = Math.max(8, evt.clientX - 90) + 'px';
             picker.style.top = Math.max(8, evt.clientY - 55) + 'px';
@@ -2028,7 +2028,7 @@ const MomentsModule = {
             if (!modal) {
                 modal = document.createElement('div');
                 modal.id = 'dtc-post-detail-modal';
-                modal.style.cssText = 'position:fixed; inset:0; background:rgba(15,23,42,0.7); backdrop-filter:blur(6px); z-index:100000; display:flex; align-items:center; justify-content:center; padding:20px; overflow-y:auto;';
+                modal.style.cssText = 'position:fixed; inset:0; background:rgba(14, 19, 17,0.7); backdrop-filter:blur(6px); z-index:100000; display:flex; align-items:center; justify-content:center; padding:20px; overflow-y:auto;';
                 document.body.appendChild(modal);
             }
             modal.dataset.postId = postId;
@@ -2037,7 +2037,7 @@ const MomentsModule = {
             const currentUser = window.App?.state?.session?.user || null;
             modal.innerHTML = `
                 <div style="background:white; border-radius:24px; max-width:640px; width:100%; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 25px 50px rgba(0,0,0,0.25);" onclick="event.stopPropagation()">
-                    <button onclick="MomentsModule.closePostDetail()" style="position:sticky; top:12px; float:right; margin:12px 12px 0 0; background:#f1f5f9; border:none; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:5;">&times;</button>
+                    <button onclick="MomentsModule.closePostDetail()" style="position:sticky; top:12px; float:right; margin:12px 12px 0 0; background:#f1f4f2; border:none; width:36px; height:36px; border-radius:50%; font-size:1.2rem; cursor:pointer; z-index:5;">&times;</button>
                     <div style="padding: 8px 20px 20px; clear:both;">
                         ${this.renderFeedItemHTML(item, currentUser, containerId, true)}
                     </div>
@@ -2094,19 +2094,19 @@ const MomentsModule = {
             // Create Modal for Quote Repost
             const modalId = 'repost-modal-' + Date.now();
             const modalHtml = `
-                <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
+                <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(14, 19, 17, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
                     <div style="background: white; width: 90%; max-width: 500px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-                        <h3 style="margin: 0 0 16px 0; font-size: 1.2rem; color: #0f172a; font-weight: 800;">Republier avec une citation</h3>
-                        <textarea id="${modalId}-text" rows="3" placeholder="Ajoutez vos propres pensées..." style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1.05rem; outline: none; resize: none; margin-bottom: 16px;"></textarea>
+                        <h3 style="margin: 0 0 16px 0; font-size: 1.2rem; color: #0c100e; font-weight: 800;">Republier avec une citation</h3>
+                        <textarea id="${modalId}-text" rows="3" placeholder="Ajoutez vos propres pensées..." style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; font-family: inherit; font-size: 1.05rem; outline: none; resize: none; margin-bottom: 16px;"></textarea>
                         
-                        <div style="border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #f8fafc; margin-bottom: 24px; pointer-events: none;">
-                            <div style="font-size: 0.8rem; font-weight: 800; color: #64748b; margin-bottom: 4px;">Post original de ${originalPost.profiles?.full_name || 'Inconnu'}</div>
-                            <div style="font-size: 0.9rem; color: #334155;">${(originalPost.description || originalPost.title || '').substring(0, 100)}...</div>
+                        <div style="border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; background: #f6f8f7; margin-bottom: 24px; pointer-events: none;">
+                            <div style="font-size: 0.8rem; font-weight: 800; color: #717c77; margin-bottom: 4px;">Post original de ${originalPost.profiles?.full_name || 'Inconnu'}</div>
+                            <div style="font-size: 0.9rem; color: #2b3632;">${(originalPost.description || originalPost.title || '').substring(0, 100)}...</div>
                         </div>
 
                         <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                            <button onclick="document.getElementById('${modalId}').remove()" style="padding: 10px 20px; border-radius: 12px; border: none; background: #f1f5f9; color: #64748b; font-weight: 800; cursor: pointer;">Annuler</button>
-                            <button id="${modalId}-btn" style="padding: 10px 24px; border-radius: 12px; border: none; background: #3b82f6; color: white; font-weight: 800; cursor: pointer;">Republier</button>
+                            <button onclick="document.getElementById('${modalId}').remove()" style="padding: 10px 20px; border-radius: 12px; border: none; background: #f1f4f2; color: #717c77; font-weight: 800; cursor: pointer;">Annuler</button>
+                            <button id="${modalId}-btn" style="padding: 10px 24px; border-radius: 12px; border: none; background: #10b981; color: white; font-weight: 800; cursor: pointer;">Republier</button>
                         </div>
                     </div>
                 </div>
@@ -2187,9 +2187,9 @@ const MomentsModule = {
         if (!res || !data || data.length === 0) { if (res) res.style.display = 'none'; return; }
         res.style.display = 'block';
         res.innerHTML = data.map(u => `
-            <div onclick="MomentsModule.insertMention('${postId}', '${u.full_name.replace(/'/g, "\\'")}')" style="display:flex; align-items:center; gap:10px; padding:8px; border-radius:8px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''">
-                <div style="width:28px; height:28px; border-radius:50%; background:#0f172a; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${u.avatar_url ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '<i class="fas fa-user" style="color:white; font-size:0.7rem;"></i>'}</div>
-                <span style="font-weight:700; font-size:0.9rem; color:#0f172a;">${u.full_name}</span>
+            <div onclick="MomentsModule.insertMention('${postId}', '${u.full_name.replace(/'/g, "\\'")}')" style="display:flex; align-items:center; gap:10px; padding:8px; border-radius:8px; cursor:pointer;" onmouseover="this.style.background='#f1f4f2'" onmouseout="this.style.background=''">
+                <div style="width:28px; height:28px; border-radius:50%; background:#0c100e; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-shrink:0;">${u.avatar_url ? `<img src="${u.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : '<i class="fas fa-user" style="color:white; font-size:0.7rem;"></i>'}</div>
+                <span style="font-weight:700; font-size:0.9rem; color:#0c100e;">${u.full_name}</span>
             </div>`).join('');
     },
 
@@ -2238,9 +2238,9 @@ const MomentsModule = {
                 if (!this.subscriptions) this.subscriptions = [];
                 this.subscriptions.push(targetUserId);
                 btnElement.innerHTML = `<i class="fas fa-check" style="margin-right: 4px;"></i> Abonné`;
-                btnElement.style.background = '#f1f5f9';
-                btnElement.style.color = '#64748b';
-                btnElement.style.border = '1px solid #e2e8f0';
+                btnElement.style.background = '#f1f4f2';
+                btnElement.style.color = '#717c77';
+                btnElement.style.border = '1px solid #e6eae8';
 
                 await db.from('user_subscriptions').insert([{ follower_id: currentUserId, following_id: targetUserId }]);
 
@@ -2412,14 +2412,14 @@ const MomentsModule = {
             if (existing) existing.remove();
 
             const modalHtml = `
-                <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
+                <div id="${modalId}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(14, 19, 17, 0.6); backdrop-filter: blur(4px); z-index: 100000; display: flex; align-items: center; justify-content: center;">
                     <div style="background: white; border-radius: 20px; width: 90%; max-width: 500px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); position: relative;">
-                        <button onclick="document.getElementById('${modalId}').remove()" style="position: absolute; right: 16px; top: 16px; background: #f1f5f9; border: none; font-size: 1.2rem; color: #64748b; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">&times;</button>
-                        <h3 style="margin-top: 0; color: #0f172a; font-size: 1.25rem;">Modifier la publication</h3>
-                        <textarea id="${modalId}-textarea" style="width: 100%; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; min-height: 150px; font-family: inherit; font-size: 1rem; margin-bottom: 16px; outline: none; resize: vertical;">${data.description || ''}</textarea>
+                        <button onclick="document.getElementById('${modalId}').remove()" style="position: absolute; right: 16px; top: 16px; background: #f1f4f2; border: none; font-size: 1.2rem; color: #717c77; cursor: pointer; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">&times;</button>
+                        <h3 style="margin-top: 0; color: #0c100e; font-size: 1.25rem;">Modifier la publication</h3>
+                        <textarea id="${modalId}-textarea" style="width: 100%; border: 1px solid #e6eae8; border-radius: 12px; padding: 12px; min-height: 150px; font-family: inherit; font-size: 1rem; margin-bottom: 16px; outline: none; resize: vertical;">${data.description || ''}</textarea>
                         <div style="display: flex; justify-content: flex-end; gap: 8px;">
-                            <button onclick="document.getElementById('${modalId}').remove()" style="padding: 10px 16px; border-radius: 10px; border: none; background: #f1f5f9; color: #64748b; font-weight: 700; cursor: pointer;">Annuler</button>
-                            <button id="${modalId}-save-btn" style="padding: 10px 20px; border-radius: 10px; border: none; background: #3b82f6; color: white; font-weight: 700; cursor: pointer;">Enregistrer</button>
+                            <button onclick="document.getElementById('${modalId}').remove()" style="padding: 10px 16px; border-radius: 10px; border: none; background: #f1f4f2; color: #717c77; font-weight: 700; cursor: pointer;">Annuler</button>
+                            <button id="${modalId}-save-btn" style="padding: 10px 20px; border-radius: 10px; border: none; background: #10b981; color: white; font-weight: 700; cursor: pointer;">Enregistrer</button>
                         </div>
                     </div>
                 </div>
@@ -2507,7 +2507,7 @@ const MomentsModule = {
                 <span style="background:#ef4444; width:12px; height:12px; border-radius:50%; display:inline-block; animation: pulse 1.5s infinite;"></span>
                 EN DIRECT
             </div>
-            <button id="leave-live-btn" style="background:#334155; color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;">Quitter le Live</button>
+            <button id="leave-live-btn" style="background:#2b3632; color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer;">Quitter le Live</button>
         `;
 
         const container = document.createElement('div');

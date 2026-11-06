@@ -67,7 +67,7 @@ const CompaniesModule = {
         const isAdmin = window.activeRole === 'admin' || userEmail === 'domtomconnect@gmail.com';
         
         const badgeText = isAdmin ? 'ADMINISTRATION' : 'Espace Entreprise';
-        const badgeColor = isAdmin ? '#3b82f6' : '#10b981';
+        const badgeColor = isAdmin ? '#10b981' : '#10b981';
 
         // Hardened Role Checks
         const isPro = ['entreprise', 'expert', 'prestataire', 'admin'].includes(profile.role) || isAdmin;
@@ -79,13 +79,13 @@ const CompaniesModule = {
         const ctaBanners = `
             <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 32px; width: 100%;">
                 <!-- WEBINAR CTA -->
-                <div style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(99,102,241,0.2); flex-wrap: wrap; box-sizing: border-box;">
+                <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: white; box-shadow: 0 10px 25px rgba(16, 185, 129,0.2); flex-wrap: wrap; box-sizing: border-box;">
                     <div style="max-width: 700px;">
                         <div style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 100px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: inline-block; margin-bottom: 12px;">Évènement Live</div>
                         <h3 style="font-size: 1.5rem; font-weight: 950; margin: 0 0 8px 0; letter-spacing: -0.03em;">S'inscrire à mon 1er Webinaire Gratuit</h3>
                         <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; margin: 0; font-weight: 600;">Découvrez comment structurer, financer et propulser vos projets grâce à l'écosystème Domtom Connect. Places limitées !</p>
                     </div>
-                    <a href="https://domtomconnect.systeme.io/webinaire" target="_blank" style="background: white; color: #4f46e5; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;">
+                    <a href="https://domtomconnect.systeme.io/webinaire" target="_blank" style="background: white; color: #059669; text-decoration: none; padding: 16px 28px; border-radius: 14px; font-weight: 950; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: transform 0.2s;">
                         <span>S'inscrire au webinaire</span>
                     </a>
                 </div>
@@ -108,7 +108,7 @@ const CompaniesModule = {
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
                 
                 <!-- HEADER -->
-                <div style="background: ${isAdmin ? 'linear-gradient(135deg, #020617 0%, #1e293b 100%)' : '#020617'}; border-radius: 24px; padding: clamp(24px, 5vw, 48px); margin-bottom: 32px; color: white; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+                <div style="background: ${isAdmin ? 'linear-gradient(135deg, #070908 0%, #1b2420 100%)' : '#070908'}; border-radius: 24px; padding: clamp(24px, 5vw, 48px); margin-bottom: 32px; color: white; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
                         <div>
                             <span style="background: rgba(255,255,255,0.1); border: 1px solid ${badgeColor}; color: ${badgeColor}; padding: 4px 14px; border-radius: 99px; font-size: 0.7rem; font-weight: 900; text-transform: uppercase;">${badgeText}</span>
@@ -117,7 +117,7 @@ const CompaniesModule = {
                         </div>
                         ${isAdmin ? `
                         <div style="text-align: right; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 18px; min-width: 200px; border: 1px solid rgba(255,255,255,0.1);">
-                            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 800; text-transform: uppercase;">STAFF ID</div>
+                            <div style="font-size: 0.75rem; color: #a7b0ac; font-weight: 800; text-transform: uppercase;">STAFF ID</div>
                             <div style="font-size: 1.1rem; color: white; font-weight: 700;">ADMIN-MODE</div>
                         </div>
                         ` : ''}
@@ -130,51 +130,51 @@ const CompaniesModule = {
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
 
 
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
-                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">${isProjectOwner ? 'Mon Épopée' : 'Talents Hub'}</h4>
-                        <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">${isProjectOwner ? 'Missions Suite' : 'Annuaire Experts'}</div>
+                    <div style="background: white; border: 1.5px solid #e6eae8; border-radius: 24px; padding: 32px;">
+                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #a7b0ac; text-transform: uppercase; margin-bottom: 16px;">${isProjectOwner ? 'Mon Épopée' : 'Talents Hub'}</h4>
+                        <div style="font-size: 1.5rem; font-weight: 950; color: #070908; margin-bottom: 24px;">${isProjectOwner ? 'Missions Suite' : 'Annuaire Experts'}</div>
                         <button onclick="${isProjectOwner ? "window.location.href = 'pilotage.html'" : `window.location.href = '${adjust('marketplace/directory.html')}'`}" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">${isProjectOwner ? 'Piloter' : 'Explorer'}</button>
                     </div>
 
                     ${isPro ? `
-                    <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px;">
-                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px;">Showcase Manager</h4>
-                        <div style="font-size: 1.5rem; font-weight: 950; color: #020617; margin-bottom: 24px;">Ma Vitrine Digitale</div>
-                        <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 14px; background: #020617; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Piloter</button>
+                    <div style="background: white; border: 1.5px solid #e6eae8; border-radius: 24px; padding: 32px;">
+                        <h4 style="font-size: 0.75rem; font-weight: 850; color: #a7b0ac; text-transform: uppercase; margin-bottom: 16px;">Showcase Manager</h4>
+                        <div style="font-size: 1.5rem; font-weight: 950; color: #070908; margin-bottom: 24px;">Ma Vitrine Digitale</div>
+                        <button onclick="window.location.hash = 'vitrine'" style="width: 100%; padding: 14px; background: #070908; color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">Piloter</button>
                     </div>
                     ` : ''}
                 </div>
 
                 ${isAdmin ? `
                 <!-- 4. ADMIN VALIDATION CENTER (Exclusive for Admin) -->
-                <div style="background: white; border: 2px solid #3b82f6; border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 50px rgba(59, 130, 246, 0.08); margin-bottom: 32px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 24px;">
+                <div style="background: white; border: 2px solid #10b981; border-radius: 32px; padding: clamp(24px, 5vw, 48px); box-shadow: 0 20px 50px rgba(16, 185, 129, 0.08); margin-bottom: 32px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; border-bottom: 1.5px solid #f1f4f2; padding-bottom: 24px;">
                         <div>
-                            <h3 style="font-size: 1.8rem; font-weight: 950; color: #020617; margin: 0; letter-spacing: -0.04em;">Centre de Validation</h3>
-                            <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-top: 4px;">Modérez et certifiez les projets de l'écosystème.</p>
+                            <h3 style="font-size: 1.8rem; font-weight: 950; color: #070908; margin: 0; letter-spacing: -0.04em;">Centre de Validation</h3>
+                            <p style="color: #717c77; font-size: 1.1rem; font-weight: 600; margin-top: 4px;">Modérez et certifiez les projets de l'écosystème.</p>
                         </div>
-                        <div id="pending-count-badge" style="background: #eff6ff; color: #3b82f6; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 0.9rem; border: 1.5px solid rgba(59,130,246,0.2);">
+                        <div id="pending-count-badge" style="background: #eff6ff; color: #10b981; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 0.9rem; border: 1.5px solid rgba(16, 185, 129,0.2);">
                             Chargement...
                         </div>
                     </div>
                     
                     <div id="admin-pending-projects" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
-                        <div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 24px;">
+                        <div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #a7b0ac; font-weight: 600; background: #f6f8f7; border: 2px dashed #e6eae8; border-radius: 24px;">
                             Recherche de projets en attente...
                         </div>
                     </div>
                 </div>
 
                 <!-- 5. MARKETPLACE CONTROL TOWER (360 View) -->
-                <div style="background: white; border: 1.5px solid #e2e8f0; border-radius: 32px; padding: clamp(24px, 5vw, 48px); margin-bottom: 32px;">
+                <div style="background: white; border: 1.5px solid #e6eae8; border-radius: 32px; padding: clamp(24px, 5vw, 48px); margin-bottom: 32px;">
                     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 24px;">
                         <div>
-                            <h2 style="font-size: 2.2rem; font-weight: 950; color: #0f172a; margin: 0; letter-spacing: -0.05em;">Tour de Contrôle Digitale</h2>
-                            <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-top: 8px;">Supervision globale des transactions et commissions marketplace (5%).</p>
+                            <h2 style="font-size: 2.2rem; font-weight: 950; color: #0c100e; margin: 0; letter-spacing: -0.05em;">Tour de Contrôle Digitale</h2>
+                            <p style="color: #717c77; font-size: 1.1rem; font-weight: 600; margin-top: 8px;">Supervision globale des transactions et commissions marketplace (5%).</p>
                         </div>
                         <div style="display: flex; gap: 12px;">
-                            <div style="background: #0f172a; color: white; padding: 20px 32px; border-radius: 20px; text-align: center;">
-                                <div style="font-size: 0.65rem; font-weight: 850; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Volume Global</div>
+                            <div style="background: #0c100e; color: white; padding: 20px 32px; border-radius: 20px; text-align: center;">
+                                <div style="font-size: 0.65rem; font-weight: 850; color: #a7b0ac; text-transform: uppercase; margin-bottom: 8px;">Volume Global</div>
                                 <div id="admin-mkt-total" style="font-size: 1.8rem; font-weight: 950;">0.00€</div>
                             </div>
                             <div style="background: #10b981; color: white; padding: 20px 32px; border-radius: 20px; text-align: center; box-shadow: 0 10px 20px rgba(16,185,129,0.15);">
@@ -184,11 +184,11 @@ const CompaniesModule = {
                         </div>
                     </div>
 
-                    <div style="background: #f8fafc; border-radius: 24px; border: 1.5px solid #e2e8f0; overflow: hidden;">
-                        <div style="display: flex; background: white; border-bottom: 1.5px solid #e2e8f0; flex-wrap: wrap;">
-                            <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0f172a; color: #0f172a; min-width: 150px;">FLUX TRANSACTIONS</button>
-                            <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">ABONNEMENTS ACTIFS</button>
-                            <button id="admin-view-payouts" onclick="CompaniesModule.switchAdminTab('payouts')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #94a3b8; min-width: 150px;">DEMANDES DE RETRAIT </button>
+                    <div style="background: #f6f8f7; border-radius: 24px; border: 1.5px solid #e6eae8; overflow: hidden;">
+                        <div style="display: flex; background: white; border-bottom: 1.5px solid #e6eae8; flex-wrap: wrap;">
+                            <button id="admin-view-trx" onclick="CompaniesModule.switchAdminTab('trx')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 900; font-size: 0.8rem; cursor: pointer; border-bottom: 3px solid #0c100e; color: #0c100e; min-width: 150px;">FLUX TRANSACTIONS</button>
+                            <button id="admin-view-subs" onclick="CompaniesModule.switchAdminTab('subs')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #a7b0ac; min-width: 150px;">ABONNEMENTS ACTIFS</button>
+                            <button id="admin-view-payouts" onclick="CompaniesModule.switchAdminTab('payouts')" style="flex: 1; padding: 16px; border: none; background: none; font-weight: 800; font-size: 0.8rem; cursor: pointer; color: #a7b0ac; min-width: 150px;">DEMANDES DE RETRAIT </button>
                         </div>
                         <div id="admin-mkt-table-container">
                             <!-- Content injected by switchAdminTab -->
@@ -223,31 +223,31 @@ const CompaniesModule = {
                 .profile-grid-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
                 @media (max-width: 600px) { .profile-grid-fields { grid-template-columns: 1fr !important; } }
             </style>
-            <div style="background:#f8fafc; padding:24px; border-radius:20px; border:1px solid #f1f5f9; display:grid; gap:24px;">
+            <div style="background:#f6f8f7; padding:24px; border-radius:20px; border:1px solid #f1f4f2; display:grid; gap:24px;">
                 <h3 style="font-size:0.85rem; font-weight:900; color:#10b981; text-transform:uppercase; letter-spacing:0.05em;">D&eacute;tails Institutionnels</h3>
                 <div class="profile-grid-fields">
                     <div class="info-field">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8;">SIRET</label>
-                        <input type="text" id="profile-siret" value="${profile.siret || ''}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #a7b0ac;">SIRET</label>
+                        <input type="text" id="profile-siret" value="${profile.siret || ''}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e6eae8; font-weight: 700;">
                     </div>
                     <div class="info-field">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Zone / R&eacute;gion</label>
-                        <input type="text" id="profile-zone" value="${profile.zone || ''}" placeholder="Ex: Paris, Martinique..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #a7b0ac;">Zone / R&eacute;gion</label>
+                        <input type="text" id="profile-zone" value="${profile.zone || ''}" placeholder="Ex: Paris, Martinique..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e6eae8; font-weight: 700;">
                     </div>
                 </div>
                 <div class="profile-grid-fields">
                     <div class="info-field">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Ann&eacute;e de Cr&eacute;ation</label>
-                        <input type="number" id="profile-creation_year" value="${profile.creation_year || 2025}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #a7b0ac;">Ann&eacute;e de Cr&eacute;ation</label>
+                        <input type="number" id="profile-creation_year" value="${profile.creation_year || 2025}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e6eae8; font-weight: 700;">
                     </div>
                     <div class="info-field">
-                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Taille d'&eacute;quipe</label>
-                        <input type="text" id="profile-team_size" value="${profile.team_size || ''}" placeholder="Ex: Indépendant, 10-50, etc." style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                        <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #a7b0ac;">Taille d'&eacute;quipe</label>
+                        <input type="text" id="profile-team_size" value="${profile.team_size || ''}" placeholder="Ex: Indépendant, 10-50, etc." style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e6eae8; font-weight: 700;">
                     </div>
                 </div>
                 <div class="info-field">
-                    <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #94a3b8;">Secteur d'Activit&eacute;</label>
-                    <input type="text" id="profile-sector" value="${profile.sector || ''}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-weight: 700;">
+                    <label style="display: block; font-size: 0.65rem; font-weight: 800; color: #a7b0ac;">Secteur d'Activit&eacute;</label>
+                    <input type="text" id="profile-sector" value="${profile.sector || ''}" style="width: 100%; padding: 12px; border-radius: 12px; border: 1.5px solid #e6eae8; font-weight: 700;">
                 </div>
             </div>
         `;
@@ -260,11 +260,11 @@ const CompaniesModule = {
         container.innerHTML = `
             <div style="font-family: 'Inter', sans-serif; padding: clamp(16px, 4vw, 40px); max-width: 1200px; margin: 0 auto; box-sizing: border-box; width: 100%;">
                 <div style="margin-bottom: 32px;">
-                    <h1 style="font-weight: 950; color: #020617; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.05em; margin: 0 0 8px 0;">Pilotage d'Activité</h1>
-                    <p style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin: 0;">Gérez vos finances et vos relations prestataires.</p>
+                    <h1 style="font-weight: 950; color: #070908; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -0.05em; margin: 0 0 8px 0;">Pilotage d'Activité</h1>
+                    <p style="color: #717c77; font-size: 1.1rem; font-weight: 600; margin: 0;">Gérez vos finances et vos relations prestataires.</p>
                 </div>
 
-                <div id="company-business-mount" style="background: white; border-radius: 24px; border: 1px solid #e2e8f0; min-height: 400px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
+                <div id="company-business-mount" style="background: white; border-radius: 24px; border: 1px solid #e6eae8; min-height: 400px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);">
                     <div style="text-align:center; padding: 40px;">Chargement du centre financier...</div>
                 </div>
             </div>
@@ -291,19 +291,19 @@ const CompaniesModule = {
             if (error) throw error;
             if (badge) badge.textContent = `${projects.length} projet${projects.length > 1 ? 's' : ''} à valider`;
             if (!projects || projects.length === 0) {
-                container.innerHTML = `<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #94a3b8; font-weight: 600; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 24px;">Aucun projet en attente.</div>`;
+                container.innerHTML = `<div style="grid-column: 1/-1; padding: 60px; text-align: center; color: #a7b0ac; font-weight: 600; background: #f6f8f7; border: 2px dashed #e6eae8; border-radius: 24px;">Aucun projet en attente.</div>`;
                 return;
             }
             container.innerHTML = projects.map(p => `
-                <div style="background:white; border: 1.5px solid #e2e8f0; border-radius: 24px; padding: 32px; display:flex; flex-direction:column; gap:20px;">
+                <div style="background:white; border: 1.5px solid #e6eae8; border-radius: 24px; padding: 32px; display:flex; flex-direction:column; gap:20px;">
                     <div style="display: flex; align-items: start; justify-content: space-between;">
-                        <div style="width: 50px; height: 50px; background: #0f172a; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">${p.title?.substring(0, 1).toUpperCase()}</div>
+                        <div style="width: 50px; height: 50px; background: #0c100e; color: white; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem;">${p.title?.substring(0, 1).toUpperCase()}</div>
                         <span style="font-size: 0.7rem; background: #fff7ed; color: #c2410c; padding: 6px 12px; border-radius: 100px; font-weight: 800; border: 1px solid #ffedd5; text-transform: uppercase;">Modération</span>
                     </div>
-                    <div><h4 style="font-size: 1.25rem; font-weight: 900; color: #020617; margin: 0 0 8px 0;">${p.title}</h4><p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; margin: 0;">${p.description || 'Sans description.'}</p></div>
-                    <div style="padding-top: 12px; border-top: 1px solid #f1f5f9; margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 700;">Soumis le ${new Date(p.created_at).toLocaleDateString()}</span>
-                        <button onclick="window.location.hash = 'success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer;">Inspecter</button>
+                    <div><h4 style="font-size: 1.25rem; font-weight: 900; color: #070908; margin: 0 0 8px 0;">${p.title}</h4><p style="font-size: 0.9rem; color: #717c77; line-height: 1.6; margin: 0;">${p.description || 'Sans description.'}</p></div>
+                    <div style="padding-top: 12px; border-top: 1px solid #f1f4f2; margin-top: auto; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="font-size: 0.75rem; color: #a7b0ac; font-weight: 700;">Soumis le ${new Date(p.created_at).toLocaleDateString()}</span>
+                        <button onclick="window.location.hash = 'success-engine?inspect=${p.id}'" style="padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 10px; font-size: 0.85rem; font-weight: 800; cursor: pointer;">Inspecter</button>
                     </div>
                 </div>`).join('');
         } catch (err) { console.error(err); }
@@ -317,8 +317,8 @@ const CompaniesModule = {
             const el = document.getElementById(`admin-view-${v}`);
             if (el) {
                 const active = v === view;
-                el.style.borderBottom = active ? '3px solid #0f172a' : 'none';
-                el.style.color = active ? '#0f172a' : '#94a3b8';
+                el.style.borderBottom = active ? '3px solid #0c100e' : 'none';
+                el.style.color = active ? '#0c100e' : '#a7b0ac';
                 el.style.fontWeight = active ? '900' : '800';
             }
         });
@@ -327,13 +327,13 @@ const CompaniesModule = {
         if (!container) return;
 
         if (view === 'trx') {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Type</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Status Payout</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e6eae8;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Transaction & Date</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Type</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Status Payout</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Montant & Com</th></tr></thead><tbody id="admin-mkt-tbody"></tbody></table>`;
             await this.loadMarketplaceStats();
         } else if (view === 'subs') {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Utilisateur & Mail</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Type Profil</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Dernier Paiement</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e6eae8;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Utilisateur & Mail</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Type Profil</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Pack Actif</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Dernier Paiement</th></tr></thead><tbody id="admin-subs-tbody"></tbody></table>`;
             await this.loadSubscriptionStats();
         } else if (view === 'payouts') {
-            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e2e8f0;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Expert</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Montant</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Paypal Email</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #64748b; text-transform: uppercase;">Action</th></tr></thead><tbody id="admin-payouts-tbody"></tbody></table>`;
+            container.innerHTML = `<table style="width: 100%; border-collapse: collapse; text-align: left;"><thead><tr style="background: white; border-bottom: 2px solid #e6eae8;"><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Expert</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Montant</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Paypal Email</th><th style="padding: 24px; font-size: 0.75rem; font-weight: 900; color: #717c77; text-transform: uppercase;">Action</th></tr></thead><tbody id="admin-payouts-tbody"></tbody></table>`;
             await this.loadPayoutRequests();
         }
     },
@@ -346,12 +346,12 @@ const CompaniesModule = {
             if (error) throw error;
             if (!payouts || payouts.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucune demande en attente.</td></tr>'; return; }
             tbody.innerHTML = payouts.map(p => `
-                <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 24px;"><div style="font-weight: 900;">${p.user?.full_name}</div><div style="font-size:0.7rem; color:#64748b;">Le ${new Date(p.created_at).toLocaleDateString()}</div></td>
-                    <td style="padding: 24px;"><div style="font-weight: 950; font-size:1.1rem; color:#0f172a;">${p.amount.toFixed(2)}€</div></td>
-                    <td style="padding: 24px;"><div style="font-weight: 700; color:#0070ba;">${p.paypal_email}</div></td>
+                <tr style="border-bottom: 1px solid #e6eae8;">
+                    <td style="padding: 24px;"><div style="font-weight: 900;">${p.user?.full_name}</div><div style="font-size:0.7rem; color:#717c77;">Le ${new Date(p.created_at).toLocaleDateString()}</div></td>
+                    <td style="padding: 24px;"><div style="font-weight: 950; font-size:1.1rem; color:#0c100e;">${p.amount.toFixed(2)}€</div></td>
+                    <td style="padding: 24px;"><div style="font-weight: 700; color:#10b981;">${p.paypal_email}</div></td>
                     <td style="padding: 24px;">
-                        ${p.status === 'pending' ? `<button onclick="CompaniesModule.processPayout('${p.id}')" style="background: #10b981; color:white; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:900;">MARQUER PAYÉ ✓</button>` : `<span style="color:#64748b; font-weight:800;">Traitée</span>`}
+                        ${p.status === 'pending' ? `<button onclick="CompaniesModule.processPayout('${p.id}')" style="background: #10b981; color:white; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:900;">MARQUER PAYÉ ✓</button>` : `<span style="color:#717c77; font-weight:800;">Traitée</span>`}
                     </td>
                 </tr>`).join('');
         } catch (err) { console.error(err); }
@@ -385,23 +385,23 @@ const CompaniesModule = {
                 totalVolume += (t.gross_amount || 0); totalComm += (t.fee_amount || 0);
                 const isPending = t.payout_status === 'pending';
                 const statusColor = isPending ? '#ea580c' : '#10b981';
-                const releaseText = t.payout_release_date ? `<div style="font-size:0.6rem; color:#94a3b8;">Libération le ${new Date(t.payout_release_date).toLocaleDateString()}</div>` : '';
+                const releaseText = t.payout_release_date ? `<div style="font-size:0.6rem; color:#a7b0ac;">Libération le ${new Date(t.payout_release_date).toLocaleDateString()}</div>` : '';
                 
                 return `
-                <tr style="border-bottom: 1px solid #e2e8f0;">
+                <tr style="border-bottom: 1px solid #e6eae8;">
                     <td style="padding: 24px;">
-                        <div style="font-weight: 900; font-size: 0.8rem; color: #0f172a;">#${t.id.substring(0, 8)}</div>
-                        <div style="font-size: 0.7rem; color: #64748b;">${new Date(t.created_at).toLocaleDateString()}</div>
+                        <div style="font-weight: 900; font-size: 0.8rem; color: #0c100e;">#${t.id.substring(0, 8)}</div>
+                        <div style="font-size: 0.7rem; color: #717c77;">${new Date(t.created_at).toLocaleDateString()}</div>
                     </td>
                     <td style="padding: 24px;">
-                        <span style="font-weight: 800; text-transform: uppercase; font-size: 0.7rem; color: #64748b;">${t.type}</span>
+                        <span style="font-weight: 800; text-transform: uppercase; font-size: 0.7rem; color: #717c77;">${t.type}</span>
                     </td>
                     <td style="padding: 24px;">
                         <div style="color: ${statusColor}; font-weight: 900; font-size: 0.8rem;">${t.payout_status === 'released' ? 'DÉBLOQUÉ' : 'EN ATTENTE'}</div>
                         ${releaseText}
                     </td>
                     <td style="padding: 24px;">
-                        <div style="font-weight: 900; color: #020617;">${t.gross_amount.toFixed(2)}€</div>
+                        <div style="font-weight: 900; color: #070908;">${t.gross_amount.toFixed(2)}€</div>
                         <div style="font-size: 0.7rem; color: #ef4444; font-weight: 900;">Com DTC: ${t.fee_amount.toFixed(2)}€</div>
                     </td>
                 </tr>`;
@@ -420,12 +420,12 @@ const CompaniesModule = {
             if (error) throw error;
             if (!subs || subs.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="padding: 40px; text-align: center;">Aucun abonnement actif.</td></tr>'; return; }
             tbody.innerHTML = subs.map(s => {
-                const roleBadge = s.role === 'admin' ? '#3b82f6' : (s.role === 'entreprise' ? '#8b5cf6' : (s.role === 'expert' ? '#10b981' : '#64748b'));
+                const roleBadge = s.role === 'admin' ? '#10b981' : (s.role === 'entreprise' ? '#10b981' : (s.role === 'expert' ? '#10b981' : '#717c77'));
                 return `
-                <tr style="border-bottom: 1px solid #e2e8f0;">
+                <tr style="border-bottom: 1px solid #e6eae8;">
                     <td style="padding: 24px;">
                         <div style="font-weight: 900;">${s.full_name}</div>
-                        <div style="font-size:0.7rem; color:#64748b;">${s.email || 'N/A'}</div>
+                        <div style="font-size:0.7rem; color:#717c77;">${s.email || 'N/A'}</div>
                     </td>
                     <td style="padding: 24px;">
                         <span style="background: ${roleBadge}15; color: ${roleBadge}; padding: 4px 10px; border-radius: 99px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase; border: 1px solid ${roleBadge}30;">${s.role || 'SPECTATEUR'}</span>

@@ -64,7 +64,7 @@ window.toggleMobileMenu = function(forceState) {
 
         // --- HTML DU TIROIR MENU (Bottom Sheet Drawer) ---
         const drawerHTML = `
-            <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.6); z-index:10004; backdrop-filter:blur(8px); transition:opacity 0.3s; opacity:0;"></div>
+            <div id="mobile-menu-backdrop" onclick="window.toggleMobileMenu(false)" style="display:none; position:fixed; inset:0; background:rgba(14, 19, 17, 0.6); z-index:10004; backdrop-filter:blur(8px); transition:opacity 0.3s; opacity:0;"></div>
 
             <div id="mobile-menu-sheet" class="mobile-menu-sheet" style="z-index: 30000 !important;">
                 <div class="sheet-handle" onclick="window.toggleMobileMenu(false)"></div>
@@ -73,7 +73,7 @@ window.toggleMobileMenu = function(forceState) {
                     <div class="mobile-menu-title-wrap" style="display:flex; align-items:center; gap:12px;">
                         <img src="${basePath}assets/images/logo-domtomconnect.png" alt="Domtom Connect" class="mobile-menu-brand-img" style="height:34px; width:auto;">
                         <div>
-                            <div class="mobile-menu-brand-name" style="font-size:1.1rem; font-weight:900; color:#0f172a; line-height:1.2;">${fullName}</div>
+                            <div class="mobile-menu-brand-name" style="font-size:1.1rem; font-weight:900; color:#0c100e; line-height:1.2;">${fullName}</div>
                             <div style="font-size:0.75rem; font-weight:700; color:#10b981; text-transform:uppercase; letter-spacing:0.04em;">${roleBadge}</div>
                         </div>
                     </div>

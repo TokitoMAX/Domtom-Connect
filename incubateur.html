@@ -21,12 +21,12 @@
 
     <style>
         :root {
-            --premium-bg: #020617;
-            --premium-surface: #0f172a;
-            --premium-card: #1e293b;
+            --premium-bg: #070908;
+            --premium-surface: #0c100e;
+            --premium-card: #1b2420;
             --accent: #10b981;
             --accent-hover: #059669;
-            --text-muted: #94a3b8;
+            --text-muted: #a7b0ac;
             --border-subtle: rgba(255, 255, 255, 0.08);
         }
 
@@ -196,7 +196,7 @@
         }
 
         .pillar-card {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(14, 19, 17, 0.8);
             border: 1px solid var(--border-subtle);
             padding: 32px;
             border-radius: 24px;
@@ -254,7 +254,7 @@
         }
 
         .step-card {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(14, 19, 17, 0.6);
             border: 1px solid var(--border-subtle);
             border-radius: 24px;
             padding: 28px;
@@ -284,7 +284,7 @@
         /* Banner CTA */
         .cta-banner {
             text-align: center;
-            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.8) 100%);
+            background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(14, 19, 17, 0.8) 100%);
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 32px;
             padding: 60px 30px;
@@ -296,138 +296,56 @@
             color: #ffffff;
         }
     </style>
+    <style id="nav-std">.nav-link-active{color:#fff !important;box-shadow:inset 0 -2px 0 #10b981;}.nav-brand-tag{display:none !important;}.nav-menu{gap:2px !important;}.nav-menu .nav-link{padding:8px 11px !important;font-size:.9rem !important;white-space:nowrap;}.nav-actions{gap:10px !important;}.nav-btn-cta{white-space:nowrap;}@media (max-width:1380px){.nav-btn-login{display:none !important;}}@media (max-width:1180px){.nav-menu{display:none !important;}.mobile-toggle{display:inline-flex !important;}}</style>
+    <link rel="stylesheet" href="/assets/css/refonte-pro.css"/>
 </head>
 <body>
     <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
     <header class="site-nav">
         <div class="container">
             <div class="nav-inner">
-                <a href="index.html" class="nav-brand">
-                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                <a href="/" class="nav-brand" aria-label="Domtom Connect, accueil">
+                    <img src="/assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect"/>
                     <span class="nav-brand-title">Domtom Connect</span>
-                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
                 </a>
-
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li class="has-dropdown">
-                        <a href="index.html#solutions" class="nav-link dropdown-toggle active" id="nav-programmes-btn">
-                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
-                        </a>
-                        <div class="nav-dropdown-menu">
-                            <a href="pilotage.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Accompagnement & Direction</span>
-                                    <span class="dropdown-desc">Pilotage externe & rentabilité d'entreprise</span>
-                                </div>
-                            </a>
-                            <a href="tremplin.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Programme Tremplin</span>
-                                    <span class="dropdown-desc">Validation et décollage de votre projet</span>
-                                </div>
-                            </a>
-                            <a href="co-fondateurs.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Trouver un Associé</span>
-                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
-                                </div>
-                            </a>
-                            <a href="incubateur.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Incubateur & Hub</span>
-                                    <span class="dropdown-desc">Écosystème & ressources collectives</span>
-                                </div>
-                            </a>
-                            <a href="boutique.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">La Librairie & Guides</span>
-                                    <span class="dropdown-desc">Tome 1, simulateur interactif & outils</span>
-                                </div>
-                            </a>
-                            <div class="dropdown-footer">
-                                <a href="index.html#solutions" class="dropdown-overview-link">
-                                    <span>Voir la vue d'ensemble des piliers</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
-                    <li><a href="rejoindre.html" class="nav-link">La communauté</a></li>
+                    <li><a href="/entreprises" class="nav-link">Entreprises</a></li>
+                    <li><a href="/seance-strategique" class="nav-link">Séance stratégique</a></li>
+                    <li><a href="/tremplin" class="nav-link">Porteurs de projet</a></li>
+                    <li><a href="/anamnese" class="nav-link">Diagnostic gratuit</a></li>
+                    <li><a href="/rejoindre" class="nav-link">Réseau et DTC Pulse</a></li>
                 </ul>
-
                 <div class="nav-actions">
-                    <a href="login.html" class="nav-btn-login">Se connecter</a>
-                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
-                        <span>Diagnostic offert</span>
-                        <i class="fas fa-calendar-alt"></i>
-                    </a>
-                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <a href="/login" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="nav-btn-cta"><span>Réserver un échange</span></a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Universal Responsive Mobile Drawer -->
     <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-        <a href="index.html" class="mobile-nav-link">
-            <span><i class="fas fa-home" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Accueil</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <div class="mobile-nav-group open">
-            <div class="mobile-nav-group-header">
-                <span><i class="fas fa-compass" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Programmes & Pages Dédiées</span>
-                <i class="fas fa-chevron-down mobile-group-caret"></i>
-            </div>
-            <div class="mobile-nav-sublinks">
-                <a href="pilotage.html" class="mobile-sublink">
-                    <i class="fas fa-chart-line"></i> Accompagnement Stratégique & Copilotage
-                </a>
-                <a href="tremplin.html" class="mobile-sublink">
-                    <i class="fas fa-rocket"></i> Programme Tremplin
-                </a>
-                <a href="co-fondateurs.html" class="mobile-sublink">
-                    <i class="fas fa-handshake"></i> Trouver un Associé
-                </a>
-                <a href="incubateur.html" class="mobile-sublink" style="color: var(--accent);">
-                    <i class="fas fa-network-wired"></i> Incubateur & Hub Projets
-                </a>
-                <a href="boutique.html" class="mobile-sublink">
-                    <i class="fas fa-book-bookmark"></i> La Librairie (Tome 1)
-                </a>
-                <a href="index.html#solutions" class="mobile-sublink overview">
-                    <i class="fas fa-th-large"></i> Vue d'ensemble des 3 piliers
-                </a>
-            </div>
-        </div>
-        <a href="beta-test.html" class="mobile-nav-link">
-            <span>Application DTC Pulse</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="rejoindre.html" class="mobile-nav-link">
-            <span>La communauté</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
+        <a href="/" class="mobile-nav-link"><span>Accueil</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/entreprises" class="mobile-nav-link"><span>Entreprises</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/seance-strategique" class="mobile-nav-link"><span>Séance stratégique</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/tremplin" class="mobile-nav-link"><span>Porteurs de projet</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/anamnese" class="mobile-nav-link"><span>Diagnostic gratuit</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/rejoindre" class="mobile-nav-link"><span>Réseau et DTC Pulse</span><i class="fas fa-chevron-right"></i></a>
         <div class="mobile-nav-divider"></div>
         <div class="mobile-nav-actions">
-            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Diagnostic offert (30 min)</span>
-            </a>
-            <a href="login.html" class="mobile-nav-login">
-                <i class="fas fa-user-circle"></i>
-                <span>Espace membre / Se connecter</span>
-            </a>
+            <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="mobile-nav-cta"><i class="fas fa-calendar-alt"></i><span>Réserver un échange (30 min)</span></a>
+            <a href="/login" class="mobile-nav-login"><i class="fas fa-user-circle"></i><span>Espace membre</span></a>
         </div>
     </div>
+
+    
+
+    
+
+    
+
+    <!-- Universal Responsive Mobile Drawer -->
+    
 
     <!-- Hero Header -->
     <section class="hero" style="padding-top: 50px;">
@@ -450,7 +368,7 @@
     </section>
 
     <!-- Piliers de l'Incubateur -->
-    <section style="background: rgba(2, 6, 23, 0.7); border-bottom: 1px solid var(--border-subtle);">
+    <section style="background: rgba(7, 9, 8, 0.7); border-bottom: 1px solid var(--border-subtle);">
         <div class="section-container">
             <div class="section-header">
                 <h2 class="section-title">Ce que vous apporte l'Incubateur</h2>
@@ -547,7 +465,7 @@
     <div class="section-container" style="padding-top: 0;">
         <div class="cta-banner">
             <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 16px; color: #ffffff;">Rejoignez le collectif Domtom Connect</h2>
-            <p style="color: #94a3b8; font-size: 1.1rem; max-width: 620px; margin: 0 auto 32px; line-height: 1.6;">
+            <p style="color: #a7b0ac; font-size: 1.1rem; max-width: 620px; margin: 0 auto 32px; line-height: 1.6;">
                 Ne développez plus votre entreprise dans l'isolement. Rejoignez un réseau d'entrepreneurs qui partagent vos réalités de terrain.
             </p>
             <div class="cta-group">

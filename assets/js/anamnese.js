@@ -2,7 +2,7 @@
  * DOMTOM CONNECT — MOTEUR D'ANAMNÈSE CLINIQUE TRILINGUE (FR · EN · ES)
  * 10 Actes d'auscultation chirurgicale, adaptation par stade (idee/lancement/installe),
  * syntaxe territoriale grammaticalement correcte, intégration WhatsApp.
- * DA officielle : 100% Noir (#020617), Blanc (#ffffff), Vert émeraude (#10b981).
+ * DA officielle : 100% Noir (#070908), Blanc (#ffffff), Vert émeraude (#10b981).
  * Zéro orange. Zéro émoji. Typographie statutaire.
  */
 

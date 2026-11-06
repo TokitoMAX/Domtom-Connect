@@ -45,7 +45,7 @@ window.NotifSystem = {
 
         if (!notifications.length) {
             list.innerHTML = `
-                <div style="padding: 40px; text-align: center; color: #94a3b8;">
+                <div style="padding: 40px; text-align: center; color: #a7b0ac;">
                     <i class="fas fa-check-circle" style="font-size: 2rem; margin-bottom: 12px; display: block; color: #10b981; opacity: 0.6;"></i>
                     <p style="margin: 0; font-size: 0.9rem; font-weight: 600;">Tout est à jour !</p>
                     <p style="margin: 8px 0 0; font-size: 0.8rem;">Vous n'avez aucune notification.</p>
@@ -55,16 +55,16 @@ window.NotifSystem = {
 
         const icons = {
             'like':             { icon: 'fa-heart', color: '#ef4444' },
-            'comment':          { icon: 'fa-comment', color: '#3b82f6' },
+            'comment':          { icon: 'fa-comment', color: '#10b981' },
             'follower':         { icon: 'fa-user-plus', color: '#10b981' },
             'project_approved': { icon: 'fa-check-circle', color: '#10b981' },
             'contribution':     { icon: 'fa-hand-holding-heart', color: '#f59e0b' },
-            'job_offer':        { icon: 'fa-briefcase', color: '#8b5cf6' },
+            'job_offer':        { icon: 'fa-briefcase', color: '#10b981' },
             'mastermind':       { icon: 'fa-crown', color: '#fbbf24' },
         };
 
         list.innerHTML = notifications.map(n => {
-            const ico = icons[n.type] || { icon: 'fa-bell', color: '#64748b' };
+            const ico = icons[n.type] || { icon: 'fa-bell', color: '#717c77' };
             const timeStr = this.timeAgo(n.created_at);
             const unreadStyle = n.is_read ? '' : 'background: rgba(16, 185, 129, 0.03); border-left: 4px solid #10b981;';
             const fontUnreadWeight = n.is_read ? '600' : '800';
@@ -77,13 +77,13 @@ window.NotifSystem = {
                         <i class="fas ${ico.icon}"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <p style="margin: 0 0 3px; font-size: 0.875rem; font-weight: ${fontUnreadWeight}; color: #0f172a; line-height: 1.4; font-family: 'Plus Jakarta Sans', sans-serif;">${n.title}</p>
-                        <p style="margin: 0 0 6px; font-size: 0.8rem; color: #475569; line-height: 1.4; font-family: 'Inter', sans-serif;">${n.message}</p>
-                        <span style="font-size: 0.72rem; color: #94a3b8; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i class="far fa-clock" style="font-size:0.7rem;"></i> ${timeStr}</span>
+                        <p style="margin: 0 0 3px; font-size: 0.875rem; font-weight: ${fontUnreadWeight}; color: #0c100e; line-height: 1.4; font-family: 'Plus Jakarta Sans', sans-serif;">${n.title}</p>
+                        <p style="margin: 0 0 6px; font-size: 0.8rem; color: #56615c; line-height: 1.4; font-family: 'Inter', sans-serif;">${n.message}</p>
+                        <span style="font-size: 0.72rem; color: #a7b0ac; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;"><i class="far fa-clock" style="font-size:0.7rem;"></i> ${timeStr}</span>
                     </div>
                     ${!n.is_read ? '<div style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; flex-shrink: 0; margin-top: 6px; box-shadow: 0 0 6px #10b981;"></div>' : ''}
                 </div>
-                <div style="height: 1px; background: #f1f5f9; margin: 0;"></div>
+                <div style="height: 1px; background: #f1f4f2; margin: 0;"></div>
             `;
         }).join('');
     },
@@ -149,7 +149,7 @@ window.NotifSystem = {
 
         panel.style.display = 'block';
         panel.style.animation = 'notifFadeIn 0.2s ease-out';
-        if (btn) btn.style.background = '#e2e8f0';
+        if (btn) btn.style.background = '#e6eae8';
         this.isOpen = true;
 
         // Recharger à l'ouverture
@@ -162,7 +162,7 @@ window.NotifSystem = {
         if (!panel) return;
 
         panel.style.display = 'none';
-        if (btn) btn.style.background = '#f1f5f9';
+        if (btn) btn.style.background = '#f1f4f2';
         this.isOpen = false;
     },
 
@@ -239,7 +239,7 @@ window.NotifSystem = {
         }
         #notif-list::-webkit-scrollbar { width: 4px; }
         #notif-list::-webkit-scrollbar-track { background: transparent; }
-        #notif-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+        #notif-list::-webkit-scrollbar-thumb { background: #e6eae8; border-radius: 4px; }
     `;
     document.head.appendChild(style);
 })();

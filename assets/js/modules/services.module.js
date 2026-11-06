@@ -96,7 +96,7 @@ window.ServicesModule = {
                     width: clamp(90%, 95vw, 100%);
                     margin: 0 auto;
                     color: #fff;
-                    background: #020617;
+                    background: #070908;
                     border-radius: clamp(16px, 4vw, 32px);
                     box-shadow: 0 40px 100px rgba(0,0,0,0.5);
                     position: relative;
@@ -124,7 +124,7 @@ window.ServicesModule = {
 
                 .incubator-subtitle {
                     font-size: 1.15rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     max-width: 700px;
                     margin: 0 auto;
                     line-height: 1.6;
@@ -160,7 +160,7 @@ window.ServicesModule = {
                 }
                 .incubator-pillar-text {
                     font-size: 0.95rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     line-height: 1.5;
                 }
 
@@ -175,7 +175,7 @@ window.ServicesModule = {
                 .billing-option {
                     font-size: 1.1rem;
                     font-weight: 700;
-                    color: #64748b;
+                    color: #717c77;
                     cursor: pointer;
                     transition: color 0.3s;
                 }
@@ -186,7 +186,7 @@ window.ServicesModule = {
                     position: relative;
                     width: 60px;
                     height: 32px;
-                    background: #1e293b;
+                    background: #1b2420;
                     border-radius: 100px;
                     cursor: pointer;
                     border: 1px solid rgba(16, 185, 129, 0.5);
@@ -210,7 +210,7 @@ window.ServicesModule = {
                 }
 
                 .incubator-card {
-                    background: rgba(15, 23, 42, 0.8);
+                    background: rgba(14, 19, 17, 0.8);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 24px;
                     padding: 40px 30px;
@@ -227,7 +227,7 @@ window.ServicesModule = {
                 }
 
                 .incubator-card.recommended {
-                    background: linear-gradient(to bottom, rgba(16, 185, 129, 0.1), rgba(15, 23, 42, 0.8));
+                    background: linear-gradient(to bottom, rgba(16, 185, 129, 0.1), rgba(14, 19, 17, 0.8));
                     border: 1px solid #10b981;
                 }
 
@@ -250,7 +250,7 @@ window.ServicesModule = {
                     font-size: 1.5rem;
                     font-weight: 800;
                     margin: 0 0 20px 0;
-                    color: #f8fafc;
+                    color: #f6f8f7;
                 }
 
                 .incubator-price {
@@ -262,7 +262,7 @@ window.ServicesModule = {
                 .incubator-price .currency {
                     font-size: 1.5rem;
                     font-weight: 700;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                 }
 
                 .incubator-price .amount {
@@ -274,7 +274,7 @@ window.ServicesModule = {
 
                 .incubator-price .period {
                     font-size: 1rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     margin-left: 5px;
                 }
 
@@ -287,7 +287,7 @@ window.ServicesModule = {
 
                 .incubator-features li {
                     margin-bottom: 16px;
-                    color: #cbd5e1;
+                    color: #d4dad7;
                     display: flex;
                     align-items: center;
                     gap: 12px;
@@ -307,8 +307,8 @@ window.ServicesModule = {
                     cursor: pointer;
                     transition: all 0.2s;
                     border: none;
-                    background: #f8fafc;
-                    color: #0f172a;
+                    background: #f6f8f7;
+                    color: #0c100e;
                 }
 
                 .incubator-card.recommended .incubator-btn {
@@ -381,7 +381,7 @@ window.ServicesModule = {
 
             // Afficher le loader
             const overlayHtml = `
-                <div id="stripe-loader-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,23,42,0.9); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
+                <div id="stripe-loader-overlay" style="position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(14, 19, 17,0.9); z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center; backdrop-filter:blur(5px);">
                     <div style="width:50px; height:50px; border:4px solid #10b981; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:20px;"></div>
                     <p style="color:white; font-family:'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:1.2rem;">Redirection vers Stripe Checkout...</p>
                     <style>@keyframes spin { 100% { transform:rotate(360deg); } }</style>

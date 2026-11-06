@@ -43,7 +43,7 @@ const MessagesModule = {
                 height: calc(100vh - 100px);
                 background: white;
                 border-radius: 24px;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #e6eae8;
                 overflow: hidden;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.03);
             }
@@ -64,10 +64,10 @@ const MessagesModule = {
 
             .conversations-list {
                 width: 320px;
-                border-right: 1px solid #e2e8f0;
+                border-right: 1px solid #e6eae8;
                 display: flex;
                 flex-direction: column;
-                background: #f8fafc;
+                background: #f6f8f7;
                 flex-shrink: 0;
             }
             @media (max-width: 768px) {
@@ -84,7 +84,7 @@ const MessagesModule = {
 
             .conversations-header {
                 padding: 20px 24px;
-                border-bottom: 1px solid #e2e8f0;
+                border-bottom: 1px solid #e6eae8;
                 background: white;
             }
 
@@ -92,7 +92,7 @@ const MessagesModule = {
                 font-size: 1.25rem;
                 font-weight: 800;
                 margin: 0;
-                color: #0f172a;
+                color: #0c100e;
             }
 
             .msg-tabs {
@@ -109,14 +109,14 @@ const MessagesModule = {
                 font-weight: 700;
                 border-radius: 8px;
                 cursor: pointer;
-                background: #f1f5f9;
-                color: #64748b;
+                background: #f1f4f2;
+                color: #717c77;
                 border: none;
                 transition: all 0.2s;
             }
 
             .msg-tab.active {
-                background: #0f172a;
+                background: #0c100e;
                 color: white;
             }
 
@@ -134,7 +134,7 @@ const MessagesModule = {
                 align-items: center;
                 gap: 10px;
                 padding: 12px 16px;
-                border-bottom: 1px solid #f1f5f9;
+                border-bottom: 1px solid #f1f4f2;
                 cursor: pointer;
                 transition: all 0.2s;
                 background: white;
@@ -142,7 +142,7 @@ const MessagesModule = {
             }
 
             .conversation-item:hover {
-                background: #f8fafc;
+                background: #f6f8f7;
             }
 
             .conversation-item.active {
@@ -154,12 +154,12 @@ const MessagesModule = {
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
-                background: #e2e8f0;
+                background: #e6eae8;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-weight: 700;
-                color: #0f172a;
+                color: #0c100e;
                 flex-shrink: 0;
                 object-fit: cover;
             }
@@ -176,12 +176,12 @@ const MessagesModule = {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                color: #0f172a;
+                color: #0c100e;
             }
 
             .conv-preview {
                 font-size: 0.8rem;
-                color: #64748b;
+                color: #717c77;
                 margin: 0;
                 white-space: nowrap;
                 overflow: hidden;
@@ -213,7 +213,7 @@ const MessagesModule = {
 
             .chat-header {
                 padding: 16px 24px;
-                border-bottom: 1px solid #e2e8f0;
+                border-bottom: 1px solid #e6eae8;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -256,13 +256,13 @@ const MessagesModule = {
 
             .message.received .message-bubble {
                 background: white;
-                border: 1px solid #e2e8f0;
-                color: #0f172a;
+                border: 1px solid #e6eae8;
+                color: #0c100e;
                 border-bottom-left-radius: 4px;
             }
 
             .message.sent .message-bubble {
-                background: #0f172a;
+                background: #0c100e;
                 color: white;
                 border-bottom-right-radius: 4px;
             }
@@ -273,7 +273,7 @@ const MessagesModule = {
                 justify-content: flex-end;
                 gap: 4px;
                 font-size: 0.7rem;
-                color: #94a3b8;
+                color: #a7b0ac;
                 margin-top: 4px;
             }
 
@@ -284,7 +284,7 @@ const MessagesModule = {
             .chat-input-area {
                 padding: 16px 24px;
                 background: white;
-                border-top: 1px solid #e2e8f0;
+                border-top: 1px solid #e6eae8;
                 z-index: 10;
             }
 
@@ -292,7 +292,7 @@ const MessagesModule = {
                 display: flex;
                 gap: 12px;
                 background: white;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #e6eae8;
                 border-radius: 24px;
                 padding: 8px 16px;
                 align-items: center;
@@ -334,14 +334,14 @@ const MessagesModule = {
             }
 
             .btn-send:disabled {
-                background: #cbd5e1;
+                background: #d4dad7;
                 cursor: not-allowed;
             }
 
             .btn-attach {
                 background: none;
                 border: none;
-                color: #94a3b8;
+                color: #a7b0ac;
                 cursor: pointer;
                 padding: 6px;
                 display: flex;
@@ -372,18 +372,18 @@ const MessagesModule = {
                 width: 24px;
                 height: 24px;
                 border-radius: 6px;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #e6eae8;
                 background: white;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                color: #64748b;
+                color: #717c77;
                 transition: all 0.2s;
             }
 
             .btn-msg-action:hover {
-                background: #f8fafc;
+                background: #f6f8f7;
                 color: #10b981;
                 border-color: #10b981;
             }
@@ -391,12 +391,12 @@ const MessagesModule = {
             .tick {
                 width: 14px;
                 height: 14px;
-                color: #94a3b8;
+                color: #a7b0ac;
                 opacity: 0.6;
             }
 
             .tick.read {
-                color: #34b7f1;
+                color: #6ee7b7;
                 opacity: 1;
             }
 
@@ -416,7 +416,7 @@ const MessagesModule = {
                 width: 10px;
                 height: 10px;
                 border-radius: 50%;
-                background: #cbd5e1;
+                background: #d4dad7;
                 display: inline-block;
                 margin-left: 6px;
             }
@@ -428,7 +428,7 @@ const MessagesModule = {
 
             .attachment-preview {
                 background: rgba(16, 185, 129, 0.05);
-                border-top: 1px solid #e2e8f0;
+                border-top: 1px solid #e6eae8;
                 padding: 8px 16px;
             }
 
@@ -439,9 +439,9 @@ const MessagesModule = {
                 background: white;
                 padding: 6px 12px;
                 border-radius: 8px;
-                border: 1px solid #e2e8f0;
+                border: 1px solid #e6eae8;
                 font-size: 0.85rem;
-                color: #0f172a;
+                color: #0c100e;
                 max-width: fit-content;
             }
 
@@ -459,7 +459,7 @@ const MessagesModule = {
             }
 
             .reply-preview-container {
-                background: #f8fafc;
+                background: #f6f8f7;
                 border-left: 4px solid #10b981;
                 padding: 8px 16px;
                 display: none;
@@ -474,12 +474,12 @@ const MessagesModule = {
                 border-radius: 4px;
                 margin-bottom: 8px;
                 font-size: 0.85rem;
-                color: #64748b;
+                color: #717c77;
                 cursor: pointer;
             }
 
             .message.sent .reply-header-bubble {
-                border-left-color: #34b7f1;
+                border-left-color: #6ee7b7;
             }
 
             .message-media {
@@ -504,9 +504,9 @@ const MessagesModule = {
 
             .message.is-deleted .message-bubble {
                 background: #f3f4f6 !important;
-                color: #94a3b8 !important;
+                color: #a7b0ac !important;
                 font-style: italic;
-                border: 1px dashed #cbd5e1 !important;
+                border: 1px dashed #d4dad7 !important;
             }
 
             .mobile-back-btn {
@@ -515,10 +515,10 @@ const MessagesModule = {
                 justify-content: center;
                 width: 36px;
                 height: 36px;
-                background: #f1f5f9;
+                background: #f1f4f2;
                 border-radius: 10px;
                 cursor: pointer;
-                color: #0f172a;
+                color: #0c100e;
             }
         `;
         document.head.appendChild(style);
@@ -553,25 +553,25 @@ const MessagesModule = {
                                 <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 20px; background: rgba(16, 185, 129, 0.1); color: #10b981; margin-bottom: 24px;">
                                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                                 </div>
-                                <h2 style="font-size: 1.8rem; font-weight: 900; color: #0f172a; margin: 0 0 8px 0; letter-spacing: -0.03em;">Transactions & Échanges</h2>
-                                <p style="font-size: 0.95rem; color: #64748b; margin: 0 0 40px 0; font-weight: 500;">Discutez et facturez vos prestations en un clic (WeChat-style)</p>
+                                <h2 style="font-size: 1.8rem; font-weight: 900; color: #0c100e; margin: 0 0 8px 0; letter-spacing: -0.03em;">Transactions & Échanges</h2>
+                                <p style="font-size: 0.95rem; color: #717c77; margin: 0 0 40px 0; font-weight: 500;">Discutez et facturez vos prestations en un clic (WeChat-style)</p>
                                 
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; text-align: left; width: 100%;">
-                                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                                    <div style="background: white; border: 1px solid #e6eae8; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
                                             <span style="font-size: 1.2rem;"><i class="fas fa-credit-card"></i></span>
-                                            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0f172a;">Demandes Directes</h4>
+                                            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0c100e;">Demandes Directes</h4>
                                         </div>
-                                        <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b;">
+                                        <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #717c77;">
                                             Les prestataires peuvent envoyer des demandes de paiement directement dans le chat. Le client paye instantanément via Stripe Connect.
                                         </p>
                                     </div>
-                                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
+                                    <div style="background: white; border: 1px solid #e6eae8; border-radius: 20px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);">
                                         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
                                             <span style="font-size: 1.2rem;"><i class="fas fa-lock"></i></span>
-                                            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0f172a;">Espace Sécurisé</h4>
+                                            <h4 style="margin: 0; font-size: 0.9rem; font-weight: 800; color: #0c100e;">Espace Sécurisé</h4>
                                         </div>
-                                        <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #64748b;">
+                                        <p style="margin: 0; font-size: 0.8rem; line-height: 1.5; color: #717c77;">
                                             Vos échanges sont chiffrés et stockés sur notre base de données sécurisée. Vos transactions transitent par Stripe sans stockage de coordonnées.
                                         </p>
                                     </div>
@@ -611,7 +611,7 @@ const MessagesModule = {
                             <div id="reply-preview" class="reply-preview-container">
                                 <div style="border-left: 3px solid #10b981; padding-left: 10px;">
                                     <p id="reply-to-name" style="font-weight: 700; font-size: 0.8rem; margin: 0; color: #10b981;">Répondre à...</p>
-                                    <p id="reply-to-content" style="margin: 0; font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;"></p>
+                                    <p id="reply-to-content" style="margin: 0; font-size: 0.85rem; color: #717c77; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;"></p>
                                 </div>
                                 <button type="button" class="btn-remove-file" id="btn-cancel-reply">×</button>
                             </div>
@@ -838,8 +838,8 @@ const MessagesModule = {
             if (errorConvs) throw errorConvs;
 
             if (!myConvs || myConvs.length === 0) {
-                if (listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
-                if (listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
+                if (listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #717c77; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
+                if (listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #717c77; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
                 return;
             }
 
@@ -885,7 +885,7 @@ const MessagesModule = {
                 const avatarUrl = isChannel ? (profile.channel_avatar_url || profile.avatar_url) : profile.avatar_url;
 
                 const avatar = isSas
-                    ? `<div class="conv-avatar" style="background:#eff6ff; color:#3b82f6; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;"><i class="fas fa-briefcase"></i></div>`
+                    ? `<div class="conv-avatar" style="background:#eff6ff; color:#10b981; font-size:1.25rem; font-weight:bold; display:flex; align-items:center; justify-content:center;"><i class="fas fa-briefcase"></i></div>`
                     : (avatarUrl
                         ? `<img src="${avatarUrl}" class="conv-avatar">`
                         : `<div class="conv-avatar">${initials}</div>`);
@@ -903,12 +903,12 @@ const MessagesModule = {
 
                 const subtitle = isSas 
                     ? `<span style="background:rgba(16,185,129,0.1); color:#10b981; padding:2px 8px; border-radius:100px; font-size:0.65rem; font-weight:800; text-transform:uppercase;">Sas Pro Actif <i class="fas fa-bolt"></i></span>`
-                    : (isChannel ? `<span style="color:#0ea5e9; font-weight:600;"><i class="fas fa-store" style="margin-right:4px;"></i>Demande Chaîne</span>` : (profile.title || profile.skills || 'Cliquez pour ouvrir'));
+                    : (isChannel ? `<span style="color:#10b981; font-weight:600;"><i class="fas fa-store" style="margin-right:4px;"></i>Demande Chaîne</span>` : (profile.title || profile.skills || 'Cliquez pour ouvrir'));
 
                 item.innerHTML = `
                     ${avatar}
                     <div class="conv-info">
-                        <p class="conv-name" style="${isSas ? 'font-weight:900; color:#0f172a;' : ''}">${name}</p>
+                        <p class="conv-name" style="${isSas ? 'font-weight:900; color:#0c100e;' : ''}">${name}</p>
                         <p class="conv-preview">${subtitle}</p>
                     </div>
                 `;
@@ -922,8 +922,8 @@ const MessagesModule = {
                 }
             });
 
-            if (!hasPrivate && listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
-            if (!hasChannel && listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #64748b; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
+            if (!hasPrivate && listPrivate) listPrivate.innerHTML = '<p style="padding: 24px; color: #717c77; text-align: center; font-size: 0.9rem;">Aucune conversation privée.</p>';
+            if (!hasChannel && listChannel) listChannel.innerHTML = '<p style="padding: 24px; color: #717c77; text-align: center; font-size: 0.9rem;">Aucune conversation pro.</p>';
 
             if (this.activeConversationId) {
                 const pInfo = otherParticipants.find(p => p.conversation_id === this.activeConversationId);
@@ -981,7 +981,7 @@ const MessagesModule = {
                 avatarEl.style.background = 'transparent';
                 avatarEl.innerHTML = `<img src="${profile.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
             } else {
-                avatarEl.style.background = '#e2e8f0';
+                avatarEl.style.background = '#e6eae8';
                 avatarEl.innerHTML = initials;
             }
         }
@@ -1082,7 +1082,7 @@ const MessagesModule = {
             } else if (msg.media_type === 'video') {
                 mediaHtml = `<div class="message-media"><video src="${url}" controls></video></div>`;
             } else {
-                mediaHtml = `<div class="message-media-placeholder" style="font-size:0.8rem; color:#64748b; font-style:italic;">[Fichier Joint]</div>`;
+                mediaHtml = `<div class="message-media-placeholder" style="font-size:0.8rem; color:#717c77; font-style:italic;">[Fichier Joint]</div>`;
             }
         }
 
@@ -1143,7 +1143,7 @@ const MessagesModule = {
                 let paymentDetails = '';
                 if (acomptePercent < 100) {
                     paymentDetails = `
-                        <div style="font-size:0.8rem; color:${isMe ? '#94a3b8' : '#64748b'}; margin-bottom:12px;">
+                        <div style="font-size:0.8rem; color:${isMe ? '#a7b0ac' : '#717c77'}; margin-bottom:12px;">
                             <span>Montant Total : ${totalVal.toLocaleString('fr-FR')} €</span><br>
                             <span style="font-weight:800; color:#10b981;">Acompte (${acomptePercent}%) : ${acompteVal.toLocaleString('fr-FR')} €</span>
                         </div>
@@ -1154,7 +1154,7 @@ const MessagesModule = {
                 if (fileUrl && fileUrl.startsWith('http')) {
                     fileLinkHtml = `
                         <div style="margin-top:12px; margin-bottom:12px;">
-                            <a href="${fileUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; color:#3b82f6; text-decoration:none; font-weight:700; background:rgba(59,130,246,0.1); padding:6px 12px; border-radius:8px;">
+                            <a href="${fileUrl}" target="_blank" style="display:inline-flex; align-items:center; gap:6px; font-size:0.8rem; color:#10b981; text-decoration:none; font-weight:700; background:rgba(16, 185, 129,0.1); padding:6px 12px; border-radius:8px;">
                                 <i class="fas fa-file-invoice"></i> Voir le devis / la facture
                             </a>
                         </div>
@@ -1162,7 +1162,7 @@ const MessagesModule = {
                 }
 
                 contentBodyHtml = `
-                    <div class="payment-request-card" style="background: ${isMe ? '#1e293b' : '#ffffff'}; color: ${isMe ? '#ffffff' : '#0f172a'}; border: 1px solid ${isMe ? '#334155' : '#e2e8f0'}; border-radius: 16px; padding: 16px; margin: 8px 0; max-width: 320px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left;">
+                    <div class="payment-request-card" style="background: ${isMe ? '#1b2420' : '#ffffff'}; color: ${isMe ? '#ffffff' : '#0c100e'}; border: 1px solid ${isMe ? '#2b3632' : '#e6eae8'}; border-radius: 16px; padding: 16px; margin: 8px 0; max-width: 320px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left;">
                         <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
                             <div style="width:36px; height:36px; border-radius:50%; background:rgba(16,185,129,0.1); display:flex; align-items:center; justify-content:center; color:#10b981; flex-shrink:0;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
@@ -1174,12 +1174,12 @@ const MessagesModule = {
                         </div>
                         ${paymentDetails ? paymentDetails : `
                             <div style="font-size:1.6rem; font-weight:950; margin-bottom:16px; display:flex; align-items:baseline; gap:4px; color:#10b981;">
-                                ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#94a3b8' : '#64748b'};">€ EUR</span>
+                                ${amount} <span style="font-size:0.9rem; font-weight:700; color:${isMe ? '#a7b0ac' : '#717c77'};">€ EUR</span>
                             </div>
                         `}
                         ${fileLinkHtml}
                         ${isMeProvider ? `
-                            <div style="font-size:0.75rem; color:#94a3b8; font-weight:600; text-align:center; padding:8px; border-radius:8px; background:rgba(255,255,255,0.05);">En attente de règlement...</div>
+                            <div style="font-size:0.75rem; color:#a7b0ac; font-weight:600; text-align:center; padding:8px; border-radius:8px; background:rgba(255,255,255,0.05);">En attente de règlement...</div>
                         ` : `
                             <button onclick="window.MessagesModule.payRequest('${title.replace(/'/g, "\\'")}', '${acompteVal}', '${providerId}', ${isAdminQuote}, event)" style="width:100%; padding:10px; background:#10b981; color:white; border:none; border-radius:10px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:background 0.2s;">
                                 <span><i class="fas fa-credit-card"></i> Régler ${acomptePercent < 100 ? `l'acompte (${acompteVal} €)` : 'via Stripe'}</span>

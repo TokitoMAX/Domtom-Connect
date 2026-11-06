@@ -60,7 +60,7 @@
                 display: flex;
                 align-items: flex-start;
                 gap: 12px;
-                background: #111827;
+                background: #0e1311;
                 color: white;
                 border-radius: 16px;
                 padding: 16px 18px;

@@ -99,7 +99,7 @@
                             <option value="autre">Autre</option>
                         </select>
                         <div style="margin-top: 1rem; padding: 1.25rem; background: linear-gradient(135deg, rgba(0, 191, 166, 0.08) 0%, rgba(0, 168, 150, 0.05) 100%); border: 2px solid rgba(0, 191, 166, 0.2); border-radius: 12px;">
-                            <label style="display: flex; align-items: flex-start; gap: 0.875rem; cursor: pointer; font-size: 0.9rem; color: var(--text-primary, #1f2937); line-height: 1.5;">
+                            <label style="display: flex; align-items: flex-start; gap: 0.875rem; cursor: pointer; font-size: 0.9rem; color: var(--text-primary, #1b2420); line-height: 1.5;">
                                 <div style="position: relative; flex-shrink: 0; margin-top: 0.1rem;">
                                     <input type="checkbox" name="newsletter" value="yes" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color, #00BFA6); border-radius: 4px; border: 2px solid rgba(0, 191, 166, 0.3);">
                                 </div>
@@ -108,13 +108,13 @@
                                         <span style="font-size: 1.25rem; line-height: 1;">📬</span>
                                         <strong style="color: var(--primary-color, #00BFA6); font-size: 0.95rem; font-weight: 700;">Je souhaite recevoir "L'Écho Ultramarin"</strong>
                                     </div>
-                                    <p style="font-size: 0.8rem; color: var(--text-secondary, #6b7280); margin: 0; line-height: 1.4;">
+                                    <p style="font-size: 0.8rem; color: var(--text-secondary, #717c77); margin: 0; line-height: 1.4;">
                                         Newsletter Domtom Connect : conseils, actualités et ressources gratuites (1 email/mois)
                                     </p>
                                     <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px solid rgba(0, 191, 166, 0.15);">
-                                        <span style="font-size: 0.7rem; color: var(--text-muted, #9ca3af);">✓ Désinscription facile</span>
-                                        <span style="font-size: 0.7rem; color: var(--text-muted, #9ca3af);">✓ Pas de spam</span>
-                                        <span style="font-size: 0.7rem; color: var(--text-muted, #9ca3af);">✓ Gratuit</span>
+                                        <span style="font-size: 0.7rem; color: var(--text-muted, #a7b0ac);">✓ Désinscription facile</span>
+                                        <span style="font-size: 0.7rem; color: var(--text-muted, #a7b0ac);">✓ Pas de spam</span>
+                                        <span style="font-size: 0.7rem; color: var(--text-muted, #a7b0ac);">✓ Gratuit</span>
                                     </div>
                                 </div>
                             </label>
@@ -265,7 +265,7 @@ Date: ${new Date().toLocaleString('fr-FR')}`;
                 form.innerHTML = `
                     <div style="text-align: center; padding: 2rem 0;">
                         <h3 style="color: var(--primary-color, #00BFA6); margin-bottom: 1rem; font-size: 1.5rem;">✓ Inscription réussie !</h3>
-                        <p style="color: var(--text-secondary, #6b7280); margin-bottom: 1.5rem;">Merci ! Nous vous contacterons dans les 24h.</p>
+                        <p style="color: var(--text-secondary, #717c77); margin-bottom: 1.5rem;">Merci ! Nous vous contacterons dans les 24h.</p>
                         <button type="button" class="popup-submit" onclick="window.closeExitIntentPopup()">Parfait !</button>
                     </div>
                 `;

@@ -60,7 +60,7 @@
 }
 
 .popup-close:hover {
-    background: var(--gray-200, #e5e7eb);
+    background: var(--gray-200, #e6eae8);
     transform: rotate(90deg);
 }
 
@@ -91,7 +91,7 @@
 
 .popup-description {
     font-size: 16px;
-    color: var(--text-secondary, #6b7280);
+    color: var(--text-secondary, #717c77);
     line-height: 1.6;
 }
 
@@ -105,7 +105,7 @@
 .popup-form select {
     width: 100%;
     padding: 14px;
-    border: 2px solid var(--gray-200, #e5e7eb);
+    border: 2px solid var(--gray-200, #e6eae8);
     border-radius: var(--border-radius, 12px);
     font-size: 16px;
     font-family: inherit;
@@ -121,7 +121,7 @@
 }
 
 .popup-form input::placeholder {
-    color: var(--text-muted, #9ca3af);
+    color: var(--text-muted, #a7b0ac);
 }
 
 .popup-form select {
@@ -168,7 +168,7 @@
 .popup-privacy {
     text-align: center;
     font-size: 12px;
-    color: var(--text-muted, #9ca3af);
+    color: var(--text-muted, #a7b0ac);
     margin-top: 16px;
 }
 

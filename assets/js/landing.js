@@ -54,7 +54,7 @@ function initPremiumFormExperience(form) {
             if (wrapper) {
                 wrapper.classList.add('field-focused');
                 wrapper.style.transform = 'translateY(-2px)';
-                wrapper.style.boxShadow = '0 8px 24px rgba(59, 130, 246, 0.15)';
+                wrapper.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.15)';
             }
             animateFieldFocus(this);
         });
@@ -108,7 +108,7 @@ function initPremiumFormExperience(form) {
         // Effet hover sur le bouton avec animation
         submitButton.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.5)';
+            this.style.boxShadow = '0 12px 40px rgba(16, 185, 129, 0.5)';
             const buttonBg = this.querySelector('.button-bg');
             if (buttonBg) {
                 buttonBg.style.left = '100%';
@@ -120,7 +120,7 @@ function initPremiumFormExperience(form) {
 
         submitButton.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.4)';
+            this.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4)';
         });
     }
 
@@ -316,7 +316,7 @@ function animateRadioSelection(radio) {
     if (label) {
         label.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
         label.style.transform = 'scale(1.03) translateX(4px)';
-        label.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.2)';
+        label.style.boxShadow = '0 8px 20px rgba(16, 185, 129, 0.2)';
         setTimeout(() => {
             label.style.transform = 'scale(1) translateX(0)';
             label.style.boxShadow = '';

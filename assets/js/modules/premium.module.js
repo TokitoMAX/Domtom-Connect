@@ -30,7 +30,7 @@ window.PremiumModule = {
                     width: clamp(90%, 95vw, 100%);
                     margin: 0 auto;
                     color: #fff;
-                    background: #020617; /* Very dark background */
+                    background: #070908; /* Very dark background */
                     border-radius: clamp(16px, 4vw, 32px);
                     box-shadow: 0 40px 100px rgba(0,0,0,0.5);
                     position: relative;
@@ -54,7 +54,7 @@ window.PremiumModule = {
                     right: -10%;
                     width: 600px;
                     height: 600px;
-                    background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(2,6,23,0) 70%);
+                    background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, rgba(7, 9, 8,0) 70%);
                     z-index: 0;
                     pointer-events: none;
                 }
@@ -94,7 +94,7 @@ window.PremiumModule = {
 
                 .premium-subtitle {
                     font-size: 1.15rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     max-width: 600px;
                     margin: 0 auto;
                     line-height: 1.6;
@@ -113,7 +113,7 @@ window.PremiumModule = {
                 }
 
                 .premium-option-card {
-                    background: rgba(15, 23, 42, 0.6);
+                    background: rgba(14, 19, 17, 0.6);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 20px;
                     padding: clamp(24px, 4vw, 32px) clamp(16px, 3vw, 24px);
@@ -155,13 +155,13 @@ window.PremiumModule = {
                 .premium-option-title {
                     font-size: 1.25rem;
                     font-weight: 800;
-                    color: #f8fafc;
+                    color: #f6f8f7;
                     margin-bottom: 12px;
                 }
 
                 .premium-option-desc {
                     font-size: 0.9rem;
-                    color: #94a3b8;
+                    color: #a7b0ac;
                     line-height: 1.5;
                 }
 
@@ -175,14 +175,14 @@ window.PremiumModule = {
                     display: block;
                     font-size: 0.95rem;
                     font-weight: 800;
-                    color: #e2e8f0;
+                    color: #e6eae8;
                     margin-bottom: 12px;
                 }
 
                 .premium-select, .premium-textarea {
                     width: 100%;
                     padding: 16px 20px;
-                    background: rgba(15, 23, 42, 0.8);
+                    background: rgba(14, 19, 17, 0.8);
                     border: 1px solid rgba(255, 255, 255, 0.15);
                     border-radius: 16px;
                     color: #fff;
@@ -195,11 +195,11 @@ window.PremiumModule = {
                 .premium-select:focus, .premium-textarea:focus {
                     outline: none;
                     border-color: #10b981;
-                    background: rgba(15, 23, 42, 1);
+                    background: rgba(14, 19, 17, 1);
                 }
 
                 .premium-select option {
-                    background: #0f172a;
+                    background: #0c100e;
                     color: #fff;
                 }
 
@@ -238,7 +238,7 @@ window.PremiumModule = {
 
                 /* Calendly / Reject views */
                 .premium-result-card {
-                    background: rgba(15, 23, 42, 0.6);
+                    background: rgba(14, 19, 17, 0.6);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     border-radius: 24px;
                     padding: clamp(24px, 5vw, 40px);
@@ -313,10 +313,10 @@ window.PremiumModule = {
             `;
         } else if (this.state.step === 2) {
             container.innerHTML = `
-                <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px;">
+                <div style="background: rgba(14, 19, 17, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px;">
                     <div style="text-align: center; margin-bottom: 32px;">
                         <h2 style="font-size: 1.5rem; font-weight: 800; color: #fff;">Étape 2 : Formulaire de Candidature</h2>
-                        <p style="color: #94a3b8; font-size: 0.95rem;">Pour nous assurer que nous sommes le bon partenaire pour vous, merci de répondre sincèrement.</p>
+                        <p style="color: #a7b0ac; font-size: 0.95rem;">Pour nous assurer que nous sommes le bon partenaire pour vous, merci de répondre sincèrement.</p>
                     </div>
 
                     <form id="premium-qualification-form" onsubmit="window.PremiumModule.submitForm(event)">
@@ -361,7 +361,7 @@ window.PremiumModule = {
                     <div class="premium-result-card">
                         <div style="font-size: 4rem; color: #f59e0b; margin-bottom: 24px;"><i class="fas fa-book-reader"></i></div>
                         <h2 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 16px;">Nous avons les ressources qu'il vous faut !</h2>
-                        <p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
+                        <p style="color: #a7b0ac; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
                             D'après vos réponses, l'accompagnement Premium 1-to-1 (à partir de 500€) n'est peut-être pas la meilleure option pour vous <b>en ce moment</b>. <br><br>
                             Mais pas de panique ! Nous avons conçu le SaaS Domtom Connect et nos Masterclasses précisément pour vous aider à avancer par vous-même jusqu'à ce que vous soyez prêt.
                         </p>
@@ -377,7 +377,7 @@ window.PremiumModule = {
                     <div class="premium-result-card">
                         <div style="font-size: 4rem; color: #10b981; margin-bottom: 24px;"><i class="fas fa-check-circle"></i></div>
                         <h2 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 16px;">Félicitations, vous êtes pré-qualifié !</h2>
-                        <p style="color: #94a3b8; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
+                        <p style="color: #a7b0ac; font-size: 1.05rem; line-height: 1.6; margin-bottom: 32px;">
                             Votre profil correspond parfaitement au type de projets que nous aimons accompagner. <br>
                             Réservez dès maintenant votre appel de diagnostic stratégique offert (30 min) avec notre équipe.
                         </p>
@@ -387,7 +387,7 @@ window.PremiumModule = {
                             <button onclick="window.open('https://calendly.com/domtomconnect/30min', '_blank')" class="premium-btn" style="width: 100%; font-size: clamp(1rem, 3vw, 1.2rem); padding: 20px;">
                                 <i class="far fa-calendar-alt"></i> Réserver mon appel stratégique
                             </button>
-                            <p style="color: #64748b; font-size: 0.85rem; margin-top: 16px;">Vous serez redirigé vers notre agenda Calendly sécurisé.</p>
+                            <p style="color: #717c77; font-size: 0.85rem; margin-top: 16px;">Vous serez redirigé vers notre agenda Calendly sécurisé.</p>
                         </div>
                     </div>
                 `;

@@ -39,12 +39,12 @@
             --brand-green-subtle: rgba(16, 185, 129, 0.12);
             --brand-green-border: rgba(16, 185, 129, 0.3);
             --dark-bg: #070d18;
-            --dark-card: #0f172a;
-            --dark-card-hover: #162238;
+            --dark-card: #0c100e;
+            --dark-card-hover: #242725;
             --dark-border: rgba(255, 255, 255, 0.08);
             --white: #ffffff;
-            --text-light: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-light: #f6f8f7;
+            --text-muted: #a7b0ac;
             --whatsapp-color: #25D366;
             --whatsapp-hover: #20bd5a;
         }
@@ -107,7 +107,7 @@
         }
 
         .hub-subtitle {
-            color: #cbd5e1;
+            color: #d4dad7;
             font-size: 1.02rem;
             max-width: 600px;
             margin: 0 auto 28px;
@@ -137,7 +137,7 @@
         }
 
         .category-tab {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(14, 19, 17, 0.8);
             border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 20px 18px;
@@ -158,7 +158,7 @@
 
         .category-tab.active {
             border-color: var(--brand-green);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 23, 42, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(14, 19, 17, 0.95) 100%);
             box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
         }
 
@@ -178,7 +178,7 @@
 
         .category-tab.active .category-icon {
             background: var(--brand-green);
-            color: #0f172a;
+            color: #0c100e;
         }
 
         .category-info h3 {
@@ -250,7 +250,7 @@
             display: block;
             font-weight: 700;
             font-size: 0.88rem;
-            color: #e2e8f0;
+            color: #e6eae8;
             margin-bottom: 6px;
         }
 
@@ -281,7 +281,7 @@
         }
 
         .form-select-hub option {
-            background: #0f172a;
+            background: #0c100e;
             color: #ffffff;
         }
 
@@ -352,7 +352,7 @@
         }
 
         .success-desc-hub {
-            color: #cbd5e1;
+            color: #d4dad7;
             font-size: 0.95rem;
             margin-bottom: 24px;
             line-height: 1.6;
@@ -404,7 +404,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             padding: 14px 20px;
-            color: #e2e8f0;
+            color: #e6eae8;
             text-decoration: none;
             font-weight: 700;
             font-size: 0.92rem;
@@ -427,138 +427,56 @@
             gap: 10px;
         }
     </style>
+    <style id="nav-std">.nav-link-active{color:#fff !important;box-shadow:inset 0 -2px 0 #10b981;}.nav-brand-tag{display:none !important;}.nav-menu{gap:2px !important;}.nav-menu .nav-link{padding:8px 11px !important;font-size:.9rem !important;white-space:nowrap;}.nav-actions{gap:10px !important;}.nav-btn-cta{white-space:nowrap;}@media (max-width:1380px){.nav-btn-login{display:none !important;}}@media (max-width:1180px){.nav-menu{display:none !important;}.mobile-toggle{display:inline-flex !important;}}</style>
+    <link rel="stylesheet" href="/assets/css/refonte-pro.css"/>
 </head>
 <body>
     <!-- 0. UNIVERSAL RESPONSIVE NAVIGATION -->
     <header class="site-nav">
         <div class="container">
             <div class="nav-inner">
-                <a href="index.html" class="nav-brand">
-                    <img src="assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect Logo"/>
+                <a href="/" class="nav-brand" aria-label="Domtom Connect, accueil">
+                    <img src="/assets/images/logo-emblem-dark-clean.png" alt="Domtom Connect"/>
                     <span class="nav-brand-title">Domtom Connect</span>
-                    <span class="nav-brand-tag">Conseil &amp; Réseau</span>
                 </a>
-
                 <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Accueil</a></li>
-                    <li class="has-dropdown">
-                        <a href="index.html#solutions" class="nav-link dropdown-toggle" id="nav-programmes-btn">
-                            Programmes <i class="fas fa-chevron-down nav-caret"></i>
-                        </a>
-                        <div class="nav-dropdown-menu">
-                            <a href="pilotage.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-chart-line"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Accompagnement & Direction</span>
-                                    <span class="dropdown-desc">Pilotage externe & rentabilité d'entreprise</span>
-                                </div>
-                            </a>
-                            <a href="tremplin.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-rocket"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Programme Tremplin</span>
-                                    <span class="dropdown-desc">Validation et décollage de votre projet</span>
-                                </div>
-                            </a>
-                            <a href="co-fondateurs.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-handshake"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Trouver un Associé</span>
-                                    <span class="dropdown-desc">Réseau d'associés complémentaires</span>
-                                </div>
-                            </a>
-                            <a href="incubateur.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-network-wired"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">Incubateur & Hub</span>
-                                    <span class="dropdown-desc">Écosystème & ressources collectives</span>
-                                </div>
-                            </a>
-                            <a href="boutique.html" class="dropdown-item">
-                                <div class="dropdown-icon"><i class="fas fa-book-bookmark"></i></div>
-                                <div class="dropdown-info">
-                                    <span class="dropdown-title">La Librairie & Guides</span>
-                                    <span class="dropdown-desc">Tome 1, simulateur interactif & outils</span>
-                                </div>
-                            </a>
-                            <div class="dropdown-footer">
-                                <a href="index.html#solutions" class="dropdown-overview-link">
-                                    <span>Voir la vue d'ensemble des piliers</span>
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="beta-test.html" class="nav-link">App DTC Pulse</a></li>
-                    <li><a href="rejoindre.html" class="nav-link active">La communauté</a></li>
+                    <li><a href="/entreprises" class="nav-link">Entreprises</a></li>
+                    <li><a href="/seance-strategique" class="nav-link">Séance stratégique</a></li>
+                    <li><a href="/tremplin" class="nav-link">Porteurs de projet</a></li>
+                    <li><a href="/anamnese" class="nav-link">Diagnostic gratuit</a></li>
+                    <li><a href="/rejoindre" class="nav-link nav-link-active">Réseau et DTC Pulse</a></li>
                 </ul>
-
                 <div class="nav-actions">
-                    <a href="login.html" class="nav-btn-login">Se connecter</a>
-                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="nav-btn-cta">
-                        <span>Diagnostic offert</span>
-                        <i class="fas fa-calendar-alt"></i>
-                    </a>
-                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <a href="/login" class="nav-btn-login">Se connecter</a>
+                    <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="nav-btn-cta"><span>Réserver un échange</span></a>
+                    <button class="mobile-toggle" aria-label="Menu" id="mobile-menu-btn" aria-expanded="false"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Universal Responsive Mobile Drawer -->
     <div class="mobile-nav-drawer" id="mobile-nav-drawer">
-        <a href="index.html" class="mobile-nav-link">
-            <span><i class="fas fa-home" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Accueil</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <div class="mobile-nav-group">
-            <div class="mobile-nav-group-header">
-                <span><i class="fas fa-compass" style="margin-right: 8px; color: var(--dtc-nav-accent);"></i> Programmes & Pages Dédiées</span>
-                <i class="fas fa-chevron-down mobile-group-caret"></i>
-            </div>
-            <div class="mobile-nav-sublinks">
-                <a href="pilotage.html" class="mobile-sublink">
-                    <i class="fas fa-chart-line"></i> Accompagnement Stratégique & Copilotage
-                </a>
-                <a href="tremplin.html" class="mobile-sublink">
-                    <i class="fas fa-rocket"></i> Programme Tremplin
-                </a>
-                <a href="co-fondateurs.html" class="mobile-sublink">
-                    <i class="fas fa-handshake"></i> Trouver un Associé
-                </a>
-                <a href="incubateur.html" class="mobile-sublink">
-                    <i class="fas fa-network-wired"></i> Incubateur & Hub Projets
-                </a>
-                <a href="boutique.html" class="mobile-sublink">
-                    <i class="fas fa-book-bookmark"></i> La Librairie (Tome 1)
-                </a>
-                <a href="index.html#solutions" class="mobile-sublink overview">
-                    <i class="fas fa-th-large"></i> Vue d'ensemble des 3 piliers
-                </a>
-            </div>
-        </div>
-        <a href="beta-test.html" class="mobile-nav-link">
-            <span>Application DTC Pulse</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
-        <a href="rejoindre.html" class="mobile-nav-link" style="color: var(--brand-green);">
-            <span>La communauté</span>
-            <i class="fas fa-chevron-right"></i>
-        </a>
+        <a href="/" class="mobile-nav-link"><span>Accueil</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/entreprises" class="mobile-nav-link"><span>Entreprises</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/seance-strategique" class="mobile-nav-link"><span>Séance stratégique</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/tremplin" class="mobile-nav-link"><span>Porteurs de projet</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/anamnese" class="mobile-nav-link"><span>Diagnostic gratuit</span><i class="fas fa-chevron-right"></i></a>
+        <a href="/rejoindre" class="mobile-nav-link"><span>Réseau et DTC Pulse</span><i class="fas fa-chevron-right"></i></a>
         <div class="mobile-nav-divider"></div>
         <div class="mobile-nav-actions">
-            <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="mobile-nav-cta">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Diagnostic offert (30 min)</span>
-            </a>
-            <a href="login.html" class="mobile-nav-login">
-                <i class="fas fa-user-circle"></i>
-                <span>Espace membre / Se connecter</span>
-            </a>
+            <a href="https://calendly.com/domtomconnect/30min" onclick="return (typeof openCalendlyDiagnostic==='function') ? openCalendlyDiagnostic(event) : true;" class="mobile-nav-cta"><i class="fas fa-calendar-alt"></i><span>Réserver un échange (30 min)</span></a>
+            <a href="/login" class="mobile-nav-login"><i class="fas fa-user-circle"></i><span>Espace membre</span></a>
         </div>
     </div>
+
+    
+
+    
+
+    
+
+    <!-- Universal Responsive Mobile Drawer -->
+    
 
     <!-- Header / Brand -->
     <section class="hub-header" style="padding-top: 40px;">
@@ -620,15 +538,15 @@
                 </p>
 
                 <!-- Fast-track TestMonApp for Beta Testers -->
-                <div id="betaTestMonAppNotice" style="display: none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid var(--brand-green); border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
+                <div id="betaTestMonAppNotice" style="display: none; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(14, 19, 17, 0.9) 100%); border: 1.5px solid var(--brand-green); border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: left;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                        <span style="background: var(--brand-green); color: #0b1120; font-size: 0.75rem; font-weight: 900; padding: 4px 10px; border-radius: 100px; text-transform: uppercase;">100% Automatisé</span>
+                        <span style="background: var(--brand-green); color: #131614; font-size: 0.75rem; font-weight: 900; padding: 4px 10px; border-radius: 100px; text-transform: uppercase;">100% Automatisé</span>
                         <strong style="color: #ffffff; font-size: 1.05rem;">Inscription Bêta en 1 Clic (TestMonApp)</strong>
                     </div>
-                    <p style="color: #cbd5e1; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.5;">
+                    <p style="color: #d4dad7; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.5;">
                         Pour être automatiquement inscrit sur Google Play et recevoir l'accès immédiat à l'application sans attendre :
                     </p>
-                    <a href="https://www.testmonapp.com/fr/rejoindre/dtc-pulse" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-green); color: #0b1120; font-weight: 800; font-size: 0.95rem; padding: 12px 20px; border-radius: 100px; text-decoration: none; width: 100%; box-sizing: border-box; transition: transform 0.2s;">
+                    <a href="https://www.testmonapp.com/fr/rejoindre/dtc-pulse" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--brand-green); color: #131614; font-weight: 800; font-size: 0.95rem; padding: 12px 20px; border-radius: 100px; text-decoration: none; width: 100%; box-sizing: border-box; transition: transform 0.2s;">
                         <i class="fas fa-bolt"></i> S'inscrire automatiquement via TestMonApp
                     </a>
                 </div>
@@ -763,7 +681,7 @@
                     </a>
                 </div>
 
-                <div style="font-size: 0.85rem; color: #94a3b8;">
+                <div style="font-size: 0.85rem; color: #a7b0ac;">
                     <i class="fas fa-info-circle"></i> <em>Cliquez sur le bouton ci-dessus pour ouvrir l'application WhatsApp.</em>
                 </div>
             </div>
@@ -774,24 +692,24 @@
         <div class="hub-secondary-links">
             <a href="beta-test.html" class="secondary-link-btn">
                 <span><i class="fab fa-google-play" style="color: var(--brand-green);"></i> Bêta Fermée de l'Application DTC Pulse (Android)</span>
-                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+                <i class="fas fa-arrow-right" style="color: #717c77; font-size: 0.8rem;"></i>
             </a>
 
             <a href="index.html" class="secondary-link-btn">
                 <span><i class="fas fa-globe" style="color: var(--brand-green);"></i> Découvrir la plateforme web Domtom Connect</span>
-                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+                <i class="fas fa-arrow-right" style="color: #717c77; font-size: 0.8rem;"></i>
             </a>
 
             <a href="incubateur.html" class="secondary-link-btn">
                 <span><i class="fas fa-rocket" style="color: var(--brand-green);"></i> Programme Tremplin & Incubateur</span>
-                <i class="fas fa-arrow-right" style="color: #64748b; font-size: 0.8rem;"></i>
+                <i class="fas fa-arrow-right" style="color: #717c77; font-size: 0.8rem;"></i>
             </a>
         </div>
 
     </main>
 
     <!-- Global Footer -->
-    <footer style="background: #040810; color: #64748b; padding: 24px 20px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05);">
+    <footer style="background: #040810; color: #717c77; padding: 24px 20px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.05);">
         &copy; 2026 Domtom Connect. Tous droits réservés.
     </footer>
 

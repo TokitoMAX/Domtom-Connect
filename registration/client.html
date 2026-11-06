@@ -1,6 +1,6 @@
     <style>
         .onboarding-page {
-            background: #f8fafc;
+            background: #f6f8f7;
             min-height: 100vh;
             padding: 60px 24px;
             font-family: 'Inter', sans-serif;
@@ -25,12 +25,12 @@
         .auth-title {
             font-size: 2.2rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #0c100e;
             margin-bottom: 12px;
         }
 
         .auth-subtitle {
-            color: #64748b;
+            color: #717c77;
             font-size: 1.1rem;
         }
 
@@ -38,7 +38,7 @@
             background: white;
             padding: 48px;
             border-radius: 24px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e6eae8;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
             position: relative;
         }
@@ -58,7 +58,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: #e2e8f0;
+            background: #e6eae8;
             z-index: 1;
         }
 
@@ -66,14 +66,14 @@
             width: 32px;
             height: 32px;
             background: white;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #e6eae8;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.85rem;
             font-weight: 700;
-            color: #64748b;
+            color: #717c77;
             position: relative;
             z-index: 2;
             transition: all 0.3s ease;
@@ -96,13 +96,13 @@
             top: 40px;
             font-size: 0.75rem;
             font-weight: 600;
-            color: #94a3b8;
+            color: #a7b0ac;
             white-space: nowrap;
             transform: translateX(-35%);
         }
 
         .step-dot.active .step-label {
-            color: #0f172a;
+            color: #0c100e;
         }
 
         /* Form Content */
@@ -123,7 +123,7 @@
         .form-section-title {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #0c100e;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
@@ -133,12 +133,12 @@
         .form-grid { display: grid; gap: 24px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-group { display: grid; gap: 8px; }
-        .form-label { font-size: 0.875rem; font-weight: 600; color: #334155; }
+        .form-label { font-size: 0.875rem; font-weight: 600; color: #2b3632; }
         
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 14px 16px;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #e6eae8;
             border-radius: 12px;
             font-size: 0.95rem;
             background: #fbfcfd;
@@ -164,7 +164,7 @@
         .btn-next, .btn-submit {
             flex: 2;
             padding: 16px;
-            background: #0f172a;
+            background: #0c100e;
             color: white;
             border: none;
             border-radius: 12px;
@@ -175,7 +175,7 @@
         }
 
         .btn-next:hover, .btn-submit:hover {
-            background: #1e293b;
+            background: #1b2420;
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
@@ -183,8 +183,8 @@
         .btn-prev {
             flex: 1;
             padding: 16px;
-            background: #f1f5f9;
-            color: #475569;
+            background: #f1f4f2;
+            color: #56615c;
             border: none;
             border-radius: 12px;
             font-size: 1rem;
@@ -327,7 +327,7 @@
                             <label class="form-label">Email de contact professionnel *</label>
                             <input type="email" class="form-input" name="email" id="j-email" placeholder="recrutement@entreprise.com" required>
                         </div>
-                        <div style="background: #f1f5f9; padding: 20px; border-radius: 12px; font-size: 0.85rem; color: #475569; line-height: 1.5;">
+                        <div style="background: #f1f4f2; padding: 20px; border-radius: 12px; font-size: 0.85rem; color: #56615c; line-height: 1.5;">
                             INFO : <strong>Information :</strong> Votre offre sera publiée dans le marketplace et accessible aux talents de la diaspora. Vous recevrez les candidatures directement par email.
                         </div>
                     </div>
@@ -485,8 +485,8 @@
                 document.querySelector('.onboarding-card').innerHTML = `
                     <div style="text-align: center; padding: 40px 0;">
                         <div style="width: 80px; height: 80px; background: #ecfdf5; color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px;">OK</div>
-                        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: #0f172a;">Offre publiée avec succès !</h2>
-                        <p style="color: #64748b; margin-bottom: 32px;">Votre annonce est désormais visible par les candidats du réseau. Vous recevrez les candidatures par email.</p>
+                        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; color: #0c100e;">Offre publiée avec succès !</h2>
+                        <p style="color: #717c77; margin-bottom: 32px;">Votre annonce est désormais visible par les candidats du réseau. Vous recevrez les candidatures par email.</p>
                         <div style="display: flex; gap: 12px; justify-content: center;">
                             <a href="../marketplace/jobs.html" class="btn-next" style="text-decoration: none; padding: 14px 24px;">Voir le Marketplace</a>
                             <a href="../mon-projet" class="btn-prev" style="text-decoration: none; padding: 14px 24px;">Mon Tableau de Bord</a>

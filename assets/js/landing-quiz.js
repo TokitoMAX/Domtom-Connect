@@ -938,7 +938,7 @@ class LandingQuiz {
                 .replace(/"/g, '&quot;');
         };
         let html = `
-            <p style="font-size: 0.85rem; color: var(--text-muted, #6b7280); margin-bottom: 1rem;">Tous les champs ci-dessous sont <strong>obligatoires</strong> pour que l'on puisse vous recontacter.</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted, #717c77); margin-bottom: 1rem;">Tous les champs ci-dessous sont <strong>obligatoires</strong> pour que l'on puisse vous recontacter.</p>
             <div class="quiz-basic-questions-group" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
         `;
         
@@ -961,7 +961,7 @@ class LandingQuiz {
             
             if (question.type === 'select') {
                 html += `
-                    <select name="question_${question.id}" class="quiz-select" id="question_${question.id}" style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;" ${question.required ? 'required' : ''}>
+                    <select name="question_${question.id}" class="quiz-select" id="question_${question.id}" style="width: 100%; padding: 0.75rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;" ${question.required ? 'required' : ''}>
                         <option value="">${question.placeholder || 'Sélectionnez une option'}</option>
                 `;
                 question.options.forEach(option => {
@@ -976,7 +976,7 @@ class LandingQuiz {
                               id="question_${question.id}"
                               placeholder="${escapeHtml(question.placeholder || '')}"
                               rows="${question.rows || 3}"
-                              style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; transition: border-color 0.2s;"
+                              style="width: 100%; padding: 0.75rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; transition: border-color 0.2s;"
                               ${question.required ? 'required' : ''}>${escapeHtml(prefilledStr)}</textarea>
                 `;
             } else {
@@ -987,7 +987,7 @@ class LandingQuiz {
                            id="question_${question.id}"
                            placeholder="${escapeHtml(question.placeholder || '')}"
                            value="${escapeHtml(prefilledStr)}"
-                           style="width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;"
+                           style="width: 100%; padding: 0.75rem; border: 2px solid #e6eae8; border-radius: 8px; font-size: 1rem; transition: border-color 0.2s;"
                            ${question.required ? 'required' : ''}
                            ${question.pattern ? `pattern="${question.pattern}"` : ''}
                            ${question.maxlength ? `maxlength="${question.maxlength}"` : ''}>

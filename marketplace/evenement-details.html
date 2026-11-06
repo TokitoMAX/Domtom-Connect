@@ -12,11 +12,11 @@
             --primary: #10b981;
             --primary-light: #ecfdf5;
             --accent: #059669;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --bg-body: #f8fafc;
+            --text-main: #0c100e;
+            --text-muted: #717c77;
+            --bg-body: #f6f8f7;
             --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-            --border: #e2e8f0;
+            --border: #e6eae8;
         }
 
         body {
@@ -273,7 +273,7 @@
             border-radius: 28px;
             padding: 32px;
             border: 2px solid var(--primary);
-            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.15);
             margin-bottom: 24px;
         }
 
@@ -298,14 +298,14 @@
             cursor: pointer;
             transition: 0.3s;
             margin-top: 16px;
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
             letter-spacing: -0.01em;
         }
 
         .btn-reserve:hover {
             transform: translateY(-3px);
-            box-shadow: 0 20px 30px rgba(99, 102, 241, 0.3);
-            background: #4f46e5;
+            box-shadow: 0 20px 30px rgba(16, 185, 129, 0.3);
+            background: #059669;
         }
 
         .trust-line {
@@ -425,7 +425,7 @@
                         À propos
                     </h3>
                     <p id="event-desc"
-                        style="font-size: 1.2rem; color: #475569; white-space: pre-wrap; font-weight: 500;">...</p>
+                        style="font-size: 1.2rem; color: #56615c; white-space: pre-wrap; font-weight: 500;">...</p>
                 </section>
 
                 <section class="content-section">
@@ -451,7 +451,7 @@
                         </svg>
                         Localisation
                     </h3>
-                    <div id="map-ui" style="height: 350px; border-radius: 20px; background: #f1f5f9; overflow: hidden;">
+                    <div id="map-ui" style="height: 350px; border-radius: 20px; background: #f1f4f2; overflow: hidden;">
                         <!-- Map iframe injected by JS -->
                     </div>
                 </section>
@@ -553,10 +553,10 @@
                 if (isVirtual) {
                     document.getElementById('location-section').style.display = 'block';
                     document.getElementById('map-ui').innerHTML = `
-                        <div style="background:#0f172a; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; border-radius:20px; padding:20px;">
+                        <div style="background:#0c100e; height:100%; display:flex; align-items:center; justify-content:center; flex-direction:column; color:white; border-radius:20px; padding:20px;">
                             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
                             <p style="margin-top:16px; font-weight:800; font-size:1.1rem; margin-bottom:8px;">Événement en Ligne / Visio</p>
-                            <p style="color:#94a3b8; font-size:0.85rem; max-width:280px; text-align:center; margin:0;">Le lien d'accès vous sera envoyé par e-mail après votre inscription.</p>
+                            <p style="color:#a7b0ac; font-size:0.85rem; max-width:280px; text-align:center; margin:0;">Le lien d'accès vous sera envoyé par e-mail après votre inscription.</p>
                         </div>
                     `;
                     const sectionHeader = document.getElementById('map-ui').parentElement.querySelector('.section-header');
@@ -615,11 +615,11 @@
                 `;
             } else {
                 html = `
-                    <div style="margin-bottom:20px; padding:15px; background:#f8fafc; border-radius:16px; border:1px solid #e2e8f0;">
-                        <label style="display:block; font-size:0.7rem; font-weight:950; color:#64748b; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
+                    <div style="margin-bottom:20px; padding:15px; background:#f6f8f7; border-radius:16px; border:1px solid #e6eae8;">
+                        <label style="display:block; font-size:0.7rem; font-weight:950; color:#717c77; text-transform:uppercase; margin-bottom:8px;">Code Promo ?</label>
                         <div style="display:flex; gap:8px;">
-                            <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e2e8f0; font-family:inherit; font-weight:700;">
-                            <button onclick="applyPromo('${ev.id}')" style="background:#0f172a; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
+                            <input id="promo-input" type="text" placeholder="Entrez un code" style="flex:1; padding:10px; border-radius:10px; border:1.5px solid #e6eae8; font-family:inherit; font-weight:700;">
+                            <button onclick="applyPromo('${ev.id}')" style="background:#0c100e; color:white; border:none; padding:10px 15px; border-radius:10px; font-weight:800; cursor:pointer; font-family:inherit; font-size:0.8rem;">Appliquer</button>
                         </div>
                         <div id="promo-msg" style="margin-top:8px; font-size:0.75rem; font-weight:800; display:none;"></div>
                     </div>
@@ -631,7 +631,7 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                         <span style="font-weight:850; font-size:1.05rem;">${tk.name}</span>
                         <div>
-                            <span id="price-old-${tk.name.replace(/\s+/g, '')}" style="font-weight:700; color:#94a3b8; text-decoration:line-through; font-size:0.9rem; display:none; margin-right:8px;"></span>
+                            <span id="price-old-${tk.name.replace(/\s+/g, '')}" style="font-weight:700; color:#a7b0ac; text-decoration:line-through; font-size:0.9rem; display:none; margin-right:8px;"></span>
                             <span id="price-${tk.name.replace(/\s+/g, '')}" class="ticket-price" data-original="${tk.price}" style="font-weight:950; color:var(--primary); font-size:1.2rem;">${parseFloat(tk.price).toFixed(2)}€</span>
                         </div>
                     </div>

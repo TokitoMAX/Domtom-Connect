@@ -55,7 +55,7 @@ const FinanceModule = {
             if (error) throw error;
 
             if (!experts || experts.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:40px; color:#64748b;">Aucun reversement en attente. Tous les experts sont à jour.</p>`;
+                container.innerHTML = `<p style="text-align:center; padding:40px; color:#717c77;">Aucun reversement en attente. Tous les experts sont à jour.</p>`;
                 return;
             }
 
@@ -77,9 +77,9 @@ const FinanceModule = {
                     <tr>
                         <td>
                             <div style="font-weight: 800;">${exp.full_name || 'Utilisateur'}</div>
-                            <div style="font-size: 0.75rem; color: #64748b;">${exp.id.slice(0,8)}...</div>
+                            <div style="font-size: 0.75rem; color: #717c77;">${exp.id.slice(0,8)}...</div>
                         </td>
-                        <td style="font-family: monospace; color: #2563eb;">${exp.paypal_email || 'Non configuré'}</td>
+                        <td style="font-family: monospace; color: #059669;">${exp.paypal_email || 'Non configuré'}</td>
                         <td style="font-weight: 900; font-size: 1.1rem;">${(exp.balance || 0).toLocaleString()} €</td>
                         <td>
                             <button onclick="FinanceModule.payExpert('${exp.id}', '${exp.paypal_email}', ${exp.balance})" 
@@ -111,9 +111,9 @@ const FinanceModule = {
                 <p>Montant à verser : <strong>${amount} €</strong></p>
                 <p>Expert : <strong>${email}</strong></p>
                 <div style="margin:20px 0;">
-                    <a href="${paypalLink}" target="_blank" class="btn-payout" style="background:#0070ba; text-decoration:none; display:inline-block;">1. Faire le virement sur PayPal</a>
+                    <a href="${paypalLink}" target="_blank" class="btn-payout" style="background:#10b981; text-decoration:none; display:inline-block;">1. Faire le virement sur PayPal</a>
                 </div>
-                <p style="font-size:0.8rem; color:#64748b;">Une fois le virement fait, cliquez ci-dessous pour valider la balance.</p>
+                <p style="font-size:0.8rem; color:#717c77;">Une fois le virement fait, cliquez ci-dessous pour valider la balance.</p>
             `,
             icon: 'info',
             showCancelButton: true,

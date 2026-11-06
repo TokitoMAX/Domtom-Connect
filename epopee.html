@@ -21,7 +21,7 @@
 
     <style>
         :root {
-            --progress-bar-bg: #e2e8f0;
+            --progress-bar-bg: #e6eae8;
             --progress-bar-fill: #10b981;
         }
 
@@ -48,7 +48,7 @@
         .dashboard-layout {
             display: flex;
             min-height: 100vh;
-            background-color: #f8fafc;
+            background-color: #f6f8f7;
         }
 
         /* Sidebar Automatisée (Aceternity Style) */
@@ -195,7 +195,7 @@
             display: flex;
             flex-direction: column;
             transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #f8fafc;
+            background: #f6f8f7;
         }
 
         /* Top Bar de Navigation (Centrée, Style Pill) */
@@ -588,8 +588,8 @@
         .sre-step {
             flex: 1;
             padding: 16px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: #f6f8f7;
+            border: 1px solid #e6eae8;
             border-radius: 16px;
             text-align: center;
             cursor: pointer;
@@ -613,7 +613,7 @@
             display: block;
             font-size: 0.7rem;
             font-weight: 800;
-            color: #64748b;
+            color: #717c77;
             text-transform: uppercase;
             margin-bottom: 4px;
         }
@@ -689,7 +689,7 @@
             display: block;
             font-size: 0.8rem;
             font-weight: 700;
-            color: #64748b;
+            color: #717c77;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.02em;
@@ -699,8 +699,8 @@
             width: 100%;
             padding: 12px 16px;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
+            border: 1px solid #e6eae8;
+            background: #f6f8f7;
             font-size: 0.95rem;
             transition: all 0.2s;
         }
@@ -727,10 +727,10 @@
             text-decoration: none;
         }
 
-        .sre-btn.primary { background: #111827; color: white; }
+        .sre-btn.primary { background: #0e1311; color: white; }
         .sre-btn.primary:hover { background: #000; transform: translateY(-2px); }
-        .sre-btn.secondary { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-        .sre-btn.secondary:hover { background: #e2e8f0; }
+        .sre-btn.secondary { background: #f1f4f2; color: #56615c; border: 1px solid #e6eae8; }
+        .sre-btn.secondary:hover { background: #e6eae8; }
 
         .cockpit-section {
             display: none;
@@ -775,7 +775,7 @@
         .kpi-label {
             font-size: 0.7rem;
             font-weight: 800;
-            color: #64748b;
+            color: #717c77;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -783,13 +783,13 @@
         .kpi-value {
             font-size: 2.2rem;
             font-weight: 900;
-            color: #0f172a;
+            color: #0c100e;
             letter-spacing: -0.03em;
         }
 
         .kpi-sub {
             font-size: 0.75rem;
-            color: #94a3b8;
+            color: #a7b0ac;
             font-weight: 600;
         }
 
@@ -814,7 +814,7 @@
         }
 
         .btn-cockpit.primary {
-            background: #0f172a;
+            background: #0c100e;
             color: white;
             border: none;
         }
@@ -827,8 +827,8 @@
 
         .btn-cockpit.outline {
             background: transparent;
-            border-color: #3b82f6;
-            color: #3b82f6;
+            border-color: #10b981;
+            color: #10b981;
         }
 
         .btn-cockpit.danger {
@@ -866,7 +866,7 @@
 
         /* Heroic Vision Card */
         .vision-card {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%);
             padding: 32px;
             border-radius: 20px;
             margin-bottom: 32px;
@@ -919,7 +919,7 @@
         .hero-modal select,
         .hero-modal textarea {
             width: 100%;
-            background: #f8fafc;
+            background: #f6f8f7;
             border: 1px solid var(--gray-200);
             border-radius: 12px;
             padding: 14px 16px;
@@ -983,7 +983,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(14, 19, 17, 0.8);
             backdrop-filter: blur(4px);
             display: none;
             justify-content: center;
@@ -1169,7 +1169,7 @@
 
 
             <!-- DÉCOUVRIR (ANNUAIRES) -->
-            <div style="margin-top:24px; padding:0 24px; font-size:0.75rem; font-weight:800; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em;">L'Écosystème</div>
+            <div style="margin-top:24px; padding:0 24px; font-size:0.75rem; font-weight:800; color:#a7b0ac; text-transform:uppercase; letter-spacing:0.05em;">L'Écosystème</div>
             
             <a href="marketplace/directory" class="sidebar-link" title="Annuaire Talents">
                 <span class="sidebar-icon">
@@ -1664,9 +1664,9 @@
                                 </div>
                                 
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                                    <div style="background: #f8fafc; padding: 12px; border-radius: 10px; text-align: center;">
-                                        <div style="font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom:4px;">Inscrits</div>
-                                        <div style="font-size: 1.1rem; font-weight: 900; color: #0f172a;">${ticketCount} / ${totalSpots}</div>
+                                    <div style="background: #f6f8f7; padding: 12px; border-radius: 10px; text-align: center;">
+                                        <div style="font-size: 0.65rem; font-weight: 700; color: #717c77; text-transform: uppercase; margin-bottom:4px;">Inscrits</div>
+                                        <div style="font-size: 1.1rem; font-weight: 900; color: #0c100e;">${ticketCount} / ${totalSpots}</div>
                                     </div>
                                     <div style="background: #f0fdf4; padding: 12px; border-radius: 10px; text-align: center;">
                                         <div style="font-size: 0.65rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom:4px;">CA Total (avec frais)</div>
@@ -1682,13 +1682,13 @@
 
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
                                     <button onclick="viewAttendees('${ev.id}')" class="cta-button secondary" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:inline-block; text-align:center; border:1.5px solid var(--gray-200); background:transparent; cursor:pointer;">Liste</button>
-                                    <a href="marketplace/scanner.html?event_id=${ev.id}" class="cta-button" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:6px; background:#0f172a; color:white; text-decoration:none; font-weight:800;">
+                                    <a href="marketplace/scanner.html?event_id=${ev.id}" class="cta-button" style="width: 100%; font-size: 0.8rem; padding: 8px; border-radius:8px; display:flex; align-items:center; justify-content:center; gap:6px; background:#0c100e; color:white; text-decoration:none; font-weight:800;">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/></svg>
                                         Scanner
                                     </a>
                                 </div>
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                                    <button onclick="editEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#f1f5f9; border:none; color:#475569; font-weight:700; cursor:pointer;">Modifier</button>
+                                    <button onclick="editEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#f1f4f2; border:none; color:#56615c; font-weight:700; cursor:pointer;">Modifier</button>
                                     <button onclick="deleteEvent('${ev.id}')" class="cta-button" style="width: 100%; font-size: 0.75rem; padding: 6px; border-radius:6px; background:#fef2f2; border:none; color:#ef4444; font-weight:700; cursor:pointer;">Supprimer</button>
                                 </div>
                             </div>
@@ -1768,7 +1768,7 @@
                             <td style="padding: 12px 8px;">${t.tier_name || 'Standard'}</td>
                             <td style="padding: 12px 8px;">
                                 <span style="display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:800; 
-                                    ${isValidated ? 'background:#dcfce7; color:#166534;' : 'background:#f1f5f9; color:#475569;'}">
+                                    ${isValidated ? 'background:#dcfce7; color:#166534;' : 'background:#f1f4f2; color:#56615c;'}">
                                     ${isValidated ? '✓ VALIDÉ' : 'ATTENTE'}
                                 </span>
                             </td>
@@ -1838,8 +1838,8 @@
 
                 if (!canSeeMatches) {
                     container.innerHTML = `
-                        <div style="grid-column: 1 / -1; background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 16px; color: #64748b; font-weight: 900;">PRIVÉ</div>
+                        <div style="grid-column: 1 / -1; background: #f6f8f7; border: 2px dashed #e6eae8; border-radius: 12px; padding: 40px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 16px; color: #717c77; font-weight: 900;">PRIVÉ</div>
                             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Activez vos Pépites</h3>
                             <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto 24px;">Le pack Business débloque l'algorithme qui trouve les meilleurs experts (vos pépites) pour votre projet.</p>
                             <a href="#pricing" class="cta-button primary" style="background:#10b981; border:none;">Découvrir le Pack Business</a>
@@ -1872,14 +1872,14 @@
             return `
                 <div class="company-card" style="padding: 20px;">
                     <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-                        <div style="width:40px; height:40px; border-radius:8px; background:#f1f5f9; display:flex; align-items:center; justify-content:center; font-weight:800; color:#475569;">${initials}</div>
+                        <div style="width:40px; height:40px; border-radius:8px; background:#f1f4f2; display:flex; align-items:center; justify-content:center; font-weight:800; color:#56615c;">${initials}</div>
                         <div>
                             <div style="font-size:0.95rem; font-weight:800;">${name}</div>
-                            <div style="font-size:0.75rem; color:#7c3aed; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
+                            <div style="font-size:0.75rem; color:#059669; font-weight:700;">${expert.title || 'Expert Stratégique'}</div>
                         </div>
                     </div>
                     <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Top match basé sur vos besoins en ${expert.sector || 'Digital'}.</p>
-                    <a href="messages.html?to=${expert.id}" class="btn-contact" style="background:#0f172a; padding:8px; font-size:0.8rem;">Contacter cet expert</a>
+                    <a href="messages.html?to=${expert.id}" class="btn-contact" style="background:#0c100e; padding:8px; font-size:0.8rem;">Contacter cet expert</a>
                 </div>
             `;
         }
@@ -2003,8 +2003,8 @@
             }
 
             if (!projects || projects.length === 0) {
-                listContainer.innerHTML = `<div style="text-align:center; padding:40px; border:2px dashed #e2e8f0; border-radius:20px;">
-                    <p style="color:#64748b; font-weight:600; margin-bottom:16px;">Vous n'avez pas encore d'Épopée en cours.</p>
+                listContainer.innerHTML = `<div style="text-align:center; padding:40px; border:2px dashed #e6eae8; border-radius:20px;">
+                    <p style="color:#717c77; font-weight:600; margin-bottom:16px;">Vous n'avez pas encore d'Épopée en cours.</p>
                     <button onclick="createNewSREProject()" class="sre-btn primary" style="margin:0 auto;">Démarrer mon projet</button>
                 </div>`;
                 renderSREEmptyState();
@@ -2016,12 +2016,12 @@
                 <div class="dash-card" style="margin-bottom:12px; cursor:pointer; transition:all 0.2s;" onclick="selectProject('${p.id}')">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <div>
-                            <div style="font-weight:800; font-size:1.1rem; color:#111827;">${p.title || 'Sans titre'}</div>
-                            <div style="font-size:0.8rem; color:#64748b; margin-top:4px;">${p.is_listed ? '🚀 En ligne' : '🛠️ En cours'}</div>
+                            <div style="font-weight:800; font-size:1.1rem; color:#0e1311;">${p.title || 'Sans titre'}</div>
+                            <div style="font-size:0.8rem; color:#717c77; margin-top:4px;">${p.is_listed ? '🚀 En ligne' : '🛠️ En cours'}</div>
                         </div>
                         <div style="text-align:right;">
                             <div style="font-weight:900; color:#10b981;">${(p.total_raised || 0).toLocaleString()} €</div>
-                            <div style="font-size:0.75rem; color:#94a3b8;">Récoltés</div>
+                            <div style="font-size:0.75rem; color:#a7b0ac;">Récoltés</div>
                         </div>
                     </div>
                 </div>
@@ -2059,7 +2059,7 @@
             container.innerHTML = `
                 <div style="text-align:center; padding:40px;">
                     <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">Bienvenue dans votre Success Engine</h2>
-                    <p style="color:#64748b; max-width:500px; margin:0 auto 24px;">Structurez votre projet pour convaincre les investisseurs et sécuriser vos fonds.</p>
+                    <p style="color:#717c77; max-width:500px; margin:0 auto 24px;">Structurez votre projet pour convaincre les investisseurs et sécuriser vos fonds.</p>
                     <button onclick="createNewSREProject()" class="sre-btn primary" style="margin:0 auto;">+ Créer mon Épopée</button>
                 </div>
             `;
@@ -2077,7 +2077,7 @@
             let adminHeader = "";
             if (isAdminInspection) {
                 adminHeader = `
-                    <div style="background: #1e1b4b; color: white; padding: 16px 24px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                    <div style="background: #2b2e2c; color: white; padding: 16px 24px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
                         <div>
                             <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.8; font-weight: 700;">Mode Inspection Administrateur</div>
                             <div style="font-size: 1.1rem; font-weight: 800;">Examen de : ${p.title}</div>
@@ -2102,7 +2102,7 @@
                     </div>
                     <div style="display:flex; align-items:center; gap:16px;">
                         <button id="btn-sync-project" onclick="syncSREProject()" title="Synchroniser les données" 
-                                style="background:white; color:#64748b; border:1px solid #e2e8f0; padding:8px; border-radius:8px; cursor:pointer; display:flex; align-items:center; transition:all 0.2s;">
+                                style="background:white; color:#717c77; border:1px solid #e6eae8; padding:8px; border-radius:8px; cursor:pointer; display:flex; align-items:center; transition:all 0.2s;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
                         </button>
 
@@ -2151,7 +2151,7 @@
                 <div id="matchmaking-section" style="display:none; margin-top:60px; padding-top:40px; border-top:1px solid var(--gray-200);">
                     <div style="margin-bottom:24px;">
                         <h2 style="font-size:1.5rem; font-weight:800; margin:0; display:flex; align-items:center; gap:12px;">
-                            💎 VOS PÉPITES <span style="font-size:0.75rem; background:#7c3aed; color:white; padding:4px 10px; border-radius:20px;">TALENTS MATCHÉS</span>
+                            💎 VOS PÉPITES <span style="font-size:0.75rem; background:#059669; color:white; padding:4px 10px; border-radius:20px;">TALENTS MATCHÉS</span>
                         </h2>
                         <p style="color:var(--text-secondary); font-size:0.95rem; margin-top:8px;">Nos recommandations d'experts pour propulser votre Épopée.</p>
                     </div>
@@ -2209,8 +2209,8 @@
                             <label class="form-label">L'Enjeu (Pourquoi ?)</label>
                             <textarea class="sre-input" style="height:100px;" onblur="saveProjectField('enjeu', this.value)" placeholder="Pourquoi est-ce crucial pour votre territoire ?" ${isAdminInspection ? 'disabled' : ''}>${p.enjeu || p.Enjeu || p.ENJEU || ''}</textarea>
                         </div>
-                        <div style="background:#f8fafc; padding:20px; border-radius:16px; border:1px solid #e2e8f0;">
-                            <p style="font-size:0.85rem; color:#64748b; margin:0;">Le "Pourquoi" est ce qui convainc les partenaires institutionnels en premier.</p>
+                        <div style="background:#f6f8f7; padding:20px; border-radius:16px; border:1px solid #e6eae8;">
+                            <p style="font-size:0.85rem; color:#717c77; margin:0;">Le "Pourquoi" est ce qui convainc les partenaires institutionnels en premier.</p>
                         </div>
                     </div>
                 </div>
@@ -2223,7 +2223,7 @@
                     <div>
                         <label class="form-label">Le Porteur / L'Équipe</label>
                         <textarea class="sre-input" style="height:150px;" onblur="saveProjectField('equipe', this.value)" placeholder="Qui êtes-vous ? Quelles sont vos compétences clés pour réussir ce projet ?" ${isAdminInspection ? 'disabled' : ''}>${p.equipe || ''}</textarea>
-                        <p style="font-size:0.75rem; color:#64748b; margin-top:12px;">La BPI et les banques misent avant tout sur l'humain.</p>
+                        <p style="font-size:0.75rem; color:#717c77; margin-top:12px;">La BPI et les banques misent avant tout sur l'humain.</p>
                     </div>
                     <div>
                         <label class="form-label">Motivation & Valeurs</label>
@@ -2336,7 +2336,7 @@
             
             return `
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
-                    <div class="sre-step-card" style="background:#f8fafc; padding:32px; border-radius:24px; border:1px solid #e2e8f0;">
+                    <div class="sre-step-card" style="background:#f6f8f7; padding:32px; border-radius:24px; border:1px solid #e6eae8;">
                         <h4 style="margin-bottom:16px;">🛡️ Conformité Légale</h4>
                         ${isVerified ? `
                             <div style="background:#ecfdf5; padding:24px; border-radius:16px; border:1px solid #10b981; text-align:center;">
@@ -2376,16 +2376,16 @@
                                 </div>
                                 
                                 <div style="text-align:center; position:relative; margin:10px 0;">
-                                    <span style="background:#f8fafc; padding:0 12px; font-size:0.75rem; color:#94a3b8; font-weight:700;">OU</span>
-                                    <hr style="border:none; border-top:1px solid #e2e8f0; position:absolute; top:50%; width:100%; z-index:-1;">
+                                    <span style="background:#f6f8f7; padding:0 12px; font-size:0.75rem; color:#a7b0ac; font-weight:700;">OU</span>
+                                    <hr style="border:none; border-top:1px solid #e6eae8; position:absolute; top:50%; width:100%; z-index:-1;">
                                 </div>
 
                                 <div>
                                     <label class="form-label" style="font-size:0.75rem;">Option B : Pièce d'Identité (Justification)</label>
-                                    <div id="id-upload-container" style="padding:20px; border:2px dashed #cbd5e1; border-radius:16px; text-align:center; background:white; transition:all 0.3s;">
+                                    <div id="id-upload-container" style="padding:20px; border:2px dashed #d4dad7; border-radius:16px; text-align:center; background:white; transition:all 0.3s;">
                                         <input type="file" id="id-upload-input" style="display:none" onchange="handleIDUpload(this, '${p.id}')">
                                         <button id="btn-id-verify" onclick="document.getElementById('id-upload-input').click()" class="sre-btn secondary" style="font-size:0.8rem;">📤 Téléverser CNI / Passeport</button>
-                                        <p style="font-size:0.65rem; color:#94a3b8; margin-top:8px;">Format PDF, JPG ou PNG (Max 5Mo)</p>
+                                        <p style="font-size:0.65rem; color:#a7b0ac; margin-top:8px;">Format PDF, JPG ou PNG (Max 5Mo)</p>
                                     </div>
                                 </div>
                             </div>
@@ -2394,7 +2394,7 @@
 
                     <div style="text-align:center;">
                         <h3 style="margin-bottom:12px;">Propulsion Finale</h3>
-                        <p style="color:#64748b; margin-bottom:24px; font-size:0.9rem;">Prêt pour le grand saut ? Voici votre manifeste final.</p>
+                        <p style="color:#717c77; margin-bottom:24px; font-size:0.9rem;">Prêt pour le grand saut ? Voici votre manifeste final.</p>
                         
                         <div style="display:grid; gap:16px; text-align:left; margin-bottom:24px;">
                             <div>
@@ -2415,7 +2415,7 @@
                                 ${p.is_listed ? 'RETIRER MON ÉPOPÉE' : 'LANCER MON ÉPOPÉE'}
                             </button>
                         ` : `
-                            <div style="padding:16px; background:#f1f5f9; border-radius:12px; color:#94a3b8; font-size:0.85rem; font-weight:700; border:1px solid #e2e8f0;">
+                            <div style="padding:16px; background:#f1f4f2; border-radius:12px; color:#a7b0ac; font-size:0.85rem; font-weight:700; border:1px solid #e6eae8;">
                                 🔒 Lancement bloqué (Attente de vérification)
                             </div>
                         `}
@@ -2589,11 +2589,11 @@
             const { data: milestones } = await _supabase.from('project_milestones').select('*').eq('project_id', id).order('amount_threshold', { ascending: true });
             
             if (!milestones || milestones.length === 0) {
-                container.innerHTML = `<p style="font-size:0.8rem; color:#94a3b8; text-align:center; padding:12px; border:1px dashed #e2e8f0; border-radius:12px;">Aucun palier défini.</p>`;
+                container.innerHTML = `<p style="font-size:0.8rem; color:#a7b0ac; text-align:center; padding:12px; border:1px dashed #e6eae8; border-radius:12px;">Aucun palier défini.</p>`;
                 return;
             }
             container.innerHTML = milestones.map(m => `
-                <div style="background:white; border:1px solid #e2e8f0; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="background:white; border:1px solid #e6eae8; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
                     <div>
                         <div style="font-weight:800; font-size:0.9rem;">${m.amount_threshold}€ : ${m.title}</div>
                     </div>
@@ -2608,11 +2608,11 @@
             const { data: rewards } = await _supabase.from('project_rewards').select('*').eq('project_id', id).order('amount', { ascending: true });
             
             if (!rewards || rewards.length === 0) {
-                container.innerHTML = `<p style="font-size:0.8rem; color:#94a3b8; text-align:center; padding:12px; border:1px dashed #e2e8f0; border-radius:12px;">Aucune offre définie.</p>`;
+                container.innerHTML = `<p style="font-size:0.8rem; color:#a7b0ac; text-align:center; padding:12px; border:1px dashed #e6eae8; border-radius:12px;">Aucune offre définie.</p>`;
                 return;
             }
             container.innerHTML = rewards.map(r => `
-                <div style="background:white; border:1px solid #e2e8f0; padding:12px; border-radius:12px; display:flex; gap:12px; align-items:center;">
+                <div style="background:white; border:1px solid #e6eae8; padding:12px; border-radius:12px; display:flex; gap:12px; align-items:center;">
                     <div style="flex:1;">
                         <div style="font-weight:800; font-size:0.85rem;">${r.title} (${r.amount}€)</div>
                     </div>
@@ -2641,8 +2641,8 @@
                 preview.style.borderColor = '#10b981';
                 placeholder.style.display = 'none';
             } else {
-                preview.style.background = '#f1f5f9';
-                preview.style.borderColor = '#cbd5e1';
+                preview.style.background = '#f1f4f2';
+                preview.style.borderColor = '#d4dad7';
                 placeholder.style.display = 'block';
             }
         }
@@ -2707,9 +2707,9 @@
                 if (filenameLabel) filenameLabel.innerText = file.name;
                 if (statusText) {
                     statusText.innerText = "Dépôt en cours...";
-                    statusText.style.color = "#0284c7";
+                    statusText.style.color = "#059669";
                 }
-                if (container) container.style.background = "#f8fafc";
+                if (container) container.style.background = "#f6f8f7";
 
                 // Pour un UX Premium, on garde la barre de progression (simulée pour le flux de données)
                 let progress = 0;
@@ -2769,7 +2769,7 @@
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
                                 </div>
                                 Document transmis avec succès ✅
-                                <p style="font-weight:400; color:#64748b; font-size:0.65rem; margin:0;">Analyse en cours par Domtom Connect</p>
+                                <p style="font-weight:400; color:#717c77; font-size:0.65rem; margin:0;">Analyse en cours par Domtom Connect</p>
                             </div>
                         `;
                     }, 500);
@@ -2889,20 +2889,20 @@
                                 </div>
                             </div>
                             <div style="padding: 20px; flex-grow: 1;">
-                                <div style="font-size: 0.8rem; color: #64748b; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                                <div style="font-size: 0.8rem; color: #717c77; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
                                     ${event.event_date}
                                 </div>
-                                <div style="background: #f8fafc; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid #f1f5f9;">
+                                <div style="background: #f6f8f7; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid #f1f4f2;">
                                     <div id="qr-attendee-${t.id}" style="width: 140px; height: 140px;"></div>
-                                    <div style="font-size: 0.7rem; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 1px;">Réf: ${t.id.substring(0,8).toUpperCase()}</div>
+                                    <div style="font-size: 0.7rem; font-weight: 800; color: #0c100e; text-transform: uppercase; letter-spacing: 1px;">Réf: ${t.id.substring(0,8).toUpperCase()}</div>
                                 </div>
                                 <div style="margin-top: 15px; display: flex; gap: 8px;">
-                                    <button onclick="downloadTicketFromDash('${t.id}')" style="flex:1; background:#0f172a; color:white; border:none; padding:10px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                                    <button onclick="downloadTicketFromDash('${t.id}')" style="flex:1; background:#0c100e; color:white; border:none; padding:10px; border-radius:10px; font-size:0.75rem; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
                                         Billet
                                     </button>
-                                    <a href="marketplace/evenement-details.html?id=${t.event_id}" style="text-decoration:none; background:#f1f5f9; color:#475569; padding:10px; border-radius:10px; font-size:0.75rem; font-weight:700; flex:1; text-align:center;">Détails</a>
+                                    <a href="marketplace/evenement-details.html?id=${t.event_id}" style="text-decoration:none; background:#f1f4f2; color:#56615c; padding:10px; border-radius:10px; font-size:0.75rem; font-weight:700; flex:1; text-align:center;">Détails</a>
                                 </div>
                             </div>
                         </div>
@@ -2942,8 +2942,8 @@
             tempDiv.style.position = 'fixed';
             tempDiv.style.left = '-9999px';
             tempDiv.innerHTML = `
-                <div id="pdf-template" style="width: 180mm; background: white; font-family: 'Outfit', sans-serif; padding: 0; color: #0f172a;">
-                    <div style="height: 160px; background: #0f172a; position: relative; display: flex; align-items: flex-end; padding: 30px; overflow: hidden;">
+                <div id="pdf-template" style="width: 180mm; background: white; font-family: 'Outfit', sans-serif; padding: 0; color: #0c100e;">
+                    <div style="height: 160px; background: #0c100e; position: relative; display: flex; align-items: flex-end; padding: 30px; overflow: hidden;">
                         <img src="${ticket.events.image_url}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5;">
                         <div style="position: relative; z-index: 1;">
                             <div style="font-size: 14px; color: #10b981; font-weight: 800; letter-spacing: 2px; margin-bottom: 5px;">BILLET OFFICIEL</div>
@@ -2953,27 +2953,27 @@
                     <div style="padding: 40px;">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
                             <div>
-                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Hôte / Lieu</div>
+                                <div style="font-size: 11px; color: #717c77; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Hôte / Lieu</div>
                                 <div style="font-size: 16px; font-weight: 700;">${ticket.events.location}</div>
                             </div>
                             <div>
-                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Date de l'événement</div>
+                                <div style="font-size: 11px; color: #717c77; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Date de l'événement</div>
                                 <div style="font-size: 16px; font-weight: 700;">${ticket.events.event_date}</div>
                             </div>
                             <div>
-                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Type de Billet</div>
+                                <div style="font-size: 11px; color: #717c77; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Type de Billet</div>
                                 <div style="font-size: 16px; font-weight: 700;">${ticket.tier_name}</div>
                             </div>
                             <div>
-                                <div style="font-size: 11px; color: #64748b; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Référence</div>
+                                <div style="font-size: 11px; color: #717c77; font-weight: 800; text-transform: uppercase; margin-bottom: 5px;">Référence</div>
                                 <div style="font-size: 16px; font-weight: 800; color: #10b981;">#${ticket.id.substring(0,8).toUpperCase()}</div>
                             </div>
                         </div>
 
-                        <div style="border-top: 2px dashed #e2e8f0; padding-top: 40px; text-align: center;">
-                            <div id="temp-qr" style="display: inline-block; padding: 20px; background: #f8fafc; border-radius: 20px; margin-bottom: 20px;"></div>
-                            <div style="font-size: 14px; font-weight: 700; color: #64748b;">PRÉSENTEZ CE CODE À L'ENTRÉE</div>
-                            <div style="margin-top: 50px; font-size: 10px; color: #94a3b8; letter-spacing: 1px;">GÉNÉRÉ PAR DOMTOM CONNECT TICKETING</div>
+                        <div style="border-top: 2px dashed #e6eae8; padding-top: 40px; text-align: center;">
+                            <div id="temp-qr" style="display: inline-block; padding: 20px; background: #f6f8f7; border-radius: 20px; margin-bottom: 20px;"></div>
+                            <div style="font-size: 14px; font-weight: 700; color: #717c77;">PRÉSENTEZ CE CODE À L'ENTRÉE</div>
+                            <div style="margin-top: 50px; font-size: 10px; color: #a7b0ac; letter-spacing: 1px;">GÉNÉRÉ PAR DOMTOM CONNECT TICKETING</div>
                         </div>
                     </div>
                 </div>
@@ -3084,16 +3084,16 @@
 
             if (isAdmin) {
                 roleBadge.textContent = "Administrateur Système";
-                roleBadge.style.background = "rgba(124, 58, 237, 0.1)";
-                roleBadge.style.color = "#7c3aed";
+                roleBadge.style.background = "rgba(16, 185, 129, 0.1)";
+                roleBadge.style.color = "#059669";
 
                 // Admin Specific Summary
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: #7c3aed;">
-                        <div class="card-title">🚀 VALIDATION DES ÉPOPÉES <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(124,58,237,0.2);color:#7c3aed;padding:2px 8px;border-radius:20px;">0</span></div>
+                    <div class="dash-card highlight" style="border-color: #059669;">
+                        <div class="card-title">🚀 VALIDATION DES ÉPOPÉES <span id="pending-count-badge" style="display:none;font-size:0.7rem;background:rgba(16, 185, 129,0.2);color:#059669;padding:2px 8px;border-radius:20px;">0</span></div>
                         <p class="card-desc">Zone réservée à Domtom Connect pour approuver les projets des membres.</p>
                         <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
-                            <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#7c3aed; border:none; color:white; font-weight:800;">ACCÉDER AUX VALIDATIONS →</button>
+                            <button onclick="showView('success-engine')" class="cta-button primary" style="justify-content:center; background:#059669; border:none; color:white; font-weight:800;">ACCÉDER AUX VALIDATIONS →</button>
                         </div>
                     </div>
 
@@ -3108,10 +3108,10 @@
 
                 if (additionalContent) {
                     additionalContent.innerHTML = `
-                        <section id="admin-validation-zone" style="margin-top: 40px; border-top: 2px solid #7c3aed; padding-top: 40px; background: rgba(124, 58, 237, 0.02); padding: 30px; border-radius: 24px;">
+                        <section id="admin-validation-zone" style="margin-top: 40px; border-top: 2px solid #059669; padding-top: 40px; background: rgba(16, 185, 129, 0.02); padding: 30px; border-radius: 24px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                                 <div>
-                                    <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #1e1b4b;">🛠 ZONE DE VALIDATION (ADMIN)</h2>
+                                    <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #2b2e2c;">🛠 ZONE DE VALIDATION (ADMIN)</h2>
                                     <p style="color: var(--text-secondary); margin-top: 4px;">Point par point : examinez et approuvez les projets soumis.</p>
                                 </div>
                             </div>
@@ -3223,17 +3223,17 @@
                         <div class="dash-card highlight" style="grid-column: 1 / -1; margin-top: 24px; border-color: #10b981; background: rgba(16, 185, 129, 0.02);">
                             <div class="card-title">Vos Services Premium (Pack Authority)</div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
-                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8;">
                                     <div style="font-weight: 800; color: #10b981; margin-bottom: 4px;">PODCAST</div>
                                     <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Réservez votre créneau pour votre interview podcast.</p>
                                     <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button primary" style="font-size: 0.75rem; padding: 8px 12px; background: #10b981; border: none;">Réserver mon RDV</a>
                                 </div>
-                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8;">
                                     <div style="font-weight: 800; color: #10b981; margin-bottom: 4px;">COMMUNAUTÉ</div>
                                     <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Rejoignez le groupe WhatsApp des experts premium.</p>
                                     <a href="https://chat.whatsapp.com/Fe8LuB5IUa1K8JbP00qOdt" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 8px 12px; border-color: #10b981; color: #10b981;">Accéder au groupe</a>
                                 </div>
-                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8;">
                                     <div style="font-weight: 800; color: #10b981; margin-bottom: 4px;">BADGE VÉRIFIÉ</div>
                                     <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Votre profil affiche désormais le badge de confiance.</p>
                                     <div style="color: #10b981; font-weight: 700; font-size: 0.75rem;">✓ ACTIVÉ</div>
@@ -3248,8 +3248,8 @@
 
             } else if (role === 'entreprise') {
                 roleBadge.textContent = "Profil Entreprise";
-                roleBadge.style.background = "rgba(2, 132, 199, 0.1)";
-                roleBadge.style.color = "#0284c7";
+                roleBadge.style.background = "rgba(16, 185, 129, 0.1)";
+                roleBadge.style.color = "#059669";
 
                 // Show Applications link
                 const navApp = document.getElementById('apps-link');
@@ -3262,10 +3262,10 @@
                 }
 
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: #0284c7;">
+                    <div class="dash-card highlight" style="border-color: #059669;">
                         <div class="card-title">Candidatures Reçues</div>
                         <p class="card-desc">Suivez et contactez les talents qui ont postulé à vos missions.</p>
-                        <a href="candidatures.html" class="cta-button primary" style="background: #0284c7; margin-top: auto; justify-content: center;">Voir les candidatures</a>
+                        <a href="candidatures.html" class="cta-button primary" style="background: #059669; margin-top: auto; justify-content: center;">Voir les candidatures</a>
                     </div>
                     <div class="dash-card">
                         <div class="card-title">Recrutement & Talents</div>
@@ -3293,7 +3293,7 @@
                     <div class="dash-card">
                         <div class="card-title">Cadrage & Facturation</div>
                         <p class="card-desc">Gérez vos budgets prestataires et gérez vos processus de facturation.</p>
-                        <button onclick="alert('Les outils de gestion de facturation et de budgets prestataires seront disponibles prochainement.')" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#0284c7;">Accéder aux outils →</button>
+                        <button onclick="alert('Les outils de gestion de facturation et de budgets prestataires seront disponibles prochainement.')" class="cta-button primary" style="margin-top:auto;justify-content:center;background:#059669;">Accéder aux outils →</button>
                     </div>
                 `;
 
@@ -3319,7 +3319,7 @@
                             </div>
 
                             <!-- ENTERPRISE -->
-                            <div style="background:linear-gradient(160deg,#0f172a 0%,#1e293b 100%);border:1.5px solid var(--gray-700);border-radius:16px;padding:28px;">
+                            <div style="background:linear-gradient(160deg,#0c100e 0%,#1b2420 100%);border:1.5px solid var(--gray-700);border-radius:16px;padding:28px;">
                                 <div style="font-size:0.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:12px;">Enterprise</div>
                                 <div style="font-size:1.8rem;font-weight:800;color:white;margin-bottom:4px;">Sur Devis</div>
                                 <p style="font-size:0.8rem;font-weight:600;color:var(--gray-400);margin-bottom:16px;">Solutions Sur Mesure</p>
@@ -3349,18 +3349,18 @@
 
                     // Ajout des Services Premium Entreprise
                     const premiumServicesCompanyHTML = `
-                        <div class="dash-card highlight" style="grid-column: 1 / -1; margin-top: 24px; border-color: #0284c7; background: rgba(2, 132, 199, 0.02);">
+                        <div class="dash-card highlight" style="grid-column: 1 / -1; margin-top: 24px; border-color: #059669; background: rgba(16, 185, 129, 0.02);">
                             <div class="card-title">Vos Services Premium (Pack Business)</div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px;">
-                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                    <div style="font-weight: 800; color: #0284c7; margin-bottom: 4px;">PODCAST CORP</div>
+                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8;">
+                                    <div style="font-weight: 800; color: #059669; margin-bottom: 4px;">PODCAST CORP</div>
                                     <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Prenez rendez-vous pour préparer votre interview entreprise.</p>
-                                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 8px 12px; border-color: #0284c7; color: #0284c7;">Prendre RDV Briefing</a>
+                                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 8px 12px; border-color: #059669; color: #059669;">Prendre RDV Briefing</a>
                                 </div>
-                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0;">
-                                    <div style="font-weight: 800; color: #0284c7; margin-bottom: 4px;">RÉSEAUX SOCIAUX</div>
+                                <div style="background: white; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8;">
+                                    <div style="font-weight: 800; color: #059669; margin-bottom: 4px;">RÉSEAUX SOCIAUX</div>
                                     <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">Briefez Loïc sur vos posts mensuels et vos besoins contenu.</p>
-                                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 8px 12px; border-color: #0284c7; color: #0284c7;">RDV Briefing Contenu</a>
+                                    <a href="https://calendly.com/domtomconnect/30min" target="_blank" class="cta-button secondary" style="font-size: 0.75rem; padding: 8px 12px; border-color: #059669; color: #059669;">RDV Briefing Contenu</a>
                                 </div>
                             </div>
                         </div>
@@ -3376,12 +3376,12 @@
 
             } else if (role === 'admin') {
                 roleBadge.textContent = "Administrateur Système";
-                roleBadge.style.background = "#0f172a";
+                roleBadge.style.background = "#0c100e";
                 roleBadge.style.color = "white";
 
                 cardsContainer.innerHTML = `
-                    <div class="dash-card highlight" style="border-color: #7c3aed; background: rgba(124, 58, 237, 0.02); grid-column: 1 / -1;">
-                        <div class="card-title" style="color: #7c3aed;">Vue d'Ensemble Plateforme (Admin)</div>
+                    <div class="dash-card highlight" style="border-color: #059669; background: rgba(16, 185, 129, 0.02); grid-column: 1 / -1;">
+                        <div class="card-title" style="color: #059669;">Vue d'Ensemble Plateforme (Admin)</div>
                         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:24px; margin-top:20px;">
                             <div style="text-align:center; padding:20px; background:white; border-radius:12px; border:1px solid var(--gray-100);">
                                 <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:8px;">Chiffre d'Affaire (Total)</div>
@@ -3544,7 +3544,7 @@
                                     <label style="color:var(--text-secondary); font-size:0.75rem; font-weight:700; text-transform:uppercase; display:block; margin-bottom:8px;">Montant du Contrat (HT) *</label>
                                     <input type="number" id="sig-amount" required placeholder="Ex: 5000" style="width:100%; padding:10px; border:1.5px solid var(--gray-200); border-radius:8px; font-family:inherit;">
                                 </div>
-                                <div style="background:#f8fafc; padding:16px; border-radius:8px; margin-bottom:24px;">
+                                <div style="background:#f6f8f7; padding:16px; border-radius:8px; margin-bottom:24px;">
                                     <p style="font-size:0.8rem; color:var(--text-secondary); margin:0;">
                                         Commission Domtom Connect (10%) : <strong id="sig-commission-preview" style="color:#10b981;">0.00 €</strong>
                                     </p>
@@ -3735,7 +3735,7 @@
                                 
                                 <div style="margin-bottom:24px;">
                                     <label class="form-label">Image de Couverture *</label>
-                                    <div style="display:flex; align-items:center; gap:20px; padding:16px; background:#f8fafc; border-radius:12px; border:1px dashed var(--gray-300);">
+                                    <div style="display:flex; align-items:center; gap:20px; padding:16px; background:#f6f8f7; border-radius:12px; border:1px dashed var(--gray-300);">
                                         <div id="arsenal-cover-preview" style="width:100px; height:60px; border-radius:8px; background:white; border:1px solid var(--gray-200); display:flex; align-items:center; justify-content:center; overflow:hidden; flex-shrink:0;">
                                             ${p.cover_url ? `<img src="${p.cover_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="font-size:1.5rem;">IMG</span>'}
                                         </div>
@@ -4396,10 +4396,10 @@
                 <button onclick="document.getElementById('reward-modal').classList.remove('open')" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
             </div>
             <div style="margin-bottom:24px;">
-                <div id="reward-visual-preview" style="width:100%; height:160px; border-radius:16px; background:#f8fafc; border:1px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; margin-bottom:16px; position:relative; overflow:hidden;">
+                <div id="reward-visual-preview" style="width:100%; height:160px; border-radius:16px; background:#f6f8f7; border:1px dashed #d4dad7; display:flex; align-items:center; justify-content:center; margin-bottom:16px; position:relative; overflow:hidden;">
                     <div id="preview-placeholder">
                         <span style="font-size:2rem; display:block; text-align:center;">🖼️</span>
-                        <span style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Aperçu de la récompense</span>
+                        <span style="font-size:0.7rem; font-weight:800; color:#a7b0ac; text-transform:uppercase;">Aperçu de la récompense</span>
                     </div>
                 </div>
                 <button onclick="document.getElementById('reward-file-input').click()" class="btn-cockpit secondary" style="width:100%;">
@@ -4410,21 +4410,21 @@
             </div>
             <div style="display:grid; gap:20px;">
                 <div class="form-group">
-                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Titre de la reconnaissance</label>
-                    <input type="text" id="reward-title" placeholder="Ex: Early Bird Access" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Titre de la reconnaissance</label>
+                    <input type="text" id="reward-title" placeholder="Ex: Early Bird Access" style="width:100%; padding:14px; border:1px solid #e6eae8; border-radius:12px; font-weight:700;">
                 </div>
                 <div class="form-group">
-                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Description du privilège</label>
-                    <textarea id="reward-desc" placeholder="Que reçoit concrètement votre soutien ?" style="width:100%; height:80px; padding:14px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Description du privilège</label>
+                    <textarea id="reward-desc" placeholder="Que reçoit concrètement votre soutien ?" style="width:100%; height:80px; padding:14px; border:1px solid #e6eae8; border-radius:12px;"></textarea>
                 </div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
                     <div class="form-group">
-                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Seuil (€)</label>
-                        <input type="number" id="reward-amount" value="50" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; color:#10b981;">
+                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Seuil (€)</label>
+                        <input type="number" id="reward-amount" value="50" style="width:100%; padding:14px; border:1px solid #e6eae8; border-radius:12px; font-weight:800; color:#10b981;">
                     </div>
                     <div class="form-group">
-                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Stock (Qté)</label>
-                        <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px;">
+                        <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Stock (Qté)</label>
+                        <input type="number" id="reward-stock" placeholder="Illimité" style="width:100%; padding:14px; border:1px solid #e6eae8; border-radius:12px;">
                     </div>
                 </div>
                 <button id="btn-save-reward" onclick="saveReward(document.getElementById('reward-proj-id').value)" class="btn-cockpit primary" style="width:100%; padding:16px; background:#10b981; border:none; color:white; font-weight:900; font-size:1rem;">CRÉER LA RÉCOMPENSE</button>
@@ -4442,16 +4442,16 @@
             </div>
             <div style="display:grid; gap:20px;">
                 <div class="form-group">
-                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Objectif de financement (€)</label>
-                    <input type="number" id="milestone-threshold" placeholder="Ex: 5000" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:800; color:#3b82f6;">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Objectif de financement (€)</label>
+                    <input type="number" id="milestone-threshold" placeholder="Ex: 5000" style="width:100%; padding:14px; border:1px solid #e6eae8; border-radius:12px; font-weight:800; color:#10b981;">
                 </div>
                 <div class="form-group">
-                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Nom de l'étape stratégique</label>
-                    <input type="text" id="milestone-title" placeholder="Ex: Recrutement Tech" style="width:100%; padding:14px; border:1px solid #e2e8f0; border-radius:12px; font-weight:700;">
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Nom de l'étape stratégique</label>
+                    <input type="text" id="milestone-title" placeholder="Ex: Recrutement Tech" style="width:100%; padding:14px; border:1px solid #e6eae8; border-radius:12px; font-weight:700;">
                 </div>
                 <div class="form-group">
-                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#64748b; margin-bottom:8px; text-transform:uppercase;">Description de la réussite</label>
-                    <textarea id="milestone-desc" placeholder="Que change cette réussite pour le territoire ?" style="width:100%; height:100px; padding:14px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
+                    <label style="display:block; font-size:0.7rem; font-weight:800; color:#717c77; margin-bottom:8px; text-transform:uppercase;">Description de la réussite</label>
+                    <textarea id="milestone-desc" placeholder="Que change cette réussite pour le territoire ?" style="width:100%; height:100px; padding:14px; border:1px solid #e6eae8; border-radius:12px;"></textarea>
                 </div>
                 <button onclick="saveMilestone(document.getElementById('milestone-proj-id').value)" class="btn-cockpit primary" style="width:100%; padding:16px; background:#f59e0b; border:none; color:white; font-weight:900; font-size:1rem;">VALIDER CE PALIER</button>
             </div>

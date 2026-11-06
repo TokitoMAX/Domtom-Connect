@@ -15,8 +15,8 @@ const BusinessModule = {
         const buttons = document.querySelectorAll('.business-tab');
         buttons.forEach(b => {
             b.classList.remove('active');
-            b.style.background = '#f1f5f9';
-            b.style.color = '#64748b';
+            b.style.background = '#f1f4f2';
+            b.style.color = '#717c77';
         });
 
         // Show selected tab
@@ -27,7 +27,7 @@ const BusinessModule = {
         const activeButton = document.querySelector(`.business-tab[onclick="BusinessModule.switchTab('${tabId}')"]`);
         if (activeButton) {
             activeButton.classList.add('active');
-            activeButton.style.background = '#020617';
+            activeButton.style.background = '#070908';
             activeButton.style.color = 'white';
         }
     },
@@ -97,32 +97,32 @@ const BusinessModule = {
             <div style="background:white; border-radius:24px; width:100%; max-width:500px; padding:32px; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
                     <h3 style="margin:0; font-size:1.5rem; font-weight:900;">Nouvelle Mission</h3>
-                    <button onclick="document.getElementById('business-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#94a3b8;">&times;</button>
+                    <button onclick="document.getElementById('business-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#a7b0ac;">&times;</button>
                 </div>
                 
                 <div style="margin-bottom:16px;">
-                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Titre du projet / mission</label>
-                    <input type="text" id="bm-title" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Refonte Site E-commerce">
+                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#717c77; margin-bottom:8px;">Titre du projet / mission</label>
+                    <input type="text" id="bm-title" style="width:100%; padding:12px; border:1px solid #d4dad7; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Refonte Site E-commerce">
                 </div>
                 
                 <div style="margin-bottom:16px;">
-                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Nom du client</label>
-                    <input type="text" id="bm-client" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Jean Dupont">
+                    <label style="display:block; font-size:0.85rem; font-weight:700; color:#717c77; margin-bottom:8px;">Nom du client</label>
+                    <input type="text" id="bm-client" style="width:100%; padding:12px; border:1px solid #d4dad7; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="Ex: Jean Dupont">
                 </div>
                 
                 <div style="display:flex; gap:16px; margin-bottom:24px;">
                     <div style="flex:1;">
-                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Montant Total (€)</label>
-                        <input type="number" id="bm-amount" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="0">
+                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#717c77; margin-bottom:8px;">Montant Total (€)</label>
+                        <input type="number" id="bm-amount" style="width:100%; padding:12px; border:1px solid #d4dad7; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="0">
                     </div>
                     <div style="flex:1;">
-                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Acompte (%)</label>
-                        <input type="number" id="bm-perc" value="30" style="width:100%; padding:12px; border:1px solid #cbd5e1; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="30">
+                        <label style="display:block; font-size:0.85rem; font-weight:700; color:#717c77; margin-bottom:8px;">Acompte (%)</label>
+                        <input type="number" id="bm-perc" value="30" style="width:100%; padding:12px; border:1px solid #d4dad7; border-radius:12px; font-family:inherit; font-size:1rem;" placeholder="30">
                     </div>
                 </div>
 
-                <div style="background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px; padding:16px; margin-bottom:24px;">
-                    <div style="font-size:0.85rem; font-weight:700; color:#64748b; margin-bottom:8px;">Uploader le Devis (PDF)</div>
+                <div style="background:#f6f8f7; border:1px dashed #d4dad7; border-radius:12px; padding:16px; margin-bottom:24px;">
+                    <div style="font-size:0.85rem; font-weight:700; color:#717c77; margin-bottom:8px;">Uploader le Devis (PDF)</div>
                     <input type="file" id="bm-file" accept="application/pdf" style="width:100%; font-size:0.9rem;">
                 </div>
                 
@@ -212,7 +212,7 @@ const BusinessModule = {
             // Company header with "Publier une annonce"
             if (isCompany) {
                 html += `
-                <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f); border-radius:16px; padding:24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; color:white;">
+                <div style="background:linear-gradient(135deg,#0c100e,#3c3f3d); border-radius:16px; padding:24px; margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; color:white;">
                     <div>
                         <div style="font-size:0.75rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">Espace Recruteur</div>
                         <h3 style="margin:0; font-size:1.2rem; font-weight:900;">Vos Annonces de Mission</h3>
@@ -222,20 +222,20 @@ const BusinessModule = {
                 </div>`;
 
                 if (myOffers.length > 0) {
-                    html += `<div style="margin-bottom:24px;"><h4 style="font-size:0.85rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Mes annonces (${myOffers.length})</h4>
+                    html += `<div style="margin-bottom:24px;"><h4 style="font-size:0.85rem; font-weight:800; color:#717c77; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Mes annonces (${myOffers.length})</h4>
                     <div style="display:flex; flex-direction:column; gap:12px;">`;
                     myOffers.forEach(o => {
-                        const statusColor = o.status === 'open' ? '#10b981' : '#94a3b8';
-                        const statusBg = o.status === 'open' ? '#f0fdf4' : '#f8fafc';
+                        const statusColor = o.status === 'open' ? '#10b981' : '#a7b0ac';
+                        const statusBg = o.status === 'open' ? '#f0fdf4' : '#f6f8f7';
                         const statusLabel = o.status === 'open' ? 'Active' : 'Fermée';
-                        html += `<div style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                        html += `<div style="background:white; border:1px solid #e6eae8; border-radius:12px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
                             <div>
-                                <div style="font-weight:800; color:#0f172a; font-size:1rem;">${o.title || 'Sans titre'}</div>
-                                <div style="font-size:0.8rem; color:#64748b; margin-top:2px;">${o.sector || ''} ${o.territory ? '· ' + o.territory : ''} ${o.budget ? '· Budget : ' + o.budget + '€' : ''}</div>
+                                <div style="font-weight:800; color:#0c100e; font-size:1rem;">${o.title || 'Sans titre'}</div>
+                                <div style="font-size:0.8rem; color:#717c77; margin-top:2px;">${o.sector || ''} ${o.territory ? '· ' + o.territory : ''} ${o.budget ? '· Budget : ' + o.budget + '€' : ''}</div>
                             </div>
                             <div style="display:flex; align-items:center; gap:8px;">
                                 <span style="background:${statusBg}; color:${statusColor}; padding:4px 10px; border-radius:100px; font-size:0.75rem; font-weight:800;">${statusLabel}</span>
-                                <button onclick="BusinessModule.editJobOffer('${o.id}')" style="background:#eff6ff; color:#3b82f6; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Modifier</button>
+                                <button onclick="BusinessModule.editJobOffer('${o.id}')" style="background:#eff6ff; color:#10b981; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Modifier</button>
                                 ${o.status === 'open' ? `<button onclick="BusinessModule.closeJobOffer('${o.id}')" style="background:#fef3c7; color:#d97706; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Fermer</button>` : ''}
                                 <button onclick="BusinessModule.deleteJobOffer('${o.id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:700; cursor:pointer;">Supprimer</button>
                             </div>
@@ -244,15 +244,15 @@ const BusinessModule = {
                     html += `</div></div>`;
                 }
 
-                html += `<h4 style="font-size:0.85rem; font-weight:800; color:#64748b; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Toutes les annonces ouvertes (${offers.length})</h4>`;
+                html += `<h4 style="font-size:0.85rem; font-weight:800; color:#717c77; text-transform:uppercase; letter-spacing:0.05em; margin:0 0 12px;">Toutes les annonces ouvertes (${offers.length})</h4>`;
             }
 
             // Expert / General view
             if (offers.length === 0) {
-                html += `<div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
-                    <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-briefcase"></i></div>
-                    <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucune annonce active</h3>
-                    <p style="color:#64748b; font-size:0.9rem; margin:0;">Les entreprises partenaires publient leurs besoins ici. Revenez bientôt !</p>
+                html += `<div style="background:#f6f8f7; border:1.5px dashed #d4dad7; border-radius:16px; padding:32px; text-align:center;">
+                    <div style="font-size:2rem; margin-bottom:12px; color:#a7b0ac;"><i class="fas fa-briefcase"></i></div>
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#0c100e; margin:0 0 8px;">Aucune annonce active</h3>
+                    <p style="color:#717c77; font-size:0.9rem; margin:0;">Les entreprises partenaires publient leurs besoins ici. Revenez bientôt !</p>
                 </div>`;
             } else {
                 html += `<div style="display:flex; flex-direction:column; gap:16px;">`;
@@ -262,30 +262,30 @@ const BusinessModule = {
                     const avatar = company.avatar_url;
                     const shortDesc = (o.description || '').replace('### MISSIONS', '').replace('### PROFIL', '').trim().substring(0, 120);
                     html += `
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:20px 24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:all 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.09)';this.style.borderColor='#10b981'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)';this.style.borderColor='#e2e8f0'">
+                    <div style="background:white; border:1px solid #e6eae8; border-radius:16px; padding:20px 24px; box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:all 0.2s;" onmouseover="this.style.boxShadow='0 8px 24px rgba(0,0,0,0.09)';this.style.borderColor='#10b981'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)';this.style.borderColor='#e6eae8'">
                         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px;">
                             <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:0;">
-                                <div style="width:44px; height:44px; border-radius:12px; background:#f1f5f9; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#64748b; font-size:1rem;">
+                                <div style="width:44px; height:44px; border-radius:12px; background:#f1f4f2; overflow:hidden; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-weight:900; color:#717c77; font-size:1rem;">
                                     ${avatar ? `<img src="${avatar}" style="width:100%;height:100%;object-fit:cover;">` : companyName.charAt(0).toUpperCase()}
                                 </div>
                                 <div style="min-width:0;">
-                                    <div style="font-weight:900; color:#0f172a; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.title || 'Mission sans titre'}</div>
-                                    <div style="font-size:0.8rem; color:#64748b; font-weight:600; margin-top:2px;">${companyName}${company.territory ? ' · ' + company.territory : ''}</div>
+                                    <div style="font-weight:900; color:#0c100e; font-size:1.05rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${o.title || 'Mission sans titre'}</div>
+                                    <div style="font-size:0.8rem; color:#717c77; font-weight:600; margin-top:2px;">${companyName}${company.territory ? ' · ' + company.territory : ''}</div>
                                 </div>
                             </div>
                             <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;">
-                                ${o.budget ? `<div style="font-size:1rem; font-weight:900; color:#0f172a;">${Number(o.budget).toLocaleString('fr-FR')} €</div>` : ''}
-                                ${o.sector ? `<span style="background:#eff6ff; color:#3b82f6; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:800;">${o.sector}</span>` : ''}
-                                ${o.duration ? `<span style="background:#f8fafc; color:#64748b; border:1px solid #e2e8f0; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:700;"><i class="fas fa-clock" style="margin-right:4px;"></i>${o.duration}</span>` : ''}
+                                ${o.budget ? `<div style="font-size:1rem; font-weight:900; color:#0c100e;">${Number(o.budget).toLocaleString('fr-FR')} €</div>` : ''}
+                                ${o.sector ? `<span style="background:#eff6ff; color:#10b981; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:800;">${o.sector}</span>` : ''}
+                                ${o.duration ? `<span style="background:#f6f8f7; color:#717c77; border:1px solid #e6eae8; padding:3px 10px; border-radius:100px; font-size:0.7rem; font-weight:700;"><i class="fas fa-clock" style="margin-right:4px;"></i>${o.duration}</span>` : ''}
                             </div>
                         </div>
-                        ${shortDesc ? `<p style="margin:12px 0 0; color:#64748b; font-size:0.85rem; line-height:1.5; border-top:1px solid #f1f5f9; padding-top:12px;">${shortDesc}${shortDesc.length >= 120 ? '...' : ''}</p>` : ''}
+                        ${shortDesc ? `<p style="margin:12px 0 0; color:#717c77; font-size:0.85rem; line-height:1.5; border-top:1px solid #f1f4f2; padding-top:12px;">${shortDesc}${shortDesc.length >= 120 ? '...' : ''}</p>` : ''}
                         ${isExpert ? `
                         <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-                            <button onclick='BusinessModule.openMissionDetail(${JSON.stringify(o).replace(/'/g, "&#39;")})' style="background:#f1f5f9; color:#0f172a; border:1px solid #e2e8f0; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
+                            <button onclick='BusinessModule.openMissionDetail(${JSON.stringify(o).replace(/'/g, "&#39;")})' style="background:#f1f4f2; color:#0c100e; border:1px solid #e6eae8; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; transition:all 0.2s;" onmouseover="this.style.background='#e6eae8'" onmouseout="this.style.background='#f1f4f2'">
                                 👁 Voir le détail
                             </button>
-                            <button onclick="window.MessagesModule ? window.MessagesModule.openConversationWith && window.MessagesModule.openConversationWith('${o.company_id}') : window.Router.navigate('#messages')" style="background:#0f172a; color:white; border:none; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px;"><i class="fas fa-paper-plane" style="margin-right:4px;"></i>Postuler via message</button>
+                            <button onclick="window.MessagesModule ? window.MessagesModule.openConversationWith && window.MessagesModule.openConversationWith('${o.company_id}') : window.Router.navigate('#messages')" style="background:#0c100e; color:white; border:none; padding:9px 18px; border-radius:10px; font-weight:800; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px;"><i class="fas fa-paper-plane" style="margin-right:4px;"></i>Postuler via message</button>
                         </div>` : ''}
                     </div>`;
                 });
@@ -314,29 +314,29 @@ const BusinessModule = {
         if (existing) existing.remove();
 
         const modalHtml = `
-        <div id="mission-detail-modal" style="position:fixed;inset:0;background:rgba(15,23,42,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);" onclick="if(event.target===this)BusinessModule.closeMissionDetail()">
+        <div id="mission-detail-modal" style="position:fixed;inset:0;background:rgba(14, 19, 17,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px);" onclick="if(event.target===this)BusinessModule.closeMissionDetail()">
             <div style="background:white;border-radius:28px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.35);font-family:'Plus Jakarta Sans',sans-serif;">
                 <!-- Sticky Header -->
-                <div style="padding:28px 28px 20px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:white;z-index:10;border-radius:28px 28px 0 0;">
-                    <button onclick="BusinessModule.closeMissionDetail()" style="position:absolute;top:16px;right:16px;background:#f1f5f9;border:none;width:38px;height:38px;border-radius:12px;font-size:1.3rem;cursor:pointer;color:#64748b;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">&times;</button>
+                <div style="padding:28px 28px 20px;border-bottom:1px solid #f1f4f2;position:sticky;top:0;background:white;z-index:10;border-radius:28px 28px 0 0;">
+                    <button onclick="BusinessModule.closeMissionDetail()" style="position:absolute;top:16px;right:16px;background:#f1f4f2;border:none;width:38px;height:38px;border-radius:12px;font-size:1.3rem;cursor:pointer;color:#717c77;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#e6eae8'" onmouseout="this.style.background='#f1f4f2'">&times;</button>
                     
                     <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
-                        <div style="width:52px;height:52px;border-radius:14px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#0f172a;overflow:hidden;flex-shrink:0;">
+                        <div style="width:52px;height:52px;border-radius:14px;background:#f1f4f2;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:900;color:#0c100e;overflow:hidden;flex-shrink:0;">
                             ${company.avatar_url ? `<img src="${company.avatar_url}" style="width:100%;height:100%;object-fit:cover;">` : companyName.charAt(0).toUpperCase()}
                         </div>
                         <div>
                             <div style="font-size:0.78rem;font-weight:800;color:#10b981;margin-bottom:2px;">${companyName}</div>
-                            <h2 style="margin:0;font-size:1.4rem;font-weight:950;color:#0f172a;letter-spacing:-0.03em;">${offer.title || 'Mission'}</h2>
+                            <h2 style="margin:0;font-size:1.4rem;font-weight:950;color:#0c100e;letter-spacing:-0.03em;">${offer.title || 'Mission'}</h2>
                         </div>
                     </div>
 
                     <!-- Info Pills -->
                     <div style="display:flex;flex-wrap:wrap;gap:8px;">
                         ${offer.mission_type ? `<span style="background:#ecfdf5;color:#059669;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;">${offer.mission_type}</span>` : ''}
-                        ${offer.territory || company.territory ? `<span style="background:#f8fafc;color:#475569;border:1px solid #e2e8f0;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-map-marker-alt"></i> ${offer.territory || company.territory}</span>` : ''}
+                        ${offer.territory || company.territory ? `<span style="background:#f6f8f7;color:#56615c;border:1px solid #e6eae8;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-map-marker-alt"></i> ${offer.territory || company.territory}</span>` : ''}
                         ${offer.budget ? `<span style="background:#f0fdf4;color:#059669;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-euro-sign"></i> ${Number(offer.budget).toLocaleString('fr-FR')} €</span>` : ''}
-                        ${offer.duration ? `<span style="background:#f0f9ff;color:#0284c7;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-clock"></i> ${offer.duration}</span>` : ''}
-                        ${offer.sector ? `<span style="background:#eff6ff;color:#3b82f6;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;">${offer.sector}</span>` : ''}
+                        ${offer.duration ? `<span style="background:#f0f9ff;color:#059669;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;"><i class="fas fa-clock"></i> ${offer.duration}</span>` : ''}
+                        ${offer.sector ? `<span style="background:#eff6ff;color:#10b981;padding:4px 12px;border-radius:100px;font-size:0.75rem;font-weight:800;">${offer.sector}</span>` : ''}
                     </div>
                 </div>
 
@@ -345,26 +345,26 @@ const BusinessModule = {
                     ${missionsSection ? `
                     <div style="margin-bottom:20px;">
                         <h3 style="font-size:0.7rem;font-weight:950;color:#10b981;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">🎯 Missions & Livrables</h3>
-                        <div style="background:#f8fafc;border-left:3px solid #10b981;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#334155;line-height:1.7;white-space:pre-line;">${missionsSection}</div>
+                        <div style="background:#f6f8f7;border-left:3px solid #10b981;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#2b3632;line-height:1.7;white-space:pre-line;">${missionsSection}</div>
                     </div>` : ''}
 
                     ${profilSection ? `
                     <div style="margin-bottom:20px;">
-                        <h3 style="font-size:0.7rem;font-weight:950;color:#6366f1;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">👤 Profil Recherché</h3>
-                        <div style="background:#f5f3ff;border-left:3px solid #6366f1;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#334155;line-height:1.7;white-space:pre-line;">${profilSection}</div>
+                        <h3 style="font-size:0.7rem;font-weight:950;color:#10b981;text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">👤 Profil Recherché</h3>
+                        <div style="background:#f5f3ff;border-left:3px solid #10b981;padding:14px 18px;border-radius:0 12px 12px 0;font-size:0.9rem;color:#2b3632;line-height:1.7;white-space:pre-line;">${profilSection}</div>
                     </div>` : ''}
 
                     ${!missionsSection && !profilSection && desc ? `
-                    <div style="background:#f8fafc;padding:16px;border-radius:12px;color:#475569;line-height:1.7;font-size:0.9rem;white-space:pre-line;">${desc}</div>` : ''}
+                    <div style="background:#f6f8f7;padding:16px;border-radius:12px;color:#56615c;line-height:1.7;font-size:0.9rem;white-space:pre-line;">${desc}</div>` : ''}
 
-                    <div style="margin-top:12px;font-size:0.78rem;color:#94a3b8;font-weight:600;">
+                    <div style="margin-top:12px;font-size:0.78rem;color:#a7b0ac;font-weight:600;">
                         Publiée le ${new Date(offer.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'})}
                     </div>
                 </div>
 
                 <!-- Footer: Accept / Decline -->
-                <div style="padding:16px 28px 24px;border-top:1px solid #f1f5f9;">
-                    <p style="font-size:0.78rem;color:#64748b;font-weight:600;margin:0 0 12px;text-align:center;">Êtes-vous intéressé(e) par cette mission ?</p>
+                <div style="padding:16px 28px 24px;border-top:1px solid #f1f4f2;">
+                    <p style="font-size:0.78rem;color:#717c77;font-weight:600;margin:0 0 12px;text-align:center;">Êtes-vous intéressé(e) par cette mission ?</p>
                     <div style="display:flex;gap:12px;">
                         <button onclick="BusinessModule.closeMissionDetail()" style="flex:1;padding:14px;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:14px;font-weight:900;cursor:pointer;font-size:0.95rem;transition:all 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
                             ✕ Pas pour moi
@@ -393,23 +393,23 @@ const BusinessModule = {
         <div id="job-offer-modal" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
             <div style="background:white; border-radius:24px; width:100%; max-width:520px; padding:32px; box-shadow:0 20px 50px rgba(0,0,0,0.15); max-height:90vh; overflow-y:auto;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                    <h3 style="margin:0; font-size:1.4rem; font-weight:900; color:#0f172a;">${title}</h3>
-                    <button onclick="document.getElementById('job-offer-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#94a3b8; line-height:1;">&times;</button>
+                    <h3 style="margin:0; font-size:1.4rem; font-weight:900; color:#0c100e;">${title}</h3>
+                    <button onclick="document.getElementById('job-offer-modal').remove()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#a7b0ac; line-height:1;">&times;</button>
                 </div>
 
                 <div style="display:flex; flex-direction:column; gap:16px;">
                     <div>
-                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Titre de la mission *</label>
-                        <input type="text" id="jo-title" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="Ex: Développeur web pour refonte site">
+                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Titre de la mission *</label>
+                        <input type="text" id="jo-title" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="Ex: Développeur web pour refonte site">
                     </div>
                     <div>
-                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Description & Compétences requises</label>
-                        <textarea id="jo-desc" rows="4" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box; resize:vertical;" placeholder="Décrivez la mission, le profil recherché, les livrables..."></textarea>
+                        <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Description & Compétences requises</label>
+                        <textarea id="jo-desc" rows="4" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box; resize:vertical;" placeholder="Décrivez la mission, le profil recherché, les livrables..."></textarea>
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
                         <div>
-                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Secteur</label>
-                            <select id="jo-sector" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Secteur</label>
+                            <select id="jo-sector" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
                                 <option value="">Choisir...</option>
                                 <option>Numérique & Tech</option>
                                 <option>Marketing & Communication</option>
@@ -427,14 +427,14 @@ const BusinessModule = {
                             </select>
                         </div>
                         <div>
-                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Budget (€)</label>
-                            <input type="number" id="jo-budget" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="0">
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Budget (€)</label>
+                            <input type="number" id="jo-budget" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.95rem; box-sizing:border-box;" placeholder="0">
                         </div>
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
                         <div>
-                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Durée</label>
-                            <select id="jo-duration" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Durée</label>
+                            <select id="jo-duration" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
                                 <option value="">Non précisée</option>
                                 <option>Moins d'une semaine</option>
                                 <option>1 à 2 semaines</option>
@@ -444,8 +444,8 @@ const BusinessModule = {
                             </select>
                         </div>
                         <div>
-                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#64748b; margin-bottom:6px; text-transform:uppercase;">Territoire</label>
-                            <select id="jo-territory" style="width:100%; padding:12px 14px; border:1.5px solid #e2e8f0; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
+                            <label style="display:block; font-size:0.8rem; font-weight:800; color:#717c77; margin-bottom:6px; text-transform:uppercase;">Territoire</label>
+                            <select id="jo-territory" style="width:100%; padding:12px 14px; border:1.5px solid #e6eae8; border-radius:10px; font-family:inherit; font-size:0.9rem; box-sizing:border-box;">
                                 <option value="">Tous territoires</option>
                                 <option>Martinique</option>
                                 <option>Guadeloupe</option>
@@ -563,7 +563,7 @@ const BusinessModule = {
             style.id = 'business-module-css';
             style.innerHTML = `
                 /* Desktop base styles */
-                .tracker-steps { display: flex; gap: 12px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; }
+                .tracker-steps { display: flex; gap: 12px; background: #f6f8f7; padding: 16px; border-radius: 12px; border: 1px solid #e6eae8; }
                 .tracker-step { flex: 1; min-width: 200px; padding: 16px; border-radius: 12px; position: relative; }
                 .tab-btn { padding: 10px 20px; border-radius: 100px; border: none; font-weight: 800; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
                 
@@ -578,7 +578,7 @@ const BusinessModule = {
                         margin-bottom: 0; 
                         padding: 16px 0 16px 32px !important; 
                         border: none !important;
-                        border-left: 2px solid #e2e8f0 !important;
+                        border-left: 2px solid #e6eae8 !important;
                         border-radius: 0 !important;
                         background: transparent !important;
                         position: relative;
@@ -592,10 +592,10 @@ const BusinessModule = {
                         height: 16px;
                         border-radius: 50%;
                         background: white;
-                        border: 2px solid #cbd5e1;
+                        border: 2px solid #d4dad7;
                         z-index: 2;
                     }
-                    .tracker-step.active-step::before { border-color: #3b82f6; background: #3b82f6; }
+                    .tracker-step.active-step::before { border-color: #10b981; background: #10b981; }
                     .tracker-step.completed-step::before { border-color: #10b981; background: #10b981; }
                     .tracker-step:last-child { border-left-color: transparent !important; }
                     
@@ -615,15 +615,15 @@ const BusinessModule = {
                     }
                     .responsive-table thead { display: none; }
                     .responsive-table tr {
-                        margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;
-                        background: #f8fafc;
+                        margin-bottom: 16px; border: 1px solid #e6eae8; border-radius: 12px; padding: 16px;
+                        background: #f6f8f7;
                     }
                     .responsive-table td {
                         padding: 8px 0 !important; text-align: left !important; border: none !important;
                         display: flex; justify-content: space-between; align-items: center;
                     }
                     .responsive-table td::before {
-                        content: attr(data-label); font-weight: 800; color: #64748b; font-size: 0.8rem; text-transform: uppercase;
+                        content: attr(data-label); font-weight: 800; color: #717c77; font-size: 0.8rem; text-transform: uppercase;
                     }
                 }
             `;
@@ -662,10 +662,10 @@ const BusinessModule = {
             let trackersHTML = '';
             if (docs.length === 0) {
                 trackersHTML = `
-                <div style="background:#f8fafc; border:1.5px dashed #cbd5e1; border-radius:16px; padding:32px; text-align:center;">
-                    <div style="font-size:2rem; margin-bottom:12px; color:#94a3b8;"><i class="fas fa-folder-open"></i></div>
-                    <h3 style="font-size:1.1rem; font-weight:800; color:#0f172a; margin:0 0 8px;">Aucun document</h3>
-                    <p style="color:#64748b; font-size:0.9rem; margin:0;">Créez votre premier devis pour démarrer le suivi.</p>
+                <div style="background:#f6f8f7; border:1.5px dashed #d4dad7; border-radius:16px; padding:32px; text-align:center;">
+                    <div style="font-size:2rem; margin-bottom:12px; color:#a7b0ac;"><i class="fas fa-folder-open"></i></div>
+                    <h3 style="font-size:1.1rem; font-weight:800; color:#0c100e; margin:0 0 8px;">Aucun document</h3>
+                    <p style="color:#717c77; font-size:0.9rem; margin:0;">Créez votre premier devis pour démarrer le suivi.</p>
                 </div>`;
             } else {
                 trackersHTML = docs.map(doc => {
@@ -676,15 +676,15 @@ const BusinessModule = {
                     const acompteAmt = doc.deposit_amount || 0;
                     
                     return `
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; padding:clamp(16px, 3vw, 24px); margin-bottom:20px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="background:white; border:1px solid #e6eae8; border-radius:16px; padding:clamp(16px, 3vw, 24px); margin-bottom:20px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05);">
                         <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:24px;">
                             <div>
-                                <div style="font-size:0.75rem; color:#64748b; font-weight:800; text-transform:uppercase; margin-bottom:4px;">${new Date(doc.created_at).toLocaleDateString()} &bull; MISSION</div>
-                                <h4 style="margin:0; font-size:1.2rem; font-weight:800; color:#0f172a;">${doc.project_title || 'Projet sans nom'}</h4>
-                                <div style="color:#64748b; font-size:0.9rem; margin-top:6px;"><i class="fas fa-user" style="margin-right:6px;"></i>${doc.client_name}</div>
+                                <div style="font-size:0.75rem; color:#717c77; font-weight:800; text-transform:uppercase; margin-bottom:4px;">${new Date(doc.created_at).toLocaleDateString()} &bull; MISSION</div>
+                                <h4 style="margin:0; font-size:1.2rem; font-weight:800; color:#0c100e;">${doc.project_title || 'Projet sans nom'}</h4>
+                                <div style="color:#717c77; font-size:0.9rem; margin-top:6px;"><i class="fas fa-user" style="margin-right:6px;"></i>${doc.client_name}</div>
                             </div>
                             <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
-                                                <div style="font-size:1.5rem; font-weight:900; color:#0f172a;">${amount.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
+                                                <div style="font-size:1.5rem; font-weight:900; color:#0c100e;">${amount.toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
                                                 <div style="display:flex; gap:8px; align-items:center;">
                                                     <div style="font-size:0.8rem; font-weight:700; color:${isFullyPaid ? '#10b981' : '#f59e0b'}; background:${isFullyPaid ? '#f0fdf4' : '#fffbeb'}; display:inline-block; padding:4px 10px; border-radius:100px;">
                                                         ${isFullyPaid ? 'Clôturé & Payé' : 'En cours'}
@@ -698,41 +698,41 @@ const BusinessModule = {
                         <div class="tracker-steps">
                             
                             <!-- Step 1: Validation -->
-                            <div class="tracker-step ${isSigned ? 'completed-step' : 'active-step'}" style="border:2px solid ${isSigned ? '#10b981' : '#cbd5e1'}; background:${isSigned ? '#f0fdf4' : 'white'};">
+                            <div class="tracker-step ${isSigned ? 'completed-step' : 'active-step'}" style="border:2px solid ${isSigned ? '#10b981' : '#d4dad7'}; background:${isSigned ? '#f0fdf4' : 'white'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isSigned ? '#10b981' : '#e2e8f0'}; color:${isSigned ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">1</div>
-                                    <div style="font-weight:800; color:${isSigned ? '#065f46' : '#64748b'};">Devis Validé</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isSigned ? '#10b981' : '#e6eae8'}; color:${isSigned ? 'white' : '#717c77'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">1</div>
+                                    <div style="font-weight:800; color:${isSigned ? '#065f46' : '#717c77'};">Devis Validé</div>
                                 </div>
                                 ${isSigned 
                                     ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-file-signature"></i> Devis signé & joint</div>` 
-                                    : `<button id="btn-sign-${doc.id}" onclick="BusinessModule.markSigned('${doc.id}')" style="width:100%; background:white; border:1px dashed #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre devis signé</button>`}
+                                    : `<button id="btn-sign-${doc.id}" onclick="BusinessModule.markSigned('${doc.id}')" style="width:100%; background:white; border:1px dashed #d4dad7; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0c100e; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre devis signé</button>`}
                             </div>
 
                             <!-- Step 2: Acompte -->
-                            <div class="tracker-step ${isAcomptePaid ? 'completed-step' : (isSigned ? 'active-step' : '')}" style="border:2px solid ${isAcomptePaid ? '#3b82f6' : '#cbd5e1'}; background:${isAcomptePaid ? '#eff6ff' : 'white'}; opacity:${isSigned ? '1' : '0.5'}; pointer-events:${isSigned ? 'auto' : 'none'};">
+                            <div class="tracker-step ${isAcomptePaid ? 'completed-step' : (isSigned ? 'active-step' : '')}" style="border:2px solid ${isAcomptePaid ? '#10b981' : '#d4dad7'}; background:${isAcomptePaid ? '#eff6ff' : 'white'}; opacity:${isSigned ? '1' : '0.5'}; pointer-events:${isSigned ? 'auto' : 'none'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isAcomptePaid ? '#3b82f6' : '#e2e8f0'}; color:${isAcomptePaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">2</div>
-                                    <div style="font-weight:800; color:${isAcomptePaid ? '#1e40af' : '#64748b'};">Acompte Payé</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isAcomptePaid ? '#10b981' : '#e6eae8'}; color:${isAcomptePaid ? 'white' : '#717c77'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">2</div>
+                                    <div style="font-weight:800; color:${isAcomptePaid ? '#065f46' : '#717c77'};">Acompte Payé</div>
                                 </div>
                                 ${isAcomptePaid 
-                                    ? `<div style="font-size:0.85rem; color:#1d4ed8; font-weight:700;"><i class="fas fa-receipt"></i> ${(doc.deposit_amount || 0).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} encaissés</div>` 
+                                    ? `<div style="font-size:0.85rem; color:#047857; font-weight:700;"><i class="fas fa-receipt"></i> ${(doc.deposit_amount || 0).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} encaissés</div>` 
                                     : `<div style="display:flex; flex-direction:column; gap:8px;">
-                                        <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Attendu : ${((amount * (doc.deposit_perc||30))/100).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} (${doc.deposit_perc||30}%)</div>
-                                        <button id="btn-acompte-${doc.id}" onclick="BusinessModule.markAcompte('${doc.id}', ${(amount * (doc.deposit_perc||30))/100})" style="background:#0f172a; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Preuve virement</button>
+                                        <div style="font-size:0.85rem; font-weight:700; color:#717c77;">Attendu : ${((amount * (doc.deposit_perc||30))/100).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})} (${doc.deposit_perc||30}%)</div>
+                                        <button id="btn-acompte-${doc.id}" onclick="BusinessModule.markAcompte('${doc.id}', ${(amount * (doc.deposit_perc||30))/100})" style="background:#0c100e; color:white; border:none; padding:8px 12px; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Preuve virement</button>
                                        </div>`}
                             </div>
 
                             <!-- Step 3: Solde -->
-                            <div class="tracker-step ${isFullyPaid ? 'completed-step' : (isAcomptePaid ? 'active-step' : '')}" style="border:2px solid ${isFullyPaid ? '#10b981' : '#cbd5e1'}; background:${isFullyPaid ? '#f0fdf4' : 'white'}; opacity:${isAcomptePaid || isSigned ? '1' : '0.5'}; pointer-events:${isAcomptePaid || isSigned ? 'auto' : 'none'};">
+                            <div class="tracker-step ${isFullyPaid ? 'completed-step' : (isAcomptePaid ? 'active-step' : '')}" style="border:2px solid ${isFullyPaid ? '#10b981' : '#d4dad7'}; background:${isFullyPaid ? '#f0fdf4' : 'white'}; opacity:${isAcomptePaid || isSigned ? '1' : '0.5'}; pointer-events:${isAcomptePaid || isSigned ? 'auto' : 'none'};">
                                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                                    <div style="width:24px; height:24px; border-radius:50%; background:${isFullyPaid ? '#10b981' : '#e2e8f0'}; color:${isFullyPaid ? 'white' : '#64748b'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">3</div>
-                                    <div style="font-weight:800; color:${isFullyPaid ? '#065f46' : '#64748b'};">Solde Facturé</div>
+                                    <div style="width:24px; height:24px; border-radius:50%; background:${isFullyPaid ? '#10b981' : '#e6eae8'}; color:${isFullyPaid ? 'white' : '#717c77'}; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:900; z-index:3;">3</div>
+                                    <div style="font-weight:800; color:${isFullyPaid ? '#065f46' : '#717c77'};">Solde Facturé</div>
                                 </div>
                                 ${isFullyPaid 
                                     ? `<div style="font-size:0.85rem; color:#059669; font-weight:700;"><i class="fas fa-file-invoice-dollar"></i> Facture finale validée</div>` 
                                     : `<div style="display:flex; flex-direction:column; gap:8px;">
-                                        <div style="font-size:0.85rem; font-weight:700; color:#64748b;">Reste : ${(amount - ((amount * (doc.deposit_perc||30))/100)).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
-                                        <button id="btn-sold-${doc.id}" onclick="BusinessModule.markFullyPaid('${doc.id}')" style="background:white; border:1px dashed #cbd5e1; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0f172a; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre facture finale</button>
+                                        <div style="font-size:0.85rem; font-weight:700; color:#717c77;">Reste : ${(amount - ((amount * (doc.deposit_perc||30))/100)).toLocaleString('fr-FR', {style:'currency', currency:'EUR'})}</div>
+                                        <button id="btn-sold-${doc.id}" onclick="BusinessModule.markFullyPaid('${doc.id}')" style="background:white; border:1px dashed #d4dad7; padding:8px; border-radius:8px; font-weight:700; cursor:pointer; color:#0c100e; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:8px;"><i class="fas fa-upload"></i> Joindre facture finale</button>
                                        </div>`}
                             </div>
                         </div>
@@ -747,27 +747,27 @@ const BusinessModule = {
                 <!-- Info Header -->
                 <div class="business-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
                     <div>
-                        <h2 style="font-size:1.5rem; font-weight:900; color:#020617; letter-spacing:-0.03em; margin:0;">Mon Activité Pro</h2>
-                        <p style="color:#64748b; font-size:0.9rem; font-weight:550; margin-top:4px;">Gérez vos missions, devis, facturation et suivez votre évolution.</p>
+                        <h2 style="font-size:1.5rem; font-weight:900; color:#070908; letter-spacing:-0.03em; margin:0;">Mon Activité Pro</h2>
+                        <p style="color:#717c77; font-size:0.9rem; font-weight:550; margin-top:4px;">Gérez vos missions, devis, facturation et suivez votre évolution.</p>
                     </div>
                     <div>
-                        <button onclick="window.Router.navigate('#messages')" style="background:#020617; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(2,6,23,0.1);">
+                        <button onclick="window.Router.navigate('#messages')" style="background:#070908; color:white; border:none; padding:12px 24px; border-radius:12px; font-weight:800; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:8px; box-shadow: 0 4px 12px rgba(7, 9, 8,0.1);">
                             <span>Lancer un chat pour être payé</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Tabs Navigation -->
-                <div style="display:flex; gap:12px; margin-bottom:32px; border-bottom:2px solid #f1f5f9; padding-bottom:16px; overflow-x:auto;">
-                    <button class="business-tab active tab-btn" onclick="BusinessModule.switchTab('missions')" style="background:#020617; color:white;">Mes Missions</button>
-                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('devis')" style="background:#f1f5f9; color:#64748b;">Tracker Méthodo</button>
-                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('evolution')" style="background:#f1f5f9; color:#64748b;">Mon Évolution</button>
+                <div style="display:flex; gap:12px; margin-bottom:32px; border-bottom:2px solid #f1f4f2; padding-bottom:16px; overflow-x:auto;">
+                    <button class="business-tab active tab-btn" onclick="BusinessModule.switchTab('missions')" style="background:#070908; color:white;">Mes Missions</button>
+                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('devis')" style="background:#f1f4f2; color:#717c77;">Tracker Méthodo</button>
+                    <button class="business-tab tab-btn" onclick="BusinessModule.switchTab('evolution')" style="background:#f1f4f2; color:#717c77;">Mon Évolution</button>
                 </div>
 
                 <!-- TAB CONTENT: MISSIONS -->
                 <div id="tab-missions" class="business-tab-content" style="display:block;">
                     <div id="missions-content">
-                        <div style="text-align:center; padding:40px; color:#94a3b8;"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i></div>
+                        <div style="text-align:center; padding:40px; color:#a7b0ac;"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;"></i></div>
                     </div>
                 </div>
 
@@ -775,8 +775,8 @@ const BusinessModule = {
                 <div id="tab-devis" class="business-tab-content" style="display:none;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
                         <div>
-                            <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0;">Suivi des Devis & Factures</h3>
-                            <p style="color:#64748b; font-size:0.9rem; margin:4px 0 0;">Validez étape par étape : Devis -> Acompte -> Facture Payée.</p>
+                            <h3 style="font-size:1.2rem; font-weight:900; color:#0c100e; margin:0;">Suivi des Devis & Factures</h3>
+                            <p style="color:#717c77; font-size:0.9rem; margin:4px 0 0;">Validez étape par étape : Devis -> Acompte -> Facture Payée.</p>
                         </div>
                         <button style="background:#10b981; border:none; color:white; padding:10px 20px; border-radius:12px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:8px; box-shadow:0 4px 12px rgba(16,185,129,0.2);" onclick="BusinessModule.openCreateModal()"><i class="fas fa-plus"></i> Créer une mission</button>
                     </div>
@@ -789,7 +789,7 @@ const BusinessModule = {
                 <!-- TAB CONTENT: EVOLUTION & FACTURATION STRIPE -->
                 <div id="tab-evolution" class="business-tab-content" style="display:none;">
                     
-                    <div class="evolution-box" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); border-radius: 20px; padding: clamp(20px, 4vw, 32px); color: white; margin-bottom: 32px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                    <div class="evolution-box" style="background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%); border-radius: 20px; padding: clamp(20px, 4vw, 32px); color: white; margin-bottom: 32px; display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:space-between; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                         <div style="flex:1; min-width:280px;">
                             <div style="font-size:0.8rem; font-weight:800; color:#10b981; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">Suivi du Mois en cours</div>
                             <h3 style="font-size:clamp(1.5rem, 3vw, 2rem); font-weight:900; margin:0 0 12px;">Évolution de l'activité</h3>
@@ -807,17 +807,17 @@ const BusinessModule = {
                         </div>
                     </div>
 
-                    <h3 style="font-size:1.2rem; font-weight:900; color:#0f172a; margin:0 0 20px;">Transactions Automatiques Stripe Connect</h3>
+                    <h3 style="font-size:1.2rem; font-weight:900; color:#0c100e; margin:0 0 20px;">Transactions Automatiques Stripe Connect</h3>
 
                     <!-- Stats Grid -->
                     <div class="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-bottom:32px;">
-                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:16px; padding:20px;">
-                            <div style="font-size:0.65rem; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:8px;">Volume Facturé Encaissé</div>
-                            <div style="font-size:1.6rem; font-weight:900; color:#020617;">${totalCA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                        <div style="background:#f6f8f7; border:1px solid #e6eae8; border-radius:16px; padding:20px;">
+                            <div style="font-size:0.65rem; font-weight:800; color:#a7b0ac; text-transform:uppercase; margin-bottom:8px;">Volume Facturé Encaissé</div>
+                            <div style="font-size:1.6rem; font-weight:900; color:#070908;">${totalCA.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
                         </div>
                         <div style="background:#fff1f2; border:1px solid #ffe4e6; border-radius:16px; padding:20px;">
-                            <div style="font-size:0.65rem; font-weight:800; color:#e11d48; text-transform:uppercase; margin-bottom:8px;">Part Plateforme (12.5%)</div>
-                            <div style="font-size:1.6rem; font-weight:900; color:#e11d48;">${totalComm.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
+                            <div style="font-size:0.65rem; font-weight:800; color:#10b981; text-transform:uppercase; margin-bottom:8px;">Part Plateforme (12.5%)</div>
+                            <div style="font-size:1.6rem; font-weight:900; color:#10b981;">${totalComm.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</div>
                         </div>
                         <div style="background:#f0fdf4; border:1px solid #dcfce7; border-radius:16px; padding:20px;">
                             <div style="font-size:0.65rem; font-weight:800; color:#16a34a; text-transform:uppercase; margin-bottom:8px;">Revenu Net Reversé</div>
@@ -826,14 +826,14 @@ const BusinessModule = {
                     </div>
 
                     <!-- Transactions Table -->
-                    <div style="background:white; border:1px solid #e2e8f0; border-radius:16px; overflow:hidden;">
-                        <div style="padding:20px; border-bottom:1px solid #e2e8f0; font-weight:800; font-size:1rem; color:#020617;">
+                    <div style="background:white; border:1px solid #e6eae8; border-radius:16px; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid #e6eae8; font-weight:800; font-size:1rem; color:#070908;">
                             Historique des Transactions
                         </div>
                         <div style="overflow-x:auto;">
                             <table class="responsive-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
                                 <thead>
-                                    <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0; color:#64748b; font-weight:700;">
+                                    <tr style="background:#f6f8f7; border-bottom:1px solid #e6eae8; color:#717c77; font-weight:700;">
                                         <th style="padding:14px 20px;">Date</th>
                                         <th style="padding:14px 20px;">Description</th>
                                         <th style="padding:14px 20px;">Rôle</th>
@@ -846,9 +846,9 @@ const BusinessModule = {
                                 <tbody>
                                     ${docs.length === 0 ? `
                                     <tr>
-                                        <td colspan="7" style="padding:60px 20px; text-align:center; color:#94a3b8;">
+                                        <td colspan="7" style="padding:60px 20px; text-align:center; color:#a7b0ac;">
                                             <div style="font-size:2.5rem; margin-bottom:16px; opacity:0.3;"><i class="fas fa-folder-open"></i></div>
-                                            <div style="font-weight:700; color:#475569; margin-bottom:6px;">Aucune transaction</div>
+                                            <div style="font-weight:700; color:#56615c; margin-bottom:6px;">Aucune transaction</div>
                                             <div style="font-size:0.8rem;">Les demandes de paiement acceptées et en attente apparaîtront ici.</div>
                                         </td>
                                     </tr>
@@ -858,7 +858,7 @@ const BusinessModule = {
                                     const amount = (d.total_amount || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
                                     const commission = (d.total_amount * this.COMMISSION).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
                                     
-                                    let roleLabel = isExpert ? '<span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:700;">Prestataire</span>' : '<span style="background:#f3e8ff; color:#6b21a8; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:700;">Client</span>';
+                                    let roleLabel = isExpert ? '<span style="background:#eff2f0; color:#10b981; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:700;">Prestataire</span>' : '<span style="background:#f2f5f3; color:#059669; padding:2px 8px; border-radius:10px; font-size:0.75rem; font-weight:700;">Client</span>';
                                     
                                     let statusBadge = '';
                                     if (d.status === 'paid') {
@@ -866,7 +866,7 @@ const BusinessModule = {
                                     } else if (d.status === 'sent' || d.status === 'draft') {
                                         statusBadge = '<span style="background:#fef3c7; color:#b45309; padding:4px 10px; border-radius:12px; font-size:0.75rem; font-weight:800;">En attente</span>';
                                     } else {
-                                        statusBadge = '<span style="background:#f1f5f9; color:#475569; padding:4px 10px; border-radius:12px; font-size:0.75rem; font-weight:800;">Annulé</span>';
+                                        statusBadge = '<span style="background:#f1f4f2; color:#56615c; padding:4px 10px; border-radius:12px; font-size:0.75rem; font-weight:800;">Annulé</span>';
                                     }
 
                                     let actionButton = '';
@@ -876,12 +876,12 @@ const BusinessModule = {
                                     }
 
                                     return `
-                                        <tr style="border-bottom:1px solid #f1f5f9;">
-                                            <td data-label="Date" style="padding:14px 20px; font-weight:550; color:#475569;">${date}</td>
-                                            <td data-label="Description" style="padding:14px 20px; font-weight:700; color:#020617;">${d.project_title || 'Sans nom'}</td>
+                                        <tr style="border-bottom:1px solid #f1f4f2;">
+                                            <td data-label="Date" style="padding:14px 20px; font-weight:550; color:#56615c;">${date}</td>
+                                            <td data-label="Description" style="padding:14px 20px; font-weight:700; color:#070908;">${d.project_title || 'Sans nom'}</td>
                                             <td data-label="Rôle" style="padding:14px 20px;">${roleLabel}</td>
-                                            <td data-label="Montant" style="padding:14px 20px; font-weight:800; color:#020617;">${amount}</td>
-                                            <td data-label="Part DTC" style="padding:14px 20px; color:#94a3b8;">${isExpert ? commission : '-'}</td>
+                                            <td data-label="Montant" style="padding:14px 20px; font-weight:800; color:#070908;">${amount}</td>
+                                            <td data-label="Part DTC" style="padding:14px 20px; color:#a7b0ac;">${isExpert ? commission : '-'}</td>
                                             <td data-label="Statut" style="padding:14px 20px;">${statusBadge}</td>
                                             <td data-label="Action" style="padding:14px 20px; text-align:right;">${actionButton}</td>
                                         </tr>

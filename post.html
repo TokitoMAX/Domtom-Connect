@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background: #f8fafc; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-        .loader { width: 48px; height: 48px; border: 5px solid #0f172a; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        body { background: #f6f8f7; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+        .loader { width: 48px; height: 48px; border: 5px solid #0c100e; border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
         @keyframes rotation { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
         
         .header { background: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
@@ -22,21 +22,21 @@
         .post-wrapper { width: 100%; max-width: 600px; }
         
         /* Post styling overwrites for public view */
-        .dtc-post-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05); border: 1px solid rgba(226, 232, 240, 0.8); }
+        .dtc-post-card { background: white; border-radius: 20px; padding: 24px; box-shadow: 0 4px 12px rgba(14, 19, 17, 0.05); border: 1px solid rgba(226, 232, 240, 0.8); }
         .dtc-post-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
         .dtc-post-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
-        .dtc-post-author { font-weight: 800; color: #0f172a; font-size: 1.1rem; text-decoration: none; }
-        .dtc-post-role { font-size: 0.85rem; color: #64748b; font-weight: 600; display: block; margin-top: 2px;}
-        .dtc-post-date { font-size: 0.8rem; color: #94a3b8; }
-        .dtc-post-content { color: #334155; font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; word-break: break-word; }
+        .dtc-post-author { font-weight: 800; color: #0c100e; font-size: 1.1rem; text-decoration: none; }
+        .dtc-post-role { font-size: 0.85rem; color: #717c77; font-weight: 600; display: block; margin-top: 2px;}
+        .dtc-post-date { font-size: 0.8rem; color: #a7b0ac; }
+        .dtc-post-content { color: #2b3632; font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; word-break: break-word; }
         .dtc-post-content img, .dtc-post-content video { max-width: 100%; border-radius: 12px; margin-top: 12px; }
-        .dtc-post-actions { display: flex; gap: 20px; border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 16px; }
-        .dtc-action-btn { background: none; border: none; color: #64748b; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: color 0.2s; padding: 8px 12px; border-radius: 8px; }
-        .dtc-action-btn:hover { background: #f8fafc; color: #0f172a; }
+        .dtc-post-actions { display: flex; gap: 20px; border-top: 1px solid #f1f4f2; padding-top: 16px; margin-top: 16px; }
+        .dtc-action-btn { background: none; border: none; color: #717c77; font-weight: 600; font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: color 0.2s; padding: 8px 12px; border-radius: 8px; }
+        .dtc-action-btn:hover { background: #f6f8f7; color: #0c100e; }
         
-        .cta-box { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 32px; border-radius: 20px; text-align: center; margin-top: 40px; box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2); }
+        .cta-box { background: linear-gradient(135deg, #0c100e 0%, #1b2420 100%); color: white; padding: 32px; border-radius: 20px; text-align: center; margin-top: 40px; box-shadow: 0 10px 25px -5px rgba(14, 19, 17, 0.2); }
         .cta-box h3 { margin: 0 0 12px 0; font-size: 1.5rem; font-weight: 800; }
-        .cta-box p { color: #94a3b8; margin: 0 0 24px 0; font-size: 1.05rem; }
+        .cta-box p { color: #a7b0ac; margin: 0 0 24px 0; font-size: 1.05rem; }
     </style>
 
 <!-- Google tag (gtag.js) -->
