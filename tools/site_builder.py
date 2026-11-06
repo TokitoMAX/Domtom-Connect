@@ -563,3 +563,5 @@ if __name__ == "__main__":
     build_offres()
     build_territoires()
     build_diaspora()
+    from pays_builder import build_tout
+    build_tout()
