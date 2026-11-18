@@ -30,27 +30,27 @@
             "destination": "/mon-espace"
         },
         {
-            "source": "/pulse",
+            "source": "/dtc-pulse",
             "destination": "/api/pulse?type=hub"
         },
         {
-            "source": "/pulse/",
+            "source": "/dtc-pulse/",
             "destination": "/api/pulse?type=hub"
         },
         {
-            "source": "/pulse/post/:id/",
+            "source": "/dtc-pulse/post/:id/",
             "destination": "/api/pulse?type=post&id=:id"
         },
         {
-            "source": "/pulse/u/:id/",
+            "source": "/dtc-pulse/u/:id/",
             "destination": "/api/pulse?type=profile&id=:id"
         },
         {
-            "source": "/pulse/post/:id",
+            "source": "/dtc-pulse/post/:id",
             "destination": "/api/pulse?type=post&id=:id"
         },
         {
-            "source": "/pulse/u/:id",
+            "source": "/dtc-pulse/u/:id",
             "destination": "/api/pulse?type=profile&id=:id"
         },
         {
@@ -63,6 +63,16 @@
         }
     ],
     "redirects": [
+        {
+            "source": "/pulse",
+            "destination": "/dtc-pulse",
+            "permanent": true
+        },
+        {
+            "source": "/pulse/:path*",
+            "destination": "/dtc-pulse/:path*",
+            "permanent": true
+        },
         {
             "source": "/guide-entrepreneur",
             "destination": "/boutique",

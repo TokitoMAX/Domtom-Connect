@@ -86,7 +86,7 @@ ${image ? `<meta property="og:image" content="${esc(image)}">\n<meta name="twitt
 ${ld ? `<script type="application/ld+json">${jsonLd(ld)}</script>` : ''}
 </head>
 <body>
-<header><a class="brand" href="${SITE}/">Domtom Connect</a> · <a href="${SITE}/pulse">DTC Pulse</a></header>
+<header><a class="brand" href="${SITE}/">Domtom Connect</a> · <a href="${SITE}/dtc-pulse">DTC Pulse</a></header>
 <main>${body}</main>
 <footer>DTC Pulse est le réseau social d'affaires de Domtom Connect : trouver des clients, des partenaires et des investisseurs. <a href="${PLAY_STORE}">Télécharger l'application</a> · <a href="${SITE}/">domtomconnect.com</a></footer>
 </body>
@@ -96,7 +96,7 @@ ${ld ? `<script type="application/ld+json">${jsonLd(ld)}</script>` : ''}
 function renderPost(p) {
   const author = p.author || {};
   const authorName = author.name || 'Un membre';
-  const authorUrl = author.username ? `${SITE}/pulse/u/${encodeURIComponent(author.username)}` : SITE;
+  const authorUrl = author.username ? `${SITE}/dtc-pulse/u/${encodeURIComponent(author.username)}` : SITE;
   const text = String(p.description || '');
   const head = snippet(text, 70) || `Publication de ${authorName}`;
   const desc = snippet(text, 155) || `Publication de ${authorName} sur DTC Pulse.`;
@@ -104,7 +104,7 @@ function renderPost(p) {
   const cover = safeUrl(p.cover_url);
   const video = media && isVideo(media);
   const image = cover || (media && !video ? media : '');
-  const canonical = `${SITE}/pulse/post/${p.id}`;
+  const canonical = `${SITE}/dtc-pulse/post/${p.id}`;
   const price = Number(p.price) > 0 ? Number(p.price) : 0;
   const cur = /^[A-Z]{3}$/.test(p.currency || '') ? p.currency : 'EUR';
 
@@ -164,7 +164,7 @@ ${String(p.ai_assisted) === 'true' ? '<div class="note">Contenu préparé avec l
 
 function renderProfile(p) {
   const name = p.name || p.username;
-  const canonical = `${SITE}/pulse/u/${encodeURIComponent(p.username)}`;
+  const canonical = `${SITE}/dtc-pulse/u/${encodeURIComponent(p.username)}`;
   const bio = snippet(p.bio, 300);
   const desc = bio || `${name} sur DTC Pulse, le réseau social d'affaires de Domtom Connect.`;
   const avatar = safeUrl(p.avatar_url);
@@ -184,7 +184,7 @@ function renderProfile(p) {
   };
   const items = posts.map((x) => {
     const thumb = safeUrl(x.cover_url) || (!isVideo(x.media_url) ? safeUrl(x.media_url) : '');
-    return `<a href="${SITE}/pulse/post/${esc(x.id)}">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<span>${esc(snippet(x.description, 90) || 'Publication')}</span></a>`;
+    return `<a href="${SITE}/dtc-pulse/post/${esc(x.id)}">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<span>${esc(snippet(x.description, 90) || 'Publication')}</span></a>`;
   }).join('');
   const body = `<section class="card"><div class="body">
 <h1>${esc(name)}</h1>
@@ -202,13 +202,13 @@ ${safeUrl(p.website) ? `<div class="meta"><a href="${esc(safeUrl(p.website))}" r
 function renderHub(d) {
   const posts = Array.isArray(d.posts) ? d.posts : [];
   const profiles = Array.isArray(d.profiles) ? d.profiles : [];
-  const canonical = `${SITE}/pulse`;
+  const canonical = `${SITE}/dtc-pulse`;
   const items = posts.map((x) => {
     const thumb = safeUrl(x.cover_url) || (!isVideo(x.media_url) ? safeUrl(x.media_url) : '');
     const label = x.type === 'pitch' ? (SEEKING[x.seeking] || 'Pitch') : '';
-    return `<a href="${SITE}/pulse/post/${esc(x.id)}">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<span>${label ? `<strong>${esc(label)}</strong><br>` : ''}${esc(snippet(x.description, 90) || 'Publication')}<br><small>${esc(x.author_name || '')}${x.location ? ' · ' + esc(x.location) : ''}</small></span></a>`;
+    return `<a href="${SITE}/dtc-pulse/post/${esc(x.id)}">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<span>${label ? `<strong>${esc(label)}</strong><br>` : ''}${esc(snippet(x.description, 90) || 'Publication')}<br><small>${esc(x.author_name || '')}${x.location ? ' · ' + esc(x.location) : ''}</small></span></a>`;
   }).join('');
-  const people = profiles.map((x) => `<a href="${SITE}/pulse/u/${encodeURIComponent(x.username)}"><span><strong>${esc(x.name || x.username)}</strong><br><small>@${esc(x.username)} · ${esc(x.posts)} publication${x.posts > 1 ? 's' : ''}</small></span></a>`).join('');
+  const people = profiles.map((x) => `<a href="${SITE}/dtc-pulse/u/${encodeURIComponent(x.username)}"><span><strong>${esc(x.name || x.username)}</strong><br><small>@${esc(x.username)} · ${esc(x.posts)} publication${x.posts > 1 ? 's' : ''}</small></span></a>`).join('');
   const desc = "DTC Pulse, le réseau social d'affaires de Domtom Connect : des vidéos et des publications d'entrepreneurs pour trouver des clients, des associés et des investisseurs.";
   const ld = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'DTC Pulse', url: canonical, description: desc, isPartOf: { '@type': 'WebSite', name: 'Domtom Connect', url: SITE } };
   const body = `<section class="card"><div class="body">
