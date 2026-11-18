@@ -15,9 +15,9 @@ module.exports = async (req, res) => {
     });
     if (!r.ok) throw new Error('rpc ' + r.status);
     const data = await r.json();
-    const urls = [`<url><loc>${SITE}/dtc-pulse</loc></url>`];
-    for (const p of data.posts || []) urls.push(`<url><loc>${SITE}/dtc-pulse/post/${esc(p.id)}</loc><lastmod>${day(p.lastmod)}</lastmod></url>`);
-    for (const u of data.profiles || []) urls.push(`<url><loc>${SITE}/dtc-pulse/u/${esc(encodeURIComponent(u.username))}</loc><lastmod>${day(u.lastmod)}</lastmod></url>`);
+    const urls = [`<url><loc>${SITE}/dtcpulse</loc></url>`];
+    for (const p of data.posts || []) urls.push(`<url><loc>${SITE}/dtcpulse/post/${esc(p.id)}</loc><lastmod>${day(p.lastmod)}</lastmod></url>`);
+    for (const u of data.profiles || []) urls.push(`<url><loc>${SITE}/dtcpulse/u/${esc(encodeURIComponent(u.username))}</loc><lastmod>${day(u.lastmod)}</lastmod></url>`);
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=3600');

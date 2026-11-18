@@ -30,27 +30,27 @@
             "destination": "/mon-espace"
         },
         {
-            "source": "/dtc-pulse",
+            "source": "/dtcpulse",
             "destination": "/api/pulse?type=hub"
         },
         {
-            "source": "/dtc-pulse/",
+            "source": "/dtcpulse/",
             "destination": "/api/pulse?type=hub"
         },
         {
-            "source": "/dtc-pulse/post/:id/",
+            "source": "/dtcpulse/post/:id/",
             "destination": "/api/pulse?type=post&id=:id"
         },
         {
-            "source": "/dtc-pulse/u/:id/",
+            "source": "/dtcpulse/u/:id/",
             "destination": "/api/pulse?type=profile&id=:id"
         },
         {
-            "source": "/dtc-pulse/post/:id",
+            "source": "/dtcpulse/post/:id",
             "destination": "/api/pulse?type=post&id=:id"
         },
         {
-            "source": "/dtc-pulse/u/:id",
+            "source": "/dtcpulse/u/:id",
             "destination": "/api/pulse?type=profile&id=:id"
         },
         {
@@ -65,17 +65,32 @@
     "redirects": [
         {
             "source": "/pulse",
-            "destination": "/dtc-pulse",
+            "destination": "/dtcpulse",
+            "permanent": true
+        },
+        {
+            "source": "/dtc-pulse",
+            "destination": "/dtcpulse",
+            "permanent": true
+        },
+        {
+            "source": "/dtc-pulse/",
+            "destination": "/dtcpulse",
+            "permanent": true
+        },
+        {
+            "source": "/dtc-pulse/:path*",
+            "destination": "/dtcpulse/:path*",
             "permanent": true
         },
         {
             "source": "/pulse/",
-            "destination": "/dtc-pulse",
+            "destination": "/dtcpulse",
             "permanent": true
         },
         {
             "source": "/pulse/:path*",
-            "destination": "/dtc-pulse/:path*",
+            "destination": "/dtcpulse/:path*",
             "permanent": true
         },
         {

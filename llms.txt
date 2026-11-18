@@ -30,7 +30,7 @@ Domtom Connect aide les chefs d'entreprise et créateurs à franchir leurs palie
 ## DTC Pulse, le réseau social d'affaires
 DTC Pulse est l'application mobile de Domtom Connect (Android) : un fil de vidéos et de photos où les entrepreneurs présentent leurs offres, leurs projets (pitchs) et cherchent des clients, des associés ou des investisseurs. Les contenus rendus publics par leurs auteurs ont une page web.
 - Application : https://play.google.com/store/apps/details?id=com.domtomconnect.app
-- Compte officiel et publications : https://domtomconnect.com/dtc-pulse/u/domtomconnect
+- Compte officiel et publications : https://domtomconnect.com/dtcpulse/u/domtomconnect
 - Plan du site des contenus publics : https://domtomconnect.com/sitemap-pulse.xml
 - Chaque page de publication indique l'auteur, le lieu, la date, le texte, la vidéo ou la photo et, selon le cas, le prix, le type de recherche (clients, associé, investisseur) et le stade du projet. Les contenus préparés avec l'aide d'une IA le mentionnent.
 - Les entrepreneurs peuvent préparer leurs contenus avec l'IA de leur choix (protocole MCP) et les déposer en brouillon dans l'application avant de les publier.
