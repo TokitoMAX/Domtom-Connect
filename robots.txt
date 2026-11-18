@@ -46,4 +46,5 @@ Disallow: /assets/ebooks/
 
 # Sitemap & LLM Knowledge File
 Sitemap: https://domtomconnect.com/sitemap.xml
+Sitemap: https://domtomconnect.com/sitemap-pulse.xml
 # LLM Reference: https://domtomconnect.com/llms.txt

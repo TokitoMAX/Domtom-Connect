@@ -30,6 +30,18 @@
             "destination": "/mon-espace"
         },
         {
+            "source": "/pulse/post/:id",
+            "destination": "/api/pulse?type=post&id=:id"
+        },
+        {
+            "source": "/pulse/u/:id",
+            "destination": "/api/pulse?type=profile&id=:id"
+        },
+        {
+            "source": "/sitemap-pulse.xml",
+            "destination": "/api/pulse-sitemap"
+        },
+        {
             "source": "/:slug",
             "destination": "/api/resolve-slug?slug=:slug"
         }
