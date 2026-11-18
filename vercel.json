@@ -34,6 +34,18 @@
             "destination": "/api/pulse?type=hub"
         },
         {
+            "source": "/pulse/",
+            "destination": "/api/pulse?type=hub"
+        },
+        {
+            "source": "/pulse/post/:id/",
+            "destination": "/api/pulse?type=post&id=:id"
+        },
+        {
+            "source": "/pulse/u/:id/",
+            "destination": "/api/pulse?type=profile&id=:id"
+        },
+        {
             "source": "/pulse/post/:id",
             "destination": "/api/pulse?type=post&id=:id"
         },
