@@ -69,6 +69,11 @@
             "permanent": true
         },
         {
+            "source": "/pulse/",
+            "destination": "/dtc-pulse",
+            "permanent": true
+        },
+        {
             "source": "/pulse/:path*",
             "destination": "/dtc-pulse/:path*",
             "permanent": true
