@@ -86,7 +86,7 @@ ${image ? `<meta property="og:image" content="${esc(image)}">\n<meta name="twitt
 ${ld ? `<script type="application/ld+json">${jsonLd(ld)}</script>` : ''}
 </head>
 <body>
-<header><a class="brand" href="${SITE}/">Domtom Connect</a> · <a href="${SITE}/pulse/u/domtomconnect">DTC Pulse</a></header>
+<header><a class="brand" href="${SITE}/">Domtom Connect</a> · <a href="${SITE}/pulse">DTC Pulse</a></header>
 <main>${body}</main>
 <footer>DTC Pulse est le réseau social d'affaires de Domtom Connect : trouver des clients, des partenaires et des investisseurs. <a href="${PLAY_STORE}">Télécharger l'application</a> · <a href="${SITE}/">domtomconnect.com</a></footer>
 </body>
@@ -198,6 +198,30 @@ ${safeUrl(p.website) ? `<div class="meta"><a href="${esc(safeUrl(p.website))}" r
   return layout({ title: `${name} (@${p.username}) · DTC Pulse`, description: desc, canonical, image: avatar, ogType: 'profile', body, ld });
 }
 
+
+function renderHub(d) {
+  const posts = Array.isArray(d.posts) ? d.posts : [];
+  const profiles = Array.isArray(d.profiles) ? d.profiles : [];
+  const canonical = `${SITE}/pulse`;
+  const items = posts.map((x) => {
+    const thumb = safeUrl(x.cover_url) || (!isVideo(x.media_url) ? safeUrl(x.media_url) : '');
+    const label = x.type === 'pitch' ? (SEEKING[x.seeking] || 'Pitch') : '';
+    return `<a href="${SITE}/pulse/post/${esc(x.id)}">${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy">` : '<div class="ph"></div>'}<span>${label ? `<strong>${esc(label)}</strong><br>` : ''}${esc(snippet(x.description, 90) || 'Publication')}<br><small>${esc(x.author_name || '')}${x.location ? ' · ' + esc(x.location) : ''}</small></span></a>`;
+  }).join('');
+  const people = profiles.map((x) => `<a href="${SITE}/pulse/u/${encodeURIComponent(x.username)}"><span><strong>${esc(x.name || x.username)}</strong><br><small>@${esc(x.username)} · ${esc(x.posts)} publication${x.posts > 1 ? 's' : ''}</small></span></a>`).join('');
+  const desc = "DTC Pulse, le réseau social d'affaires de Domtom Connect : des vidéos et des publications d'entrepreneurs pour trouver des clients, des associés et des investisseurs.";
+  const ld = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'DTC Pulse', url: canonical, description: desc, isPartOf: { '@type': 'WebSite', name: 'Domtom Connect', url: SITE } };
+  const body = `<section class="card"><div class="body">
+<h1>DTC Pulse, le réseau social d'affaires</h1>
+<div class="text">Des vidéos et des publications d'entrepreneurs pour trouver des clients, des associés et des investisseurs. Voici les contenus rendus publics par leurs auteurs. L'application complète est disponible sur Android.</div>
+<a class="cta" href="${PLAY_STORE}">Télécharger l'application DTC Pulse</a>
+</div></section>
+<h2 style="margin:22px 0 0;font-size:1.1rem">Dernières publications</h2>
+<div class="grid">${items || '<p class="meta">Aucune publication publique pour le moment.</p>'}</div>
+${people ? `<h2 style="margin:26px 0 0;font-size:1.1rem">Profils</h2><div class="grid">${people}</div>` : ''}`;
+  return layout({ title: "DTC Pulse, le réseau social d'affaires · Domtom Connect", description: desc, canonical, ogType: 'website', body, ld });
+}
+
 module.exports = async (req, res) => {
   const { type, id } = req.query || {};
   const send = (status, html, cache) => {
@@ -213,6 +237,9 @@ module.exports = async (req, res) => {
   }), 'public, s-maxage=60');
 
   try {
+    if (type === 'hub') {
+      return send(200, renderHub(await rpc('web_hub', { p_limit: 30 })), 'public, s-maxage=300, stale-while-revalidate=3600');
+    }
     if (type === 'post' && /^[0-9a-f-]{36}$/i.test(String(id || ''))) {
       const data = await rpc('web_post', { p_id: id });
       return data ? send(200, renderPost(data)) : notFound();
@@ -227,4 +254,4 @@ module.exports = async (req, res) => {
   }
 };
 
-module.exports._test = { renderPost, renderProfile };
+module.exports._test = { renderPost, renderProfile, renderHub };

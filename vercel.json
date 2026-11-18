@@ -30,6 +30,10 @@
             "destination": "/mon-espace"
         },
         {
+            "source": "/pulse",
+            "destination": "/api/pulse?type=hub"
+        },
+        {
             "source": "/pulse/post/:id",
             "destination": "/api/pulse?type=post&id=:id"
         },
